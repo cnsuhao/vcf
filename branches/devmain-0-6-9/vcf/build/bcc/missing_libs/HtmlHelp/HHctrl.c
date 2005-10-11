@@ -19,6 +19,16 @@ static dHtmlHelpA HHA__    = NULL;
 static dHtmlHelpW HHW__    = NULL;
 static char lPath[MAX_PATH] = {0};
 
+void __cdecl hhctrl_cleanup (void) {
+  if (libHandle__ != NULL) {
+    FreeLibrary(libHandle__);
+    libHandle__ = NULL;
+    HHA__       = NULL;
+    HHW__       = NULL;
+  }
+}
+#pragma exit hhctrl_cleanup 88
+
 const char* __cdecl GetLocation_(void) {
   char* location = "CLSID\\{ADB880A6-D8FF-11CF-9377-00AA003B7A11}\\InprocServer32";
   HKEY key = NULL;
@@ -35,7 +45,6 @@ const char* __cdecl GetLocation_(void) {
 }
 
 BOOL __cdecl InitF__(void) {
-  BOOL result = FALSE;
   if (libHandle__ == NULL) {
     libHandle__ = LoadLibraryA(GetLocation_());
     if (libHandle__ == NULL) {
@@ -44,14 +53,12 @@ BOOL __cdecl InitF__(void) {
     if (libHandle__ != NULL) {
       HHA__ = (dHtmlHelpA)GetProcAddress(libHandle__,"HtmlHelpA");
       HHW__ = (dHtmlHelpW)GetProcAddress(libHandle__,"HtmlHelpW");
-      result = (HHA__ != NULL) && (HHW__ != NULL);
-      if (!result) {
-        FreeLibrary(libHandle__);
-        libHandle__ = NULL;
+      if ((HHA__ == NULL) || (HHW__ == NULL)) {
+        hhctrl_cleanup();
       }
     }
   }
-  return result;
+  return (libHandle__ != NULL);
 }
 
 HWND WINAPI HtmlHelpA(HWND hwndCaller, LPCSTR pszFile, UINT uCommand, DWORD_PTR dwData) {
@@ -62,14 +69,4 @@ HWND WINAPI HtmlHelpW(HWND hwndCaller, LPCWSTR pszFile, UINT uCommand, DWORD_PTR
   return InitF__() ? HHW__(hwndCaller, pszFile, uCommand, dwData) : (HWND)NULL;
 }
 
-
-void __cdecl hhctrl_cleanup (void) {
-  if (libHandle__ != NULL) {
-    FreeLibrary(libHandle__);
-    libHandle__ = NULL;
-    HHA__       = NULL;
-    HHW__       = NULL;
-  }
-}
-#pragma exit hhctrl_cleanup 88
 
