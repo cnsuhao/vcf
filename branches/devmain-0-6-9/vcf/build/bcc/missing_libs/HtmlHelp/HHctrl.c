@@ -24,9 +24,9 @@ void __cdecl hhctrl_cleanup (void) {
     Sleep(50);
     FreeLibrary(libHandle__);
     libHandle__ = NULL;
-    HHA__       = NULL;
-    HHW__       = NULL;
   }
+  HHA__ = NULL;
+  HHW__ = NULL;
 }
 #pragma exit hhctrl_cleanup 88
 
