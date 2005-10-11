@@ -21,6 +21,8 @@ class ApplicationPeer;
 class ResourceBundle;
 
 class Frame;
+class Window;
+class Dialog;
 
 class AcceleratorKey;
 
@@ -126,18 +128,18 @@ public:
 	*or the class doesn't exist. Otherwise it represent a full loaded
 	*instance, using the data from the resource VFF.
 	*/
-	Frame* createWindow( Class* windowClass );
+	Window* createWindow( Class* windowClass );
 
-	Frame* createDialog( Class* dialogClass );
+	Dialog* createDialog( Class* dialogClass );
 
 	/**
 	*Loads an already existing Frame from a frame derived class name
 	*@param Frame a pointer to new instance of the type specified
 	*in the frameClassName argument.
 	*/
-	void loadWindow( Frame* frame );
+	void loadWindow( Window* window );
 
-	void loadDialog( Frame* frame );
+	void loadDialog( Dialog* dialog );
 
 	/**
 	*This virtual function is called during the event loops idle phase.
@@ -176,6 +178,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/10/11 00:54:51  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.5.2.1  2005/10/09 04:32:44  ddiego
 *added some minor fixes in component persistence for vcf builder.
 *

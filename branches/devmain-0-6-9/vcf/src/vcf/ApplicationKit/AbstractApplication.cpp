@@ -42,32 +42,32 @@ String AbstractApplication::getFileName()
 	return applicationPeer_->getFileName();
 }
 
-Frame* AbstractApplication::createWindow( Class* windowClass )
+Window* AbstractApplication::createWindow( Class* windowClass )
 {
-	Frame* result = NULL;
+	Window* result = NULL;
 
 	result = Frame::createWindow( windowClass, getResourceBundle() );
 
 	return result;
 }
 
-Frame* AbstractApplication::createDialog( Class* dialogClass )
+Dialog* AbstractApplication::createDialog( Class* dialogClass )
 {
-	Frame* result = NULL;
+	Dialog* result = NULL;
 
 	result = Frame::createDialog( dialogClass, getResourceBundle() );
 
 	return result;
 }
 
-void AbstractApplication::loadWindow( Frame* frame )
+void AbstractApplication::loadWindow( Window* window )
 {
-	Component::initComponent( frame, frame->getClass(), classid(VCF::Window), getResourceBundle() );
+	Component::initComponent( window, window->getClass(), classid(VCF::Window), getResourceBundle() );
 }
 
-void AbstractApplication::loadDialog( Frame* frame )
+void AbstractApplication::loadDialog( Dialog* dialog )
 {
-	Component::initComponent( frame, frame->getClass(), classid(VCF::Dialog), getResourceBundle() );
+	Component::initComponent( dialog, dialog->getClass(), classid(VCF::Dialog), getResourceBundle() );
 }
 
 
@@ -110,6 +110,9 @@ void AbstractApplication::setName( const String& name )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/10/11 00:54:51  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.4.2.2  2005/10/09 04:32:44  ddiego
 *added some minor fixes in component persistence for vcf builder.
 *

@@ -120,10 +120,17 @@ Image::PixelLayoutOrder AbstractImage::getPixelLayoutOrder() const
 	return IMTRAITS::getPixelLayoutOrder( flags_ );
 }
 
+void* AbstractImage::getData()
+{
+	return imageBits_->pixels_;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/10/11 00:54:51  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

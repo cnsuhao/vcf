@@ -8,134 +8,8 @@ where you installed the VCF.
 
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
-
-
-
-namespace VCF {
-
-	class PixelException : public BasicException {
-	public:
-
-		PixelException( const String & message ): BasicException( message ){};
-
-		virtual ~PixelException() throw() {};
-	};
-
-	template <typename PixelType>
-	class Pixels {
-	public:
-		typedef _typename_ PixelType Type;
-
-		Pixels( Image* img ):buffer_(NULL),currentImage_(NULL),width_(0),height_(0) {
-			assign( img );
-		}
-
-		~Pixels() {
-			unLockImageBuffer( currentImage_ );
-		}
-
-		Pixels& operator=( Image* img ) {
-			assign( img );
-			return *this;
-		}
-
-
-		operator Type* () {
-			return (Type*)buffer_;
-		}
-
-		operator agg::rendering_buffer& () {
-			return renderBuffer_;
-		}
-
-		Type& at( uint32 x, uint32 y ) {
-			
-			return ((Type*)buffer_)[(y*width_)+x];
-		}
-
-		Type at( uint32 x, uint32 y ) const {
-			
-			return ((Type*)buffer_)[(y*width_)+x];
-		}
-
-
-		Type* buffer() {
-			return (Type*)buffer_;
-		}
-
-		uint32 width() {
-			if ( width_ != currentImage_->getWidth() ) {
-				throw PixelException( "You've modified an image's width, potentially while it's locked! Any pixel access may be bogus!" );
-			}
-			return currentImage_->getWidth();
-		}
-
-		uint32 height() {
-			if ( height_ != currentImage_->getHeight() ) {
-				throw PixelException( "You've modified an image's width, potentially while it's locked! Any pixel access may be bogus!" );
-			}
-			return currentImage_->getHeight();
-		}
-	protected:
-
-		void assign( Image* img ) {
-
-			if ( NULL != currentImage_ ) {
-				unLockImageBuffer( currentImage_ );
-			}
-
-			if ( (Type::Traits::getTraitsImageType() != img->getType()) || 
-					(Type::ChannelSize != img->getChannelSize()) ) {
-				throw PixelException( "Incompatible pixel type for this image. The image channel size doesn't match the pixel's expected size." );
-			}
-			
-
-			currentImage_ = img;
-
-			lockImageBuffer( currentImage_ );
-			
-			width_ = currentImage_->getWidth();
-			height_ = currentImage_->getHeight();
-
-			buffer_ = currentImage_->getImageBits()->pixels_;
-
-			renderBuffer_.attach( (unsigned char*)buffer_, width_, height_,
-								width_ * (Type::Traits::getTraitsImageType()) );
-		}
-
-		void lockImageBuffer( Image* img ) {
-			
-		}
-
-		void unLockImageBuffer( Image* img ) {
-			if ( NULL != currentImage_ ) {
-
-				width_ = 0;
-				height_ = 0;
-				renderBuffer_.attach( NULL, 0, 0, 0 );
-
-				buffer_ = NULL;
-				currentImage_ = NULL;
-			}
-		}
-
-		void* buffer_;
-		Image* currentImage_;
-		uint32 width_;
-		uint32 height_;
-		agg::rendering_buffer renderBuffer_;
-	private:
-		Pixels();
-		Pixels(const Pixels&);
-		Pixels& operator=(const Pixels&);
-
-	};
-
-
-
-	typedef Pixels<SysPixelType> ColorPixels;
-	typedef Pixels<SysGrayscalePixelType> GreyPixels;
-};
+#include "vcf/GraphicsKit/Win32Image.h"
+#include "vcf/GraphicsKit/Pixels.h"
 
 
 
@@ -145,6 +19,7 @@ using namespace VCF;
 This example will demonstrate some of the basics of
 working with images
 */
+
 
 class ImageBasicsWindow : public Window {
 public:
@@ -157,11 +32,7 @@ public:
 
 	virtual void paint( GraphicsContext* ctx ) {
 		Window::paint( ctx );
-
-
 		
-
-
 		/**
 		This will create an image from a given file name
 		*/
@@ -176,7 +47,7 @@ public:
 			
 
 			try {
-				GreyPixels pixels2 = logoImage;
+				GrayPixels pixels2 = logoImage;
 			}
 			catch ( BasicException& e ) {
 				StringUtils::trace( "Error: " + e.getMessage() + "\n" );
@@ -351,6 +222,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2005/10/11 00:54:51  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.5.2.5  2005/09/22 18:16:56  ddiego
 *added save support for png loader.
 *

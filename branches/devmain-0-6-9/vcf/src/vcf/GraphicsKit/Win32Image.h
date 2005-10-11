@@ -62,9 +62,6 @@ protected:
 
 	void loadFromBMPHandle( HBITMAP bitmap );
 
-
-
-private:
 	HBITMAP hBitmap_;
 	HBITMAP hOldBitmap_;
 	HDC dc_;
@@ -96,6 +93,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/10/11 00:54:52  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.3  2004/12/01 04:31:45  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
