@@ -378,6 +378,8 @@ public:
 	virtual bool isTransparent() = 0;
 
 	virtual void setIsTransparent( const bool& transparent ) = 0;
+
+	virtual void* getData() = 0;
 };
 
 };
@@ -386,6 +388,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/11 00:54:51  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.4  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

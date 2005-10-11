@@ -118,6 +118,8 @@ public:
 	virtual Image::ImageChannelType getChannelType() const ;
 
 	virtual Image::PixelLayoutOrder getPixelLayoutOrder() const ;
+
+	virtual void* getData();
 protected:
 	ImageBits* imageBits_;
 	int height_;
@@ -146,6 +148,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/11 00:54:51  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.4  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

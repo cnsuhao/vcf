@@ -421,6 +421,7 @@ public:
 
 protected:
 
+	void drawGrayScaleImage( const double& x, const double& y, Rect* imageBounds, Image* image );
 	/**
 	*
 	*
@@ -492,6 +493,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/10/11 00:54:52  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.5  2005/07/09 23:06:01  ddiego
 *added missing gtk files
 *

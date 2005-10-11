@@ -331,11 +331,11 @@ public:
 
 	/**
 	*/
-	static Frame* createDialog( Class* dialogClazz, ResourceBundle* resBundle=NULL );
+	static Dialog* createDialog( Class* dialogClazz, ResourceBundle* resBundle=NULL );
 
 	/**
 	*/
-	static Frame* createWindow( Class* windowClazz, ResourceBundle* resBundle=NULL );
+	static Window* createWindow( Class* windowClazz, ResourceBundle* resBundle=NULL );
 protected:
 	static Frame* currentActiveFrame;
 	String caption_;
@@ -355,6 +355,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/10/11 00:54:51  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.4.2.2  2005/09/18 22:54:47  ddiego
 *fixed some minor bugs in vffinput stream and parser class.
 *

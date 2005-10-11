@@ -280,20 +280,20 @@ bool Frame::allowClose()
 	return result;
 }
 
-Frame* Frame::createDialog( Class* dialogClazz, ResourceBundle* resBundle )
+Dialog* Frame::createDialog( Class* dialogClazz, ResourceBundle* resBundle )
 {
-	Frame* result = NULL;
+	Dialog* result = NULL;
 
-	result = (Frame*)Component::createComponentFromResources( dialogClazz, classid(VCF::Dialog), resBundle );
+	result = (Dialog*)Component::createComponentFromResources( dialogClazz, classid(VCF::Dialog), resBundle );
 
 	return result;
 }
 
-Frame* Frame::createWindow( Class* windowClazz, ResourceBundle* resBundle )
+Window* Frame::createWindow( Class* windowClazz, ResourceBundle* resBundle )
 {
-	Frame* result = NULL;
+	Window* result = NULL;
 
-	result = (Frame*)Component::createComponentFromResources( windowClazz, classid(VCF::Window), resBundle );
+	result = (Window*)Component::createComponentFromResources( windowClazz, classid(VCF::Window), resBundle );
 
 	return result;
 }
@@ -301,6 +301,9 @@ Frame* Frame::createWindow( Class* windowClazz, ResourceBundle* resBundle )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/10/11 00:54:51  ddiego
+*added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
+*
 *Revision 1.4.2.5  2005/09/18 22:54:47  ddiego
 *fixed some minor bugs in vffinput stream and parser class.
 *
