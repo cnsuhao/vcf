@@ -21,6 +21,7 @@ static char lPath[MAX_PATH] = {0};
 
 void __cdecl hhctrl_cleanup (void) {
   if (libHandle__ != NULL) {
+    Sleep(50);
     FreeLibrary(libHandle__);
     libHandle__ = NULL;
     HHA__       = NULL;
