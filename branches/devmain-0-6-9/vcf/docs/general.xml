@@ -718,7 +718,7 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				in your CBuilder root folder. In there copy c0x32.obj from &lt;CBuilder root&gt;\Lib 
 				folder and rename it to c0w32.obj. Here is a more detailed explanation why this 
 				was needed (from the VCF forum):
-				<blockquote>
+				<blockquote>				
 					<para>
 					After quite some time I managed to create set of IDE project files for building 
 					VCF examples in BCB 5. Examples excluded in this release are:
@@ -755,6 +755,7 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 					All example project files assume that path of this folder is $(BCB)\lib_patch.
 					</para>
 				</blockquote>
+				</para>
 				<para>
 				So create folder lib_patch in the root of BCB installation and copy/rename mentioned 
 				startup object file. This trick is needed only for windows applications. For console 
@@ -1883,7 +1884,7 @@ make tutorials
 <!--
 CVS Log info
 $Log$
-Revision 1.6.2.3  2005/10/13 15:47:32  ddiego
+Revision 1.6.2.4  2005/10/13 15:49:17  ddiego
 added more borland info
 
 Revision 1.6.2.1  2005/10/07 17:16:05  ddiego
