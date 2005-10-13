@@ -540,7 +540,231 @@ NB: This software will not save the world.
 				Of course replace the "C:\bcb6\" or "C:\Borland\BCC55" part with the 
 				appropriate path where you installed the Borland Free compiler.
 				<para>
+				Make sure you setup environment variables for VCF_BIN, VCF_INCLUDE 
+				and VCF_LIB. Without that you can not build and use them. See "Installing 
+				the VCF" for more information about how to do this.
+				</para>
+				<para>
+				Once this is done, you're ready to start issuing make commands. Open 
+				up a command prompt and and issue a make command like so:
+				<programlisting>
+<![CDATA[
+cd <PATH_TO_VCF>\build\bcc
+make -fvcfAllLibs.mak
+]]>
+				</programlisting>
+				This will build all dynamic and static libs. If for some reason name of your 
+				make util is not make.exe open vcfAllLibs.mak and change MK variable to 
+				the name of your make util. Do the same thing in vcfAllDynStatLibs.mak.
+				</para>
+				<para>
+				It's possible to build specific libraries if you don't want (or need) to build everything. 
+				To build more specific library or set of libraries you have these options:
+				<itemizedlist>
+					<listitem><para>		
+					All static libraries (both debug and release)
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak static_libs
+]]>
+					</screen>
+					</para></listitem>
+					
+					
+					
+					<listitem><para>
+					All dynamic libraries (both debug and release)	
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak dynamic_libs
+]]>
+					</screen>					
+					</para></listitem>
+					
+					<listitem><para>
+					All static release libraries
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak static_libs_rel
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All static debug libraries
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak static_libs_dbg
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All dynamic debug libraries
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak dynamic_libs_dbg
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All dynamic release libraries
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak dynamic_libs_rel
+]]>
+					</screen>
+					</para></listitem>
+				</itemizedlist>
+				To delete the binaries created during the build process you can use the following commands:
+				<itemizedlist>
+					<listitem><para>	
+					All libraries (both debug and release and both static and dynamic)
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak clean
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All static libraries (both debug and release)
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak static_libs_clean
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All dynamic libraries (both debug and release)
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak dynamic_libs_clean
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All static release libraries
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak static_libs_rel_clean
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All static debug libraries
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak static_libs_dbg_clean
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All dynamic debug libraries
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak dynamic_libs_dbg_clean
+]]>
+					</screen>
+					</para></listitem>
+					
+					<listitem><para>
+					All dynamic release libraries
+					<screen>
+<![CDATA[
+make -fvcfAllLibs.mak dynamic_libs_rel_clean
+]]>
+					</screen>
+					</para></listitem>
+				</itemizedlist>
 				
+				</para>
+				<note>
+				If you are building with the Borland Free compiler issue the same commands 
+				stated above but add this : -DFREECOMP=TRUE. For example:
+				<screen>
+<![CDATA[
+make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs 
+-DFREECOMP=TRUE
+]]>
+				</screen>
+				This way we avoid dependency on ATL and make complete library 
+				available to user except WebBrowser control. If you just wan't to build 
+				everything there is a batch file free_compiler.cmd. Execute it and wait a bit :).
+				</note>
+				
+				<para>
+				Most of the examples can be compiled with Borland compiler. All that fall
+				in this category have 2 options for building.
+				<itemizedlist>
+					<listitem>
+					build_bcc.bat . With this batch file you can quickly build any sample. 
+					It expects that you have already built the release dll version of the VCF libs.
+					</listitem>
+					<listitem>					
+					You have allso 2 project files for BCB 5 IDE. One is for release dll VCF and 
+					another is for debug dll VCF. 
+					</listitem>
+				</itemizedlist>
+				</para>
+				<para>
+				To use the Borland IDE project files you need to create a subfolder lib_patch
+				in your CBuilder root folder. In there copy c0x32.obj from &lt;CBuilder root&gt;\Lib 
+				folder and rename it to c0w32.obj. Here is a more detailed explanation why this 
+				was needed (from the VCF forum):
+				<blockquote>
+					<para>
+					After quite some time I managed to create set of IDE project files for building 
+					VCF examples in BCB 5. Examples excluded in this release are:
+					<itemizedlist>
+					<listitem>
+					QTPlayer - This example uses QuickTime SDK that only works with visual C++.
+					All lib files and headers are only MSVC compatibile. If somebody 
+					makes a port of this to BCB than this sample could be ported.
+					</listitem>				
+					
+					<listitem>
+					TexLabel - Can not be compiled with BCB 5. Works only with BCB 6.
+					</listitem>
+					</itemizedlist>
+					</para>
+					<para>
+					Here is one important note about building these samples.
+					</para>
+					<para>
+					Unfortunately in BCB project file it is not possible to specify custom startup object file. 
+					That is necessary with VCF because every example has main procedure. Unfortunately 
+					BCB project with windows application forces linkage of c0w32.obj that is startup file 
+					that requires winmain procedure. What we need instead is c0x32.obj - startup file that 
+					uses main procedure.
+					</para>
+					<para>
+					The only way I found to trick BCB to use different object file than standard was to 
+					create new folder in BCB root folder and copy there c0x32.obj and rename it to 
+					c0w32.obj. After that every IDE project file must have this folder placed first in a 
+					list of folders with lib files (Project\Options\Directories/Conditionals - line "Library 
+					path").
+					</para>
+					<para>
+					All example project files assume that path of this folder is $(BCB)\lib_patch.
+					</para>
+				</blockquote>
+				<para>
+				So create folder lib_patch in the root of BCB installation and copy/rename mentioned 
+				startup object file. This trick is needed only for windows applications. For console 
+				applications it is enough to create standard console project in BCB.
+				</para>
+				<para>
+				In every folder for an example there are two project files - &lt;projectname&gt;_bcb5.bpr 
+				and &lt;projectname&gt;_bcb5_d.bpr . The first one is for a release build and 
+				the other is for a debug build. In the &lt;VCFROOT&gt;\Examples folder there are 
+				project group files Examples_bcb5.bpg (release projects) and Examples_bcb5_debug.bpg 
+				(debug projects).
 				</para>
 			</section>
 			
@@ -1658,6 +1882,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.2  2005/10/13 15:45:17  ddiego
+added more borland info
+
 Revision 1.6.2.1  2005/10/07 17:16:05  ddiego
 started adding bcb build docs.
 
