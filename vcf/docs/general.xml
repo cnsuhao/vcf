@@ -683,7 +683,6 @@ make -fvcfAllLibs.mak dynamic_libs_rel_clean
 					</para></listitem>
 				</itemizedlist>
 				
-				</para>
 				<note>
 				If you are building with the Borland Free compiler issue the same commands 
 				stated above but add this : -DFREECOMP=TRUE. For example:
@@ -697,6 +696,8 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				available to user except WebBrowser control. If you just wan't to build 
 				everything there is a batch file free_compiler.cmd. Execute it and wait a bit :).
 				</note>
+				
+				</para>				
 				
 				<para>
 				Most of the examples can be compiled with Borland compiler. All that fall
@@ -1882,7 +1883,7 @@ make tutorials
 <!--
 CVS Log info
 $Log$
-Revision 1.6.2.2  2005/10/13 15:45:17  ddiego
+Revision 1.6.2.3  2005/10/13 15:47:32  ddiego
 added more borland info
 
 Revision 1.6.2.1  2005/10/07 17:16:05  ddiego
