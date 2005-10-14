@@ -58,12 +58,14 @@ public:
 		}
 
 		double childCount = AbstractContainer::getChildCount();
+                //check for zero is added because on Borland getChildCount returns 0
+                //during initialization and than we have floating point exception
 		if ( controlJustAdded ) {
 			childCount = childCount + 1.0;
 		}
 
 		//calculate the width for each section
-		double width = clientBounds.getWidth() / childCount ;
+                double width = clientBounds.getWidth() / ((childCount <= 0.0) ? 1.0 : childCount) ;
 
 		//note: we could have used the containers vector - this would be every so slightly faster,
 		//but this is a bit cleaner for teh sake of an example.
@@ -471,6 +473,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/10/14 13:00:58  kiklop74
+*Fix exception error with divide by zero
+*
 *Revision 1.5.2.2  2005/08/01 16:44:04  marcelloptr
 *forgotten fixes
 *
