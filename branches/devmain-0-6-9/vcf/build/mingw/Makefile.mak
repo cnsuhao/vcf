@@ -1,41 +1,19 @@
 ## generic makefile included from builddir
 
-# /out:"..\..\..\bin\FoundationKit_vc6_d.dll" /implib:"..\..\..\lib\FoundationKit_vc6_d.lib" 
-
-
-
+CXX=mingw32-g++
+AR =ar
 
 SRC=../../../../src
 LIB=../../../../lib
-BIN=../../../../bin
 
+OBJECTS  := $(SOURCES:.cpp=.o) 
 
-VPATH = $(SRC)/vcf
+CXXFLAGS  = -DVCF_GCC -DVCF_MINGW -DVCF_WIN32 -Wno-multichar -I$(SRC) 
 
-OBJECTS  := $(SOURCES:.cpp=.obj) 
+LDFLAGS   = -L$(LIB)
+LDFLAGS  += -lrpcrt4 -shared
 
-#Debug builds are NOT allowed
-
-CXXFLAGS  = /nologo /W3 /GR /GX /O1 /D "NDEBUG" /D "_LIB" /FD /MT /Zm200
-CXXFLAGS += /I "$(MS_PLATFORMSDKINCLUDES)" /I "$(MS_INCLUDES)" /I "$(SRC)" /D "WIN32"  /D "_WINDOWS" /D "_MBCS" 
-
-PRECOMPCXXFLAGS = $(CXXFLAGS)
-
-LDFLAGS   = -lib /nologo kernel32.lib user32.lib gdi32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib /machine:I386 
-LDFLAGS  += /libpath:"$(MS_PLATFORMSDKLIB)" 
-LDFLAGS  += /libpath:"$(MS_LIB)" 
-LDFLAGS  += /libpath:"$(LIB)" 
-LDFLAGS += /out:"$(LIB)\$(TARGET)"  
-
-## FoundationKit
-ifeq ($(KIT), AllIn1)	
-	
-PRECOMPCPP = $(SRC)/vcf/ApplicationKit/ApplicationKit.cpp
-PRECOMPOBJ := ApplicationKit.obj	
-	CXXFLAGS +=  /Fp"ApplicationKit.pch" /YX
-	PRECOMPCXXFLAGS += /Yc"vcf/ApplicationKit/ApplicationKit.h"		
-	 
-endif
+ARFLAGS   = -cru
 
 ## GraphicsKit
 ifeq ($(KIT), GraphicsKit)
@@ -61,13 +39,22 @@ ifeq ($(KIT), NetworkKit)
    LDFLAGS += -lFoundationKit
 endif
 
+## OpenGLKit
+ifeq ($(KIT), OpenGLKit)
+   LDFLAGS += -lFoundationKit -lGraphicsKit -lApplicationKit
+endif
+
+## RemoteObjectKit
+ifeq ($(KIT), RemoteObjectKit)
+   LDFLAGS += -lFoundationKit -lNetworkKit
+endif
 
 ## LibAGG
 ifeq ($(KIT), LibAGG)
    CXXFLAGS += -I$(SRC)/thirdparty/common/agg/include
    VPATH = $(SRC)/thirdparty/common/agg/src
 else
-   
+   VPATH = $(SRC)/vcf/$(KIT)
 endif
 
 ## LibJPEG
@@ -84,25 +71,34 @@ endif
   # VPATH = $(SRC)/vcf/$(KIT)
 #endif
 
+all: debug release
 
-CXXFLAGS += /c
-LDFLAGS  := $(LDFLAGS:Kit=Kit_d)
+%.dep: %.cpp
+	@set -e; echo "Building dependencies: $(notdir $<)";\
+	$(CXX) -MM $(CXXFLAGS) $< > $@.$$$$;\
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@;\
+	rm -f $@.$$$$
 
-all: AllIn1-make-static
+%.dep: %.c
+	@set -e; echo "Building dependencies: $(notdir $<)";\
+	$(CXX) -MM $(CXXFLAGS) $< > $@.$$$$;\
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@;\
+	rm -f $@.$$$$
 
-AllIn1-make-static: $(TARGET)
+-include $(SOURCES:.cpp=.dep)
 
+debug:   CXXFLAGS += -ggdb -D_DEBUG
+debug:   LDFLAGS  += -ggdb
+debug:   LDFLAGS  := $(LDFLAGS:Kit=Kit_d)
+debug:   $(TARGET)
 
+release: CXXFLAGS += -DNDEBUG -Os
+release: $(TARGET)
 
-$(PRECOMPOBJ):
-	@echo "Creating pre-compiled header for $(KIT) using compiler $(CXX) " 
-	$(CXX) $(PRECOMPCXXFLAGS) $(PRECOMPCPP)
-	
-	
-%.obj: %.cpp
-	$(CXX) $(CXXFLAGS) $<
-
-
-$(TARGET): $(PRECOMPOBJ) $(OBJECTS)
-	$(LINKER) $(LDFLAGS)  $^
+$(TARGET): $(OBJECTS)
+#ifeq ($(KIT), LibAGG)
+	$(AR) $(ARFLAGS) $(LIB)/$@ $^
+#else
+#	$(CXX) $(LDFLAGS) -o $(LIB)/$@ $^
+#endif
 
