@@ -112,12 +112,12 @@ ImageFormats:: thirdparty FoundationKit GraphicsKit ApplicationKit_dll
 	@$(MK) -fImageFormats.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=$(TARGET)
 	@cd $(VCFBUILDROOT)
 
-GraphicsKit:: FoundationKit libAGG
+GraphicsKit:: FoundationKit libAGG thirdparty
 	@cd $(VCFBUILDROOT)\GraphicsKit
 	@$(MK) -fGraphicsKit.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=$(TARGET)
 	@cd $(VCFBUILDROOT)
 
-GraphicsKit_dll:: FoundationKit_dll libAGG
+GraphicsKit_dll:: FoundationKit_dll libAGG thirdparty
 	@cd $(VCFBUILDROOT)\GraphicsKit
 	@$(MK) -fGraphicsKit.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=DLL
 	@cd $(VCFBUILDROOT)
@@ -132,7 +132,7 @@ InternetKit:: FoundationKit
 	@$(MK) -fInternetKit.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=$(TARGET)
 	@cd $(VCFBUILDROOT)
 
-GraphicsKit_stat:: FoundationKit_stat libAGG
+GraphicsKit_stat:: FoundationKit_stat libAGG thirdparty
 	@cd $(VCFBUILDROOT)\GraphicsKit
 	@$(MK) -fGraphicsKit.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=LIB
 	@cd $(VCFBUILDROOT)
