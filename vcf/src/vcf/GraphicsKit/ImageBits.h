@@ -414,6 +414,10 @@ namespace VCF {
 
 #define IMAGEBITS_CLASSID		"ED88C098-26AB-11d4-B539-00C04F0196DA"
 
+/**
+@deprecated - Don't use this class anymore - it will be removed 
+after the 0-7-0 release.
+*/
 class GRAPHICSKIT_API ImageBits : public Object {
 //	typedef SysPixelType::Traits Traits;
 public :
@@ -469,6 +473,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/17 01:36:34  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.4  2005/07/09 23:06:00  ddiego
 *added missing gtk files
 *

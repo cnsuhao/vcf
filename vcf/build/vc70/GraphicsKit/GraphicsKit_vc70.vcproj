@@ -227,6 +227,9 @@
 				RelativePath="..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundlePeer.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\GrayScaleImage.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Image.h">
 			</File>
 			<File
@@ -264,6 +267,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PixelFormats.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Pixels.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\PNGLoader.cpp">

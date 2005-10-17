@@ -421,6 +421,8 @@ public:
 
 protected:
 
+	void drawImageAGG(  const double& x, const double& y, Rect* imageBounds, Image* image );
+
 	void drawGrayScaleImage( const double& x, const double& y, Rect* imageBounds, Image* image );
 	/**
 	*
@@ -493,6 +495,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/10/17 01:36:34  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.5.2.1  2005/10/11 00:54:52  ddiego
 *added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
 *

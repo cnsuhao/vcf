@@ -126,7 +126,7 @@ void BasicStroke::render( Path * path )
 		else {
 
 			typedef agg::renderer_base<pixfmt> ren_base;
-			typedef agg::renderer_scanline_p_solid<ren_base> renderer_solid;			
+			typedef agg::renderer_scanline_aa_solid<ren_base> renderer_solid;			
 
 			pixfmt pixf(*renderingBuffer);
 			ren_base renb(pixf);
@@ -237,7 +237,8 @@ void BasicStroke::render( Path * path )
 
 			renderer.color(agg::rgba(color_.getRed(),color_.getGreen(),color_.getBlue(),opacity_));
 
-			rasterizer.render(scanline,renderer);
+			agg::render_scanlines(rasterizer, scanline, renderer);
+			//rasterizer.render(scanline,renderer);
 		}
 	}
 
@@ -273,6 +274,9 @@ void BasicStroke::line( const double& x1, const double& y1,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/10/17 01:36:34  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.4.2.1  2005/10/06 23:45:52  ddiego
 *fixed a small display bug in the BasicStroke class when rendering lines.
 *

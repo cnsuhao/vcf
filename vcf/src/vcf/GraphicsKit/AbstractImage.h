@@ -122,11 +122,13 @@ public:
 	virtual void* getData();
 protected:
 	ImageBits* imageBits_;
+	unsigned char* dataBuffer_;
 	int height_;
     int width_;
 	GraphicsContext * context_;
 	Color transparencyColor_;
 	bool isTransparent_;
+	bool needsMemAlloc_;
 
 	/**
 	Implementer note: flags_ needs to be intialized in the constructor of the
@@ -148,6 +150,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/10/17 01:36:34  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.4.2.1  2005/10/11 00:54:51  ddiego
 *added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
 *

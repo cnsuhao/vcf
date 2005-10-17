@@ -1284,23 +1284,20 @@ void GraphicsContext::buildArc( double centerX,  double centerY,
 
 	path.add_path( arcPath );
 
-	agg::path_storage::const_iterator it = path.begin();
-
-	while ( it != path.end() ) {
-		const agg::vertex_type& vert = *it;
+	for ( int i=0;i<path.total_vertices();i++ ) {
+		double vert_x,vert_y;
+		path.vertex(i,&vert_x, &vert_y);	
 
 		Point pt;
-		pt.x_ = vert.x * (transform[Matrix2D::mei00]) +
-							vert.y * (transform[Matrix2D::mei10]) +
+		pt.x_ = vert_x * (transform[Matrix2D::mei00]) +
+							vert_y * (transform[Matrix2D::mei10]) +
 								(transform[Matrix2D::mei20]);
 
-		pt.y_ = vert.x * (transform[Matrix2D::mei01]) +
-							vert.y * (transform[Matrix2D::mei11]) +
+		pt.y_ = vert_x * (transform[Matrix2D::mei01]) +
+							vert_y * (transform[Matrix2D::mei11]) +
 								(transform[Matrix2D::mei21]);
 
 		pts.push_back( pt );
-
-		++it;
 	}
 
 
@@ -1352,23 +1349,22 @@ void GraphicsContext::buildRoundRect( double x1, double y1, double x2, double y2
 	path.add_path( arc4 );
 
 
-	agg::path_storage::const_iterator it = path.begin();
+	//agg::path_storage::const_iterator it = path.begin();
+	for (int i=0;i<path.total_vertices();i++ ) {	
+		double vert_x, vert_y;
+		path.vertex( i, &vert_x, &vert_y );
 
-	while ( it != path.end() ) {
-		const agg::vertex_type& vert = *it;
 
 		Point pt;
-		pt.x_ = vert.x * (transform[Matrix2D::mei00]) +
-							vert.y * (transform[Matrix2D::mei10]) +
+		pt.x_ = vert_x * (transform[Matrix2D::mei00]) +
+							vert_y * (transform[Matrix2D::mei10]) +
 								(transform[Matrix2D::mei20]);
 
-		pt.y_ = vert.x * (transform[Matrix2D::mei01]) +
-							vert.y * (transform[Matrix2D::mei11]) +
+		pt.y_ = vert_x * (transform[Matrix2D::mei01]) +
+							vert_y * (transform[Matrix2D::mei11]) +
 								(transform[Matrix2D::mei21]);
 
 		pts.push_back( pt );
-
-		++it;
 	}
 }
 
@@ -1380,23 +1376,21 @@ void GraphicsContext::buildEllipse( double x1, double y1, double x2, double y2,
 								abs(static_cast<long>(x2-x1)), abs(static_cast<long>(y2-y1)), 100 );
 	path.add_path( ellipseShape );
 
-	agg::path_storage::const_iterator it = path.begin();
+	for (int i=0;i<path.total_vertices();i++ ) {
+		double vert_x, vert_y;
+		path.vertex( i, &vert_x, &vert_y );
 
-	while ( it != path.end() ) {
-		const agg::vertex_type& vert = *it;
 
 		Point pt;
-		pt.x_ = vert.x * (transform[Matrix2D::mei00]) +
-							vert.y * (transform[Matrix2D::mei10]) +
+		pt.x_ = vert_x * (transform[Matrix2D::mei00]) +
+							vert_y * (transform[Matrix2D::mei10]) +
 								(transform[Matrix2D::mei20]);
 
-		pt.y_ = vert.x * (transform[Matrix2D::mei01]) +
-							vert.y * (transform[Matrix2D::mei11]) +
+		pt.y_ = vert_x * (transform[Matrix2D::mei01]) +
+							vert_y * (transform[Matrix2D::mei11]) +
 								(transform[Matrix2D::mei21]);
 
 		pts.push_back( pt );
-
-		++it;
 	}
 
 	pts.back() = pts[0];
@@ -1507,6 +1501,9 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/10/17 01:36:34  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.6.2.1  2005/09/03 14:03:53  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

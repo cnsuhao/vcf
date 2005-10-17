@@ -19,7 +19,7 @@ where you installed the VCF.
 #include "thirdparty/common/agg/include/agg_renderer_scanline.h"
 #include "thirdparty/common/agg/include/agg_span_allocator.h"
 #include "thirdparty/common/agg/include/agg_span_interpolator_linear.h"
-#include "thirdparty/common/agg/include/agg_span_image_filter_rgba32.h"
+#include "thirdparty/common/agg/include/agg_span_image_filter_rgba.h"
 #include "thirdparty/common/agg/include/agg_scanline_u.h"
 
 
@@ -128,11 +128,11 @@ public:
 };
 
 typedef agg::renderer_base<pixfmt> RendererBase;
-typedef agg::renderer_scanline_u_solid<RendererBase> SolidRenderer;
+typedef agg::renderer_scanline_aa_solid<RendererBase> SolidRenderer;
 typedef agg::span_allocator<agg::rgba8> SpanAllocator;
 typedef agg::span_interpolator_linear<> SpanInterpolator;
-typedef agg::span_image_filter_rgba32_bilinear<agg::order_bgra32,SpanInterpolator> SpanGenerator;
-typedef agg::renderer_scanline_u<RendererBase, SpanGenerator> RendererType;
+typedef agg::span_image_filter_rgba_bilinear<color_type, component_order,SpanInterpolator> SpanGenerator;
+typedef agg::renderer_scanline_aa<RendererBase, SpanGenerator> RendererType;
 
 
 void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* imageBounds, Image* image )
@@ -192,18 +192,16 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 										Math::degreesToRadians(context_->getShearY()) );
 
 		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,pathMat);
-		agg::conv_transform< agg::path_storage >::iterator it = xfrmedImgPath.begin(0);
-
-
-		agg::vertex_type vert = *it;
+		
+		double vert_x, vert_y;
+		xfrmedImgPath.vertex( &vert_x, &vert_y );
+		
+		Point p1(vert_x, vert_y );
 
 		
-		Point p1(vert.x, vert.y );
+		xfrmedImgPath.vertex( &vert_x, &vert_y );
 
-		++it;
-		vert = *it;
-
-		Point p2(vert.x, vert.y );
+		Point p2( vert_x, vert_y );
 
 		if ( p2.x_ > p1.x_ ) {
 			xfrmedImageRect.left_ = p1.x_;
@@ -233,27 +231,25 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 			xfrmedImageRect.bottom_ = p1.y_;
 		}
 
-
-
-		while ( it != xfrmedImgPath.end() ) {
-
-			if ( xfrmedImageRect.left_ > (*it).x ) {
-				xfrmedImageRect.left_ = (*it).x;
+		unsigned cmd = xfrmedImgPath.vertex(&vert_x, &vert_y);
+		while(!agg::is_stop(cmd)) {
+			if ( xfrmedImageRect.left_ > vert_x ) {
+				xfrmedImageRect.left_ = vert_x;
 			}
 
-			if ( xfrmedImageRect.right_ < (*it).x ) {
-				xfrmedImageRect.right_ = (*it).x;
+			if ( xfrmedImageRect.right_ < vert_x ) {
+				xfrmedImageRect.right_ = vert_x;
 			}
 
-			if ( xfrmedImageRect.top_ > (*it).y ) {
-				xfrmedImageRect.top_ = (*it).y;
+			if ( xfrmedImageRect.top_ > vert_y ) {
+				xfrmedImageRect.top_ = vert_y;
 			}
 
-			if ( xfrmedImageRect.bottom_ < (*it).y ) {
-				xfrmedImageRect.bottom_ = (*it).y;
+			if ( xfrmedImageRect.bottom_ < vert_y ) {
+				xfrmedImageRect.bottom_ = vert_y;
 			}
 
-			++it;
+			cmd = xfrmedImgPath.vertex(&vert_x, &vert_y);
 		}
 
 		xfrmedImageRect.offset( xx, yy );
@@ -343,7 +339,7 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 			
 
 			rasterizer.add_path(xfrmedImgPath2);
-			rasterizer.render(scanLine, imageRenderer);
+			agg::render_scanlines(rasterizer, scanLine, imageRenderer );
 		}		
 	}
 	else {
@@ -433,6 +429,11 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		return;
 	}
 
+
+	//drawImageAGG( x, y, imageBounds, image );
+	//return;
+
+
 	Matrix2D& currentXFrm = *context_->getCurrentTransform();
 
 	if ( !context_->isDefaultTransform() ) {
@@ -471,18 +472,15 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,pathMat);
 
-		agg::conv_transform< agg::path_storage >::iterator it = xfrmedImgPath.begin(0);
-
-
-		agg::vertex_type vert = *it;
+		double vert_x, vert_y;
+		xfrmedImgPath.vertex( &vert_x, &vert_y );
 
 		Rect xfrmedImageRect;
-		Point p1(vert.x, vert.y );
+		Point p1(vert_x, vert_y);
 
-		++it;
-		vert = *it;
+		xfrmedImgPath.vertex( &vert_x, &vert_y );
 
-		Point p2(vert.x, vert.y );
+		Point p2(vert_x, vert_y );
 
 		if ( p2.x_ > p1.x_ ) {
 			xfrmedImageRect.left_ = p1.x_;
@@ -514,25 +512,26 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 
 
-		while ( it != xfrmedImgPath.end() ) {
+		unsigned cmd = xfrmedImgPath.vertex(&vert_x, &vert_y);
+		while(!agg::is_stop(cmd)) {
 
-			if ( xfrmedImageRect.left_ > (*it).x ) {
-				xfrmedImageRect.left_ = (*it).x;
+			if ( xfrmedImageRect.left_ > vert_x ) {
+				xfrmedImageRect.left_ = vert_x;
 			}
 
-			if ( xfrmedImageRect.right_ < (*it).x ) {
-				xfrmedImageRect.right_ = (*it).x;
+			if ( xfrmedImageRect.right_ < vert_x ) {
+				xfrmedImageRect.right_ = vert_x;
 			}
 
-			if ( xfrmedImageRect.top_ > (*it).y ) {
-				xfrmedImageRect.top_ = (*it).y;
+			if ( xfrmedImageRect.top_ > vert_y ) {
+				xfrmedImageRect.top_ = vert_y;
 			}
 
-			if ( xfrmedImageRect.bottom_ < (*it).y ) {
-				xfrmedImageRect.bottom_ = (*it).y;
+			if ( xfrmedImageRect.bottom_ < vert_y ) {
+				xfrmedImageRect.bottom_ = vert_y;
 			}
 
-			++it;
+			cmd = xfrmedImgPath.vertex(&vert_x, &vert_y);
 		}
 
 		xfrmedImageRect.offset( xx, yy );
@@ -562,6 +561,13 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 		agg::conv_transform< agg::path_storage > xfrmedImgPath2(imagePath,pathMat2);
 
+		HBitmap32Bit hbmp;
+		size_t hbmpWidth = xfrmedImageRect.getWidth();
+		size_t hbmpHeight = xfrmedImageRect.getHeight();
+
+		//we can't get rid of this be cause we 
+		//need it for the SetDIBitsToDevice
+		//call
 		BITMAPINFO bmpInfo;
 		memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
 		bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
@@ -570,28 +576,27 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		bmpInfo.bmiHeader.biPlanes = 1;
 		bmpInfo.bmiHeader.biBitCount = 32;
 		bmpInfo.bmiHeader.biCompression = BI_RGB;
-
 		bmpInfo.bmiHeader.biSizeImage = (-bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
 
 		SysPixelType* bmpBuf = NULL;
-		HDC xfrmDC = ::CreateCompatibleDC( NULL );
-		HBITMAP hbmp = CreateDIBSection ( xfrmDC, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+
+		hbmp.setSize( hbmpWidth, hbmpHeight );
 
 
-		safeToRender = (NULL != hbmp) ? true : false;
+		bmpBuf = (SysPixelType*) hbmp.data();
+
+
+
+		safeToRender = (hbmp != NULL) ? true : false;
 
 		if ( safeToRender ) {
-
-			HBITMAP oldBMP = (HBITMAP)SelectObject( xfrmDC, hbmp );
-
-			BitBlt( xfrmDC, 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight,
+			BitBlt( hbmp.dc(), 0, 0, hbmpWidth, hbmpHeight,
 					dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
 			agg::rendering_buffer xfrmImgRenderBuf;
-			xfrmImgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth,
-										-bmpInfo.bmiHeader.biHeight,
-										bmpInfo.bmiHeader.biWidth * 4 );
+			xfrmImgRenderBuf.attach( (unsigned char*)bmpBuf, hbmpWidth,
+										hbmpHeight,	hbmpWidth * 4 );
 
 
 
@@ -632,10 +637,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 			agg::scanline_u8 scanLine;
 
 			rasterizer.add_path(xfrmedImgPath2);
-			rasterizer.render(scanLine, imageRenderer);
-
-			//rasterizer.render(scanLine, srcImageRenderer);
-
+			agg::render_scanlines(rasterizer, scanLine, imageRenderer );
 
 
 			SetDIBitsToDevice( dc_,
@@ -650,12 +652,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 								bmpBuf,
 								&bmpInfo,
 								DIB_RGB_COLORS );
-
-			SelectObject( xfrmDC, oldBMP );
-			DeleteObject( hbmp );
 		}
-		DeleteDC( xfrmDC );
-
 	}
 	else {
 
@@ -762,6 +759,293 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 	//releaseHandle();
 }
 
+void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageBounds, Image* image )
+{
+	Matrix2D& currentXFrm = *context_->getCurrentTransform();
+
+	agg::path_storage imagePath;
+	imagePath.move_to( imageBounds->left_, imageBounds->top_ );
+	imagePath.line_to( imageBounds->right_, imageBounds->top_ );
+	imagePath.line_to( imageBounds->right_, imageBounds->bottom_ );
+	imagePath.line_to( imageBounds->left_, imageBounds->bottom_ );
+	imagePath.close_polygon();
+
+	bool safeToRender = true;
+	
+	BITMAPINFO bmpInfo;
+	memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
+	bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
+	bmpInfo.bmiHeader.biPlanes = 1;
+	bmpInfo.bmiHeader.biBitCount = 32;
+	bmpInfo.bmiHeader.biCompression = BI_RGB;
+	int destLeft = 0;
+	int destTop = 0;
+
+	agg::rasterizer_scanline_aa<> rasterizer;
+	agg::scanline_u8 scanLine;
+
+	SysPixelType* bmpBuf = NULL;
+	//HDC memDC = ::CreateCompatibleDC( NULL );
+	HBitmap32Bit hbmp;
+	HBITMAP oldBMP = NULL;
+	agg::rendering_buffer imgRenderBuf;
+
+	Rect xfrmedImageRect = *imageBounds;
+
+
+	bool defaultXFrm = false;//context_->isDefaultTransform();
+	if ( !defaultXFrm ) {
+		
+
+		double xx = x * (currentXFrm[Matrix2D::mei00]) +
+							y * (currentXFrm[Matrix2D::mei10]) +
+								(currentXFrm[Matrix2D::mei20]);
+
+		double yy = x * (currentXFrm[Matrix2D::mei01]) +
+							y * (currentXFrm[Matrix2D::mei11]) +
+								(currentXFrm[Matrix2D::mei21]);
+
+
+		agg::trans_affine pathMat;
+
+
+
+		pathMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+		pathMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+		pathMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()),
+										Math::degreesToRadians(context_->getShearY()) );
+
+		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,pathMat);
+
+		
+		double vert_x, vert_y;
+		xfrmedImgPath.vertex( &vert_x, &vert_y );
+
+		Point p1(vert_x, vert_y );
+
+		xfrmedImgPath.vertex( &vert_x, &vert_y );
+
+		Point p2(vert_x, vert_y );
+
+		if ( p2.x_ > p1.x_ ) {
+			xfrmedImageRect.left_ = p1.x_;
+		}
+		else {
+			xfrmedImageRect.left_ = p2.x_;
+		}
+
+		if ( p1.x_ < p2.x_ ) {
+			xfrmedImageRect.right_ = p2.x_;
+		}
+		else {
+			xfrmedImageRect.right_ = p1.x_;
+		}
+
+		if ( p2.y_ > p1.y_ ) {
+			xfrmedImageRect.top_ = p1.y_;
+		}
+		else {
+			xfrmedImageRect.top_ = p2.y_;
+		}
+
+		if ( p1.y_ < p2.y_ ) {
+			xfrmedImageRect.bottom_ = p2.y_;
+		}
+		else {
+			xfrmedImageRect.bottom_ = p1.y_;
+		}
+
+
+
+		unsigned cmd = xfrmedImgPath.vertex(&vert_x, &vert_y);
+		while(!agg::is_stop(cmd)) {
+
+			if ( xfrmedImageRect.left_ > vert_x ) {
+				xfrmedImageRect.left_ = vert_x;
+			}
+
+			if ( xfrmedImageRect.right_ < vert_x ) {
+				xfrmedImageRect.right_ = vert_x;
+			}
+
+			if ( xfrmedImageRect.top_ > vert_y ) {
+				xfrmedImageRect.top_ = vert_y;
+			}
+
+			if ( xfrmedImageRect.bottom_ < vert_y ) {
+				xfrmedImageRect.bottom_ = vert_y;
+			}
+
+			cmd = xfrmedImgPath.vertex(&vert_x, &vert_y);
+		}
+
+		xfrmedImageRect.offset( xx, yy );
+		//xfrmedImageRect.inflate( 2, 2 );
+
+
+		double imageTX = imageBounds->getWidth()/2.0;
+
+		double imageTY = imageBounds->getHeight()/2.0;
+
+
+		double xfrmImageTX = xfrmedImageRect.getWidth()/2.0;
+		double xfrmImageTY = xfrmedImageRect.getHeight()/2.0;
+
+		agg::trans_affine pathMat2;
+
+
+		pathMat2 *= agg::trans_affine_translation( -imageTX, -imageTY );
+		pathMat2 *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+		pathMat2 *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+		pathMat2 *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()),
+										Math::degreesToRadians(context_->getShearY()) );
+		pathMat2 *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
+
+
+		agg::conv_transform< agg::path_storage > xfrmedImgPath2(imagePath,pathMat2);
+
+
+		bmpInfo.bmiHeader.biWidth = (long)xfrmedImageRect.getWidth();
+		bmpInfo.bmiHeader.biHeight = (long)-xfrmedImageRect.getHeight(); // Win32 DIB are upside down - do this to filp it over
+		bmpInfo.bmiHeader.biSizeImage = (-bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
+
+		hbmp.setSize( bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight );
+		bmpBuf = (SysPixelType*) hbmp.data();
+
+		//hbmp = CreateDIBSection ( memDC, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+
+
+		safeToRender = (hbmp != NULL) ? true : false;
+
+		if ( safeToRender ) {
+
+			//HBITMAP oldBMP = (HBITMAP)SelectObject( memDC, hbmp );
+
+			BitBlt( hbmp.dc(), 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight,
+					dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
+
+
+			
+			imgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth,
+										-bmpInfo.bmiHeader.biHeight,
+										bmpInfo.bmiHeader.biWidth * 4 );
+
+
+
+			pixfmt pixf(imgRenderBuf);
+			RendererBase rb(pixf);
+
+
+			agg::trans_affine imageMat;
+			imageMat *= agg::trans_affine_translation( -imageTX, -imageTY );
+			imageMat *= agg::trans_affine_rotation( Math::degreesToRadians( context_->getRotation() ) );
+			imageMat *= agg::trans_affine_scaling( context_->getScaleX(), context_->getScaleY() );
+			imageMat *= agg::trans_affine_skewing( Math::degreesToRadians(context_->getShearX()),
+											Math::degreesToRadians(context_->getShearY()) );
+
+			imageMat *= agg::trans_affine_translation( xfrmImageTX, xfrmImageTY );
+			imageMat.invert();
+
+
+			SpanAllocator spanAllocator;
+
+			SpanInterpolator interpolator(imageMat);
+
+
+			agg::rendering_buffer tmpImgRenderBuf;
+			tmpImgRenderBuf.attach( (unsigned char*)image->getData(), 
+									image->getWidth(),
+									image->getHeight(),
+									image->getWidth() * image->getType() ); 
+
+			SpanGenerator spanGen(spanAllocator,
+							 tmpImgRenderBuf,
+							 agg::rgba(0, 0, 0, 0.0),
+							 interpolator);
+
+
+			RendererType imageRenderer(rb, spanGen);
+
+			
+
+			rasterizer.add_path(xfrmedImgPath2);
+			agg::render_scanlines(rasterizer, scanLine, imageRenderer);
+		}		
+	}
+	else {
+		bmpInfo.bmiHeader.biWidth = (long)xfrmedImageRect.getWidth();
+		bmpInfo.bmiHeader.biHeight = (long)-xfrmedImageRect.getHeight(); // Win32 DIB are upside down - do this to filp it over
+		bmpInfo.bmiHeader.biSizeImage = (-bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
+
+		hbmp.setSize( bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight ); // = CreateDIBSection ( memDC, &bmpInfo, DIB_RGB_COLORS, (void**)&bmpBuf, NULL, NULL );
+
+		bmpBuf = (SysPixelType*)hbmp.data();
+
+		safeToRender = (hbmp != NULL) ? true : false;
+
+		if ( safeToRender ) {
+
+			//HBITMAP oldBMP = (HBITMAP)SelectObject( memDC, hbmp );
+
+			//BitBlt( hbmp.dc(), 0, 0, bmpInfo.bmiHeader.biWidth, -bmpInfo.bmiHeader.biHeight,
+			//		dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
+
+
+			
+			imgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth,
+										-bmpInfo.bmiHeader.biHeight,
+										bmpInfo.bmiHeader.biWidth * 4 );
+
+
+			agg::trans_affine imageMat = agg::trans_affine_translation(x, y);
+			imageMat.invert();
+
+			pixfmt pixf(imgRenderBuf);
+			RendererBase rb(pixf);
+			SpanAllocator spanAllocator;
+			SpanInterpolator interpolator(imageMat);
+
+			agg::rendering_buffer tmpImgRenderBuf;
+			tmpImgRenderBuf.attach( (unsigned char*)image->getData(), 
+									image->getWidth(),
+									image->getHeight(),
+									image->getWidth() * image->getType() ); 
+
+
+			//image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
+
+			SpanGenerator spanGen(spanAllocator,
+							 tmpImgRenderBuf,
+							 agg::rgba(0, 234, 0, 0.0),
+							 interpolator);
+			RendererType imageRenderer(rb, spanGen);
+
+			
+
+			rasterizer.add_path(imagePath);
+			agg::render_scanlines(rasterizer, scanLine, imageRenderer);
+		}
+	}
+
+
+	if ( safeToRender ) {
+		SetDIBitsToDevice( dc_,
+								(long)xfrmedImageRect.left_,
+								(long)xfrmedImageRect.top_,
+								(long)xfrmedImageRect.getWidth(),
+								(long)xfrmedImageRect.getHeight(),
+								0,
+								0,
+								0,
+								(long)xfrmedImageRect.getHeight(),
+								bmpBuf,
+								&bmpInfo,
+								DIB_RGB_COLORS );
+		//SelectObject( memDC, oldBMP );
+		//DeleteObject( hbmp );
+		//DeleteDC( memDC );
+	}
+}
 
 void Win32Context::rectangle(const double & x1, const double & y1, const double & x2, const double & y2)
 {
@@ -2843,6 +3127,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.3  2005/10/17 01:36:34  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.7.2.2  2005/10/11 00:54:52  ddiego
 *added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
 *

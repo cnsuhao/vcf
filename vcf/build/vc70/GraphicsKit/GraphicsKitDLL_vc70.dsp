@@ -228,6 +228,10 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\GraphicsResourceBundlePeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\GraphicsKit\GrayScaleImage.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\GraphicsKit\Image.h
 # End Source File
 # Begin Source File
@@ -277,6 +281,10 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\Path.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\PixelFormats.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\GraphicsKit\Pixels.h
 # End Source File
 # Begin Source File
 

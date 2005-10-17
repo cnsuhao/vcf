@@ -14,13 +14,16 @@ where you installed the VCF.
 using namespace VCF;
 
 
-AbstractImage::AbstractImage( const bool& needsMemAlloc )
+AbstractImage::AbstractImage( const bool& needsMemAlloc ):	
+	imageBits_(NULL),
+	dataBuffer_(NULL),
+	width_(0),
+	height_(0),
+	context_(NULL),
+	isTransparent_(false),
+	needsMemAlloc_(needsMemAlloc)
 {
-	imageBits_ = new ImageBits(0,0,needsMemAlloc);
-	context_ = NULL;
-	isTransparent_ = false;
-	width_ = 0;
-	height_ = 0;
+	imageBits_ = new ImageBits(0,0,needsMemAlloc);	
 }
 
 AbstractImage::~AbstractImage()
@@ -122,12 +125,16 @@ Image::PixelLayoutOrder AbstractImage::getPixelLayoutOrder() const
 
 void* AbstractImage::getData()
 {
-	return imageBits_->pixels_;
+	dataBuffer_ = (unsigned char*)imageBits_->pixels_;
+	return dataBuffer_;
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2005/10/17 01:36:34  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.2.6.2  2005/10/11 00:54:51  ddiego
 *added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
 *
