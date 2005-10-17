@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -39,7 +39,7 @@ namespace agg
         color_type* generate(int x, int y, unsigned len)
         {
             color_type* span = m_span_gen->generate(x, y, len);
-            m_conv->convert(span, len);
+            m_conv->convert(span, x, y, len);
             return span;
         }
 

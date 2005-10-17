@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -27,14 +27,16 @@ namespace agg
              unsigned HiResShift=8> class gamma_lut
     {
     public:
-        enum
+        typedef gamma_lut<LoResT, HiResT, GammaShift, HiResShift> self_type;
+
+        enum gamma_scale_e
         {
             gamma_shift = GammaShift,
             gamma_size  = 1 << gamma_shift,
             gamma_mask  = gamma_size - 1
         };
 
-        enum
+        enum hi_res_scale_e
         {
             hi_res_shift = HiResShift,
             hi_res_size  = 1 << hi_res_shift,
@@ -105,6 +107,9 @@ namespace agg
         }
 
     private:
+        gamma_lut(const self_type&);
+        const self_type& operator = (const self_type&);
+
         double m_gamma;
         HiResT* m_dir_gamma;
         LoResT* m_inv_gamma;

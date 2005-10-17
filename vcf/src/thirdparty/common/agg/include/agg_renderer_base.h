@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -25,18 +25,26 @@
 
 namespace agg
 {
+
     //-----------------------------------------------------------renderer_base
     template<class PixelFormat> class renderer_base
     {
     public:
         typedef PixelFormat pixfmt_type;
         typedef typename pixfmt_type::color_type color_type;
+        typedef typename pixfmt_type::row_data row_data;
+        typedef typename pixfmt_type::span_data span_data;
 
         //--------------------------------------------------------------------
+        renderer_base() : m_ren(0), m_clip_box(1, 1, 0, 0) {}
         renderer_base(pixfmt_type& ren) :
             m_ren(&ren),
             m_clip_box(0, 0, ren.width() - 1, ren.height() - 1)
+        {}
+        void attach(pixfmt_type& ren)
         {
+            m_ren = &ren;
+            m_clip_box = rect(0, 0, ren.width() - 1, ren.height() - 1);
         }
 
         //--------------------------------------------------------------------
@@ -130,6 +138,7 @@ namespace agg
             }
         }
           
+
         //--------------------------------------------------------------------
         void copy_pixel(int x, int y, const color_type& c)
         {
@@ -256,8 +265,27 @@ namespace agg
 
 
         //--------------------------------------------------------------------
+        span_data span(int x, int y, unsigned len)
+        {
+            int x1 = x;
+            int x2 = x + int(len) - 1;
+            
+            if(y  >= ymin() && y  <= ymax() &&
+               x1 <= xmax() && x2 >= xmin())
+            {
+                if(x1 < xmin()) x1 = xmin();
+                if(x2 > xmax()) x2 = xmax();
+                return m_ren->span(x1, y, x2 - x1 + 1);
+            }
+            return span_data(0);
+
+        }
+
+
+        //--------------------------------------------------------------------
         void blend_solid_hspan(int x, int y, int len, 
-                               const color_type& c, const cover_type* covers)
+                               const color_type& c, 
+                               const cover_type* covers)
         {
             if(y > ymax()) return;
             if(y < ymin()) return;
@@ -279,7 +307,8 @@ namespace agg
 
         //--------------------------------------------------------------------
         void blend_solid_vspan(int x, int y, int len, 
-                               const color_type& c, const cover_type* covers)
+                               const color_type& c, 
+                               const cover_type* covers)
         {
             if(x > xmax()) return;
             if(x < xmin()) return;
@@ -299,9 +328,34 @@ namespace agg
             m_ren->blend_solid_vspan(x, y, len, c, covers);
         }
 
+
+        //--------------------------------------------------------------------
+        void copy_color_hspan(int x, int y, int len, const color_type* colors)
+        {
+            if(y > ymax()) return;
+            if(y < ymin()) return;
+
+            if(x < xmin())
+            {
+                int d = xmin() - x;
+                len -= d;
+                if(len <= 0) return;
+                colors += d;
+                x = xmin();
+            }
+            if(x + len > xmax())
+            {
+                len = xmax() - x + 1;
+                if(len <= 0) return;
+            }
+            m_ren->copy_color_hspan(x, y, len, colors);
+        }
+
         //--------------------------------------------------------------------
         void blend_color_hspan(int x, int y, int len, 
-                               const color_type* colors, const cover_type* covers)
+                               const color_type* colors, 
+                               const cover_type* covers,
+                               cover_type cover = cover_full)
         {
             if(y > ymax()) return;
             if(y < ymin()) return;
@@ -320,12 +374,14 @@ namespace agg
                 len = xmax() - x + 1;
                 if(len <= 0) return;
             }
-            m_ren->blend_color_hspan(x, y, len, colors, covers);
+            m_ren->blend_color_hspan(x, y, len, colors, covers, cover);
         }
 
         //--------------------------------------------------------------------
         void blend_color_vspan(int x, int y, int len, 
-                               const color_type* colors, const cover_type* covers)
+                               const color_type* colors, 
+                               const cover_type* covers,
+                               cover_type cover = cover_full)
         {
             if(x > xmax()) return;
             if(x < xmin()) return;
@@ -344,62 +400,202 @@ namespace agg
                 len = ymax() - y + 1;
                 if(len <= 0) return;
             }
-            m_ren->blend_color_vspan(x, y, len, colors, covers);
+            m_ren->blend_color_vspan(x, y, len, colors, covers, cover);
         }
+
+
+        //--------------------------------------------------------------------
+        void copy_color_hspan_no_clip(int x, int y, int len, 
+                                      const color_type* colors)
+        {
+            m_ren->copy_color_hspan(x, y, len, colors);
+        }
+
 
         //--------------------------------------------------------------------
         void blend_color_hspan_no_clip(int x, int y, int len, 
                                        const color_type* colors, 
-                                       const cover_type* covers)
+                                       const cover_type* covers,
+                                       cover_type cover = cover_full)
         {
-            m_ren->blend_color_hspan(x, y, len, colors, covers);
+            m_ren->blend_color_hspan(x, y, len, colors, covers, cover);
         }
+
 
         //--------------------------------------------------------------------
         void blend_color_vspan_no_clip(int x, int y, int len, 
                                        const color_type* colors, 
-                                       const cover_type* covers)
+                                       const cover_type* covers,
+                                       cover_type cover = cover_full)
         {
-            m_ren->blend_color_vspan(x, y, len, colors, covers);
+            m_ren->blend_color_vspan(x, y, len, colors, covers, cover);
         }
 
+
         //--------------------------------------------------------------------
-        void copy_from(const rendering_buffer& from, 
-                       const rect* rc=0, 
-                       int x_to=0, 
-                       int y_to=0)
+        rect clip_rect_area(rect& dst, rect& src, int wsrc, int hsrc) const
         {
-            rect tmp_rect(0, 0, from.width(), from.height());
-            if(rc == 0)
+            rect rc(0,0,0,0);
+            rect cb = clip_box();
+            ++cb.x2;
+            ++cb.y2;
+
+            if(src.x1 < 0)
             {
-                rc = &tmp_rect;
+                dst.x1 -= src.x1;
+                src.x1 = 0;
+            }
+            if(src.y1 < 0)
+            {
+                dst.y1 -= src.y1;
+                src.y1 = 0;
             }
 
-            rect rc2(*rc);
-            rc2.normalize();
-            if(rc2.clip(rect(0, 0, from.width() - 1, from.height() - 1)))
-            {
-                rect rc3(x_to + rc2.x1 - rc->x1, 
-                         y_to + rc2.y1 - rc->y1, 
-                         x_to + rc2.x2 - rc->x1, 
-                         y_to + rc2.y2 - rc->y1);
-                rc3.normalize();
+            if(src.x2 > wsrc) src.x2 = wsrc;
+            if(src.y2 > hsrc) src.y2 = hsrc;
 
-                if(rc3.clip(clip_box()))
+            if(dst.x1 < cb.x1)
+            {
+                src.x1 += cb.x1 - dst.x1;
+                dst.x1 = cb.x1;
+            }
+            if(dst.y1 < cb.y1)
+            {
+                src.y1 += cb.y1 - dst.y1;
+                dst.y1 = cb.y1;
+            }
+
+            if(dst.x2 > cb.x2) dst.x2 = cb.x2;
+            if(dst.y2 > cb.y2) dst.y2 = cb.y2;
+
+            rc.x2 = dst.x2 - dst.x1;
+            rc.y2 = dst.y2 - dst.y1;
+
+            if(rc.x2 > src.x2 - src.x1) rc.x2 = src.x2 - src.x1;
+            if(rc.y2 > src.y2 - src.y1) rc.y2 = src.y2 - src.y1;
+            return rc;
+        }
+
+
+        //--------------------------------------------------------------------
+        void copy_from(const rendering_buffer& src, 
+                       const rect* rect_src_ptr = 0, 
+                       int dx = 0, 
+                       int dy = 0)
+        {
+            rect rsrc(0, 0, src.width(), src.height());
+            if(rect_src_ptr)
+            {
+                rsrc.x1 = rect_src_ptr->x1; 
+                rsrc.y1 = rect_src_ptr->y1;
+                rsrc.x2 = rect_src_ptr->x2 + 1;
+                rsrc.y2 = rect_src_ptr->y2 + 1;
+            }
+
+            // Version with xdst, ydst (absolute positioning)
+            //rect rdst(xdst, ydst, xdst + rsrc.x2 - rsrc.x1, ydst + rsrc.y2 - rsrc.y1);
+
+            // Version with dx, dy (relative positioning)
+            rect rdst(rsrc.x1 + dx, rsrc.y1 + dy, rsrc.x2 + dx, rsrc.y2 + dy);
+
+            rect rc = clip_rect_area(rdst, rsrc, src.width(), src.height());
+
+            if(rc.x2 > 0)
+            {
+                int incy = 1;
+                if(rdst.y1 > rsrc.y1)
                 {
-                    while(rc3.y1 <= rc3.y2)
-                    {
-                        m_ren->copy_from(from, 
-                                         rc3.x1, rc3.y1,
-                                         rc2.x1, rc2.y1,
-                                         rc3.x2 - rc3.x1 + 1);
-                        ++rc2.y1;
-                        ++rc3.y1;
-                    }
+                    rsrc.y1 += rc.y2 - 1;
+                    rdst.y1 += rc.y2 - 1;
+                    incy = -1;
+                }
+                while(rc.y2 > 0)
+                {
+                    m_ren->copy_from(src, 
+                                     rdst.x1, rdst.y1,
+                                     rsrc.x1, rsrc.y1,
+                                     rc.x2);
+                    rdst.y1 += incy;
+                    rsrc.y1 += incy;
+                    --rc.y2;
                 }
             }
         }
-       
+
+
+
+        //--------------------------------------------------------------------
+        template<class SrcPixelFormatRenderer>
+        void blend_from(const SrcPixelFormatRenderer& src, 
+                        const rect* rect_src_ptr = 0, 
+                        int dx = 0, 
+                        int dy = 0,
+                        cover_type cover = cover_full)
+        {
+            rect rsrc(0, 0, src.width(), src.height());
+            if(rect_src_ptr)
+            {
+                rsrc.x1 = rect_src_ptr->x1; 
+                rsrc.y1 = rect_src_ptr->y1;
+                rsrc.x2 = rect_src_ptr->x2 + 1;
+                rsrc.y2 = rect_src_ptr->y2 + 1;
+            }
+
+            // Version with xdst, ydst (absolute positioning)
+            //rect rdst(xdst, ydst, xdst + rsrc.x2 - rsrc.x1, ydst + rsrc.y2 - rsrc.y1);
+
+            // Version with dx, dy (relative positioning)
+            rect rdst(rsrc.x1 + dx, rsrc.y1 + dy, rsrc.x2 + dx, rsrc.y2 + dy);
+
+            rect rc = clip_rect_area(rdst, rsrc, src.width(), src.height());
+
+            if(rc.x2 > 0)
+            {
+                int incy = 1;
+                if(rdst.y1 > rsrc.y1)
+                {
+                    rsrc.y1 += rc.y2 - 1;
+                    rdst.y1 += rc.y2 - 1;
+                    incy = -1;
+                }
+                while(rc.y2 > 0)
+                {
+                    typename SrcPixelFormatRenderer::row_data rw = src.row(rsrc.x1, rsrc.y1);
+                    if(rw.ptr)
+                    {
+                        int x1src = rsrc.x1;
+                        int x1dst = rdst.x1;
+                        int len   = rc.x2;
+                        if(rw.x1 > x1src)
+                        {
+                            x1dst += rw.x1 - x1src;
+                            len   -= rw.x1 - x1src;
+                            x1src  = rw.x1;
+                        }
+                        if(len > 0)
+                        {
+                            if(x1src + len-1 > rw.x2)
+                            {
+                                len -= x1src + len - rw.x2 - 1;
+                            }
+                            if(len > 0)
+                            {
+                                m_ren->blend_from(src, rw.ptr,
+                                                  x1dst, rdst.y1,
+                                                  x1src, rsrc.y1,
+                                                  len,
+                                                  cover);
+                            }
+                        }
+                    }
+                    rdst.y1 += incy;
+                    rsrc.y1 += incy;
+                    --rc.y2;
+                }
+            }
+        }
+
+
 
     private:
         pixfmt_type* m_ren;

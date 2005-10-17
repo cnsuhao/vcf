@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -469,7 +469,7 @@ namespace agg
         typedef typename Renderer::color_type color_type;
 
         //---------------------------------------------------------------------
-        enum 
+        enum max_half_width_e
         { 
             max_half_width = 64
         };
@@ -1259,14 +1259,14 @@ namespace agg
     public:
         //---------------------------------------------------------------------
         typedef int8u value_type;
-        enum
+        enum subpixel_scale_e
         {
             subpixel_shift = line_subpixel_shift,
             subpixel_size  = 1 << subpixel_shift,
             subpixel_mask  = subpixel_size - 1
         };
 
-        enum
+        enum aa_scale_e
         {
             aa_shift = 8,
             aa_num   = 1 << aa_shift,
@@ -1312,8 +1312,7 @@ namespace agg
             for(i = 0; i < aa_num; i++)
             {
                 m_gamma[i] = value_type(
-                    floor(
-                        gamma_function(double(i) / aa_mask) * aa_mask + 0.5));
+                    gamma_function(double(i) / aa_mask) * aa_mask + 0.5);
             }
         }
 
@@ -1349,10 +1348,6 @@ namespace agg
     };
 
 
-
-
-
-
     //======================================================renderer_outline_aa
     template<class BaseRenderer> class renderer_outline_aa
     {
@@ -1363,7 +1358,7 @@ namespace agg
         typedef typename base_ren_type::color_type color_type;
 
         //---------------------------------------------------------------------
-        renderer_outline_aa(base_ren_type& ren, line_profile_aa& prof) :
+        renderer_outline_aa(base_ren_type& ren, const line_profile_aa& prof) :
             m_ren(&ren),
             m_profile(&prof)
         {
@@ -1492,6 +1487,7 @@ namespace agg
         //-------------------------------------------------------------------------
         void line1(const line_parameters& lp, int sx, int sy)
         {
+            fix_degenerate_bisectrix_start(lp, &sx, &sy);
             line_interpolator_aa1<self_type> li(*this, lp, sx, sy);
             if(li.vertical())
             {
@@ -1506,6 +1502,7 @@ namespace agg
         //-------------------------------------------------------------------------
         void line2(const line_parameters& lp, int ex, int ey)
         {
+            fix_degenerate_bisectrix_end(lp, &ex, &ey);
             line_interpolator_aa2<self_type> li(*this, lp, ex, ey);
             if(li.vertical())
             {
@@ -1521,6 +1518,8 @@ namespace agg
         void line3(const line_parameters& lp, 
                    int sx, int sy, int ex, int ey)
         {
+            fix_degenerate_bisectrix_start(lp, &sx, &sy);
+            fix_degenerate_bisectrix_end(lp, &ex, &ey);
             line_interpolator_aa3<self_type> li(*this, lp, sx, sy, ex, ey);
             if(li.vertical())
             {
@@ -1533,9 +1532,9 @@ namespace agg
         }
 
     private:
-        base_ren_type*   m_ren;
-        line_profile_aa* m_profile; 
-        color_type       m_color;
+        base_ren_type*         m_ren;
+        const line_profile_aa* m_profile; 
+        color_type             m_color;
     };
 
 
