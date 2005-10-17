@@ -38,7 +38,7 @@ TDIR=S
 
 LIBNAME=libAGG_bcc_s$(DBG).lib
 DLLNAME=
-INCDIR=..\..\..\src
+INCDIR=..\..\..\src;..\..\..\src\thirdparty\common\agg\include
 LIBDIR=..\..\..\lib
 SRC=..\..\..\src\thirdparty\common\agg\src
 OBJ=.\$(OBJDIR)
