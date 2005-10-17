@@ -124,7 +124,7 @@ void BasicFill::render( Path* path )
 		}
 		else {
 			typedef agg::renderer_base<pixfmt> ren_base;
-			typedef agg::renderer_scanline_p_solid<ren_base> renderer_solid;			
+			typedef agg::renderer_scanline_aa_solid<ren_base> renderer_solid;			
 			
 			pixfmt pixf(*renderingBuffer);
 			ren_base renb(pixf);
@@ -207,7 +207,8 @@ void BasicFill::render( Path* path )
 
 			renderer.color(agg::rgba(color_.getRed(),color_.getGreen(),color_.getBlue(),opacity_));
 
-			rasterizer.render(scanline,renderer);
+			//rasterizer.render(scanline,renderer);
+			agg::render_scanlines(rasterizer, scanline, renderer);
 		}
 	}
 }
@@ -216,6 +217,9 @@ void BasicFill::render( Path* path )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/10/17 01:36:34  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.3  2004/12/01 04:31:42  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

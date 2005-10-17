@@ -1393,6 +1393,7 @@ Win32ToolKit::~Win32ToolKit()
 			HtmlHelp_A( NULL, NULL, HH_CLOSE_ALL, 0 );
 		}
 
+		Sleep( 500 );
 		FreeLibrary( HtmlHelpLibHandle );
 	}
 
@@ -2399,6 +2400,9 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.10  2005/10/17 01:36:33  ddiego
+*some more under the hood image stuff. updated agg.
+*
 *Revision 1.6.2.9  2005/10/07 16:41:21  kiklop74
 *Added support for building ApplicationKit with Borland Free Compiler
 *
