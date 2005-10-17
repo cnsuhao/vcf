@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -49,7 +49,7 @@ namespace agg
     class font_cache
     {
     public:
-        enum { block_size = 16384-16 };
+        enum block_size_e { block_size = 16384-16 };
 
         //--------------------------------------------------------------------
         font_cache(const char* font_signature) : 
@@ -101,7 +101,7 @@ namespace agg
 
             glyph_cache* glyph = 
                 (glyph_cache*)m_allocator.allocate(sizeof(glyph_cache),
-                                                   sizeof(int8u*));
+                                                   sizeof(double));
 
             glyph->glyph_index = glyph_index;
             glyph->data        = m_allocator.allocate(data_size);
@@ -299,12 +299,15 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        void init_embedded_adaptors(const glyph_cache* gl, double x, double y)
+        void init_embedded_adaptors(const glyph_cache* gl, 
+                                    double x, double y, 
+                                    double scale=1.0)
         {
             if(gl)
             {
                 switch(gl->data_type)
                 {
+                default: return;
                 case glyph_data_mono:
                     m_mono_adaptor.init(gl->data, gl->data_size, x, y);
                     break;
@@ -314,7 +317,7 @@ namespace agg
                     break;
 
                 case glyph_data_outline:
-                    m_path_adaptor.init(gl->data, gl->data_size, x, y);
+                    m_path_adaptor.init(gl->data, gl->data_size, x, y, scale);
                     break;
                 }
             }

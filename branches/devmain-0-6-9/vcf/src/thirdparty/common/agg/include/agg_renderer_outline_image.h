@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -15,6 +15,7 @@
 #ifndef AGG_RENDERER_OUTLINE_IMAGE_INCLUDED
 #define AGG_RENDERER_OUTLINE_IMAGE_INCLUDED
 
+#include <math.h>
 #include "agg_line_aa_basics.h"
 #include "agg_dda_line.h"
 #include "agg_rendering_buffer.h"
@@ -40,12 +41,12 @@ namespace agg
 
         color_type pixel(int x, int y) const 
         { 
-            double src_y = y * m_scale;
+            double src_y = (y + 0.5) * m_scale - 0.5;
             int h = int(m_source.height()) - 1;
-            int y1 = int(floor(src_y));
+            int y1 = int(src_y);
             int y2 = y1 + 1;
-            color_type pix1 = (y1 < 0) ? m_source.pixel(x, 0).transparent() : m_source.pixel(x, y1);
-            color_type pix2 = (y2 > h) ? m_source.pixel(x, h).transparent() : m_source.pixel(x, y2);
+            color_type pix1 = (y1 < 0) ? color_type::no_color() : m_source.pixel(x, y1);
+            color_type pix2 = (y2 > h) ? color_type::no_color() : m_source.pixel(x, y2);
             return pix1.gradient(pix2, src_y - y1);
         }
 
@@ -137,14 +138,16 @@ namespace agg
             const color_type* s2;
             for(y = 0; y < m_dilation; y++)
             {
-                s1 = m_buf.row(m_height + m_dilation - 1) + m_dilation;
-                s2 = m_buf.row(m_dilation) + m_dilation;
+                //s1 = m_buf.row(m_height + m_dilation - 1) + m_dilation;
+                //s2 = m_buf.row(m_dilation) + m_dilation;
                 d1 = m_buf.row(m_dilation + m_height + y) + m_dilation;
                 d2 = m_buf.row(m_dilation - y - 1) + m_dilation;
                 for(x = 0; x < m_width; x++)
                 {
-                    *d1++ = color_type(*s1++, 0);
-                    *d2++ = color_type(*s2++, 0);
+                    //*d1++ = color_type(*s1++, 0);
+                    //*d2++ = color_type(*s2++, 0);
+                    *d1++ = color_type::no_color();
+                    *d2++ = color_type::no_color();
                 }
             }
 
@@ -169,16 +172,16 @@ namespace agg
         int line_width()    const { return m_half_height_hr; }
 
         //--------------------------------------------------------------------
-        color_type pixel(int x, int y) const
+        void pixel(color_type* p, int x, int y) const
         {
-            return m_filter->pixel_high_res(m_buf.rows(), 
-                                            x % m_width_hr + m_dilation_hr,
-                                            y + m_offset_y_hr);
+            m_filter->pixel_high_res(m_buf.rows(), 
+                                     p, 
+                                     x % m_width_hr + m_dilation_hr,
+                                     y + m_offset_y_hr);
         }
 
         //--------------------------------------------------------------------
-        const filter_type& filter() const { return m_filter; }
-        filter_type& filter() { return m_filter; }
+        const filter_type& filter() const { return *m_filter; }
 
     private:
         line_image_pattern(const line_image_pattern<filter_type>&);
@@ -476,7 +479,7 @@ namespace agg
         typedef typename Renderer::color_type color_type;
 
         //---------------------------------------------------------------------
-        enum 
+        enum max_half_width_e
         { 
             max_half_width = 64
         };
@@ -829,8 +832,12 @@ namespace agg
         const pattern_type& pattern() const { return *m_pattern; }
 
         //---------------------------------------------------------------------
-        void scale_x(double s) { m_scale_x = s; }
-        double scale_x() const { return m_scale_x; }
+        void   scale_x(double s) { m_scale_x = s; }
+        double scale_x() const   { return m_scale_x; }
+
+        //---------------------------------------------------------------------
+        void   start_x(double s) { m_start = int(s * line_subpixel_size); }
+        double start_x() const   { return double(m_start) / line_subpixel_size; }
 
         //---------------------------------------------------------------------
         int subpixel_width() const { return m_pattern->line_width(); }
@@ -882,6 +889,8 @@ namespace agg
         void line3(const line_parameters& lp, 
                    int sx, int sy, int ex, int ey)
         {
+            fix_degenerate_bisectrix_start(lp, &sx, &sy);
+            fix_degenerate_bisectrix_end(lp, &ex, &ey);
             line_interpolator_image<self_type> li(*this, lp, 
                                                   sx, sy, 
                                                   ex, ey, 

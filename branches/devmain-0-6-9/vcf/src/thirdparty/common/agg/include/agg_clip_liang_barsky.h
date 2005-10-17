@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -23,6 +23,35 @@
 
 namespace agg
 {
+
+    //----------------------------------------------------------clipping_flags
+    // Determine the clipping code of the vertex according to the 
+    // Cyrus-Beck line clipping algorithm
+    //
+    //        |        |
+    //  0110  |  0010  | 0011
+    //        |        |
+    // -------+--------+-------- clip_box.y2
+    //        |        |
+    //  0100  |  0000  | 0001
+    //        |        |
+    // -------+--------+-------- clip_box.y1
+    //        |        |
+    //  1100  |  1000  | 1001
+    //        |        |
+    //  clip_box.x1  clip_box.x2
+    //
+    // 
+    template<class T>
+    inline unsigned clipping_flags(T x, T y, const rect_base<T>& clip_box)
+    {
+        return  (x > clip_box.x2) |
+               ((y > clip_box.y2) << 1) |
+               ((x < clip_box.x1) << 2) |
+               ((y < clip_box.y1) << 3);
+    }
+
+
 
     //-------------------------------------------------------clip_liang_barsky
     template<class T>

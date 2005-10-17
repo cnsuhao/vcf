@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -138,7 +138,10 @@ namespace agg
                 if(is_end_poly(cmd))
                 {
                     render(is_closed(cmd));
-                    if(is_closed(cmd)) move_to(m_start_x, m_start_y);
+                    if(is_closed(cmd)) 
+                    {
+                        move_to(m_start_x, m_start_y);
+                    }
                 }
                 else
                 {
@@ -149,51 +152,16 @@ namespace agg
 
         //------------------------------------------------------------------------
         template<class VertexSource>
-        void add_path(VertexSource& vs, unsigned id=0)
+        void add_path(VertexSource& vs, unsigned path_id=0)
         {
             double x;
             double y;
 
             unsigned cmd;
-            vs.rewind(id);
+            vs.rewind(path_id);
             while(!is_stop(cmd = vs.vertex(&x, &y)))
             {
                 add_vertex(x, y, cmd);
-            }
-            render(false);
-        }
-
-
-        //------------------------------------------------------------------------
-        template<class VertexSource>
-        void add_path(VertexSource& vs, double dx, double dy, unsigned id=0)
-        {
-            double x;
-            double y;
-
-            unsigned cmd;
-            vs.rewind(id);
-            while(!is_stop(cmd = vs.vertex(&x, &y)))
-            {
-                x += dx;
-                y += dy;
-                add_vertex(x, y, cmd);
-            }
-            render(false);
-        }
-
-
-        //------------------------------------------------------------------------
-        template<class VertexIterator>
-        void add_path(VertexIterator begin, VertexIterator end, 
-                      double dx=0, double dy=0)
-        {
-            while(begin != end)
-            {
-                double x = begin->x + dx;
-                double y = begin->y + dy;
-                add_vertex(x, y, begin->cmd);
-                ++begin;
             }
             render(false);
         }
@@ -203,33 +171,15 @@ namespace agg
         template<class VertexSource, class ColorStorage, class PathId>
         void render_all_paths(VertexSource& vs, 
                               const ColorStorage& colors, 
-                              const PathId& id,
+                              const PathId& path_id,
                               unsigned num_paths)
         {
             for(unsigned i = 0; i < num_paths; i++)
             {
                 m_ren.color(colors[i]);
-                add_path(vs, id[i]);
+                add_path(vs, path_id[i]);
             }
         }
-
-
-        //------------------------------------------------------------------------
-        template<class VertexSource, class ColorStorage, class PathId>
-        void render_all_paths(VertexSource& vs, 
-                              const ColorStorage& colors, 
-                              const PathId& id,
-                              unsigned num_paths,
-                              double dx,
-                              double dy)
-        {
-            for(unsigned i = 0; i < num_paths; i++)
-            {
-                m_ren.color(colors[i]);
-                add_path(vs, id[i], dx, dy);
-            }
-        }
-
 
 
         //------------------------------------------------------------------------

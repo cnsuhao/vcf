@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.1
-// Copyright (C) 2002-2004 Maxim Shemanarev (http://www.antigrain.com)
+// Anti-Grain Geometry - Version 2.3
+// Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
 // is granted provided this copyright notice appears in all copies. 
@@ -19,6 +19,7 @@
 #ifndef AGG_ALPHA_MASK_U8_INCLUDED
 #define AGG_ALPHA_MASK_U8_INCLUDED
 
+#include <string.h>
 #include "agg_basics.h"
 #include "agg_rendering_buffer.h"
 
@@ -48,7 +49,7 @@ namespace agg
     public:
         typedef int8u cover_type;
         typedef alpha_mask_u8<Step, Offset, MaskF> self_type;
-        enum 
+        enum cover_scale_e
         { 
             cover_shift = 8,
             cover_none  = 0,
@@ -84,7 +85,7 @@ namespace agg
                x < (int)m_rbuf->width() && 
                y <= (int)m_rbuf->height())
             {
-                return (cover_type)((val * 
+                return (cover_type)((cover_full + val * 
                                      m_mask_function.calculate(
                                         m_rbuf->row(y) + x * Step + Offset)) >> 
                                      cover_shift);
@@ -186,7 +187,7 @@ namespace agg
             const int8u* mask = m_rbuf->row(y) + x * Step + Offset;
             do
             {
-                *covers = (cover_type)(((*covers) * 
+                *covers = (cover_type)((cover_full + (*covers) * 
                                        m_mask_function.calculate(mask)) >> 
                                        cover_shift);
                 ++covers;
@@ -287,7 +288,7 @@ namespace agg
             const int8u* mask = m_rbuf->row(y) + x * Step + Offset;
             do
             {
-                *covers = (cover_type)(((*covers) * 
+                *covers = (cover_type)((cover_full + (*covers) * 
                                        m_mask_function.calculate(mask)) >> 
                                        cover_shift);
                 ++covers;
@@ -352,7 +353,7 @@ namespace agg
     public:
         typedef int8u cover_type;
         typedef amask_no_clip_u8<Step, Offset, MaskF> self_type;
-        enum 
+        enum cover_scale_e
         { 
             cover_shift = 8,
             cover_none  = 0,
@@ -379,7 +380,7 @@ namespace agg
         //--------------------------------------------------------------------
         cover_type combine_pixel(int x, int y, cover_type val) const
         {
-            return (cover_type)((val * 
+            return (cover_type)((cover_full + val * 
                                  m_mask_function.calculate(
                                     m_rbuf->row(y) + x * Step + Offset)) >> 
                                  cover_shift);
@@ -406,7 +407,7 @@ namespace agg
             const int8u* mask = m_rbuf->row(y) + x * Step + Offset;
             do
             {
-                *dst = (cover_type)(((*dst) * 
+                *dst = (cover_type)((cover_full + (*dst) * 
                                     m_mask_function.calculate(mask)) >> 
                                     cover_shift);
                 ++dst;
@@ -435,7 +436,7 @@ namespace agg
             const int8u* mask = m_rbuf->row(y) + x * Step + Offset;
             do
             {
-                *dst = (cover_type)(((*dst) * 
+                *dst = (cover_type)((cover_full + (*dst) * 
                                     m_mask_function.calculate(mask)) >> 
                                     cover_shift);
                 ++dst;
