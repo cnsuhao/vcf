@@ -562,7 +562,7 @@ Document* DocumentManager::openFromFileName( const String& fileName )
 	Document* doc = NULL;
 	if ( !mimetype.empty() )  {
 		// provides a default document to 'host' the file, and its UI too if it should
-		doc = newDefaultDocument( mimetype );
+		doc = newDefaultDocument( "", mimetype );
 	}
 
 	// finally reads what is specific about the document: its file
@@ -613,6 +613,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/10/18 04:42:38  ddiego
+*fixed minor bug in doc manager.
+*
 *Revision 1.4.2.4  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *
