@@ -374,7 +374,7 @@ public:
 	* implementation and open an appropriate New File dialog.
 	*/
 	virtual void newDocument() {
-		newDefaultDocument();
+		newDefaultDocument("", "");
 	}
 
 	/**
@@ -386,7 +386,7 @@ public:
 	*in which case the only registered DocumentInfo is used to open the document.
 	*@return Document*, the newly created document.
 	*/
-	virtual Document* newDefaultDocument( const String& mimetype=L"" ) {
+	virtual Document* newDefaultDocument( const String& fileName, const String& mimetype ) {
 		return NULL;
 	};
 
@@ -842,7 +842,7 @@ public:
 	*@see DocInterfacePolicy::saveBeforeNewDocument()
 	*@see DocumentManagerImpl:: attachUI()
 	*/
-	virtual Document* newDefaultDocument( const String& mimetype=L"" );
+	virtual Document* newDefaultDocument( const String& fileName, const String& mimetype=L"" );
 
 	/**
 	* attaches a document specific User Interface to a document
@@ -1688,7 +1688,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUIToDocument( const
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
-Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( const String& mimetype )
+Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( const String& fileName, const String& mimetype )
 {
 	/**
 	* if we create a new document while the current document of 
@@ -1734,6 +1734,11 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 
 
 	if ( NULL != newDocument ) {
+
+		if ( !fileName.empty() ) {
+			newDocument->setFileName( fileName );
+		}
+
 		// calls user implementation
 		newDocument->initNew();
 
@@ -1874,6 +1879,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/10/18 04:42:39  ddiego
+*fixed minor bug in doc manager.
+*
 *Revision 1.4.2.3  2005/10/09 04:32:44  ddiego
 *added some minor fixes in component persistence for vcf builder.
 *
