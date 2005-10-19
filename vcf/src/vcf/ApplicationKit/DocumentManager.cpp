@@ -115,7 +115,9 @@ void DocumentManager::terminate() {
 	std::vector<Document*>::iterator it2 = openDocuments_.begin();
 	while ( it2 != openDocuments_.end() ) {
 		Document* document = *it2;
-		document->release();
+		if ( NULL == document->getOwner() ) {
+			document->release();
+		}
 		it2 ++;
 	}
 }
@@ -613,6 +615,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/10/19 04:25:00  ddiego
+*minor doc view manager update.
+*
 *Revision 1.4.2.5  2005/10/18 04:42:38  ddiego
 *fixed minor bug in doc manager.
 *
