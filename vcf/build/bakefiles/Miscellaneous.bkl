@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <template id="COMSupp_base">
+        <set var="LIBRARY_NAME">comsupp</set>
+
+        <sources>
+            ../build/bcc/missing_libs/comsupp/comsupp.cpp
+            ../build/bcc/missing_libs/comsupp/comutil.cpp
+        </sources>
+    </template>
+
+    <lib id="COMSupp_lib" template="COMSupp_base,vcf_lib" cond="FORMAT=='borland'">
+    </lib>
+
+    <template id="vcf_comsupp_lib">
+        <library cond="FORMAT=='borland'">COMSupp_lib</library>
+    </template>
+
+</makefile>
