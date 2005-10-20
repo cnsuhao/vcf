@@ -14,7 +14,10 @@
     
 
     <add-formats>
+        <!--
         autoconf,borland,dmars_smake,dmars,mingw,msvc,msvc6prj,msevc4prj,watcom,cbuilderx,cbx_unix,gnu,xcode2
+        -->
+        borland,mingw,msvc,msvc6prj,gnu
     </add-formats>
 
     <disable-formats>cbuilderx,cbx_unix</disable-formats>

@@ -135,7 +135,7 @@ clean:
 
 ..\..\bin\xmake.exe: $(XMAKE_OBJECTS) ..\..\lib\libXmake_bcc$(__xmake_lib_SUFFIX_STATIC).lib
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -ap @&&|
-	c0x32.obj $(XMAKE_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib ..\..\lib\libXmake_bcc$(__xmake_lib_SUFFIX_STATIC).lib import32.lib cw32mt$(__RUNTIME_LIBS_16).lib,,
+	c0x32.obj $(XMAKE_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib ..\..\lib\libXmake_bcc$(__xmake_lib_SUFFIX_STATIC).lib import32.lib cw32mt$(__RUNTIME_LIBS_16).lib,,
 |
 
 $(OBJDIR)\xmake_lib_CmdLine.obj: .\CmdLine.cpp

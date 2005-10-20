@@ -123,7 +123,7 @@ clean:
 
 .\ParticleEditor_bcc$(SUFFIX_LIBRARY).exe: $(PARTICLEEDITOR_OBJECTS)
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0x32.obj $(PARTICLEEDITOR_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
+	c0x32.obj $(PARTICLEEDITOR_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
 |
 
 $(OBJDIR)\ParticleEditor_main.obj: .\main.cpp

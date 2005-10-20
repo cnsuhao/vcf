@@ -3,7 +3,7 @@
 <makefile>
     <include file="Win32HTMLBrowserFiles.bkl"/>
 
-    <template id="Win32HTMLBrowser_base">
+    <template id="Win32HTMLBrowser_base" template="vcf_comsupp_lib">
         <set var="LIBRARY_NAME">Win32HTMLBrowser</set>
 
         <headers>$(WIN32HTMLBROWSER_HDR)</headers>
@@ -13,13 +13,13 @@
     </template>
 
     <lib id="Win32HTMLBrowser_lib" template="Win32HTMLBrowser_base,vcf_lib"
-            cond="OPTION_SHARED=='0' and OPTION_APPLICATIONKIT=='1' and PLATFORM_WIN32=='1'">
+            cond="OPTION_SHARED=='0' and OPTION_APPLICATIONKIT=='1' and OPTION_APPLICATIONKIT_ATL=='1' and PLATFORM_WIN32=='1'">
         <depends>Allin1_lib</depends>
         <depends>ApplicationKit_lib</depends>
     </lib>
 
     <dll id="Win32HTMLBrowser_dll" template="Win32HTMLBrowser_base,vcf_dll"
-            cond="OPTION_SHARED=='1' and OPTION_APPLICATIONKIT=='1' and PLATFORM_WIN32=='1'">
+            cond="OPTION_SHARED=='1' and OPTION_APPLICATIONKIT=='1' and OPTION_APPLICATIONKIT_ATL=='1' and PLATFORM_WIN32=='1'">
         <define>WIN32HTMLBROWSER_DLL</define>
         <define>WIN32HTMLBROWSER_EXPORTS</define>
         <depends>Allin1_dll</depends>
@@ -27,7 +27,7 @@
     </dll>
 
     <set var="MSVC6PRJ_MERGED_TARGETS" append="1"
-            cond="OPTION_APPLICATIONKIT=='1' and PLATFORM_WIN32=='1'">
+            cond="OPTION_APPLICATIONKIT=='1' and OPTION_APPLICATIONKIT_ATL=='1' and PLATFORM_WIN32=='1'">
         Win32HTMLBrowser=Win32HTMLBrowser_lib+Win32HTMLBrowser_dll
     </set>
 </makefile>

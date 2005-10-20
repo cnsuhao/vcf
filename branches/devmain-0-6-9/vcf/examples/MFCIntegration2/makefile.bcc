@@ -124,7 +124,7 @@ clean:
 
 .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).exe: $(MFCINTEGRATION2_OBJECTS)  $(OBJDIR)\MFCIntegration2_MFCIntegration2.res
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0w32.obj $(MFCINTEGRATION2_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\MFCIntegration2_MFCIntegration2.res
+	c0w32.obj $(MFCINTEGRATION2_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\MFCIntegration2_MFCIntegration2.res
 |
 
 $(OBJDIR)\MFCIntegration2_ChildView.obj: .\ChildView.cpp

@@ -45,7 +45,8 @@ LDFLAGS =
 OPTION_SHARED = 1
 !endif
 
-# The type of runtime libraries: [default,0,1]
+# The type of runtime libraries.
+# "default" means the same value as OPTION_SHARED: [default,0,1]
 !ifndef OPTION_SHARED_RUNTIME
 OPTION_SHARED_RUNTIME = default
 !endif
@@ -75,6 +76,11 @@ OPTION_GRAPHICSKIT = 1
 OPTION_APPLICATIONKIT = 1
 !endif
 
+# Compile ATL based controls: [0,1]
+!ifndef OPTION_APPLICATIONKIT_ATL
+OPTION_APPLICATIONKIT_ATL = 0
+!endif
+
 # Compile OpenGLKit: [0,1]
 !ifndef OPTION_OPENGLKIT
 OPTION_OPENGLKIT = 1
@@ -88,6 +94,11 @@ OPTION_NETWORKKIT = 1
 # Compile RemoteObjectKit: [0,1]
 !ifndef OPTION_REMOTEOBJECTKIT
 OPTION_REMOTEOBJECTKIT = 1
+!endif
+
+# Compile InternetKit: [0,1]
+!ifndef OPTION_INTERNETKIT
+OPTION_INTERNETKIT = 1
 !endif
 
 # Compile ImageFormats: [0,1]

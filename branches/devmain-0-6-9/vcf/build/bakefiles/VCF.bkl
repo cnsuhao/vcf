@@ -19,14 +19,16 @@
         <dependency-of>all</dependency-of>
     </mkdir>
 
+    <include file="Miscellaneous.bkl"/>
+
     <include file="libAGG.bkl"/>
+    <include file="ZLib.bkl"/>
     <include file="LibJPEG.bkl"/>
     <include file="LibMNG.bkl"/>
     <include file="LibPNG.bkl"/>
     <include file="LibTIFF.bkl"/>
-    <include file="ZLib.bkl"/>
-    <include file="FreeImage.bkl"/>
     <include file="RegExx.bkl"/>
+    <include file="FreeImage.bkl"/>
 
     <include file="FoundationKit.bkl"/>
     <include file="GraphicsKit.bkl"/>
@@ -37,6 +39,7 @@
 
     <include file="NetworkKit.bkl"/>
     <include file="RemoteObjectKit.bkl"/>
+    <include file="InternetKit.bkl"/>
     <include file="ImageFormats.bkl"/>
     <include file="Win32HTMLBrowser.bkl"/>
 
@@ -73,16 +76,6 @@
         <installable>no</installable>
         <dir>../../src/xmake</dir>
         <dependency-of>all</dependency-of>
-    </subproject>
-
-
-    <action id="examples">
-        <is-phony>1</is-phony>
-        <depends>examples_</depends>
-    </action>
-    <subproject id="examples_">
-        <installable>no</installable>
-        <dir>../../examples</dir>
     </subproject>
 
 </makefile>

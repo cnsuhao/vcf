@@ -1,5 +1,4 @@
 <?xml version="1.0" ?>
-
 <makefile>
 
     <set var="GRAPHICSKIT_HDR" hints="files">
@@ -41,6 +40,7 @@
         vcf/GraphicsKit/NoGraphicsToolkitFoundException.h
         vcf/GraphicsKit/Path.h
         vcf/GraphicsKit/PixelFormats.h
+        vcf/GraphicsKit/Pixels.h
         vcf/GraphicsKit/PNGLoader.h
         vcf/GraphicsKit/Point.h
         vcf/GraphicsKit/Printable.h

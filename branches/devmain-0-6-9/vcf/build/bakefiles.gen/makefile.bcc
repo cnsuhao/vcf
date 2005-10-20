@@ -29,11 +29,19 @@ MAKEARGS = -DCC="$(CC)" -DCXX="$(CXX)" -DCFLAGS="$(CFLAGS)" \
 	-DOPTION_FOUNDATIONKIT="$(OPTION_FOUNDATIONKIT)" \
 	-DOPTION_GRAPHICSKIT="$(OPTION_GRAPHICSKIT)" \
 	-DOPTION_APPLICATIONKIT="$(OPTION_APPLICATIONKIT)" \
+	-DOPTION_APPLICATIONKIT_ATL="$(OPTION_APPLICATIONKIT_ATL)" \
 	-DOPTION_OPENGLKIT="$(OPTION_OPENGLKIT)" \
 	-DOPTION_NETWORKKIT="$(OPTION_NETWORKKIT)" \
 	-DOPTION_REMOTEOBJECTKIT="$(OPTION_REMOTEOBJECTKIT)" \
+	-DOPTION_INTERNETKIT="$(OPTION_INTERNETKIT)" \
 	-DOPTION_IMAGEFORMATS="$(OPTION_IMAGEFORMATS)"
 OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+COMSUPP_LIB_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include $(__DEBUG_INFO) \
+	$(__OPTIMIZE) -tWM $(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src \
+	-D_LIB $(CPPFLAGS) $(CXXFLAGS)
+COMSUPP_LIB_OBJECTS =  \
+	$(OBJDIR)\COMSupp_lib_comsupp.obj \
+	$(OBJDIR)\COMSupp_lib_comutil.obj
 LIBAGG_LIB_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
 	-I..\..\src\thirdparty\common\agg\include $(__DEBUG_INFO) $(__OPTIMIZE) \
 	-tWM $(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src -D_LIB \
@@ -65,6 +73,24 @@ LIBAGG_LIB_OBJECTS =  \
 	$(OBJDIR)\libAGG_lib_agg_vcgen_stroke.obj \
 	$(OBJDIR)\libAGG_lib_agg_vpgen_clip_polygon.obj \
 	$(OBJDIR)\libAGG_lib_agg_vpgen_segmentator.obj
+ZLIB_LIB_CFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include $(__DEBUG_INFO) \
+	$(__OPTIMIZE) -tWM $(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src \
+	-D_LIB $(CPPFLAGS) $(CFLAGS)
+ZLIB_LIB_OBJECTS =  \
+	$(OBJDIR)\ZLib_lib_adler32.obj \
+	$(OBJDIR)\ZLib_lib_compress.obj \
+	$(OBJDIR)\ZLib_lib_crc32.obj \
+	$(OBJDIR)\ZLib_lib_deflate.obj \
+	$(OBJDIR)\ZLib_lib_gzio.obj \
+	$(OBJDIR)\ZLib_lib_infblock.obj \
+	$(OBJDIR)\ZLib_lib_infcodes.obj \
+	$(OBJDIR)\ZLib_lib_inffast.obj \
+	$(OBJDIR)\ZLib_lib_inflate.obj \
+	$(OBJDIR)\ZLib_lib_inftrees.obj \
+	$(OBJDIR)\ZLib_lib_infutil.obj \
+	$(OBJDIR)\ZLib_lib_trees.obj \
+	$(OBJDIR)\ZLib_lib_uncompr.obj \
+	$(OBJDIR)\ZLib_lib_zutil.obj
 LIBJPEG_LIB_CFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include $(__DEBUG_INFO) \
 	$(__OPTIMIZE) -tWM $(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src \
 	-D_LIB $(CPPFLAGS) $(CFLAGS)
@@ -196,24 +222,16 @@ LIBTIFF_LIB_OBJECTS =  \
 	$(OBJDIR)\LibTIFF_lib_tif_write.obj \
 	$(OBJDIR)\LibTIFF_lib_tif_zip.obj \
 	$(OBJDIR)\LibTIFF_lib_tif_win32.obj
-ZLIB_LIB_CFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include $(__DEBUG_INFO) \
+REGEXX_LIB_CFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include $(__DEBUG_INFO) \
 	$(__OPTIMIZE) -tWM $(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src \
 	-D_LIB $(CPPFLAGS) $(CFLAGS)
-ZLIB_LIB_OBJECTS =  \
-	$(OBJDIR)\ZLib_lib_adler32.obj \
-	$(OBJDIR)\ZLib_lib_compress.obj \
-	$(OBJDIR)\ZLib_lib_crc32.obj \
-	$(OBJDIR)\ZLib_lib_deflate.obj \
-	$(OBJDIR)\ZLib_lib_gzio.obj \
-	$(OBJDIR)\ZLib_lib_infblock.obj \
-	$(OBJDIR)\ZLib_lib_infcodes.obj \
-	$(OBJDIR)\ZLib_lib_inffast.obj \
-	$(OBJDIR)\ZLib_lib_inflate.obj \
-	$(OBJDIR)\ZLib_lib_inftrees.obj \
-	$(OBJDIR)\ZLib_lib_infutil.obj \
-	$(OBJDIR)\ZLib_lib_trees.obj \
-	$(OBJDIR)\ZLib_lib_uncompr.obj \
-	$(OBJDIR)\ZLib_lib_zutil.obj
+REGEXX_LIB_OBJECTS =  \
+	$(OBJDIR)\RegExx_lib_chartables.obj \
+	$(OBJDIR)\RegExx_lib_get.obj \
+	$(OBJDIR)\RegExx_lib_maketables.obj \
+	$(OBJDIR)\RegExx_lib_pcre.obj \
+	$(OBJDIR)\RegExx_lib_pcreposix.obj \
+	$(OBJDIR)\RegExx_lib_study.obj
 FREEIMAGE_LIB_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
 	-DUSE_LIBMNG_LIB -DUSE_LIBJPEG_LIB -DUSE_LIBPNG_LIB -DUSE_LIBTIFF_LIB \
 	-DUSE_ZLIB_LIB $(__DEBUG_INFO) $(__OPTIMIZE) -tWM $(____OPTION_DEBUG) \
@@ -248,16 +266,6 @@ FREEIMAGE_LIB_OBJECTS =  \
 	$(OBJDIR)\FreeImage_lib_PluginTIFF.obj \
 	$(OBJDIR)\FreeImage_lib_PluginWBMP.obj \
 	$(OBJDIR)\FreeImage_lib_WuQuantizer.obj
-REGEXX_LIB_CFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include $(__DEBUG_INFO) \
-	$(__OPTIMIZE) -tWM $(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src \
-	-D_LIB $(CPPFLAGS) $(CFLAGS)
-REGEXX_LIB_OBJECTS =  \
-	$(OBJDIR)\RegExx_lib_chartables.obj \
-	$(OBJDIR)\RegExx_lib_get.obj \
-	$(OBJDIR)\RegExx_lib_maketables.obj \
-	$(OBJDIR)\RegExx_lib_pcre.obj \
-	$(OBJDIR)\RegExx_lib_pcreposix.obj \
-	$(OBJDIR)\RegExx_lib_study.obj
 FOUNDATIONKIT_LIB_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
 	$(__DEBUG_INFO) $(__OPTIMIZE) -tWM $(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 \
 	-DWIN32 -I..\..\src -D_LIB $(CPPFLAGS) $(CXXFLAGS)
@@ -462,7 +470,7 @@ GRAPHICSKIT_DLL_OBJECTS =  \
 	$(OBJDIR)\GraphicsKit_dll_Win32Image.obj \
 	$(OBJDIR)\GraphicsKit_dll_Win32PrintSession.obj
 APPLICATIONKIT_LIB_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
-	$(__USE_GRAPHICSKIT_p) $(__DEBUG_INFO) $(__OPTIMIZE) -tWM \
+	$(__VCF_NO_ATL_p) $(__USE_GRAPHICSKIT_p) $(__DEBUG_INFO) $(__OPTIMIZE) -tWM \
 	$(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src -D_LIB $(CPPFLAGS) \
 	$(CXXFLAGS)
 APPLICATIONKIT_LIB_OBJECTS =  \
@@ -534,7 +542,6 @@ APPLICATIONKIT_LIB_OBJECTS =  \
 	$(OBJDIR)\ApplicationKit_lib_Frame.obj \
 	$(OBJDIR)\ApplicationKit_lib_HeaderControl.obj \
 	$(OBJDIR)\ApplicationKit_lib_HelpEvent.obj \
-	$(OBJDIR)\ApplicationKit_lib_HTMLBrowserControl.obj \
 	$(OBJDIR)\ApplicationKit_lib_ImageControl.obj \
 	$(OBJDIR)\ApplicationKit_lib_ImageList.obj \
 	$(OBJDIR)\ApplicationKit_lib_ImageListEvent.obj \
@@ -621,9 +628,10 @@ APPLICATIONKIT_LIB_OBJECTS =  \
 	$(OBJDIR)\ApplicationKit_lib_Win32Toolbar.obj \
 	$(OBJDIR)\ApplicationKit_lib_Win32ToolKit.obj \
 	$(OBJDIR)\ApplicationKit_lib_Win32Tree.obj \
-	$(OBJDIR)\ApplicationKit_lib_Win32Window.obj
+	$(OBJDIR)\ApplicationKit_lib_Win32Window.obj \
+	$(____APPLICATIONKIT_ATL_SRC_FILENAMES_OBJECTS)
 APPLICATIONKIT_DLL_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
-	$(__USE_GRAPHICSKIT_p) $(__DEBUG_INFO) $(__OPTIMIZE) -tWM \
+	$(__VCF_NO_ATL_p) $(__USE_GRAPHICSKIT_p) $(__DEBUG_INFO) $(__OPTIMIZE) -tWM \
 	$(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src -D_USRDLL \
 	-DAPPLICATIONKIT_DLL -DAPPLICATIONKIT_EXPORTS $(CPPFLAGS) $(CXXFLAGS)
 APPLICATIONKIT_DLL_OBJECTS =  \
@@ -695,7 +703,6 @@ APPLICATIONKIT_DLL_OBJECTS =  \
 	$(OBJDIR)\ApplicationKit_dll_Frame.obj \
 	$(OBJDIR)\ApplicationKit_dll_HeaderControl.obj \
 	$(OBJDIR)\ApplicationKit_dll_HelpEvent.obj \
-	$(OBJDIR)\ApplicationKit_dll_HTMLBrowserControl.obj \
 	$(OBJDIR)\ApplicationKit_dll_ImageControl.obj \
 	$(OBJDIR)\ApplicationKit_dll_ImageList.obj \
 	$(OBJDIR)\ApplicationKit_dll_ImageListEvent.obj \
@@ -782,7 +789,8 @@ APPLICATIONKIT_DLL_OBJECTS =  \
 	$(OBJDIR)\ApplicationKit_dll_Win32Toolbar.obj \
 	$(OBJDIR)\ApplicationKit_dll_Win32ToolKit.obj \
 	$(OBJDIR)\ApplicationKit_dll_Win32Tree.obj \
-	$(OBJDIR)\ApplicationKit_dll_Win32Window.obj
+	$(OBJDIR)\ApplicationKit_dll_Win32Window.obj \
+	$(____APPLICATIONKIT_ATL_SRC_FILENAMES_1_OBJECTS)
 OPENGLKIT_LIB_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
 	$(__USE_APPLICATIONKIT_p) $(__DEBUG_INFO) $(__OPTIMIZE) -tWM \
 	$(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src -D_LIB $(CPPFLAGS) \
@@ -871,6 +879,22 @@ REMOTEOBJECTKIT_DLL_OBJECTS =  \
 	$(OBJDIR)\RemoteObjectKit_dll_InstanceID.obj \
 	$(OBJDIR)\RemoteObjectKit_dll_Proxy.obj \
 	$(OBJDIR)\RemoteObjectKit_dll_RemoteObjectKit.obj
+INTERNETKIT_LIB_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
+	$(__USE_FOUNDATIONKIT_p) $(__DEBUG_INFO) $(__OPTIMIZE) -tWM \
+	$(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src -D_LIB $(CPPFLAGS) \
+	$(CXXFLAGS)
+INTERNETKIT_LIB_OBJECTS =  \
+	$(OBJDIR)\InternetKit_lib_InternetKit.obj \
+	$(OBJDIR)\InternetKit_lib_InternetToolkit.obj \
+	$(OBJDIR)\InternetKit_lib_Win32InternetToolkit.obj
+INTERNETKIT_DLL_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
+	$(__USE_FOUNDATIONKIT_p) $(__DEBUG_INFO) $(__OPTIMIZE) -tWM \
+	$(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src -D_USRDLL \
+	-DINTERNETKIT_DLL -DINTERNETKIT_EXPORTS $(CPPFLAGS) $(CXXFLAGS)
+INTERNETKIT_DLL_OBJECTS =  \
+	$(OBJDIR)\InternetKit_dll_InternetKit.obj \
+	$(OBJDIR)\InternetKit_dll_InternetToolkit.obj \
+	$(OBJDIR)\InternetKit_dll_Win32InternetToolkit.obj
 IMAGEFORMATS_LIB_CXXFLAGS = $(__RUNTIME_LIBS) -I$(BCCDIR)\include \
 	$(__USE_APPLICATIONKIT_p) -DFREEIMAGE_LIB -DUSE_FREEIMAGE_LIB \
 	$(__DEBUG_INFO) $(__OPTIMIZE) -tWM $(____OPTION_DEBUG) -D_WINDOWS -D_WIN32 \
@@ -917,6 +941,9 @@ SUFFIX_VAR = LIB
 !if "$(OPTION_SHARED)" == "1"
 SUFFIX_VAR = DLL
 !endif
+!if "$(OPTION_IMAGEFORMATS)" == "1"
+__FreeImage_lib___depname = ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib
+!endif
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_FOUNDATIONKIT)" == "1" && "$(OPTION_SHARED)" == "0"
 __FoundationKit_lib___depname = \
 	..\..\lib\FoundationKit_bcc$(lib_SUFFIX_STATIC).lib
@@ -937,9 +964,29 @@ __GraphicsKit_dll___depname = \
 __ApplicationKit_lib___depname = \
 	..\..\lib\ApplicationKit_bcc$(lib_SUFFIX_STATIC).lib
 !endif
+!if "$(OPTION_APPLICATIONKIT_ATL)" == "0"
+____APPLICATIONKIT_ATL_SRC_FILENAMES_OBJECTS = 
+!endif
+!if "$(OPTION_APPLICATIONKIT_ATL)" == "1"
+____APPLICATIONKIT_ATL_SRC_FILENAMES_OBJECTS =  \
+	$(OBJDIR)\ApplicationKit_lib_HTMLBrowserControl.obj
+!endif
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_SHARED)" == "1"
 __ApplicationKit_dll___depname = \
 	..\..\lib\..\bin\ApplicationKit_bcc$(dll_SUFFIX_SHARED).dll
+!endif
+!if "$(OPTION_APPLICATIONKIT_ATL)" == "0"
+____APPLICATIONKIT_ATL_SRC_FILENAMES_1_OBJECTS = 
+!endif
+!if "$(OPTION_APPLICATIONKIT_ATL)" == "1"
+____APPLICATIONKIT_ATL_SRC_FILENAMES_1_OBJECTS =  \
+	$(OBJDIR)\ApplicationKit_dll_HTMLBrowserControl.obj
+!endif
+!if "$(OPTION_APPLICATIONKIT_ATL)" == "0"
+__VCF_NO_ATL_p_2 = -dVCF_NO_ATL
+!endif
+!if "$(OPTION_APPLICATIONKIT_ATL)" == "1"
+__VCF_NO_ATL_p_2 = 
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
 __USE_GRAPHICSKIT_p_2 = -dUSE_GRAPHICSKIT_$(SUFFIX_VAR)
@@ -948,10 +995,10 @@ __USE_GRAPHICSKIT_p_2 = -dUSE_GRAPHICSKIT_$(SUFFIX_VAR)
 __USE_GRAPHICSKIT_p_2 = -dVCF_USE_ALLIN1_$(SUFFIX_VAR)
 !endif
 !if "$(OPTION_DEBUG)" == "0"
-____OPTION_DEBUG_184_p_1 = -dNDEBUG
+____OPTION_DEBUG_197_p_1 = -dNDEBUG
 !endif
 !if "$(OPTION_DEBUG)" == "1"
-____OPTION_DEBUG_184_p_1 = -d_DEBUG
+____OPTION_DEBUG_197_p_1 = -d_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_OPENGLKIT)" == "1" && "$(OPTION_SHARED)" == "0"
 __OpenGLKit_lib___depname = ..\..\lib\OpenGLKit_bcc$(lib_SUFFIX_STATIC).lib
@@ -1104,7 +1151,6 @@ ______Allin1_lib_AK_SRC_FILENAMES_OBJECTS =  \
 	$(OBJDIR)\Allin1_lib_Frame.obj \
 	$(OBJDIR)\Allin1_lib_HeaderControl.obj \
 	$(OBJDIR)\Allin1_lib_HelpEvent.obj \
-	$(OBJDIR)\Allin1_lib_HTMLBrowserControl.obj \
 	$(OBJDIR)\Allin1_lib_ImageControl.obj \
 	$(OBJDIR)\Allin1_lib_ImageList.obj \
 	$(OBJDIR)\Allin1_lib_ImageListEvent.obj \
@@ -1371,7 +1417,6 @@ ______Allin1_dll_AK_SRC_FILENAMES_OBJECTS =  \
 	$(OBJDIR)\Allin1_dll_Frame.obj \
 	$(OBJDIR)\Allin1_dll_HeaderControl.obj \
 	$(OBJDIR)\Allin1_dll_HelpEvent.obj \
-	$(OBJDIR)\Allin1_dll_HTMLBrowserControl.obj \
 	$(OBJDIR)\Allin1_dll_ImageControl.obj \
 	$(OBJDIR)\Allin1_dll_ImageList.obj \
 	$(OBJDIR)\Allin1_dll_ImageListEvent.obj \
@@ -1510,6 +1555,14 @@ __RemoteObjectKit_lib___depname = \
 __RemoteObjectKit_dll___depname = \
 	..\..\lib\..\bin\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED).dll
 !endif
+!if "$(OPTION_INTERNETKIT)" == "1" && "$(OPTION_SHARED)" == "0"
+__InternetKit_lib___depname = \
+	..\..\lib\InternetKit_bcc$(lib_SUFFIX_STATIC).lib
+!endif
+!if "$(OPTION_INTERNETKIT)" == "1" && "$(OPTION_SHARED)" == "1"
+__InternetKit_dll___depname = \
+	..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).dll
+!endif
 !if "$(OPTION_IMAGEFORMATS)" == "1" && "$(OPTION_SHARED)" == "0"
 __ImageFormats_lib___depname = \
 	..\..\lib\ImageFormats_bcc$(lib_SUFFIX_STATIC).lib
@@ -1518,13 +1571,19 @@ __ImageFormats_lib___depname = \
 __ImageFormats_dll___depname = \
 	..\..\lib\..\bin\ImageFormats_bcc$(dll_SUFFIX_SHARED).dll
 !endif
-!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_SHARED)" == "0"
+!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_APPLICATIONKIT_ATL)" == "1" && "$(OPTION_SHARED)" == "0"
 __Win32HTMLBrowser_lib___depname = \
 	..\..\lib\Win32HTMLBrowser_bcc$(lib_SUFFIX_STATIC).lib
 !endif
-!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_SHARED)" == "1"
+!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_APPLICATIONKIT_ATL)" == "1" && "$(OPTION_SHARED)" == "1"
 __Win32HTMLBrowser_dll___depname = \
 	..\..\lib\..\bin\Win32HTMLBrowser_bcc$(dll_SUFFIX_SHARED).dll
+!endif
+!if "$(OPTION_APPLICATIONKIT_ATL)" == "0"
+__VCF_NO_ATL_p = -DVCF_NO_ATL
+!endif
+!if "$(OPTION_APPLICATIONKIT_ATL)" == "1"
+__VCF_NO_ATL_p = 
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
 __USE_GRAPHICSKIT_p = -DUSE_GRAPHICSKIT_$(SUFFIX_VAR)
@@ -1532,17 +1591,17 @@ __USE_GRAPHICSKIT_p = -DUSE_GRAPHICSKIT_$(SUFFIX_VAR)
 !if "$(OPTION_ALLIN1)" == "1"
 __USE_GRAPHICSKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
 !endif
-!if "$(OPTION_ALLIN1)" == "0"
-__USE_FOUNDATIONKIT_p = -DUSE_FOUNDATIONKIT_$(SUFFIX_VAR)
-!endif
-!if "$(OPTION_ALLIN1)" == "1"
-__USE_FOUNDATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
-!endif
 !if "$(OPTION_SHARED)" == "0"
 __USE_NETWORKKIT_p = -DUSE_NETKIT_LIB
 !endif
 !if "$(OPTION_SHARED)" == "1"
 __USE_NETWORKKIT_p = -DUSE_NETKIT_DLL
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+__USE_FOUNDATIONKIT_p = -DUSE_FOUNDATIONKIT_$(SUFFIX_VAR)
+!endif
+!if "$(OPTION_ALLIN1)" == "1"
+__USE_FOUNDATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 lib_SUFFIX_STATIC = _s
@@ -1551,13 +1610,13 @@ lib_SUFFIX_STATIC = _s
 lib_SUFFIX_STATIC = _sd
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
-__RUNTIME_LIBS_7 = 
+__RUNTIME_LIBS_8 = 
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "1"
-__RUNTIME_LIBS_7 = i
+__RUNTIME_LIBS_8 = i
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "default"
-__RUNTIME_LIBS_7 = i
+__RUNTIME_LIBS_8 = i
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 dll_SUFFIX_SHARED = 
@@ -1606,20 +1665,21 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: ..\..\bin ..\..\lib ..\..\lib\libAGG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibJPEG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibMNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibPNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibTIFF_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\RegExx_bcc$(lib_SUFFIX_STATIC).lib $(__FoundationKit_lib___depname) $(__FoundationKit_dll___depname) $(__GraphicsKit_lib___depname) $(__GraphicsKit_dll___depname) $(__ApplicationKit_lib___depname) $(__ApplicationKit_dll___depname) $(__OpenGLKit_lib___depname) $(__OpenGLKit_dll___depname) $(__Allin1_lib___depname) $(__Allin1_dll___depname) $(__NetworkKit_lib___depname) $(__NetworkKit_dll___depname) $(__RemoteObjectKit_lib___depname) $(__RemoteObjectKit_dll___depname) $(__ImageFormats_lib___depname) $(__ImageFormats_dll___depname) $(__Win32HTMLBrowser_lib___depname) $(__Win32HTMLBrowser_dll___depname) createinfo_ CreateBundle_ xmake_
+all: ..\..\bin ..\..\lib ..\..\lib\comsupp_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\libAGG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibJPEG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibMNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibPNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibTIFF_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\RegExx_bcc$(lib_SUFFIX_STATIC).lib $(__FreeImage_lib___depname) $(__FoundationKit_lib___depname) $(__FoundationKit_dll___depname) $(__GraphicsKit_lib___depname) $(__GraphicsKit_dll___depname) $(__ApplicationKit_lib___depname) $(__ApplicationKit_dll___depname) $(__OpenGLKit_lib___depname) $(__OpenGLKit_dll___depname) $(__Allin1_lib___depname) $(__Allin1_dll___depname) $(__NetworkKit_lib___depname) $(__NetworkKit_dll___depname) $(__RemoteObjectKit_lib___depname) $(__RemoteObjectKit_dll___depname) $(__InternetKit_lib___depname) $(__InternetKit_dll___depname) $(__ImageFormats_lib___depname) $(__ImageFormats_dll___depname) $(__Win32HTMLBrowser_lib___depname) $(__Win32HTMLBrowser_dll___depname) createinfo_ CreateBundle_ xmake_
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
+	-if exist ..\..\lib\comsupp_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\comsupp_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\libAGG_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\libAGG_bcc$(lib_SUFFIX_STATIC).lib
+	-if exist ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\LibJPEG_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\LibJPEG_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\LibMNG_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\LibMNG_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\LibPNG_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\LibPNG_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\LibTIFF_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\LibTIFF_bcc$(lib_SUFFIX_STATIC).lib
-	-if exist ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib
-	-if exist ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\RegExx_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\RegExx_bcc$(lib_SUFFIX_STATIC).lib
+	-if exist ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\FoundationKit_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\FoundationKit_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\..\bin\FoundationKit_bcc$(dll_SUFFIX_SHARED).dll del ..\..\lib\..\bin\FoundationKit_bcc$(dll_SUFFIX_SHARED).dll
 	-if exist ..\..\lib\..\bin\FoundationKit_bcc$(dll_SUFFIX_SHARED).tds del ..\..\lib\..\bin\FoundationKit_bcc$(dll_SUFFIX_SHARED).tds
@@ -1676,6 +1736,14 @@ clean:
 	-if exist ..\..\lib\..\bin\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED).ilf del ..\..\lib\..\bin\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED).ilf
 	-if exist ..\..\lib\..\bin\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED).ils del ..\..\lib\..\bin\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED).ils
 	-if exist ..\..\lib\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED).lib del ..\..\lib\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED).lib
+	-if exist ..\..\lib\InternetKit_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\InternetKit_bcc$(lib_SUFFIX_STATIC).lib
+	-if exist ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).dll del ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).dll
+	-if exist ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).tds del ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).tds
+	-if exist ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).ilc del ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).ilc
+	-if exist ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).ild del ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).ild
+	-if exist ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).ilf del ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).ilf
+	-if exist ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).ils del ..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).ils
+	-if exist ..\..\lib\InternetKit_bcc$(dll_SUFFIX_SHARED).lib del ..\..\lib\InternetKit_bcc$(dll_SUFFIX_SHARED).lib
 	-if exist ..\..\lib\ImageFormats_bcc$(lib_SUFFIX_STATIC).lib del ..\..\lib\ImageFormats_bcc$(lib_SUFFIX_STATIC).lib
 	-if exist ..\..\lib\..\bin\ImageFormats_bcc$(dll_SUFFIX_SHARED).dll del ..\..\lib\..\bin\ImageFormats_bcc$(dll_SUFFIX_SHARED).dll
 	-if exist ..\..\lib\..\bin\ImageFormats_bcc$(dll_SUFFIX_SHARED).tds del ..\..\lib\..\bin\ImageFormats_bcc$(dll_SUFFIX_SHARED).tds
@@ -1704,10 +1772,6 @@ clean:
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>$(OBJDIR)\xmake_.bat
 	call $(OBJDIR)\xmake_.bat
 	@del $(OBJDIR)\xmake_.bat
-	@echo cd ..\..\examples >$(OBJDIR)\examples_.bat
-	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>$(OBJDIR)\examples_.bat
-	call $(OBJDIR)\examples_.bat
-	@del $(OBJDIR)\examples_.bat
 
 ..\..\bin: 
 	if not exist ..\..\bin mkdir ..\..\bin
@@ -1715,10 +1779,22 @@ clean:
 ..\..\lib: 
 	if not exist ..\..\lib mkdir ..\..\lib
 
+..\..\lib\comsupp_bcc$(lib_SUFFIX_STATIC).lib: $(COMSUPP_LIB_OBJECTS)
+	if exist $@ del $@
+	tlib /a /p4096 $@ @&&|
+	$(COMSUPP_LIB_OBJECTS)
+|
+
 ..\..\lib\libAGG_bcc$(lib_SUFFIX_STATIC).lib: $(LIBAGG_LIB_OBJECTS)
 	if exist $@ del $@
 	tlib /a /p4096 $@ @&&|
 	$(LIBAGG_LIB_OBJECTS)
+|
+
+..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib: $(ZLIB_LIB_OBJECTS)
+	if exist $@ del $@
+	tlib /a /p4096 $@ @&&|
+	$(ZLIB_LIB_OBJECTS)
 |
 
 ..\..\lib\LibJPEG_bcc$(lib_SUFFIX_STATIC).lib: $(LIBJPEG_LIB_OBJECTS)
@@ -1745,23 +1821,19 @@ clean:
 	$(LIBTIFF_LIB_OBJECTS)
 |
 
-..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib: $(ZLIB_LIB_OBJECTS)
-	if exist $@ del $@
-	tlib /a /p4096 $@ @&&|
-	$(ZLIB_LIB_OBJECTS)
-|
-
-..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib: $(FREEIMAGE_LIB_OBJECTS) ..\..\lib\LibMNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibJPEG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibPNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibTIFF_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib
-	if exist $@ del $@
-	tlib /a /p4096 $@ @&&|
-	$(FREEIMAGE_LIB_OBJECTS)
-|
-
 ..\..\lib\RegExx_bcc$(lib_SUFFIX_STATIC).lib: $(REGEXX_LIB_OBJECTS)
 	if exist $@ del $@
 	tlib /a /p4096 $@ @&&|
 	$(REGEXX_LIB_OBJECTS)
 |
+
+!if "$(OPTION_IMAGEFORMATS)" == "1"
+..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib: $(FREEIMAGE_LIB_OBJECTS) ..\..\lib\LibMNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibJPEG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibPNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibTIFF_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib
+	if exist $@ del $@
+	tlib /a /p4096 $@ @&&|
+	$(FREEIMAGE_LIB_OBJECTS)
+|
+!endif
 
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_FOUNDATIONKIT)" == "1" && "$(OPTION_SHARED)" == "0"
 ..\..\lib\FoundationKit_bcc$(lib_SUFFIX_STATIC).lib: $(FOUNDATIONKIT_LIB_OBJECTS)
@@ -1774,7 +1846,7 @@ clean:
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_FOUNDATIONKIT)" == "1" && "$(OPTION_SHARED)" == "1"
 ..\..\lib\..\bin\FoundationKit_bcc$(dll_SUFFIX_SHARED).dll: $(FOUNDATIONKIT_DLL_OBJECTS)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(FOUNDATIONKIT_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,,
+	c0d32.obj $(FOUNDATIONKIT_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\FoundationKit_bcc$(dll_SUFFIX_SHARED) $@
 !endif
@@ -1790,7 +1862,7 @@ clean:
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_GRAPHICSKIT)" == "1" && "$(OPTION_SHARED)" == "1"
 ..\..\lib\..\bin\GraphicsKit_bcc$(dll_SUFFIX_SHARED).dll: $(GRAPHICSKIT_DLL_OBJECTS) ..\..\lib\libAGG_bcc$(lib_SUFFIX_STATIC).lib $(__FoundationKit_dll___depname)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(GRAPHICSKIT_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,,
+	c0d32.obj $(GRAPHICSKIT_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\GraphicsKit_bcc$(dll_SUFFIX_SHARED) $@
 !endif
@@ -1806,7 +1878,7 @@ clean:
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_SHARED)" == "1"
 ..\..\lib\..\bin\ApplicationKit_bcc$(dll_SUFFIX_SHARED).dll: $(APPLICATIONKIT_DLL_OBJECTS)  $(OBJDIR)\ApplicationKit_dll_ApplicationKit.res $(__GraphicsKit_dll___depname)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(APPLICATIONKIT_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,, $(OBJDIR)\ApplicationKit_dll_ApplicationKit.res
+	c0d32.obj $(APPLICATIONKIT_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,, $(OBJDIR)\ApplicationKit_dll_ApplicationKit.res
 |
 	implib -f ..\..\lib\ApplicationKit_bcc$(dll_SUFFIX_SHARED) $@
 !endif
@@ -1822,7 +1894,7 @@ clean:
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_OPENGLKIT)" == "1" && "$(OPTION_SHARED)" == "1"
 ..\..\lib\..\bin\OpenGLKit_bcc$(dll_SUFFIX_SHARED).dll: $(OPENGLKIT_DLL_OBJECTS) $(__ApplicationKit_dll___depname)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(OPENGLKIT_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,,
+	c0d32.obj $(OPENGLKIT_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\OpenGLKit_bcc$(dll_SUFFIX_SHARED) $@
 !endif
@@ -1838,7 +1910,7 @@ clean:
 !if "$(OPTION_ALLIN1)" == "1" && "$(OPTION_SHARED)" == "1"
 ..\..\lib\..\bin\VCF_bcc$(dll_SUFFIX_SHARED).dll: $(ALLIN1_DLL_OBJECTS) ..\..\lib\libAGG_bcc$(lib_SUFFIX_STATIC).lib
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(ALLIN1_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,,
+	c0d32.obj $(ALLIN1_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\VCF_bcc$(dll_SUFFIX_SHARED) $@
 !endif
@@ -1854,7 +1926,7 @@ clean:
 !if "$(OPTION_NETWORKKIT)" == "1" && "$(OPTION_SHARED)" == "1"
 ..\..\lib\..\bin\NetworkKit_bcc$(dll_SUFFIX_SHARED).dll: $(NETWORKKIT_DLL_OBJECTS) $(__Allin1_dll___depname) $(__FoundationKit_dll___depname)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(NETWORKKIT_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,,
+	c0d32.obj $(NETWORKKIT_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\NetworkKit_bcc$(dll_SUFFIX_SHARED) $@
 !endif
@@ -1870,13 +1942,29 @@ clean:
 !if "$(OPTION_REMOTEOBJECTKIT)" == "1" && "$(OPTION_SHARED)" == "1"
 ..\..\lib\..\bin\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED).dll: $(REMOTEOBJECTKIT_DLL_OBJECTS) $(__Allin1_dll___depname) $(__NetworkKit_dll___depname)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(REMOTEOBJECTKIT_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,,
+	c0d32.obj $(REMOTEOBJECTKIT_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\RemoteObjectKit_bcc$(dll_SUFFIX_SHARED) $@
 !endif
 
+!if "$(OPTION_INTERNETKIT)" == "1" && "$(OPTION_SHARED)" == "0"
+..\..\lib\InternetKit_bcc$(lib_SUFFIX_STATIC).lib: $(INTERNETKIT_LIB_OBJECTS) $(__Allin1_lib___depname) $(__FoundationKit_lib___depname)
+	if exist $@ del $@
+	tlib /a /p4096 $@ @&&|
+	$(INTERNETKIT_LIB_OBJECTS)
+|
+!endif
+
+!if "$(OPTION_INTERNETKIT)" == "1" && "$(OPTION_SHARED)" == "1"
+..\..\lib\..\bin\InternetKit_bcc$(dll_SUFFIX_SHARED).dll: $(INTERNETKIT_DLL_OBJECTS) $(__Allin1_dll___depname) $(__FoundationKit_dll___depname)
+	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
+	c0d32.obj $(INTERNETKIT_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
+|
+	implib -f ..\..\lib\InternetKit_bcc$(dll_SUFFIX_SHARED) $@
+!endif
+
 !if "$(OPTION_IMAGEFORMATS)" == "1" && "$(OPTION_SHARED)" == "0"
-..\..\lib\ImageFormats_bcc$(lib_SUFFIX_STATIC).lib: $(IMAGEFORMATS_LIB_OBJECTS) ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib $(__Allin1_lib___depname) $(__ApplicationKit_lib___depname)
+..\..\lib\ImageFormats_bcc$(lib_SUFFIX_STATIC).lib: $(IMAGEFORMATS_LIB_OBJECTS) $(__FreeImage_lib___depname) $(__Allin1_lib___depname) $(__ApplicationKit_lib___depname)
 	if exist $@ del $@
 	tlib /a /p4096 $@ @&&|
 	$(IMAGEFORMATS_LIB_OBJECTS)
@@ -1884,46 +1972,64 @@ clean:
 !endif
 
 !if "$(OPTION_IMAGEFORMATS)" == "1" && "$(OPTION_SHARED)" == "1"
-..\..\lib\..\bin\ImageFormats_bcc$(dll_SUFFIX_SHARED).dll: $(IMAGEFORMATS_DLL_OBJECTS) ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib $(__Allin1_dll___depname) $(__ApplicationKit_dll___depname)
+..\..\lib\..\bin\ImageFormats_bcc$(dll_SUFFIX_SHARED).dll: $(IMAGEFORMATS_DLL_OBJECTS) $(__FreeImage_lib___depname) $(__Allin1_dll___depname) $(__ApplicationKit_dll___depname)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(IMAGEFORMATS_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,,
+	c0d32.obj $(IMAGEFORMATS_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\ImageFormats_bcc$(dll_SUFFIX_SHARED) $@
 !endif
 
-!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_SHARED)" == "0"
-..\..\lib\Win32HTMLBrowser_bcc$(lib_SUFFIX_STATIC).lib: $(WIN32HTMLBROWSER_LIB_OBJECTS) $(__Allin1_lib___depname) $(__ApplicationKit_lib___depname)
+!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_APPLICATIONKIT_ATL)" == "1" && "$(OPTION_SHARED)" == "0"
+..\..\lib\Win32HTMLBrowser_bcc$(lib_SUFFIX_STATIC).lib: $(WIN32HTMLBROWSER_LIB_OBJECTS) ..\..\lib\comsupp_bcc$(lib_SUFFIX_STATIC).lib $(__Allin1_lib___depname) $(__ApplicationKit_lib___depname)
 	if exist $@ del $@
 	tlib /a /p4096 $@ @&&|
 	$(WIN32HTMLBROWSER_LIB_OBJECTS)
 |
 !endif
 
-!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_SHARED)" == "1"
-..\..\lib\..\bin\Win32HTMLBrowser_bcc$(dll_SUFFIX_SHARED).dll: $(WIN32HTMLBROWSER_DLL_OBJECTS) $(__Allin1_dll___depname) $(__ApplicationKit_dll___depname)
+!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_APPLICATIONKIT_ATL)" == "1" && "$(OPTION_SHARED)" == "1"
+..\..\lib\..\bin\Win32HTMLBrowser_bcc$(dll_SUFFIX_SHARED).dll: $(WIN32HTMLBROWSER_DLL_OBJECTS) ..\..\lib\comsupp_bcc$(lib_SUFFIX_STATIC).lib $(__Allin1_dll___depname) $(__ApplicationKit_dll___depname)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(WIN32HTMLBROWSER_DLL_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_7).lib,,
+	c0d32.obj $(WIN32HTMLBROWSER_DLL_OBJECTS),$@,, ..\..\lib\comsupp_bcc$(lib_SUFFIX_STATIC).lib ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\Win32HTMLBrowser_bcc$(dll_SUFFIX_SHARED) $@
 !endif
 
-thirdparty: ..\..\lib\libAGG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibJPEG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibMNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibPNG_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\LibTIFF_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\ZLib_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\FreeImage_bcc$(lib_SUFFIX_STATIC).lib ..\..\lib\RegExx_bcc$(lib_SUFFIX_STATIC).lib
-
+!if "$(OPTION_FOUNDATIONKIT)" == "1"
 FoundationKit: $(__FoundationKit_lib___depname) $(__FoundationKit_dll___depname)
+!endif
 
+!if "$(OPTION_GRAPHICSKIT)" == "1"
 GraphicsKit: $(__GraphicsKit_lib___depname) $(__GraphicsKit_dll___depname)
+!endif
 
+!if "$(OPTION_APPLICATIONKIT)" == "1"
 ApplicationKit: $(__ApplicationKit_lib___depname) $(__ApplicationKit_dll___depname)
+!endif
 
-OpenGLKit: $(__OpenGLKit_lib___depname) $(__OpenGLKit_dll___depname)
-
-NetworkKit: $(__NetworkKit_lib___depname) $(__NetworkKit_dll___depname)
-
-RemoteObjectKit: $(__RemoteObjectKit_lib___depname) $(__RemoteObjectKit_dll___depname)
-
-ImageFormats: $(__ImageFormats_lib___depname) $(__ImageFormats_dll___depname)
-
+!if "$(OPTION_APPLICATIONKIT)" == "1" && "$(OPTION_APPLICATIONKIT_ATL)" == "1"
 Win32HTMLBrowser: $(__Win32HTMLBrowser_lib___depname) $(__Win32HTMLBrowser_dll___depname)
+!endif
+
+!if "$(OPTION_OPENGLKIT)" == "1"
+OpenGLKit: $(__OpenGLKit_lib___depname) $(__OpenGLKit_dll___depname)
+!endif
+
+!if "$(OPTION_NETWORKKIT)" == "1"
+NetworkKit: $(__NetworkKit_lib___depname) $(__NetworkKit_dll___depname)
+!endif
+
+!if "$(OPTION_REMOTEOBJECTKIT)" == "1"
+RemoteObjectKit: $(__RemoteObjectKit_lib___depname) $(__RemoteObjectKit_dll___depname)
+!endif
+
+!if "$(OPTION_INTERNETKIT)" == "1"
+InternetKit: $(__InternetKit_lib___depname) $(__InternetKit_dll___depname)
+!endif
+
+!if "$(OPTION_IMAGEFORMATS)" == "1"
+ImageFormats: $(__ImageFormats_lib___depname) $(__ImageFormats_dll___depname)
+!endif
 
 createinfo: createinfo_
 
@@ -1949,13 +2055,11 @@ xmake_:
 	call $(OBJDIR)\xmake_.bat
 	@del $(OBJDIR)\xmake_.bat
 
-examples: examples_
+$(OBJDIR)\COMSupp_lib_comsupp.obj: ..\..\src\..\build\bcc\missing_libs\comsupp\comsupp.cpp
+	$(CXX) -q -c -P -o$@ $(COMSUPP_LIB_CXXFLAGS) $**
 
-examples_: 
-	@echo cd ..\..\examples >$(OBJDIR)\examples_.bat
-	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>$(OBJDIR)\examples_.bat
-	call $(OBJDIR)\examples_.bat
-	@del $(OBJDIR)\examples_.bat
+$(OBJDIR)\COMSupp_lib_comutil.obj: ..\..\src\..\build\bcc\missing_libs\comsupp\comutil.cpp
+	$(CXX) -q -c -P -o$@ $(COMSUPP_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\libAGG_lib_agg_arc.obj: ..\..\src\thirdparty\common\agg\src\agg_arc.cpp
 	$(CXX) -q -c -P -o$@ $(LIBAGG_LIB_CXXFLAGS) $**
@@ -2034,6 +2138,48 @@ $(OBJDIR)\libAGG_lib_agg_vpgen_clip_polygon.obj: ..\..\src\thirdparty\common\agg
 
 $(OBJDIR)\libAGG_lib_agg_vpgen_segmentator.obj: ..\..\src\thirdparty\common\agg\src\agg_vpgen_segmentator.cpp
 	$(CXX) -q -c -P -o$@ $(LIBAGG_LIB_CXXFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_adler32.obj: ..\..\src\thirdparty\common\ZLib\adler32.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_compress.obj: ..\..\src\thirdparty\common\ZLib\compress.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_crc32.obj: ..\..\src\thirdparty\common\ZLib\crc32.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_deflate.obj: ..\..\src\thirdparty\common\ZLib\deflate.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_gzio.obj: ..\..\src\thirdparty\common\ZLib\gzio.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_infblock.obj: ..\..\src\thirdparty\common\ZLib\infblock.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_infcodes.obj: ..\..\src\thirdparty\common\ZLib\infcodes.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_inffast.obj: ..\..\src\thirdparty\common\ZLib\inffast.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_inflate.obj: ..\..\src\thirdparty\common\ZLib\inflate.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_inftrees.obj: ..\..\src\thirdparty\common\ZLib\inftrees.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_infutil.obj: ..\..\src\thirdparty\common\ZLib\infutil.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_trees.obj: ..\..\src\thirdparty\common\ZLib\trees.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_uncompr.obj: ..\..\src\thirdparty\common\ZLib\uncompr.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+
+$(OBJDIR)\ZLib_lib_zutil.obj: ..\..\src\thirdparty\common\ZLib\zutil.c
+	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
 
 $(OBJDIR)\LibJPEG_lib_jcapimin.obj: ..\..\src\thirdparty\common\LibJPEG\jcapimin.c
 	$(CC) -q -c -P- -o$@ $(LIBJPEG_LIB_CFLAGS) $**
@@ -2380,47 +2526,23 @@ $(OBJDIR)\LibTIFF_lib_tif_zip.obj: ..\..\src\thirdparty\common\FreeImage\Source\
 $(OBJDIR)\LibTIFF_lib_tif_win32.obj: ..\..\src\thirdparty\common\FreeImage\Source\LibTIFF\tif_win32.c
 	$(CC) -q -c -P- -o$@ $(LIBTIFF_LIB_CFLAGS) $**
 
-$(OBJDIR)\ZLib_lib_adler32.obj: ..\..\src\thirdparty\common\ZLib\adler32.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+$(OBJDIR)\RegExx_lib_chartables.obj: ..\..\src\thirdparty\common\pcre\chartables.c
+	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
 
-$(OBJDIR)\ZLib_lib_compress.obj: ..\..\src\thirdparty\common\ZLib\compress.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+$(OBJDIR)\RegExx_lib_get.obj: ..\..\src\thirdparty\common\pcre\get.c
+	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
 
-$(OBJDIR)\ZLib_lib_crc32.obj: ..\..\src\thirdparty\common\ZLib\crc32.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+$(OBJDIR)\RegExx_lib_maketables.obj: ..\..\src\thirdparty\common\pcre\maketables.c
+	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
 
-$(OBJDIR)\ZLib_lib_deflate.obj: ..\..\src\thirdparty\common\ZLib\deflate.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+$(OBJDIR)\RegExx_lib_pcre.obj: ..\..\src\thirdparty\common\pcre\pcre.c
+	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
 
-$(OBJDIR)\ZLib_lib_gzio.obj: ..\..\src\thirdparty\common\ZLib\gzio.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+$(OBJDIR)\RegExx_lib_pcreposix.obj: ..\..\src\thirdparty\common\pcre\pcreposix.c
+	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
 
-$(OBJDIR)\ZLib_lib_infblock.obj: ..\..\src\thirdparty\common\ZLib\infblock.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
-
-$(OBJDIR)\ZLib_lib_infcodes.obj: ..\..\src\thirdparty\common\ZLib\infcodes.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
-
-$(OBJDIR)\ZLib_lib_inffast.obj: ..\..\src\thirdparty\common\ZLib\inffast.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
-
-$(OBJDIR)\ZLib_lib_inflate.obj: ..\..\src\thirdparty\common\ZLib\inflate.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
-
-$(OBJDIR)\ZLib_lib_inftrees.obj: ..\..\src\thirdparty\common\ZLib\inftrees.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
-
-$(OBJDIR)\ZLib_lib_infutil.obj: ..\..\src\thirdparty\common\ZLib\infutil.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
-
-$(OBJDIR)\ZLib_lib_trees.obj: ..\..\src\thirdparty\common\ZLib\trees.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
-
-$(OBJDIR)\ZLib_lib_uncompr.obj: ..\..\src\thirdparty\common\ZLib\uncompr.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
-
-$(OBJDIR)\ZLib_lib_zutil.obj: ..\..\src\thirdparty\common\ZLib\zutil.c
-	$(CC) -q -c -P- -o$@ $(ZLIB_LIB_CFLAGS) $**
+$(OBJDIR)\RegExx_lib_study.obj: ..\..\src\thirdparty\common\pcre\study.c
+	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
 
 $(OBJDIR)\FreeImage_lib_BitmapAccess.obj: ..\..\src\thirdparty\common\FreeImage\Source\FreeImage\BitmapAccess.cpp
 	$(CXX) -q -c -P -o$@ $(FREEIMAGE_LIB_CXXFLAGS) $**
@@ -2508,24 +2630,6 @@ $(OBJDIR)\FreeImage_lib_PluginWBMP.obj: ..\..\src\thirdparty\common\FreeImage\So
 
 $(OBJDIR)\FreeImage_lib_WuQuantizer.obj: ..\..\src\thirdparty\common\FreeImage\Source\FreeImage\WuQuantizer.cpp
 	$(CXX) -q -c -P -o$@ $(FREEIMAGE_LIB_CXXFLAGS) $**
-
-$(OBJDIR)\RegExx_lib_chartables.obj: ..\..\src\thirdparty\common\pcre\chartables.c
-	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
-
-$(OBJDIR)\RegExx_lib_get.obj: ..\..\src\thirdparty\common\pcre\get.c
-	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
-
-$(OBJDIR)\RegExx_lib_maketables.obj: ..\..\src\thirdparty\common\pcre\maketables.c
-	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
-
-$(OBJDIR)\RegExx_lib_pcre.obj: ..\..\src\thirdparty\common\pcre\pcre.c
-	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
-
-$(OBJDIR)\RegExx_lib_pcreposix.obj: ..\..\src\thirdparty\common\pcre\pcreposix.c
-	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
-
-$(OBJDIR)\RegExx_lib_study.obj: ..\..\src\thirdparty\common\pcre\study.c
-	$(CC) -q -c -P- -o$@ $(REGEXX_LIB_CFLAGS) $**
 
 $(OBJDIR)\FoundationKit_lib_BasicException.obj: ..\..\src\vcf\FoundationKit\BasicException.cpp
 	$(CXX) -q -c -P -o$@ $(FOUNDATIONKIT_LIB_CXXFLAGS) $**
@@ -3283,9 +3387,6 @@ $(OBJDIR)\ApplicationKit_lib_HeaderControl.obj: ..\..\src\vcf\ApplicationKit\Hea
 $(OBJDIR)\ApplicationKit_lib_HelpEvent.obj: ..\..\src\vcf\ApplicationKit\HelpEvent.cpp
 	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
-$(OBJDIR)\ApplicationKit_lib_HTMLBrowserControl.obj: ..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
-	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
-
 $(OBJDIR)\ApplicationKit_lib_ImageControl.obj: ..\..\src\vcf\ApplicationKit\ImageControl.cpp
 	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
@@ -3547,6 +3648,9 @@ $(OBJDIR)\ApplicationKit_lib_Win32Tree.obj: ..\..\src\vcf\ApplicationKit\Win32Tr
 $(OBJDIR)\ApplicationKit_lib_Win32Window.obj: ..\..\src\vcf\ApplicationKit\Win32Window.cpp
 	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
 
+$(OBJDIR)\ApplicationKit_lib_HTMLBrowserControl.obj: ..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
+	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_LIB_CXXFLAGS) $**
+
 $(OBJDIR)\ApplicationKit_dll_AbstractApplication.obj: ..\..\src\vcf\ApplicationKit\AbstractApplication.cpp
 	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
@@ -3749,9 +3853,6 @@ $(OBJDIR)\ApplicationKit_dll_HeaderControl.obj: ..\..\src\vcf\ApplicationKit\Hea
 	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\ApplicationKit_dll_HelpEvent.obj: ..\..\src\vcf\ApplicationKit\HelpEvent.cpp
-	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
-
-$(OBJDIR)\ApplicationKit_dll_HTMLBrowserControl.obj: ..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
 	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\ApplicationKit_dll_ImageControl.obj: ..\..\src\vcf\ApplicationKit\ImageControl.cpp
@@ -4015,8 +4116,11 @@ $(OBJDIR)\ApplicationKit_dll_Win32Tree.obj: ..\..\src\vcf\ApplicationKit\Win32Tr
 $(OBJDIR)\ApplicationKit_dll_Win32Window.obj: ..\..\src\vcf\ApplicationKit\Win32Window.cpp
 	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
+$(OBJDIR)\ApplicationKit_dll_HTMLBrowserControl.obj: ..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
+	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
+
 $(OBJDIR)\ApplicationKit_dll_ApplicationKit.res: ..\..\src\..\build\resources\win32\ApplicationKit.rc
-	brcc32 -32 -r -fo$@ -i$(BCCDIR)\include $(__USE_GRAPHICSKIT_p_2) $(____OPTION_DEBUG_184_p_1) -d_WINDOWS -d_WIN32 -dWIN32 -i..\..\src -d_USRDLL -dAPPLICATIONKIT_DLL -dAPPLICATIONKIT_EXPORTS $**
+	brcc32 -32 -r -fo$@ -i$(BCCDIR)\include $(__VCF_NO_ATL_p_2) $(__USE_GRAPHICSKIT_p_2) $(____OPTION_DEBUG_197_p_1) -d_WINDOWS -d_WIN32 -dWIN32 -i..\..\src -d_USRDLL -dAPPLICATIONKIT_DLL -dAPPLICATIONKIT_EXPORTS $**
 
 $(OBJDIR)\OpenGLKit_lib_OpenGLControl.obj: ..\..\src\vcf\OpenGLKit\OpenGLControl.cpp
 	$(CXX) -q -c -P -o$@ $(OPENGLKIT_LIB_CXXFLAGS) $**
@@ -4448,9 +4552,6 @@ $(OBJDIR)\Allin1_lib_HeaderControl.obj: ..\..\src\vcf\ApplicationKit\HeaderContr
 	$(CXX) -q -c -P -o$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\Allin1_lib_HelpEvent.obj: ..\..\src\vcf\ApplicationKit\HelpEvent.cpp
-	$(CXX) -q -c -P -o$@ $(ALLIN1_LIB_CXXFLAGS) $**
-
-$(OBJDIR)\Allin1_lib_HTMLBrowserControl.obj: ..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
 	$(CXX) -q -c -P -o$@ $(ALLIN1_LIB_CXXFLAGS) $**
 
 $(OBJDIR)\Allin1_lib_ImageControl.obj: ..\..\src\vcf\ApplicationKit\ImageControl.cpp
@@ -5206,9 +5307,6 @@ $(OBJDIR)\Allin1_dll_HeaderControl.obj: ..\..\src\vcf\ApplicationKit\HeaderContr
 $(OBJDIR)\Allin1_dll_HelpEvent.obj: ..\..\src\vcf\ApplicationKit\HelpEvent.cpp
 	$(CXX) -q -c -P -o$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
-$(OBJDIR)\Allin1_dll_HTMLBrowserControl.obj: ..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
-	$(CXX) -q -c -P -o$@ $(ALLIN1_DLL_CXXFLAGS) $**
-
 $(OBJDIR)\Allin1_dll_ImageControl.obj: ..\..\src\vcf\ApplicationKit\ImageControl.cpp
 	$(CXX) -q -c -P -o$@ $(ALLIN1_DLL_CXXFLAGS) $**
 
@@ -5655,6 +5753,24 @@ $(OBJDIR)\RemoteObjectKit_dll_Proxy.obj: ..\..\src\vcf\RemoteObjectKit\Proxy.cpp
 
 $(OBJDIR)\RemoteObjectKit_dll_RemoteObjectKit.obj: ..\..\src\vcf\RemoteObjectKit\RemoteObjectKit.cpp
 	$(CXX) -q -c -P -o$@ $(REMOTEOBJECTKIT_DLL_CXXFLAGS) $**
+
+$(OBJDIR)\InternetKit_lib_InternetKit.obj: ..\..\src\vcf\InternetKit\InternetKit.cpp
+	$(CXX) -q -c -P -o$@ $(INTERNETKIT_LIB_CXXFLAGS) $**
+
+$(OBJDIR)\InternetKit_lib_InternetToolkit.obj: ..\..\src\vcf\InternetKit\InternetToolkit.cpp
+	$(CXX) -q -c -P -o$@ $(INTERNETKIT_LIB_CXXFLAGS) $**
+
+$(OBJDIR)\InternetKit_lib_Win32InternetToolkit.obj: ..\..\src\vcf\InternetKit\Win32InternetToolkit.cpp
+	$(CXX) -q -c -P -o$@ $(INTERNETKIT_LIB_CXXFLAGS) $**
+
+$(OBJDIR)\InternetKit_dll_InternetKit.obj: ..\..\src\vcf\InternetKit\InternetKit.cpp
+	$(CXX) -q -c -P -o$@ $(INTERNETKIT_DLL_CXXFLAGS) $**
+
+$(OBJDIR)\InternetKit_dll_InternetToolkit.obj: ..\..\src\vcf\InternetKit\InternetToolkit.cpp
+	$(CXX) -q -c -P -o$@ $(INTERNETKIT_DLL_CXXFLAGS) $**
+
+$(OBJDIR)\InternetKit_dll_Win32InternetToolkit.obj: ..\..\src\vcf\InternetKit\Win32InternetToolkit.cpp
+	$(CXX) -q -c -P -o$@ $(INTERNETKIT_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\ImageFormats_lib_ImageFormats.obj: ..\..\src\ImageFormats\ImageFormats.cpp
 	$(CXX) -q -c -P -o$@ $(IMAGEFORMATS_LIB_CXXFLAGS) $**

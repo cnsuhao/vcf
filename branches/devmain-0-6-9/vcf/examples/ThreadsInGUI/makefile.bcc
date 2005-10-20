@@ -114,7 +114,7 @@ clean:
 
 .\ThreadsInGUI_bcc$(SUFFIX_LIBRARY).exe: $(THREADSINGUI_OBJECTS)
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0x32.obj $(THREADSINGUI_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
+	c0x32.obj $(THREADSINGUI_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
 |
 
 $(OBJDIR)\ThreadsInGUI_ThreadsInGUI.obj: .\ThreadsInGUI.cpp
