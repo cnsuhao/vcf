@@ -14,6 +14,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "ZLib_lib"=VCF_ZLib_lib.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "LibJPEG_lib"=VCF_LibJPEG_lib.dsp - Package Owner=<4>
 
 Package=<5>
@@ -62,7 +74,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "ZLib_lib"=VCF_ZLib_lib.dsp - Package Owner=<4>
+Project: "RegExx_lib"=VCF_RegExx_lib.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -97,18 +109,6 @@ End Project Dependency
 Begin Project Dependency
 Project_Dep_Name ZLib_lib
 End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "RegExx_lib"=VCF_RegExx_lib.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
 }}}
 
 ###############################################################################
@@ -198,6 +198,21 @@ Package=<4>
 {{{
 Begin Project Dependency
 Project_Dep_Name NetworkKit
+End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "InternetKit"=VCF_InternetKit.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+Begin Project Dependency
+Project_Dep_Name FoundationKit
 End Project Dependency
 }}}
 

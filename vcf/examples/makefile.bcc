@@ -29,9 +29,11 @@ MAKEARGS = -DCC="$(CC)" -DCXX="$(CXX)" -DCFLAGS="$(CFLAGS)" \
 	-DOPTION_FOUNDATIONKIT="$(OPTION_FOUNDATIONKIT)" \
 	-DOPTION_GRAPHICSKIT="$(OPTION_GRAPHICSKIT)" \
 	-DOPTION_APPLICATIONKIT="$(OPTION_APPLICATIONKIT)" \
+	-DOPTION_APPLICATIONKIT_ATL="$(OPTION_APPLICATIONKIT_ATL)" \
 	-DOPTION_OPENGLKIT="$(OPTION_OPENGLKIT)" \
 	-DOPTION_NETWORKKIT="$(OPTION_NETWORKKIT)" \
 	-DOPTION_REMOTEOBJECTKIT="$(OPTION_REMOTEOBJECTKIT)" \
+	-DOPTION_INTERNETKIT="$(OPTION_INTERNETKIT)" \
 	-DOPTION_IMAGEFORMATS="$(OPTION_IMAGEFORMATS)"
 
 ### Conditionally set variables: ###
@@ -40,7 +42,7 @@ MAKEARGS = -DCC="$(CC)" -DCXX="$(CXX)" -DCFLAGS="$(CFLAGS)" \
 
 ### Targets: ###
 
-all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer Labels ListBox Localization MFCIntegration1 MFCIntegration2 MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout ThreadBasics ThreadsInGUI Toolbars Transformations TreeListControls VisualFormFiles WorkingWithEnumerators QTPlayer
+all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer Labels ListBox Localization MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout ThreadBasics ThreadsInGUI Toolbars Transformations TreeListControls VisualFormFiles WorkingWithEnumerators
 
 clean: 
 	-if exist .\*.obj del .\*.obj
@@ -198,14 +200,6 @@ clean:
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>Localization.bat
 	call Localization.bat
 	@del Localization.bat
-	@echo cd MFCIntegration1 >MFCIntegration1.bat
-	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>MFCIntegration1.bat
-	call MFCIntegration1.bat
-	@del MFCIntegration1.bat
-	@echo cd MFCIntegration2 >MFCIntegration2.bat
-	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>MFCIntegration2.bat
-	call MFCIntegration2.bat
-	@del MFCIntegration2.bat
 	@echo cd MVCBasics >MVCBasics.bat
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>MVCBasics.bat
 	call MVCBasics.bat
@@ -318,10 +312,6 @@ clean:
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>WorkingWithEnumerators.bat
 	call WorkingWithEnumerators.bat
 	@del WorkingWithEnumerators.bat
-	@echo cd QTPlayer >QTPlayer.bat
-	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>QTPlayer.bat
-	call QTPlayer.bat
-	@del QTPlayer.bat
 
 Accelerators: 
 	@echo cd Accelerators >Accelerators.bat
@@ -551,18 +541,6 @@ Localization:
 	call Localization.bat
 	@del Localization.bat
 
-MFCIntegration1: 
-	@echo cd MFCIntegration1 >MFCIntegration1.bat
-	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>MFCIntegration1.bat
-	call MFCIntegration1.bat
-	@del MFCIntegration1.bat
-
-MFCIntegration2: 
-	@echo cd MFCIntegration2 >MFCIntegration2.bat
-	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>MFCIntegration2.bat
-	call MFCIntegration2.bat
-	@del MFCIntegration2.bat
-
 MVCBasics: 
 	@echo cd MVCBasics >MVCBasics.bat
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>MVCBasics.bat
@@ -730,10 +708,4 @@ WorkingWithEnumerators:
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>WorkingWithEnumerators.bat
 	call WorkingWithEnumerators.bat
 	@del WorkingWithEnumerators.bat
-
-QTPlayer: 
-	@echo cd QTPlayer >QTPlayer.bat
-	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>QTPlayer.bat
-	call QTPlayer.bat
-	@del QTPlayer.bat
 

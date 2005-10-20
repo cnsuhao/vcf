@@ -27,13 +27,17 @@
            <define>WIN32</define>
         </if>
 
-        <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">        
-		    <if cond="FORMAT=='borland'">
-                <sys-lib>ole2w32</sys-lib>
-                <sys-lib>comsupp</sys-lib>
-                <lib-path>$(VCF_LIB_BCC)</lib-path>
-            </if>
+        <if cond="FORMAT=='borland'">
+            <sys-lib>ole2w32</sys-lib>
+            <lib-path>$(VCF_LIB_BCC)</lib-path>
+        </if>
 
+        <if cond="FORMAT=='mingw'">
+           <define>VCF_MINGW</define>
+           <cppflags>-Wno-multichar</cppflags>
+        </if>
+
+        <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">        
 	        <if cond="FORMAT!='borland'">
                 <sys-lib>rpcrt4</sys-lib>
                 <sys-lib>odbc32</sys-lib>
@@ -69,8 +73,10 @@
 
     
     <template id="precomp">
-        <if cond="FORMAT in ['msvc','msvc6prj']">
-            <precomp-headers>on</precomp-headers>
+        <if cond="PRECOMPILED=='1'">
+            <precomp-headers>
+                $(substituteFromDict(OPTION_PRECOMPILED, {'0':'off', '1':'on'}))
+            </precomp-headers>
             <precomp-headers-file>$(LIBRARY_FILENAME)</precomp-headers-file>
             <precomp-headers-header>$(LIBRARY_PRECOMP_HDR)</precomp-headers-header>
             <precomp-headers-gen>$(LIBRARY_PRECOMP_SRC)</precomp-headers-gen>
@@ -79,8 +85,10 @@
 
     
     <template id="precomp_auto">
-        <if cond="FORMAT in ['msvc','msvc6prj']">
-            <precomp-headers>on</precomp-headers>
+        <if cond="PRECOMPILED=='1'">
+            <precomp-headers>
+                $(substituteFromDict(OPTION_PRECOMPILED, {'0':'off', '1':'on'}))
+            </precomp-headers>
             <precomp-headers-file>$(LIBRARY_FILENAME)</precomp-headers-file>
             <precomp-headers-header>$(LIBRARY_PRECOMP_HDR)</precomp-headers-header>
         </if>

@@ -22,6 +22,7 @@
         <depends>ZLib_lib</depends>
     </template>
 
-    <lib id="FreeImage_lib" template="FreeImage_base,vcf_lib">
+    <lib id="FreeImage_lib" template="FreeImage_base,vcf_lib"
+            cond="OPTION_IMAGEFORMATS=='1'">
     </lib>
 </makefile>

@@ -62,4 +62,13 @@
         <define>$(USE_REMOTEOBJECTKIT)</define>
     </define-tag>
 
+
+    <set var="USE_INTERNETKIT">
+        <if cond="OPTION_SHARED=='0'">USE_INTERNETKIT_LIB</if>
+        <if cond="OPTION_SHARED=='1'">USE_INTERNETKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-InternetKit" rules="dll,lib,exe,module">
+        <define>$(USE_INTERNETKIT)</define>
+    </define-tag>
+
 </makefile>

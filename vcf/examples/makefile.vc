@@ -16,13 +16,16 @@ MAKEARGS = CC="$(CC)" CXX="$(CXX)" CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
 	CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" \
 	OPTION_SELECTLIB="$(OPTION_SELECTLIB)" OPTION_SHARED="$(OPTION_SHARED)" \
 	OPTION_SHARED_RUNTIME="$(OPTION_SHARED_RUNTIME)" \
-	OPTION_DEBUG="$(OPTION_DEBUG)" OPTION_ALLIN1="$(OPTION_ALLIN1)" \
+	OPTION_DEBUG="$(OPTION_DEBUG)" OPTION_PRECOMPILED="$(OPTION_PRECOMPILED)" \
+	OPTION_ALLIN1="$(OPTION_ALLIN1)" \
 	OPTION_FOUNDATIONKIT="$(OPTION_FOUNDATIONKIT)" \
 	OPTION_GRAPHICSKIT="$(OPTION_GRAPHICSKIT)" \
 	OPTION_APPLICATIONKIT="$(OPTION_APPLICATIONKIT)" \
+	OPTION_APPLICATIONKIT_ATL="$(OPTION_APPLICATIONKIT_ATL)" \
 	OPTION_OPENGLKIT="$(OPTION_OPENGLKIT)" \
 	OPTION_NETWORKKIT="$(OPTION_NETWORKKIT)" \
 	OPTION_REMOTEOBJECTKIT="$(OPTION_REMOTEOBJECTKIT)" \
+	OPTION_INTERNETKIT="$(OPTION_INTERNETKIT)" \
 	OPTION_IMAGEFORMATS="$(OPTION_IMAGEFORMATS)"
 
 ### Conditionally set variables: ###
@@ -31,7 +34,7 @@ MAKEARGS = CC="$(CC)" CXX="$(CXX)" CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
 
 ### Targets: ###
 
-all: sub_Accelerators sub_Actions sub_AdvancedAlignment sub_AdvancedUI sub_Alignment sub_Anchors sub_ApplicationIcons sub_AppResources sub_Cards sub_Colors sub_Combos sub_CommonDirectories sub_Conditions sub_Controls sub_CopyAndPaste sub_DatesAndTime sub_DateTimeUI sub_Dialogs sub_Dictionaries sub_Directories sub_DocViewAdvanced sub_DocViewBasics sub_DragAndDrop sub_EventBasics sub_FilesAndDirectories sub_FrameStyles sub_GraphicsAndMouseMoves sub_GraphicsBasics sub_HeavyAndLight sub_HelloWorld sub_HelloWorld2 sub_HelloWorld3 sub_Help sub_ImageBasics sub_ImageViewer sub_Labels sub_ListBox sub_Localization sub_MFCIntegration1 sub_MFCIntegration2 sub_MVCBasics sub_OpenGLShapes sub_ParticleEditor sub_Printing sub_Processes sub_ProgressBars sub_Reflection sub_Resources sub_RunLoops sub_Scrolling sub_SharedLibraries sub_SketchIt sub_Sliders sub_Splitters sub_Strings sub_StrokesAndFills sub_SysTray sub_Tables sub_TeXLabel sub_TextEdit sub_TextLayout sub_ThreadBasics sub_ThreadsInGUI sub_Toolbars sub_Transformations sub_TreeListControls sub_VisualFormFiles sub_WorkingWithEnumerators sub_QTPlayer
+all: sub_Accelerators sub_Actions sub_AdvancedAlignment sub_AdvancedUI sub_Alignment sub_Anchors sub_ApplicationIcons sub_AppResources sub_Cards sub_Colors sub_Combos sub_CommonDirectories sub_Conditions sub_Controls sub_CopyAndPaste sub_DatesAndTime sub_DateTimeUI sub_Dialogs sub_Dictionaries sub_Directories sub_DocViewAdvanced sub_DocViewBasics sub_DragAndDrop sub_EventBasics sub_FilesAndDirectories sub_FrameStyles sub_GraphicsAndMouseMoves sub_GraphicsBasics sub_HeavyAndLight sub_HelloWorld sub_HelloWorld2 sub_HelloWorld3 sub_Help sub_ImageBasics sub_ImageViewer sub_Labels sub_ListBox sub_Localization sub_MVCBasics sub_OpenGLShapes sub_ParticleEditor sub_Printing sub_Processes sub_ProgressBars sub_Reflection sub_Resources sub_RunLoops sub_Scrolling sub_SharedLibraries sub_SketchIt sub_Sliders sub_Splitters sub_Strings sub_StrokesAndFills sub_SysTray sub_Tables sub_TeXLabel sub_TextEdit sub_TextLayout sub_ThreadBasics sub_ThreadsInGUI sub_Toolbars sub_Transformations sub_TreeListControls sub_VisualFormFiles sub_WorkingWithEnumerators
 
 clean: 
 	-if exist .\*.obj del .\*.obj
@@ -151,12 +154,6 @@ clean:
 	cd Localization
 	$(MAKE) -f makefile.vc $(MAKEARGS) clean
 	cd "$(MAKEDIR)"
-	cd MFCIntegration1
-	$(MAKE) -f makefile.vc $(MAKEARGS) clean
-	cd "$(MAKEDIR)"
-	cd MFCIntegration2
-	$(MAKE) -f makefile.vc $(MAKEARGS) clean
-	cd "$(MAKEDIR)"
 	cd MVCBasics
 	$(MAKE) -f makefile.vc $(MAKEARGS) clean
 	cd "$(MAKEDIR)"
@@ -239,9 +236,6 @@ clean:
 	$(MAKE) -f makefile.vc $(MAKEARGS) clean
 	cd "$(MAKEDIR)"
 	cd WorkingWithEnumerators
-	$(MAKE) -f makefile.vc $(MAKEARGS) clean
-	cd "$(MAKEDIR)"
-	cd QTPlayer
 	$(MAKE) -f makefile.vc $(MAKEARGS) clean
 	cd "$(MAKEDIR)"
 
@@ -435,16 +429,6 @@ sub_Localization:
 	$(MAKE) -f makefile.vc $(MAKEARGS) all
 	cd "$(MAKEDIR)"
 
-sub_MFCIntegration1: 
-	cd MFCIntegration1
-	$(MAKE) -f makefile.vc $(MAKEARGS) all
-	cd "$(MAKEDIR)"
-
-sub_MFCIntegration2: 
-	cd MFCIntegration2
-	$(MAKE) -f makefile.vc $(MAKEARGS) all
-	cd "$(MAKEDIR)"
-
 sub_MVCBasics: 
 	cd MVCBasics
 	$(MAKE) -f makefile.vc $(MAKEARGS) all
@@ -582,11 +566,6 @@ sub_VisualFormFiles:
 
 sub_WorkingWithEnumerators: 
 	cd WorkingWithEnumerators
-	$(MAKE) -f makefile.vc $(MAKEARGS) all
-	cd "$(MAKEDIR)"
-
-sub_QTPlayer: 
-	cd QTPlayer
 	$(MAKE) -f makefile.vc $(MAKEARGS) all
 	cd "$(MAKEDIR)"
 

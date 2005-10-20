@@ -113,8 +113,6 @@
         vcf/ApplicationKit/HeaderControl.h
         vcf/ApplicationKit/HelpEvent.h
         vcf/ApplicationKit/HorizontalLayoutContainer.h
-        vcf/ApplicationKit/HTMLBrowserControl.h
-        vcf/ApplicationKit/HTMLBrowserPeer.h
         vcf/ApplicationKit/ImageControl.h
         vcf/ApplicationKit/ImageList.h
         vcf/ApplicationKit/ImageListEvent.h
@@ -279,7 +277,6 @@
         vcf/ApplicationKit/Frame.cpp
         vcf/ApplicationKit/HeaderControl.cpp
         vcf/ApplicationKit/HelpEvent.cpp
-        vcf/ApplicationKit/HTMLBrowserControl.cpp
         vcf/ApplicationKit/ImageControl.cpp
         vcf/ApplicationKit/ImageList.cpp
         vcf/ApplicationKit/ImageListEvent.cpp
@@ -359,7 +356,6 @@
         vcf/ApplicationKit/Win32FileSaveDialog.h
         vcf/ApplicationKit/Win32FolderBrowseDialog.h
         vcf/ApplicationKit/Win32FontDialog.h
-        vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h
         vcf/ApplicationKit/Win32ListBox.h
         vcf/ApplicationKit/Win32Listview.h
         vcf/ApplicationKit/Win32MenuBar.h
@@ -523,6 +519,22 @@
         vcf/ApplicationKit/OSXMenuManagerPeer.cpp
         vcf/ApplicationKit/OSXUIToolkit.cpp
         vcf/ApplicationKit/OSXWindow.cpp
+    </set>
+
+    <set var="APPLICATIONKIT_ATL_HDR" hints="files">
+        <if cond="OPTION_APPLICATIONKIT_ATL=='0'"></if>
+        <if cond="OPTION_APPLICATIONKIT_ATL=='1'">
+            vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h
+            vcf/ApplicationKit/HTMLBrowserControl.h
+            vcf/ApplicationKit/HTMLBrowserPeer.h
+        </if>
+    </set>
+
+    <set var="APPLICATIONKIT_ATL_SRC" hints="files">
+        <if cond="OPTION_APPLICATIONKIT_ATL=='0'"></if>
+        <if cond="OPTION_APPLICATIONKIT_ATL=='1'">
+            vcf/ApplicationKit/HTMLBrowserControl.cpp
+        </if>
     </set>
 
     <set var="APPLICATIONKIT_HDR" append="1" hints="files">

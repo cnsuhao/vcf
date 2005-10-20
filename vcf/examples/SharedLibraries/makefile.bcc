@@ -129,7 +129,7 @@ clean:
 
 .\SharedLibraries_bcc$(SUFFIX_LIBRARY).exe: $(SHAREDLIBRARIES_OBJECTS) .\SimpleDLL.so
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -ap @&&|
-	c0x32.obj $(SHAREDLIBRARIES_OBJECTS),$@,, ole2w32.lib comsupp.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_4).lib,,
+	c0x32.obj $(SHAREDLIBRARIES_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_4).lib,,
 |
 
 $(OBJDIR)\SimpleDLL_SimpleDLL.obj: .\SimpleDLL.cpp

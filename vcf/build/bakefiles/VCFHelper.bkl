@@ -33,6 +33,7 @@
         $(Q)$(DOLLAR)($(PREFIX_VAR)VCF_DIR)$(DIRSEP)build$(DIRSEP)bcc$(DIRSEP)missing_libs$(Q)
     </set>
 
+    <set var="VCF_INTERNAL">0</set>
 
     <include file="Templates.bkl"/>
 

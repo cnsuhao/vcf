@@ -34,11 +34,15 @@ OPTION_SELECTLIB = vc6
 # The type of libraries: [0,1]
 OPTION_SHARED = 1
 
-# The type of runtime libraries: [default,0,1]
+# The type of runtime libraries.
+# "default" means the same value as OPTION_SHARED: [default,0,1]
 OPTION_SHARED_RUNTIME = default
 
 # The build configuration: [0,1]
 OPTION_DEBUG = 1
+
+# Create and use a precompiled header file where it is possible: [0,1]
+OPTION_PRECOMPILED = 1
 
 # Make the all-in-1 library: [0,1]
 OPTION_ALLIN1 = 0
@@ -52,6 +56,9 @@ OPTION_GRAPHICSKIT = 1
 # Compile ApplicationKit: [0,1]
 OPTION_APPLICATIONKIT = 1
 
+# Compile ATL based controls: [0,1]
+OPTION_APPLICATIONKIT_ATL = 1
+
 # Compile OpenGLKit: [0,1]
 OPTION_OPENGLKIT = 1
 
@@ -60,6 +67,9 @@ OPTION_NETWORKKIT = 1
 
 # Compile RemoteObjectKit: [0,1]
 OPTION_REMOTEOBJECTKIT = 1
+
+# Compile InternetKit: [0,1]
+OPTION_INTERNETKIT = 1
 
 # Compile ImageFormats: [0,1]
 OPTION_IMAGEFORMATS = 1

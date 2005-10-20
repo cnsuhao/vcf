@@ -2,6 +2,11 @@
 
 <makefile>
 
+    <set var="AUTO_SELECTLIB">0</set>
+    <if cond="FORMAT in ['msvc','msvc6prj','msevc4prj','borland']">
+        <set var="AUTO_SELECTLIB">1</set>
+    </if>
+
     <if cond="FORMAT_SUPPORTS_CONDITIONS=='0'">
         <set var="OPTION_SHARED_RUNTIME">1</set>
         <set var="OPTION_ALLIN1">0</set>
@@ -11,6 +16,7 @@
         <set var="OPTION_OPENGLKIT">1</set>
         <set var="OPTION_NETWORKKIT">1</set>
         <set var="OPTION_REMOTEOBJECTKIT">1</set>
+        <set var="OPTION_INTERNETKIT">1</set>
         <set var="OPTION_IMAGEFORMATS">1</set>
     </if>
 
@@ -25,6 +31,10 @@
         <set var="OPTION_SHARED">0</set>
         <set var="OPTION_DEBUG">1</set>
         <set var="OPTION_OPENGLKIT">0</set>
+    </if>
+
+    <if cond="FORMAT=='mingw'">
+        <set var="OPTION_IMAGEFORMATS">0</set>
     </if>
 
 
