@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <include file="../../build/bakefiles/VCFCommon.bkl"/>
+
+    <exe id="InetKit" template="vcf_exe_gui">
+        <dirname>.</dirname>
+        <sources>InetKit.cpp</sources>
+        <vcf-use-InternetKit/>
+    </exe>
+</makefile>
