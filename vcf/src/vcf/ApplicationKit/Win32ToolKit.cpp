@@ -89,9 +89,15 @@ where you installed the VCF.
 typedef HWND  (WINAPI *HtmlHelpW_Func)(HWND hwndCaller, LPCWSTR pszFile, UINT uCommand, DWORD_PTR dwData );
 typedef HWND (WINAPI *HtmlHelpA_Func)(HWND hwndCaller, LPCSTR pszFile, UINT uCommand, DWORD_PTR dwData );
 
+
+
 static HtmlHelpW_Func HtmlHelp_W = NULL;
 static HtmlHelpA_Func HtmlHelp_A = NULL;
 static HMODULE HtmlHelpLibHandle = NULL;
+
+
+
+static HWND LastHTMLHelpWnd = NULL;
 
 using namespace VCF;
 using namespace VCFWin32;
@@ -1386,14 +1392,20 @@ Win32ToolKit::~Win32ToolKit()
 {
 
 	if ( NULL != HtmlHelpLibHandle ) {
+		/*
 		if ( System::isUnicodeEnabled() ) {
-			HtmlHelp_W( NULL, NULL, HH_CLOSE_ALL, 0 );
+			//HtmlHelp_W( NULL, NULL, HH_CLOSE_ALL, 0 );
 		}
 		else {
-			HtmlHelp_A( NULL, NULL, HH_CLOSE_ALL, 0 );
+			//HtmlHelp_A( NULL, NULL, HH_CLOSE_ALL, 0 );
+		}
+		*/
+
+		if ( NULL != LastHTMLHelpWnd ) {
+			::SendMessage( LastHTMLHelpWnd, WM_CLOSE, 0, 0 );
 		}
 
-		Sleep( 500 );
+		Sleep( 5 );
 		FreeLibrary( HtmlHelpLibHandle );
 	}
 
@@ -2328,10 +2340,10 @@ void Win32ToolKit::internal_displayHelpContents( const String& helpBookName, con
 
 	if ( File::exists( helpPath ) ) {
 		if ( System::isUnicodeEnabled() ) {
-			HtmlHelp_W( 0, helpPath.getFileName().c_str(), HH_DISPLAY_TOC, NULL );	
+			LastHTMLHelpWnd = HtmlHelp_W( 0, helpPath.getFileName().c_str(), HH_DISPLAY_TOC, NULL );	
 		}
 		else {
-			HtmlHelp_A( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_TOC, NULL );	
+			LastHTMLHelpWnd = HtmlHelp_A( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_TOC, NULL );	
 		}
 	}
 }
@@ -2361,10 +2373,10 @@ void Win32ToolKit::internal_displayHelpIndex( const String& helpBookName, const 
 
 	if ( File::exists( helpPath ) ) {
 		if ( System::isUnicodeEnabled() ) {
-			HtmlHelp_W( 0, helpPath.getFileName().c_str(), HH_DISPLAY_INDEX, NULL );	
+			LastHTMLHelpWnd = HtmlHelp_W( 0, helpPath.getFileName().c_str(), HH_DISPLAY_INDEX, NULL );	
 		}
 		else {
-			HtmlHelp_A( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_INDEX, NULL );	
+			LastHTMLHelpWnd = HtmlHelp_A( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_INDEX, NULL );	
 		}
 	}
 }
@@ -2393,13 +2405,16 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 		popup.clrBackground = -1;
 		memset( &popup.rcMargins, -1, sizeof(popup.rcMargins) );
 
-		HtmlHelp_A( (HWND)control->getPeer()->getHandleID(), NULL, HH_DISPLAY_TEXT_POPUP, (DWORD) &popup );
+		LastHTMLHelpWnd = HtmlHelp_A( (HWND)control->getPeer()->getHandleID(), NULL, HH_DISPLAY_TEXT_POPUP, (DWORD) &popup );
 	}
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.11  2005/10/20 18:48:41  ddiego
+*minor change to fix html help loader bug.
+*
 *Revision 1.6.2.10  2005/10/17 01:36:33  ddiego
 *some more under the hood image stuff. updated agg.
 *
