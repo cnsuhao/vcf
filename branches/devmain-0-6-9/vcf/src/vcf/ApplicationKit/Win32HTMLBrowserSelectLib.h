@@ -48,6 +48,9 @@ where you installed the VCF.
 #	ifdef __MWERKS__
 #	define _LIB_CPLVERNUM "cw"
 #	endif
+#	ifdef __MINGW32__
+#	define _LIB_CPLVERNUM "mingw"
+#	endif
 # endif
 
 
@@ -101,6 +104,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/10/22 17:04:19  ddiego
+*added 2 more patches from kitovyj for mingw.
+*
 *Revision 1.4  2005/07/09 23:14:58  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
