@@ -290,7 +290,8 @@ Image* PNGLoader::loadImageFromFile( const String& fileName )
 	
 	
 	for (png_uint_32 k = 0; k < height; k++) {				
-		row_pointers[height - 1 - k] = &imageData[ (height - 1 - k) * (width * png_ptr->channels) ];// freeimage.get_scanline_proc(dib, k);		
+		//row_pointers[height - 1 - k] = &imageData[ (height - 1 - k) * (width * png_ptr->channels) ];// freeimage.get_scanline_proc(dib, k);		
+		row_pointers[k] = &imageData[ (k) * (width * png_ptr->channels) ];
 	}
 	
 	png_read_image(png_ptr, row_pointers);
@@ -306,25 +307,28 @@ Image* PNGLoader::loadImageFromFile( const String& fileName )
 	SysPixelType* pix = result->getImageBits()->pixels_;
 
 	unsigned int index = 0;
-	for (int y=0;y<height;y++ ) {
-		index = y * (width * png_ptr->channels);
+	unsigned int pixIndex = 0;
+	for (int y=0;y<height;y++ ) {		
 		for ( int x=0;x<width;x++ ) {
-			pix[y*width + x].r = pix[x].g = pix[x].b = imageData[index + (x * png_ptr->channels)];
+			pixIndex = y*width + x;
+			index = y * (width * png_ptr->channels) + (x * png_ptr->channels);
+
+			pix[pixIndex].r = pix[pixIndex].g = pix[pixIndex].b = imageData[index];
 
 			for (int channel=0;channel<png_ptr->channels;channel++ ) {				
 				switch ( channel ) {
 					case 0 : {
-						pix[y*width + x].b = imageData[index + (x * png_ptr->channels) + channel];
+						pix[pixIndex].b = imageData[index + channel];
 					}
 					break;
 
 					case 1 : {
-						pix[y*width + x].g = imageData[index + (x * png_ptr->channels) + channel];
+						pix[pixIndex].g = imageData[index + channel];
 					}
 					break;
 
 					case 2 : {
-						pix[y*width + x].r = imageData[index + (x * png_ptr->channels) + channel];
+						pix[pixIndex].r = imageData[index + channel];
 					}
 					break;
 				}
