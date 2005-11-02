@@ -126,7 +126,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE)"
+				AdditionalIncludeDirectories="&quot;$(VCF_INCLUDE)&quot;;&quot;$(VCF_INCLUDE)/thirdparty/common/agg/include&quot;"
 				PreprocessorDefinitions="WIN32,NDEBUG,_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
