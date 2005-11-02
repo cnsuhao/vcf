@@ -68,6 +68,7 @@
             <if cond="OPTION_SELECTLIB=='vc6'">_vc6</if>
             <if cond="OPTION_SELECTLIB=='vc70'">_vc70</if>
             <if cond="OPTION_SELECTLIB=='vc71'">_vc71</if>
+            <if cond="OPTION_SELECTLIB=='vc80'">_vc80</if>
             <if cond="OPTION_SELECTLIB=='bcc'">_bcc</if>
         </set>
     </if>

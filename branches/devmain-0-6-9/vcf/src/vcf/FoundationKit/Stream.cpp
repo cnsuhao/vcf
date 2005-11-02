@@ -124,7 +124,7 @@ void InputStream::read( String& val )
 		if ( 0 == seekPos ) {		
 			uint32 sz = tmp - start;
 
-			#if defined(VCF_MINGW)
+			#if defined(VCF_MINGW) || defined(VCF_VC80)
 			const char* const_start = const_cast<char*>(start);
 			int bom = UnicodeString::adjustForBOMMarker(const_start, sz ); //it seems like mingw is a little bit confused with type const char*&...
 			#else
@@ -356,6 +356,9 @@ void OutputStream::write( const String& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.4  2005/11/02 04:38:23  obirsoy
+*changes required for vc80 support.
+*
 *Revision 1.2.6.3  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *

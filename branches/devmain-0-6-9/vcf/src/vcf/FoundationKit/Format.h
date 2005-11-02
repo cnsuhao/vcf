@@ -19,7 +19,7 @@ where you installed the VCF.
 #endif
 
 //JC Note: apparently VC71 needs to be added to this list as well.
-#if defined(VCF_GCC) || defined(VCF_DMC) || defined(VCF_VC60) || defined(VCF_VC70) || defined(VCF_VC71) || defined(VCF_BCC)
+#if defined(VCF_GCC) || defined(VCF_DMC) || defined(VCF_VC60) || defined(VCF_VC70) || defined(VCF_VC71)  || defined (VCF_VC80) || defined(VCF_BCC)
 // these compilers do not want 'template <DataType>' specified before the specialization
 // JC - it appears GCC 3.3.3 doesn't like this - do we need to have this here at all!?
 #  define VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
@@ -351,6 +351,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.4  2005/11/02 04:38:23  obirsoy
+*changes required for vc80 support.
+*
 *Revision 1.2.2.3  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *

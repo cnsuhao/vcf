@@ -66,7 +66,11 @@ VCF_BCC - compiling with Borland's C++ compiler
 
 
 
-#if (_MSC_VER >= 1310)
+#if (_MSC_VER >= 1400)
+#	define VCF_VC80
+#	undef VCF_COMPILER_NAME
+#	define VCF_COMPILER_NAME	"VC80"
+#elif (_MSC_VER >= 1310)
 #	define VCF_VC71
 #	undef VCF_COMPILER_NAME
 #	define VCF_COMPILER_NAME	"VC71"
@@ -424,7 +428,9 @@ this define is to fix:
 # elif defined(__ICL)
 #   define _LIB_CPLVERNUM "icl6"
 # else
-#   if (_MSC_VER >= 1310)
+#   if (_MSC_VER >= 1400)
+#     define _LIB_CPLVERNUM "vc80"
+#   elif (_MSC_VER >= 1310)
 #     define _LIB_CPLVERNUM "vc71"
 #   elif (_MSC_VER >= 1300)
 #     define _LIB_CPLVERNUM "vc70"
@@ -665,6 +671,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/11/02 04:38:23  obirsoy
+*changes required for vc80 support.
+*
 *Revision 1.6.2.1  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *

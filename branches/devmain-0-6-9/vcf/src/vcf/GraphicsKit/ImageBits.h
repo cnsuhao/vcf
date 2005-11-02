@@ -142,7 +142,7 @@ floating point specialization
 */
 template <>
 struct BGRAPixel<float, true > {
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -195,7 +195,7 @@ floating point specialization
 template <>
 struct RGBAPixel<float, true > {
 
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -243,7 +243,7 @@ floating point specialization
 template <  >
 struct ARGBPixel<float, true > {
 
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -294,7 +294,7 @@ floating point specialization
 template <  >
 struct ABGRPixel<float,true> {
 
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -344,7 +344,7 @@ floating point specialization
 template < >
 struct GrayscalePixel<float,true> {
 
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -473,6 +473,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/11/02 04:38:23  obirsoy
+*changes required for vc80 support.
+*
 *Revision 1.4.2.1  2005/10/17 01:36:34  ddiego
 *some more under the hood image stuff. updated agg.
 *
