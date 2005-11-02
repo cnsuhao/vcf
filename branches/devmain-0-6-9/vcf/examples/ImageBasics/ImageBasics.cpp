@@ -33,6 +33,48 @@ public:
 	virtual void paint( GraphicsContext* ctx ) {
 		Window::paint( ctx );
 		
+
+		const int w = 200;
+		const int h = 200;
+		SysPixelType* newPix = new SysPixelType[h*w];
+		memset(newPix,0,h*w);
+		int idx = 0;
+		for(int y=0;y<h;y++ ) {
+			for(int x=0;x<w;x++ ) {
+				idx = y*w+x;
+				newPix[idx].b = 255;
+				newPix[idx].g = 255;
+				newPix[idx].r = 0;
+				newPix[idx].a = 255;
+			}
+		}
+		BITMAPINFO bmpInfo;
+		memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
+		bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
+		bmpInfo.bmiHeader.biWidth = w;
+		bmpInfo.bmiHeader.biHeight = -h;
+		bmpInfo.bmiHeader.biPlanes = 1;
+		bmpInfo.bmiHeader.biBitCount = 32;
+		bmpInfo.bmiHeader.biCompression = BI_RGB;
+		bmpInfo.bmiHeader.biSizeImage = (-bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
+
+
+		SetDIBitsToDevice( (HDC)ctx->getPeer()->getContextID(),
+								0,
+								0,
+								w,
+								h,
+								0,
+								0,
+								0,
+								h,
+								newPix,
+								&bmpInfo,
+								DIB_RGB_COLORS );
+
+		delete [] newPix;
+
+
 		/**
 		This will create an image from a given file name
 		*/
@@ -222,6 +264,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.7  2005/11/02 16:07:16  ddiego
+*updates to createinfo program.
+*
 *Revision 1.5.2.6  2005/10/11 00:54:51  ddiego
 *added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
 *
