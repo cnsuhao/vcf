@@ -623,7 +623,7 @@ void AbstractWin32Component::checkForFontChange()
 			lfSize = sizeof(LOGFONTW);
 		}
 		else {
-			memset( &lf2a, 0, sizeof(LOGFONTW) );		
+			memset( &lf2a, 0, sizeof(LOGFONTA) );		
 			GetObjectA( currentFont_, sizeof(LOGFONTA), &lf2a );
 
 			//set lfWidth to 0 - essentially we want to 
@@ -1642,6 +1642,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.8  2005/11/02 04:41:27  obirsoy
+*fix a typo. changed LOGFONTW to LOGFONTA.
+*
 *Revision 1.7.2.7  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *
