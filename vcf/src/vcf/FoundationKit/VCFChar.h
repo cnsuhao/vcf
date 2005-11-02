@@ -45,6 +45,8 @@ doesn't like std::basic_string<wchar_t> on OSX, go figure :(
 	typedef wchar_t WideChar;
 #elif defined(VCF_DMC)
 	typedef wchar_t WideChar;
+#elif defined(VCF_VC80)
+    typedef wchar_t WideChar;
 #else
 	typedef unsigned short WideChar;
 #endif
@@ -171,6 +173,9 @@ struct char_traits<VCF::WideChar> {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/11/02 04:38:23  obirsoy
+*changes required for vc80 support.
+*
 *Revision 1.3.2.1  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *

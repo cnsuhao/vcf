@@ -81,13 +81,13 @@ AbstractDistributedApplication::AbstractDistributedApplication()
 	listener_ = new DistributedAppListener(this);
 
 	onDataReceivedHandler_ =
-		new SocketEventHandler<DistributedAppListener>( listener_, DistributedAppListener::onDataReceived );
+		new SocketEventHandler<DistributedAppListener>( listener_, &DistributedAppListener::onDataReceived );
 
 	onClientConnectedHandler_ =
-		new SocketEventHandler<DistributedAppListener>( listener_, DistributedAppListener::onClientConnected );
+		new SocketEventHandler<DistributedAppListener>( listener_, &DistributedAppListener::onClientConnected );
 
 	onClientDisconnectedHandler_ =
-		new SocketEventHandler<DistributedAppListener>( listener_, DistributedAppListener::onClientDisconnected );
+		new SocketEventHandler<DistributedAppListener>( listener_, &DistributedAppListener::onClientDisconnected );
 
 
 	sock_.DataReceived.addHandler( onDataReceivedHandler_ );
@@ -334,6 +334,9 @@ void AppInfo::loadFromStream( InputStream * stream )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/11/02 04:38:23  obirsoy
+*changes required for vc80 support.
+*
 *Revision 1.2  2004/08/07 02:49:20  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

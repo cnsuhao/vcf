@@ -145,7 +145,7 @@ floating point specialization
 */
 template <>
 struct BGRAPixel<float, true > {
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -198,7 +198,7 @@ floating point specialization
 template <>
 struct RGBAPixel<float, true > {
 
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -246,7 +246,7 @@ floating point specialization
 template <  >
 struct ARGBPixel<float, true > {
 
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -297,7 +297,7 @@ floating point specialization
 template <  >
 struct ABGRPixel<float,true> {
 
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else
@@ -347,7 +347,7 @@ floating point specialization
 template < >
 struct GrayscalePixel<float,true> {
 
-#if defined(VCF_VC71) || defined(VCF_BCC) || defined(VCF_CW)
+#if defined(VCF_VC71) || defined(VCF_VC80) || defined(VCF_BCC) || defined(VCF_CW)
 	typedef PixelTraits<float, true> Traits;
 	typedef PixelAllocater<Traits> Allocater;
 #else

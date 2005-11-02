@@ -235,7 +235,7 @@ bool TextEdit::initRunningApplication()
 
 		
 
-		newDefaultDocument();
+		newDefaultDocument("");
 		
 		DocumentManager* docMgr = DocumentManager::getDocumentManager();
 		docMgr->DocumentInitialized += 
@@ -274,6 +274,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/11/02 04:38:23  obirsoy
+*changes required for vc80 support.
+*
 *Revision 1.3.2.2  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *

@@ -29,7 +29,9 @@ where you installed the VCF.
 # elif defined(__ICL)
 #   define _LIB_CPLVERNUM "icl6"
 # else
-#   if (_MSC_VER >= 1310)
+#   if (_MSC_VER >= 1400)
+#     define _LIB_CPLVERNUM "vc80"
+#   elif (_MSC_VER >= 1310)
 #     define _LIB_CPLVERNUM "vc71"
 #   elif (_MSC_VER >= 1300)
 #     define _LIB_CPLVERNUM "vc70"
@@ -71,6 +73,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/11/02 04:38:23  obirsoy
+*changes required for vc80 support.
+*
 *Revision 1.2  2004/08/07 02:48:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

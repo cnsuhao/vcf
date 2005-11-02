@@ -4,8 +4,8 @@
 
     <if cond="FORMAT in ['msvc','msvc6prj']">
         <option name="OPTION_SELECTLIB">
-            <values>icl6,icl7,vc5,vc6,vc70,vc71</values>
-            <values-description>icl6,icl7,vc5,vc6,vc70,vc71</values-description>
+            <values>icl6,icl7,vc5,vc6,vc70,vc71,vc80</values>
+            <values-description>icl6,icl7,vc5,vc6,vc70,vc71,vc80</values-description>
             <default-value>vc6</default-value>
             <description>
                 Your preference:
