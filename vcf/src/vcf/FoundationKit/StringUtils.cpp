@@ -525,18 +525,26 @@ VCF::String StringUtils::newUUID()
 #ifdef WIN32
 	UUID id;
 	if ( RPC_S_OK == ::UuidCreate( &id ) ){
-#if defined(VCF_CW) && defined(UNICODE)
-		unsigned short *tmpid = NULL;
-#else
-		unsigned char *tmpid = NULL;
-#endif
-		RPC_STATUS rpcresult = UuidToString(  &id, &tmpid );
-
-		if ( RPC_S_OUT_OF_MEMORY != rpcresult ) {
-			result = VCF::String( (char*)tmpid );
-
-			RpcStringFree( &tmpid );
+		if ( System::isUnicodeEnabled() ) {
+			WideChar* tmpid = NULL;
+			RPC_STATUS rpcresult = UuidToStringW(  &id, &tmpid );
+			
+			if ( RPC_S_OUT_OF_MEMORY != rpcresult ) {
+				result = VCF::String( tmpid );
+				
+				RpcStringFreeW( &tmpid );
+			}
 		}
+		else {
+			char* tmpid = NULL;
+			RPC_STATUS rpcresult = UuidToStringA(  &id, (unsigned char**)&tmpid );
+			
+			if ( RPC_S_OUT_OF_MEMORY != rpcresult ) {
+				result = VCF::String( tmpid );
+				
+				RpcStringFreeA( (unsigned char**)&tmpid );
+			}
+		}		
 	}
 #elif VCF_OSX
 	CFUUIDRef uuidRef = CFUUIDCreate( kCFAllocatorDefault );
@@ -2232,6 +2240,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/11/04 17:56:17  ddiego
+*fixed bugs in some win32 code to better handle unicode - ansi functionality.
+*
 *Revision 1.4.2.4  2005/08/01 19:57:01  marcelloptr
 *minor fixes or additions
 *

@@ -98,19 +98,23 @@ void Win32ScrollPeer::setScrollableControl( Control* scrollableControl )
 		else {
 			hInst = ::GetModuleHandle(NULL);
 		}
-#if defined(VCF_CW) && defined(UNICODE)
-		vScrollHWnd_ = CreateWindowEx( 0, L"SCROLLBAR", NULL, WS_CHILD | SBS_VERT | WS_VISIBLE, 0, 0, 200,
+
+		if ( System::isUnicodeEnabled() ) {
+			vScrollHWnd_ = CreateWindowExW( 0, L"SCROLLBAR", NULL, WS_CHILD | SBS_VERT | WS_VISIBLE, 0, 0, 200,
 			CW_USEDEFAULT, hwnd, NULL, hInst, NULL );
 
-		hScrollHWnd_ = CreateWindowEx( 0, L"SCROLLBAR", NULL, WS_CHILD | SBS_HORZ | WS_VISIBLE, 0, 0, 200,
-			CW_USEDEFAULT, hwnd, NULL, hInst, NULL );
-#else
-		vScrollHWnd_ = CreateWindowEx( 0, "SCROLLBAR", NULL, WS_CHILD | SBS_VERT | WS_VISIBLE, 0, 0, 200,
-			CW_USEDEFAULT, hwnd, NULL, hInst, NULL );
+			hScrollHWnd_ = CreateWindowExW( 0, L"SCROLLBAR", NULL, WS_CHILD | SBS_HORZ | WS_VISIBLE, 0, 0, 200,
+				CW_USEDEFAULT, hwnd, NULL, hInst, NULL );
+		}
+		else {
+			vScrollHWnd_ = CreateWindowExA( 0, "SCROLLBAR", NULL, WS_CHILD | SBS_VERT | WS_VISIBLE, 0, 0, 200,
+				CW_USEDEFAULT, hwnd, NULL, hInst, NULL );
 
-		hScrollHWnd_ = CreateWindowEx( 0, "SCROLLBAR", NULL, WS_CHILD | SBS_HORZ | WS_VISIBLE, 0, 0, 200,
-			CW_USEDEFAULT, hwnd, NULL, hInst, NULL );
-#endif
+			hScrollHWnd_ = CreateWindowExA( 0, "SCROLLBAR", NULL, WS_CHILD | SBS_HORZ | WS_VISIBLE, 0, 0, 200,
+				CW_USEDEFAULT, hwnd, NULL, hInst, NULL );
+
+		}
+
 		scrollCorner_ = new Win32ScrollCorner();
 		HWND scHwnd = (HWND)scrollCorner_->getPeer()->getHandleID();
 		SetParent( scHwnd, hwnd );
@@ -493,6 +497,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/11/04 17:56:17  ddiego
+*fixed bugs in some win32 code to better handle unicode - ansi functionality.
+*
 *Revision 1.4.2.1  2005/10/07 04:06:24  ddiego
 *minor adjustment to control state variables
 *

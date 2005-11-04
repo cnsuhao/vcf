@@ -127,23 +127,39 @@ HRESULT COMUtils::BSTRtoString( const BSTR src, String& dest )
 HRESULT COMUtils::UUIDtoString( const UUID id, String& dest )
 {
 	HRESULT result = E_FAIL;
-#if defined(VCF_CW) && defined(UNICODE)
-	unsigned short *tmpid = NULL;
-#else
-	unsigned char *tmpid = NULL;
-#endif
-	RPC_STATUS rpcresult = UuidToString( const_cast<UUID*>( &id ), &tmpid );
 
-	if ( RPC_S_OUT_OF_MEMORY == rpcresult ) {
-		result = E_FAIL;
+
+	if ( System::isUnicodeEnabled() ) {
+		WideChar* tmpid = NULL;
+		RPC_STATUS rpcresult = UuidToStringW( const_cast<UUID*>( &id ), &tmpid );
+		
+		if ( RPC_S_OUT_OF_MEMORY == rpcresult ) {
+			result = E_FAIL;
+		}
+		else {
+			dest = "";
+			dest = String( tmpid );
+			
+			RpcStringFreeW( &tmpid );
+			
+			result = S_OK;
+		}
 	}
-	else {
-		dest = "";
-		dest = String( (char *)tmpid );
-
-		RpcStringFree( &tmpid );
-
-		result = S_OK;
+	else{
+		char* tmpid = NULL;
+		RPC_STATUS rpcresult = UuidToStringA( const_cast<UUID*>( &id ), (unsigned char**)&tmpid );
+		
+		if ( RPC_S_OUT_OF_MEMORY == rpcresult ) {
+			result = E_FAIL;
+		}
+		else {
+			dest = "";
+			dest = String( tmpid );
+			
+			RpcStringFreeA( (unsigned char**)&tmpid );
+			
+			result = S_OK;
+		}
 	}
 
 	return result;
@@ -152,25 +168,32 @@ HRESULT COMUtils::UUIDtoString( const UUID id, String& dest )
 HRESULT COMUtils::StringtoUUID( const String& src, UUID& destID )
 {
 	HRESULT result = E_FAIL;
-#if defined(VCF_CW) && defined(UNICODE)
-	//this is derived from the #else statement so if that's a bad idea, so is this! - ACH
-	unsigned short *tmpid = (unsigned short*) ( src.c_str() );
-#else
-	//the (unsigned char*) cast below might be a bad idea ????
-	unsigned char *tmpid = (unsigned char*) const_cast<char*>( src.ansi_c_str() );
-#endif
 	UUID tmpUUID;
 
-	RPC_STATUS rpcresult = UuidFromString ( tmpid, &tmpUUID );
+	RPC_STATUS rpcresult = 0;
+
+	if ( System::isUnicodeEnabled() ) {
+		WideChar tmpid[256];
+		memset(tmpid,0,256);
+		src.copy( tmpid, minVal<>(sizeof(tmpid),src.size()) );
+
+		rpcresult = UuidFromStringW( tmpid, &tmpUUID );		
+	}
+	else {
+		AnsiString s = src;
+		char tmpid[256];
+		memset(tmpid,0,256);
+		s.copy( tmpid, minVal<>(sizeof(tmpid),s.size()) );
+
+		rpcresult = UuidFromStringA( (unsigned char*)tmpid, &tmpUUID );
+	}
 
 	if ( RPC_S_OUT_OF_MEMORY == rpcresult ) {
 		result = E_FAIL;
 	}
 	else {
 		destID = tmpUUID;
-
-		//RpcStringFree( &tmpid );
-
+		
 		result = S_OK;
 	}
 
@@ -208,25 +231,35 @@ HRESULT COMUtils::getPidlsFromHGlobal(const HGLOBAL HGlob, std::vector<String>& 
 		LPCITEMIDLIST pidlf = NULL;
 		pidlf = (LPCITEMIDLIST)( ((UINT)pCIDA) + pCIDA->aoffset[0]);
 
-#if defined(VCF_CW) && defined(UNICODE)
-		wchar_t pathf[MAX_PATH] = L"";
-#else
-		char pathf[MAX_PATH] = "";
-#endif
-		SHGetPathFromIDList(pidlf, pathf);
-
-		String fixedPath( pathf );
+		String fixedPath;
+		String pidlPath;
 
 		LPCITEMIDLIST pidl = NULL;
 		pidl = (LPCITEMIDLIST)( ((UINT)pCIDA) + pCIDA->aoffset[i+1]);
 
-#if defined(VCF_CW) && defined(UNICODE)
-		wchar_t path[MAX_PATH] = L"";
-#else
-		char path[MAX_PATH] = "";
-#endif
-		SHGetPathFromIDList(pidl, path);
-		String pidlPath( path );
+		if ( System::isUnicodeEnabled() ) {
+			WideChar pathf[MAX_PATH] = L"";
+
+			SHGetPathFromIDListW(pidlf, pathf);
+
+			fixedPath = pathf;
+
+			WideChar path[MAX_PATH] = L"";
+			SHGetPathFromIDListW(pidl, path);
+			pidlPath = path;
+		}
+		else {
+			char pathf[MAX_PATH] = "";
+
+			SHGetPathFromIDListA(pidlf, pathf);
+
+			fixedPath = pathf;
+
+			char path[MAX_PATH] = "";
+			SHGetPathFromIDListA(pidl, path);
+			pidlPath = path;
+		}		
+
 		int pos = pidlPath.find_last_of( "\\");
 		if ( pos != 0 ){
 			int strLength = pidlPath.length();
@@ -917,6 +950,7 @@ VCF::DataObject* COMUtils::getDataObjectFromOLEDataObject( const VCF::String dat
 
 void COMUtils::registerDataTypes()
 {
+	
 #if defined(VCF_CW) && defined(UNICODE)
 	VCFCOM::COMUtils::standardWin32DataTypes[STRING_DATA_TYPE] = CF_TEXT;
 	VCFCOM::COMUtils::standardWin32DataTypes[INTEGER_DATA_TYPE] = ::RegisterClipboardFormat( L"text/x-vcf-integer" );
@@ -946,6 +980,9 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2005/11/04 17:56:17  ddiego
+*fixed bugs in some win32 code to better handle unicode - ansi functionality.
+*
 *Revision 1.3.2.2  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *
