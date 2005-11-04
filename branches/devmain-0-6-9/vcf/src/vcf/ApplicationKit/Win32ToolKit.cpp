@@ -1322,49 +1322,68 @@ Win32ToolKit::Win32ToolKit():
 	browserLibAvailable_ = false;
 #endif
 
-#if defined(VCF_CW) && defined(UNICODE)
-	VCF_POST_EVENT = RegisterWindowMessage( L"VCF_POST_EVENT" );
-#else
-	VCF_POST_EVENT = RegisterWindowMessage( "VCF_POST_EVENT" );
-#endif
+
+	if ( System::isUnicodeEnabled() ) {
+		VCF_POST_EVENT = RegisterWindowMessageW( L"VCF_POST_EVENT" );
+	}
+	else {
+		VCF_POST_EVENT = RegisterWindowMessageA( "VCF_POST_EVENT" );
+	}
+
 	if ( 0 == VCF_POST_EVENT ) {
 		//oops it failed - do it the stupid way
 		VCF_POST_EVENT = WM_USER + 2000;
 	}
-#if defined(VCF_CW) && defined(UNICODE)
-	HBITMAP bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, L"stop", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-#else
-	HBITMAP bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, "stop", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-#endif
-	if ( NULL != bmp ) {
-		stopImage_ = new Win32Image( bmp );
+
+	
+
+	if ( System::isUnicodeEnabled() ) {
+		HBITMAP bmp = (HBITMAP)::LoadImageW( Win32ToolKit_toolkitHInstance, L"stop", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		if ( NULL != bmp ) {
+			stopImage_ = new Win32Image( bmp );
+		}
+
+		bmp = (HBITMAP)::LoadImageW( Win32ToolKit_toolkitHInstance, L"warning", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		if ( NULL != bmp ) {
+			warningImage_ = new Win32Image( bmp );
+		}
+
+		bmp = (HBITMAP)::LoadImageW( Win32ToolKit_toolkitHInstance, L"inform", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		if ( NULL != bmp ) {
+			informationImage_ = new Win32Image( bmp );
+			informationImage_->setTransparencyColor( &Color(0.0,1.0,0.0) );
+			informationImage_->setIsTransparent( true );
+		}
+
+		bmp = (HBITMAP)::LoadImageW( Win32ToolKit_toolkitHInstance, L"question", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		if ( NULL != bmp ) {
+			questionImage_ = new Win32Image( bmp );
+		}
 	}
-#if defined(VCF_CW) && defined(UNICODE)
-	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, L"warning", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-#else
-	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, "warning", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-#endif
-	if ( NULL != bmp ) {
-		warningImage_ = new Win32Image( bmp );
+	else {
+		HBITMAP bmp = (HBITMAP)::LoadImageA( Win32ToolKit_toolkitHInstance, "stop", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		if ( NULL != bmp ) {
+			stopImage_ = new Win32Image( bmp );
+		}
+
+		bmp = (HBITMAP)::LoadImageA( Win32ToolKit_toolkitHInstance, "warning", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		if ( NULL != bmp ) {
+			warningImage_ = new Win32Image( bmp );
+		}
+
+		bmp = (HBITMAP)::LoadImageA( Win32ToolKit_toolkitHInstance, "inform", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		if ( NULL != bmp ) {
+			informationImage_ = new Win32Image( bmp );
+			informationImage_->setTransparencyColor( &Color(0.0,1.0,0.0) );
+			informationImage_->setIsTransparent( true );
+		}
+
+		bmp = (HBITMAP)::LoadImageA( Win32ToolKit_toolkitHInstance, "question", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+		if ( NULL != bmp ) {
+			questionImage_ = new Win32Image( bmp );
+		}
 	}
-#if defined(VCF_CW) && defined(UNICODE)
-	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, L"inform", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-#else
-	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, "inform", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-#endif
-	if ( NULL != bmp ) {
-		informationImage_ = new Win32Image( bmp );
-		informationImage_->setTransparencyColor( &Color(0.0,1.0,0.0) );
-		informationImage_->setIsTransparent( true );
-	}
-#if defined(VCF_CW) && defined(UNICODE)
-	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, L"question", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-#else
-	bmp = (HBITMAP)::LoadImage( Win32ToolKit_toolkitHInstance, "question", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-#endif
-	if ( NULL != bmp ) {
-		questionImage_ = new Win32Image( bmp );
-	}
+	
 
 	createDummyParentWindow();
 
@@ -2412,6 +2431,9 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.12  2005/11/04 17:56:17  ddiego
+*fixed bugs in some win32 code to better handle unicode - ansi functionality.
+*
 *Revision 1.6.2.11  2005/10/20 18:48:41  ddiego
 *minor change to fix html help loader bug.
 *

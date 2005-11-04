@@ -834,27 +834,48 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 
 	bool trueTypeFont = false;
 	{ //test for true type
-		LOGFONT lfTmp = {0};
-		lfTmp.lfHeight = 10; //doesn't matter - just testing the name!
-		lfTmp.lfWidth = 0; //let font mapper choose closest match				
-		lfTmp.lfCharSet = ANSI_CHARSET;//DEFAULT_CHARSET might be better ?
-		lfTmp.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-		lfTmp.lfItalic = FALSE;			
-		lfTmp.lfOutPrecision = OUT_DEFAULT_PRECIS;
-		lfTmp.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-		lfTmp.lfQuality = DEFAULT_QUALITY;
-		lfTmp.lfStrikeOut = FALSE;
-		lfTmp.lfUnderline = FALSE;
-		lfTmp.lfWeight = FW_NORMAL;
-#if defined(VCF_CW) && defined(UNICODE)
-		memset( lfTmp.lfFaceName, 0, LF_FACESIZE*sizeof(WCHAR) );
-		fontName_.copy( lfTmp.lfFaceName, minVal<int>( fontName_.size(), LF_FACESIZE) );
-#else		
-		AnsiString tmpName = fontName_;
-		memset( lfTmp.lfFaceName, 0, LF_FACESIZE*sizeof(char) );
-		tmpName.copy( lfTmp.lfFaceName, minVal<int>( tmpName.size(), LF_FACESIZE) );
-#endif		
-		HFONT testFnt = CreateFontIndirect( &lfTmp );
+
+		HFONT testFnt = NULL;
+
+		if ( System::isUnicodeEnabled() ) {
+			LOGFONTW lfTmp = {0};
+			lfTmp.lfHeight = 10; //doesn't matter - just testing the name!
+			lfTmp.lfWidth = 0; //let font mapper choose closest match				
+			lfTmp.lfCharSet = ANSI_CHARSET;//DEFAULT_CHARSET might be better ?
+			lfTmp.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+			lfTmp.lfItalic = FALSE;			
+			lfTmp.lfOutPrecision = OUT_DEFAULT_PRECIS;
+			lfTmp.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+			lfTmp.lfQuality = DEFAULT_QUALITY;
+			lfTmp.lfStrikeOut = FALSE;
+			lfTmp.lfUnderline = FALSE;
+			lfTmp.lfWeight = FW_NORMAL;
+			memset( lfTmp.lfFaceName, 0, LF_FACESIZE*sizeof(WideChar) );
+			fontName_.copy( lfTmp.lfFaceName, minVal<int>( fontName_.size(), LF_FACESIZE) );
+
+			testFnt = CreateFontIndirectW( &lfTmp );
+		}
+		else {
+			LOGFONTA lfTmp = {0};
+			lfTmp.lfHeight = 10; //doesn't matter - just testing the name!
+			lfTmp.lfWidth = 0; //let font mapper choose closest match				
+			lfTmp.lfCharSet = ANSI_CHARSET;//DEFAULT_CHARSET might be better ?
+			lfTmp.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+			lfTmp.lfItalic = FALSE;			
+			lfTmp.lfOutPrecision = OUT_DEFAULT_PRECIS;
+			lfTmp.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+			lfTmp.lfQuality = DEFAULT_QUALITY;
+			lfTmp.lfStrikeOut = FALSE;
+			lfTmp.lfUnderline = FALSE;
+			lfTmp.lfWeight = FW_NORMAL;
+			AnsiString tmpName = fontName_;
+			memset( lfTmp.lfFaceName, 0, LF_FACESIZE*sizeof(char) );
+			tmpName.copy( lfTmp.lfFaceName, minVal<int>( tmpName.size(), LF_FACESIZE) );
+			testFnt = CreateFontIndirectA( &lfTmp );
+		}
+
+		
+		
 		if ( testFnt ) {
 			HFONT oldFnt = (HFONT)SelectObject( dc, testFnt );		
 
@@ -920,6 +941,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/11/04 17:56:17  ddiego
+*fixed bugs in some win32 code to better handle unicode - ansi functionality.
+*
 *Revision 1.5  2005/07/09 23:06:01  ddiego
 *added missing gtk files
 *

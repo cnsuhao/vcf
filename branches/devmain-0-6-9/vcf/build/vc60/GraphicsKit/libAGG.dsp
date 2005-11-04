@@ -134,6 +134,10 @@ SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_rasterizer_scanline_aa.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_sqrt_tables.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_trans_affine.cpp
 # End Source File
 # Begin Source File
