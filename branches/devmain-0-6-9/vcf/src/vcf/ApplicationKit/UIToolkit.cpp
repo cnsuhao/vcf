@@ -81,6 +81,8 @@ UIToolkit::~UIToolkit()
 	defaultButtonHandler_ = NULL;
 
 	metricsMgr_->free();
+
+	delete policyMgr_;	
 }
 
 void UIToolkit::init()
@@ -1322,6 +1324,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.7  2005/11/07 00:10:14  ddiego
+*fixed two memory leaks that fraggle found.
+*
 *Revision 1.5.2.6  2005/10/07 16:41:21  kiklop74
 *Added support for building ApplicationKit with Borland Free Compiler
 *

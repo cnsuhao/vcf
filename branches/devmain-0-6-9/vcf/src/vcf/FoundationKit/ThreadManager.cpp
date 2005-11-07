@@ -28,7 +28,8 @@ ThreadManager::ThreadManager():
 
 ThreadManager::~ThreadManager()
 {
-
+	delete peer_;
+	peer_ = NULL;
 }
 
 void ThreadManager::create()
