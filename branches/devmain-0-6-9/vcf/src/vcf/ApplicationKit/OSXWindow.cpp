@@ -296,7 +296,7 @@ void OSXWindow::setVisible( const bool& visible )
 		if ( doResize ) {
 			control_->getContainer()->resizeChildren( NULL );
 		}
-		repaint( NULL );
+		repaint( NULL,false );
 	}
 }
 
@@ -368,7 +368,7 @@ void OSXWindow::setFont( Font* font )
 
 }
 
-void OSXWindow::repaint( Rect* repaintRect )
+void OSXWindow::repaint( Rect* repaintRect, const bool& immediately )
 {
 	OSXRect r;
 	if ( NULL == repaintRect ) {
@@ -1034,6 +1034,10 @@ void OSXWindow::copyControlsFromWndRef( WindowRef oldWndRef )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.4  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

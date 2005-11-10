@@ -82,9 +82,9 @@ namespace VCF {
 	class Format {
 	public:
 
-		Format( const String& fmtStr ): fmtStr_(fmtStr),
-			expectedFormatArgCount_(0), currentFormatArgCount_(0){
+		Format( const String& fmtStr ): expectedFormatArgCount_(0), currentFormatArgCount_(0){
 
+			fmtStr_ = StringUtils::convertFormatString(fmtStr);
 			start_ = fmtStr_.c_str();
 			end_ = start_ + fmtStr_.size();
 			p_ = start_;
@@ -129,8 +129,9 @@ namespace VCF {
 
 				size_t size = fmt.size()+256;
 				char* tmp = new char[size+1];
+				const char* tmpFmt = fmt.ansi_c_str();
 				memset( tmp, 0, (size+1)*sizeof(char) );
-				size_t cb = snprintf( tmp, size, fmt.ansi_c_str(), val );
+				size_t cb = snprintf( tmp, size, tmpFmt, val );
 				if ( (size < cb) || (cb < 0) ) {
 					String msg = String("Format: [") + cb + "] unable to printout the full formatted string: \"" + tmp + "\"\n";
 					StringUtils::trace( msg );
@@ -150,6 +151,68 @@ namespace VCF {
 			return *this;
 		}
 
+		//template<typename ValType>
+		/**
+		This hack is here to work around the broken (as far as I can tell)
+		unicode support of OSX (yes, this *again*). It would appear that the
+		onlu "widechar" support that printf has is for wchar_t types,
+		not hte UTF16 16bit type that all the rest of the ^&%$$ OS uses
+		(see CFStringRef - it's a 16bit unicode type, like all the other 
+		sane Unicode API's use). So using %ls, or %S both fail to print
+		anything at all here when a WideChar* (a 16bit unsigned short*)
+		and we get errors from snprintf() about this. 
+		To workaround this silliness (which of course isn't required on 
+		Win32 - yeah Microsoft), I've added this specialization for WideChar* 
+		and then converted down to ansi before passing it into sprintf.
+		This is incredibly lame, and if someone ever figures out a better 
+		solution, PLEASE let me know!!!!!!! 
+		*/
+		#ifdef VCF_OSX  
+		Format& operator% (const WideChar* val) {			
+			currentFormatArgCount_  ++;
+
+			VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
+			if ( currentFormatArgCount_ > expectedFormatArgCount_ ) {
+				return *this;
+			}
+
+			if ( p_ < end_ ) {
+				String tmpVal(val);
+			
+				output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+
+				const VCFChar* p = getNextFormatTokenEndPos( (p_-start_) );
+
+				String fmt;
+				fmt.assign( p_, p - p_ );
+				p_ = p;
+
+
+				size_t size = fmt.size()+256;
+				char* tmp = new char[size+1];
+				const char* tmpFmt = fmt.ansi_c_str();
+				memset( tmp, 0, (size+1)*sizeof(char) );
+				size_t cb = snprintf( tmp, size, tmpFmt, tmpVal.ansi_c_str() );
+				if ( (size < cb) || (cb < 0) ) {
+					String msg = String("Format: [") + cb + "] unable to printout the full formatted string: \"" + tmp + "\"\n";
+					StringUtils::trace( msg );
+				}
+				output_ += tmp;
+				delete [] tmp;
+			}
+
+			prev_ = p_;
+
+			gobblePercents();
+
+			if ( p_ == end_ ) {
+				output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
+			}
+
+			return *this;
+		}
+		#endif
+		
 	#ifdef VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
 		// specialization for a String value.
 		#ifndef VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
@@ -352,6 +415,10 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.7  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.2.2.6  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

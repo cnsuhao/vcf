@@ -35,6 +35,11 @@ MenuItemPeer* OSXMenuManagerPeer::getMenuItemPeer( MenuItem* item )
 	return result;
 }
 
+void OSXMenuManagerPeer::destroyMenuItemPeer( MenuItem* item )
+{
+
+}
+
 void OSXMenuManagerPeer::windowActivated( Window* window )
 {
 	MenuBar* menuBar = window->getMenuBar();

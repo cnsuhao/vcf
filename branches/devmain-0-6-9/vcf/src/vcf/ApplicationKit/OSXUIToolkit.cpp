@@ -1664,7 +1664,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 break;
 
                 case kEventWindowClose : {
-                    result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
+                    result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DESTROYED );
                 }
                 break;
 
@@ -1778,7 +1778,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                 break;
 
                 case kEventControlDispose : {
-					result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DELETED );
+					result = new VCF::ComponentEvent( msg->control_, Component::COMPONENT_DESTROYED );
                 }
                 break;
 
@@ -2215,14 +2215,32 @@ EventRef OSXUIToolkit::createUserCarbonEvent( UInt32 eventType )
 
 VCF::Size OSXUIToolkit::internal_getDragDropDelta()
 {
-    Size result;
+    Size result(5,5);
     return result;
 }
 
+void OSXUIToolkit::internal_displayHelpContents( const String& helpBookName, const String& helpDirectory )
+{
+
+}
+
+void OSXUIToolkit::internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory )
+{
+
+}
+
+void OSXUIToolkit::internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory )
+{
+
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.6  2005/07/10 00:20:40  ddiego
 *updated osx code from merge over of devmain-0-6-7.
 *

@@ -236,9 +236,11 @@ public:
     void assign( CFStringRef s ) {
 		cleanup();
 
-        cfStringRef = CFStringCreateMutableCopy( NULL, 0, s );
+		if ( NULL != s ) {
+			cfStringRef = CFStringCreateMutableCopy( NULL, 0, s );
 
-		buildUnicodeBuffer();
+			buildUnicodeBuffer();
+		}
 	}
 
 
@@ -363,6 +365,10 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.4.2.2  2005/11/10 04:43:27  ddiego
+ *updated the osx build so that it
+ *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+ *
  *Revision 1.4.2.1  2005/11/10 02:02:38  ddiego
  *updated the osx build so that it
  *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

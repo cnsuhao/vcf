@@ -1137,7 +1137,7 @@ void UIToolkit::internal_setDefaultButton( Button* defaultButton )
 
 void UIToolkit::onDefaultButton( KeyboardEvent* event )
 {
-	Control* control = (Control*)event->getSource();
+	//Control* control = (Control*)event->getSource();
 	/*
 	Control* buttonControl = dynamic_cast<Control*>(control);
 	if ( (buttonControl == Control::getCurrentFocusedControl()) && (NULL != temporaryDefaultButton_) ) {
@@ -1324,6 +1324,10 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.8  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.5.2.7  2005/11/07 00:10:14  ddiego
 *fixed two memory leaks that fraggle found.
 *

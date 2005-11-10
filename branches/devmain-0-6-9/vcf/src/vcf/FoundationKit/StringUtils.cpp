@@ -1697,7 +1697,7 @@ String StringUtils::convertFormatString( const String& formattedString )
 		size_t pos = result.find( lsDirective );
 		while ( pos != String::npos ) {
 			result.erase( pos, lsDirective.length() );
-			result.insert( pos, "%S" );
+			result.insert( pos, "%s" );
 			pos = result.find( lsDirective, pos + 1 );
 		}
 
@@ -2240,6 +2240,10 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.4.2.6  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
