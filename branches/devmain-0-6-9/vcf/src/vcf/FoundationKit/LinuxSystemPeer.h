@@ -41,10 +41,6 @@ public:
 
 	virtual String getEnvironmentVariable( const String& variableName );
 	
-	virtual void setEnvironmentVariable( const String& variableName, const String& newValue );
-	
-	virtual void addPathDirectory( const String& directory );
-
 	virtual void setCurrentWorkingDirectory( const String& currentDirectory );
 	
 	virtual String getCommonDirectory( System::CommonDirectory directory );
@@ -64,13 +60,8 @@ public:
 
 	virtual DateTime convertLocalTimeToUTCTime( const DateTime& date );
 	
-	virtual String getOSName();
-	virtual String getOSVersion();
-
 	virtual String getComputerName();
 	virtual String getUserName();
-
-	virtual ProgramInfo* getProgramInfoFromFileName( const String& fileName );
 
 protected:
 	//WEIRDNESS! These member variables need to be
@@ -85,6 +76,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/10 00:04:08  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.4  2005/07/09 23:15:03  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

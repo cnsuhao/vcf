@@ -43,9 +43,14 @@ void* LinuxLibraryPeer::getFunction( const String& functionName )
 		                                   "You are trying to get function adress "
 		                                   "without a valid handle to a library" ) );
 	}
-	result = dlsym( libHandle_, functionName.ansi_c_str() );
+	void* result = dlsym( libHandle_, functionName.ansi_c_str() );
 	StringUtils::traceWithArgs( Format( "error are: %s\n" ) % dlerror() );
 	return result;
+}
+
+OSHandleID LinuxLibraryPeer::getHandleID()
+{
+    return libHandle_;
 }
 
 void LinuxLibraryPeer::unload()
@@ -59,6 +64,9 @@ void LinuxLibraryPeer::unload()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/10 00:04:08  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.4  2005/07/09 23:15:03  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

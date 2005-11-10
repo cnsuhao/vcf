@@ -99,10 +99,10 @@ unsigned long LinuxFileStream::getSize()
 	return 0;
 }
 
-void LinuxFileStream::read( char* bytesToRead, unsigned long sizeOfBytes )
+unsigned long LinuxFileStream::read( unsigned char* bytesToRead, unsigned long sizeOfBytes )
 {
 	if ( fileHandle_ < 0 ) {
-		return;
+		return 0;
 	}
 	int bytesRead =::read( fileHandle_, bytesToRead, sizeOfBytes );
 	if ( bytesRead < 0 ) {
@@ -114,12 +114,14 @@ void LinuxFileStream::read( char* bytesToRead, unsigned long sizeOfBytes )
 	if ( bytesRead != sizeOfBytes ) {
 		//throw exception ?
 	}
+
+    return bytesRead;
 }
 
-void LinuxFileStream::write( const char* bytesToWrite, unsigned long sizeOfBytes )
+unsigned long LinuxFileStream::write( const unsigned char* bytesToWrite, unsigned long sizeOfBytes )
 {
 	if ( fileHandle_ < 0 ) {
-		return;
+		return 0;
 	}	
 	int bytesWritten = ::write( fileHandle_, bytesToWrite, sizeOfBytes );
 	if ( bytesWritten < 0 ) {
@@ -132,6 +134,8 @@ void LinuxFileStream::write( const char* bytesToWrite, unsigned long sizeOfBytes
 		//throw exception ?
 		//throw FileIOError( CANT_WRITE_TO_FILE + filename_ );
 	}
+
+    return bytesWritten;
 }
 
 char* LinuxFileStream::getBuffer()
@@ -167,6 +171,9 @@ int LinuxFileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/11/10 00:04:08  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.3  2005/04/05 23:44:22  jabelardo
 *a lot of fixes to compile on linux, it does not run but at least it compile
 *

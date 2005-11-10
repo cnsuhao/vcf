@@ -1252,7 +1252,7 @@ template <typename SOURCE_TYPE, typename RETURN_TYPE>
 class TypedMethodReturn : public TypedMethod<SOURCE_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC) 
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1291,7 +1291,7 @@ template <class SOURCE_TYPE>
 class TypedMethodArg0 : public TypedMethod<SOURCE_TYPE> {
 public:
 	
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1350,7 +1350,7 @@ template <typename SOURCE_TYPE, typename ARG1_TYPE>
 class TypedMethodArg1 : public TypedMethod<SOURCE_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1412,7 +1412,7 @@ template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE >
 class TypedMethodArg2 : public TypedMethod<SOURCE_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1476,7 +1476,7 @@ template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE, typename
 class TypedMethodArg3 : public TypedMethod<SOURCE_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1544,7 +1544,7 @@ template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE, typename
 class TypedMethodArg4 : public TypedMethod<SOURCE_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1618,7 +1618,7 @@ template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
 class TypedMethodArg5 : public TypedMethod<SOURCE_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1693,7 +1693,7 @@ template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
 class TypedMethodArg6 : public TypedMethod<SOURCE_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1768,7 +1768,7 @@ template <typename SOURCE_TYPE, typename RETURN_TYPE>
 class TypedMethodArg0Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1830,7 +1830,7 @@ template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE>
 class TypedMethodArg1Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1896,7 +1896,7 @@ template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typena
 class TypedMethodArg2Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -1964,7 +1964,7 @@ template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typena
 class TypedMethodArg3Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -2034,7 +2034,7 @@ template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typena
 class TypedMethodArg4Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -2107,7 +2107,7 @@ template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typena
 class TypedMethodArg5Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -2184,7 +2184,7 @@ template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typena
 class TypedMethodArg6Return : public TypedMethodReturn<SOURCE_TYPE,RETURN_TYPE> {
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using  TypedMethod<SOURCE_TYPE>::hasReturnValue_;
 	using  TypedMethod<SOURCE_TYPE>::argCount_;
 	using  TypedMethod<SOURCE_TYPE>::objSource_;
@@ -3596,6 +3596,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/11/10 00:04:23  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.4.2.5  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *

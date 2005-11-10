@@ -107,7 +107,7 @@ call the initContainer() method with a reference to the collection
 template <class COLLECTION, class COLLECTION_TYPE> class EnumeratorContainer : public Enumerator<COLLECTION_TYPE>{
 public:
 
-	#if defined(VCF_MINGW) 
+	#if defined(VCF_MINGW) || defined(VCF_GCC)
 	using Enumerator<COLLECTION_TYPE>::supportsEditing_; /* mingw follows the standart */
 	#endif
 
@@ -285,6 +285,9 @@ private:
 /**
 CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/11/10 00:04:07  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.3.2.1  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *

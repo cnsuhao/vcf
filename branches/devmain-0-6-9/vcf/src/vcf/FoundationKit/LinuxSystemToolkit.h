@@ -29,7 +29,12 @@ public:
 	/**
 	*creates a new ThreadPeer instance
 	*/
-	virtual ThreadPeer* internal_createThreadPeer( Thread* thread );
+    virtual ThreadPeer* internal_createThreadPeer( Thread* thread, bool mainThread );
+
+    virtual RunLoopPeer* internal_createRunLoopPeer( RunLoop* runLoop );
+
+    virtual ThreadManagerPeer* internal_createThreadManagerPeer();
+
 
 	/**
 	*creates a new system peer
@@ -60,14 +65,14 @@ public:
 	virtual ResourceBundlePeer* internal_createResourceBundlePeer();
 };
 
-	virtual ResourceBundlePeer* internal_createResourceBundlePeer();
-};
-
 }
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/10 00:04:08  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.4  2005/07/09 23:15:03  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

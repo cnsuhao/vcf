@@ -733,7 +733,7 @@ unsigned long DateTime::getWeekOfYearStartingMon() const
 {
 	//based on ISO 8601
 	//code shamelessly swiped from http://www.merlyn.demon.co.uk/weekinfo.htm
-	//© J R Stockton, any problems are my fault
+	// J R Stockton, any problems are my fault
 	unsigned long result = 0;
 
 	DateTime dt(*this);
@@ -766,7 +766,7 @@ unsigned long DateTime::getWeekOfYearStartingSun() const
 {
 	//based on ISO 8601
 	//code shamelessly swiped from http://www.merlyn.demon.co.uk/weekinfo.htm
-	//© J R Stockton, any problems are my fault
+	// J R Stockton, any problems are my fault
 	unsigned long result = 0;
 
 	DateTime dt(*this);
@@ -1145,6 +1145,9 @@ ulong64 DateTimeSpan::getTotalMilliseconds() const
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/11/10 00:03:48  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.3  2004/12/01 04:31:40  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

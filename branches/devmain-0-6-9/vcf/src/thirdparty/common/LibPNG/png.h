@@ -299,7 +299,7 @@
 #ifndef PNG_VERSION_INFO_ONLY
 
 /* include the compression library's header */
-#include "thirdparty/common/Zlib/zlib.h"
+#include "thirdparty/common/ZLib/zlib.h"
 
 /* include all user configurable info, including optional assembler routines */
 #include "thirdparty/common/LibPNG/pngconf.h"
