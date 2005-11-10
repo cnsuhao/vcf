@@ -185,7 +185,7 @@ parse the command line into switches and arguments.
 	  \endcode
 	*/
 
-	String getSafeArgument(const String& aSwitch, int iIdx, const String& aDefault);
+	String getSafeArgument(const String& aSwitch, size_t iIdx, const String& aDefault);
 
 	/**
 	fetch a argument associated with a switch. throws an exception
@@ -201,9 +201,9 @@ parse the command line into switches and arguments.
       cmdLine.getArgument("-b", 1)     throws (int)0, returns an empty string
 	  \endcode
 	*/
-	String getArgument( const String& aSwitch, int iIdx );
+	String getArgument( const String& aSwitch, size_t iIdx );
 
-	String getArgument( int index );
+	String getArgument( size_t index );
 
 	/**
 	@return the number of arguments found for a given switch. -1 if the
@@ -248,6 +248,10 @@ the first character of a switch must be non-numeric!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.5  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

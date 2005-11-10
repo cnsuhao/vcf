@@ -218,10 +218,9 @@ bool OSXProcessPeer::createProcess( const String& processName, const String& arg
 	else {
 		//use unix style
 		int pid = 0;
-		int waitStatus = 0;
 		
 		char** unixArgs = new char*[args.size()];
-		for (int i=0;i<args.size();i++ ) {
+		for (size_t i=0;i<args.size();i++ ) {
 			AnsiString s = args[i];
 			char* arg = new char[s.size()+1];
 			s.copy( arg, s.size() );
@@ -245,7 +244,7 @@ bool OSXProcessPeer::createProcess( const String& processName, const String& arg
 		processHandle_.pid = pid;
 		
 		//clean up args
-		for (int i=0;i<args.size();i++ ) {			
+		for (size_t i=0;i<args.size();i++ ) {			
 			delete [] unixArgs[i];
 		}
 		delete [] unixArgs;
@@ -297,6 +296,10 @@ ulong32 OSXProcessPeer::terminate()
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.3.4.1  2005/11/10 02:02:38  ddiego
+ *updated the osx build so that it
+ *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+ *
  *Revision 1.3  2004/12/01 04:31:41  ddiego
  *merged over devmain-0-6-6 code. Marcello did a kick ass job
  *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

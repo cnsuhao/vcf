@@ -17,8 +17,8 @@ using namespace VCF;
 AbstractImage::AbstractImage( const bool& needsMemAlloc ):	
 	imageBits_(NULL),
 	dataBuffer_(NULL),
-	width_(0),
 	height_(0),
+	width_(0),	
 	context_(NULL),
 	isTransparent_(false),
 	needsMemAlloc_(needsMemAlloc)
@@ -132,6 +132,10 @@ void* AbstractImage::getData()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.4  2005/11/10 02:02:39  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.2.6.3  2005/10/17 01:36:34  ddiego
 *some more under the hood image stuff. updated agg.
 *

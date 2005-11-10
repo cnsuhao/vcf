@@ -32,12 +32,12 @@ warning_handler(struct png_struct_def *, const char *warning) {
 
 
 static void
-pngLoader_ReadProc(struct png_struct_def *, unsigned char *data, unsigned int size) {
+pngLoader_ReadProc( png_struct *, png_byte* data, png_size_t size) {
 	pngInStream->read( data, size );
 }
 
 static void
-pngLoader_WriteProc(struct png_struct_def *, unsigned char *data, unsigned int size) {
+pngLoader_WriteProc( png_struct *, png_byte *data, png_size_t size) {
 	pngOutStream->write( data, size );
 }
 
@@ -69,8 +69,7 @@ Image* PNGLoader::loadImageFromFile( const String& fileName )
 	int bpp, color_type, palette_entries;
 	
 	png_bytepp  row_pointers = NULL;
-	int i;
-
+	
 	FileInputStream fis(fileName);
 
 	pngInStream = &fis;
@@ -179,10 +178,10 @@ Image* PNGLoader::loadImageFromFile( const String& fileName )
 
 	// if this image has transparency, store the trns values
 	
-	png_bytep trans               = NULL;
-	int num_trans                 = 0;
-	png_color_16p trans_values    = NULL;
-	png_uint_32 transparent_value = png_get_tRNS(png_ptr, info_ptr, &trans, &num_trans, &trans_values);
+//	png_bytep trans               = NULL;
+//	int num_trans                 = 0;
+//	png_color_16p trans_values    = NULL;
+//	png_uint_32 transparent_value = png_get_tRNS(png_ptr, info_ptr, &trans, &num_trans, &trans_values);
 
 
 	// unlike the example in the libpng documentation, we have *no* idea where
@@ -308,8 +307,8 @@ Image* PNGLoader::loadImageFromFile( const String& fileName )
 
 	unsigned int index = 0;
 	unsigned int pixIndex = 0;
-	for (int y=0;y<height;y++ ) {		
-		for ( int x=0;x<width;x++ ) {
+	for (unsigned int y=0;y<height;y++ ) {		
+		for ( unsigned int x=0;x<width;x++ ) {
 			pixIndex = y*width + x;
 			index = y * (width * png_ptr->channels) + (x * png_ptr->channels);
 
@@ -351,9 +350,9 @@ void PNGLoader::saveImageToFile( const String& fileName, Image* image )
 	png_infop info_ptr;
 	png_colorp palette = NULL;
 	png_uint_32 width, height, bpp;
-	BOOL has_alpha_channel = FALSE;
+//	int has_alpha_channel = FALSE;
 	int bit_depth;
-	int palette_entries;
+//	int palette_entries;
 	int	interlace_type;
 
 	FileOutputStream fos(fileName);
@@ -497,7 +496,7 @@ void PNGLoader::saveImageToFile( const String& fileName, Image* image )
 
 	for (png_uint_32 k = 0; k < height; k++) {
 
-		for ( int x=0;x<width;x++ ) {
+		for ( unsigned int x=0;x<width;x++ ) {
 			tmpBuffer[(x * png_ptr->channels)] = pix[x].r; 
 
 			for (int channel=0;channel<png_ptr->channels;channel++ ) {				

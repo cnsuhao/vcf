@@ -124,12 +124,11 @@ void InputStream::read( String& val )
 		if ( 0 == seekPos ) {		
 			uint32 sz = tmp - start;
 
-			#if defined(VCF_MINGW) || defined(VCF_VC80) || defined(VCF_GCC)
-			const char* const_start = const_cast<char*>(start);
-			int bom = UnicodeString::adjustForBOMMarker(const_start, sz ); //it seems like mingw is a little bit confused with type const char*&...
-			#else
+			//JC Nov 10, 2005
+			//I removed the old ifdef here because I simply got rid of 
+			//teh weird const char*& syntax, and made it simply
+			//char*& this should fine now.
 			int bom = UnicodeString::adjustForBOMMarker( start, sz );			
-			#endif
 			
 			switch ( bom ) {
 				case UnicodeString::UTF8BOM : {
@@ -356,6 +355,10 @@ void OutputStream::write( const String& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.6  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.2.6.5  2005/11/10 00:04:23  obirsoy
 *changes required for gcc under Linux.
 *

@@ -134,7 +134,7 @@ void DateTime::set( const unsigned long& year,
 		throw BadDateFormat( BAD_MONTH_VALUE );
 	}
 
-	int maxDayVal = DateTime::getNumberOfDaysInMonth( year, (DateTime::Months)month );
+	unsigned int maxDayVal = DateTime::getNumberOfDaysInMonth( year, (DateTime::Months)month );
 	if ( (day > maxDayVal) || (day < 1) ) {
 		throw BadDateFormat( BAD_DAY_VALUE );
 	}
@@ -491,11 +491,11 @@ DateTime::WeekDay DateTime::getWeekDay() const
 
 	getYearMonthDay( *this, &year, &month, &day );
 
-	unsigned long a = floor( static_cast<float>( (14.0f - month) / 12.0f) );
+	unsigned long a = (unsigned long) floor( static_cast<float>( (14.0f - month) / 12.0f) );
 	unsigned long y = year -a ;
 	unsigned long m = month + (12 * a) - 2;
 
-	unsigned long d = (day + y +
+	unsigned long d = (unsigned long) (day + y +
 		floor(static_cast<float>(y / 4.0f)) -
 		floor(static_cast<float>(y/100)) +
 		floor(static_cast<float>(y/400)) +
@@ -577,8 +577,7 @@ unsigned long DateTime::getDayOfYear() const
 unsigned long DateTime::getDaysInYear() const
 {
 	unsigned long result = 365;
-	unsigned long year = getYear();
-
+	
 	if ( isGregorianCalendarDate( *this ) ) {
 		if ( isLeapYear() ) {
 			result ++;
@@ -756,7 +755,7 @@ unsigned long DateTime::getWeekOfYearStartingMon() const
 	else {
 		dt.set( dt.getYear(), month, maxVal<>(1, minVal<>(maxDays,d)) ) ;//max( 1, dt.getDay() + 4 - day ) );
 
-		result = floor(static_cast<float>((dt.getDayOfYear()-1) / 7 )) + 1;
+		result = (unsigned long) floor(static_cast<float>((dt.getDayOfYear()-1) / 7 )) + 1;
 	}
 
 	return result;
@@ -786,7 +785,7 @@ unsigned long DateTime::getWeekOfYearStartingSun() const
 	else {
 		dt.set( dt.getYear(), month, maxVal<>(1, minVal<>(maxDays,d)) ) ;//max( 1, dt.getDay() + 4 - day ) );
 
-		result = floor(static_cast<float>((dt.getDayOfYear()-1) / 7 )) + 1;
+		result = (unsigned long) floor(static_cast<float>((dt.getDayOfYear()-1) / 7 )) + 1;
 	}
 
 	return result;
@@ -794,7 +793,7 @@ unsigned long DateTime::getWeekOfYearStartingSun() const
 
 unsigned long DateTime::getWeeksInYear() const
 {
-	return floor(static_cast<float>(getDaysInYear() / 7) ) + 1;
+	return (unsigned long) floor(static_cast<float>(getDaysInYear() / 7) ) + 1;
 }
 
 String DateTime::toString()
@@ -1015,11 +1014,10 @@ void DateTimeSpan::subtract( const DateTime& lhs, const DateTime& rhs )
 	delta_ = end_ - start_;
 
 	DateTime::Iterator<ByMonth> monthIt = rhs;
-	int ey = lhs.getYear();
-	int em = lhs.getMonth();
-	int sy = rhs.getYear();
-	int sm = rhs.getMonth();
-
+	unsigned int ey = lhs.getYear();
+	unsigned int em = lhs.getMonth();
+	unsigned int sy = rhs.getYear();
+	
 	months_ = 0;
 	while ( true ) {
 		if ( (*monthIt).getYear() == ey ) {
@@ -1145,6 +1143,10 @@ ulong64 DateTimeSpan::getTotalMilliseconds() const
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.3.4.1  2005/11/10 00:03:48  obirsoy
 *changes required for gcc under Linux.
 *

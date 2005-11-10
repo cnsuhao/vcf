@@ -286,7 +286,7 @@ void XMLParser::parse( InputStream* stream )
 	stream->read( (unsigned char*)tmpBuffer, sz );
 
 	
-	const UnicodeString::AnsiChar* strBuf = tmpBuffer;
+	UnicodeString::AnsiChar* strBuf = tmpBuffer;
 
 	int bom = UnicodeString::adjustForBOMMarker( strBuf, sz );
 
@@ -806,6 +806,10 @@ String XMLParser::decodeText( const String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.4.2.3  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

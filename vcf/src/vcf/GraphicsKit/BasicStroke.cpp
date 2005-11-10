@@ -17,10 +17,10 @@ using namespace VCF;
 
 
 BasicStroke::BasicStroke():
-	opacity_(1.0),
-	context_(NULL),
 	width_(0.0),
+	opacity_(1.0),
 	color_ (*Color::getColor( VCF::ColorNames::at( VCF::ColorNames::black ) )),
+	context_(NULL),		
 	antiAlias_(true),
 	dashed_(false),
 	dashStart_(0.0)
@@ -274,6 +274,10 @@ void BasicStroke::line( const double& x1, const double& y1,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/11/10 02:02:39  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.4.2.2  2005/10/17 01:36:34  ddiego
 *some more under the hood image stuff. updated agg.
 *
