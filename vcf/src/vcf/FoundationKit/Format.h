@@ -154,7 +154,7 @@ namespace VCF {
 		// specialization for a String value.
 		#ifndef VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
 		template <String>
-		#elif defined(VCF_GCC) && (defined(VCF_OSX) || defined (VCF_MINGW)) //added
+		#elif defined(VCF_GCC) || defined(VCF_OSX) || defined (VCF_MINGW) //added
 		//nothing needed here, GCC on OSX 10.3.x doesn't like anything here
 		//mingw too
 		#else
@@ -342,7 +342,7 @@ namespace VCF {
 		return *this;
 	}
 
-#endif VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
+#endif // VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
 
 
 }; // namespace VCF
@@ -351,6 +351,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.5  2005/11/10 00:04:07  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.2.2.4  2005/11/02 04:38:23  obirsoy
 *changes required for vc80 support.
 *

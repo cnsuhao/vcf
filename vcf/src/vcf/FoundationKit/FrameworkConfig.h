@@ -561,7 +561,7 @@ kit needs to have either "VCF_USE_ALLIN1_DLL" defined or
 #endif
 
 // Moved here in order to avoid unnecessary repetition later on - ACH
-#ifdef FOUNDATIONKIT_DLL
+#if defined(FOUNDATIONKIT_DLL) && !defined(VCF_GCC)
 	#if defined(FOUNDATIONKIT_EXPORTS)
 		#define FOUNDATIONKIT_API __declspec(dllexport)
 		#define FOUNDATIONKIT_EXPIMP_TEMPLATE
@@ -671,6 +671,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2005/11/10 00:04:07  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.6.2.2  2005/11/02 04:38:23  obirsoy
 *changes required for vc80 support.
 *

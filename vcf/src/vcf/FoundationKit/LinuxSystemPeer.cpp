@@ -9,7 +9,9 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include <cstdlib>
-
+#include <sys/utsname.h>
+#include <pwd.h>
+    
 using namespace VCF;
 
 struct timezone LinuxSystemPeer::timeZone;
@@ -97,20 +99,60 @@ void LinuxSystemPeer::addPathDirectory( const String& directory )
 	throw RuntimeException( "Failed to add to PATH value " + directory );
 }
 
-void LinuxSystemPeer::setEnvironmentVariable( const String& variableName, const String& newValue )
-{
-
-}
-	
-void LinuxSystemPeer::addPathDirectory( const String& directory )
-{
-
-}
-
 String LinuxSystemPeer::getCommonDirectory( System::CommonDirectory directory )
 {
 	String result;
-	
+
+    switch( directory ) {
+        case System::cdUserHome :{
+            result = getEnvironmentVariable("HOME");
+            if(result.empty())
+            {
+                passwd *pswd = getpwuid(getuid());
+                assert(pswd != NULL);
+                result = pswd->pw_dir;
+            }
+        }
+        break;
+
+        case System::cdUserProgramData :
+            result = "/share";
+        break;
+
+        case System::cdUserDesktop :
+            result = getCommonDirectory(System::cdUserHome);
+        break;
+
+        case System::cdUserFavorites :
+            result = getCommonDirectory(System::cdUserHome);
+        break;
+
+        case System::cdUserDocuments :
+            result = getCommonDirectory(System::cdUserHome);
+        break;
+
+        case System::cdUserTemp :
+            result = getCommonDirectory(System::cdUserHome);
+        break;
+
+        case System::cdSystemPrograms :
+            result = "/usr/bin";
+        break;
+
+        case System::cdSystemTemp :
+            result = "/tmp";
+        break;
+
+        case System::cdSystemRoot :
+            return "/";
+        break;
+
+        default:
+        // Unkown CommonDirectory type
+        assert(false);
+        break;
+    }
+
 	return result;
 }
 	
@@ -156,43 +198,36 @@ DateTime LinuxSystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	return result;
 }
 
-String LinuxSystemPeer::getOSName()
-{
-	String result;
-	
-	return result;
-}
-
-String LinuxSystemPeer::getOSVersion()
-{
-	String result;
-	
-	return result;
-}
-
 String LinuxSystemPeer::getComputerName()
 {
-	String result;
-	
-	return result;
+    utsname uts;
+    uname(&uts);
+    String result = uts.nodename;
+    return result;
 }
 
 String LinuxSystemPeer::getUserName()
 {
-	String result;
-	
-	return result;
-}
-
-ProgramInfo* LinuxSystemPeer::getProgramInfoFromFileName( const String& fileName )
-{
-	return NULL;
+    String result;
+    passwd *pswd = getpwuid(getuid());
+    if(pswd != NULL)
+    {
+        result = pswd->pw_gecos;
+    }
+    if(result.empty())
+    {
+        result = getlogin();
+    }
+    return result;
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/10 00:04:08  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.4  2005/07/09 23:15:03  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

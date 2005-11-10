@@ -26,6 +26,11 @@ bool LinuxSemaphorePeer::lock ()
 	return false;
 }
 
+bool  LinuxSemaphorePeer::lock( uint32 timeoutInMilliseconds )
+{
+    return false;
+}
+
 bool LinuxSemaphorePeer::unlock()
 {
 	return false;
@@ -35,6 +40,9 @@ bool LinuxSemaphorePeer::unlock()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/11/10 00:04:08  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.3  2005/04/05 23:44:22  jabelardo
 *a lot of fixes to compile on linux, it does not run but at least it compile
 *

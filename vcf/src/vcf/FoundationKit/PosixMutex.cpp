@@ -28,6 +28,16 @@ bool PosixMutex::lock()
     return false;
 }
 
+bool PosixMutex::lock( uint32 timeoutInMilliseconds )
+{
+    timespec ts;
+    ts.tv_sec = timeoutInMilliseconds / 1000;
+    ts.tv_nsec = (timeoutInMilliseconds * 1000) - (ts.tv_sec*1000*1000)  ;
+    if ( pthread_mutex_timedlock(&mutex_, &ts) == 0 ) return true;
+    return false;
+}
+
+
 bool PosixMutex::unlock()
 {
     if ( pthread_mutex_unlock(&mutex_) == 0 ) return true;
@@ -38,6 +48,9 @@ bool PosixMutex::unlock()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/11/10 00:04:23  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

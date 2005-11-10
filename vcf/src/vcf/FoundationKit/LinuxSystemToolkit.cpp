@@ -14,7 +14,7 @@ where you installed the VCF.
 #include "vcf/FoundationKit/LinuxLocalePeer.h"
 #include "vcf/FoundationKit/ResourceBundlePeer.h"
 #include "vcf/FoundationKit/LinuxResourceBundle.h"
-
+#include "vcf/FoundationKit/PosixThreadManagerPeer.h"
 
 
 using namespace VCF;
@@ -30,9 +30,19 @@ ProcessPeer* LinuxSystemToolkit::internal_createProcessPeer( Process* process )
 	return new LinuxProcessPeer();
 }
 
-ThreadPeer* LinuxSystemToolkit::internal_createThreadPeer( Thread* thread )
+ThreadPeer* LinuxSystemToolkit::internal_createThreadPeer( Thread* thread, bool mainThread )
 {
 	return new PosixThread( thread );
+}
+
+RunLoopPeer* LinuxSystemToolkit::internal_createRunLoopPeer( RunLoop* runLoop )
+{
+    return NULL;
+}
+
+ThreadManagerPeer* LinuxSystemToolkit::internal_createThreadManagerPeer()
+{
+    return new PosixThreadManagerPeer();
 }
 
 SystemPeer* LinuxSystemToolkit::internal_createSystemPeer()
@@ -106,6 +116,9 @@ ResourceBundlePeer* LinuxSystemToolkit::internal_createResourceBundlePeer()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/10 00:04:08  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.4  2005/07/09 23:15:03  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

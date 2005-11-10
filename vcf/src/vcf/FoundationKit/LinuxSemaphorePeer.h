@@ -32,6 +32,8 @@ public:
 
 	virtual bool lock();
 
+    virtual bool lock( uint32 timeoutInMilliseconds );
+
 	virtual bool unlock();
 
 	virtual OSHandleID getHandleID() {
@@ -49,6 +51,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/10 00:04:08  obirsoy
+*changes required for gcc under Linux.
+*
 *Revision 1.4  2005/07/09 23:15:03  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
