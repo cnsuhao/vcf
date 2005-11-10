@@ -383,7 +383,7 @@ void OSXControl::setFont( Font* font )
 	SetControlFontStyle( hiView_, &fontRec );	
 }
 
-void OSXControl::repaint( Rect* repaintRect=NULL )
+void OSXControl::repaint( Rect* repaintRect, const bool& immediately )
 {
 	HIViewSetNeedsDisplay( hiView_, true );
 }
@@ -441,7 +441,7 @@ OSStatus OSXControl::handleOSXEvents(EventHandlerCallRef nextHandler, EventRef t
 void OSXControl::setBorder( Border* border )
 {
 	//cause the control to repaint itself!
-	repaint(NULL);
+	repaint(NULL,false);
 }
 
 OSStatus OSXControl::handleWrappedControlHitTest( EventRef theEvent )
@@ -758,6 +758,10 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.5  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
@@ -829,6 +833,10 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.5.2.1  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.5  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

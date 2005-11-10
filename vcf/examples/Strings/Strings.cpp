@@ -18,7 +18,7 @@ Object base class.
 class Foo : public VCF::Object {
 public:
 	virtual VCF::String toString() {
-		return "Foo here!\n\t" + Object::toString();
+		return VCF::String("Foo here!\n\t") + Object::toString();
 	}
 };
 
@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
 {
 	FoundationKit::init( argc, argv );
 
-	try { 
+	try { 	
+		
 		// creating strings
 		String s = "Now";
 		String t = s + " is the time."; // concatenate strings with + operator
@@ -82,7 +83,7 @@ int main(int argc, char *argv[])
 		
 
 		Foo f;
-		System::println( "f is: " + f + "\n" + 99.5643231 + " bottles of " + &f + " on the wall!" );
+		System::println( String("f is: ") + f + "\n" + 99.5643231 + " bottles of " + &f + " on the wall!" );
 
 		System::println( String("Is this ") + true + " or is this " + false + "?" );
 
@@ -410,6 +411,10 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.4.2.2  2005/07/31 02:36:54  marcelloptr
 *made the Format class 10% faster and fixed handling on the %% character sequence
 *

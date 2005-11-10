@@ -804,7 +804,7 @@ void OSXTextEditPeer::scrollToSelection( const bool& _showEndSel/*=false*/ )
 
 void OSXTextEditPeer::repaint( Rect* repaintRect )
 {
-	OSXControl::repaint( repaintRect );
+	OSXControl::repaint( repaintRect,false );
 }
 
 void OSXTextEditPeer::setReadOnly( const bool& readonly )
@@ -908,6 +908,10 @@ void OSXTextEditPeer::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.2  2005/07/09 23:14:54  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

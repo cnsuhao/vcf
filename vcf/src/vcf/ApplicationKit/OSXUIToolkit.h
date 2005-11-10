@@ -225,6 +225,11 @@ public:
 
 	virtual Size internal_getDragDropDelta();
 
+	virtual void internal_displayHelpContents( const String& helpBookName, const String& helpDirectory );
+
+	virtual void internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory );
+
+	virtual void internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory );
 
 	//static void  internal_osxEventHandler( EventRef osxEvent, gpointer data);
 
@@ -262,6 +267,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/11/10 04:43:27  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.6  2005/07/10 00:20:40  ddiego
 *updated osx code from merge over of devmain-0-6-7.
 *
