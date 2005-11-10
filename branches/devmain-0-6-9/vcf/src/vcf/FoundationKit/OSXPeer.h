@@ -114,7 +114,7 @@ public:
 	}
 
 	void assign( const double& val ) {
-		int fractional = (val - floor(val)) * 0xffff;
+		int fractional = (int)((val - floor(val)) * 0xffff);
 
 		val_ = vcf_IntToFixed((int)(floor(val))) | fractional;
 	}
@@ -227,7 +227,7 @@ public:
 	void assign( ConstStr255Param str ) {
 		
 		char tmp[256];
-		PLstrcpy( tmp, str );
+		PLstrcpy( (unsigned char*)tmp, str );
 		tmp[ PLstrlen(str) ] = 0;
 		
 		assign( tmp );        
@@ -363,6 +363,10 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.4.2.1  2005/11/10 02:02:38  ddiego
+ *updated the osx build so that it
+ *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+ *
  *Revision 1.4  2005/07/09 23:15:04  ddiego
  *merging in changes from devmain-0-6-7 branch.
  *

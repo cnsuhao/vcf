@@ -105,7 +105,7 @@ String StringUtils::trimLeft( const String& text, const char& c )
 {
 	String result = text;
 
-	int n=0;
+	unsigned int n=0;
 
 	for (; n<result.length(); ++n) {
 		if (result[n] != c) {
@@ -141,7 +141,7 @@ String StringUtils::trim( const String& text, const char& c )
 
 void StringUtils::trimWhiteSpacesLeft( String& text )
 {
-	for (int n=0; n<text.length(); ++n) {
+	for (unsigned int n=0; n<text.length(); ++n) {
 		if (text[0] == ' ' || text[0] == '\t'|| text[0] == '\r'|| text[0] == '\n' ) {
 			text.erase(0,1);
 		} else {
@@ -1694,7 +1694,7 @@ String StringUtils::convertFormatString( const String& formattedString )
 		String result = formattedString;
 		String lsDirective = "%ls";
 
-		int pos = result.find( lsDirective );
+		size_t pos = result.find( lsDirective );
 		while ( pos != String::npos ) {
 			result.erase( pos, lsDirective.length() );
 			result.insert( pos, "%S" );
@@ -2240,6 +2240,10 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.4.2.5  2005/11/04 17:56:17  ddiego
 *fixed bugs in some win32 code to better handle unicode - ansi functionality.
 *

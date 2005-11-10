@@ -130,7 +130,7 @@ namespace VCF {
 				size_t size = fmt.size()+256;
 				char* tmp = new char[size+1];
 				memset( tmp, 0, (size+1)*sizeof(char) );
-				int cb = snprintf( tmp, size, fmt.ansi_c_str(), val );
+				size_t cb = snprintf( tmp, size, fmt.ansi_c_str(), val );
 				if ( (size < cb) || (cb < 0) ) {
 					String msg = String("Format: [") + cb + "] unable to printout the full formatted string: \"" + tmp + "\"\n";
 					StringUtils::trace( msg );
@@ -182,7 +182,8 @@ namespace VCF {
 				size_t size = fmt.size()+val.size()+20;
 				char* tmp = new char[size+1];
 				memset( tmp, 0, (size+1)*sizeof(char) );
-				int cb = snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
+				//int cb = 
+				snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
 				output_ += tmp;
 				delete [] tmp;
 			}
@@ -211,7 +212,7 @@ namespace VCF {
 		int countFormatTokens() const {
 			int result = 0;
 			String searchToken = "%";
-			int pos = fmtStr_.find( searchToken );
+			size_t pos = fmtStr_.find( searchToken );
 
 			while ( pos != String::npos ) {
 				if ( ((pos+1) <= fmtStr_.size()) && (fmtStr_[pos+1] == '%') ) {
@@ -249,7 +250,7 @@ namespace VCF {
 
 			String search = "-+0 #123456789*.hlI64LcCdiouxXeEfgnpsS";
 
-			int pos = fmtStr_.find_first_not_of( search, startPos+1 );
+			size_t pos = fmtStr_.find_first_not_of( search, startPos+1 );
 			if ( String::npos != pos ) {
 				p = start_ + pos;
 			}
@@ -258,7 +259,7 @@ namespace VCF {
 		}
 
 		void gobblePercents() {
-			int pos = fmtStr_.find( "%", ( p_ - start_ ) );
+			size_t pos = fmtStr_.find( "%", ( p_ - start_ ) );
 			if ( String::npos == pos ) {
 				p_ = end_;
 			}
@@ -289,8 +290,8 @@ namespace VCF {
 	private:
 		String fmtStr_;
 		String output_;
-		int expectedFormatArgCount_;
-		int currentFormatArgCount_;
+		size_t expectedFormatArgCount_;
+		size_t currentFormatArgCount_;
 
 		const VCFChar* start_;
 		const VCFChar* p_;
@@ -351,6 +352,10 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.6  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.2.2.5  2005/11/10 00:04:07  obirsoy
 *changes required for gcc under Linux.
 *

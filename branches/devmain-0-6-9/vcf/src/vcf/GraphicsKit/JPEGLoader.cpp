@@ -374,7 +374,7 @@ Image* JPEGLoader::loadImageFromFile( const String& fileName )
 		
 		jpeg_read_scanlines(&cinfo, &b, 1);
 
-		for ( int x=0;x<cinfo.output_width;x++ ) {
+		for ( unsigned int x=0;x<cinfo.output_width;x++ ) {
 			pix[x].r = pix[x].g = pix[x].b = tmpBufPtr[(x * cinfo.out_color_components)];
 			for (int channel=0;channel<cinfo.out_color_components;channel++ ) {				
 				switch ( channel ) {
@@ -470,8 +470,8 @@ void JPEGLoader::saveImageToFile( const String& fileName, Image* image )
 	// Set JFIF density parameters from the DIB data
 
 
-	cinfo.X_density = (WORD)118.1102; //this assumes a pixels per meter of 11,811.02, or 300 per inch
-	cinfo.Y_density = (WORD)118.1102;
+	cinfo.X_density = (short)118.1102; //this assumes a pixels per meter of 11,811.02, or 300 per inch
+	cinfo.Y_density = (short)118.1102;
 	cinfo.density_unit = 2;	// dots / cm
 
 	int quality = 75; //this is the default quality level that freeimage uses.
@@ -488,7 +488,7 @@ void JPEGLoader::saveImageToFile( const String& fileName, Image* image )
 
 	while (cinfo.next_scanline < cinfo.image_height) {
 
-		for ( int x=0;x<cinfo.image_width;x++ ) {
+		for ( unsigned int x=0;x<cinfo.image_width;x++ ) {
 			tmpBuffer[(x * cinfo.input_components)] = pix[x].r; 
 
 			for (int channel=0;channel<cinfo.input_components;channel++ ) {				

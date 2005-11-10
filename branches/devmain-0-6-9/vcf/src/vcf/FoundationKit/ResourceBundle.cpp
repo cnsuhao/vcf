@@ -79,7 +79,7 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 
 		String resDir = System::findResourceDirectory();
 
-		int pos = resDir.rfind( "Resources" );
+		size_t pos = resDir.rfind( "Resources" );
 
 		if ( pos != String::npos ) {
 			resDir.erase( pos, resDir.size()-pos );
@@ -215,6 +215,10 @@ String ResourceBundle::getResourcesDirectory()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.4.2.3  2005/09/19 04:55:56  ddiego
 *minor updates.
 *

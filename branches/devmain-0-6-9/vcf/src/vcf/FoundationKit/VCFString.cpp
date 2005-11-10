@@ -17,7 +17,7 @@ using namespace VCF;
 
 
 
-int UnicodeString::adjustForBOMMarker( const UnicodeString::AnsiChar*& stringPtr, uint32& len )
+int UnicodeString::adjustForBOMMarker( UnicodeString::AnsiChar*& stringPtr, uint32& len )
 {
 	//for now only handle UTF16 Little endian - bail on anything else!
 	int result = 0;
@@ -875,6 +875,10 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.5.2.1  2005/09/08 03:16:58  ddiego
 *fix for BOM marker in input stream handling and xml parser.
 *

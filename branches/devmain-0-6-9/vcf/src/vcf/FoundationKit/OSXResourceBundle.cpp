@@ -161,7 +161,9 @@ ProgramInfo* OSXResourceBundle::getProgramInfo( CFBundleRef bundle )
 			String company;
 			String description;
 			String programVersion;
-			String fileVersion;		
+			String fileVersion;
+			String helpDirectory;
+			String helpName;		
 			
 			name = OSXUtils::extractStringValueFromCFType( 
 											CFDictionaryGetValue( infoDict, CFSTR("CFBundleName") ) );
@@ -209,7 +211,7 @@ ProgramInfo* OSXResourceBundle::getProgramInfo( CFBundleRef bundle )
 											CFDictionaryGetValue( infoDict, CFSTR("Company") ) );
 			}
 																											
-			result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion );
+			result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion, helpDirectory, helpName );
 		}		
 	}
 	

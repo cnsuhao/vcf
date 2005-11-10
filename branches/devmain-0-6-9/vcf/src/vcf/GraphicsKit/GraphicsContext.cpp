@@ -35,6 +35,9 @@ public:
 	Stroke* stroke_;
 	Path* clippingPath_;
 	GraphicsContext* owningContext_;
+	
+	double strokeWidth_;
+	
 	Font font_;
 	Matrix2D transformMatrix_;
 	Point currentMoveTo_;
@@ -46,9 +49,7 @@ public:
 	double translateX_;
 	double translateY_;
 	double scaleX_;
-	double scaleY_;
-
-	double strokeWidth_;
+	double scaleY_;	
 };
 
 
@@ -161,9 +162,9 @@ void GraphicsState::compositeMatrix()
 
 
 GraphicsContext::GraphicsContext():
-	currentDrawingState_(GraphicsContext::gsNone),
-	drawingArea_(NULL),
+	currentDrawingState_(GraphicsContext::gsNone),	
 	contextPeer_(NULL),
+	drawingArea_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
 	graphicsStateIndex_(0),
@@ -181,9 +182,9 @@ GraphicsContext::GraphicsContext():
 }
 
 GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned long& height ):
-	currentDrawingState_(GraphicsContext::gsNone),
-	drawingArea_(NULL),
+	currentDrawingState_(GraphicsContext::gsNone),	
 	contextPeer_(NULL),
+	drawingArea_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
 	graphicsStateIndex_(0),
@@ -210,8 +211,8 @@ GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned lon
 
 GraphicsContext::GraphicsContext( OSHandleID contextID ):
 	currentDrawingState_(GraphicsContext::gsNone),
-	drawingArea_(NULL),
 	contextPeer_(NULL),
+	drawingArea_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
 	graphicsStateIndex_(0),
@@ -1284,7 +1285,7 @@ void GraphicsContext::buildArc( double centerX,  double centerY,
 
 	path.add_path( arcPath );
 
-	for ( int i=0;i<path.total_vertices();i++ ) {
+	for ( size_t i=0;i<path.total_vertices();i++ ) {
 		double vert_x,vert_y;
 		path.vertex(i,&vert_x, &vert_y);	
 
@@ -1350,7 +1351,7 @@ void GraphicsContext::buildRoundRect( double x1, double y1, double x2, double y2
 
 
 	//agg::path_storage::const_iterator it = path.begin();
-	for (int i=0;i<path.total_vertices();i++ ) {	
+	for (size_t i=0;i<path.total_vertices();i++ ) {	
 		double vert_x, vert_y;
 		path.vertex( i, &vert_x, &vert_y );
 
@@ -1376,7 +1377,7 @@ void GraphicsContext::buildEllipse( double x1, double y1, double x2, double y2,
 								abs(static_cast<long>(x2-x1)), abs(static_cast<long>(y2-y1)), 100 );
 	path.add_path( ellipseShape );
 
-	for (int i=0;i<path.total_vertices();i++ ) {
+	for (size_t i=0;i<path.total_vertices();i++ ) {
 		double vert_x, vert_y;
 		path.vertex( i, &vert_x, &vert_y );
 
@@ -1413,7 +1414,7 @@ void GraphicsContext::restoreState( int state )
 	VCF_ASSERT( state < stateCollection_.size() );
 	VCF_ASSERT( state >= 0 );
 	if ( (stateCollection_.size() - state) > 0 ) {
-		for ( int i=state;i<stateCollection_.size();i++ ) {
+		for ( size_t i=state;i<stateCollection_.size();i++ ) {
 			delete stateCollection_[i];
 		}
 
@@ -1501,6 +1502,10 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2005/11/10 02:02:39  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.6.2.2  2005/10/17 01:36:34  ddiego
 *some more under the hood image stuff. updated agg.
 *

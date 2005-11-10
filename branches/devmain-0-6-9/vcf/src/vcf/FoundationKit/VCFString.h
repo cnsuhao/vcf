@@ -952,7 +952,7 @@ public:
 	static UniChar transformAnsiCharToUnicodeChar( AnsiChar c );
 	static AnsiChar transformUnicodeCharToAnsiChar( UniChar c );
 
-	static int adjustForBOMMarker( const AnsiChar*& stringPtr, uint32& len );
+	static int adjustForBOMMarker( AnsiChar*& stringPtr, uint32& len );
 protected:
 	StringData data_;
 	mutable AnsiChar* ansiDataBuffer_;
@@ -1097,6 +1097,10 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.4.2.2  2005/09/08 03:16:58  ddiego
 *fix for BOM marker in input stream handling and xml parser.
 *

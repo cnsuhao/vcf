@@ -140,12 +140,12 @@ void OSXSystemPeer::setDateToSystemTime( DateTime* date )
 	CFGregorianDate current = CFAbsoluteTimeGetGregorianDate( timeNow, NULL );
 	
 	double dsecs = floor(current.second);
-	int second = dsecs;
+	unsigned int second = (unsigned int)dsecs;
 	
 	double milliseconds = (current.second - dsecs) * 1000.0;
 	
 	date->set( current.year, current.month, current.day, 
-				current.hour, current.minute, second, milliseconds );
+				current.hour, current.minute, second, (unsigned int)milliseconds );
 }
 
 void OSXSystemPeer::setDateToLocalTime( DateTime* date )
@@ -156,14 +156,14 @@ void OSXSystemPeer::setDateToLocalTime( DateTime* date )
 	CFGregorianDate current = CFAbsoluteTimeGetGregorianDate( timeNow, tz );
 	
 	double dsecs = floor(current.second);
-	int second = dsecs;
+	unsigned int second = (int)dsecs;
 	
 	double milliseconds = (current.second - dsecs) * 1000.0;
 	
 	
 	
 	date->set( current.year, current.month, current.day, 
-				current.hour, current.minute, second, milliseconds );
+				current.hour, current.minute, second, (unsigned int)milliseconds );
 }
 
 void OSXSystemPeer::setCurrentThreadLocale( Locale* locale )
@@ -200,14 +200,14 @@ DateTime OSXSystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
 	cfDate = CFAbsoluteTimeGetGregorianDate( utcTime, tz );
 	
 	double dsecs = floor(cfDate.second);
-	second = dsecs;
+	second = (unsigned long) dsecs;
 	
 	double milliseconds = (cfDate.second - dsecs) * 1000.0;
 	
 	
 	
 	result.set( cfDate.year, cfDate.month, cfDate.day, 
-				cfDate.hour, cfDate.minute, second, milliseconds );
+				cfDate.hour, cfDate.minute, second, (unsigned int)milliseconds );
 				
 	
 	return result;
@@ -242,14 +242,14 @@ DateTime OSXSystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	cfDate = CFAbsoluteTimeGetGregorianDate( localTime, NULL );
 	
 	double dsecs = floor(cfDate.second);
-	second = dsecs;
+	second = (unsigned int)dsecs;
 	
 	double milliseconds = (cfDate.second - dsecs) * 1000.0;
 	
 	
 	
 	result.set( cfDate.year, cfDate.month, cfDate.day, 
-				cfDate.hour, cfDate.minute, second, milliseconds );
+				cfDate.hour, cfDate.minute, second, (unsigned int)milliseconds );
 				
 	
 	return result;
@@ -268,7 +268,7 @@ String OSXSystemPeer::getOSVersion()
 	int minor = ((0x000000F0) & response) >> 4;
 	int major = ((0x0000FFFF) & response) >> 8;	
 	
-	return StringUtils::format( Format("%x.%x.%x") % major % minor % bug );
+	return Format("%x.%x.%x") % major % minor % bug ;
 }
 
 ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
@@ -279,6 +279,10 @@ ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/11/10 02:02:38  ddiego
+*updated the osx build so that it
+*compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
+*
 *Revision 1.5  2005/07/09 23:15:04  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
