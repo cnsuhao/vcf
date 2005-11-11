@@ -99,6 +99,16 @@ void LinuxSystemPeer::addPathDirectory( const String& directory )
 	throw RuntimeException( "Failed to add to PATH value " + directory );
 }
 
+void LinuxSystemPeer::setEnvironmentVariable( const String& variableName, const String& newValue )
+{
+
+}
+	
+void LinuxSystemPeer::addPathDirectory( const String& directory )
+{
+
+}
+
 String LinuxSystemPeer::getCommonDirectory( System::CommonDirectory directory )
 {
 	String result;
@@ -225,6 +235,9 @@ String LinuxSystemPeer::getUserName()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/11/11 00:21:00  ddiego
+*comitting mostuffs linux foundationkit patchs [1351922].
+*
 *Revision 1.4.2.1  2005/11/10 00:04:08  obirsoy
 *changes required for gcc under Linux.
 *

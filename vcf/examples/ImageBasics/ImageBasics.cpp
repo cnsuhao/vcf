@@ -39,9 +39,9 @@ public:
 		SysPixelType* newPix = new SysPixelType[h*w];
 		memset(newPix,0,h*w);
 		int idx = 0;
-		for(int y=0;y<h;y++ ) {
+		for(int yy=0;yy<h;yy++ ) {
 			for(int x=0;x<w;x++ ) {
-				idx = y*w+x;
+				idx = yy*w+x;
 				newPix[idx].b = 255;
 				newPix[idx].g = 255;
 				newPix[idx].r = 0;
@@ -264,6 +264,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.8  2005/11/11 00:20:58  ddiego
+*comitting mostuffs linux foundationkit patchs [1351922].
+*
 *Revision 1.5.2.7  2005/11/02 16:07:16  ddiego
 *updates to createinfo program.
 *
