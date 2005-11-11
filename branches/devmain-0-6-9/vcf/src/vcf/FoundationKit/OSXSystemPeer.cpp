@@ -12,6 +12,8 @@ where you installed the VCF.
 #include "vcf/FoundationKit/DateTime.h"
 #include "vcf/FoundationKit/ResourceBundlePeer.h"
 #include "vcf/FoundationKit/OSXResourceBundle.h"
+#include "vcf/FoundationKit/ThreadManager.h"
+
 #include <unistd.h>
 
 
@@ -119,18 +121,79 @@ void OSXSystemPeer::setCurrentWorkingDirectory( const String& currentDirectory )
 String OSXSystemPeer::getCommonDirectory( System::CommonDirectory directory )
 {
 	String result;
+
+	const char* homeDir = getenv( "HOME" );
+
+	//based on
+	//http://developer.apple.com/documentation/MacOSX/Conceptual/BPFileSystem/Articles/LibraryDirectory.html
+	switch ( directory ) {
+		case System::cdUserHome : {
+			result = homeDir;
+		}
+		break;
+
+		case System::cdUserProgramData : {
+			result = homeDir;
+			result += "/Library/Application Support";
+		}
+		break;
+
+		case System::cdUserDesktop : {
+			result = homeDir;
+			result += "/Desktop";
+		}
+		break;
+
+		case System::cdUserFavorites : {
+			result = homeDir;
+			result += "/Library/Favorites";
+		}
+		break;
+
+		case System::cdUserDocuments : {
+			result = homeDir;
+			result += "/Documents";
+		}
+		break;
+
+		case System::cdUserTemp : {
+			result = homeDir;
+			result += "/tmp";
+		}
+		break;
+
+		case System::cdSystemPrograms : {
+			result = "/Applications";
+		}
+		break;
+
+		case System::cdSystemTemp : {
+			result = "/tmp";
+		}
+		break;
+
+		case System::cdSystemRoot : {
+			result = "/";
+		}
+		break;
+	}
+
 	return result;
 }
 
 String OSXSystemPeer::getComputerName()
 {
-	String result;
+	CFTextString result;
+	result = CSCopyMachineName();
+
 	return result;
 }
 
 String OSXSystemPeer::getUserName()
 {
-	String result;
+	CFTextString result;
+	result = CSCopyUserName();
+
 	return result;
 }
 	
@@ -168,7 +231,16 @@ void OSXSystemPeer::setDateToLocalTime( DateTime* date )
 
 void OSXSystemPeer::setCurrentThreadLocale( Locale* locale )
 {
+	//OSX doesn't really support this, so we fake it
+	//anyways
+	
 
+	Thread* currentThread = ThreadManager::getCurrentThread();
+	if ( NULL != currentThread ) {
+		OSXThread* osxThread = (OSXThread*) currentThread->getPeer();
+
+		osxThread->setCurrentLocale( locale );
+	}
 }
 
 DateTime OSXSystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
@@ -279,6 +351,9 @@ ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/11/11 22:07:40  ddiego
+*small osx updates.
+*
 *Revision 1.5.2.1  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

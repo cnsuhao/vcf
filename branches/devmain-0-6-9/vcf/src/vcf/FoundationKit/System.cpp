@@ -435,7 +435,7 @@ void System::setDateToLocalTime( DateTime* date )
 
 void System::setCurrentThreadLocale( Locale* locale )
 {
-	System::systemInstance->locale_->getPeer()->setLocale( locale->getLanguageCodeString(), locale->getCountryCodeString(), L"" );
+	System::systemInstance->locale_->getPeer()->setLocale( locale->getLanguageCodeString(), locale->getCountryCodeString(), "" );
 
 	System::systemInstance->systemPeer_->setCurrentThreadLocale( locale );
 }
@@ -863,6 +863,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.6  2005/11/11 22:07:40  ddiego
+*small osx updates.
+*
 *Revision 1.6.2.5  2005/09/08 03:39:57  ddiego
 *resource dir fix
 *
