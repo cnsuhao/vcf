@@ -38,6 +38,8 @@ void LinuxLibraryPeer::load( const String& libraryFilename )
 
 void* LinuxLibraryPeer::getFunction( const String& functionName )
 {
+	void* result = NULL;
+
 	if ( ! libHandle_ ) {
 		throw InvalidPointerException( MAKE_ERROR_MSG_2(
 		                                   "You are trying to get function adress "
@@ -64,6 +66,9 @@ void LinuxLibraryPeer::unload()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/11/11 00:21:00  ddiego
+*comitting mostuffs linux foundationkit patchs [1351922].
+*
 *Revision 1.4.2.1  2005/11/10 00:04:08  obirsoy
 *changes required for gcc under Linux.
 *
