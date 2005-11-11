@@ -269,11 +269,22 @@ int OSXThread::wait( uint32 milliseconds )
     return result;
 }
 
+void OSXThread::setCurrentLocale( Locale* locale )
+{
+	locale_.getPeer()->setLocale( locale->getLanguageCodeString(), locale->getCountryCodeString(), "" );
+}
 
+Locale* OSXThread::getCurrentLocale()
+{
+	return &locale_;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/11 22:07:40  ddiego
+*small osx updates.
+*
 *Revision 1.4  2005/07/09 23:15:04  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
