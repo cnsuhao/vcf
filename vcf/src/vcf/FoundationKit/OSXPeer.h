@@ -269,7 +269,10 @@ public:
 	}
 
     operator String () const {
-        String result = unicodeText;
+        String result;
+		if ( NULL != unicodeText ) {
+			result = unicodeText;
+		}
         return result;
     }
 
@@ -365,6 +368,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.4.2.3  2005/11/13 16:02:46  ddiego
+ *more sox updates.
+ *
  *Revision 1.4.2.2  2005/11/10 04:43:27  ddiego
  *updated the osx build so that it
  *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
