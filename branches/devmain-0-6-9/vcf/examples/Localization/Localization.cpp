@@ -13,6 +13,132 @@ where you installed the VCF.
 #include "vcf/FoundationKit/TextCodec.h"
 #include "vcf/FoundationKit/LocalePeer.h"
 
+
+
+
+
+/**
+This is a simple wrapper around the Win32 QueryPerformanceCounter API
+to allow hi resolution timing
+*/
+#ifdef VCF_WIN32
+class HiResClock {
+public:
+
+	HiResClock(){
+		QueryPerformanceFrequency( &frequency_ );
+		memset( &performanceCounter1_, 0, sizeof(performanceCounter1_) );
+		memset( &performanceCounter2_, 0, sizeof(performanceCounter2_) );
+	}
+
+
+
+	void start() {
+		QueryPerformanceCounter( &performanceCounter1_ );
+	}
+
+	void stop() {
+		QueryPerformanceCounter( &performanceCounter2_ );
+	}
+
+	void clear() {
+		memset( &performanceCounter1_, 0, sizeof(performanceCounter1_) );
+		memset( &performanceCounter2_, 0, sizeof(performanceCounter2_) );
+	}
+
+	operator double() const {
+		return duration();
+	}
+
+	double duration() const {
+		return (double)(performanceCounter2_.LowPart - performanceCounter1_.LowPart)/(double)frequency_.LowPart;
+	}
+protected:
+	LARGE_INTEGER frequency_;
+	LARGE_INTEGER performanceCounter1_;
+	LARGE_INTEGER performanceCounter2_;
+private:
+	HiResClock( const HiResClock& rhs );
+
+
+	HiResClock& operator=( const HiResClock& rhs );
+};
+#elif defined (VCF_OSX)
+#include <Carbon/Carbon.h>
+
+class HiResClock {
+public:
+
+	HiResClock():t1_(0),t2_(0){}
+
+	void start() {
+		t1_ = CFAbsoluteTimeGetCurrent();
+	}
+
+	void stop() {
+		t2_ = CFAbsoluteTimeGetCurrent();
+	}
+
+	void clear() {
+		t1_ = t2_ = 0;
+	}
+
+	operator double() const {
+		return duration();
+	}
+
+	double duration() const {
+		return t2_ - t1_;
+	}
+
+private:
+	CFAbsoluteTime t1_;
+	CFAbsoluteTime t2_;
+	HiResClock( const HiResClock& rhs );
+	HiResClock& operator=( const HiResClock& rhs );
+};
+#else
+//do nothing for now on other platforms
+class HiResClock {
+public:
+
+	HiResClock(){}
+
+	void start() {
+		
+	}
+
+	void stop() {
+		
+	}
+
+	void clear() {
+		
+	}
+
+	operator double() const {
+		return duration();
+	}
+
+	double duration() const {
+		return 0.0;
+	}
+
+private:
+	HiResClock( const HiResClock& rhs );
+	HiResClock& operator=( const HiResClock& rhs );
+};
+#endif
+
+
+
+
+
+
+
+
+
+
 using namespace VCF;
 
 
@@ -220,109 +346,6 @@ UnicodeString MyTextCodec::convertToUnicodeString( const UnicodeString::AnsiChar
 
 
 
-
-/**
-This is a simple wrapper around the Win32 QueryPerformanceCounter API
-to allow hi resolution timing
-*/
-#ifdef VCF_WIN32
-class HiResClock {
-public:
-
-	HiResClock(){
-		QueryPerformanceFrequency( &frequency_ );
-		memset( &performanceCounter1_, 0, sizeof(performanceCounter1_) );
-		memset( &performanceCounter2_, 0, sizeof(performanceCounter2_) );
-	}
-
-
-
-	void start() {
-		QueryPerformanceCounter( &performanceCounter1_ );
-	}
-
-	void stop() {
-		QueryPerformanceCounter( &performanceCounter2_ );
-	}
-
-	void clear() {
-		memset( &performanceCounter1_, 0, sizeof(performanceCounter1_) );
-		memset( &performanceCounter2_, 0, sizeof(performanceCounter2_) );
-	}
-
-	operator double() const {
-		return duration();
-	}
-
-	double duration() const {
-		return (double)(performanceCounter2_.LowPart - performanceCounter1_.LowPart)/(double)frequency_.LowPart;
-	}
-protected:
-	LARGE_INTEGER frequency_;
-	LARGE_INTEGER performanceCounter1_;
-	LARGE_INTEGER performanceCounter2_;
-private:
-	HiResClock( const HiResClock& rhs );
-
-
-	HiResClock& operator=( const HiResClock& rhs );
-};
-#else
-//do nothing for now on other platforms
-class HiResClock {
-public:
-
-	HiResClock(){}
-
-	void start() {
-
-	}
-
-	void stop() {
-
-	}
-
-	void clear() {
-
-	}
-
-	operator double() const {
-		return duration();
-	}
-
-	double duration() const {
-		return 0.0;
-	}
-
-private:
-	HiResClock( const HiResClock& rhs );
-	HiResClock& operator=( const HiResClock& rhs );
-};
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void testTime( const String& testName, const HiResClock& clock )
 {
 	printf( "Test \"%s\" took %.8f seconds\n", testName.ansi_c_str(), clock.duration() );
@@ -338,62 +361,57 @@ void testLocale( Locale& loc )
 {
 
 
-	wprintf( L"*******************************************************************************\n" );
+	System::println( "*******************************************************************************" );
 
 	UnicodeString name = loc.getName();
 	UnicodeString lc = loc.getLanguageCodeString();
 	UnicodeString cc = loc.getCountryCodeString();
 	UnicodeString lang = loc.getLanguageName();
-	wprintf( L"Testing Locale %s. Lang code: %s, country code: %s, lang name: %s\n",
-			name.c_str(),
-			lc.c_str(),
-			cc.c_str(),
-			lang.c_str() );
+	System::println( Format("Testing Locale %s. Lang code: %s, country code: %s, lang name: %s") %
+			name % lc % cc % lang );
 
-	wprintf( L"-------------------------------------------------------------------------------\n\n" );
+	System::println( "-------------------------------------------------------------------------------\n" );
 
-	wprintf( L"loc.getCurrencyDecimalPoint(): %s\n", loc.getCurrencyDecimalPoint().c_str() );
-	wprintf( L"loc.getCurrencyFractionalDigits(): %d\n", loc.getCurrencyFractionalDigits() );
-	wprintf( L"loc.getCurrencyNegativeSign(): %s\n", loc.getCurrencyNegativeSign().c_str() );
-	wprintf( L"loc.getCurrencyPositiveSign(): %s\n", loc.getCurrencyPositiveSign().c_str() );
-	wprintf( L"loc.getCurrencySymbol(): %s\n", loc.getCurrencySymbol().c_str() );
-	wprintf( L"loc.getCurrencyThousandsSeparator(): %s\n", loc.getCurrencyThousandsSeparator().c_str() );
-	wprintf( L"loc.getNumberDecimalPoint(): %s\n", loc.getNumberDecimalPoint().c_str() );
-	wprintf( L"loc.getNumberGrouping(): %s\n", loc.getNumberGrouping().c_str() );
+	System::println( "loc.getCurrencyDecimalPoint(): " + loc.getCurrencyDecimalPoint() );
+	System::println( "loc.getCurrencyFractionalDigits(): " + loc.getCurrencyFractionalDigits() );
+	System::println( "loc.getCurrencyNegativeSign(): " + loc.getCurrencyNegativeSign() );
+	System::println( "loc.getCurrencyPositiveSign(): " + loc.getCurrencyPositiveSign() );
+	
+	System::println( "loc.getCurrencySymbol(): " + loc.getCurrencySymbol() );
+	System::println( "loc.getCurrencyThousandsSeparator(): " + loc.getCurrencyThousandsSeparator() );
+	System::println( "loc.getNumberDecimalPoint(): " + loc.getNumberDecimalPoint() );
+	System::println( "loc.getNumberGrouping(): " + loc.getNumberGrouping() );
 
 
-	wprintf( L"loc.toStringFromCurrency(2343239685.4554): %s\n", loc.toStringFromCurrency(2343239685.4554).c_str() );
+	System::println( "loc.toStringFromCurrency(2343239685.4554): " + loc.toStringFromCurrency(2343239685.4554) );
 
-	wprintf( L"loc.toString(2340545.4554): %s\n", loc.toString(2340545.4554).c_str() );
-	wprintf( L"loc.toString(23993023): %s\n", loc.toString(23993023).c_str() );
+	System::println( "loc.toString(2340545.4554): " + loc.toString(2340545.4554) );
+	System::println( "loc.toString(23993023): " + loc.toString(23993023) );
 
 
 	UnicodeString s2 = "klsdfLKJDKLSJ Dlksjdflsdkf lKJP(RWIUWOR_(%$_09-09-";
 
-	wprintf( L"%s\nafter lower case: \n%s\n",
-			s2.c_str(), loc.toLowerCase( s2 ).c_str() );
+	System::println( Format("%s\nafter lower case: \n%s") %	s2 % loc.toLowerCase( s2 ) );
 
-	wprintf( L"%s\nafter UPPER case: \n%s\n",
-			s2.c_str(), loc.toUpperCase( s2 ).c_str() );
+	System::println( Format("%s\nafter UPPER case: \n%s") % s2 % loc.toUpperCase( s2 ) );
 
 
 	UnicodeString s3 = loc.toString(23993023);
-	wprintf( L"loc.toString(23993023) = %s\n after loc.toInt() = %d\n",
-			s3.c_str(), loc.toInt( s3 ) );
+	System::println( Format("loc.toString(23993023) = %s\n after loc.toInt() = %d") % s3 % loc.toInt( s3 ) );
 
 	s3 = loc.toString(23993023.000);
-	wprintf( L"loc.toString(23993023.000) = %s\n after loc.toFloat() = %f\n",
-			s3.c_str(), loc.toFloat( s3 ) );
+	System::println( Format("loc.toString(23993023.000) = %s\n after loc.toFloat() = %f") %	s3 % loc.toFloat( s3 ) );
 
 
 	loc.isCharA( ctUpper, 'u' );
 
 	DateTime now = DateTime::now();
 
-	wprintf( L"loc.toStringFromDate(): %s\n", loc.toStringFromDate(now,"").c_str() );
-	wprintf( L"loc.toStringFromTime(): %s\n", loc.toStringFromTime(now,"").c_str() );
+	System::println( "loc.toStringFromDate(): " + loc.toStringFromDate(now,"") );
+	System::println( "loc.toStringFromTime(): " + loc.toStringFromTime(now,"") );
 
-	wprintf( L"\n*******************************************************************************\n\n\n" );
+	System::println( "\n*******************************************************************************\n\n\n" );
+	
 }
 
 
@@ -755,6 +773,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.2  2005/11/13 16:02:46  ddiego
+*more sox updates.
+*
 *Revision 1.4.4.1  2005/07/23 21:45:38  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

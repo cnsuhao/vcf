@@ -10,6 +10,7 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/ThreadException.h"
+#include "vcf/FoundationKit/LocalePeer.h"
 
 using namespace VCF;
 
@@ -18,7 +19,8 @@ OSXThread::OSXThread( Thread* thread, bool mainThread ) :
     queueID_(kInvalidID),
     taskID_(kInvalidID),
     thread_(thread),
-    isActive_(false)
+    isActive_(false),
+	locale_("","")
 {
     GetCurrentProcess( &processID_ );
 
@@ -282,6 +284,9 @@ Locale* OSXThread::getCurrentLocale()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/11/13 16:02:46  ddiego
+*more sox updates.
+*
 *Revision 1.4.2.1  2005/11/11 22:07:40  ddiego
 *small osx updates.
 *

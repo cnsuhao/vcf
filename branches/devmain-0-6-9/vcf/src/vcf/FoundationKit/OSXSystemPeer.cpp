@@ -192,7 +192,7 @@ String OSXSystemPeer::getComputerName()
 String OSXSystemPeer::getUserName()
 {
 	CFTextString result;
-	result = CSCopyUserName();
+	result = CSCopyUserName(true);
 
 	return result;
 }
@@ -351,6 +351,9 @@ ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/11/13 16:02:46  ddiego
+*more sox updates.
+*
 *Revision 1.5.2.2  2005/11/11 22:07:40  ddiego
 *small osx updates.
 *

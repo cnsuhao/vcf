@@ -18,6 +18,7 @@ class OSXLocalePeer : public LocalePeer {
 public:
 	OSXLocalePeer();
 
+	virtual ~OSXLocalePeer();
 
 	virtual void setLocale( const UnicodeString& language, const UnicodeString& country, const UnicodeString& variant );
 
@@ -71,7 +72,9 @@ protected:
     static std::map<String,AppleLocalePair> localeMaping;
 	CFLocaleRef localeRef_;	
 	LocaleRef collateLocaleRef_;
-	CFNumberFormatterRef numberFormatterRef_;
+	CFNumberFormatterRef integerNumFormatterRef_;
+	CFNumberFormatterRef realNumFormatterRef_;
+	CFNumberFormatterRef currencyNumFormatterRef_;
 	UnicodeString crtLocaleStr_;
 	
 
@@ -86,6 +89,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/13 16:02:46  ddiego
+*more sox updates.
+*
 *Revision 1.4  2005/07/09 23:15:04  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

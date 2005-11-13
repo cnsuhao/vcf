@@ -161,6 +161,7 @@
 		};
 		5E2C820B06420A1E00A8020D = {
 			children = (
+				5E6B1D3C09279AD700C3EAFA,
 				5E006DCA068FD71500D3415B,
 				5EA82A1406453B8500A8020D,
 				5EA829A0064538E000A8020D,
@@ -316,6 +317,20 @@
 		};
 		5E4EC0A5092305EC00203611 = {
 			fileRef = 5E4EC0400922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1D3C09279AD700C3EAFA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = CoreFoundation.framework;
+			path = /System/Library/Frameworks/CoreFoundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E6B1D3D09279AD700C3EAFA = {
+			fileRef = 5E6B1D3C09279AD700C3EAFA;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -1654,6 +1669,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5E4EC0A2092305D800203611,
+				5E6B1D3D09279AD700C3EAFA,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
