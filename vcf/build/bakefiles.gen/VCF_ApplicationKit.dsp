@@ -5,7 +5,7 @@
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 # TARGTYPE "Win32 (x86) Dynamic-Link Library" 0x0102
 
-CFG=ApplicationKit - Win32 icl6 Release
+CFG=ApplicationKit - Win32 Release
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -14,10 +14,14 @@ CFG=ApplicationKit - Win32 icl6 Release
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "VCF_ApplicationKit.mak" CFG="ApplicationKit - Win32 icl6 Release"
+!MESSAGE NMAKE /f "VCF_ApplicationKit.mak" CFG="ApplicationKit - Win32 Release"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
+!MESSAGE "ApplicationKit - Win32 vc80 DLL Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "ApplicationKit - Win32 vc80 DLL Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "ApplicationKit - Win32 vc80 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "ApplicationKit - Win32 vc80 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "ApplicationKit - Win32 vc71 DLL Debug" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "ApplicationKit - Win32 vc71 DLL Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "ApplicationKit - Win32 vc71 Debug" (based on "Win32 (x86) Static Library")
@@ -30,10 +34,6 @@ CFG=ApplicationKit - Win32 icl6 Release
 !MESSAGE "ApplicationKit - Win32 vc6 DLL Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "ApplicationKit - Win32 vc6 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE "ApplicationKit - Win32 vc6 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "ApplicationKit - Win32 vc5 DLL Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "ApplicationKit - Win32 vc5 DLL Release" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "ApplicationKit - Win32 vc5 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE "ApplicationKit - Win32 vc5 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "ApplicationKit - Win32 icl7 DLL Debug" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "ApplicationKit - Win32 icl7 DLL Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "ApplicationKit - Win32 icl7 Debug" (based on "Win32 (x86) Static Library")
@@ -42,6 +42,10 @@ CFG=ApplicationKit - Win32 icl6 Release
 !MESSAGE "ApplicationKit - Win32 icl6 DLL Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "ApplicationKit - Win32 icl6 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE "ApplicationKit - Win32 icl6 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "ApplicationKit - Win32 DLL Debug" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "ApplicationKit - Win32 DLL Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "ApplicationKit - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "ApplicationKit - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -51,7 +55,103 @@ CFG=ApplicationKit - Win32 icl6 Release
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "ApplicationKit - Win32 vc71 DLL Debug"
+!IF  "$(CFG)" == "ApplicationKit - Win32 vc80 DLL Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "..\..\lib"
+# PROP BASE Intermediate_Dir "msvc6prj_vc80_d\ApplicationKit"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "..\..\lib"
+# PROP Intermediate_Dir "msvc6prj_vc80_d\ApplicationKit"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc80_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc80_d\ApplicationKit_vc80_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc80_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc80_d\ApplicationKit_vc80_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 FoundationKit_vc80_d.lib ZLib_vc80_sd.lib libAGG_vc80_sd.lib LibJPEG_vc80_sd.lib LibPNG_vc80_sd.lib GraphicsKit_vc80_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc80_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc80_d.lib" /debug
+# ADD LINK32 FoundationKit_vc80_d.lib ZLib_vc80_sd.lib libAGG_vc80_sd.lib LibJPEG_vc80_sd.lib LibPNG_vc80_sd.lib GraphicsKit_vc80_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc80_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc80_d.lib" /debug
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc80 DLL Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "..\..\lib"
+# PROP BASE Intermediate_Dir "msvc6prj_vc80\ApplicationKit"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "..\..\lib"
+# PROP Intermediate_Dir "msvc6prj_vc80\ApplicationKit"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc80.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc80\ApplicationKit_vc80.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc80.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc80\ApplicationKit_vc80.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 FoundationKit_vc80.lib ZLib_vc80_s.lib libAGG_vc80_s.lib LibJPEG_vc80_s.lib LibPNG_vc80_s.lib GraphicsKit_vc80.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc80.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc80.lib"
+# ADD LINK32 FoundationKit_vc80.lib ZLib_vc80_s.lib libAGG_vc80_s.lib LibJPEG_vc80_s.lib LibPNG_vc80_s.lib GraphicsKit_vc80.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc80.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc80.lib"
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc80 Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "..\..\lib"
+# PROP BASE Intermediate_Dir "msvc6prj_vc80_sd\ApplicationKit"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "..\..\lib"
+# PROP Intermediate_Dir "msvc6prj_vc80_sd\ApplicationKit"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc80_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc80_sd\ApplicationKit_vc80_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc80_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc80_sd\ApplicationKit_vc80_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc80_sd.lib"
+# ADD LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc80_sd.lib"
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc80 Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "..\..\lib"
+# PROP BASE Intermediate_Dir "msvc6prj_vc80_s\ApplicationKit"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "..\..\lib"
+# PROP Intermediate_Dir "msvc6prj_vc80_s\ApplicationKit"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc80_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc80_s\ApplicationKit_vc80_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc80_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc80_s\ApplicationKit_vc80_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc80_s.lib"
+# ADD LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc80_s.lib"
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc71 DLL Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -63,18 +163,18 @@ RSC=rc.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc71_d\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc71_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_d\ApplicationKit_vc71_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc71_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_d\ApplicationKit_vc71_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc71_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_d\ApplicationKit_vc71_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc71_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_d\ApplicationKit_vc71_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc71_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc71_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_vc71_d.lib ZLib_vc71_sd.lib libAGG_vc71_sd.lib LibJPEG_vc71_sd.lib LibPNG_vc71_sd.lib GraphicsKit_vc71_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc71_d.lib" /debug
+# ADD LINK32 FoundationKit_vc71_d.lib ZLib_vc71_sd.lib libAGG_vc71_sd.lib LibJPEG_vc71_sd.lib LibPNG_vc71_sd.lib GraphicsKit_vc71_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc71_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc71 DLL Release"
 
@@ -88,18 +188,18 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc71\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc71.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71\ApplicationKit_vc71.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc71.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71\ApplicationKit_vc71.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc71.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71\ApplicationKit_vc71.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc71.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71\ApplicationKit_vc71.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc71.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc71.lib"
+# ADD BASE LINK32 FoundationKit_vc71.lib ZLib_vc71_s.lib libAGG_vc71_s.lib LibJPEG_vc71_s.lib LibPNG_vc71_s.lib GraphicsKit_vc71.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc71.lib"
+# ADD LINK32 FoundationKit_vc71.lib ZLib_vc71_s.lib libAGG_vc71_s.lib LibJPEG_vc71_s.lib LibPNG_vc71_s.lib GraphicsKit_vc71.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc71.lib"
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc71 Debug"
 
@@ -113,8 +213,8 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc71_sd\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc71_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_sd\ApplicationKit_vc71_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc71_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_sd\ApplicationKit_vc71_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc71_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_sd\ApplicationKit_vc71_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc71_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_sd\ApplicationKit_vc71_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -136,8 +236,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc71_s\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc71_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_s\ApplicationKit_vc71_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc71_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_s\ApplicationKit_vc71_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc71_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_s\ApplicationKit_vc71_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc71_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc71_s\ApplicationKit_vc71_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -159,18 +259,18 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc70_d\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc70_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_d\ApplicationKit_vc70_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc70_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_d\ApplicationKit_vc70_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc70_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_d\ApplicationKit_vc70_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc70_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_d\ApplicationKit_vc70_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc70_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc70_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_vc70_d.lib ZLib_vc70_sd.lib libAGG_vc70_sd.lib LibJPEG_vc70_sd.lib LibPNG_vc70_sd.lib GraphicsKit_vc70_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc70_d.lib" /debug
+# ADD LINK32 FoundationKit_vc70_d.lib ZLib_vc70_sd.lib libAGG_vc70_sd.lib LibJPEG_vc70_sd.lib LibPNG_vc70_sd.lib GraphicsKit_vc70_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc70_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc70 DLL Release"
 
@@ -184,18 +284,18 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc70\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc70.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70\ApplicationKit_vc70.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc70.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70\ApplicationKit_vc70.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc70.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70\ApplicationKit_vc70.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc70.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70\ApplicationKit_vc70.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc70.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc70.lib"
+# ADD BASE LINK32 FoundationKit_vc70.lib ZLib_vc70_s.lib libAGG_vc70_s.lib LibJPEG_vc70_s.lib LibPNG_vc70_s.lib GraphicsKit_vc70.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc70.lib"
+# ADD LINK32 FoundationKit_vc70.lib ZLib_vc70_s.lib libAGG_vc70_s.lib LibJPEG_vc70_s.lib LibPNG_vc70_s.lib GraphicsKit_vc70.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc70.lib"
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc70 Debug"
 
@@ -209,8 +309,8 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc70_sd\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc70_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_sd\ApplicationKit_vc70_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc70_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_sd\ApplicationKit_vc70_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc70_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_sd\ApplicationKit_vc70_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc70_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_sd\ApplicationKit_vc70_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -232,8 +332,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc70_s\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc70_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_s\ApplicationKit_vc70_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc70_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_s\ApplicationKit_vc70_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc70_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_s\ApplicationKit_vc70_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc70_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc70_s\ApplicationKit_vc70_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -255,18 +355,18 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc6_d\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc6_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_d\ApplicationKit_vc6_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc6_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_d\ApplicationKit_vc6_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc6_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_d\ApplicationKit_vc6_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc6_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_d\ApplicationKit_vc6_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc6_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc6_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_vc6_d.lib ZLib_vc6_sd.lib libAGG_vc6_sd.lib LibJPEG_vc6_sd.lib LibPNG_vc6_sd.lib GraphicsKit_vc6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc6_d.lib" /debug
+# ADD LINK32 FoundationKit_vc6_d.lib ZLib_vc6_sd.lib libAGG_vc6_sd.lib LibJPEG_vc6_sd.lib LibPNG_vc6_sd.lib GraphicsKit_vc6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc6_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc6 DLL Release"
 
@@ -280,18 +380,18 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc6\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc6.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6\ApplicationKit_vc6.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc6.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6\ApplicationKit_vc6.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc6.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6\ApplicationKit_vc6.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc6.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6\ApplicationKit_vc6.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc6.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc6.lib"
+# ADD BASE LINK32 FoundationKit_vc6.lib ZLib_vc6_s.lib libAGG_vc6_s.lib LibJPEG_vc6_s.lib LibPNG_vc6_s.lib GraphicsKit_vc6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc6.lib"
+# ADD LINK32 FoundationKit_vc6.lib ZLib_vc6_s.lib libAGG_vc6_s.lib LibJPEG_vc6_s.lib LibPNG_vc6_s.lib GraphicsKit_vc6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc6.lib"
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc6 Debug"
 
@@ -305,8 +405,8 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc6_sd\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc6_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_sd\ApplicationKit_vc6_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc6_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_sd\ApplicationKit_vc6_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc6_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_sd\ApplicationKit_vc6_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc6_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_sd\ApplicationKit_vc6_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -328,8 +428,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_vc6_s\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc6_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_s\ApplicationKit_vc6_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc6_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_s\ApplicationKit_vc6_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc6_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_s\ApplicationKit_vc6_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc6_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc6_s\ApplicationKit_vc6_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -338,102 +438,6 @@ BSC32=bscmake.exe
 LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc6_s.lib"
 # ADD LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc6_s.lib"
-
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc5 DLL Debug"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "..\..\lib"
-# PROP BASE Intermediate_Dir "msvc6prj_vc5_d\ApplicationKit"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc5_d\ApplicationKit"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc5_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc5_d\ApplicationKit_vc5_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_vc5_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc5_d\ApplicationKit_vc5_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc5_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc5_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc5_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc5_d.lib" /debug
-
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc5 DLL Release"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "..\..\lib"
-# PROP BASE Intermediate_Dir "msvc6prj_vc5\ApplicationKit"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc5\ApplicationKit"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc5.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc5\ApplicationKit_vc5.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_vc5.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc5\ApplicationKit_vc5.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc5.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc5.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_vc5.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_vc5.lib"
-
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc5 Debug"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "..\..\lib"
-# PROP BASE Intermediate_Dir "msvc6prj_vc5_sd\ApplicationKit"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 1
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc5_sd\ApplicationKit"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc5_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc5_sd\ApplicationKit_vc5_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_vc5_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc5_sd\ApplicationKit_vc5_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD BASE RSC /l 0x409
-# ADD RSC /l 0x409
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LIB32=link.exe -lib
-# ADD BASE LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc5_sd.lib"
-# ADD LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc5_sd.lib"
-
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc5 Release"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "..\..\lib"
-# PROP BASE Intermediate_Dir "msvc6prj_vc5_s\ApplicationKit"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 0
-# PROP Output_Dir "..\..\lib"
-# PROP Intermediate_Dir "msvc6prj_vc5_s\ApplicationKit"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc5_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc5_s\ApplicationKit_vc5_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_vc5_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_vc5_s\ApplicationKit_vc5_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD BASE RSC /l 0x409
-# ADD RSC /l 0x409
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo
-LIB32=link.exe -lib
-# ADD BASE LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc5_s.lib"
-# ADD LIB32 /nologo /out:"..\..\lib\ApplicationKit_vc5_s.lib"
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 icl7 DLL Debug"
 
@@ -447,18 +451,18 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_icl7_d\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_icl7_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_d\ApplicationKit_icl7_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_icl7_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_d\ApplicationKit_icl7_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_icl7_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_d\ApplicationKit_icl7_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_icl7_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_d\ApplicationKit_icl7_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl7_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl7_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_icl7_d.lib ZLib_icl7_sd.lib libAGG_icl7_sd.lib LibJPEG_icl7_sd.lib LibPNG_icl7_sd.lib GraphicsKit_icl7_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl7_d.lib" /debug
+# ADD LINK32 FoundationKit_icl7_d.lib ZLib_icl7_sd.lib libAGG_icl7_sd.lib LibJPEG_icl7_sd.lib LibPNG_icl7_sd.lib GraphicsKit_icl7_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl7_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 icl7 DLL Release"
 
@@ -472,18 +476,18 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_icl7\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_icl7.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7\ApplicationKit_icl7.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_icl7.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7\ApplicationKit_icl7.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_icl7.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7\ApplicationKit_icl7.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_icl7.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7\ApplicationKit_icl7.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl7.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl7.lib"
+# ADD BASE LINK32 FoundationKit_icl7.lib ZLib_icl7_s.lib libAGG_icl7_s.lib LibJPEG_icl7_s.lib LibPNG_icl7_s.lib GraphicsKit_icl7.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl7.lib"
+# ADD LINK32 FoundationKit_icl7.lib ZLib_icl7_s.lib libAGG_icl7_s.lib LibJPEG_icl7_s.lib LibPNG_icl7_s.lib GraphicsKit_icl7.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl7.lib"
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 icl7 Debug"
 
@@ -497,8 +501,8 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_icl7_sd\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_icl7_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_sd\ApplicationKit_icl7_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_icl7_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_sd\ApplicationKit_icl7_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_icl7_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_sd\ApplicationKit_icl7_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_icl7_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_sd\ApplicationKit_icl7_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -520,8 +524,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_icl7_s\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_icl7_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_s\ApplicationKit_icl7_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_icl7_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_s\ApplicationKit_icl7_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_icl7_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_s\ApplicationKit_icl7_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_icl7_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl7_s\ApplicationKit_icl7_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -543,18 +547,18 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_icl6_d\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_icl6_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_d\ApplicationKit_icl6_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_icl6_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_d\ApplicationKit_icl6_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_icl6_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_d\ApplicationKit_icl6_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_icl6_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_d\ApplicationKit_icl6_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl6_d.lib" /debug
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl6_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_icl6_d.lib ZLib_icl6_sd.lib libAGG_icl6_sd.lib LibJPEG_icl6_sd.lib LibPNG_icl6_sd.lib GraphicsKit_icl6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl6_d.lib" /debug
+# ADD LINK32 FoundationKit_icl6_d.lib ZLib_icl6_sd.lib libAGG_icl6_sd.lib LibJPEG_icl6_sd.lib LibPNG_icl6_sd.lib GraphicsKit_icl6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl6_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 icl6 DLL Release"
 
@@ -568,18 +572,18 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_icl6\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_icl6.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6\ApplicationKit_icl6.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_icl6.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6\ApplicationKit_icl6.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
-# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "USE_GRAPHICSKIT_DLL" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
-# ADD BASE RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
-# ADD RSC /l 0x409 /d "USE_GRAPHICSKIT_DLL" /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_icl6.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6\ApplicationKit_icl6.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit_icl6.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6\ApplicationKit_icl6.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl6.lib"
-# ADD LINK32 rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl6.lib"
+# ADD BASE LINK32 FoundationKit_icl6.lib ZLib_icl6_s.lib libAGG_icl6_s.lib LibJPEG_icl6_s.lib LibPNG_icl6_s.lib GraphicsKit_icl6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl6.lib"
+# ADD LINK32 FoundationKit_icl6.lib ZLib_icl6_s.lib libAGG_icl6_s.lib LibJPEG_icl6_s.lib LibPNG_icl6_s.lib GraphicsKit_icl6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_icl6.lib"
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 icl6 Debug"
 
@@ -593,8 +597,8 @@ LINK32=link.exe
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_icl6_sd\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_icl6_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_sd\ApplicationKit_icl6_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_icl6_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_sd\ApplicationKit_icl6_sd.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_icl6_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_sd\ApplicationKit_icl6_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_icl6_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_sd\ApplicationKit_icl6_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -616,8 +620,8 @@ LIB32=link.exe -lib
 # PROP Output_Dir "..\..\lib"
 # PROP Intermediate_Dir "msvc6prj_icl6_s\ApplicationKit"
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_icl6_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_s\ApplicationKit_icl6_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
-# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_icl6_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_s\ApplicationKit_icl6_s.pch" /D "WIN32" /D "_LIB" /D "USE_GRAPHICSKIT_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_icl6_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_s\ApplicationKit_icl6_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_icl6_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_icl6_s\ApplicationKit_icl6_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -627,10 +631,110 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo /out:"..\..\lib\ApplicationKit_icl6_s.lib"
 # ADD LIB32 /nologo /out:"..\..\lib\ApplicationKit_icl6_s.lib"
 
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 DLL Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "..\..\lib"
+# PROP BASE Intermediate_Dir "msvc6prj_d\ApplicationKit"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "..\..\lib"
+# PROP Intermediate_Dir "msvc6prj_d\ApplicationKit"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_d\ApplicationKit_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\..\bin\ApplicationKit_d.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_d\ApplicationKit_d.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "_DEBUG" /d "_DEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 FoundationKit_d.lib ZLib_sd.lib libAGG_sd.lib LibJPEG_sd.lib LibPNG_sd.lib GraphicsKit_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_d.lib" /debug
+# ADD LINK32 FoundationKit_d.lib ZLib_sd.lib libAGG_sd.lib LibJPEG_sd.lib LibPNG_sd.lib GraphicsKit_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit_d.lib" /debug
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 DLL Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "..\..\lib"
+# PROP BASE Intermediate_Dir "msvc6prj\ApplicationKit"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "..\..\lib"
+# PROP Intermediate_Dir "msvc6prj\ApplicationKit"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj\ApplicationKit.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\..\bin\ApplicationKit.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj\ApplicationKit.pch" /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /c
+# ADD BASE MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD MTL /nologo /D "WIN32" /D "_USRDLL" /D "DLL_EXPORTS" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_USRDLL" /D "APPLICATIONKIT_DLL" /D "APPLICATIONKIT_EXPORTS" /mktyplib203 /win32
+# ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+# ADD RSC /l 0x409 /d "NDEBUG" /d "_WINDOWS" /d "_WIN32" /d "WIN32" /d "_CRT_SECURE_NO_DEPRECATE" /d "_SCL_SECURE_NO_DEPRECATE" /d "_CRT_NON_CONFORMING_SWPRINTFS" /i "..\..\src" /d "_USRDLL" /d "APPLICATIONKIT_DLL" /d APPLICATIONKIT_EXPORTS
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LINK32=link.exe
+# ADD BASE LINK32 FoundationKit.lib ZLib_s.lib libAGG_s.lib LibJPEG_s.lib LibPNG_s.lib GraphicsKit.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit.lib"
+# ADD LINK32 FoundationKit.lib ZLib_s.lib libAGG_s.lib LibJPEG_s.lib LibPNG_s.lib GraphicsKit.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\ApplicationKit.dll" /libpath:"..\..\lib" /implib:"..\..\lib\ApplicationKit.lib"
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "..\..\lib"
+# PROP BASE Intermediate_Dir "msvc6prj_sd\ApplicationKit"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "..\..\lib"
+# PROP Intermediate_Dir "msvc6prj_sd\ApplicationKit"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_sd\ApplicationKit_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MDd /Od /GR /EHsc /W1 /I "..\..\src" /Zi /Gm /GZ /Fd..\..\lib\ApplicationKit_sd.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_sd\ApplicationKit_sd.pch" /D "WIN32" /D "_LIB" /D "_DEBUG" /D "_DEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\..\lib\ApplicationKit_sd.lib"
+# ADD LIB32 /nologo /out:"..\..\lib\ApplicationKit_sd.lib"
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "..\..\lib"
+# PROP BASE Intermediate_Dir "msvc6prj_s\ApplicationKit"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "..\..\lib"
+# PROP Intermediate_Dir "msvc6prj_s\ApplicationKit"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_s\ApplicationKit_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD CPP /nologo /FD /MD /O2 /GR /EHsc /W1 /I "..\..\src" /Fd..\..\lib\ApplicationKit_s.pdb /Yu"vcf\ApplicationKit\ApplicationKit.h" /Fp"msvc6prj_s\ApplicationKit_s.pch" /D "WIN32" /D "_LIB" /D "NDEBUG" /D "_WINDOWS" /D "_WIN32" /D "WIN32" /D "_CRT_SECURE_NO_DEPRECATE" /D "_SCL_SECURE_NO_DEPRECATE" /D "_CRT_NON_CONFORMING_SWPRINTFS" /D "_LIB" /D "_MBCS" /D "NO_MFC" /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo /out:"..\..\lib\ApplicationKit_s.lib"
+# ADD LIB32 /nologo /out:"..\..\lib\ApplicationKit_s.lib"
+
 !ENDIF
 
 # Begin Target
 
+# Name "ApplicationKit - Win32 vc80 DLL Debug"
+# Name "ApplicationKit - Win32 vc80 DLL Release"
+# Name "ApplicationKit - Win32 vc80 Debug"
+# Name "ApplicationKit - Win32 vc80 Release"
 # Name "ApplicationKit - Win32 vc71 DLL Debug"
 # Name "ApplicationKit - Win32 vc71 DLL Release"
 # Name "ApplicationKit - Win32 vc71 Debug"
@@ -643,10 +747,6 @@ LIB32=link.exe -lib
 # Name "ApplicationKit - Win32 vc6 DLL Release"
 # Name "ApplicationKit - Win32 vc6 Debug"
 # Name "ApplicationKit - Win32 vc6 Release"
-# Name "ApplicationKit - Win32 vc5 DLL Debug"
-# Name "ApplicationKit - Win32 vc5 DLL Release"
-# Name "ApplicationKit - Win32 vc5 Debug"
-# Name "ApplicationKit - Win32 vc5 Release"
 # Name "ApplicationKit - Win32 icl7 DLL Debug"
 # Name "ApplicationKit - Win32 icl7 DLL Release"
 # Name "ApplicationKit - Win32 icl7 Debug"
@@ -655,6 +755,10 @@ LIB32=link.exe -lib
 # Name "ApplicationKit - Win32 icl6 DLL Release"
 # Name "ApplicationKit - Win32 icl6 Debug"
 # Name "ApplicationKit - Win32 icl6 Release"
+# Name "ApplicationKit - Win32 DLL Debug"
+# Name "ApplicationKit - Win32 DLL Release"
+# Name "ApplicationKit - Win32 Debug"
+# Name "ApplicationKit - Win32 Release"
 # Begin Group "Source Files"
 
 # PROP Default_Filter ""
@@ -720,7 +824,21 @@ SOURCE=..\..\src\vcf\ApplicationKit\ApplicationKit.cpp
 
 SOURCE=..\..\src\..\build\resources\win32\ApplicationKit.rc
 
-!IF  "$(CFG)" == "ApplicationKit - Win32 vc71 DLL Debug"
+!IF  "$(CFG)" == "ApplicationKit - Win32 vc80 DLL Debug"
+
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc80 DLL Release"
+
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc80 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc80 Release"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc71 DLL Debug"
 
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc71 DLL Release"
@@ -762,20 +880,6 @@ SOURCE=..\..\src\..\build\resources\win32\ApplicationKit.rc
 
 # PROP Exclude_From_Build 1
 
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc5 DLL Debug"
-
-
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc5 DLL Release"
-
-
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc5 Debug"
-
-# PROP Exclude_From_Build 1
-
-!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 vc5 Release"
-
-# PROP Exclude_From_Build 1
-
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 icl7 DLL Debug"
 
 
@@ -801,6 +905,20 @@ SOURCE=..\..\src\..\build\resources\win32\ApplicationKit.rc
 # PROP Exclude_From_Build 1
 
 !ELSEIF  "$(CFG)" == "ApplicationKit - Win32 icl6 Release"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 DLL Debug"
+
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 DLL Release"
+
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 Debug"
+
+# PROP Exclude_From_Build 1
+
+!ELSEIF  "$(CFG)" == "ApplicationKit - Win32 Release"
 
 # PROP Exclude_From_Build 1
 
