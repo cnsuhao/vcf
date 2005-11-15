@@ -4,12 +4,13 @@
     <include file="LibPNGFiles.bkl"/>
 
     <template id="LibPNG_base">
-        <set var="LIBRARY_NAME">LibPNG</set>
+        <set var="LIBRARY_NAME">$(LIBPNG_NAME)</set>
 
         <headers>$(LIBPNG_HDR)</headers>
         <sources>$(LIBPNG_SRC)</sources>
     </template>
 
-    <lib id="LibPNG_lib" template="LibPNG_base,vcf_lib">
+    <lib id="LibPNG_lib" template="LibPNG_base,vcf_lib"
+            cond="OPTION_GRAPHICSKIT=='1'">
     </lib>
 </makefile>

@@ -4,12 +4,13 @@
     <include file="RegExxFiles.bkl"/>
 
     <template id="RegExx_base">
-        <set var="LIBRARY_NAME">RegExx</set>
+        <set var="LIBRARY_NAME">$(REGEXX_NAME)</set>
 
         <headers>$(REGEXX_HDR)</headers>
         <sources>$(REGEXX_SRC)</sources>
     </template>
 
-    <lib id="RegExx_lib" template="RegExx_base,vcf_lib">
+    <lib id="RegExx_lib" template="RegExx_base,vcf_lib"
+            cond="OPTION_REGEXX=='1'">
     </lib>
 </makefile>

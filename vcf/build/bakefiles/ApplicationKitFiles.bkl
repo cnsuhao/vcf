@@ -522,8 +522,8 @@
     </set>
 
     <set var="APPLICATIONKIT_ATL_HDR" hints="files">
-        <if cond="OPTION_APPLICATIONKIT_ATL=='0'"></if>
-        <if cond="OPTION_APPLICATIONKIT_ATL=='1'">
+        <if cond="OPTION_WIN32HTMLBROWSER=='0'"></if>
+        <if cond="OPTION_WIN32HTMLBROWSER=='1'">
             vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h
             vcf/ApplicationKit/HTMLBrowserControl.h
             vcf/ApplicationKit/HTMLBrowserPeer.h
@@ -531,21 +531,27 @@
     </set>
 
     <set var="APPLICATIONKIT_ATL_SRC" hints="files">
-        <if cond="OPTION_APPLICATIONKIT_ATL=='0'"></if>
-        <if cond="OPTION_APPLICATIONKIT_ATL=='1'">
+        <if cond="OPTION_WIN32HTMLBROWSER=='0'"></if>
+        <if cond="OPTION_WIN32HTMLBROWSER=='1'">
             vcf/ApplicationKit/HTMLBrowserControl.cpp
         </if>
     </set>
 
     <set var="APPLICATIONKIT_HDR" append="1" hints="files">
         <if cond="PLATFORM_UNIX=='1'">$(APPLICATIONKIT_GTK_HDR)</if>
-        <if cond="PLATFORM_WIN32=='1'">$(APPLICATIONKIT_WIN_HDR)</if>
+        <if cond="PLATFORM_WIN32=='1'">
+            $(APPLICATIONKIT_WIN_HDR)
+            $(APPLICATIONKIT_ATL_HDR)
+        </if>
         <if cond="PLATFORM_MACOSX=='1'">$(APPLICATIONKIT_OSX_HDR)</if>
     </set>
 
     <set var="APPLICATIONKIT_SRC" append="1" hints="files">
         <if cond="PLATFORM_UNIX=='1'">$(APPLICATIONKIT_GTK_SRC)</if>
-        <if cond="PLATFORM_WIN32=='1'">$(APPLICATIONKIT_WIN_SRC)</if>
+        <if cond="PLATFORM_WIN32=='1'">
+            $(APPLICATIONKIT_WIN_SRC)
+            $(APPLICATIONKIT_ATL_SRC)
+        </if>
         <if cond="PLATFORM_MACOSX=='1'">$(APPLICATIONKIT_OSX_SRC)</if>
     </set>
 

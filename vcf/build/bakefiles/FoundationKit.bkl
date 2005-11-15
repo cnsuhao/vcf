@@ -4,7 +4,7 @@
     <include file="FoundationKitFiles.bkl"/>
 
     <template id="FoundationKit_base">
-        <set var="LIBRARY_NAME">FoundationKit</set>
+        <set var="LIBRARY_NAME">$(FOUNDATIONKIT_NAME)</set>
         <set var="LIBRARY_PRECOMP_HDR">vcf$(DIRSEP)FoundationKit$(DIRSEP)FoundationKit.h</set>
         <set var="LIBRARY_PRECOMP_SRC">vcf$(DIRSEP)FoundationKit$(DIRSEP)FoundationKit.cpp</set>
 

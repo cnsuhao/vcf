@@ -4,17 +4,17 @@
     <include file="ApplicationKitFiles.bkl"/>
 
     <set var="VCF_NO_ATL">
-        <if cond="OPTION_APPLICATIONKIT_ATL=='0'">VCF_NO_ATL</if>
-        <if cond="OPTION_APPLICATIONKIT_ATL=='1'"></if>
+        <if cond="OPTION_WIN32HTMLBROWSER=='1'"></if>
+        <if cond="OPTION_WIN32HTMLBROWSER=='0'">VCF_NO_ATL</if>
     </set>
 
     <template id="ApplicationKit_base">
-        <set var="LIBRARY_NAME">ApplicationKit</set>
+        <set var="LIBRARY_NAME">$(APPLICATIONKIT_NAME)</set>
         <set var="LIBRARY_PRECOMP_HDR">vcf$(DIRSEP)ApplicationKit$(DIRSEP)ApplicationKit.h</set>
         <set var="LIBRARY_PRECOMP_SRC">vcf$(DIRSEP)ApplicationKit$(DIRSEP)ApplicationKit.cpp</set>
 
-        <headers>$(APPLICATIONKIT_HDR) $(APPLICATIONKIT_ATL_HDR)</headers>
-        <sources>$(APPLICATIONKIT_SRC) $(APPLICATIONKIT_ATL_SRC)</sources>
+        <headers>$(APPLICATIONKIT_HDR)</headers>
+        <sources>$(APPLICATIONKIT_SRC)</sources>
 
         <define>$(VCF_NO_ATL)</define>
 

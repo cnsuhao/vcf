@@ -2,19 +2,25 @@
 
 <makefile>
 
-    <if cond="FORMAT in ['msvc','msvc6prj']">
-        <option name="OPTION_SELECTLIB">
-            <values>icl6,icl7,vc5,vc6,vc70,vc71,vc80</values>
-            <values-description>icl6,icl7,vc5,vc6,vc70,vc71,vc80</values-description>
-            <default-value>vc6</default-value>
-            <description>
-                Your preference:
-            </description>
-        </option>
-    </if>
-    <if cond="FORMAT=='borland'">
-        <set var="OPTION_SELECTLIB">bcc</set>
-    </if>
+    <set var="OPTION_SELECTLIB_DEFAULT"/>
+    <set var="OPTION_SELECTLIB_DEFAULT">
+        <if cond="FORMAT in ['msvc','msvc6prj']">,_icl6,_icl7,_vc6,_vc70,_vc71,_vc80</if>
+        <if cond="FORMAT=='borland'">_bcc</if>
+    </set>
+    <option name="OPTION_SELECTLIB">
+        <values>$(OPTION_SELECTLIB_DEFAULT)</values>
+        <values-description>,icl6,icl7,vc6,vc70,vc71,vc80</values-description>
+        <default-value></default-value>
+        <description>
+Some meaningful string that will be added to the names
+of the target files. Any string is possible.
+For example, if the value is _vc6,
+then the name of, say, the foundation kit debug dll
+will be like this: FoundationKit_vc6_d.dll.
+The default value is an empty string.
+Backward compatibility:
+        </description>
+    </option>
 
     <option name="OPTION_SHARED">
         <values>0,1</values>
@@ -86,6 +92,14 @@ The type of runtime libraries.
         </description>
     </option>
 
+    <option name="OPTION_ZLIB">
+        <values>0,1</values>
+        <default-value>1</default-value>
+        <description>
+            Compile ZLib:
+        </description>
+    </option>
+
     <option name="OPTION_FOUNDATIONKIT">
         <values>0,1</values>
         <default-value>1</default-value>
@@ -98,7 +112,10 @@ The type of runtime libraries.
         <values>0,1</values>
         <default-value>1</default-value>
         <description>
-            Compile GraphicsKit:
+Depends on:
+    OPTION_FOUNDATIONKIT
+    OPTION_ZLIB
+Compile GraphicsKit:
         </description>
     </option>
 
@@ -106,30 +123,35 @@ The type of runtime libraries.
         <values>0,1</values>
         <default-value>1</default-value>
         <description>
-            Compile ApplicationKit:
+Depends on:
+    OPTION_GRAPHICSKIT
+Compile ApplicationKit:
         </description>
     </option>
 
-    <set var="OPTION_APPLICATIONKIT_ATL_DEFAULT">
+    <set var="OPTION_WIN32HTMLBROWSER_DEFAULT">
         <if cond="FORMAT!='msvc'">0</if>
         <if cond="FORMAT=='msvc'">1</if>
     </set>
     <!--
     It makes sence to consider:
-        - ATL is suitable, only if PLATFORM_WIN32=='1'.
+        - ATL (Win32HTMLBrowser support) is suitable,
+          only if PLATFORM_WIN32=='1'.
         - Visual Studio includes ATL always.
     -->
     <if cond="PLATFORM_WIN32=='1' and FORMAT!='msvc6prj'">
-        <option name="OPTION_APPLICATIONKIT_ATL">
+        <option name="OPTION_WIN32HTMLBROWSER">
             <values>0,1</values>
-            <default-value>$(OPTION_APPLICATIONKIT_ATL_DEFAULT)</default-value>
+            <default-value>$(OPTION_WIN32HTMLBROWSER_DEFAULT)</default-value>
             <description>
-                Compile ATL based controls:
+Depends on:
+    OPTION_APPLICATIONKIT
+Compile the Win32HTMLBrowser control:
             </description>
         </option>
     </if>
-    <if cond="not isoption('OPTION_APPLICATIONKIT_ATL')">
-        <set var="OPTION_APPLICATIONKIT_ATL">
+    <if cond="not isoption('OPTION_WIN32HTMLBROWSER')">
+        <set var="OPTION_WIN32HTMLBROWSER">
             <if cond="PLATFORM_WIN32=='0'">0</if>
             <if cond="FORMAT=='msvc6prj'">1</if>
         </set>
@@ -137,41 +159,59 @@ The type of runtime libraries.
 
     <option name="OPTION_OPENGLKIT">
         <values>0,1</values>
-        <default-value>1</default-value>
+        <default-value>0</default-value>
         <description>
-            Compile OpenGLKit:
+Depends on:
+    OPTION_APPLICATIONKIT
+Compile OpenGLKit:
         </description>
     </option>
 
     <option name="OPTION_NETWORKKIT">
         <values>0,1</values>
-        <default-value>1</default-value>
+        <default-value>0</default-value>
         <description>
-            Compile NetworkKit:
+Depends on:
+    OPTION_FOUNDATIONKIT
+Compile NetworkKit:
         </description>
     </option>
 
     <option name="OPTION_REMOTEOBJECTKIT">
         <values>0,1</values>
-        <default-value>1</default-value>
+        <default-value>0</default-value>
         <description>
-            Compile RemoteObjectKit:
+Depends on:
+    OPTION_NETWORKKIT
+Compile RemoteObjectKit:
         </description>
     </option>
 
     <option name="OPTION_INTERNETKIT">
         <values>0,1</values>
-        <default-value>1</default-value>
+        <default-value>0</default-value>
         <description>
-            Compile InternetKit:
+Depends on:
+    OPTION_FOUNDATIONKIT
+Compile InternetKit:
         </description>
     </option>
 
     <option name="OPTION_IMAGEFORMATS">
         <values>0,1</values>
-        <default-value>1</default-value>
+        <default-value>0</default-value>
         <description>
-            Compile ImageFormats:
+Depends on:
+    OPTION_APPLICATIONKIT
+Compile ImageFormats:
+        </description>
+    </option>
+
+    <option name="OPTION_REGEXX">
+        <values>0,1</values>
+        <default-value>0</default-value>
+        <description>
+            Compile RegExx:
         </description>
     </option>
 

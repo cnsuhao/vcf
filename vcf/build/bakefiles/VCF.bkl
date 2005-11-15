@@ -28,23 +28,22 @@
     <include file="LibPNG.bkl"/>
     <include file="LibTIFF.bkl"/>
     <include file="RegExx.bkl"/>
-    <include file="FreeImage.bkl"/>
 
     <include file="FoundationKit.bkl"/>
     <include file="GraphicsKit.bkl"/>
     <include file="ApplicationKit.bkl"/>
     <include file="OpenGLKit.bkl"/>
-
-    <include file="Allin1.bkl"/>
-
     <include file="NetworkKit.bkl"/>
     <include file="RemoteObjectKit.bkl"/>
     <include file="InternetKit.bkl"/>
+
+    <include file="Allin1.bkl"/>
+
+    <include file="FreeImage.bkl"/>
     <include file="ImageFormats.bkl"/>
     <include file="Win32HTMLBrowser.bkl"/>
 
     <include file="Actions.bkl"/>
-
 
     <action id="createinfo">
         <is-phony>1</is-phony>

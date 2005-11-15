@@ -4,7 +4,7 @@
     <include file="NetworkKitFiles.bkl"/>
 
     <template id="NetworkKit_base">
-        <set var="LIBRARY_NAME">NetworkKit</set>
+        <set var="LIBRARY_NAME">$(NETWORKKIT_NAME)</set>
         <set var="LIBRARY_PRECOMP_HDR">vcf$(DIRSEP)NetworkKit$(DIRSEP)NetworkKit.h</set>
         <set var="LIBRARY_PRECOMP_SRC">vcf$(DIRSEP)NetworkKit$(DIRSEP)NetToolkit.cpp</set>
 
@@ -15,20 +15,19 @@
     </template>
 
     <lib id="NetworkKit_lib" template="NetworkKit_base,vcf_lib,precomp"
-            cond="OPTION_SHARED=='0' and OPTION_NETWORKKIT=='1'">
-        <depends>Allin1_lib</depends>
+            cond="OPTION_SHARED=='0' and OPTION_NETWORKKIT=='1' and OPTION_ALLIN1=='0'">
         <depends>FoundationKit_lib</depends>
     </lib>
 
     <dll id="NetworkKit_dll" template="NetworkKit_base,vcf_dll,precomp"
-            cond="OPTION_SHARED=='1' and OPTION_NETWORKKIT=='1'">
+            cond="OPTION_SHARED=='1' and OPTION_NETWORKKIT=='1' and OPTION_ALLIN1=='0'">
         <define>NETKIT_DLL</define>
         <define>NETKIT_EXPORTS</define>
-        <depends>Allin1_dll</depends>
         <depends>FoundationKit_dll</depends>
     </dll>
 
-    <set var="MSVC6PRJ_MERGED_TARGETS" append="1" cond="OPTION_NETWORKKIT=='1'">
+    <set var="MSVC6PRJ_MERGED_TARGETS" append="1"
+            cond="OPTION_NETWORKKIT=='1' and OPTION_ALLIN1=='0'">
         NetworkKit=NetworkKit_lib+NetworkKit_dll
     </set>
 </makefile>

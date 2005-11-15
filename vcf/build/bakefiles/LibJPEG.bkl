@@ -4,12 +4,13 @@
     <include file="LibJPEGFiles.bkl"/>
 
     <template id="LibJPEG_base">
-        <set var="LIBRARY_NAME">LibJPEG</set>
+        <set var="LIBRARY_NAME">$(LIBJPEG_NAME)</set>
 
         <headers>$(LIBJPEG_HDR)</headers>
         <sources>$(LIBJPEG_SRC)</sources>
     </template>
 
-    <lib id="LibJPEG_lib" template="LibJPEG_base,vcf_lib">
+    <lib id="LibJPEG_lib" template="LibJPEG_base,vcf_lib"
+            cond="OPTION_GRAPHICSKIT=='1'">
     </lib>
 </makefile>

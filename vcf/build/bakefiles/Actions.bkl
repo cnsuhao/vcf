@@ -22,9 +22,8 @@
             <depends>ApplicationKit_dll</depends>
         </action>
         
-        <action id="Win32HTMLBrowser" cond="OPTION_APPLICATIONKIT=='1' and OPTION_APPLICATIONKIT_ATL=='1' and PLATFORM_WIN32=='1'">
+        <action id="Win32HTMLBrowser" cond="OPTION_WIN32HTMLBROWSER=='1' and PLATFORM_WIN32=='1'">
             <is-phony>1</is-phony>
-            <depends>Win32HTMLBrowser_lib</depends>
             <depends>Win32HTMLBrowser_dll</depends>
         </action>
 
@@ -54,8 +53,12 @@
         
         <action id="ImageFormats" cond="OPTION_IMAGEFORMATS=='1'">
             <is-phony>1</is-phony>
-            <depends>ImageFormats_lib</depends>
             <depends>ImageFormats_dll</depends>
+        </action>
+
+        <action id="RegExx" cond="OPTION_REGEXX=='1'">
+            <is-phony>1</is-phony>
+            <depends>RegExx_lib</depends>
         </action>
 
     </if>

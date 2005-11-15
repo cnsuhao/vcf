@@ -4,7 +4,7 @@
     <include file="OpenGLKitFiles.bkl"/>
 
     <template id="OpenGLKit_base">
-        <set var="LIBRARY_NAME">OpenGLKit</set>
+        <set var="LIBRARY_NAME">$(OPENGLKIT_NAME)</set>
         <set var="LIBRARY_PRECOMP_HDR">vcf$(DIRSEP)OpenGLKit$(DIRSEP)OpenGLKit.h</set>
         <set var="LIBRARY_PRECOMP_SRC">vcf$(DIRSEP)OpenGLKit$(DIRSEP)OpenGLToolkit.cpp</set>
 

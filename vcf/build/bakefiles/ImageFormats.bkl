@@ -4,34 +4,29 @@
     <include file="ImageFormatsFiles.bkl"/>
 
     <template id="ImageFormats_base">
-        <set var="LIBRARY_NAME">ImageFormats</set>
+        <set var="LIBRARY_NAME">$(IMAGEFORMATS_NAME)</set>
 
         <headers>$(IMAGEFORMATS_HDR)</headers>
         <sources>$(IMAGEFORMATS_SRC)</sources>
 
         <vcf-use-ApplicationKit/>
 
-        <define>FREEIMAGE_LIB</define>
-        <define>USE_FREEIMAGE_LIB</define>
+        <library>ZLib_lib</library>
+        <library>LibJPEG_lib</library>
+        <library>LibPNG_lib</library>
+        <library>LibMNG_lib</library>
+        <library>LibTIFF_lib</library>
 
-        <depends>FreeImage_lib</depends>
+        <define>FREEIMAGE_LIB</define>
+        <library>FreeImage_lib</library>
     </template>
 
-    <lib id="ImageFormats_lib" template="ImageFormats_base,vcf_lib"
-            cond="OPTION_SHARED=='0' and OPTION_IMAGEFORMATS=='1'">
-        <depends>Allin1_lib</depends>
-        <depends>ApplicationKit_lib</depends>
-    </lib>
-
     <dll id="ImageFormats_dll" template="ImageFormats_base,vcf_dll"
-            cond="OPTION_SHARED=='1' and OPTION_IMAGEFORMATS=='1'">
+            cond="OPTION_IMAGEFORMATS=='1'">
         <define>IMAGEFORMATS_DLL</define>
         <define>IMAGEFORMATS_EXPORTS</define>
         <depends>Allin1_dll</depends>
         <depends>ApplicationKit_dll</depends>
     </dll>
 
-    <set var="MSVC6PRJ_MERGED_TARGETS" append="1" cond="OPTION_IMAGEFORMATS=='1'">
-        ImageFormats=ImageFormats_lib+ImageFormats_dll
-    </set>
 </makefile>

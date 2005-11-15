@@ -2,39 +2,31 @@
 
 <makefile>
 
-    <set var="AUTO_SELECTLIB">0</set>
-    <if cond="FORMAT in ['msvc','msvc6prj','msevc4prj','borland']">
-        <set var="AUTO_SELECTLIB">1</set>
-    </if>
-
     <if cond="FORMAT_SUPPORTS_CONDITIONS=='0'">
         <set var="OPTION_SHARED_RUNTIME">1</set>
         <set var="OPTION_ALLIN1">0</set>
+        <set var="OPTION_ZLIB">1</set>
         <set var="OPTION_FOUNDATIONKIT">1</set>
         <set var="OPTION_GRAPHICSKIT">1</set>
         <set var="OPTION_APPLICATIONKIT">1</set>
+        <set var="OPTION_WIN32HTMLBROWSER">1</set>
         <set var="OPTION_OPENGLKIT">1</set>
         <set var="OPTION_NETWORKKIT">1</set>
         <set var="OPTION_REMOTEOBJECTKIT">1</set>
         <set var="OPTION_INTERNETKIT">1</set>
         <set var="OPTION_IMAGEFORMATS">1</set>
+        <set var="OPTION_REGEXX">1</set>
     </if>
 
     <if cond="FORMAT=='msevc4prj'">
-        <set var="OPTION_SELECTLIB"></set>
         <set var="OPTION_ALLIN1">1</set>
     </if>
 
     <if cond="FORMAT=='dmars'">
-        <set var="OPTION_SELECTLIB"></set>
         <set var="OPTION_SHARED_RUNTIME">0</set>
         <set var="OPTION_SHARED">0</set>
         <set var="OPTION_DEBUG">1</set>
         <set var="OPTION_OPENGLKIT">0</set>
-    </if>
-
-    <if cond="FORMAT=='mingw'">
-        <set var="OPTION_IMAGEFORMATS">0</set>
     </if>
 
 
@@ -59,30 +51,23 @@
         <if cond="OPTION_SHARED_RUNTIME=='0'">static</if>
     </set>
 
-    <set var="SUFFIX_SELECTLIB"/>
-    <if cond="FORMAT in ['borland','msvc','msvc6prj']">
-        <set var="SUFFIX_SELECTLIB">
-            <if cond="OPTION_SELECTLIB=='icl6'">_icl6</if>
-            <if cond="OPTION_SELECTLIB=='icl7'">_icl7</if>
-            <if cond="OPTION_SELECTLIB=='vc5'">_vc5</if>
-            <if cond="OPTION_SELECTLIB=='vc6'">_vc6</if>
-            <if cond="OPTION_SELECTLIB=='vc70'">_vc70</if>
-            <if cond="OPTION_SELECTLIB=='vc71'">_vc71</if>
-            <if cond="OPTION_SELECTLIB=='vc80'">_vc80</if>
-            <if cond="OPTION_SELECTLIB=='bcc'">_bcc</if>
-        </set>
-    </if>
-
-    <set var="SUFFIX_LIBRARY">
-        <if cond="OPTION_SHARED=='1' and OPTION_DEBUG=='0'"></if>
-        <if cond="OPTION_SHARED=='1' and OPTION_DEBUG=='1'">_d</if>
-        <if cond="OPTION_SHARED=='0' and OPTION_DEBUG=='0'">_s</if>
-        <if cond="OPTION_SHARED=='0' and OPTION_DEBUG=='1'">_sd</if>
+    <set var="SUFFIX_SELECTLIB">
+        $(OPTION_SELECTLIB)
     </set>
 
-    <set var="SUFFIX_VAR">
-        <if cond="OPTION_SHARED=='0'">LIB</if>
-        <if cond="OPTION_SHARED=='1'">DLL</if>
+    <set var="SUFFIX_STATIC">
+        <if cond="OPTION_DEBUG=='0'">_s</if>
+        <if cond="OPTION_DEBUG=='1'">_sd</if>
+    </set>
+
+    <set var="SUFFIX_DYNAMIC">
+        <if cond="OPTION_DEBUG=='0'"></if>
+        <if cond="OPTION_DEBUG=='1'">_d</if>
+    </set>
+
+    <set var="SUFFIX_LIBRARY">
+        <if cond="OPTION_SHARED=='0'">$(SUFFIX_STATIC)</if>
+        <if cond="OPTION_SHARED=='1'">$(SUFFIX_DYNAMIC)</if>
     </set>
 
     <if cond="FORMAT!='autoconf'">
@@ -95,4 +80,100 @@
         </set>
     </if>
 
+
+    <set var="COMSUPP_NAME">comsupp</set>
+    <set var="COMSUPP_FILENAME" make_var="1">
+        $(vcf.getLibFilename( COMSUPP_NAME ))
+    </set>
+    
+    <set var="LIBAGG_NAME">libAGG</set>
+    <set var="LIBAGG_FILENAME" make_var="1">
+        $(vcf.getLibFilename( LIBAGG_NAME ))
+    </set>
+
+    <set var="ZLIB_NAME">ZLib</set>
+    <set var="ZLIB_FILENAME" make_var="1">
+        $(vcf.getLibFilename( ZLIB_NAME ))
+    </set>
+
+    <set var="LIBJPEG_NAME">LibJPEG</set>
+    <set var="LIBJPEG_FILENAME" make_var="1">
+        $(vcf.getLibFilename( LIBJPEG_NAME ))
+    </set>
+
+    <set var="LIBMNG_NAME">LibMNG</set>
+    <set var="LIBMNG_FILENAME" make_var="1">
+        $(vcf.getLibFilename( LIBMNG_NAME ))
+    </set>
+
+    <set var="LIBPNG_NAME">LibPNG</set>
+    <set var="LIBPNG_FILENAME" make_var="1">
+        $(vcf.getLibFilename( LIBPNG_NAME ))
+    </set>
+
+    <set var="LIBTIFF_NAME">LibTIFF</set>
+    <set var="LIBTIFF_FILENAME" make_var="1">
+        $(vcf.getLibFilename( LIBTIFF_NAME ))
+    </set>
+
+    <set var="REGEXX_NAME">RegExx</set>
+    <set var="REGEXX_FILENAME" make_var="1">
+        $(vcf.getLibFilename( REGEXX_NAME ))
+    </set>
+
+    <set var="FREEIMAGE_NAME">FreeImage</set>
+    <set var="FREEIMAGE_FILENAME" make_var="1">
+        $(vcf.getLibFilename( FREEIMAGE_NAME ))
+    </set>
+    
+    <set var="FOUNDATIONKIT_NAME">FoundationKit</set>
+    <set var="FOUNDATIONKIT_FILENAME" make_var="1">
+        $(vcf.getFilename( FOUNDATIONKIT_NAME ))
+    </set>
+    
+    <set var="GRAPHICSKIT_NAME">GraphicsKit</set>
+    <set var="GRAPHICSKIT_FILENAME" make_var="1">
+        $(vcf.getFilename( GRAPHICSKIT_NAME ))
+    </set>
+    
+    <set var="APPLICATIONKIT_NAME">ApplicationKit</set>
+    <set var="APPLICATIONKIT_FILENAME" make_var="1">
+        $(vcf.getFilename( APPLICATIONKIT_NAME ))
+    </set>
+    
+    <set var="OPENGLKIT_NAME">OpenGLKit</set>
+    <set var="OPENGLKIT_FILENAME" make_var="1">
+        $(vcf.getFilename( OPENGLKIT_NAME ))
+    </set>
+    
+    <set var="NETWORKKIT_NAME">NetworkKit</set>
+    <set var="NETWORKKIT_FILENAME" make_var="1">
+        $(vcf.getFilename( NETWORKKIT_NAME ))
+    </set>
+    
+    <set var="REMOTEOBJECTKIT_NAME">RemoteObjectKit</set>
+    <set var="REMOTEOBJECTKIT_FILENAME" make_var="1">
+        $(vcf.getFilename( REMOTEOBJECTKIT_NAME ))
+    </set>
+    
+    <set var="INTERNETKIT_NAME">InternetKit</set>
+    <set var="INTERNETKIT_FILENAME" make_var="1">
+        $(vcf.getFilename( INTERNETKIT_NAME ))
+    </set>
+    
+    <set var="ALLIN1_NAME">VCF</set>
+    <set var="ALLIN1_FILENAME" make_var="1">
+        $(vcf.getFilename( ALLIN1_NAME ))
+    </set>
+    
+    <set var="WIN32HTMLBROWSER_NAME">Win32HTMLBrowser</set>
+    <set var="WIN32HTMLBROWSER_FILENAME" make_var="1">
+        $(vcf.getDllFilename( WIN32HTMLBROWSER_NAME ))
+    </set>
+
+    <set var="IMAGEFORMATS_NAME">ImageFormats</set>
+    <set var="IMAGEFORMATS_FILENAME" make_var="1">
+        $(vcf.getDllFilename( IMAGEFORMATS_NAME ))
+    </set>
+    
 </makefile>

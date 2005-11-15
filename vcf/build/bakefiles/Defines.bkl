@@ -8,67 +8,92 @@
         </if>
     </define-tag>
 
-    
-    <set var="USE_FOUNDATIONKIT">
-        <if cond="OPTION_ALLIN1=='1'">VCF_USE_ALLIN1_$(SUFFIX_VAR)</if>
-        <if cond="OPTION_ALLIN1=='0'">USE_FOUNDATIONKIT_$(SUFFIX_VAR)</if>
-    </set>
+
+    <define-tag name="vcf-use-ZLib" rules="dll,lib,exe,module">
+        <set var="ZLIB">
+            <if cond="OPTION_ALLIN1=='0'">$(ZLIB_FILENAME)</if>
+        </set>
+        <sys-lib>$(ZLIB)</sys-lib>
+    </define-tag>
+
+
     <define-tag name="vcf-use-FoundationKit" rules="dll,lib,exe,module">
-        <define>$(USE_FOUNDATIONKIT)</define>
+        <set var="FOUNDATIONKIT">
+            <if cond="OPTION_ALLIN1=='1'">$(ALLIN1_FILENAME)</if>
+            <if cond="OPTION_ALLIN1=='0'">$(FOUNDATIONKIT_FILENAME)</if>
+        </set>
+        <sys-lib>$(FOUNDATIONKIT)</sys-lib>
     </define-tag>
 
 
-    <set var="USE_GRAPHICSKIT">
-        <if cond="OPTION_ALLIN1=='1'">VCF_USE_ALLIN1_$(SUFFIX_VAR)</if>
-        <if cond="OPTION_ALLIN1=='0'">USE_GRAPHICSKIT_$(SUFFIX_VAR)</if>
-    </set>
     <define-tag name="vcf-use-GraphicsKit" rules="dll,lib,exe,module">
-        <define>$(USE_GRAPHICSKIT)</define>
+        <vcf-use-FoundationKit/>
+        <vcf-use-ZLib/>
+        
+        <set var="LIBAGG">
+            <if cond="OPTION_ALLIN1=='0'">$(LIBAGG_FILENAME)</if>
+        </set>
+        <sys-lib>$(LIBAGG)</sys-lib>
+
+        <set var="LIBJPEG">
+            <if cond="OPTION_ALLIN1=='0'">$(LIBJPEG_FILENAME)</if>
+        </set>
+        <sys-lib>$(LIBJPEG)</sys-lib>
+        
+        <set var="LIBPNG">
+            <if cond="OPTION_ALLIN1=='0'">$(LIBPNG_FILENAME)</if>
+        </set>
+        <sys-lib>$(LIBPNG)</sys-lib>
+
+        <set var="GRAPHICSKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(GRAPHICSKIT_FILENAME)</if>
+        </set>
+        <sys-lib>$(GRAPHICSKIT)</sys-lib>
     </define-tag>
 
 
-    <set var="USE_APPLICATIONKIT">
-        <if cond="OPTION_ALLIN1=='1'">VCF_USE_ALLIN1_$(SUFFIX_VAR)</if>
-        <if cond="OPTION_ALLIN1=='0'">USE_APPLICATIONKIT_$(SUFFIX_VAR)</if>
-    </set>
     <define-tag name="vcf-use-ApplicationKit" rules="dll,lib,exe,module">
-        <define>$(USE_APPLICATIONKIT)</define>
+        <vcf-use-GraphicsKit/>
+        <set var="APPLICATIONKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(APPLICATIONKIT_FILENAME)</if>
+        </set>
+        <sys-lib>$(APPLICATIONKIT)</sys-lib>
     </define-tag>
 
 
-    <set var="USE_OPENGLKIT">
-        <if cond="OPTION_ALLIN1=='1'">VCF_USE_ALLIN1_$(SUFFIX_VAR)</if>
-        <if cond="OPTION_ALLIN1=='0'">USE_OPENGLKIT_$(SUFFIX_VAR)</if>
-    </set>
     <define-tag name="vcf-use-OpenGLKit" rules="dll,lib,exe,module">
-        <define>$(USE_OPENGLKIT)</define>
+        <vcf-use-ApplicationKit/>
+        <set var="OPENGLKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(OPENGLKIT_FILENAME)</if>
+        </set>
+        <sys-lib>$(OPENGLKIT)</sys-lib>
     </define-tag>
 
 
-    <set var="USE_NETWORKKIT">
-        <if cond="OPTION_SHARED=='0'">USE_NETKIT_LIB</if>
-        <if cond="OPTION_SHARED=='1'">USE_NETKIT_DLL</if>
-    </set>
     <define-tag name="vcf-use-NetworkKit" rules="dll,lib,exe,module">
-        <define>$(USE_NETWORKKIT)</define>
+        <vcf-use-FoundationKit/>
+        <set var="NETWORKKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(NETWORKKIT_FILENAME)</if>
+        </set>
+        <sys-lib>$(NETWORKKIT)</sys-lib>
     </define-tag>
 
 
-    <set var="USE_REMOTEOBJECTKIT">
-        <if cond="OPTION_SHARED=='0'">USE_REMOTEOBJECTKIT_LIB</if>
-        <if cond="OPTION_SHARED=='1'">USE_REMOTEOBJECTKIT_DLL</if>
-    </set>
     <define-tag name="vcf-use-RemoteObjectKit" rules="dll,lib,exe,module">
-        <define>$(USE_REMOTEOBJECTKIT)</define>
+        <vcf-use-NetworkKit/>
+        <set var="REMOTEOBJECTKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(REMOTEOBJECTKIT_FILENAME)</if>
+        </set>
+        <sys-lib>$(REMOTEOBJECTKIT)</sys-lib>
     </define-tag>
 
 
-    <set var="USE_INTERNETKIT">
-        <if cond="OPTION_SHARED=='0'">USE_INTERNETKIT_LIB</if>
-        <if cond="OPTION_SHARED=='1'">USE_INTERNETKIT_DLL</if>
-    </set>
     <define-tag name="vcf-use-InternetKit" rules="dll,lib,exe,module">
-        <define>$(USE_INTERNETKIT)</define>
+        <vcf-use-FoundationKit/>
+        <set var="INTERNETKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(INTERNETKIT_FILENAME)</if>
+        </set>
+        <sys-lib>$(INTERNETKIT)</sys-lib>
     </define-tag>
 
 </makefile>

@@ -81,7 +81,7 @@
         -o../../VCF.cbx
     </add-flags>    
     <add-flags files="VCF.bkl" formats="gnu">
-        -o../bakefiles.gen/makefile.gnu
+        -o../bakefiles.gen/GNUmakefile
     </add-flags>
     <add-flags files="VCF.bkl" formats="xcode2">
         -o../bakefiles.gen/VCF.xcode
@@ -139,7 +139,7 @@
         -DOPTIONS_FILE=../build/bakefiles.gen/config.dmc
     </add-flags>
     <add-flags files="../../*/*" formats="mingw">
-        -DOPTIONS_FILE=../build/bakefiles.gen/config.mgw
+        -DOPTIONS_FILE=../build/bakefiles.gen/config.gcc
     </add-flags>
     <add-flags files="../../*/*" formats="msvc">
         -DOPTIONS_FILE=../build/bakefiles.gen/config.vc
@@ -162,7 +162,7 @@
         -DOPTIONS_FILE=../../build/bakefiles.gen/config.dmc
     </add-flags>
     <add-flags files="../../*/*/*" formats="mingw">
-        -DOPTIONS_FILE=../../build/bakefiles.gen/config.mgw
+        -DOPTIONS_FILE=../../build/bakefiles.gen/config.gcc
     </add-flags>
     <add-flags files="../../*/*/*" formats="msvc">
         -DOPTIONS_FILE=../../build/bakefiles.gen/config.vc

@@ -3,7 +3,7 @@
 <makefile>
 
     <template id="COMSupp_base">
-        <set var="LIBRARY_NAME">comsupp</set>
+        <set var="LIBRARY_NAME">$(COMSUPP_NAME)</set>
 
         <sources>
             ../build/bcc/missing_libs/comsupp/comsupp.cpp
