@@ -3,7 +3,7 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="SketchIt" template="vcf_exe_gui">
+    <exe id="SketchIt" template="vcf_exe_gui" cond="OPTION_APPLICATIONKIT=='1'">
         <dirname>.</dirname>
         <headers>
             SketchDocument.h

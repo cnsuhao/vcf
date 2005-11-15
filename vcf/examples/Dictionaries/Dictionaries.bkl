@@ -3,7 +3,8 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="Dictionaries" template="vcf_exe_console">
+    <exe id="Dictionaries" template="vcf_exe_console"
+            cond="OPTION_FOUNDATIONKIT=='1'">
         <dirname>.</dirname>
         <sources>Dictionaries.cpp</sources>
         <vcf-use-FoundationKit/>

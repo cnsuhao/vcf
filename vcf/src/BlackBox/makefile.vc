@@ -12,14 +12,15 @@
 
 ### Variables: ###
 
-OBJDIR = msvc$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY)
+OBJDIR = msvc$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 BLACKBOX_DLL_CXXFLAGS = /M$(__RUNTIME_LIBS_9)$(__DEBUG_RUNTIME_LIBS_4) \
 	/DWIN32 $(__DEBUG_INFO_1) \
-	/Fd..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).pdb \
+	/Fd..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).pdb \
 	$(____DEBUG_RUNTIME_LIBS_3_p) $(__OPTIMIZE_5) $(____OPTION_DEBUG_13_p) \
-	/D_WINDOWS /D_WIN32 /DWIN32 /I..\..\src /D_USRDLL /Iinclude /DBLACKBOX_DLL \
-	/DBLACKBOX_EXPORTS /DSTRICT /DWORK_AROUND_SRCLINE_BUG /GR /EHsc $(CPPFLAGS) \
-	$(CXXFLAGS)
+	/D_WINDOWS /D_WIN32 /DWIN32 /D_CRT_SECURE_NO_DEPRECATE \
+	/D_SCL_SECURE_NO_DEPRECATE /D_CRT_NON_CONFORMING_SWPRINTFS /I..\..\src \
+	/D_USRDLL /Iinclude /DBLACKBOX_DLL /DBLACKBOX_EXPORTS /DSTRICT \
+	/DWORK_AROUND_SRCLINE_BUG /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
 BLACKBOX_DLL_OBJECTS =  \
 	$(OBJDIR)\BlackBox_dll_AllocAndFillProcessModuleList.obj \
 	$(OBJDIR)\BlackBox_dll_BlackBox.obj \
@@ -40,38 +41,23 @@ BLACKBOX_DLL_OBJECTS =  \
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_SELECTLIB)" == "icl6"
-SUFFIX_SELECTLIB = _icl6
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_SELECTLIB)" == "icl7"
-SUFFIX_SELECTLIB = _icl7
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_SELECTLIB)" == "vc5"
-SUFFIX_SELECTLIB = _vc5
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_SELECTLIB)" == "vc6"
-SUFFIX_SELECTLIB = _vc6
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
-!if "$(OPTION_SELECTLIB)" == "vc70"
-SUFFIX_SELECTLIB = _vc70
+!if "$(OPTION_SHARED)" == "0"
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
-!if "$(OPTION_SELECTLIB)" == "vc71"
-SUFFIX_SELECTLIB = _vc71
-!endif
-!if "$(OPTION_SELECTLIB)" == "bcc"
-SUFFIX_SELECTLIB = _bcc
-!endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
-!endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
-!endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
-!endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_SHARED)" == "1"
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO_1 = 
@@ -130,12 +116,6 @@ ____OPTION_DEBUG_13_p_1 = /d NDEBUG
 !if "$(OPTION_DEBUG)" == "1"
 ____OPTION_DEBUG_13_p_1 = /d _DEBUG
 !endif
-!if "$(OPTION_DEBUG)" == "0"
-__BlackBox_dll_SUFFIX_SHARED = 
-!endif
-!if "$(OPTION_DEBUG)" == "1"
-__BlackBox_dll_SUFFIX_SHARED = _d
-!endif
 
 
 all: $(OBJDIR)
@@ -144,20 +124,20 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: ..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).dll
+all: ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.pch del $(OBJDIR)\*.pch
-	-if exist ..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).dll del ..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).dll
-	-if exist ..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).ilk del ..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).ilk
-	-if exist ..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).pdb del ..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).pdb
-	-if exist ..\..\lib\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).lib del ..\..\lib\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).lib
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ilk del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ilk
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).pdb del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).pdb
+	-if exist ..\..\lib\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).lib del ..\..\lib\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).lib
 
-..\..\lib\..\bin\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).dll: $(BLACKBOX_DLL_OBJECTS) $(OBJDIR)\BlackBox_dll_BlackBox.res
+..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(BLACKBOX_DLL_OBJECTS) $(OBJDIR)\BlackBox_dll_BlackBox.res
 	link /DLL /NOLOGO /OUT:$@ $(LDFLAGS) $(__DEBUG_INFO_2)  /LIBPATH:..\..\lib /LIBPATH:lib @<<
-	$(BLACKBOX_DLL_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib DbgHelp.lib Psapi.lib /IMPLIB:..\..\lib\BlackBox$(SUFFIX_SELECTLIB)$(__BlackBox_dll_SUFFIX_SHARED).lib
+	$(BLACKBOX_DLL_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib DbgHelp.lib Psapi.lib /IMPLIB:..\..\lib\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).lib
 <<
 
 $(OBJDIR)\BlackBox_dll_AllocAndFillProcessModuleList.obj: .\AllocAndFillProcessModuleList.cpp
@@ -206,5 +186,5 @@ $(OBJDIR)\BlackBox_dll_TLHELPProcessInfo.obj: .\TLHELPProcessInfo.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(BLACKBOX_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\BlackBox_dll_BlackBox.res: .\BlackBox.rc
-	rc /fo$@  /d WIN32 $(____DEBUG_RUNTIME_LIBS_3_p_1) $(____OPTION_DEBUG_13_p_1) /d _WINDOWS /d _WIN32 /d WIN32 /i ..\..\src /d _USRDLL /i include /d BLACKBOX_DLL /d BLACKBOX_EXPORTS /d STRICT /d WORK_AROUND_SRCLINE_BUG $**
+	rc /fo$@  /d WIN32 $(____DEBUG_RUNTIME_LIBS_3_p_1) $(____OPTION_DEBUG_13_p_1) /d _WINDOWS /d _WIN32 /d WIN32 /d _CRT_SECURE_NO_DEPRECATE /d _SCL_SECURE_NO_DEPRECATE /d _CRT_NON_CONFORMING_SWPRINTFS /i ..\..\src /d _USRDLL /i include /d BLACKBOX_DLL /d BLACKBOX_EXPORTS /d STRICT /d WORK_AROUND_SRCLINE_BUG $**
 

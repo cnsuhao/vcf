@@ -3,7 +3,7 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="InetKit" template="vcf_exe_gui">
+    <exe id="InetKit" template="vcf_exe_gui" cond="OPTION_INTERNETKIT=='1'">
         <dirname>.</dirname>
         <sources>InetKit.cpp</sources>
         <vcf-use-InternetKit/>

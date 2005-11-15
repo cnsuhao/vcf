@@ -3,7 +3,7 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="ParticleEditor" template="vcf_exe_gui">
+    <exe id="ParticleEditor" template="vcf_exe_gui" cond="OPTION_OPENGLKIT=='1'">
         <dirname>.</dirname>
         <include>.</include>
         <headers>
@@ -23,7 +23,6 @@
             ParticleRenderer.cpp
             ParticleSystem.cpp            
         </sources>
-        <vcf-use-ApplicationKit/>
         <vcf-use-OpenGLKit/>
     </exe>
 </makefile>

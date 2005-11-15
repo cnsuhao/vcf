@@ -21,12 +21,14 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 MFCINTEGRATION1_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include \
 	$(__DEBUG_INFO) $(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -D_WINDOWS \
-	-D_WIN32 -DWIN32 -I..\..\src $(__USE_FOUNDATIONKIT_p) -D_AFXDLL -Hu \
-	-H=$(OBJDIR)\MFCIntegration1_bcc$(SUFFIX_LIBRARY).csm $(CPPFLAGS) \
-	$(CXXFLAGS)
+	-D_WIN32 -DWIN32 -I..\..\src -D_AFXDLL -Hu \
+	-H=$(OBJDIR)\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).csm \
+	$(CPPFLAGS) $(CXXFLAGS)
 MFCINTEGRATION1_OBJECTS =  \
 	$(OBJDIR)\MFCIntegration1_ChildView.obj \
 	$(OBJDIR)\MFCIntegration1_MainFrm.obj \
@@ -35,23 +37,27 @@ MFCINTEGRATION1_OBJECTS =  \
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_FOUNDATIONKIT)" == "1"
+__MFCIntegration1___depname = \
+	.\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_2 = 
@@ -90,10 +96,10 @@ ____OPTION_DEBUG_12_p_1 = -dNDEBUG
 ____OPTION_DEBUG_12_p_1 = -d_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_FOUNDATIONKIT_p = -DUSE_FOUNDATIONKIT_$(SUFFIX_VAR)
+____MFCIntegration1_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_FOUNDATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____MFCIntegration1_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
@@ -109,23 +115,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).exe
+all: $(__MFCIntegration1___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).exe del .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).exe
-	-if exist .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).tds del .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).tds
-	-if exist .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).ilc del .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).ilc
-	-if exist .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).ild del .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).ild
-	-if exist .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).ilf del .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).ilf
-	-if exist .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).ils del .\MFCIntegration1_bcc$(SUFFIX_LIBRARY).ils
+	-if exist .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds del .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds
+	-if exist .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc del .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc
+	-if exist .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
+	-if exist .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
+	-if exist .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
 
-.\MFCIntegration1_bcc$(SUFFIX_LIBRARY).exe: $(MFCINTEGRATION1_OBJECTS)  $(OBJDIR)\MFCIntegration1_MFCIntegration1.res
+!if "$(OPTION_FOUNDATIONKIT)" == "1"
+.\MFCIntegration1$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(MFCINTEGRATION1_OBJECTS)  $(OBJDIR)\MFCIntegration1_MFCIntegration1.res
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0w32.obj $(MFCINTEGRATION1_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\MFCIntegration1_MFCIntegration1.res
+	c0w32.obj $(MFCINTEGRATION1_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____MFCIntegration1_FOUNDATIONKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\MFCIntegration1_MFCIntegration1.res
 |
+!endif
 
 $(OBJDIR)\MFCIntegration1_ChildView.obj: .\ChildView.cpp
 	$(CXX) -q -c -P -o$@ $(MFCINTEGRATION1_CXXFLAGS) $**

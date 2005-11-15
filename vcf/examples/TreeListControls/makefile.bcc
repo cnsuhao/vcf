@@ -21,33 +21,44 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+LIBAGG_FILENAME = libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+ZLIB_FILENAME = ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBJPEG_FILENAME = LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBPNG_FILENAME = LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 TREELISTCONTROLS_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include \
 	$(__DEBUG_INFO) $(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -D_WINDOWS \
-	-D_WIN32 -DWIN32 -I..\..\src $(__USE_APPLICATIONKIT_p) $(CPPFLAGS) \
-	$(CXXFLAGS)
+	-D_WIN32 -DWIN32 -I..\..\src $(CPPFLAGS) $(CXXFLAGS)
 TREELISTCONTROLS_OBJECTS =  \
 	$(OBJDIR)\TreeListControls_TreeListControls.obj
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+__TreeListControls___depname = \
+	.\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_2 = 
@@ -86,10 +97,28 @@ ____OPTION_DEBUG_12_p_1 = -dNDEBUG
 ____OPTION_DEBUG_12_p_1 = -d_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_APPLICATIONKIT_p = -DUSE_APPLICATIONKIT_$(SUFFIX_VAR)
+____TreeListControls_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_APPLICATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____TreeListControls_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____TreeListControls_ZLIB_p = $(ZLIB_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____TreeListControls_LIBAGG_p = $(LIBAGG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____TreeListControls_LIBJPEG_p = $(LIBJPEG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____TreeListControls_LIBPNG_p = $(LIBPNG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____TreeListControls_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____TreeListControls_APPLICATIONKIT_p = $(APPLICATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
@@ -105,23 +134,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\TreeListControls_bcc$(SUFFIX_LIBRARY).exe
+all: $(__TreeListControls___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist .\TreeListControls_bcc$(SUFFIX_LIBRARY).exe del .\TreeListControls_bcc$(SUFFIX_LIBRARY).exe
-	-if exist .\TreeListControls_bcc$(SUFFIX_LIBRARY).tds del .\TreeListControls_bcc$(SUFFIX_LIBRARY).tds
-	-if exist .\TreeListControls_bcc$(SUFFIX_LIBRARY).ilc del .\TreeListControls_bcc$(SUFFIX_LIBRARY).ilc
-	-if exist .\TreeListControls_bcc$(SUFFIX_LIBRARY).ild del .\TreeListControls_bcc$(SUFFIX_LIBRARY).ild
-	-if exist .\TreeListControls_bcc$(SUFFIX_LIBRARY).ilf del .\TreeListControls_bcc$(SUFFIX_LIBRARY).ilf
-	-if exist .\TreeListControls_bcc$(SUFFIX_LIBRARY).ils del .\TreeListControls_bcc$(SUFFIX_LIBRARY).ils
+	-if exist .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds del .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds
+	-if exist .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc del .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc
+	-if exist .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
+	-if exist .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
+	-if exist .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
 
-.\TreeListControls_bcc$(SUFFIX_LIBRARY).exe: $(TREELISTCONTROLS_OBJECTS)  $(OBJDIR)\TreeListControls_treelist.res
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+.\TreeListControls$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(TREELISTCONTROLS_OBJECTS)  $(OBJDIR)\TreeListControls_treelist.res
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0x32.obj $(TREELISTCONTROLS_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\TreeListControls_treelist.res
+	c0x32.obj $(TREELISTCONTROLS_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____TreeListControls_FOUNDATIONKIT_p) $(____TreeListControls_ZLIB_p) $(____TreeListControls_LIBAGG_p) $(____TreeListControls_LIBJPEG_p) $(____TreeListControls_LIBPNG_p) $(____TreeListControls_GRAPHICSKIT_p) $(____TreeListControls_APPLICATIONKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\TreeListControls_treelist.res
 |
+!endif
 
 $(OBJDIR)\TreeListControls_TreeListControls.obj: .\TreeListControls.cpp
 	$(CXX) -q -c -P -o$@ $(TREELISTCONTROLS_CXXFLAGS) $**

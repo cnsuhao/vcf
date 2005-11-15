@@ -21,32 +21,43 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+LIBAGG_FILENAME = libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+ZLIB_FILENAME = ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBJPEG_FILENAME = LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBPNG_FILENAME = LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 TOOLBARS_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include $(__DEBUG_INFO) \
 	$(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -D_WINDOWS -D_WIN32 -DWIN32 \
-	-I..\..\src $(__USE_APPLICATIONKIT_p) $(CPPFLAGS) $(CXXFLAGS)
+	-I..\..\src $(CPPFLAGS) $(CXXFLAGS)
 TOOLBARS_OBJECTS =  \
 	$(OBJDIR)\Toolbars_Toolbars.obj
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+__Toolbars___depname = .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_2 = 
@@ -85,10 +96,28 @@ ____OPTION_DEBUG_12_p_1 = -dNDEBUG
 ____OPTION_DEBUG_12_p_1 = -d_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_APPLICATIONKIT_p = -DUSE_APPLICATIONKIT_$(SUFFIX_VAR)
+____Toolbars_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_APPLICATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____Toolbars_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Toolbars_ZLIB_p = $(ZLIB_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Toolbars_LIBAGG_p = $(LIBAGG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Toolbars_LIBJPEG_p = $(LIBJPEG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Toolbars_LIBPNG_p = $(LIBPNG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Toolbars_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Toolbars_APPLICATIONKIT_p = $(APPLICATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
@@ -104,23 +133,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\Toolbars_bcc$(SUFFIX_LIBRARY).exe
+all: $(__Toolbars___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist .\Toolbars_bcc$(SUFFIX_LIBRARY).exe del .\Toolbars_bcc$(SUFFIX_LIBRARY).exe
-	-if exist .\Toolbars_bcc$(SUFFIX_LIBRARY).tds del .\Toolbars_bcc$(SUFFIX_LIBRARY).tds
-	-if exist .\Toolbars_bcc$(SUFFIX_LIBRARY).ilc del .\Toolbars_bcc$(SUFFIX_LIBRARY).ilc
-	-if exist .\Toolbars_bcc$(SUFFIX_LIBRARY).ild del .\Toolbars_bcc$(SUFFIX_LIBRARY).ild
-	-if exist .\Toolbars_bcc$(SUFFIX_LIBRARY).ilf del .\Toolbars_bcc$(SUFFIX_LIBRARY).ilf
-	-if exist .\Toolbars_bcc$(SUFFIX_LIBRARY).ils del .\Toolbars_bcc$(SUFFIX_LIBRARY).ils
+	-if exist .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds del .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds
+	-if exist .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc del .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc
+	-if exist .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
+	-if exist .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
+	-if exist .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
 
-.\Toolbars_bcc$(SUFFIX_LIBRARY).exe: $(TOOLBARS_OBJECTS)  $(OBJDIR)\Toolbars_tb.res
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+.\Toolbars$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(TOOLBARS_OBJECTS)  $(OBJDIR)\Toolbars_tb.res
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0x32.obj $(TOOLBARS_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\Toolbars_tb.res
+	c0x32.obj $(TOOLBARS_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____Toolbars_FOUNDATIONKIT_p) $(____Toolbars_ZLIB_p) $(____Toolbars_LIBAGG_p) $(____Toolbars_LIBJPEG_p) $(____Toolbars_LIBPNG_p) $(____Toolbars_GRAPHICSKIT_p) $(____Toolbars_APPLICATIONKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\Toolbars_tb.res
 |
+!endif
 
 $(OBJDIR)\Toolbars_Toolbars.obj: .\Toolbars.cpp
 	$(CXX) -q -c -P -o$@ $(TOOLBARS_CXXFLAGS) $**

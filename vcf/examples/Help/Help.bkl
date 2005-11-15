@@ -3,7 +3,7 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="Help" template="vcf_exe_gui">
+    <exe id="Help" template="vcf_exe_gui" cond="OPTION_APPLICATIONKIT=='1'">
         <dirname>.</dirname>
         <sources>Help.cpp</sources>
         <vcf-use-ApplicationKit/>
@@ -12,7 +12,7 @@
         </clean-files>
     </exe>
 
-    <action id="hhc_Help">
+    <action id="hhc_Help" cond="OPTION_APPLICATIONKIT=='1'">
         <is-phony>1</is-phony>
         <dependency-of>all</dependency-of>
         <command>

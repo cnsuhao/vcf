@@ -21,11 +21,19 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+LIBAGG_FILENAME = libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+ZLIB_FILENAME = ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBJPEG_FILENAME = LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBPNG_FILENAME = LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+OPENGLKIT_FILENAME = OpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 PARTICLEEDITOR_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include \
 	$(__DEBUG_INFO) $(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -D_WINDOWS \
-	-D_WIN32 -DWIN32 -I..\..\src -I. $(__USE_APPLICATIONKIT_p) \
-	$(__USE_OPENGLKIT_p) $(CPPFLAGS) $(CXXFLAGS)
+	-D_WIN32 -DWIN32 -I..\..\src -I. $(CPPFLAGS) $(CXXFLAGS)
 PARTICLEEDITOR_OBJECTS =  \
 	$(OBJDIR)\ParticleEditor_main.obj \
 	$(OBJDIR)\ParticleEditor_ParticleEditor.obj \
@@ -34,23 +42,27 @@ PARTICLEEDITOR_OBJECTS =  \
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_OPENGLKIT)" == "1"
+__ParticleEditor___depname = \
+	.\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_2 = 
@@ -83,16 +95,31 @@ ____OPTION_DEBUG_12_p = -DNDEBUG
 ____OPTION_DEBUG_12_p = -D_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_APPLICATIONKIT_p = -DUSE_APPLICATIONKIT_$(SUFFIX_VAR)
+____ParticleEditor_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_APPLICATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____ParticleEditor_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_OPENGLKIT_p = -DUSE_OPENGLKIT_$(SUFFIX_VAR)
+____ParticleEditor_ZLIB_p = $(ZLIB_FILENAME).lib
 !endif
-!if "$(OPTION_ALLIN1)" == "1"
-__USE_OPENGLKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+!if "$(OPTION_ALLIN1)" == "0"
+____ParticleEditor_LIBAGG_p = $(LIBAGG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____ParticleEditor_LIBJPEG_p = $(LIBJPEG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____ParticleEditor_LIBPNG_p = $(LIBPNG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____ParticleEditor_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____ParticleEditor_APPLICATIONKIT_p = $(APPLICATIONKIT_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____ParticleEditor_OPENGLKIT_p = $(OPENGLKIT_FILENAME).lib
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
@@ -108,23 +135,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\ParticleEditor_bcc$(SUFFIX_LIBRARY).exe
+all: $(__ParticleEditor___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist .\ParticleEditor_bcc$(SUFFIX_LIBRARY).exe del .\ParticleEditor_bcc$(SUFFIX_LIBRARY).exe
-	-if exist .\ParticleEditor_bcc$(SUFFIX_LIBRARY).tds del .\ParticleEditor_bcc$(SUFFIX_LIBRARY).tds
-	-if exist .\ParticleEditor_bcc$(SUFFIX_LIBRARY).ilc del .\ParticleEditor_bcc$(SUFFIX_LIBRARY).ilc
-	-if exist .\ParticleEditor_bcc$(SUFFIX_LIBRARY).ild del .\ParticleEditor_bcc$(SUFFIX_LIBRARY).ild
-	-if exist .\ParticleEditor_bcc$(SUFFIX_LIBRARY).ilf del .\ParticleEditor_bcc$(SUFFIX_LIBRARY).ilf
-	-if exist .\ParticleEditor_bcc$(SUFFIX_LIBRARY).ils del .\ParticleEditor_bcc$(SUFFIX_LIBRARY).ils
+	-if exist .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds del .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds
+	-if exist .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc del .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc
+	-if exist .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
+	-if exist .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
+	-if exist .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
 
-.\ParticleEditor_bcc$(SUFFIX_LIBRARY).exe: $(PARTICLEEDITOR_OBJECTS)
+!if "$(OPTION_OPENGLKIT)" == "1"
+.\ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(PARTICLEEDITOR_OBJECTS)
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0x32.obj $(PARTICLEEDITOR_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
+	c0x32.obj $(PARTICLEEDITOR_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____ParticleEditor_FOUNDATIONKIT_p) $(____ParticleEditor_ZLIB_p) $(____ParticleEditor_LIBAGG_p) $(____ParticleEditor_LIBJPEG_p) $(____ParticleEditor_LIBPNG_p) $(____ParticleEditor_GRAPHICSKIT_p) $(____ParticleEditor_APPLICATIONKIT_p) $(____ParticleEditor_OPENGLKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
 |
+!endif
 
 $(OBJDIR)\ParticleEditor_main.obj: .\main.cpp
 	$(CXX) -q -c -P -o$@ $(PARTICLEEDITOR_CXXFLAGS) $**
