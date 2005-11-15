@@ -28,8 +28,14 @@ CPPFLAGS =
 # Standard linker flags 
 LDFLAGS = 
 
-# Your preference: [icl6,icl7,vc5,vc6,vc70,vc71]
-OPTION_SELECTLIB = vc6
+# Some meaningful string that will be added to the names
+# of the target files. Any string is possible.
+# For example, if the value is _vc6,
+# then the name of, say, the foundation kit debug dll
+# will be like this: FoundationKit_vc6_d.dll.
+# The default value is an empty string.
+# Backward compatibility: [,_icl6,_icl7,_vc6,_vc70,_vc71,_vc80]
+OPTION_SELECTLIB = 
 
 # The type of libraries: [0,1]
 OPTION_SHARED = 1
@@ -47,30 +53,53 @@ OPTION_PRECOMPILED = 1
 # Make the all-in-1 library: [0,1]
 OPTION_ALLIN1 = 0
 
+# Compile ZLib: [0,1]
+OPTION_ZLIB = 1
+
 # Compile FoundationKit: [0,1]
 OPTION_FOUNDATIONKIT = 1
 
+# Depends on:
+#     OPTION_FOUNDATIONKIT
+#     OPTION_ZLIB
 # Compile GraphicsKit: [0,1]
 OPTION_GRAPHICSKIT = 1
 
+# Depends on:
+#     OPTION_GRAPHICSKIT
 # Compile ApplicationKit: [0,1]
 OPTION_APPLICATIONKIT = 1
 
-# Compile ATL based controls: [0,1]
-OPTION_APPLICATIONKIT_ATL = 1
+# Depends on:
+#     OPTION_APPLICATIONKIT
+# Compile the Win32HTMLBrowser control: [0,1]
+OPTION_WIN32HTMLBROWSER = 1
 
+# Depends on:
+#     OPTION_APPLICATIONKIT
 # Compile OpenGLKit: [0,1]
-OPTION_OPENGLKIT = 1
+OPTION_OPENGLKIT = 0
 
+# Depends on:
+#     OPTION_FOUNDATIONKIT
 # Compile NetworkKit: [0,1]
-OPTION_NETWORKKIT = 1
+OPTION_NETWORKKIT = 0
 
+# Depends on:
+#     OPTION_NETWORKKIT
 # Compile RemoteObjectKit: [0,1]
-OPTION_REMOTEOBJECTKIT = 1
+OPTION_REMOTEOBJECTKIT = 0
 
+# Depends on:
+#     OPTION_FOUNDATIONKIT
 # Compile InternetKit: [0,1]
-OPTION_INTERNETKIT = 1
+OPTION_INTERNETKIT = 0
 
+# Depends on:
+#     OPTION_APPLICATIONKIT
 # Compile ImageFormats: [0,1]
-OPTION_IMAGEFORMATS = 1
+OPTION_IMAGEFORMATS = 0
+
+# Compile RegExx: [0,1]
+OPTION_REGEXX = 0
 

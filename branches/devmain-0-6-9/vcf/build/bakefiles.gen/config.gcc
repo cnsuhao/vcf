@@ -11,34 +11,22 @@
 # -------------------------------------------------------------------------
 
 # C compiler 
-!ifndef CC
-CC = bcc32
-!endif
+CC = gcc
 
 # C++ compiler 
-!ifndef CXX
-CXX = bcc32
-!endif
+CXX = g++
 
 # Standard flags for CC 
-!ifndef CFLAGS
 CFLAGS = 
-!endif
 
 # Standard flags for C++ 
-!ifndef CXXFLAGS
 CXXFLAGS = 
-!endif
 
 # Standard preprocessor flags (common for CC and CXX) 
-!ifndef CPPFLAGS
-CPPFLAGS = -a8 -g0
-!endif
+CPPFLAGS = 
 
 # Standard linker flags 
-!ifndef LDFLAGS
 LDFLAGS = 
-!endif
 
 # Some meaningful string that will be added to the names
 # of the target files. Any string is possible.
@@ -46,101 +34,69 @@ LDFLAGS =
 # then the name of, say, the foundation kit debug dll
 # will be like this: FoundationKit_vc6_d.dll.
 # The default value is an empty string.
-# Backward compatibility: [_bcc]
-!ifndef OPTION_SELECTLIB
+# Backward compatibility: []
 OPTION_SELECTLIB = 
-!endif
 
 # The type of libraries: [0,1]
-!ifndef OPTION_SHARED
 OPTION_SHARED = 1
-!endif
 
 # The type of runtime libraries.
 # "default" means the same value as OPTION_SHARED: [default,0,1]
-!ifndef OPTION_SHARED_RUNTIME
 OPTION_SHARED_RUNTIME = default
-!endif
 
 # The build configuration: [0,1]
-!ifndef OPTION_DEBUG
 OPTION_DEBUG = 1
-!endif
 
 # Make the all-in-1 library: [0,1]
-!ifndef OPTION_ALLIN1
 OPTION_ALLIN1 = 0
-!endif
 
 # Compile ZLib: [0,1]
-!ifndef OPTION_ZLIB
 OPTION_ZLIB = 1
-!endif
 
 # Compile FoundationKit: [0,1]
-!ifndef OPTION_FOUNDATIONKIT
 OPTION_FOUNDATIONKIT = 1
-!endif
 
 # Depends on:
 #     OPTION_FOUNDATIONKIT
 #     OPTION_ZLIB
 # Compile GraphicsKit: [0,1]
-!ifndef OPTION_GRAPHICSKIT
 OPTION_GRAPHICSKIT = 1
-!endif
 
 # Depends on:
 #     OPTION_GRAPHICSKIT
 # Compile ApplicationKit: [0,1]
-!ifndef OPTION_APPLICATIONKIT
 OPTION_APPLICATIONKIT = 1
-!endif
 
 # Depends on:
 #     OPTION_APPLICATIONKIT
 # Compile the Win32HTMLBrowser control: [0,1]
-!ifndef OPTION_WIN32HTMLBROWSER
 OPTION_WIN32HTMLBROWSER = 0
-!endif
 
 # Depends on:
 #     OPTION_APPLICATIONKIT
 # Compile OpenGLKit: [0,1]
-!ifndef OPTION_OPENGLKIT
 OPTION_OPENGLKIT = 0
-!endif
 
 # Depends on:
 #     OPTION_FOUNDATIONKIT
 # Compile NetworkKit: [0,1]
-!ifndef OPTION_NETWORKKIT
 OPTION_NETWORKKIT = 0
-!endif
 
 # Depends on:
 #     OPTION_NETWORKKIT
 # Compile RemoteObjectKit: [0,1]
-!ifndef OPTION_REMOTEOBJECTKIT
 OPTION_REMOTEOBJECTKIT = 0
-!endif
 
 # Depends on:
 #     OPTION_FOUNDATIONKIT
 # Compile InternetKit: [0,1]
-!ifndef OPTION_INTERNETKIT
 OPTION_INTERNETKIT = 0
-!endif
 
 # Depends on:
 #     OPTION_APPLICATIONKIT
 # Compile ImageFormats: [0,1]
-!ifndef OPTION_IMAGEFORMATS
 OPTION_IMAGEFORMATS = 0
-!endif
 
 # Compile RegExx: [0,1]
-!ifndef OPTION_REGEXX
 OPTION_REGEXX = 0
-!endif
 
