@@ -1,8 +1,10 @@
 <?xml version="1.0" ?>
 
 <makefile>
-    <using module="datafiles"/>
+    <requires version="0.1.9"/>
 
+    <using module="datafiles"/>
+    <using module="vcf"/>
 
     <include file="Options.bkl"/>
     <include file="Vars.bkl"/>
@@ -19,7 +21,7 @@
         <cxx-exceptions>on</cxx-exceptions>
         <warnings>default</warnings>
 
-        <define>$(substituteFromDict(OPTION_DEBUG, {'0':'NDEBUG', '1':'_DEBUG'}))</define>
+        <define>$(substituteFromDict( OPTION_DEBUG, {'0':'NDEBUG', '1':'_DEBUG'} ))</define>
 
         <if cond="PLATFORM_WIN32=='1'">
            <define>_WINDOWS</define>
@@ -32,8 +34,8 @@
             <lib-path>$(VCF_LIB_BCC)</lib-path>
         </if>
 
-        <if cond="FORMAT=='mingw'">
-           <define>VCF_MINGW</define>
+        <if cond="FORMAT in ['mingw','gnu']">
+           <define cond="FORMAT=='mingw'">VCF_MINGW</define>
            <cppflags>-Wno-multichar</cppflags>
         </if>
 
@@ -70,6 +72,7 @@
             <if cond="FORMAT in ['msvc','msvc6prj','borland']">
                 <sys-lib>oleacc</sys-lib>
                 <sys-lib>glaux</sys-lib>
+                <sys-lib>urlmon</sys-lib>
             </if>
         </if>
 
@@ -81,7 +84,7 @@
     <template id="precomp">
         <if cond="PRECOMPILED=='1'">
             <precomp-headers>
-                $(substituteFromDict(OPTION_PRECOMPILED, {'0':'off', '1':'on'}))
+                $(substituteFromDict( OPTION_PRECOMPILED, {'0':'off', '1':'on'} ))
             </precomp-headers>
             <precomp-headers-file>$(LIBRARY_FILENAME)</precomp-headers-file>
             <precomp-headers-header>$(LIBRARY_PRECOMP_HDR)</precomp-headers-header>
@@ -93,7 +96,7 @@
     <template id="precomp_auto">
         <if cond="PRECOMPILED=='1'">
             <precomp-headers>
-                $(substituteFromDict(OPTION_PRECOMPILED, {'0':'off', '1':'on'}))
+                $(substituteFromDict( OPTION_PRECOMPILED, {'0':'off', '1':'on'} ))
             </precomp-headers>
             <precomp-headers-file>$(LIBRARY_FILENAME)</precomp-headers-file>
             <precomp-headers-header>$(LIBRARY_PRECOMP_HDR)</precomp-headers-header>
@@ -107,12 +110,8 @@
 
 
     <template id="vcf_lib" template="vcf_base">
-        <set var="SUFFIX_STATIC">
-            <if cond="OPTION_DEBUG=='0'">_s</if>
-            <if cond="OPTION_DEBUG=='1'">_sd</if>
-        </set>
         <set var="LIBRARY_FILENAME">
-            $(LIBRARY_NAME)$(SUFFIX_SELECTLIB)$(SUFFIX_STATIC)
+            $(vcf.getLibFilename( LIBRARY_NAME ))
         </set>
         <libname>$(LIBRARY_FILENAME)</libname>
 
@@ -128,17 +127,13 @@
 
     
     <template id="vcf_dll" template="vcf_base">
-        <set var="SUFFIX_SHARED">
-            <if cond="OPTION_DEBUG=='0'"></if>
-            <if cond="OPTION_DEBUG=='1'">_d</if>
-        </set>
         <set var="LIBRARY_FILENAME">
-            $(LIBRARY_NAME)$(SUFFIX_SELECTLIB)$(SUFFIX_SHARED)
+            $(vcf.getDllFilename( LIBRARY_NAME ))
         </set>
 
         <libname>$(LIBRARY_FILENAME)</libname>
         <dllname>..$(DIRSEP)bin$(DIRSEP)$(LIBRARY_FILENAME)</dllname>
-        
+
         <if cond="PLATFORM_WIN32=='1'">
             <define>_USRDLL</define>
         </if>
@@ -147,7 +142,7 @@
     
     <template id="vcf_exe" template="base">
         <set var="EXE_FILENAME">
-            $(id)$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY)
+            $(vcf.getFilename( id ))
         </set>
         <exename>$(EXE_FILENAME)</exename>
     </template>

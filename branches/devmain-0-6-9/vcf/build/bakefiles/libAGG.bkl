@@ -1,16 +1,17 @@
 <?xml version="1.0" ?>
 
 <makefile>
-    <include file="LibAGGFiles.bkl"/>
+    <include file="libAGGFiles.bkl"/>
 
     <template id="libAGG_base">
-        <set var="LIBRARY_NAME">libAGG</set>
+        <set var="LIBRARY_NAME">$(LIBAGG_NAME)</set>
 
         <include>$(SRCDIR)$(DIRSEP)thirdparty$(DIRSEP)common$(DIRSEP)agg$(DIRSEP)include</include>
         <headers>$(LIBAGG_HDR)</headers>
         <sources>$(LIBAGG_SRC)</sources>
     </template>
 
-    <lib id="libAGG_lib" template="libAGG_base,vcf_lib">
+    <lib id="libAGG_lib" template="libAGG_base,vcf_lib"
+            cond="OPTION_GRAPHICSKIT=='1'">
     </lib>
 </makefile>

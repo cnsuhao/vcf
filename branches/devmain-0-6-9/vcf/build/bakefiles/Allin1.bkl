@@ -3,53 +3,157 @@
 <makefile>
 
     <template id="Allin1_base">
-        <set var="LIBRARY_NAME">VCF</set>
+        <set var="LIBRARY_NAME">$(ALLIN1_NAME)</set>
 
-        <set var="FK_HDR" hints="files">
+        <!--
+        Headers.
+        -->
+        <set var="ALLIN1_FOUNDATIONKIT_HDR" hints="files">
             <if cond="OPTION_FOUNDATIONKIT=='1'">$(FOUNDATIONKIT_HDR)</if>
         </set>
-        <set var="GK_HDR" hints="files">
+        <set var="ALLIN1_GRAPHICSKIT_HDR" hints="files">
             <if cond="OPTION_GRAPHICSKIT=='1'">$(GRAPHICSKIT_HDR)</if>
         </set>
-        <set var="AK_HDR" hints="files">
+        <set var="ALLIN1_APPLICATIONKIT_HDR" hints="files">
             <if cond="OPTION_APPLICATIONKIT=='1'">$(APPLICATIONKIT_HDR)</if>
         </set>
-        <set var="OK_HDR" hints="files">
+        <set var="ALLIN1_OPENGLKIT_HDR" hints="files">
             <if cond="OPTION_OPENGLKIT=='1'">$(OPENGLKIT_HDR)</if>
         </set>
-        
-        <set var="FK_SRC" hints="files">
+        <set var="ALLIN1_NETWORKKIT_HDR" hints="files">
+            <if cond="OPTION_NETWORKKIT=='1'">$(NETWORKKIT_HDR)</if>
+        </set>
+        <set var="ALLIN1_REMOTEOBJECTKIT_HDR" hints="files">
+            <if cond="OPTION_REMOTEOBJECTKIT=='1'">$(REMOTEOBJECTKIT_HDR)</if>
+        </set>
+        <set var="ALLIN1_INTERNETKIT_HDR" hints="files">
+            <if cond="OPTION_INTERNETKIT=='1'">$(INTERNETKIT_HDR)</if>
+        </set>
+
+        <!--
+        Sources.
+        -->
+        <set var="ALLIN1_FOUNDATIONKIT_SRC" hints="files">
             <if cond="OPTION_FOUNDATIONKIT=='1'">$(FOUNDATIONKIT_SRC)</if>
         </set>
-        <set var="GK_SRC" hints="files">
+        <set var="ALLIN1_GRAPHICSKIT_SRC" hints="files">
             <if cond="OPTION_GRAPHICSKIT=='1'">$(GRAPHICSKIT_SRC)</if>
         </set>
-        <set var="AK_SRC" hints="files">
+        <set var="ALLIN1_APPLICATIONKIT_SRC" hints="files">
             <if cond="OPTION_APPLICATIONKIT=='1'">$(APPLICATIONKIT_SRC)</if>
         </set>
-        <set var="OK_SRC" hints="files">
+        <set var="ALLIN1_OPENGLKIT_SRC" hints="files">
             <if cond="OPTION_OPENGLKIT=='1'">$(OPENGLKIT_SRC)</if>
         </set>
+        <set var="ALLIN1_NETWORKKIT_SRC" hints="files">
+            <if cond="OPTION_NETWORKKIT=='1'">$(NETWORKKIT_SRC)</if>
+        </set>
+        <set var="ALLIN1_REMOTEOBJECTKIT_SRC" hints="files">
+            <if cond="OPTION_REMOTEOBJECTKIT=='1'">$(REMOTEOBJECTKIT_SRC)</if>
+        </set>
+        <set var="ALLIN1_INTERNETKIT_SRC" hints="files">
+            <if cond="OPTION_INTERNETKIT=='1'">$(INTERNETKIT_SRC)</if>
+        </set>
 
-        <headers>$(FK_HDR) $(AK_HDR) $(GK_HDR) $(OK_HDR)</headers>
-        <sources>$(FK_SRC) $(AK_SRC) $(GK_SRC) $(OK_SRC)</sources>
+        
+        <headers>
+            $(ALLIN1_FOUNDATIONKIT_HDR)
+            $(ALLIN1_GRAPHICSKIT_HDR)
+            $(ALLIN1_APPLICATIONKIT_HDR)
+            $(ALLIN1_OPENGLKIT_HDR)
+            $(ALLIN1_NETWORKKIT_HDR)
+            $(ALLIN1_REMOTEOBJECTKIT_HDR)
+            $(ALLIN1_INTERNETKIT_HDR)
+        </headers>
+        <sources>
+            $(ALLIN1_FOUNDATIONKIT_SRC)
+            $(ALLIN1_GRAPHICSKIT_SRC)
+            $(ALLIN1_APPLICATIONKIT_SRC)
+            $(ALLIN1_OPENGLKIT_SRC)
+            $(ALLIN1_NETWORKKIT_SRC)
+            $(ALLIN1_REMOTEOBJECTKIT_SRC)
+            $(ALLIN1_INTERNETKIT_SRC)
+        </sources>
 
-        <if cond="FORMAT in ['msvc','msvc6prj']">
+        
+        <if cond="FORMAT in ['msvc','msvc6prj','msevc4prj']">
             <ldflags>/INCREMENTAL:NO</ldflags>
         </if>
 
-        <depends>libAGG_lib</depends>
+        
+        <set var="ALLIN1_ZLIB_LIB">
+            <if cond="OPTION_ZLIB=='1'">ZLib_lib</if>
+        </set>
+        <library>$(ALLIN1_ZLIB_LIB)</library>
+
+
+        <set var="ALLIN1_LIBAGG_LIB">
+            <if cond="OPTION_GRAPHICSKIT=='1'">libAGG_lib</if>
+        </set>
+        <library>$(ALLIN1_LIBAGG_LIB)</library>
+
+        <set var="ALLIN1_LIBJPEG_LIB">
+            <if cond="OPTION_GRAPHICSKIT=='1'">LibJPEG_lib</if>
+        </set>
+        <library>$(ALLIN1_LIBJPEG_LIB)</library>
+
+        <set var="ALLIN1_LIBPNG_LIB">
+            <if cond="OPTION_GRAPHICSKIT=='1'">LibPNG_lib</if>
+        </set>
+        <library>$(ALLIN1_LIBPNG_LIB)</library>
+
+
+        <set var="ALLIN1_LIBMNG_LIB">
+            <if cond="OPTION_IMAGEFORMATS=='1'">LibMNG_lib</if>
+        </set>
+        <library>$(ALLIN1_LIBMNG_LIB)</library>
+
+        <set var="ALLIN1_LIBTIFF_LIB">
+            <if cond="OPTION_IMAGEFORMATS=='1'">LibTIFF_lib</if>
+        </set>
+        <library>$(ALLIN1_LIBTIFF_LIB)</library>
+
+        <set var="ALLIN1_FREEIMAGE_LIB">
+            <if cond="OPTION_IMAGEFORMATS=='1'">FreeImage_lib</if>
+        </set>
+        <library>$(ALLIN1_FREEIMAGE_LIB)</library>
+
+        <set var="ALLIN1_REGEXX_LIB">
+            <if cond="OPTION_REGEXX=='1'">RegExx_lib</if>
+        </set>
+        <library>$(ALLIN1_REGEXX_LIB)</library>
+
+
+        <define>$(VCF_NO_ATL)</define>
     </template>
 
     <lib id="Allin1_lib" template="Allin1_base,vcf_lib"
             cond="OPTION_SHARED=='0' and OPTION_ALLIN1=='1'">
-        <define>VCF_ALLIN1_LIB</define>
     </lib>
 
     <dll id="Allin1_dll" template="Allin1_base,vcf_dll"
             cond="OPTION_SHARED=='1' and OPTION_ALLIN1=='1'">
-        <define>VCF_ALLIN1_DLL</define>
-        <define>VCF_ALLIN1_EXPORTS</define>
+        <define>FOUNDATIONKIT_DLL</define>
+        <define>FOUNDATIONKIT_EXPORTS</define>
+        <define>GRAPHICSKIT_DLL</define>
+        <define>GRAPHICSKIT_EXPORTS</define>
+        <define>APPLICATIONKIT_DLL</define>
+        <define>APPLICATIONKIT_EXPORTS</define>
+        <define>OPENGLKIT_DLL</define>
+        <define>OPENGLKIT_EXPORTS</define>
+        <define>NETKIT_DLL</define>
+        <define>NETKIT_EXPORTS</define>
+        <define>REMOTEKIT_DLL</define>
+        <define>REMOTEKIT_EXPORTS</define>
+        <define>INTERNETKIT_DLL</define>
+        <define>INTERNETKIT_EXPORTS</define>
+
+        <set var="ALLIN1_APPLICATIONKIT_RES" hints="files">
+            <if cond="OPTION_APPLICATIONKIT=='1'">
+                ..$(DIRSEP)build$(DIRSEP)resources$(DIRSEP)win32$(DIRSEP)ApplicationKit.rc
+            </if>
+        </set>
+        <win32-res>$(ALLIN1_APPLICATIONKIT_RES)</win32-res>
     </dll>
 
     <set var="MSVC6PRJ_MERGED_TARGETS" append="1" cond="OPTION_ALLIN1=='1'">

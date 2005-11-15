@@ -4,22 +4,16 @@
     <include file="FreeImageFiles.bkl"/>
 
     <template id="FreeImage_base">
-        <set var="LIBRARY_NAME">FreeImage</set>
+        <set var="LIBRARY_NAME">$(FREEIMAGE_NAME)</set>
 
         <headers>$(FREEIMAGE_HDR)</headers>
         <sources>$(FREEIMAGE_SRC)</sources>
 
-        <define>USE_LIBMNG_LIB</define>
-        <define>USE_LIBJPEG_LIB</define>
-        <define>USE_LIBPNG_LIB</define>
-        <define>USE_LIBTIFF_LIB</define>
-        <define>USE_ZLIB_LIB</define>
-
-        <depends>LibMNG_lib</depends>
-        <depends>LibJPEG_lib</depends>
-        <depends>LibPNG_lib</depends>
-        <depends>LibTIFF_lib</depends>
-        <depends>ZLib_lib</depends>
+        <library>ZLib_lib</library>
+        <library>LibJPEG_lib</library>
+        <library>LibPNG_lib</library>
+        <library>LibMNG_lib</library>
+        <library>LibTIFF_lib</library>
     </template>
 
     <lib id="FreeImage_lib" template="FreeImage_base,vcf_lib"
