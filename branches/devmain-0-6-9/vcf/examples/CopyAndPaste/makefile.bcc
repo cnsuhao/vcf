@@ -21,33 +21,44 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+LIBAGG_FILENAME = libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+ZLIB_FILENAME = ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBJPEG_FILENAME = LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBPNG_FILENAME = LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 COPYANDPASTE_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include \
 	$(__DEBUG_INFO) $(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -D_WINDOWS \
-	-D_WIN32 -DWIN32 -I..\..\src $(__USE_APPLICATIONKIT_p) $(CPPFLAGS) \
-	$(CXXFLAGS)
+	-D_WIN32 -DWIN32 -I..\..\src $(CPPFLAGS) $(CXXFLAGS)
 COPYANDPASTE_OBJECTS =  \
 	$(OBJDIR)\CopyAndPaste_CopyAndPaste.obj
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+__CopyAndPaste___depname = \
+	.\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_2 = 
@@ -80,10 +91,28 @@ ____OPTION_DEBUG_12_p = -DNDEBUG
 ____OPTION_DEBUG_12_p = -D_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_APPLICATIONKIT_p = -DUSE_APPLICATIONKIT_$(SUFFIX_VAR)
+____CopyAndPaste_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_APPLICATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____CopyAndPaste_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____CopyAndPaste_ZLIB_p = $(ZLIB_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____CopyAndPaste_LIBAGG_p = $(LIBAGG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____CopyAndPaste_LIBJPEG_p = $(LIBJPEG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____CopyAndPaste_LIBPNG_p = $(LIBPNG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____CopyAndPaste_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____CopyAndPaste_APPLICATIONKIT_p = $(APPLICATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
@@ -99,23 +128,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).exe
+all: $(__CopyAndPaste___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).exe del .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).exe
-	-if exist .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).tds del .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).tds
-	-if exist .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).ilc del .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).ilc
-	-if exist .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).ild del .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).ild
-	-if exist .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).ilf del .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).ilf
-	-if exist .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).ils del .\CopyAndPaste_bcc$(SUFFIX_LIBRARY).ils
+	-if exist .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds del .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds
+	-if exist .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc del .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc
+	-if exist .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
+	-if exist .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
+	-if exist .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
 
-.\CopyAndPaste_bcc$(SUFFIX_LIBRARY).exe: $(COPYANDPASTE_OBJECTS)
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+.\CopyAndPaste$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(COPYANDPASTE_OBJECTS)
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0x32.obj $(COPYANDPASTE_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
+	c0x32.obj $(COPYANDPASTE_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____CopyAndPaste_FOUNDATIONKIT_p) $(____CopyAndPaste_ZLIB_p) $(____CopyAndPaste_LIBAGG_p) $(____CopyAndPaste_LIBJPEG_p) $(____CopyAndPaste_LIBPNG_p) $(____CopyAndPaste_GRAPHICSKIT_p) $(____CopyAndPaste_APPLICATIONKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
 |
+!endif
 
 $(OBJDIR)\CopyAndPaste_CopyAndPaste.obj: .\CopyAndPaste.cpp
 	$(CXX) -q -c -P -o$@ $(COPYANDPASTE_CXXFLAGS) $**

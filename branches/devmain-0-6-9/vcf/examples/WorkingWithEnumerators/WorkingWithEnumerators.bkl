@@ -3,7 +3,8 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="WorkingWithEnumerators" template="vcf_exe_console">
+    <exe id="WorkingWithEnumerators" template="vcf_exe_console"
+            cond="OPTION_FOUNDATIONKIT=='1'">
         <dirname>.</dirname>
         <sources>WorkingWithEnumerators.cpp</sources>
         <vcf-use-FoundationKit/>

@@ -21,32 +21,37 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 STRINGS_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include $(__DEBUG_INFO) \
 	$(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -D_WINDOWS -D_WIN32 -DWIN32 \
-	-I..\..\src $(__USE_FOUNDATIONKIT_p) $(CPPFLAGS) $(CXXFLAGS)
+	-I..\..\src $(CPPFLAGS) $(CXXFLAGS)
 STRINGS_OBJECTS =  \
 	$(OBJDIR)\Strings_Strings.obj
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_FOUNDATIONKIT)" == "1"
+__Strings___depname = .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_2 = 
@@ -79,10 +84,10 @@ ____OPTION_DEBUG_12_p = -DNDEBUG
 ____OPTION_DEBUG_12_p = -D_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_FOUNDATIONKIT_p = -DUSE_FOUNDATIONKIT_$(SUFFIX_VAR)
+____Strings_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_FOUNDATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____Strings_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
@@ -98,23 +103,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\Strings_bcc$(SUFFIX_LIBRARY).exe
+all: $(__Strings___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist .\Strings_bcc$(SUFFIX_LIBRARY).exe del .\Strings_bcc$(SUFFIX_LIBRARY).exe
-	-if exist .\Strings_bcc$(SUFFIX_LIBRARY).tds del .\Strings_bcc$(SUFFIX_LIBRARY).tds
-	-if exist .\Strings_bcc$(SUFFIX_LIBRARY).ilc del .\Strings_bcc$(SUFFIX_LIBRARY).ilc
-	-if exist .\Strings_bcc$(SUFFIX_LIBRARY).ild del .\Strings_bcc$(SUFFIX_LIBRARY).ild
-	-if exist .\Strings_bcc$(SUFFIX_LIBRARY).ilf del .\Strings_bcc$(SUFFIX_LIBRARY).ilf
-	-if exist .\Strings_bcc$(SUFFIX_LIBRARY).ils del .\Strings_bcc$(SUFFIX_LIBRARY).ils
+	-if exist .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds del .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds
+	-if exist .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc del .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc
+	-if exist .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
+	-if exist .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
+	-if exist .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
 
-.\Strings_bcc$(SUFFIX_LIBRARY).exe: $(STRINGS_OBJECTS)
+!if "$(OPTION_FOUNDATIONKIT)" == "1"
+.\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(STRINGS_OBJECTS)
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -ap @&&|
-	c0x32.obj $(STRINGS_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
+	c0x32.obj $(STRINGS_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____Strings_FOUNDATIONKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
 |
+!endif
 
 $(OBJDIR)\Strings_Strings.obj: .\Strings.cpp
 	$(CXX) -q -c -P -o$@ $(STRINGS_CXXFLAGS) $**

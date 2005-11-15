@@ -21,12 +21,19 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+LIBAGG_FILENAME = libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+ZLIB_FILENAME = ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBJPEG_FILENAME = LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBPNG_FILENAME = LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 MFCINTEGRATION2_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include \
 	$(__DEBUG_INFO) $(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -D_WINDOWS \
-	-D_WIN32 -DWIN32 -I..\..\src $(__USE_GRAPHICSKIT_p) -D_AFXDLL -Hu \
-	-H=$(OBJDIR)\MFCIntegration2_bcc$(SUFFIX_LIBRARY).csm $(CPPFLAGS) \
-	$(CXXFLAGS)
+	-D_WIN32 -DWIN32 -I..\..\src -D_AFXDLL -Hu \
+	-H=$(OBJDIR)\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).csm \
+	$(CPPFLAGS) $(CXXFLAGS)
 MFCINTEGRATION2_OBJECTS =  \
 	$(OBJDIR)\MFCIntegration2_ChildView.obj \
 	$(OBJDIR)\MFCIntegration2_MainFrm.obj \
@@ -35,23 +42,27 @@ MFCINTEGRATION2_OBJECTS =  \
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_GRAPHICSKIT)" == "1"
+__MFCIntegration2___depname = \
+	.\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_2 = 
@@ -90,10 +101,25 @@ ____OPTION_DEBUG_12_p_1 = -dNDEBUG
 ____OPTION_DEBUG_12_p_1 = -d_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_GRAPHICSKIT_p = -DUSE_GRAPHICSKIT_$(SUFFIX_VAR)
+____MFCIntegration2_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_GRAPHICSKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____MFCIntegration2_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____MFCIntegration2_ZLIB_p = $(ZLIB_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____MFCIntegration2_LIBAGG_p = $(LIBAGG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____MFCIntegration2_LIBJPEG_p = $(LIBJPEG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____MFCIntegration2_LIBPNG_p = $(LIBPNG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____MFCIntegration2_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
@@ -109,23 +135,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).exe
+all: $(__MFCIntegration2___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).exe del .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).exe
-	-if exist .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).tds del .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).tds
-	-if exist .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).ilc del .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).ilc
-	-if exist .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).ild del .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).ild
-	-if exist .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).ilf del .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).ilf
-	-if exist .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).ils del .\MFCIntegration2_bcc$(SUFFIX_LIBRARY).ils
+	-if exist .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds del .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds
+	-if exist .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc del .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc
+	-if exist .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
+	-if exist .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
+	-if exist .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
 
-.\MFCIntegration2_bcc$(SUFFIX_LIBRARY).exe: $(MFCINTEGRATION2_OBJECTS)  $(OBJDIR)\MFCIntegration2_MFCIntegration2.res
+!if "$(OPTION_GRAPHICSKIT)" == "1"
+.\MFCIntegration2$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(MFCINTEGRATION2_OBJECTS)  $(OBJDIR)\MFCIntegration2_MFCIntegration2.res
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0w32.obj $(MFCINTEGRATION2_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\MFCIntegration2_MFCIntegration2.res
+	c0w32.obj $(MFCINTEGRATION2_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____MFCIntegration2_FOUNDATIONKIT_p) $(____MFCIntegration2_ZLIB_p) $(____MFCIntegration2_LIBAGG_p) $(____MFCIntegration2_LIBJPEG_p) $(____MFCIntegration2_LIBPNG_p) $(____MFCIntegration2_GRAPHICSKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,, $(OBJDIR)\MFCIntegration2_MFCIntegration2.res
 |
+!endif
 
 $(OBJDIR)\MFCIntegration2_ChildView.obj: .\ChildView.cpp
 	$(CXX) -q -c -P -o$@ $(MFCINTEGRATION2_CXXFLAGS) $**

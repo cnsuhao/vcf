@@ -62,6 +62,7 @@ defined to use the DLL or static libraries.
 #if defined(_MSC_VER) || defined(__BORLANDC__)
 
 	//link to libAgg automatically here
+	#if defined(USE_GRAPHICSKIT_DLL) || defined(USE_GRAPHICSKIT_LIB)
 	#	ifdef _DEBUG
 	#		pragma comment(lib, "libAGG_"_LIB_CPLVERNUM"_sd.lib")
 	#		pragma comment(lib, "LibJPEG_"_LIB_CPLVERNUM"_sd.lib")
@@ -73,6 +74,7 @@ defined to use the DLL or static libraries.
 	#		pragma comment(lib, "ZLib_"_LIB_CPLVERNUM"_s.lib")
 	#		pragma comment(lib, "LibPNG_"_LIB_CPLVERNUM"_s.lib")
 	#	endif
+	#endif
 
 
 	#ifdef USE_GRAPHICSKIT_DLL
@@ -99,6 +101,9 @@ defined to use the DLL or static libraries.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/11/15 21:31:46  kdmix
+*bakefiles are not based on the "comment" pragma, all the dependencies are hardcoded now.
+*
 *Revision 1.4.2.3  2005/11/02 04:38:23  obirsoy
 *changes required for vc80 support.
 *

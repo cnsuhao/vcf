@@ -3,7 +3,7 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="Transformations" template="vcf_exe_gui">
+    <exe id="Transformations" template="vcf_exe_gui" cond="OPTION_APPLICATIONKIT=='1'">
         <dirname>.</dirname>
         <sources>Transformations.cpp</sources>
         <vcf-use-ApplicationKit/>

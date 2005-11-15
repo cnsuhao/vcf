@@ -21,7 +21,7 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 BLACKBOX_DLL_CXXFLAGS = $(__RUNTIME_LIBS_3) -I$(BCCDIR)\include \
 	$(__DEBUG_INFO) $(__OPTIMIZE_5) -tWM $(____OPTION_DEBUG_13_p) -D_WINDOWS \
 	-D_WIN32 -DWIN32 -I..\..\src -D_USRDLL -Iinclude -DBLACKBOX_DLL \
@@ -46,17 +46,23 @@ BLACKBOX_DLL_OBJECTS =  \
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
+!endif
+!if "$(OPTION_SHARED)" == "0"
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
+!endif
+!if "$(OPTION_SHARED)" == "1"
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_3 = 
@@ -95,12 +101,6 @@ ____OPTION_DEBUG_13_p_1 = -dNDEBUG
 ____OPTION_DEBUG_13_p_1 = -d_DEBUG
 !endif
 !if "$(OPTION_DEBUG)" == "0"
-__BlackBox_dll_SUFFIX_SHARED = 
-!endif
-!if "$(OPTION_DEBUG)" == "1"
-__BlackBox_dll_SUFFIX_SHARED = _d
-!endif
-!if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
 !endif
 !if "$(OPTION_DEBUG)" == "1"
@@ -114,25 +114,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).dll
+all: ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).dll del ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).dll
-	-if exist ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).tds del ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).tds
-	-if exist ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).ilc del ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).ilc
-	-if exist ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).ild del ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).ild
-	-if exist ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).ilf del ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).ilf
-	-if exist ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).ils del ..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).ils
-	-if exist ..\..\lib\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).lib del ..\..\lib\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).lib
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).tds del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).tds
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ilc del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ilc
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ild del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ild
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ilf del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ilf
+	-if exist ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ils del ..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).ils
+	-if exist ..\..\lib\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).lib del ..\..\lib\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).lib
 
-..\..\lib\..\bin\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED).dll: $(BLACKBOX_DLL_OBJECTS)  $(OBJDIR)\BlackBox_dll_BlackBox.res
+..\..\lib\..\bin\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(BLACKBOX_DLL_OBJECTS)  $(OBJDIR)\BlackBox_dll_BlackBox.res
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -Llib @&&|
-	c0d32.obj $(BLACKBOX_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib DbgHelp.lib Psapi.lib import32.lib cw32mt$(__RUNTIME_LIBS_4).lib,, $(OBJDIR)\BlackBox_dll_BlackBox.res
+	c0d32.obj $(BLACKBOX_DLL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib DbgHelp.lib Psapi.lib import32.lib cw32mt$(__RUNTIME_LIBS_4).lib,, $(OBJDIR)\BlackBox_dll_BlackBox.res
 |
-	implib -f ..\..\lib\BlackBox_bcc$(__BlackBox_dll_SUFFIX_SHARED) $@
+	implib -f ..\..\lib\BlackBox$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC) $@
 
 $(OBJDIR)\BlackBox_dll_AllocAndFillProcessModuleList.obj: .\AllocAndFillProcessModuleList.cpp
 	$(CXX) -q -c -P -o$@ $(BLACKBOX_DLL_CXXFLAGS) $**

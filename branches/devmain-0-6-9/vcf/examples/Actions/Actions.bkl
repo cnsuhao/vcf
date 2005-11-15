@@ -3,7 +3,7 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="Actions" template="vcf_exe_gui">
+    <exe id="Actions" template="vcf_exe_gui" cond="OPTION_APPLICATIONKIT=='1'">
         <dirname>.</dirname>
         <sources>Actions.cpp</sources>
         <win32-res>Actions.rc</win32-res>

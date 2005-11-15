@@ -12,56 +12,42 @@
 
 ### Variables: ###
 
-OBJDIR = msvc$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY)
+OBJDIR = msvc$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 EVENTBASICS_CXXFLAGS = /M$(__RUNTIME_LIBS_8)$(__DEBUG_RUNTIME_LIBS_3) /DWIN32 \
 	$(__DEBUG_INFO_0) \
-	/Fd.\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).pdb \
+	/Fd.\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).pdb \
 	$(____DEBUG_RUNTIME_LIBS_2_p) $(__OPTIMIZE_4) $(____OPTION_DEBUG_12_p) \
-	/D_WINDOWS /D_WIN32 /DWIN32 /I..\..\src /D_CONSOLE $(__USE_FOUNDATIONKIT_p) \
-	/GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
+	/D_WINDOWS /D_WIN32 /DWIN32 /D_CRT_SECURE_NO_DEPRECATE \
+	/D_SCL_SECURE_NO_DEPRECATE /D_CRT_NON_CONFORMING_SWPRINTFS /I..\..\src \
+	/D_CONSOLE /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
 EVENTBASICS_OBJECTS =  \
 	$(OBJDIR)\EventBasics_EventBasics.obj
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_SELECTLIB)" == "icl6"
-SUFFIX_SELECTLIB = _icl6
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_SELECTLIB)" == "icl7"
-SUFFIX_SELECTLIB = _icl7
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_SELECTLIB)" == "vc5"
-SUFFIX_SELECTLIB = _vc5
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_SELECTLIB)" == "vc6"
-SUFFIX_SELECTLIB = _vc6
-!endif
-!if "$(OPTION_SELECTLIB)" == "vc70"
-SUFFIX_SELECTLIB = _vc70
-!endif
-!if "$(OPTION_SELECTLIB)" == "vc71"
-SUFFIX_SELECTLIB = _vc71
-!endif
-!if "$(OPTION_SELECTLIB)" == "bcc"
-SUFFIX_SELECTLIB = _bcc
-!endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
-!endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
-!endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
-!endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_FOUNDATIONKIT)" == "1"
+__EventBasics___depname = \
+	.\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO_0 = 
@@ -109,10 +95,10 @@ ____OPTION_DEBUG_12_p = /DNDEBUG
 ____OPTION_DEBUG_12_p = /D_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_FOUNDATIONKIT_p = /DUSE_FOUNDATIONKIT_$(SUFFIX_VAR)
+____EventBasics_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_FOUNDATIONKIT_p = /DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____EventBasics_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
 !endif
 
 
@@ -122,20 +108,22 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).exe
+all: $(__EventBasics___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.pch del $(OBJDIR)\*.pch
-	-if exist .\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).exe
-	-if exist .\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).ilk del .\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).ilk
-	-if exist .\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).pdb del .\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).pdb
+	-if exist .\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilk del .\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilk
+	-if exist .\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).pdb del .\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).pdb
 
-.\EventBasics$(SUFFIX_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(EVENTBASICS_OBJECTS)
+!if "$(OPTION_FOUNDATIONKIT)" == "1"
+.\EventBasics$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(EVENTBASICS_OBJECTS)
 	link /NOLOGO /OUT:$@ $(LDFLAGS) $(__DEBUG_INFO_1)  /LIBPATH:..\..\lib /SUBSYSTEM:CONSOLE @<<
-	$(EVENTBASICS_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib
+	$(EVENTBASICS_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib $(____EventBasics_FOUNDATIONKIT_p)
 <<
+!endif
 
 $(OBJDIR)\EventBasics_EventBasics.obj: .\EventBasics.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(EVENTBASICS_CXXFLAGS) $**

@@ -21,32 +21,43 @@ BCCDIR = $(MAKEDIR)\..
 
 ### Variables: ###
 
-OBJDIR = borland_bcc$(SUFFIX_LIBRARY)
+OBJDIR = borland$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+LIBAGG_FILENAME = libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+ZLIB_FILENAME = ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBJPEG_FILENAME = LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+LIBPNG_FILENAME = LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
+FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 SCROLLING_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include $(__DEBUG_INFO) \
 	$(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -D_WINDOWS -D_WIN32 -DWIN32 \
-	-I..\..\src $(__USE_APPLICATIONKIT_p) $(CPPFLAGS) $(CXXFLAGS)
+	-I..\..\src $(CPPFLAGS) $(CXXFLAGS)
 SCROLLING_OBJECTS =  \
 	$(OBJDIR)\Scrolling_Scrolling.obj
 
 ### Conditionally set variables: ###
 
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = 
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_STATIC = _s
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "1"
-SUFFIX_LIBRARY = _d
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_STATIC = _sd
 !endif
-!if "$(OPTION_DEBUG)" == "0" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _s
+!if "$(OPTION_DEBUG)" == "0"
+SUFFIX_DYNAMIC = 
 !endif
-!if "$(OPTION_DEBUG)" == "1" && "$(OPTION_SHARED)" == "0"
-SUFFIX_LIBRARY = _sd
+!if "$(OPTION_DEBUG)" == "1"
+SUFFIX_DYNAMIC = _d
 !endif
 !if "$(OPTION_SHARED)" == "0"
-SUFFIX_VAR = LIB
+SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 !endif
 !if "$(OPTION_SHARED)" == "1"
-SUFFIX_VAR = DLL
+SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
+!endif
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+__Scrolling___depname = .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
 __RUNTIME_LIBS_2 = 
@@ -79,10 +90,28 @@ ____OPTION_DEBUG_12_p = -DNDEBUG
 ____OPTION_DEBUG_12_p = -D_DEBUG
 !endif
 !if "$(OPTION_ALLIN1)" == "0"
-__USE_APPLICATIONKIT_p = -DUSE_APPLICATIONKIT_$(SUFFIX_VAR)
+____Scrolling_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_ALLIN1)" == "1"
-__USE_APPLICATIONKIT_p = -DVCF_USE_ALLIN1_$(SUFFIX_VAR)
+____Scrolling_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Scrolling_ZLIB_p = $(ZLIB_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Scrolling_LIBAGG_p = $(LIBAGG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Scrolling_LIBJPEG_p = $(LIBJPEG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Scrolling_LIBPNG_p = $(LIBPNG_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Scrolling_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
+!endif
+!if "$(OPTION_ALLIN1)" == "0"
+____Scrolling_APPLICATIONKIT_p = $(APPLICATIONKIT_FILENAME).lib
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-
@@ -98,23 +127,25 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: .\Scrolling_bcc$(SUFFIX_LIBRARY).exe
+all: $(__Scrolling___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
 	-if exist $(OBJDIR)\*.res del $(OBJDIR)\*.res
 	-if exist $(OBJDIR)\*.csm del $(OBJDIR)\*.csm
-	-if exist .\Scrolling_bcc$(SUFFIX_LIBRARY).exe del .\Scrolling_bcc$(SUFFIX_LIBRARY).exe
-	-if exist .\Scrolling_bcc$(SUFFIX_LIBRARY).tds del .\Scrolling_bcc$(SUFFIX_LIBRARY).tds
-	-if exist .\Scrolling_bcc$(SUFFIX_LIBRARY).ilc del .\Scrolling_bcc$(SUFFIX_LIBRARY).ilc
-	-if exist .\Scrolling_bcc$(SUFFIX_LIBRARY).ild del .\Scrolling_bcc$(SUFFIX_LIBRARY).ild
-	-if exist .\Scrolling_bcc$(SUFFIX_LIBRARY).ilf del .\Scrolling_bcc$(SUFFIX_LIBRARY).ilf
-	-if exist .\Scrolling_bcc$(SUFFIX_LIBRARY).ils del .\Scrolling_bcc$(SUFFIX_LIBRARY).ils
+	-if exist .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
+	-if exist .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds del .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).tds
+	-if exist .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc del .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilc
+	-if exist .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
+	-if exist .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
+	-if exist .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
 
-.\Scrolling_bcc$(SUFFIX_LIBRARY).exe: $(SCROLLING_OBJECTS)
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+.\Scrolling$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(SCROLLING_OBJECTS)
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0x32.obj $(SCROLLING_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
+	c0x32.obj $(SCROLLING_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____Scrolling_FOUNDATIONKIT_p) $(____Scrolling_ZLIB_p) $(____Scrolling_LIBAGG_p) $(____Scrolling_LIBJPEG_p) $(____Scrolling_LIBPNG_p) $(____Scrolling_GRAPHICSKIT_p) $(____Scrolling_APPLICATIONKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
 |
+!endif
 
 $(OBJDIR)\Scrolling_Scrolling.obj: .\Scrolling.cpp
 	$(CXX) -q -c -P -o$@ $(SCROLLING_CXXFLAGS) $**
