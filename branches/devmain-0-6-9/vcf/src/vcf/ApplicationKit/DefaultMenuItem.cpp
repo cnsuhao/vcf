@@ -273,8 +273,8 @@ void DefaultMenuItem::deleteChild( const unsigned long& index )
 
 		removeComponent( *found );
 
+        (*found)->free();
 		menuItems_.erase( found );
-		(*found)->free();
 	}
 }
 
@@ -766,6 +766,9 @@ uint32 DefaultMenuItem::getChildIndex( MenuItem* child )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/11/17 06:38:38  obirsoy
+*. fixed an invalidated vector iterator bug.
+*
 *Revision 1.4.2.1  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *
