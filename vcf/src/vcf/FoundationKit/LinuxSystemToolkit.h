@@ -1,5 +1,5 @@
 #ifndef _VCF_LINUXSYSTEMTOOLKIT_H__
-#define _VCF_LINUXSYSTEMTOOLKIT_H__ 
+#define _VCF_LINUXSYSTEMTOOLKIT_H__
 //LinuxSystemToolkit.h
 
 /*
@@ -61,9 +61,6 @@ public:
 	virtual FileStreamPeer* internal_createFileStreamPeer( File* file );
 
 	virtual LocalePeer* internal_createLocalePeer();
-	
-	virtual ResourceBundlePeer* internal_createResourceBundlePeer();
-};
 
 	virtual ResourceBundlePeer* internal_createResourceBundlePeer();
 };
@@ -73,6 +70,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/11/18 16:02:53  obirsoy
+*changes required for gcc under Linux, and some warning clean up.
+*
 *Revision 1.4.2.2  2005/11/11 00:21:00  ddiego
 *comitting mostuffs linux foundationkit patchs [1351922].
 *

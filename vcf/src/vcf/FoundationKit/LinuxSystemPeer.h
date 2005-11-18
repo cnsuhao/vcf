@@ -1,5 +1,5 @@
 #ifndef _VCF_LINUXSYSTEMPEER_H__
-#define _VCF_LINUXSYSTEMPEER_H__ 
+#define _VCF_LINUXSYSTEMPEER_H__
 //LinuxSystemPeer.h
 
 /*
@@ -34,9 +34,11 @@ public:
 	virtual String getCurrentWorkingDirectory();
 
 	virtual String getEnvironmentVariable( const String& variableName );
-	
+
+    virtual void setEnvironmentVariable( const String& variableName, const String& newValue );
+
 	virtual void setCurrentWorkingDirectory( const String& currentDirectory );
-	
+
 	virtual String getCommonDirectory( System::CommonDirectory directory );
 
 	virtual void setDateToSystemTime( DateTime* date );
@@ -53,7 +55,10 @@ public:
 	virtual DateTime convertUTCTimeToLocalTime( const DateTime& date );
 
 	virtual DateTime convertLocalTimeToUTCTime( const DateTime& date );
-	
+
+    virtual String getOSName();
+    virtual String getOSVersion();
+
 	virtual String getComputerName();
 	virtual String getUserName();
 
@@ -70,6 +75,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2005/11/18 16:02:53  obirsoy
+*changes required for gcc under Linux, and some warning clean up.
+*
 *Revision 1.4.2.2  2005/11/11 00:21:00  ddiego
 *comitting mostuffs linux foundationkit patchs [1351922].
 *
