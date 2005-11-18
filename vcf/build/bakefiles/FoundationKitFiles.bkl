@@ -226,12 +226,14 @@
         vcf/FoundationKit/PosixCondition.h
         vcf/FoundationKit/PosixMutex.h
         vcf/FoundationKit/PosixThread.h
+        vcf/FoundationKit/PosixThreadManagerPeer.h
     </set>
 
     <set var="FOUNDATIONKIT_POSIX_SRC" hints="files">
         vcf/FoundationKit/PosixCondition.cpp
         vcf/FoundationKit/PosixMutex.cpp
         vcf/FoundationKit/PosixThread.cpp
+        vcf/FoundationKit/PosixThreadManagerPeer.cpp
     </set>
 
     <set var="FOUNDATIONKIT_LINUX_HDR" hints="files">

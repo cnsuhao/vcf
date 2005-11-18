@@ -6,6 +6,9 @@
     <set var="LIBRARY_NAME">libXmake</set>
 
     <lib id="xmake_lib" template="vcf_lib">
+        <if cond="FORMAT=='gnu'">
+            <define>GCC</define>
+        </if>
         <headers>
             CmdLine.h
             DependencyNodes.h
@@ -29,11 +32,14 @@
         <dirname>../../bin</dirname>
         <headers>
             xmake.h
-            xmake_warnings_off.h            
+            xmake_warnings_off.h
         </headers>
         <sources>
             main.cpp
         </sources>
+        <if cond="FORMAT=='gnu'">
+            <define>GCC</define>
+        </if>
         <vcf-use-FoundationKit/>
         <library>xmake_lib</library>
     </exe>
