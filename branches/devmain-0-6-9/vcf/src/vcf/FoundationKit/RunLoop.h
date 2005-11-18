@@ -101,7 +101,7 @@ public:
 	String getCurrentRunMode();
 
 	/**
-	This is called repeatedly by the run loop peer in 
+	This is called repeatedly by the run loop peer in
 	it's internal loop code.
 	*/
 	void internal_executeOnce( const String& mode );
@@ -109,7 +109,7 @@ public:
 	void internal_cancelled( const String& mode );
 
 	/**
-	Called when the peer run loop gets a posted event 
+	Called when the peer run loop gets a posted event
 	*/
 	void internal_processReceivedEvent( PostedEvent* postedEvent );
 
@@ -121,21 +121,21 @@ public:
 	friend class Thread;
 protected:
 	RunLoopPeer* peer_;
-	bool stopped_;	
+	bool stopped_;
 	Thread* owningThread_;
 	std::vector<RunLoopSource*> sources_;
 	std::deque<String> modes_;
 	Mutex mutex_;
 
-	
+
 
 	/**
 	called repeated for each loop iteration of the run loop.
-	Each call iterates through all of the sources and calls 
+	Each call iterates through all of the sources and calls
 	RunLoopSource::perform() on the source instance
 	*/
 	void doSources();
-	
+
 	void pushCurrentMode( const String& mode );
 	void popCurrentMode();
 
