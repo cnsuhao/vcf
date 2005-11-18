@@ -62,7 +62,7 @@
     </action>
     <subproject id="CreateBundle_">
         <installable>no</installable>
-        <dir>../../src/CreateBundle</dir>
+        <dir>../../src/createbundle</dir>
         <dependency-of>all</dependency-of>
     </subproject>
 

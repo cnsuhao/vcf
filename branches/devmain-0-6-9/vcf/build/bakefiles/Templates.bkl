@@ -36,6 +36,7 @@
 
         <if cond="FORMAT in ['mingw','gnu']">
            <define cond="FORMAT=='mingw'">VCF_MINGW</define>
+           <define cond="FORMAT=='gnu'">VCF_POSIX</define>
            <cppflags>-Wno-multichar</cppflags>
         </if>
 
@@ -45,7 +46,7 @@
           <define>_CRT_NON_CONFORMING_SWPRINTFS</define>
         </if>
 
-      <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">        
+      <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">
 	        <if cond="FORMAT!='borland'">
                 <sys-lib>rpcrt4</sys-lib>
                 <sys-lib>odbc32</sys-lib>
@@ -80,7 +81,7 @@
         <lib-path>$(VCF_LIB)</lib-path>
     </template>
 
-    
+
     <template id="precomp">
         <if cond="PRECOMPILED=='1'">
             <precomp-headers>
@@ -92,7 +93,7 @@
         </if>
     </template>
 
-    
+
     <template id="precomp_auto">
         <if cond="PRECOMPILED=='1'">
             <precomp-headers>
@@ -103,7 +104,7 @@
         </if>
     </template>
 
-    
+
     <template id="vcf_base" template="base">
         <dirname>$(VCF_LIB)</dirname>
     </template>
@@ -125,7 +126,7 @@
         </if>
     </template>
 
-    
+
     <template id="vcf_dll" template="vcf_base">
         <set var="LIBRARY_FILENAME">
             $(vcf.getDllFilename( LIBRARY_NAME ))
@@ -139,7 +140,7 @@
         </if>
     </template>
 
-    
+
     <template id="vcf_exe" template="base">
         <set var="EXE_FILENAME">
             $(vcf.getFilename( id ))
@@ -158,7 +159,7 @@
         </if>
     </template>
 
-    
+
     <template id="vcf_exe_console" template="vcf_exe">
         <app-type>console</app-type>
     </template>
