@@ -587,7 +587,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 				editState_ |= esKeyEvent;
 
-				ulong32 virtKeyCode = Win32Utils::translateVKCode( wParam );
+				ulong32 virtKeyCode = Win32UIUtils::translateVKCode( wParam );
 
 				switch ( virtKeyCode ) {
 					case vkLeftArrow : 
@@ -611,13 +611,13 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 				if ( (peerControl_->getComponentState() != Component::csDestroying) ) {
 
-					KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
+					KeyboardData keyData = Win32UIUtils::translateKeyData( hwnd_, lParam );
 					unsigned long eventType = Control::KEYBOARD_DOWN;
 
 
-					unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
+					unsigned long keyMask = Win32UIUtils::translateKeyMask( keyData.keyMask );
 
-					//virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
+					//virtKeyCode = Win32UIUtils::translateVKCode( keyData.VKeyCode );
 
 					VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 						keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
@@ -688,8 +688,8 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 				*/
 				if ( !peerControl_->isDestroying() && !peerControl_->isDesigning() ) {
 
-					KeyboardData keyData = Win32Utils::translateKeyData( hwnd_, lParam );
-					ulong32 virtKeyCode = Win32Utils::translateVKCode( keyData.VKeyCode );
+					KeyboardData keyData = Win32UIUtils::translateKeyData( hwnd_, lParam );
+					ulong32 virtKeyCode = Win32UIUtils::translateVKCode( keyData.VKeyCode );
 
 					unsigned long eventType = 0;
 					switch ( message ){
@@ -712,7 +712,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 							us the right character, but a bogus virtual key
 							*/
 							if ( isgraph( keyData.character ) ) {
-								virtKeyCode = Win32Utils::convertCharToVKCode( keyData.character );
+								virtKeyCode = Win32UIUtils::convertCharToVKCode( keyData.character );
 							}
 						}
 						break;
@@ -723,7 +723,7 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 						break;
 					}
 
-					unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
+					unsigned long keyMask = Win32UIUtils::translateKeyMask( keyData.keyMask );
 
 					VCF::KeyboardEvent event( peerControl_, eventType, keyData.repeatCount,
 						keyMask, (VCF::VCFChar)keyData.character, (VirtualKeyCode)virtKeyCode );
@@ -1361,6 +1361,9 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2005/11/21 21:28:03  ddiego
+*updated win32 code a bit due to osx changes.
+*
 *Revision 1.5.2.4  2005/10/22 17:04:19  ddiego
 *added 2 more patches from kitovyj for mingw.
 *

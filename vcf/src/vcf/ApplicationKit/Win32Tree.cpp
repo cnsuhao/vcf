@@ -492,8 +492,8 @@ bool Win32Tree::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			TVHITTESTINFO hitTestInfo;
 			memset( &hitTestInfo, 0, sizeof(TVHITTESTINFO) );
 
-			hitTestInfo.pt.x = Win32Utils::getXFromLParam( lParam );
-			hitTestInfo.pt.y = Win32Utils::getYFromLParam( lParam );
+			hitTestInfo.pt.x = Win32UIUtils::getXFromLParam( lParam );
+			hitTestInfo.pt.y = Win32UIUtils::getYFromLParam( lParam );
 			HTREEITEM hItem = TreeView_HitTest( hwnd_, &hitTestInfo );
 			if ( NULL != hItem ) {
 				if( hitTestInfo.flags & TVHT_ONITEMSTATEICON ) {
@@ -1386,6 +1386,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/11/21 21:28:05  ddiego
+*updated win32 code a bit due to osx changes.
+*
 *Revision 1.5.2.1  2005/09/05 14:38:31  ddiego
 *added pre and post paint delegates to the control class.
 *
