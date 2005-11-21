@@ -102,7 +102,7 @@ void OSXFileStream::seek(const unsigned long& offset, const SeekType& offsetFrom
 
 	if (err < 0 ) {
 		int errorCode = errno;
-		String errMsg = "Error attempting to seek in stream.\n" + OSXUtils::getErrorString( errorCode );
+		String errMsg = "Error attempting to seek in stream.\n" + OSXStringUtils::getErrorString( errorCode );
 		throw FileIOError( MAKE_ERROR_MSG_2(errMsg) );
 	}
 }
@@ -127,7 +127,7 @@ unsigned long OSXFileStream::read( unsigned char* bytesToRead, unsigned long siz
 	if (err < 0)	{
 		// TODO: peer error string
 		int errorCode = errno;
-		String errMsg = "Error reading data from file stream.\n" + OSXUtils::getErrorString( errorCode );
+		String errMsg = "Error reading data from file stream.\n" + OSXStringUtils::getErrorString( errorCode );
 		throw FileIOError( MAKE_ERROR_MSG_2(errMsg) );
 	}
 	else
@@ -150,7 +150,7 @@ unsigned long OSXFileStream::write( const unsigned char* bytesToWrite, unsigned 
 	if (err < 0)
 	{
 		int errorCode = errno;
-		String errMsg = CANT_WRITE_TO_FILE + filename_ + "\n" + OSXUtils::getErrorString( errorCode );
+		String errMsg = CANT_WRITE_TO_FILE + filename_ + "\n" + OSXStringUtils::getErrorString( errorCode );
 
 		throw FileIOError( MAKE_ERROR_MSG_2(errMsg) );
 	}
@@ -201,6 +201,9 @@ int OSXFileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.2.6.1  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

@@ -46,7 +46,7 @@ OSXRunLoopPeer::~OSXRunLoopPeer()
 void OSXRunLoopPeer::run( const String& mode, const DateTime* duration )
 {
 	CFRunLoopRef runLoopRef = CFRunLoopGetCurrent();
-	CFRunLoopAddSource( runLoopRef, runLoopSrc_ );
+	//CFRunLoopAddSource( runLoopRef, runLoopSrc_ );
 
 	if ( mode.empty() ) {
 		CFRunLoopRun();

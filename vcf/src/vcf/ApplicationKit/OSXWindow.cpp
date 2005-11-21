@@ -617,7 +617,7 @@ OSStatus OSXWindow::handleOSXEvent(  EventHandlerCallRef nextHandler, EventRef t
 					GetEventParameter( theEvent, kEventParamMouseButton, typeMouseButton, NULL,
 										sizeof (EventMouseButton), NULL, &button);
 								
-					currentMouseBtn_ = OSXUtils::translateButtonMask( button );
+					currentMouseBtn_ = OSXUIUtils::translateButtonMask( button );
 					
 					Control* childControl = getControlForMouseEvent( theEvent );
 					if ( NULL == childControl && !control_->isDestroying() ) {
@@ -1034,6 +1034,9 @@ void OSXWindow::copyControlsFromWndRef( WindowRef oldWndRef )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.4.2.1  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

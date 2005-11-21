@@ -55,7 +55,7 @@ class ListviewPeer;
 class ImageList;
 
 
-#define LISTVIEWCONTROL_CLASSID			"ED88C09D-26AB-11d4-B539-00C04F0196DA"
+
 
 enum ListViewDisplayOptions {
 	lvdoDefault = 0,
@@ -63,6 +63,48 @@ enum ListViewDisplayOptions {
 	lvdoFullRowSelect = 2,
 	lvdoGridLines = 4
 };
+
+
+
+
+/**
+*An enum of icon styles for list views
+*/
+enum IconStyleType {
+	isLargeIcon=0,
+	isSmallIcon,
+	isList,
+	isDetails
+};
+
+/**
+*An enum of icon alignment types for list views
+*/
+enum IconAlignType {
+	iaNone=0,
+	iaTop,
+	iaLeft,
+	iaAutoArrange
+};
+
+static String IconStyleTypeNames[] = { "isLargeIcon",
+                                         "isSmallIcon",
+										 "isList",
+										 "isDetails" };
+
+static String IconAlignTypeNames[] = { "iaNone",
+                                         "iaTop",
+										 "iaLeft",
+										 "iaAutoArrange" };
+										 
+										 
+
+
+										 
+
+#define LISTVIEWCONTROL_CLASSID			"ED88C09D-26AB-11d4-B539-00C04F0196DA"
+
+
 
 class APPLICATIONKIT_API ListViewControl : public VCF::Control {
 public:
@@ -225,6 +267,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

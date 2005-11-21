@@ -22,6 +22,18 @@ where you installed the VCF.
 namespace VCF
 {
 
+/**
+Keyboard masks
+*/
+enum KeyboardMasks{
+	kmUndefined = 0,
+	kmAlt = 1,
+	kmShift = 2,
+	kmCtrl = 4
+};
+
+
+
 
 
 class APPLICATIONKIT_API KeyboardEvent : public Event {
@@ -102,6 +114,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

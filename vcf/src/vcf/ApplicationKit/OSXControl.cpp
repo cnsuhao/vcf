@@ -499,7 +499,7 @@ OSStatus OSXControl::handleWrappedControlTrackDone( EventRef theEvent )
 	
 	Event* mouseUp = new VCF::MouseEvent ( control_, Control::MOUSE_UP,
 										   buttonVal,
-										   OSXUtils::translateKeyMask( 0 ), //fix this - !!!!!
+										   OSXUIUtils::translateKeyMask( 0 ), //fix this - !!!!!
 										   &pt );
 	control_->handleEvent( mouseUp );
 	mouseUp->free();
@@ -570,7 +570,7 @@ OSStatus OSXControl::handleControlTrack( EventRef theEvent )
 			
 			Event* mouseMove = new VCF::MouseEvent ( control_, Control::MOUSE_MOVE,
 										   mouseBtnDown,
-										   OSXUtils::translateKeyMask( mods ), &pt );
+										   OSXUIUtils::translateKeyMask( mods ), &pt );
 										   
 			control_->handleEvent( mouseMove );
 			mouseMove->free();
@@ -592,7 +592,7 @@ OSStatus OSXControl::handleControlTrack( EventRef theEvent )
 	
 	Event* mouseUp = new VCF::MouseEvent ( control_, Control::MOUSE_UP,
 										   mbmLeftButton,
-										   OSXUtils::translateKeyMask( mods ), &pt );
+										   OSXUIUtils::translateKeyMask( mods ), &pt );
 	control_->handleEvent( mouseUp );
 	mouseUp->free();
 			
@@ -758,6 +758,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.5.2.1  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
@@ -833,6 +836,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.5.2.2  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.5.2.1  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

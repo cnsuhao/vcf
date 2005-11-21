@@ -257,7 +257,7 @@ public:
 
 class MenuState : public DrawUIState {
 public:
-	MenuState() : DrawUIState(), keyCode_(vkUndefined), modifierMask_(kmUndefined){}
+	MenuState() : DrawUIState(), keyCode_(vkUndefined), modifierMask_(0){}
 
 	bool isSelected() const {
 		return (state_ & DrawStates::dsSelected) ? true : false;
@@ -668,6 +668,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.5  2005/07/09 23:05:58  ddiego
 *added missing gtk files
 *

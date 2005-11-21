@@ -23,6 +23,21 @@ namespace VCF{
 
 
 
+
+/**
+Mouse button masks
+*/
+enum MouseButtomMasks{
+	mbmUndefined = 0,
+	mbmLeftButton = 1,
+	mbmMiddleButton = 2,
+	mbmRightButton = 4
+};
+
+
+
+
+
 class APPLICATIONKIT_API MouseEvent : public Event {
 public:
 	MouseEvent( Object* source );
@@ -113,6 +128,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

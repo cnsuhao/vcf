@@ -37,6 +37,9 @@
 		5E006DBD068FD70300D3415B = {
 			buildActionMask = 2147483647;
 			files = (
+				5E6B1DA009282F3000C3EAFA,
+				5E6B1DA109282F3000C3EAFA,
+				5E6B1DA209282F3000C3EAFA,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,7 +55,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(VCF_BIN)";
+				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\" /Users/jimcrafton/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "VCF_OSX VCF_GCC _DEBUG";
@@ -335,6 +338,60 @@
 			settings = {
 			};
 		};
+		5E6B1DA009282F3000C3EAFA = {
+			fileRef = 5E4EC03F0922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1DA109282F3000C3EAFA = {
+			fileRef = 5E4EC0400922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1DA209282F3000C3EAFA = {
+			fileRef = 5E4EC0410922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1DA509282F5200C3EAFA = {
+			fileRef = 5E4EC03F0922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1DA609282F5200C3EAFA = {
+			fileRef = 5E4EC0400922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1DA709282F5200C3EAFA = {
+			fileRef = 5E4EC0410922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1DB209282FFE00C3EAFA = {
+			fileRef = 5E4EC03F0922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1DB309282FFE00C3EAFA = {
+			fileRef = 5E4EC0400922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E6B1DB409282FFE00C3EAFA = {
+			fileRef = 5E4EC0410922EEB400203611;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E8E2C7E06BDED54007602E7 = {
 			children = (
 				5E8E2C8D06BDED9C007602E7,
@@ -370,6 +427,9 @@
 		5E8E2C8906BDED9C007602E7 = {
 			buildActionMask = 2147483647;
 			files = (
+				5E6B1DA509282F5200C3EAFA,
+				5E6B1DA609282F5200C3EAFA,
+				5E6B1DA709282F5200C3EAFA,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,7 +444,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\" /Users/jimcrafton/code/vcfdev/dev/vcf/bin";
+				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\" /Users/jimcrafton/code/vcfdev/dev/vcf/bin /Users/jimcrafton/Library/Frameworks";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = "VCF_OSX VCF_GCC _DEBUG";
@@ -782,6 +842,9 @@
 		5E8E2D6D06BDF457007602E7 = {
 			buildActionMask = 2147483647;
 			files = (
+				5E6B1DB209282FFE00C3EAFA,
+				5E6B1DB309282FFE00C3EAFA,
+				5E6B1DB409282FFE00C3EAFA,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -797,7 +860,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\" /Users/jimcrafton/code/vcfdev/dev/vcf/bin";
+				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\" /Users/jimcrafton/code/vcfdev/dev/vcf/bin /Users/jimcrafton/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "VCF_OSX VCF_GCC _DEBUG";

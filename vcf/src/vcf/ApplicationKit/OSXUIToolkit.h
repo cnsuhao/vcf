@@ -19,6 +19,15 @@ where you installed the VCF.
 #define VCF_WINDOW_MOUSE_RGN			'VCfW'
 #define VCF_CONTROL_MOUSE_RGN			'VCfC'
 
+class OSXUIUtils {
+public:
+static VCF::ulong32 translateButtonMask( EventMouseButton button );
+
+static VCF::ulong32 translateKeyMask( UInt32 keyMod );
+
+};
+
+
 template <typename ViewType >
 class ViewCreator {
 public:
@@ -267,6 +276,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.6.2.1  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

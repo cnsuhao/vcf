@@ -36,6 +36,8 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/MenuManagerPeer.h"
 #include "vcf/ApplicationKit/OSXMenuManagerPeer.h"
 #include "vcf/ApplicationKit/OSXTextPeer.h"
+#include "vcf/ApplicationKit/OSXTextEditPeer.h"
+
 
 #include "vcf/ApplicationKit/Toolbar.h"
 #include "vcf/ApplicationKit/OSXToolbar.h"
@@ -54,6 +56,45 @@ where you installed the VCF.
 
 
 #define kSleepTime	32767
+
+
+
+VCF::ulong32 OSXUIUtils::translateButtonMask( EventMouseButton button )
+{
+	VCF::ulong32 result = 0;
+	
+	if ( button == kEventMouseButtonPrimary ) {
+		result = VCF::mbmLeftButton;
+	}
+	else if ( button == kEventMouseButtonSecondary ) {
+		result = VCF::mbmRightButton;
+	}
+	else if ( button == kEventMouseButtonTertiary ) {
+		result = VCF::mbmMiddleButton;
+	}
+	
+	return result;
+}
+
+VCF::ulong32 OSXUIUtils::translateKeyMask( UInt32 keyMod )
+{
+    VCF::ulong32 result = 0;
+	
+    if ( keyMod & shiftKey ) {
+        result |= VCF::kmShift;
+    }
+	
+    if ( keyMod & cmdKey ) {
+        result |= VCF::kmAlt;
+    }
+	
+    if ( keyMod & controlKey ) {
+        result |= VCF::kmCtrl;
+    }
+    return result;
+}
+
+
 
 
 namespace VCF {
@@ -735,7 +776,7 @@ TextPeer* OSXUIToolkit::internal_createTextPeer( const bool& autoWordWrap, const
 
 TextEditPeer* OSXUIToolkit::internal_createTextEditPeer( TextControl* component, const bool& isMultiLineControl )
 {
-	return NULL;
+	return new OSXTextEditPeer(component,isMultiLineControl);
 }
 	
 	
@@ -1272,8 +1313,8 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                     }
 
                     result = new VCF::MouseEvent( msg->control_, Control::MOUSE_DOWN,
-											OSXUtils::translateButtonMask( button ),
-											OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+											OSXUIUtils::translateButtonMask( button ),
+											OSXUIUtils::translateKeyMask( keyboardModifier ), &pt );
 
                 }
                 break;
@@ -1286,8 +1327,8 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                     }
 
                     result = new VCF::MouseEvent( msg->control_, Control::MOUSE_UP,
-											OSXUtils::translateButtonMask( button ),
-											OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+											OSXUIUtils::translateButtonMask( button ),
+											OSXUIUtils::translateKeyMask( keyboardModifier ), &pt );
                 }
                 break;
 
@@ -1300,8 +1341,8 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                     }
 
                     result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
-                                                OSXUtils::translateButtonMask( button ),
-                                                OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+                                                OSXUIUtils::translateButtonMask( button ),
+                                                OSXUIUtils::translateKeyMask( keyboardModifier ), &pt );
                 }
                 break;
 
@@ -1313,8 +1354,8 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                     }
                     
                     result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
-                                                OSXUtils::translateButtonMask( button ),
-                                                OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+                                                OSXUIUtils::translateButtonMask( button ),
+                                                OSXUIUtils::translateKeyMask( keyboardModifier ), &pt );
                 }
                 break;
 
@@ -1326,8 +1367,8 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                     }
 
                     result = new VCF::MouseEvent( msg->control_, Control::MOUSE_ENTERED,
-                                                    OSXUtils::translateButtonMask( 0 ),
-                                                    OSXUtils::translateKeyMask( 0 ), &pt );
+                                                    OSXUIUtils::translateButtonMask( 0 ),
+                                                    OSXUIUtils::translateKeyMask( 0 ), &pt );
                 }
                 break;
 
@@ -1339,8 +1380,8 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                     }
 
                     result = new VCF::MouseEvent( msg->control_, Control::MOUSE_LEAVE,
-                                                    OSXUtils::translateButtonMask( 0 ),
-                                                    OSXUtils::translateKeyMask( 0 ), &pt );
+                                                    OSXUIUtils::translateButtonMask( 0 ),
+                                                    OSXUIUtils::translateKeyMask( 0 ), &pt );
                 }
                 break;
 
@@ -1841,7 +1882,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
 					
                     result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
                                                 mbmLeftButton,
-                                                OSXUtils::translateKeyMask( 0 ), &pt );
+                                                OSXUIUtils::translateKeyMask( 0 ), &pt );
 
                 }
                 break;
@@ -1953,7 +1994,7 @@ VCF::Event* OSXUIToolkit::internal_createEventFromNativeOSEventData( void* event
                     
                     result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_DOWN,
                                                 mbmLeftButton,
-                                                OSXUtils::translateKeyMask( keyboardModifier ), &pt );
+                                                OSXUIUtils::translateKeyMask( keyboardModifier ), &pt );
                 }
                 break;
 
@@ -2237,6 +2278,9 @@ void OSXUIToolkit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.6.2.1  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

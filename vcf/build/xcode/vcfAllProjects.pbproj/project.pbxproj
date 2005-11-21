@@ -95,8 +95,6 @@
 		0867D69AFE84028FC02AAC07 = {
 			children = (
 				5E9409A108611273001790A9,
-				5EB2564D0673DF4800DA4A17,
-				5EB256300673DE4900DA4A17,
 				5E444AE40647473E00A8020D,
 				08FB77AAFE841565C02AAC07,
 				5E2C822F06420DB900A8020D,
@@ -129,11 +127,12 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = YES;
+				PREBINDING = NO;
+				ZERO_LINK = NO;
 			};
 			isa = PBXBuildStyle;
 			name = Development;
@@ -5651,11 +5650,12 @@
 				BUILD_DIR = "$(VCF_LIB)";
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\" \"$(VCF_INCLUDE)/thirdparty/common/LibPNG\"";
 				INSTALL_PATH = /usr/local/lib;
-				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /Users/jimcrafton/code/vcfdev/dev/vcf/lib";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\"";
 				LIBRARY_STYLE = STATIC;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
 				PRODUCT_NAME = png_d;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
@@ -5688,18 +5688,6 @@
 			isa = PBXTargetDependency;
 			target = 5E548F99092049A3001BA393;
 			targetProxy = 5E4FAD5A0921767900E53A8F;
-		};
-		5E4FAD5C0921768800E53A8F = {
-			containerPortal = 0867D690FE84028FC02AAC07;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 5E4FAD580921766B00E53A8F;
-			remoteInfo = "libpng-debug";
-		};
-		5E4FAD5D0921768800E53A8F = {
-			isa = PBXTargetDependency;
-			target = 5E4FAD580921766B00E53A8F;
-			targetProxy = 5E4FAD5C0921768800E53A8F;
 		};
 		5E4FAD640921777700E53A8F = {
 			fileEncoding = 30;
@@ -7314,12 +7302,6 @@
 			settings = {
 			};
 		};
-		5E4FAE6109217CA100E53A8F = {
-			fileRef = 5E548F9A092049A3001BA393;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		5E4FAE6809217E0700E53A8F = {
 			fileRef = 5E4FAD590921766B00E53A8F;
 			isa = PBXBuildFile;
@@ -8660,11 +8642,12 @@
 				BUILD_DIR = "$(VCF_LIB)";
 				GCC_INPUT_FILETYPE = automatic;
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\" \"$(VCF_INCLUDE)/thirdparty/common/ZLib\"";
-				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /Users/jimcrafton/code/vcfdev/dev/vcf/lib";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\"";
 				LIBRARY_STYLE = STATIC;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
 				PRODUCT_NAME = zlib_d;
 				REZ_PREPROCESSOR_DEFINITIONS = "";
 				SECTORDER_FLAGS = "";
@@ -9091,6 +9074,12 @@
 			settings = {
 			};
 		};
+		5E5E8A61093156C600A023C5 = {
+			fileRef = 5E7340BB082E719300CDD184;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E60084F071F430C0036F6CF = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -9262,6 +9251,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
 				PRINCIPAL_CLASS = "";
 				PRODUCT_NAME = "FoundationKit-debug";
 				SECTORDER_FLAGS = "";
@@ -10859,7 +10849,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "VCF_GCC VCF_OSX _DEBUG";
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				INFOPLIST_FILE = "Info-GraphicsKit_debug.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" /usr/lib/gcc/darwin/3.3";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" ";
 				OTHER_CFLAGS = "-Wno-multichar";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
@@ -10873,8 +10863,8 @@
 			dependencies = (
 				5E7340E5082E73CC00CDD184,
 				5E7340E6082E73CC00CDD184,
-				5E4FAD5D0921768800E53A8F,
 				5E4FADC009217A9800E53A8F,
+				5E87EE4C09315C7600DA4F6C,
 			);
 			isa = PBXNativeTarget;
 			name = "GraphicsKit-debug";
@@ -10943,6 +10933,7 @@
 				5E863E390859162E00DB8D8C,
 				5E4FAD9A0921782A00E53A8F,
 				5E4FAD9C0921782A00E53A8F,
+				5EAB4D9B0930DD1C00845C33,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -11364,12 +11355,12 @@
 		5E734129082E73CC00CDD184 = {
 			buildActionMask = 2147483647;
 			files = (
-				5E73412A082E73CC00CDD184,
-				5E4FAE6109217CA100E53A8F,
+				5E5E8A61093156C600A023C5,
+				5E87EE4D09315C8500DA4F6C,
 				5E4FAE6809217E0700E53A8F,
-				5E4FAE6909217E0D00E53A8F,
 				5E73412B082E73CC00CDD184,
-				5E73412C082E73CC00CDD184,
+				5E73412A082E73CC00CDD184,
+				5E4FAE6909217E0D00E53A8F,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -11382,12 +11373,6 @@
 		};
 		5E73412B082E73CC00CDD184 = {
 			fileRef = 08FB77AAFE841565C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E73412C082E73CC00CDD184 = {
-			fileRef = 5EB256300673DE4900DA4A17;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -11440,6 +11425,7 @@
 				OTHER_CFLAGS = "-Wno-multichar";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
 				PRINCIPAL_CLASS = "";
 				PRODUCT_NAME = "ApplicationKit-debug";
 				SECTORDER_FLAGS = "";
@@ -13929,8 +13915,6 @@
 			files = (
 				5E9409A008611249001790A9,
 				5E7342E0082E76C300CDD184,
-				5E7342E1082E76C300CDD184,
-				5E7342E2082E76C300CDD184,
 				5E9409A208611273001790A9,
 			);
 			isa = PBXFrameworksBuildPhase;
@@ -13938,18 +13922,6 @@
 		};
 		5E7342E0082E76C300CDD184 = {
 			fileRef = 08FB77AAFE841565C02AAC07;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E7342E1082E76C300CDD184 = {
-			fileRef = 5EB256300673DE4900DA4A17;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E7342E2082E76C300CDD184 = {
-			fileRef = 5EB2564D0673DF4800DA4A17;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -14359,6 +14331,24 @@
 		};
 		5E863E3B0859162E00DB8D8C = {
 			fileRef = 5E863E370859162E00DB8D8C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E87EE4B09315C7600DA4F6C = {
+			containerPortal = 0867D690FE84028FC02AAC07;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 5E4FAD580921766B00E53A8F;
+			remoteInfo = "libpng-debug";
+		};
+		5E87EE4C09315C7600DA4F6C = {
+			isa = PBXTargetDependency;
+			target = 5E4FAD580921766B00E53A8F;
+			targetProxy = 5E87EE4B09315C7600DA4F6C;
+		};
+		5E87EE4D09315C8500DA4F6C = {
+			fileRef = 5E548F9A092049A3001BA393;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -20396,21 +20386,11 @@
 			refType = 2;
 			sourceTree = SOURCE_ROOT;
 		};
-		5EB256300673DE4900DA4A17 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = "FoundationKit-debug.framework";
-			path = "../../bin/FoundationKit-debug.framework";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
-		};
-		5EB2564D0673DF4800DA4A17 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = "GraphicsKit-debug.framework";
-			path = "../../bin/GraphicsKit-debug.framework";
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+		5EAB4D9B0930DD1C00845C33 = {
+			fileRef = 5EB804F7067D0BC1004AF2B4;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		5EB256800674004D00DA4A17 = {
 			containerPortal = 0867D690FE84028FC02AAC07;
