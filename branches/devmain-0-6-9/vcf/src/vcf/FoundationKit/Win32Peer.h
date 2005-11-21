@@ -19,67 +19,22 @@ where you installed the VCF.
 */
 
 
-/*
-these include have now been moved to FrameworkConfig.h
-#include <windows.h>
-#include <commctrl.h> //make sure to link with comctl32.lib
-#include <shlobj.h>
-*/
+#define VCF_MESSAGE				WM_APP	+ 100
 
 
 
 namespace VCFWin32 {
 
-struct KeyboardData {
-	int repeatCount;
-	int scanCode;
-	bool isExtendedKey;
-	bool altKeyDown;
-	unsigned short character;
-	int VKeyCode;
-	UINT keyMask;
-};
-
-#define KB_CONTEXT_CODE			29
-#define KB_PREVIOUS_STATE		30
-#define KB_IS_EXTENDED_KEY		24
-
-#define SHIFT_KEY_DOWN \
-	((GetKeyState( VK_SHIFT) & 15 ) == 1)
-
-#define VCF_MESSAGE				WM_APP	+ 100
-#define VCF_CONTROL_CREATE		VCF_MESSAGE + 99
-
-
 /**
 *what follows are a set of standard utility functions for Win32
 */
 class FOUNDATIONKIT_API Win32Utils {
-
 public:
-	static unsigned long translateKeyMask( UINT win32KeyMask );
-
-	static unsigned long translateButtonMask( UINT win32ButtonMask );
-
-	static KeyboardData translateKeyData( HWND wndHandle, LPARAM keyData );
-
-	static DWORD translateStyle( unsigned long style );
-
-	static DWORD translateExStyle( unsigned long style );
-
 	static void trace( const VCF::String& text );
 
 	static WORD	getWin32LangID( VCF::Locale* locale );
 
-	static int getXFromLParam( LPARAM lParam );
-
-	static int getYFromLParam( LPARAM lParam );
-
-	static VCF::ulong32 translateVKCode( UINT vkCode );
-
 	static VCF::String getErrorString( const DWORD& errorCode );
-
-	static VCF::uint32 convertCharToVKCode( VCF::VCFChar ch );
 };
 
 
@@ -89,6 +44,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/11/21 21:28:06  ddiego
+*updated win32 code a bit due to osx changes.
+*
 *Revision 1.3.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

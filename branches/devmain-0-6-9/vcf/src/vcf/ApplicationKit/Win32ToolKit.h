@@ -14,6 +14,61 @@ where you installed the VCF.
 #endif
 
 
+#define VCF_CONTROL_CREATE		VCF_MESSAGE + 99
+
+
+
+namespace VCFWin32 {
+
+	
+struct KeyboardData {
+	int repeatCount;
+	int scanCode;
+	bool isExtendedKey;
+	bool altKeyDown;
+	unsigned short character;
+	int VKeyCode;
+	UINT keyMask;
+};
+
+#define KB_CONTEXT_CODE			29
+#define KB_PREVIOUS_STATE		30
+#define KB_IS_EXTENDED_KEY		24
+
+#define SHIFT_KEY_DOWN \
+	((GetKeyState( VK_SHIFT) & 15 ) == 1)
+
+
+
+
+class APPLICATIONKIT_API Win32UIUtils {
+public:
+	static unsigned long translateKeyMask( UINT win32KeyMask );
+
+	static unsigned long translateButtonMask( UINT win32ButtonMask );
+
+	static KeyboardData translateKeyData( HWND wndHandle, LPARAM keyData );
+
+	static DWORD translateStyle( unsigned long style );
+
+	static DWORD translateExStyle( unsigned long style );
+
+	static int getXFromLParam( LPARAM lParam );
+
+	static int getYFromLParam( LPARAM lParam );
+
+	static VCF::ulong32 translateVKCode( UINT vkCode );
+
+	static VCF::uint32 convertCharToVKCode( VCF::VCFChar ch );
+};
+
+
+};
+
+
+
+
+
 namespace VCF
 {
 
@@ -192,6 +247,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/11/21 21:28:05  ddiego
+*updated win32 code a bit due to osx changes.
+*
 *Revision 1.5.2.2  2005/10/07 16:41:21  kiklop74
 *Added support for building ApplicationKit with Borland Free Compiler
 *

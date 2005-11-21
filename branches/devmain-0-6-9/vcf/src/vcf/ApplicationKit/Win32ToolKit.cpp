@@ -86,6 +86,7 @@ where you installed the VCF.
 #include "thirdparty/win32/Microsoft/htmlhelp.h"
 
 
+
 typedef HWND  (WINAPI *HtmlHelpW_Func)(HWND hwndCaller, LPCWSTR pszFile, UINT uCommand, DWORD_PTR dwData );
 typedef HWND (WINAPI *HtmlHelpA_Func)(HWND hwndCaller, LPCSTR pszFile, UINT uCommand, DWORD_PTR dwData );
 
@@ -143,6 +144,896 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 
 #endif
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using namespace VCFWin32;
+
+
+
+unsigned long Win32UIUtils::translateKeyMask( UINT win32KeyMask )
+{
+	unsigned long result = VCF::kmUndefined;
+
+	if ( (win32KeyMask & MK_CONTROL) != 0 ){
+		result |= VCF::kmCtrl;
+	}
+
+	if ( (win32KeyMask & MK_SHIFT) != 0 ){
+		result |= VCF::kmShift;
+	}
+
+	if ( ::GetAsyncKeyState( VK_MENU ) < 0 ) {
+		result |= VCF::kmAlt;
+	}
+
+	return result;
+}
+
+unsigned long Win32UIUtils::translateButtonMask( UINT win32ButtonMask )
+{
+	unsigned long result = VCF::mbmUndefined;
+
+	if ( (win32ButtonMask & MK_LBUTTON) != 0 ){
+		result |= VCF::mbmLeftButton;
+	}
+
+	if ( (win32ButtonMask & MK_MBUTTON) != 0 ){
+		result |= VCF::mbmMiddleButton;
+	}
+
+	if ( (win32ButtonMask & MK_RBUTTON) != 0 ){
+		result |= VCF::mbmRightButton;
+	}
+
+	return result;
+}
+
+DWORD Win32UIUtils::translateStyle( unsigned long style )
+{
+	DWORD result = 0;
+	//if ( (style & ) > 0 ){
+
+	//};
+	return result;
+}
+
+DWORD Win32UIUtils::translateExStyle( unsigned long style )
+{
+	DWORD result = 0;
+
+	return result;
+}
+
+/**
+*translates the Win32 key code into an actually usable
+*structure.
+*Specifies the repeat count, scan code, extended-key flag, context code, previous key-state flag,
+*and transition-state flag, as shown in the following table.
+*Value Description
+*	0–15 Specifies the repeat count for the current message.
+*	     The value is the number of times the keystroke is autorepeated
+*		 as a result of the user holding down the key. If the keystroke is held
+*		 long enough, multiple messages are sent. However, the repeat count is not cumulative.
+*
+*	16–23 Specifies the scan code. The value depends on the original equipment manufacturer (OEM).
+*
+*	24   Specifies whether the key is an extended key, such as the right-hand ALT and CTRL keys that
+*	     appear on an enhanced 101- or 102-key keyboard. The value is 1 if it is an extended key;
+*		 otherwise, it is 0.
+*
+*	25–28 Reserved; do not use.
+*
+*	29   Specifies the context code. The value is 1 if the ALT key is held down while the
+*        key is pressed; otherwise, the value is 0.
+*
+*	30   Specifies the previous key state. The value is 1 if the key is down before
+*        the message is sent, or it is 0 if the key is up.
+*	31   Specifies the transition state. The value is 1 if the key is being released, or it
+*	     is 0 if the key is being pressed.
+*/
+KeyboardData Win32UIUtils::translateKeyData( HWND wndHandle, LPARAM keyData )
+{
+	KeyboardData result;
+	memset( &result, 0, sizeof(KeyboardData) );
+	int sum = 0;
+
+	sum = ((BYTE*)&keyData)[2]; //gets bits 16-23
+
+	BYTE keyState[256];
+	if ( GetKeyboardState( &keyState[0] ) ){
+		result.scanCode = sum;
+		result.repeatCount = keyData & 0xFFFF; //mask out the upper 16 bits
+		result.altKeyDown = ( keyData & KB_CONTEXT_CODE ) != 0;//replace with #define
+		result.isExtendedKey = ( keyData & KB_IS_EXTENDED_KEY ) != 0;
+		result.character = 0;
+
+		result.VKeyCode = MapVirtualKey( result.scanCode, 1);
+
+
+
+		HKL keyboardLayout = GetKeyboardLayout( GetWindowThreadProcessId( wndHandle, NULL ) );
+
+		ToAsciiEx( result.VKeyCode, result.scanCode, &keyState[0], &result.character, 1, keyboardLayout );
+
+		std::bitset<16> keyBits;
+		keyBits = GetAsyncKeyState( VK_SHIFT );
+		if ( keyBits[15] == 1 ){
+			result.keyMask |= MK_SHIFT;
+		}
+
+		keyBits = GetAsyncKeyState( VK_CONTROL );
+		if ( keyBits[15] == 1 ){
+			result.keyMask |= MK_CONTROL;
+		}
+
+		keyBits = GetAsyncKeyState( VK_MENU );
+		if ( keyBits[15] == 1 ){
+			result.altKeyDown = true;
+		}
+
+	}
+	return result;
+}
+
+
+
+int Win32UIUtils::getXFromLParam( LPARAM lParam )
+{
+	return (int)(short) LOWORD(lParam);
+}
+
+int Win32UIUtils::getYFromLParam( LPARAM lParam )
+{
+	return (int)(short) HIWORD(lParam);
+}
+
+VCF::ulong32 Win32UIUtils::translateVKCode( UINT vkCode )
+{
+	VCF::ulong32 result = 0;
+
+	switch ( vkCode ){
+		case VK_F1 :{
+			result = VCF::vkF1;
+		}
+		break;
+
+		case VK_F2 :{
+			result = VCF::vkF2;
+		}
+		break;
+
+		case VK_F3 :{
+			result = VCF::vkF3;
+		}
+		break;
+
+		case VK_F4 :{
+			result = VCF::vkF4;
+		}
+		break;
+
+		case VK_F5 :{
+			result = VCF::vkF5;
+		}
+		break;
+
+		case VK_F6 :{
+			result = VCF::vkF6;
+		}
+		break;
+
+		case VK_F7 :{
+			result = VCF::vkF7;
+		}
+		break;
+
+		case VK_F8 :{
+			result = VCF::vkF8;
+		}
+		break;
+
+		case VK_F9 :{
+			result = VCF::vkF9;
+		}
+		break;
+
+		case VK_F10 :{
+			result = VCF::vkF10;
+		}
+		break;
+
+		case VK_F11 :{
+			result = VCF::vkF11;
+		}
+		break;
+
+		case VK_F12 :{
+			result = VCF::vkF12;
+		}
+		break;
+
+		case VK_UP :{
+			result = VCF::vkUpArrow;
+		}
+		break;
+
+		case VK_DOWN :{
+			result = VCF::vkDownArrow;
+		}
+		break;
+
+		case VK_LEFT :{
+			result = VCF::vkLeftArrow;
+		}
+		break;
+
+		case VK_RIGHT :{
+			result = VCF::vkRightArrow;
+		}
+		break;
+
+		case VK_DELETE :{
+			result = VCF::vkDelete;
+		}
+		break;
+
+		case VK_RETURN :{
+			result = VCF::vkReturn;
+		}
+		break;
+
+		case VK_BACK :{
+			result = VCF::vkBackSpace;
+		}
+		break;
+
+		case VK_SPACE :{
+			result = VCF::vkSpaceBar;
+		}
+		break;
+
+		case VK_ESCAPE :{
+			result = VCF::vkEscape;
+		}
+		break;
+
+		case VK_NEXT :{
+			result = VCF::vkPgDown;
+		}
+		break;
+
+		case VK_PRIOR :{
+			result = VCF::vkPgUp;
+		}
+		break;
+
+		case VK_HOME :{
+			result = VCF::vkHome;
+		}
+		break;
+
+		case VK_END :{
+			result = VCF::vkEnd;
+		}
+		break;
+
+		case VK_CONTROL :{
+			result = VCF::vkCtrl;
+		}
+		break;
+
+		case VK_MENU :{
+			result = VCF::vkAlt;
+		}
+		break;
+
+		case VK_SHIFT :{
+			result = VCF::vkShift;
+		}
+		break;
+
+		case VK_TAB :{
+			result = VCF::vkTab;
+		}
+		break;
+		//from WINUSER.h
+		/* VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
+		case VK_NUMPAD0: case 0x30 :{
+			result = VCF::vkNumber0;
+		}
+		break;
+
+		case VK_NUMPAD1: case 0x31 :{
+			result = VCF::vkNumber1;
+		}
+		break;
+
+		case VK_NUMPAD2: case 0x32 :{
+			result = VCF::vkNumber2;
+		}
+		break;
+
+		case VK_NUMPAD3: case 0x33 :{
+			result = VCF::vkNumber3;
+		}
+		break;
+
+		case VK_NUMPAD4: case 0x34 :{
+			result = VCF::vkNumber4;
+		}
+		break;
+
+		case VK_NUMPAD5: case 0x35 :{
+			result = VCF::vkNumber5;
+		}
+		break;
+
+		case VK_NUMPAD6: case 0x36 :{
+			result = VCF::vkNumber6;
+		}
+		break;
+
+		case VK_NUMPAD7: case 0x37 :{
+			result = VCF::vkNumber7;
+		}
+		break;
+
+		case VK_NUMPAD8: case 0x38 :{
+			result = VCF::vkNumber8;
+		}
+		break;
+
+		case VK_NUMPAD9: case 0x39 :{
+			result = VCF::vkNumber9;
+		}
+		break;
+
+		//from WINUSER.h
+		/* VK_A thru VK_Z are the same as ASCII 'A' thru 'Z' (0x41 - 0x5A) */
+		case 'A' :{
+			result = VCF::vkLetterA;
+		}
+		break;
+
+		case 'B' :{
+			result = VCF::vkLetterB;
+		}
+		break;
+
+		case 'C' :{
+			result = VCF::vkLetterC;
+		}
+		break;
+
+		case 'D' :{
+			result = VCF::vkLetterD;
+		}
+		break;
+
+		case 'E' :{
+			result = VCF::vkLetterE;
+		}
+		break;
+
+		case 'F' :{
+			result = VCF::vkLetterF;
+		}
+		break;
+
+		case 'G' :{
+			result = VCF::vkLetterG;
+		}
+		break;
+
+		case 'H' :{
+			result = VCF::vkLetterH;
+		}
+		break;
+
+		case 'I' :{
+			result = VCF::vkLetterI;
+		}
+		break;
+
+		case 'J' :{
+			result = VCF::vkLetterJ;
+		}
+		break;
+
+		case 'K' :{
+			result = VCF::vkLetterK;
+		}
+		break;
+
+		case 'L' :{
+			result = VCF::vkLetterL;
+		}
+		break;
+
+		case 'M' :{
+			result = VCF::vkLetterM;
+		}
+		break;
+
+		case 'N' :{
+			result = VCF::vkLetterN;
+		}
+		break;
+
+		case 'O' :{
+			result = VCF::vkLetterO;
+		}
+		break;
+
+		case 'P' :{
+			result = VCF::vkLetterP;
+		}
+		break;
+
+		case 'Q' :{
+			result = VCF::vkLetterQ;
+		}
+		break;
+		case 'R' :{
+			result = VCF::vkLetterR;
+		}
+		break;
+
+		case 'S' :{
+			result = VCF::vkLetterS;
+		}
+		break;
+
+		case 'T' :{
+			result = VCF::vkLetterT;
+		}
+		break;
+
+		case 'U' :{
+			result = VCF::vkLetterU;
+		}
+		break;
+
+		case 'V' :{
+			result = VCF::vkLetterV;
+		}
+		break;
+
+		case 'W' :{
+			result = VCF::vkLetterW;
+		}
+		break;
+
+		case 'X' :{
+			result = VCF::vkLetterX;
+		}
+		break;
+
+		case 'Y' :{
+			result = VCF::vkLetterY;
+		}
+		break;
+
+		case 'Z' :{
+			result = VCF::vkLetterZ;
+		}
+		break;
+
+		case VK_SNAPSHOT :{
+			result = VCF::vkPrintScreen;
+		}
+		break;
+
+		case VK_PAUSE :{
+			result = VCF::vkPause;
+		}
+		break;
+
+		case VK_SCROLL :{
+			result = VCF::vkScrollLock;
+		}
+		break;
+
+		case VK_MULTIPLY :{
+			result = VCF::vkMultiplySign;
+		}
+		break;
+
+		case VK_ADD :{
+			result = VCF::vkPlusSign;
+		}
+		break;
+
+		/*
+		case VK_SEPARATOR :{
+			result = VCF::vkScrollLock;
+		}
+		break;
+		*/
+
+		case VK_SUBTRACT :{
+			result = VCF::vkMinusSign;
+		}
+		break;
+
+		case VK_DECIMAL :{
+			result = VCF::vkPeriod;
+		}
+		break;
+
+		case VK_DIVIDE :{
+			result = VCF::vkDivideSign;
+		}
+		break;		
+	}
+
+	return result;
+}
+
+
+VCF::uint32 Win32UIUtils::convertCharToVKCode( VCF::VCFChar ch )
+{
+	VCF::uint32 result = 0;
+
+	ch = tolower( ch );
+	switch ( ch ) {
+		case 'a' : {
+			result = VCF::vkLetterA;
+		}
+		break;
+
+		case 'b' : {
+			result = VCF::vkLetterB;
+		}
+		break;
+
+		case 'c' : {
+			result = VCF::vkLetterC;
+		}
+		break;
+
+		case 'd' : {
+			result = VCF::vkLetterD;
+		}
+		break;
+
+		case 'e' : {
+			result = VCF::vkLetterE;
+		}
+		break;
+
+		case 'f' : {
+			result = VCF::vkLetterF;
+		}
+		break;
+
+		case 'g' : {
+			result = VCF::vkLetterG;
+		}
+		break;
+
+		case 'h' : {
+			result = VCF::vkLetterH;
+		}
+		break;
+
+		case 'i' : {
+			result = VCF::vkLetterI;
+		}
+		break;
+
+		case 'j' : {
+			result = VCF::vkLetterJ;
+		}
+		break;
+
+		case 'k' : {
+			result = VCF::vkLetterK;
+		}
+		break;
+
+		case 'l' : {
+			result = VCF::vkLetterL;
+		}
+		break;
+
+		case 'm' : {
+			result = VCF::vkLetterM;
+		}
+		break;
+
+		case 'n' : {
+			result = VCF::vkLetterN;
+		}
+		break;
+
+		case 'o' : {
+			result = VCF::vkLetterO;
+		}
+		break;
+
+		case 'p' : {
+			result = VCF::vkLetterP;
+		}
+		break;
+
+		case 'q' : {
+			result = VCF::vkLetterQ;
+		}
+		break;
+
+		case 'r' : {
+			result = VCF::vkLetterR;
+		}
+		break;
+
+		case 's' : {
+			result = VCF::vkLetterS;
+		}
+		break;
+
+		case 't' : {
+			result = VCF::vkLetterT;
+		}
+		break;
+
+		case 'u' : {
+			result = VCF::vkLetterU;
+		}
+		break;
+
+		case 'v' : {
+			result = VCF::vkLetterV;
+		}
+		break;
+
+		case 'w' : {
+			result = VCF::vkLetterW;
+		}
+		break;
+
+		case 'x' : {
+			result = VCF::vkLetterX;
+		}
+		break;
+
+		case 'y' : {
+			result = VCF::vkLetterY;
+		}
+		break;
+
+		case 'z' : {
+			result = VCF::vkLetterZ;
+		}
+		break;
+
+		case '0' : {
+			result = VCF::vkNumber0;
+		}
+		break;
+
+		case '1' : {
+			result = VCF::vkNumber1;
+		}
+		break;
+
+		case '2' : {
+			result = VCF::vkNumber2;
+		}
+		break;
+
+		case '3' : {
+			result = VCF::vkNumber3;
+		}
+		break;
+
+		case '4' : {
+			result = VCF::vkNumber4;
+		}
+		break;
+
+		case '5' : {
+			result = VCF::vkNumber5;
+		}
+		break;
+
+		case '6' : {
+			result = VCF::vkNumber6;
+		}
+		break;
+
+		case '7' : {
+			result = VCF::vkNumber7;
+		}
+		break;
+
+		case '8' : {
+			result = VCF::vkNumber8;
+		}
+		break;
+
+		case '9' : {
+			result = VCF::vkNumber9;
+		}
+		break;
+
+		case '/' : {
+			result = VCF::vkDivideSign;
+		}
+		break;
+
+		case '+' : {
+			result = VCF::vkPlusSign;
+		}
+		break;
+
+		case '-' : {
+			result = VCF::vkMinusSign;
+		}
+		break;
+
+		case '=' : {
+			result = VCF::vkEqualsSign;
+		}
+		break;
+
+		case '_' : {
+			result = VCF::vkUnderbar;
+		}
+		break;
+
+		case '|' : {
+			result = VCF::vkUprightBar;
+		}
+		break;
+
+		case '{' : {
+			result = VCF::vkOpenBrace;
+		}
+		break;
+
+		case '}' : {
+			result = VCF::vkCloseBrace;
+		}
+		break;
+
+		case '[' : {
+			result = VCF::vkOpenBracket;
+		}
+		break;
+
+		case ']' : {
+			result = VCF::vkCloseBracket;
+		}
+		break;
+
+		case '<' : {
+			result = VCF::vkLessThan;
+		}
+		break;
+
+		case '>' : {
+			result = VCF::vkGreaterThan;
+		}
+		break;
+
+		case '.' : {
+			result = VCF::vkPeriod;
+		}
+		break;
+
+		case ',' : {
+			result = VCF::vkComma;
+		}
+		break;
+
+		case '!' : {
+			result = VCF::vkExclamation;
+		}
+		break;
+
+		case '~' : {
+			result = VCF::vkTilde;
+		}
+		break;
+
+		case '`' : {
+			result = VCF::vkLeftApostrophe;
+		}
+		break;
+
+		case '@' : {
+			result = VCF::vkCommercialAt;
+		}
+		break;
+
+		case '#' : {
+			result = VCF::vkNumberSign;
+		}
+		break;
+
+		case '$' : {
+			result = VCF::vkDollarSign;
+		}
+		break;
+
+		case '%' : {
+			result = VCF::vkPercent;
+		}
+		break;
+
+		case '^' : {
+			result = VCF::vkCircumflex;
+		}
+		break;
+
+		case '&' : {
+			result = VCF::vkAmpersand;
+		}
+		break;
+
+		case '*' : {
+			result = VCF::vkAsterix;
+		}
+		break;
+
+		case '(' : {
+			result = VCF::vkOpenParen;
+		}
+		break;
+
+		case ')' : {
+			result = VCF::vkCloseParen;
+		}
+		break;
+
+		case ':' : {
+			result = VCF::vkColon;
+		}
+		break;
+
+		case ';' : {
+			result = VCF::vkSemiColon;
+		}
+		break;
+
+		case '"' : {
+			result = VCF::vkDoubleQuote;
+		}
+		break;
+
+		case '\'' : {
+			result = VCF::vkSingleQuote;
+		}
+		break;
+
+		case '\\' : {
+			result = VCF::vkBackSlash;
+		}
+		break;
+
+		case '?' : {
+			result = VCF::vkQuestionMark;
+		}
+		break;
+	}
+	return result;
+}
 
 
 
@@ -1785,8 +2676,8 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 		break;
 
 		case WM_LBUTTONDOWN: case WM_MBUTTONDOWN: case WM_RBUTTONDOWN:{
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ),
-							Win32Utils::getYFromLParam( msg->msg_.lParam ) );
+			VCF::Point pt( Win32UIUtils::getXFromLParam( msg->msg_.lParam ),
+							Win32UIUtils::getYFromLParam( msg->msg_.lParam ) );
 
 			Scrollable* scrollable = msg->control_->getScrollable();
 			if ( NULL != scrollable ) {
@@ -1795,14 +2686,14 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 			}
 
 			result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_DOWN,
-											Win32Utils::translateButtonMask( msg->msg_.wParam ),
-											Win32Utils::translateKeyMask( msg->msg_.wParam ), &pt );
+											Win32UIUtils::translateButtonMask( msg->msg_.wParam ),
+											Win32UIUtils::translateKeyMask( msg->msg_.wParam ), &pt );
 		}
 		break;
 
 		case WM_LBUTTONUP: case WM_MBUTTONUP: case WM_RBUTTONUP:{
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) ,
-						   Win32Utils::getYFromLParam( msg->msg_.lParam ) );
+			VCF::Point pt( Win32UIUtils::getXFromLParam( msg->msg_.lParam ) ,
+						   Win32UIUtils::getYFromLParam( msg->msg_.lParam ) );
 
 
 			Scrollable* scrollable = msg->control_->getScrollable();
@@ -1829,8 +2720,8 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 			}
 
 			result = new VCF::MouseEvent( msg->control_, Control::MOUSE_UP,
-											Win32Utils::translateButtonMask( tmpWParam ),
-											Win32Utils::translateKeyMask( tmpWParam ), &pt );
+											Win32UIUtils::translateButtonMask( tmpWParam ),
+											Win32UIUtils::translateKeyMask( tmpWParam ), &pt );
 
 		}
 		break;
@@ -1869,8 +2760,8 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 
 		case WM_LBUTTONDBLCLK: case WM_MBUTTONDBLCLK: case WM_RBUTTONDBLCLK:{
 
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) ,
-							Win32Utils::getYFromLParam( msg->msg_.lParam ) );
+			VCF::Point pt( Win32UIUtils::getXFromLParam( msg->msg_.lParam ) ,
+							Win32UIUtils::getYFromLParam( msg->msg_.lParam ) );
 
 			Scrollable* scrollable = msg->control_->getScrollable();
 			if ( NULL != scrollable ) {
@@ -1879,16 +2770,16 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 			}
 
 			result = new VCF::MouseEvent( msg->control_, Control::MOUSE_DBLCLICK,
-											Win32Utils::translateButtonMask( msg->msg_.wParam ),
-											Win32Utils::translateKeyMask( msg->msg_.wParam ), &pt );
+											Win32UIUtils::translateButtonMask( msg->msg_.wParam ),
+											Win32UIUtils::translateKeyMask( msg->msg_.wParam ), &pt );
 
 
 		}
 		break;
 
 		case WM_MOVE: {
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) ,
-							Win32Utils::getYFromLParam( msg->msg_.lParam ) );
+			VCF::Point pt( Win32UIUtils::getXFromLParam( msg->msg_.lParam ) ,
+							Win32UIUtils::getYFromLParam( msg->msg_.lParam ) );
 
 			result = new VCF::ControlEvent( msg->control_, pt );
 
@@ -1896,8 +2787,8 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 		break;
 
 		case WM_MOUSEMOVE: {
-			VCF::Point pt( Win32Utils::getXFromLParam( msg->msg_.lParam ) ,
-							Win32Utils::getYFromLParam( msg->msg_.lParam ) );
+			VCF::Point pt( Win32UIUtils::getXFromLParam( msg->msg_.lParam ) ,
+							Win32UIUtils::getYFromLParam( msg->msg_.lParam ) );
 
 			Scrollable* scrollable = msg->control_->getScrollable();
 			if ( NULL != scrollable ) {
@@ -1907,8 +2798,8 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 
 
 			result = new VCF::MouseEvent ( msg->control_, Control::MOUSE_MOVE,
-											Win32Utils::translateButtonMask( msg->msg_.wParam ),
-											Win32Utils::translateKeyMask( msg->msg_.wParam ),
+											Win32UIUtils::translateButtonMask( msg->msg_.wParam ),
+											Win32UIUtils::translateKeyMask( msg->msg_.wParam ),
 											&pt );
 		}
 		break;
@@ -1927,29 +2818,29 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 			}
 
 			result = new VCF::MouseEvent( msg->control_, Control::MOUSE_LEAVE,
-											Win32Utils::translateButtonMask( 0 ),
-											Win32Utils::translateKeyMask( 0 ), &pt2 );
+											Win32UIUtils::translateButtonMask( 0 ),
+											Win32UIUtils::translateKeyMask( 0 ), &pt2 );
 		}
 		break;
 
 		case WM_CHAR: case WM_KEYDOWN: case WM_KEYUP: {
-			KeyboardData keyData = Win32Utils::translateKeyData( msg->msg_.hwnd, msg->msg_.lParam );
+			KeyboardData keyData = Win32UIUtils::translateKeyData( msg->msg_.hwnd, msg->msg_.lParam );
 			
 			unsigned long eventType = 0;
 			unsigned long repeatCount = keyData.repeatCount;
 
-			unsigned long keyMask = Win32Utils::translateKeyMask( keyData.keyMask );
+			unsigned long keyMask = Win32UIUtils::translateKeyMask( keyData.keyMask );
 
 			VCFChar keyVal = 0;
 			
-			VirtualKeyCode virtualKeyCode = (VirtualKeyCode)Win32Utils::translateVKCode( keyData.VKeyCode );
+			VirtualKeyCode virtualKeyCode = (VirtualKeyCode)Win32UIUtils::translateVKCode( keyData.VKeyCode );
 
 			switch ( msg->msg_.message ){
 				case WM_CHAR: {
 					eventType = Control::KEYBOARD_PRESSED;
 					keyVal = (VCFChar)msg->msg_.wParam;
 					if ( isgraph( keyVal ) ) {
-						virtualKeyCode = (VirtualKeyCode)Win32Utils::convertCharToVKCode( keyVal );
+						virtualKeyCode = (VirtualKeyCode)Win32UIUtils::convertCharToVKCode( keyVal );
 					}
 				}
 				break;
@@ -1957,14 +2848,14 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 				case WM_KEYDOWN: {
 					keyVal = keyData.character;
 					eventType = Control::KEYBOARD_DOWN;//KEYBOARD_EVENT_DOWN;
-					virtualKeyCode = (VirtualKeyCode)Win32Utils::translateVKCode( msg->msg_.wParam );
+					virtualKeyCode = (VirtualKeyCode)Win32UIUtils::translateVKCode( msg->msg_.wParam );
 				}
 				break;
 
 				case WM_KEYUP: {
 					eventType = Control::KEYBOARD_UP;
 					keyVal = keyData.character;
-					virtualKeyCode = (VirtualKeyCode)Win32Utils::translateVKCode( msg->msg_.wParam );
+					virtualKeyCode = (VirtualKeyCode)Win32UIUtils::translateVKCode( msg->msg_.wParam );
 				}
 				break;
 			}
@@ -2058,10 +2949,10 @@ void Win32ToolKit::internal_runEventLoop()
 
 					case WM_KEYDOWN :  case WM_SYSKEYDOWN : {
 
-						KeyboardData keyData = Win32Utils::translateKeyData( msg.hwnd, msg.lParam );
+						KeyboardData keyData = Win32UIUtils::translateKeyData( msg.hwnd, msg.lParam );
 
-						KeyboardMasks modifierKey = (KeyboardMasks)Win32Utils::translateKeyMask( keyData.keyMask );
-						VirtualKeyCode vkCode = (VirtualKeyCode)Win32Utils::translateVKCode( keyData.VKeyCode );
+						KeyboardMasks modifierKey = (KeyboardMasks)Win32UIUtils::translateKeyMask( keyData.keyMask );
+						VirtualKeyCode vkCode = (VirtualKeyCode)Win32UIUtils::translateVKCode( keyData.VKeyCode );
 
 						if ( vkUndefined == vkCode ) { //tranlsate by ascii value
 
@@ -2218,10 +3109,10 @@ UIToolkit::ModalReturnType Win32ToolKit::internal_runModalEventLoopFor( Control*
 					switch( msg.message ) {
 
 						case WM_KEYDOWN :  case WM_SYSKEYDOWN : {
-							KeyboardData keyData = Win32Utils::translateKeyData( msg.hwnd, msg.lParam );
+							KeyboardData keyData = Win32UIUtils::translateKeyData( msg.hwnd, msg.lParam );
 
-							KeyboardMasks modifierKey = (KeyboardMasks)Win32Utils::translateKeyMask( keyData.keyMask );
-							VirtualKeyCode vkCode = (VirtualKeyCode)Win32Utils::translateVKCode( keyData.VKeyCode );
+							KeyboardMasks modifierKey = (KeyboardMasks)Win32UIUtils::translateKeyMask( keyData.keyMask );
+							VirtualKeyCode vkCode = (VirtualKeyCode)Win32UIUtils::translateVKCode( keyData.VKeyCode );
 
 							ESCkeyPressed = (vkCode == vkEscape);
 
@@ -2431,6 +3322,9 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.13  2005/11/21 21:28:04  ddiego
+*updated win32 code a bit due to osx changes.
+*
 *Revision 1.6.2.12  2005/11/04 17:56:17  ddiego
 *fixed bugs in some win32 code to better handle unicode - ansi functionality.
 *

@@ -792,8 +792,8 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 				::ScreenToClient( hwnd_, &pt );
 
 				MouseEvent event( item, ListViewControl::COLUMN_MOUSE_EVENT_CLICK,
-									Win32Utils::translateButtonMask( MK_LBUTTON ),
-									Win32Utils::translateKeyMask( 0 ),
+									Win32UIUtils::translateButtonMask( MK_LBUTTON ),
+									Win32UIUtils::translateKeyMask( 0 ),
 									&Point(pt.x, pt.y) );
 
 				listviewControl_->handleEvent( &event );
@@ -2415,6 +2415,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/11/21 21:28:03  ddiego
+*updated win32 code a bit due to osx changes.
+*
 *Revision 1.5.2.2  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *
