@@ -9,18 +9,46 @@ where you installed the VCF.
 */
 
 
+
+
 namespace VCF {
 
-	class OSXUtils {
-	public:
-		static String getErrorString( int errorCode );
+
+class OSXStringUtils {
+public:
+	static String getErrorString( int errorCode ) {
+		String result;
+
+		return result;
+	}
+
+	static String extractStringValueFromCFType( CFTypeRef ref ) {
+		String result;
+	
+		if ( NULL != ref ) {
+			CFStringRef resultString = CFStringCreateWithFormat( NULL, NULL, CFSTR("%@"), ref );
+			
+			if ( NULL != resultString ) {
+				
+				CFDataRef data = CFStringCreateExternalRepresentation(NULL, 
+																	  resultString, 
+																	  CFStringGetSystemEncoding(), 
+																	  '?');
+				
+				if (data != NULL) {			
+					result.assign( (char*)CFDataGetBytePtr(data), CFDataGetLength(data) );
+					
+					CFRelease(data);
+				}
+				
+				CFRelease( resultString );
+			}	
+		}
 		
-		static String extractStringValueFromCFType( CFTypeRef ref );
-		
-		static ulong32 translateButtonMask( EventMouseButton button );
-		
-		static ulong32 translateKeyMask( UInt32 keyMod );
-	};
+		return result;
+	}
+	
+};
 
 
 template < typename CFObjType>
@@ -368,6 +396,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.4.2.4  2005/11/21 04:00:51  ddiego
+ *more osx updates.
+ *
  *Revision 1.4.2.3  2005/11/13 16:02:46  ddiego
  *more sox updates.
  *

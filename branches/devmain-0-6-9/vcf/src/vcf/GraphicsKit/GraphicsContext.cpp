@@ -162,8 +162,8 @@ void GraphicsState::compositeMatrix()
 
 
 GraphicsContext::GraphicsContext():
-	currentDrawingState_(GraphicsContext::gsNone),	
 	contextPeer_(NULL),
+	currentDrawingState_(GraphicsContext::gsNone),		
 	drawingArea_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
@@ -182,8 +182,8 @@ GraphicsContext::GraphicsContext():
 }
 
 GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned long& height ):
-	currentDrawingState_(GraphicsContext::gsNone),	
 	contextPeer_(NULL),
+	currentDrawingState_(GraphicsContext::gsNone),		
 	drawingArea_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
@@ -209,9 +209,9 @@ GraphicsContext::GraphicsContext( const unsigned long& width, const unsigned lon
 
 }
 
-GraphicsContext::GraphicsContext( OSHandleID contextID ):
-	currentDrawingState_(GraphicsContext::gsNone),
+GraphicsContext::GraphicsContext( OSHandleID contextID ):	
 	contextPeer_(NULL),
+	currentDrawingState_(GraphicsContext::gsNone),
 	drawingArea_(NULL),
 	renderBuffer_(NULL),
 	renderAreaDirty_(false),
@@ -1502,6 +1502,9 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.6.2.3  2005/11/10 02:02:39  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

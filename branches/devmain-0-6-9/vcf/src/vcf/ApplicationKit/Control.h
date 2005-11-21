@@ -38,6 +38,159 @@ typedef unsigned long AnchorTypes;
 
 
 /**
+The various enumerations of standard alignment types used by 
+the default containers for control alignment. Note that
+other custom control's may have their own types.
+*/
+enum AlignmentType{
+	/**
+	The default value for a control's alignment. The control's top, left, 
+	width, and height are what determine it's position, regardless of 
+	surrounding controls.
+	*/
+    AlignNone=0,
+	
+	/**
+	The control moves to the top of the parent container and resizes to 
+	fill in the width of the parent control. The height of the control 
+	is not altered during parent dimension changes.
+	*/
+    AlignTop,
+	
+	/**
+	The control moves to the bottom of the parent container and resizes 
+	to fill in the width of the parent control. The height of the control 
+	is not altered during parent dimension changes.
+	*/
+    AlignLeft,
+	
+	/**
+	The control moves to the left side of the parent container and resizes 
+	to fill in the height of the parent control. The width of the control 
+	is not altered during parent dimension changes.
+	*/
+    AlignRight,
+	
+	/**
+	The control moves to the right side of the parent container and resizes 
+	to fill in the height of the parent control. The width of the control is 
+	not altered during parent dimension changes.
+	*/
+    AlignBottom,
+	
+	/**
+	The control resizes to fill in the remaining client area of a form (after 
+	all other alignment positions of other controls are calculated).
+	*/
+    AlignClient
+};
+
+
+
+
+/**
+*A string array for the controls alignement types
+*/
+static String AlignmentTypeNames[] = { "AlignNone",
+                                         "AlignTop",
+										 "AlignLeft",
+										 "AlignRight",
+										 "AlignBottom",
+										 "AlignClient" };
+
+
+
+
+/**
+An enum of anchor types for a control's anchor value.
+These may be masked together.
+*/
+enum AnchorType {
+	/**
+	This is the default value for a control's anchor property. 
+	No layout adjustments are performed on the control.
+	*/
+	AnchorNone = 0,
+	
+	/**
+	The Control is anchored to the top edge of the parent control 
+	it belongs to. Whatever the distance between the top edge and 
+	the top coordinate of the control when this is set, is maintained 
+	whenever the parent control's dimensions change. 
+	*/
+	AnchorTop = 1,
+	
+	/**
+	The Control is anchored to the left edge of the parent 
+	control it belongs to. Whatever the distance between the 
+	left edge and the left coordinate of the control when this 
+	is set, is maintained whenever the parent control's dimensions 
+	change.
+	*/
+	AnchorLeft = 2,
+	
+	/**
+	The Control is anchored to the bottom edge of the parent 
+	control it belongs to. Whatever the distance between the 
+	bottom edge and the bottom coordinate of the control when 
+	this is set, is maintained whenever the parent control's 
+	dimensions change. 
+	*/
+	AnchorBottom = 4,
+	
+	/**
+	The Control is anchored to the right edge of the parent 
+	control it belongs to. Whatever the distance between the 
+	right edge and the right coordinate of the control when 
+	this is set, is maintained whenever the parent control's 
+	dimensions change.
+	*/
+	AnchorRight = 8
+};
+
+
+/**
+*an array of Anchor type names
+*/
+static String AnchorTypeNames[] = { "AnchorNone",
+                                         "AnchorTop",
+										 "AnchorLeft",
+										 "AnchorBottom",
+										 "AnchorRight" };
+										 
+										 
+										 
+
+static unsigned long AnchorTypeValues[] = { AnchorNone,
+                                         AnchorTop,
+										 AnchorLeft,
+										 AnchorBottom,
+										 AnchorRight };										 
+
+
+
+
+
+
+enum TextAlignmentType {
+	taTextLeft = 0,
+	taTextCenter,
+	taTextRight
+};
+
+static String TextAlignmentTypeNames[] = { "taTextLeft",
+                                         "taTextCenter",
+										 "taTextRight" };
+
+
+
+
+
+
+
+
+
+/**
  The base class for all visual components in the Visual Component Framework.
  In addition it implements the View interface. This means that the
  Control is itself a specialized form of a View, though it may not have
@@ -1485,6 +1638,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.8  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.4.2.7  2005/10/07 04:06:24  ddiego
 *minor adjustment to control state variables
 *

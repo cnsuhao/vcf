@@ -574,7 +574,6 @@ ProgramInfo* System::getProgramInfoFromFileName( const String& fileName )
 		System::systemInstance->systemPeer_->getProgramInfoFromFileName( fileName );
 
 	if ( NULL == result ) {
-		bool found = false;
 			
 		String infoFilename = System::getInfoFileFromFileName( fileName );
 		
@@ -863,6 +862,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.7  2005/11/21 04:00:51  ddiego
+*more osx updates.
+*
 *Revision 1.6.2.6  2005/11/11 22:07:40  ddiego
 *small osx updates.
 *
