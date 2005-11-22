@@ -7,6 +7,7 @@
 	objects = {
 		034768DDFF38A45A11DB9C8B = {
 			children = (
+				5E4EB2260932A44F009AB90C,
 				5EAA3CF0064734CC00A8020D,
 				5E2CE26A06486BB200A8020D,
 				5E7340BB082E719300CDD184,
@@ -5343,6 +5344,33 @@
 			refType = 0;
 			sourceTree = "<absolute>";
 		};
+		5E4EB2260932A44F009AB90C = {
+			comments = "This is here to allow the GraphicsKit to link properly. Because the png code uses zlib, and OSX already comes with a version of zlib we get linker errors if we don't explicitly link to this library. Adding this here, and linking to it, makes this all work and the suns still comes out. Cheerio!";
+			isa = PBXFileReference;
+			lastKnownFileType = "compiled.mach-o.dylib";
+			name = libz.dylib;
+			path = /usr/lib/libz.dylib;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		5E4EB2280932A461009AB90C = {
+			fileRef = 5E4EB2260932A44F009AB90C;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4EB2660932A73A009AB90C = {
+			fileRef = 5E73412F082E73CC00CDD184;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		5E4EB2670932A751009AB90C = {
+			fileRef = 5E7340BB082E719300CDD184;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		5E4EBF9F0922E6B300203611 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -5633,7 +5661,6 @@
 		5E4FAD570921766B00E53A8F = {
 			buildActionMask = 2147483647;
 			files = (
-				5E4FAE6D09217EF800E53A8F,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5661,7 +5688,6 @@
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
 			};
 			dependencies = (
-				5E4FAD5B0921767900E53A8F,
 			);
 			isa = PBXNativeTarget;
 			name = "libpng-debug";
@@ -5676,18 +5702,6 @@
 			path = libpng_d.a;
 			refType = 3;
 			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		5E4FAD5A0921767900E53A8F = {
-			containerPortal = 0867D690FE84028FC02AAC07;
-			isa = PBXContainerItemProxy;
-			proxyType = 1;
-			remoteGlobalIDString = 5E548F99092049A3001BA393;
-			remoteInfo = "zlib-debug";
-		};
-		5E4FAD5B0921767900E53A8F = {
-			isa = PBXTargetDependency;
-			target = 5E548F99092049A3001BA393;
-			targetProxy = 5E4FAD5A0921767900E53A8F;
 		};
 		5E4FAD640921777700E53A8F = {
 			fileEncoding = 30;
@@ -7310,12 +7324,6 @@
 		};
 		5E4FAE6909217E0D00E53A8F = {
 			fileRef = 5E4FADBE09217A8A00E53A8F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		5E4FAE6D09217EF800E53A8F = {
-			fileRef = 5E548F9A092049A3001BA393;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -11355,8 +11363,8 @@
 		5E734129082E73CC00CDD184 = {
 			buildActionMask = 2147483647;
 			files = (
+				5E4EB2280932A461009AB90C,
 				5E5E8A61093156C600A023C5,
-				5E87EE4D09315C8500DA4F6C,
 				5E4FAE6809217E0700E53A8F,
 				5E73412B082E73CC00CDD184,
 				5E73412A082E73CC00CDD184,
@@ -13913,6 +13921,8 @@
 		5E7342DF082E76C300CDD184 = {
 			buildActionMask = 2147483647;
 			files = (
+				5E4EB2670932A751009AB90C,
+				5E4EB2660932A73A009AB90C,
 				5E9409A008611249001790A9,
 				5E7342E0082E76C300CDD184,
 				5E9409A208611273001790A9,
@@ -14346,12 +14356,6 @@
 			isa = PBXTargetDependency;
 			target = 5E4FAD580921766B00E53A8F;
 			targetProxy = 5E87EE4B09315C7600DA4F6C;
-		};
-		5E87EE4D09315C8500DA4F6C = {
-			fileRef = 5E548F9A092049A3001BA393;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		5E888AD20710EC28006110CF = {
 			fileEncoding = 30;

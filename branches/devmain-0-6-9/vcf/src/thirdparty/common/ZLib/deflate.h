@@ -13,7 +13,7 @@
 #ifndef _DEFLATE_H
 #define _DEFLATE_H
 
-#include "thirdparty/common/ZLib/zutil.h"
+#include "zutil.h"
 
 /* ===========================================================================
  * Internal compression state.
