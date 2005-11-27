@@ -88,9 +88,9 @@ bool OSXProcessPeer::createProcess( const String& processName, const String& arg
 				}
 				
 				
-				static const EventTypeSpec events[] ={
-												{ kEventClassApplication, kEventAppTerminated }
-											};
+				//static const EventTypeSpec events[] ={
+				//								{ kEventClassApplication, kEventAppTerminated }
+				//							};
 											
 
 				//install event handler for appl close!
@@ -296,6 +296,9 @@ ulong32 OSXProcessPeer::terminate()
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.3.4.2  2005/11/27 23:55:45  ddiego
+ *more osx updates.
+ *
  *Revision 1.3.4.1  2005/11/10 02:02:38  ddiego
  *updated the osx build so that it
  *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

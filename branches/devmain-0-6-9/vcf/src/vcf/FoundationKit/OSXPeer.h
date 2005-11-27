@@ -112,8 +112,8 @@ public:
 };
 
 
-#define vcf_IntToFixed(a)	   ((Fixed)(a) << 16)
-#define vcf_FixedToInt(a)	   ((int)(a) >> 16)
+#define VCF_INTTOFIXED(a)	   ((Fixed)(a) << 16)
+#define VCF_FIXEDTOINT(a)	   ((int)(a) >> 16)
 
 class FixedPointNumber {
 public:
@@ -144,22 +144,22 @@ public:
 	void assign( const double& val ) {
 		int fractional = (int)((val - floor(val)) * 0xffff);
 
-		val_ = vcf_IntToFixed((int)(floor(val))) | fractional;
+		val_ = VCF_INTTOFIXED((int)(floor(val))) | fractional;
 	}
 
 	void assign( const int& val ) {
-		val_ = vcf_IntToFixed(val);
+		val_ = VCF_INTTOFIXED(val);
 	}
 
 	int asInt() const {
-		return vcf_FixedToInt(val_);
+		return VCF_FIXEDTOINT(val_);
 	}
 
 	double asDouble() const {
 		if ( 0 == val_ ) {
 			return 0.0;
 		}
-		return (double)vcf_FixedToInt(val_) + ((double)(0xFFFF)/(double)(0xFFFF0000 & val_));
+		return (double)VCF_FIXEDTOINT(val_) + ((double)(0xFFFF)/(double)(0xFFFF0000 & val_));
 	}
 
 	operator double () const {
@@ -396,6 +396,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.4.2.5  2005/11/27 23:55:45  ddiego
+ *more osx updates.
+ *
  *Revision 1.4.2.4  2005/11/21 04:00:51  ddiego
  *more osx updates.
  *

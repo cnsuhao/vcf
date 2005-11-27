@@ -70,7 +70,7 @@ protected:
 										DataBrowserPropertyID property, DataBrowserItemDataRef itemData,
 										Boolean setValue );
 										
-	static OSStatus DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
+	static void DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
 															DataBrowserItemNotification message);
 
 };
@@ -81,6 +81,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.2  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

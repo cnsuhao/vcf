@@ -58,7 +58,7 @@ String OSXDesktopPeer::desktopGetDirectory()
     FSRef desktopFolder;
     if ( noErr == FSFindFolder( kUserDomain, kDesktopFolderType, kDontCreateFolder, &desktopFolder ) ) {
         char tmp[256];
-        FSRefMakePath( &desktopFolder, tmp, sizeof(tmp)-1 );
+        FSRefMakePath( &desktopFolder, (UInt8*)tmp, sizeof(tmp)-1 );
         result = tmp;
     }
     else {
@@ -116,6 +116,9 @@ VCF::Rect OSXDesktopPeer::desktopGetUsableBounds()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/27 23:55:44  ddiego
+*more osx updates.
+*
 *Revision 1.4  2005/07/09 23:14:54  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

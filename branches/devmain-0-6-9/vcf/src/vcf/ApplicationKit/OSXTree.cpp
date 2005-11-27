@@ -84,11 +84,10 @@ OSStatus OSXTree::DBItemDataCallback( ControlRef browser, DataBrowserItemID item
 }
 
 
-OSStatus OSXTree::DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
+void OSXTree::DBItemNotificationCallback( ControlRef browser, DataBrowserItemID itemID, 
 															DataBrowserItemNotification message)
 {
-	OSStatus status = noErr;
-    switch (message)
+   switch (message)
     {
         case kDataBrowserContainerOpened: 
 // 1
@@ -127,7 +126,6 @@ OSStatus OSXTree::DBItemNotificationCallback( ControlRef browser, DataBrowserIte
 		break;
 		
     }
-    return status;
 }
 
 void OSXTree::create( Control* owningControl )
@@ -395,6 +393,9 @@ OSStatus OSXTree::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theE
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.2  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

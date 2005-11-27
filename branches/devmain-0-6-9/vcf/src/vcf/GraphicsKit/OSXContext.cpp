@@ -998,10 +998,10 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect, const long& drawOptio
 
 		FixedPointNumber xPos = rect.left_;
 		double EMTextHeight = getTextHeight("EM");
-		ATSUTextMeasurement	yPos = vcf_IntToFixed((int) ( rect.top_ + EMTextHeight ));
+		ATSUTextMeasurement	yPos = VCF_INTTOFIXED((int) ( rect.top_ + EMTextHeight ));
 
 		ATSUTextMeasurement	lineStart = xPos;
-		ATSUTextMeasurement	lineEnd = vcf_IntToFixed((int)rect.right_);
+		ATSUTextMeasurement	lineEnd = VCF_INTTOFIXED((int)rect.right_);
 		ATSUTextMeasurement	lineWidth = 0;
 
 		//at the moment we are not taking text angle into account
@@ -1034,7 +1034,7 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect, const long& drawOptio
 			err = ATSUBreakLine(textLayout_, lineStartOffset, lineWidth, true, &lineEndOffset);
 			if ( err != noErr ) {
 				failed = true;
-				printf ( "err: %d, ATSUBreakLine()\n", (int)err );
+				//printf ( "err: %d, ATSUBreakLine()\n", (int)err );
 				goto EXIT;
 			}
 
@@ -1123,11 +1123,11 @@ void OSXContext::atsuDrawTextInBox(	const VCF::Rect& rect, const long& drawOptio
 		//	draw each line
 
 		if ( drawOptions & GraphicsContext::tdoBottomAlign ) {
-			yPos = vcf_IntToFixed( rect.bottom_ + EMTextHeight );
+			yPos = VCF_INTTOFIXED( rect.bottom_ + EMTextHeight );
 			yPos -=	(lineCount * (maxAscent+maxDescent));
 		}
 		else if ( drawOptions & GraphicsContext::tdoCenterVertAlign ) {
-			yPos = vcf_IntToFixed( rect.top_ + rect.getHeight()/2.0 + EMTextHeight );
+			yPos = VCF_INTTOFIXED( rect.top_ + rect.getHeight()/2.0 + EMTextHeight );
 			yPos -=	((lineCount * (maxAscent+maxDescent))/2);
 		}
 
@@ -2281,6 +2281,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.5.2.1  2005/11/10 02:02:39  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

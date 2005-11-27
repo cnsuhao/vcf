@@ -25,6 +25,45 @@ This was created to improved compile times
 
 namespace VCF {
 
+/**
+*A string array for the controls alignement types
+*/
+static String AlignmentTypeNames[] = { "AlignNone",
+                                         "AlignTop",
+										 "AlignLeft",
+										 "AlignRight",
+										 "AlignBottom",
+										 "AlignClient" };
+										 
+										 
+
+/**
+*an array of Anchor type names
+*/
+static String AnchorTypeNames[] = { "AnchorNone",
+                                         "AnchorTop",
+										 "AnchorLeft",
+										 "AnchorBottom",
+										 "AnchorRight" };
+										 
+										 
+										 
+
+static unsigned long AnchorTypeValues[] = { AnchorNone,
+                                         AnchorTop,
+										 AnchorLeft,
+										 AnchorBottom,
+										 AnchorRight };	
+
+
+
+static String TextAlignmentTypeNames[] = { "taTextLeft",
+                                         "taTextCenter",
+										 "taTextRight" };
+										 
+
+
+
 
 _class_rtti_(ImageList, "VCF::Component", IMAGELIST_CLASSID )
 _property_object_( Color, "transparentColor", getTransparentColor, setTransparentColor, "" );
@@ -778,6 +817,9 @@ _class_rtti_end_
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2005/11/27 23:55:44  ddiego
+*more osx updates.
+*
 *Revision 1.4.2.4  2005/10/07 16:41:21  kiklop74
 *Added support for building ApplicationKit with Borland Free Compiler
 *

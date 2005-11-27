@@ -189,6 +189,39 @@ bool OSXClipboard::hasDataType( const String& dataType )
 	return result;
 }
 
+void OSXClipboard::initDataObjectFromPasteBoard( PasteboardRef pasteBoard, DataObject* dataObject )
+{	
+	//sync the paste board
+	PasteboardSynchronize( pasteBoard );
+	
+	ItemCount itemCount = 0;
+	if ( noErr == PasteboardGetItemCount( pasteBoard, &itemCount ) ) {
+		PasteboardItemID itemID = 0;
+		for ( UInt32 index = 0;index<itemCount;index++ ) {
+			//index is 1 based!
+			PasteboardGetItemIdentifier( pasteBoard, index+1, &itemID );
+			
+			
+			CFRefObject<CFArrayRef> flavArray;
+			if ( noErr == PasteboardCopyItemFlavors(  pasteBoard, itemID, &flavArray ) ) {
+				int count = CFArrayGetCount(flavArray);
+				for ( int flavIndex = 0;flavIndex<count;flavIndex++ ) {
+					CFStringRef flavorType;
+					flavorType = (CFStringRef)CFArrayGetValueAtIndex( flavArray, flavIndex );
+					
+					PasteboardFlavorFlags flags = 0;
+					PasteboardGetItemFlavorFlags( pasteBoard, itemID, flavorType, &flags );
+					
+					String dataType = UTItoMimeType( flavorType );
+					if ( !dataType.empty() ) {
+						dataObject->addSupportedDataType( dataType, NULL );
+					}
+				}
+			}
+		}
+	}	
+}
+
 DataObject* OSXClipboard::createDataObjectFromPasteBoard( PasteboardRef pasteBoard )
 {
 	DataObject* result = new DataObject();
@@ -233,6 +266,9 @@ DataObject* OSXClipboard::createDataObjectFromPasteBoard( PasteboardRef pasteBoa
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/11/27 23:55:44  ddiego
+*more osx updates.
+*
 *Revision 1.2  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

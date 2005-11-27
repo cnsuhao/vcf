@@ -38,6 +38,7 @@ namespace VCF {
 
 		virtual void menuItemChanged( int menuItemEventType, MenuItem* item );
 	protected:
+		MenuItemMap menuItemsMap_;
 	};
 
 

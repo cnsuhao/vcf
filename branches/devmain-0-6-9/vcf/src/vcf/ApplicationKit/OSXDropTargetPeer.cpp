@@ -70,6 +70,8 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 {
 	OSStatus result = eventNotHandledErr;	
 	
+	StringUtils::trace( "OSXDropTargetPeer::handleDropTargetEvents" );
+	
 	OSXDropTargetPeer* peer = (OSXDropTargetPeer*)inUserData;
 	VCF::DropTarget* target = peer->getDropTarget();
 	
@@ -105,24 +107,35 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 		case kEventClassControl : {
 			switch ( eventKind ) {
 				case kEventControlDragEnter : {					
-					
+					StringUtils::trace("kEventControlDragEnter" );					
+					PasteboardRef   pasteboard;
+					DragRef drag = NULL;
+					GetEventParameter( inEvent, kEventParamDragRef, typeDragRef, NULL,
+                                sizeof (drag), NULL, &drag);
 								
-					peer->currentDataObj_ = new VCF::DataObject();
-					
-					VCF::DropTargetEvent event( target, peer->currentDataObj_ );
-					
-					event.setType( DropTarget::DRAG_ENTERED );
-					event.setActionType( action );
-					event.setDropPoint( dragPt );
-					target->handleEvent( &event );
-					
-					if ( event.getAction() == daNone ) {
+					if ( noErr == GetDragPasteboard( drag, &pasteboard ) ) {
+						peer->currentDataObj_ = new VCF::DataObject();
+						OSXClipboard::initDataObjectFromPasteBoard( pasteboard, peer->currentDataObj_ );
 						
-					}
+						VCF::DropTargetEvent event( target, peer->currentDataObj_ );
+						
+						event.setType( DropTarget::DRAG_ENTERED );
+						event.setActionType( action );
+						event.setDropPoint( dragPt );
+						target->handleEvent( &event );
+						
+						if ( event.getAction() == daNone ) {
+							result = eventNotHandledErr;
+						}
+						else {
+							result = noErr;
+						}
+					}					
 				}
 				break;
 				
 				case kEventControlDragWithin : {					
+					StringUtils::trace("kEventControlDragWithin" );
 					VCF::DropTargetEvent event( target, peer->currentDataObj_ );
 					event.setType( DropTarget::DRAGGING_OVER );
 					event.setDropPoint( dragPt );
@@ -147,7 +160,9 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 				
 				//clean up the currentDataObj_ instance
 				//recreate a new instance, this time with data
-				case kEventControlDragReceive : {					
+				case kEventControlDragReceive : {	
+					StringUtils::trace("kEventControlDragReceive" );
+								
 					if ( NULL != peer->currentDataObj_ ) {
 						peer->currentDataObj_->free();
 						peer->currentDataObj_ = NULL;
@@ -169,6 +184,8 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 							peer->currentDataObj_->free();
 							peer->currentDataObj_ = NULL;
 						}
+						
+						//result = noErr;
 					}
 				}
 				break;
@@ -184,6 +201,9 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2005/11/27 23:55:44  ddiego
+*more osx updates.
+*
 *Revision 1.2  2005/07/09 23:14:54  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

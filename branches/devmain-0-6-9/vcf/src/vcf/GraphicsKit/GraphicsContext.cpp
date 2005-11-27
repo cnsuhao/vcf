@@ -1411,7 +1411,7 @@ int GraphicsContext::saveState()
 
 void GraphicsContext::restoreState( int state )
 {
-	VCF_ASSERT( state < stateCollection_.size() );
+	VCF_ASSERT( state < (int)stateCollection_.size() );
 	VCF_ASSERT( state >= 0 );
 	if ( (stateCollection_.size() - state) > 0 ) {
 		for ( size_t i=state;i<stateCollection_.size();i++ ) {
@@ -1502,6 +1502,9 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.6.2.4  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

@@ -496,7 +496,7 @@ unsigned int OSXLocalePeer::toUInt( const UnicodeString& str )
 	if ( NULL != num ) {
 		double val = 0;
 		if ( CFNumberGetValue( num, kCFNumberDoubleType, &val ) ) {
-			result = val;
+			result = (unsigned int)val;
 		}
 		else {
 			result = StringUtils::fromStringAsUInt( str );
@@ -853,6 +853,9 @@ ulong32 OSXLocalePeer::getCountryCode()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.3.2.1  2005/11/13 16:02:46  ddiego
 *more sox updates.
 *
