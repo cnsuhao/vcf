@@ -298,7 +298,7 @@ UnicodeString::AnsiChar UnicodeString::transformUnicodeCharToAnsiChar( UnicodeSt
 	
 	
 	if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false,
-		&result, size2, &size2 ) ) {
+									(UInt8*)&result, size2, &size2 ) ) {
 		//CFStringGetBytes failed
 		throw RuntimeException( L"CFStringGetBytes failed" );
 		result = 0;
@@ -373,7 +373,7 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 		result = new UnicodeString::AnsiChar[size2+1];
 
 		if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false,
-										result, size2, &size2 ) ) {
+										(UInt8*)result, size2, &size2 ) ) {
 			//CFStringGetBytes failed
 			delete [] result;
 			result = NULL;
@@ -875,6 +875,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.5.2.2  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

@@ -42,6 +42,8 @@ class Item;
 
 class ItemSort {
 public:
+	virtual ~ItemSort(){};
+	
 	virtual bool compare( const Item* x, const Item* y) = 0;
 };
 
@@ -172,6 +174,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/27 23:55:44  ddiego
+*more osx updates.
+*
 *Revision 1.4  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

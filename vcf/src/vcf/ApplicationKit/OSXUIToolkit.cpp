@@ -686,12 +686,123 @@ public:
 	}
 	
 	virtual String transformMnemonicValues( const String& input ) {
-		return "";
+		String result = input;
+		
+		size_t pos = result.find( "&" );
+		while ( pos != String::npos ) {
+			if ( result[pos+1] != '&' ) {
+				result.erase( pos, 1 );
+			}
+			else {
+				pos ++;
+			}
+			
+			pos = result.find( "&", pos +1 );
+		}
+		
+		return result;
 	}
 	
 	virtual AcceleratorKey::Value getStandardAcceleratorFor( const StandardAccelerator& val ) {
 		AcceleratorKey::Value result;
 		
+		switch ( val ) {
+			case UIPolicyManager::saApplicationQuit : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterQ );
+			}
+			break;
+
+			case UIPolicyManager::saApplicationAbout : {
+				
+			}
+			break;
+
+			case UIPolicyManager::saApplicationPreferences : {
+				result = AcceleratorKey::Value( kmCtrl,vkComma );
+			}
+			break;
+
+			case UIPolicyManager::saFileNew : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterN );
+			}
+			break;
+
+			case UIPolicyManager::saFileOpen : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterO );
+			}
+			break;
+
+			case UIPolicyManager::saFileSave : {
+				result = AcceleratorKey::Value( kmCtrl,vkLetterS );
+			}
+			break;
+
+			case UIPolicyManager::saFileSaveAs : {
+				result = AcceleratorKey::Value( kmCtrl | kmShift,vkLetterS );
+			}
+			break;
+
+			case UIPolicyManager::saFilePrint : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterP );
+			}
+			break;
+
+			case UIPolicyManager::saFilePageSetup : {
+				result = AcceleratorKey::Value( kmCtrl | kmShift,vkLetterP );
+			}
+			break;
+
+			case UIPolicyManager::saEditUndo : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterZ );
+			}
+			break;
+
+			case UIPolicyManager::saEditRedo : {
+				result = AcceleratorKey::Value( kmCtrl | kmShift,vkLetterZ );
+			}
+			break;
+
+			case UIPolicyManager::saEditCut : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterX );
+			}
+			break;
+
+			case UIPolicyManager::saEditCopy : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterC );
+			}
+			break;
+
+			case UIPolicyManager::saEditPaste : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterV );
+			}
+			break;
+
+			case UIPolicyManager::saEditDelete : {
+				result = AcceleratorKey::Value( kmUndefined, vkDelete );
+			}
+			break;
+
+			case UIPolicyManager::saEditSelectAll : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterA );
+			}
+			break;
+
+			case UIPolicyManager::saEditFind : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterF );
+			}
+			break;
+
+			case UIPolicyManager::saEditFindNext : {
+				result = AcceleratorKey::Value( kmCtrl, vkLetterG );
+			}
+			break;
+
+			case UIPolicyManager::saHelpContents : {
+				result = AcceleratorKey::Value( kmCtrl, vkQuestionMark );
+			}
+			break;
+		}
+
 		return result;
 	}
 };
@@ -2278,6 +2389,9 @@ void OSXUIToolkit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.6.2.2  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

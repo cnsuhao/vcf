@@ -25,6 +25,7 @@ into UTF16.
 */
 class FOUNDATIONKIT_API TextCodec {
 public:
+	virtual ~TextCodec(){}
 	/**
 	converts a unicode string to an ansi string. The function will transform
 	ansiStrBufferLength bytes of ansiStrBuffer to an ansii string. Null termination
@@ -92,6 +93,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

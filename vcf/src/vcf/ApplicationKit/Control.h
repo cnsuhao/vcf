@@ -88,15 +88,7 @@ enum AlignmentType{
 
 
 
-/**
-*A string array for the controls alignement types
-*/
-static String AlignmentTypeNames[] = { "AlignNone",
-                                         "AlignTop",
-										 "AlignLeft",
-										 "AlignRight",
-										 "AlignBottom",
-										 "AlignClient" };
+
 
 
 
@@ -149,23 +141,7 @@ enum AnchorType {
 };
 
 
-/**
-*an array of Anchor type names
-*/
-static String AnchorTypeNames[] = { "AnchorNone",
-                                         "AnchorTop",
-										 "AnchorLeft",
-										 "AnchorBottom",
-										 "AnchorRight" };
-										 
-										 
-										 
-
-static unsigned long AnchorTypeValues[] = { AnchorNone,
-                                         AnchorTop,
-										 AnchorLeft,
-										 AnchorBottom,
-										 AnchorRight };										 
+									 
 
 
 
@@ -178,9 +154,7 @@ enum TextAlignmentType {
 	taTextRight
 };
 
-static String TextAlignmentTypeNames[] = { "taTextLeft",
-                                         "taTextCenter",
-										 "taTextRight" };
+
 
 
 
@@ -1638,6 +1612,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.9  2005/11/27 23:55:44  ddiego
+*more osx updates.
+*
 *Revision 1.4.2.8  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

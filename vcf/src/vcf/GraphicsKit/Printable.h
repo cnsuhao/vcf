@@ -25,7 +25,8 @@ namespace VCF{
 
 class GRAPHICSKIT_API Printable {
 public:
-
+	virtual ~Printable(){};
+	
     virtual PrintContext* getPrintContext() = 0;
 };
 
@@ -35,6 +36,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.2  2004/08/07 02:49:18  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

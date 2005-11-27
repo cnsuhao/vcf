@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E1533C0093A6A93004D154F /* libpng_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E1533BF093A6A93004D154F /* libpng_d.a */; };
 		5E4EB2280932A461009AB90C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E4EB2260932A44F009AB90C /* libz.dylib */; };
 		5E4EB2660932A73A009AB90C /* GraphicsKit-debug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E73412F082E73CC00CDD184 /* GraphicsKit-debug.framework */; };
 		5E4EB2670932A751009AB90C /* FoundationKit-debug.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E7340BB082E719300CDD184 /* FoundationKit-debug.framework */; };
@@ -167,7 +168,6 @@
 		5E4FAE5B09217BC900E53A8F /* jquant1.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FADF309217BC900E53A8F /* jquant1.c */; };
 		5E4FAE5C09217BC900E53A8F /* jquant2.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FADF409217BC900E53A8F /* jquant2.c */; };
 		5E4FAE5D09217BC900E53A8F /* jutils.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FADF509217BC900E53A8F /* jutils.c */; };
-		5E4FAE6809217E0700E53A8F /*  in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E4FAD590921766B00E53A8F /*  */; };
 		5E4FAE6909217E0D00E53A8F /* libjpeg_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E4FADBE09217A8A00E53A8F /* libjpeg_d.a */; };
 		5E4FAEA3092182FB00E53A8F /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FAD640921777700E53A8F /* png.c */; };
 		5E4FAEA4092182FC00E53A8F /* png.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E4FAD650921777700E53A8F /* png.h */; };
@@ -242,6 +242,7 @@
 		5E4FAEE90921834800E53A8F /* jquant1.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FADF309217BC900E53A8F /* jquant1.c */; };
 		5E4FAEEA0921834800E53A8F /* jquant2.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FADF409217BC900E53A8F /* jquant2.c */; };
 		5E4FAEEB0921834900E53A8F /* jutils.c in Sources */ = {isa = PBXBuildFile; fileRef = 5E4FADF509217BC900E53A8F /* jutils.c */; };
+		5E53A1BE093A3360007B8C80 /* libpng_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E53A1BC093A3345007B8C80 /* libpng_d.a */; };
 		5E548EE1092043CE001BA393 /* agg_arc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E548EC0092043CD001BA393 /* agg_arc.cpp */; };
 		5E548EE2092043CE001BA393 /* agg_bezier_arc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E548EC1092043CD001BA393 /* agg_bezier_arc.cpp */; };
 		5E548EE3092043CE001BA393 /* agg_bspline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E548EC2092043CD001BA393 /* agg_bspline.cpp */; };
@@ -1618,42 +1619,42 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5E733FE8082E719300CDD184 /* FoundationKit-debug */;
+			remoteGlobalIDString = 5E733FE8082E719300CDD184;
 			remoteInfo = "FoundationKit-debug";
 		};
 		5EB256840674006000DA4A17 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5E7340CD082E736000CDD184 /* libAgg-debug */;
+			remoteGlobalIDString = 5E7340CD082E736000CDD184;
 			remoteInfo = "libAgg-debug";
 		};
 		5EB2570B0674012500DA4A17 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5E7340E4082E73CC00CDD184 /* GraphicsKit-debug */;
+			remoteGlobalIDString = 5E7340E4082E73CC00CDD184;
 			remoteInfo = "GraphicsKit-debug";
 		};
 		5EC0F5F1064C50B300E18E6D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5EA23235082E9E33009E9B28 /* FoundationKit */;
+			remoteGlobalIDString = 5EA23235082E9E33009E9B28;
 			remoteInfo = FoundationKit;
 		};
 		5EC0F5F2064C50B300E18E6D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5EA2331F082E9EAA009E9B28 /* libAgg */;
+			remoteGlobalIDString = 5EA2331F082E9EAA009E9B28;
 			remoteInfo = libAgg;
 		};
 		5EC0F5F4064C50B300E18E6D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5EA23332082E9EC2009E9B28 /* GraphicsKit */;
+			remoteGlobalIDString = 5EA23332082E9EC2009E9B28;
 			remoteInfo = GraphicsKit;
 		};
 /* End PBXContainerItemProxy section */
@@ -1664,6 +1665,8 @@
 		5E092B0F0741D5AD004B45E4 /* OSXMenuBar.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OSXMenuBar.h; path = ../../src/vcf/ApplicationKit/OSXMenuBar.h; sourceTree = SOURCE_ROOT; };
 		5E092B240741D94F004B45E4 /* OSXMenuItem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = OSXMenuItem.cpp; path = ../../src/vcf/ApplicationKit/OSXMenuItem.cpp; sourceTree = SOURCE_ROOT; };
 		5E092B250741D94F004B45E4 /* OSXMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OSXMenuItem.h; path = ../../src/vcf/ApplicationKit/OSXMenuItem.h; sourceTree = SOURCE_ROOT; };
+		5E1533BF093A6A93004D154F /* libpng_d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libpng_d.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E1533C2093A6A93004D154F /* FoundationKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FoundationKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E2C80190641F81600A8020D /* BasicException.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BasicException.cpp; path = ../../src/vcf/FoundationKit/BasicException.cpp; sourceTree = SOURCE_ROOT; };
 		5E2C801A0641F81600A8020D /* BasicException.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BasicException.h; path = ../../src/vcf/FoundationKit/BasicException.h; sourceTree = SOURCE_ROOT; };
 		5E2C801B0641F81600A8020D /* BasicFileError.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BasicFileError.h; path = ../../src/vcf/FoundationKit/BasicFileError.h; sourceTree = SOURCE_ROOT; };
@@ -2186,7 +2189,6 @@
 		5E4EBFBA0922E6E800203611 /* CommonFileSaveDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CommonFileSaveDialog.h; path = ../../src/vcf/ApplicationKit/CommonFileSaveDialog.h; sourceTree = SOURCE_ROOT; };
 		5E4EBFBB0922E6E800203611 /* CommonFontDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CommonFontDialog.h; path = ../../src/vcf/ApplicationKit/CommonFontDialog.h; sourceTree = SOURCE_ROOT; };
 		5E4EBFBC0922E6E800203611 /* CommonPrintDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CommonPrintDialog.h; path = ../../src/vcf/ApplicationKit/CommonPrintDialog.h; sourceTree = SOURCE_ROOT; };
-		5E4FAD590921766B00E53A8F /*  */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = ""; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E4FAD640921777700E53A8F /* png.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = png.c; path = ../../src/thirdparty/common/LibPNG/png.c; sourceTree = SOURCE_ROOT; };
 		5E4FAD650921777700E53A8F /* png.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = png.h; path = ../../src/thirdparty/common/LibPNG/png.h; sourceTree = SOURCE_ROOT; };
 		5E4FAD660921777700E53A8F /* pngasmrd.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = pngasmrd.h; path = ../../src/thirdparty/common/LibPNG/pngasmrd.h; sourceTree = SOURCE_ROOT; };
@@ -2271,6 +2273,7 @@
 		5E533EC70731EAA400CCD2C0 /* OSXColorDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OSXColorDialog.h; path = ../../src/vcf/ApplicationKit/OSXColorDialog.h; sourceTree = SOURCE_ROOT; };
 		5E5380E2073408BA00133CE2 /* OSXFolderBrowseDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OSXFolderBrowseDialog.cpp; path = ../../src/vcf/ApplicationKit/OSXFolderBrowseDialog.cpp; sourceTree = SOURCE_ROOT; };
 		5E5380E5073408ED00133CE2 /* OSXFolderBrowseDialog.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OSXFolderBrowseDialog.h; path = ../../src/vcf/ApplicationKit/OSXFolderBrowseDialog.h; sourceTree = SOURCE_ROOT; };
+		5E53A1BC093A3345007B8C80 /* libpng_d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpng_d.a; path = ../../lib/libpng_d.a; sourceTree = SOURCE_ROOT; };
 		5E548EC0092043CD001BA393 /* agg_arc.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = agg_arc.cpp; path = ../../src/thirdparty/common/agg/src/agg_arc.cpp; sourceTree = SOURCE_ROOT; };
 		5E548EC1092043CD001BA393 /* agg_bezier_arc.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = agg_bezier_arc.cpp; path = ../../src/thirdparty/common/agg/src/agg_bezier_arc.cpp; sourceTree = SOURCE_ROOT; };
 		5E548EC2092043CD001BA393 /* agg_bspline.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = agg_bspline.cpp; path = ../../src/thirdparty/common/agg/src/agg_bspline.cpp; sourceTree = SOURCE_ROOT; };
@@ -2389,7 +2392,6 @@
 		5EA23225082E9C5B009E9B28 /* SystemTray.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SystemTray.h; path = ../../src/vcf/ApplicationKit/SystemTray.h; sourceTree = SOURCE_ROOT; };
 		5EA23226082E9C5B009E9B28 /* SystemTrayPeer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SystemTrayPeer.h; path = ../../src/vcf/ApplicationKit/SystemTrayPeer.h; sourceTree = SOURCE_ROOT; };
 		5EA2330B082E9E34009E9B28 /* Info-FoundationKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-FoundationKit.plist"; sourceTree = SOURCE_ROOT; };
-		5EA2330C082E9E34009E9B28 /*  */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ""; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA2332F082E9EAA009E9B28 /* libAgg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAgg.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EA2337E082E9EC2009E9B28 /* Info-GraphicsKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-GraphicsKit.plist"; sourceTree = SOURCE_ROOT; };
 		5EA2337F082E9EC2009E9B28 /* GraphicsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GraphicsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2520,10 +2522,11 @@
 			files = (
 				5E4EB2280932A461009AB90C /* libz.dylib in Frameworks */,
 				5E5E8A61093156C600A023C5 /* FoundationKit-debug.framework in Frameworks */,
-				5E4FAE6809217E0700E53A8F /*  in Frameworks */,
 				5E73412B082E73CC00CDD184 /* Carbon.framework in Frameworks */,
 				5E73412A082E73CC00CDD184 /* libAgg_d.a in Frameworks */,
 				5E4FAE6909217E0D00E53A8F /* libjpeg_d.a in Frameworks */,
+				5E53A1BE093A3360007B8C80 /* libpng_d.a in Frameworks */,
+				5E1533C0093A6A93004D154F /* libpng_d.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2585,6 +2588,7 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				5E53A1BC093A3345007B8C80 /* libpng_d.a */,
 				5E4EB2260932A44F009AB90C /* libz.dylib */,
 				5EAA3CF0064734CC00A8020D /* FoundationKit.framework */,
 				5E2CE26A06486BB200A8020D /* GraphicsKit.framework */,
@@ -2592,14 +2596,14 @@
 				5E7340DC082E736000CDD184 /* libAgg_d.a */,
 				5E73412F082E73CC00CDD184 /* GraphicsKit-debug.framework */,
 				5E7342E5082E76C300CDD184 /* ApplicationKit-debug.framework */,
-				5EA2330C082E9E34009E9B28 /*  */,
 				5EA2332F082E9EAA009E9B28 /* libAgg.a */,
 				5EA2337F082E9EC2009E9B28 /* GraphicsKit.framework */,
 				5EA23504082E9F1A009E9B28 /* ApplicationKit.framework */,
-				5E4FAD590921766B00E53A8F /*  */,
 				5E4FADBE09217A8A00E53A8F /* libjpeg_d.a */,
 				5E4FAE82092181C900E53A8F /* libpng.a */,
 				5E4FAE87092181D600E53A8F /* libjpeg.a */,
+				5E1533BF093A6A93004D154F /* libpng_d.a */,
+				5E1533C2093A6A93004D154F /* FoundationKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4573,7 +4577,7 @@
 			);
 			name = "libpng-debug";
 			productName = "libpng-debug";
-			productReference = 5E4FAD590921766B00E53A8F /*  */;
+			productReference = 5E1533BF093A6A93004D154F /* libpng_d.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		5E4FADBD09217A8A00E53A8F /* libJPEG-debug */ = {
@@ -4969,7 +4973,7 @@
 			name = FoundationKit;
 			productInstallPath = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 			productName = FoundationKit;
-			productReference = 5EA2330C082E9E34009E9B28 /*  */;
+			productReference = 5E1533C2093A6A93004D154F /* FoundationKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		5EA2331F082E9EAA009E9B28 /* libAgg */ = {
@@ -6089,10 +6093,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_DIR = "$(HOME)/Library/Frameworks";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\"";
+				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -6107,10 +6112,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				INFOPLIST_FILE = "Info-FoundationKit_debug.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(VCF_LIB)",
-					/usr/lib/gcc/darwin/3.3,
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" ";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "-Wno-multichar";
 				OTHER_LDFLAGS = "";
@@ -6125,6 +6127,7 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-switch",
+					"-Wno-newline-eof",
 				);
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
@@ -6135,10 +6138,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_DIR = "$(HOME)/Library/Frameworks";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\"";
+				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -6151,10 +6155,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				INFOPLIST_FILE = "Info-FoundationKit_debug.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(VCF_LIB)",
-					/usr/lib/gcc/darwin/3.3,
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" ";
 				OTHER_CFLAGS = "-Wno-multichar";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
@@ -6168,6 +6169,7 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-switch",
+					"-Wno-newline-eof",
 				);
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
@@ -6178,9 +6180,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_DIR = "$(HOME)/Library/Frameworks";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "\"$(VCF_BIN)\"";
+				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6192,10 +6195,7 @@
 				);
 				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				INFOPLIST_FILE = "Info-FoundationKit_debug.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(VCF_LIB)",
-					/usr/lib/gcc/darwin/3.3,
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\" ";
 				OTHER_CFLAGS = "-Wno-multichar";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
@@ -6209,6 +6209,7 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-switch",
+					"-Wno-newline-eof",
 				);
 				WRAPPER_EXTENSION = framework;
 			};
@@ -6513,13 +6514,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_DIR = "$(HOME)/Library/Frameworks";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(VCF_BIN)",
-					/Users/jimcrafton/code/vcfdev/dev/vcf/bin,
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -6549,6 +6548,7 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-switch",
+					"-Wno-newline-eof",
 				);
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
@@ -6559,13 +6559,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_DIR = "$(HOME)/Library/Frameworks";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(VCF_BIN)",
-					/Users/jimcrafton/code/vcfdev/dev/vcf/bin,
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -6583,6 +6581,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
 				PRINCIPAL_CLASS = "";
 				PRODUCT_NAME = "GraphicsKit-debug";
 				SECTORDER_FLAGS = "";
@@ -6591,6 +6590,7 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-switch",
+					"-Wno-newline-eof",
 				);
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
@@ -6601,12 +6601,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_DIR = "$(HOME)/Library/Frameworks";
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(VCF_BIN)",
-					/Users/jimcrafton/code/vcfdev/dev/vcf/bin,
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -6623,6 +6621,7 @@
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOL_FLAGS = "";
 				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
 				PRINCIPAL_CLASS = "";
 				PRODUCT_NAME = "GraphicsKit-debug";
 				SECTORDER_FLAGS = "";
@@ -6631,8 +6630,10 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-switch",
+					"-Wno-newline-eof",
 				);
 				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
 			};
 			name = Default;
 		};
@@ -7451,18 +7452,27 @@
 		5E53A071093A2576007B8C80 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				PREBINDING = YES;
 			};
 			name = Development;
 		};
 		5E53A072093A2576007B8C80 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				PREBINDING = YES;
 			};
 			name = Deployment;
 		};
 		5E53A073093A2576007B8C80 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)";
+				FRAMEWORK_SEARCH_PATHS = "$(HOME)/Library/Frameworks";
+				PREBINDING = YES;
 			};
 			name = Default;
 		};

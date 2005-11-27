@@ -11,10 +11,10 @@ where you installed the VCF.
 using namespace VCF;
 
 
-FileStreamBase::FileStreamBase():
-	currentSeekPos_(0),
+FileStreamBase::FileStreamBase():	
 	fsPeer_(NULL),
-	access_(fsDontCare)
+	access_(fsDontCare),
+	currentSeekPos_(0)
 {
 
 }
@@ -253,6 +253,9 @@ ulong32 FileOutputStream::getCurrentSeekPos()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2005/11/27 23:55:45  ddiego
+*more osx updates.
+*
 *Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

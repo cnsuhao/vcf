@@ -55,7 +55,8 @@ static String ButtonCommandTypeNames[] = { "BC_NONE",
 */
 class APPLICATIONKIT_API Button {
 public:
-
+	virtual ~Button(){}
+	
 	/**
 	*This represents the user pressing the button,
 	*which then invokes whatever command is associated
@@ -94,6 +95,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/11/27 23:55:44  ddiego
+*more osx updates.
+*
 *Revision 1.3  2005/07/09 23:14:51  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
