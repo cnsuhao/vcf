@@ -527,12 +527,12 @@ VCF::String StringUtils::newUUID()
 	if ( RPC_S_OK == ::UuidCreate( &id ) ){
 		if ( System::isUnicodeEnabled() ) {
 			WideChar* tmpid = NULL;
-			RPC_STATUS rpcresult = UuidToStringW(  &id, &tmpid );
+			RPC_STATUS rpcresult = UuidToStringW(  &id, reinterpret_cast<unsigned short**>(&tmpid) );
 			
 			if ( RPC_S_OUT_OF_MEMORY != rpcresult ) {
 				result = VCF::String( tmpid );
 				
-				RpcStringFreeW( &tmpid );
+				RpcStringFreeW( reinterpret_cast<unsigned short**>(&tmpid) );
 			}
 		}
 		else {
@@ -2240,6 +2240,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.8  2005/11/27 21:12:29  kiklop74
+*Added fix for compilation on Borland compiler
+*
 *Revision 1.4.2.7  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
