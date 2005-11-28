@@ -13,6 +13,10 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#ifndef _VCF_WAITABLE_H__
+#include "vcf/FoundationKit/Waitable.h"
+#endif
+
 
 namespace VCF {
 
@@ -57,6 +61,10 @@ public:
 	virtual OSHandleID getHandleID() = 0;
 
 	virtual ulong32 terminate() = 0;
+
+	virtual Waitable::WaitResult wait( uint32 milliseconds ) = 0;
+
+	virtual Waitable::WaitResult wait() = 0;
 };
 
 }; //end of namespace VCF
@@ -65,6 +73,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2005/11/28 21:01:06  ddiego
+*added wait function to process class. added stubs for linux.
+*
 *Revision 1.4  2005/07/09 23:15:04  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -14,11 +14,17 @@ where you installed the VCF.
 #endif
 
 
+
+#ifndef _VCF_WAITABLE_H__
+#include "vcf/FoundationKit/Waitable.h"
+#endif
+
+
 namespace VCF {
 
 class ProcessPeer;
 
-class FOUNDATIONKIT_API Process : public Object {
+class FOUNDATIONKIT_API Process : public Object, public Waitable {
 
 public:
 	Process();
@@ -48,6 +54,12 @@ public:
 	String getName();
 
 	ulong32 terminate();
+
+	virtual WaitResult wait();
+
+	virtual WaitResult wait( uint32 milliseconds );
+
+	virtual OSHandleID getPeerHandleID(); 
 protected:
 	ProcessPeer* processPeer_;
 };
@@ -58,6 +70,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2005/11/28 21:01:06  ddiego
+*added wait function to process class. added stubs for linux.
+*
 *Revision 1.3  2004/12/01 04:31:41  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

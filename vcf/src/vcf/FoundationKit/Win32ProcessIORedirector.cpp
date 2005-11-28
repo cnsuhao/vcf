@@ -429,10 +429,42 @@ ulong32 Win32ProcessIORedirector::terminate()
 	return -1;
 }
 
+Waitable::WaitResult Win32ProcessIORedirector::wait( uint32 milliseconds )
+{
+	Waitable::WaitResult result(Waitable::wrWaitFailed);
+
+	DWORD  res = WaitForSingleObject( processInfo_.hProcess, milliseconds );
+	if ( WAIT_TIMEOUT == res ) {
+		result = Waitable::wrTimedOut;
+	}
+	else if ( WAIT_OBJECT_0 == res ) {
+		result = Waitable::wrWaitFinished;
+	}
+
+	return result;
+}
+
+Waitable::WaitResult Win32ProcessIORedirector::wait()
+{
+	Waitable::WaitResult result(Waitable::wrWaitFailed);
+
+	DWORD  res = WaitForSingleObject( processInfo_.hProcess, INFINITE );
+	if ( WAIT_TIMEOUT == res ) {
+		result = Waitable::wrTimedOut;
+	}
+	else if ( WAIT_OBJECT_0 == res ) {
+		result = Waitable::wrWaitFinished;
+	}
+
+	return result;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2005/11/28 21:01:06  ddiego
+*added wait function to process class. added stubs for linux.
+*
 *Revision 1.3  2005/07/09 23:15:07  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
