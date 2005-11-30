@@ -1574,6 +1574,25 @@
 		5EAB4D9B0930DD1C00845C33 /* DrawUIState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EB804F7067D0BC1004AF2B4 /* DrawUIState.h */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		5E9053DC093C21FA007372F9 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+		5E9053DD093C2207007372F9 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.gcc.3_3;
+			fileType = sourcecode.cpp;
+			isEditable = 1;
+			outputFiles = (
+			);
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXBuildStyle section */
 		4F0BB7EC011F40E904CA0E50 /* Development */ = {
 			isa = PBXBuildStyle;
@@ -4711,6 +4730,8 @@
 				5E7340B9082E719300CDD184 /* Rez */,
 			);
 			buildRules = (
+				5E9053DD093C2207007372F9 /* PBXBuildRule */,
+				5E9053DC093C21FA007372F9 /* PBXBuildRule */,
 			);
 			buildSettings = {
 				BUILD_DIR = "$(HOME)/Library/Frameworks";

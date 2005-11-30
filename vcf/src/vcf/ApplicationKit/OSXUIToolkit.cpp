@@ -1103,16 +1103,14 @@ void OSXUIToolkit::handleIdleTimer( EventLoopTimerRef inTimer, EventLoopIdleTime
 {
     OSXUIToolkit* toolkit = (OSXUIToolkit*)inUserData;
 
-    printf( "idle handler...\n" );
-
-    switch ( inState ) {
+       switch ( inState ) {
         case kEventLoopIdleTimerStarted : {
 
         }
         break;
 
         case kEventLoopIdleTimerIdling : {
-            printf( "\tkEventLoopIdleTimerIdling...\n" );
+            
             Application* app = Application::getRunningInstance();
             if ( NULL != app ) {
 				app->idleTime();
@@ -2389,6 +2387,9 @@ void OSXUIToolkit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2005/11/30 05:31:35  ddiego
+*further osx drag-drop updates.
+*
 *Revision 1.6.2.3  2005/11/27 23:55:45  ddiego
 *more osx updates.
 *
