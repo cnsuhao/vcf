@@ -407,6 +407,8 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 
 void UnicodeString::decode_ansi( TextCodec* codec, UnicodeString::AnsiChar* str, UnicodeString::size_type& strSize ) const 
 {
+	VCF_ASSERT ( str != NULL );
+
 	UnicodeString::AnsiChar* result = NULL;
 
 	ulong32 size = codec->convertToAnsiString( *this, str, strSize );	
@@ -425,6 +427,7 @@ UnicodeString UnicodeString::decode( TextCodec* codec ) const
 
 void UnicodeString::encode( TextCodec* codec, const UnicodeString::AnsiChar* str, UnicodeString::size_type n )
 {
+	VCF_ASSERT ( str != NULL );
 	*this = codec->convertToUnicodeString( str, n );
 	modified();
 }
@@ -438,6 +441,7 @@ void UnicodeString::encode( TextCodec* codec, const UnicodeString& str )
 
 bool UnicodeString::operator ==( const UnicodeString::AnsiChar* rhs ) const
 {
+	VCF_ASSERT ( rhs != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	return data_ == tmp.data_;
@@ -445,6 +449,7 @@ bool UnicodeString::operator ==( const UnicodeString::AnsiChar* rhs ) const
 
 bool UnicodeString::operator !=( const UnicodeString::AnsiChar* rhs ) const
 {
+	VCF_ASSERT ( rhs != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	return data_ != tmp.data_;
@@ -452,6 +457,7 @@ bool UnicodeString::operator !=( const UnicodeString::AnsiChar* rhs ) const
 
 bool UnicodeString::operator >( const UnicodeString::AnsiChar* rhs ) const
 {
+	VCF_ASSERT ( rhs != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	return data_ > tmp.data_;
@@ -459,6 +465,8 @@ bool UnicodeString::operator >( const UnicodeString::AnsiChar* rhs ) const
 
 bool UnicodeString::operator >=( const UnicodeString::AnsiChar* rhs ) const
 {
+	VCF_ASSERT ( rhs != NULL );
+	
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	return data_ >= tmp.data_;
@@ -466,6 +474,7 @@ bool UnicodeString::operator >=( const UnicodeString::AnsiChar* rhs ) const
 
 bool UnicodeString::operator <( const UnicodeString::AnsiChar* rhs ) const
 {
+	VCF_ASSERT ( rhs != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	return data_ < tmp.data_;
@@ -473,6 +482,7 @@ bool UnicodeString::operator <( const UnicodeString::AnsiChar* rhs ) const
 
 bool UnicodeString::operator <=( const UnicodeString::AnsiChar* rhs ) const
 {
+	VCF_ASSERT ( rhs != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	return data_ <= tmp.data_;
@@ -481,8 +491,10 @@ bool UnicodeString::operator <=( const UnicodeString::AnsiChar* rhs ) const
 
 UnicodeString& UnicodeString::operator=(const UnicodeString::AnsiChar *s)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), data_ );
 	modified();
+	
 
 	return *this;
 }
@@ -512,6 +524,8 @@ UnicodeString& UnicodeString::operator+=(UnicodeString::AnsiChar c)
 
 UnicodeString& UnicodeString::operator+=(const AnsiChar* rhs )
 {
+	VCF_ASSERT ( rhs != NULL );
+	
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	data_ += tmp.data_;
@@ -541,6 +555,7 @@ UnicodeString UnicodeString::operator+( const AnsiChar* rhs )
 
 UnicodeString& UnicodeString::append(const UnicodeString::AnsiChar *s, UnicodeString::size_type n)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 	data_.append( tmp.data_ );
@@ -551,6 +566,7 @@ UnicodeString& UnicodeString::append(const UnicodeString::AnsiChar *s, UnicodeSt
 
 UnicodeString& UnicodeString::append(const UnicodeString::AnsiChar *s)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 	data_.append( tmp.data_ );
@@ -569,6 +585,7 @@ UnicodeString& UnicodeString::append( size_type n, UnicodeString::AnsiChar c)
 
 UnicodeString& UnicodeString::assign(const UnicodeString::AnsiChar *s, UnicodeString::size_type n)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 	data_.assign( tmp.data_ );
@@ -578,6 +595,7 @@ UnicodeString& UnicodeString::assign(const UnicodeString::AnsiChar *s, UnicodeSt
 
 UnicodeString& UnicodeString::assign(const UnicodeString::AnsiChar *s)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 	data_.assign( tmp.data_ );
@@ -596,6 +614,7 @@ UnicodeString& UnicodeString::assign( size_type n, UnicodeString::AnsiChar c)
 
 UnicodeString& UnicodeString::insert(UnicodeString::size_type p0, const UnicodeString::AnsiChar *s, UnicodeString::size_type n)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 	data_.insert( p0, tmp.data_ );
@@ -605,7 +624,7 @@ UnicodeString& UnicodeString::insert(UnicodeString::size_type p0, const UnicodeS
 
 UnicodeString& UnicodeString::insert(UnicodeString::size_type p0, const UnicodeString::AnsiChar *s)
 {
-
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 	data_.insert( p0, tmp.data_ );
@@ -638,6 +657,7 @@ void UnicodeString::insert(UnicodeString::iterator it, UnicodeString::size_type 
 
 UnicodeString& UnicodeString::replace(UnicodeString::size_type p0, UnicodeString::size_type n0, const UnicodeString::AnsiChar *s, UnicodeString::size_type n)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
@@ -649,6 +669,7 @@ UnicodeString& UnicodeString::replace(UnicodeString::size_type p0, UnicodeString
 
 UnicodeString& UnicodeString::replace(UnicodeString::size_type p0, UnicodeString::size_type n0, const UnicodeString::AnsiChar *s)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -668,6 +689,7 @@ UnicodeString& UnicodeString::replace(UnicodeString::size_type p0, UnicodeString
 
 UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeString::iterator last0, const UnicodeString::AnsiChar *s, UnicodeString::size_type n)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
@@ -679,6 +701,7 @@ UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeStr
 
 UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeString::iterator last0, const UnicodeString::AnsiChar *s)
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -698,6 +721,7 @@ UnicodeString& UnicodeString::replace(UnicodeString::iterator first0, UnicodeStr
 
 UnicodeString::size_type UnicodeString::copy(UnicodeString::AnsiChar *s, UnicodeString::size_type n, UnicodeString::size_type pos) const
 {
+	VCF_ASSERT ( s != NULL );
 /*
 JC this is commented out to make the copy code simpler here.
 We translate to a AnsiString, adn then call the copy() method on that
@@ -723,6 +747,7 @@ and return the result
 
 UnicodeString::size_type UnicodeString::find(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos, UnicodeString::size_type n) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
@@ -731,6 +756,7 @@ UnicodeString::size_type UnicodeString::find(const UnicodeString::AnsiChar *s, U
 
 UnicodeString::size_type UnicodeString::find(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos ) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -744,6 +770,7 @@ UnicodeString::size_type UnicodeString::find(UnicodeString::AnsiChar c, UnicodeS
 
 UnicodeString::size_type UnicodeString::rfind(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos, UnicodeString::size_type n ) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
@@ -752,6 +779,7 @@ UnicodeString::size_type UnicodeString::rfind(const UnicodeString::AnsiChar *s, 
 
 UnicodeString::size_type UnicodeString::rfind(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos ) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -765,6 +793,7 @@ UnicodeString::size_type UnicodeString::rfind(UnicodeString::AnsiChar c, Unicode
 
 UnicodeString::size_type UnicodeString::find_first_of(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos, UnicodeString::size_type n) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
@@ -773,6 +802,7 @@ UnicodeString::size_type UnicodeString::find_first_of(const UnicodeString::AnsiC
 
 UnicodeString::size_type UnicodeString::find_first_of(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos ) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -786,6 +816,7 @@ UnicodeString::size_type UnicodeString::find_first_of(UnicodeString::AnsiChar c,
 
 UnicodeString::size_type UnicodeString::find_last_of(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos, UnicodeString::size_type n ) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
@@ -794,6 +825,7 @@ UnicodeString::size_type UnicodeString::find_last_of(const UnicodeString::AnsiCh
 
 UnicodeString::size_type UnicodeString::find_last_of(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos ) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -807,6 +839,7 @@ UnicodeString::size_type UnicodeString::find_last_of(UnicodeString::AnsiChar c, 
 
 UnicodeString::size_type UnicodeString::find_first_not_of(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos, UnicodeString::size_type n) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
@@ -815,6 +848,7 @@ UnicodeString::size_type UnicodeString::find_first_not_of(const UnicodeString::A
 
 UnicodeString::size_type UnicodeString::find_first_not_of(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos ) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -828,6 +862,7 @@ UnicodeString::size_type UnicodeString::find_first_not_of(UnicodeString::AnsiCha
 
 UnicodeString::size_type UnicodeString::find_last_not_of(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos, UnicodeString::size_type n) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, n, tmp.data_ );
 
@@ -836,6 +871,7 @@ UnicodeString::size_type UnicodeString::find_last_not_of(const UnicodeString::An
 
 UnicodeString::size_type UnicodeString::find_last_not_of(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos ) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -857,6 +893,7 @@ int UnicodeString::compare(const UnicodeString::AnsiChar *s) const
 
 int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type n0, const UnicodeString::AnsiChar *s) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), tmp.data_ );
 
@@ -865,6 +902,7 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 
 int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type n0, const UnicodeString::AnsiChar *s, UnicodeString::size_type pos) const
 {
+	VCF_ASSERT ( s != NULL );
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( s+pos, strlen(s+pos), tmp.data_ );
 
@@ -875,6 +913,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/11/30 05:31:36  ddiego
+*further osx drag-drop updates.
+*
 *Revision 1.5.2.3  2005/11/27 23:55:45  ddiego
 *more osx updates.
 *

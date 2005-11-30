@@ -76,7 +76,7 @@ public:
 	//JC - see VCFChar.h for definiton of WideChar
 	typedef VCF::WideChar UniChar;
 #ifdef VCF_OSX
-	typedef std::basic_string< UniChar, std::char_traits<VCF::WideChar> > StringData;
+	typedef std::basic_string< WideChar, std::char_traits<WideChar> > StringData;
 #else
 	typedef std::basic_string<UniChar> StringData;
 #endif
@@ -1097,6 +1097,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/11/30 05:31:36  ddiego
+*further osx drag-drop updates.
+*
 *Revision 1.4.2.3  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

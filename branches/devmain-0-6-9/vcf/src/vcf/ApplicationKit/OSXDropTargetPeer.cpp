@@ -128,6 +128,9 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 							result = eventNotHandledErr;
 						}
 						else {
+							Boolean val = true;
+							SetEventParameter( inEvent, kEventParamControlWouldAcceptDrop, typeBoolean,
+												sizeof(Boolean), &val );
 							result = noErr;
 						}
 					}					
@@ -141,6 +144,7 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 					event.setDropPoint( dragPt );
 					event.setActionType( action );
 					target->handleEvent( &event );
+					result = noErr;
 				}
 				break;
 				
@@ -155,6 +159,8 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 						peer->currentDataObj_->free();
 						peer->currentDataObj_ = NULL;
 					}
+					
+					result = noErr;
 				}
 				break;
 				
@@ -185,7 +191,7 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 							peer->currentDataObj_ = NULL;
 						}
 						
-						//result = noErr;
+						result = noErr;
 					}
 				}
 				break;
@@ -201,6 +207,9 @@ OSStatus OSXDropTargetPeer::handleDropTargetEvents (EventHandlerCallRef inHandle
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/11/30 05:31:35  ddiego
+*further osx drag-drop updates.
+*
 *Revision 1.2.2.1  2005/11/27 23:55:44  ddiego
 *more osx updates.
 *
