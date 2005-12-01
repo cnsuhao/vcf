@@ -17,6 +17,7 @@ where you installed the VCF.
 
 #ifdef VCF_POSIX
     #include <cxxabi.h>  //add this so we can demangle the GCC typeinfo names
+	#include <uuid/uuid.h>
 #endif
 
 
@@ -239,7 +240,7 @@ String StringUtils::lowerCase( const String& text )
 	result = copyText;
 	delete [] copyText;
 	
-#elif defined(VCF_CW_W32)
+#elif defined(VCF_CW_W32) || defined(VCF_GCC)
 	VCFChar* copyText = new VCFChar[text.size()+1];
 	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
 	text.copy( copyText, text.size() );
@@ -273,7 +274,7 @@ String StringUtils::upperCase( const VCF::String& text )
 	result = copyText;
 	delete [] copyText;
 
-#elif defined(VCF_CW_W32)
+#elif defined(VCF_CW_W32) || defined(VCF_GCC)
 	VCFChar* copyText = new VCFChar[text.size()+1];
 	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
 	text.copy( copyText, text.size() );
@@ -527,12 +528,12 @@ VCF::String StringUtils::newUUID()
 	if ( RPC_S_OK == ::UuidCreate( &id ) ){
 		if ( System::isUnicodeEnabled() ) {
 			WideChar* tmpid = NULL;
-			RPC_STATUS rpcresult = UuidToStringW(  &id, reinterpret_cast<unsigned short**>(&tmpid) );
+			RPC_STATUS rpcresult = UuidToStringW(  &id, &tmpid );
 			
 			if ( RPC_S_OUT_OF_MEMORY != rpcresult ) {
 				result = VCF::String( tmpid );
 				
-				RpcStringFreeW( reinterpret_cast<unsigned short**>(&tmpid) );
+				RpcStringFreeW( &tmpid );
 			}
 		}
 		else {
@@ -546,7 +547,7 @@ VCF::String StringUtils::newUUID()
 			}
 		}		
 	}
-#elif VCF_OSX
+#elif defined(VCF_OSX)
 	CFUUIDRef uuidRef = CFUUIDCreate( kCFAllocatorDefault );
 	CFTextString tmp;
 	CFStringRef s = CFUUIDCreateString( kCFAllocatorDefault, uuidRef );
@@ -554,6 +555,29 @@ VCF::String StringUtils::newUUID()
 	CFRelease( s );
 	result = tmp;
 	CFRelease( uuidRef );
+#elif defined(VCF_POSIX)
+	const uint32 uuidgenLength = 36;
+	char buffer[uuidgenLength+1];
+	memset(buffer, '\0', sizeof(buffer));
+
+	uuid_t uuid;
+	uuid_generate(uuid);
+	uuid_unparse(uuid, buffer);
+	uuid_clear(uuid);
+	result = buffer;
+
+//	FILE* uuidgenFile;
+//	uuidgenFile = popen("uuidgen", "r");
+//	if(uuidgenFile != NULL) {
+// 		int charsRead = fread(buffer, sizeof(char), uuidgenLength, uuidgenFile);
+// 		if(charsRead  == uuidgenLength) {
+// 			result = buffer;
+// 		}
+// 		else {
+// 		What should we do? Throw an exception!
+// 		}
+// 		pclose(uuidgenFile);
+// 	}
 #endif
 	return result;
 }
@@ -2240,8 +2264,8 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
-*Revision 1.4.2.8  2005/11/27 21:12:29  kiklop74
-*Added fix for compilation on Borland compiler
+*Revision 1.4.2.9  2005/12/01 01:13:00  obirsoy
+*More linux improvements.
 *
 *Revision 1.4.2.7  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it

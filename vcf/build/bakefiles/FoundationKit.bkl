@@ -13,6 +13,7 @@
 
         <if cond="FORMAT=='gnu'">
             <sys-lib>dl</sys-lib>
+			<sys-lib>uuid</sys-lib>
         </if>
     </template>
 
