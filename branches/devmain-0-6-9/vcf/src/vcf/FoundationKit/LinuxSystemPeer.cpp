@@ -116,7 +116,7 @@ String LinuxSystemPeer::getCommonDirectory( System::CommonDirectory directory )
         break;
 
         case System::cdUserProgramData :
-            result = "/share";
+            result = "usr/share";
         break;
 
         case System::cdUserDesktop :
@@ -181,7 +181,14 @@ ProgramInfo* LinuxSystemPeer::getProgramInfoFromFileName( const String& fileName
 }
 
 void LinuxSystemPeer::setDateToLocalTime( DateTime* date )
-{}
+{
+	::timeval tmv;
+	::gettimeofday(&tmv, NULL);
+	ulong64 millisecs = ulong64(tmv.tv_sec)*1000+ulong64(tmv.tv_usec)/1000;
+	DateTime tmp(1970, 1, 1);
+	millisecs += tmp.getMilliseconds();
+	date->setMilliseconds( millisecs );
+}
 
 void LinuxSystemPeer::setCurrentThreadLocale( Locale* locale )
 {}
@@ -225,6 +232,9 @@ String LinuxSystemPeer::getUserName()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2005/12/01 01:13:00  obirsoy
+*More linux improvements.
+*
 *Revision 1.4.2.3  2005/11/18 16:02:53  obirsoy
 *changes required for gcc under Linux, and some warning clean up.
 *

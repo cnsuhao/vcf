@@ -25,6 +25,7 @@ LinuxFileStream::LinuxFileStream( const String& filename,
 		, filename_( filename )
 {
 	int oflags = 0;
+	int mode = 0; 
 	switch ( accessType ) {
 		case fsRead : {
 				oflags = O_RDONLY;
@@ -32,18 +33,21 @@ LinuxFileStream::LinuxFileStream( const String& filename,
 			break;
 
 		case fsWrite : {
-				oflags = O_WRONLY;
+				oflags = O_WRONLY | O_CREAT;
+				mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH; // 0644
 			}
 			break;
 
 		case fsReadWrite :
 		case fsDontCare : {
 				oflags = O_CREAT | O_TRUNC | O_RDWR;
+				mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH; // 0644
 			}
 			break;
 	}
 	
-	fileHandle_ = ::open( filename_.ansi_c_str(), oflags );
+	fileHandle_ = ::open( filename_.ansi_c_str(), oflags, mode );
+	int err = errno;
 	if ( fileHandle_ > 0 ) {
 		::lseek( fileHandle_, 0, SEEK_SET );
 	} else {
@@ -171,6 +175,9 @@ int LinuxFileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2005/12/01 01:13:00  obirsoy
+*More linux improvements.
+*
 *Revision 1.3.2.1  2005/11/10 00:04:08  obirsoy
 *changes required for gcc under Linux.
 *
