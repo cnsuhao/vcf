@@ -528,12 +528,12 @@ VCF::String StringUtils::newUUID()
 	if ( RPC_S_OK == ::UuidCreate( &id ) ){
 		if ( System::isUnicodeEnabled() ) {
 			WideChar* tmpid = NULL;
-			RPC_STATUS rpcresult = UuidToStringW(  &id, &tmpid );
+			RPC_STATUS rpcresult = UuidToStringW(  &id, reinterpret_cast<unsigned short**>(&tmpid) );
 			
 			if ( RPC_S_OUT_OF_MEMORY != rpcresult ) {
 				result = VCF::String( tmpid );
 				
-				RpcStringFreeW( &tmpid );
+				RpcStringFreeW( reinterpret_cast<unsigned short**>(&tmpid) );
 			}
 		}
 		else {
@@ -2264,6 +2264,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.10  2005/12/01 01:33:14  obirsoy
+*add back the borland fixes.
+*
 *Revision 1.4.2.9  2005/12/01 01:13:00  obirsoy
 *More linux improvements.
 *
