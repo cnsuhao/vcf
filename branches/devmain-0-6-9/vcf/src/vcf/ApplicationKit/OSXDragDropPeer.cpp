@@ -138,6 +138,8 @@ DragActionType OSXDragDropPeer::startDragDrop( DataObject* cdo )
 	DisposeRgn( theRegion );
 	DisposeDrag( drag );
 	
+	SetThemeCursor(  kThemeArrowCursor );
+	
 	return actionType_;
 
 }
@@ -157,16 +159,42 @@ OSErr OSXDragDropPeer::DragInputFunction ( ::Point * mouse, SInt16 * modifiers, 
 {
 	OSXDragDropPeer* peer = (OSXDragDropPeer*)dragInputRefCon;
 	
+	
+	 
 	DragSourceEvent event(peer->dragSrc_, peer->dataObj_);
 	event.setType( DragSource::DRAG_CANCONTINUE );
+	event.setActionType( peer->dragSrc_->getActionType() );
 	
 	peer->dragSrc_->SourceCanContinueDragOp.fireEvent( &event );
 	
 	
 	DragSourceEvent event2(peer->dragSrc_, peer->dataObj_);
 	event2.setType( DragSource::DRAG_GIVEFEEDBACK );
+	event2.setActionType( peer->dragSrc_->getActionType() );
 
 	peer->dragSrc_->SourceGiveFeedback.fireEvent( &event2 );
+	
+	switch ( event2.getAction() ) {
+		case daNone : {
+			SetThemeCursor(  kThemeNotAllowedCursor );
+		}
+		break;
+		
+		case daCopy : {
+			SetThemeCursor(  kThemeCopyArrowCursor );
+		}
+		break;
+		
+		case daMove : {
+			SetThemeCursor(  kThemeClosedHandCursor );
+		}
+		break;
+		
+		case daLink : {
+			SetThemeCursor(  kThemeAliasArrowCursor );
+		}
+		break;
+	}
 	
 	return noErr;
 }
@@ -175,6 +203,9 @@ OSErr OSXDragDropPeer::DragInputFunction ( ::Point * mouse, SInt16 * modifiers, 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2005/12/04 20:58:32  ddiego
+*more osx impl work. foundationkit is mostly complete now.
+*
 *Revision 1.2.2.1  2005/11/27 23:55:44  ddiego
 *more osx updates.
 *
