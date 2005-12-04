@@ -56,7 +56,7 @@ String OSXResourceBundle::getVFF( const String& resourceName )
 		
 		if ( !ext.empty() ){
 			tmpResName = fp.getBaseName();
-			int pos = ext.find(".");
+			size_t pos = ext.find(".");
 			if ( pos != String::npos ) {
 				ext.erase( pos, 1 );
 			}
@@ -103,7 +103,7 @@ Resource* OSXResourceBundle::getResource( const String& resourceName )
 		String ext = fp.getExtension();
 		if ( !ext.empty() ){
 			tmpResName = fp.getBaseName();
-			int pos = ext.find(".");
+			size_t pos = ext.find(".");
 			if ( pos != String::npos ) {
 				ext.erase( pos, 1 );
 			}
@@ -129,6 +129,26 @@ Resource* OSXResourceBundle::getResource( const String& resourceName )
 			
 			delete [] buf;
 		}   
+	}
+	
+	
+	if ( result == NULL ) {
+		//if we got this far then look for files!
+
+		String localeName = System::getCurrentThreadLocale()->getName();
+		
+		String fileName = System::findResourceDirectory() +	resourceName;
+		
+		if ( File::exists( fileName ) ) {
+			FileInputStream fs(fileName);
+			ulong32 size = fs.getSize();
+			char* buf = new char[size];
+			fs.read( (unsigned char*)buf, size );
+			
+			
+			result = new Resource( buf, size, resourceName );
+			delete [] buf;
+		}
 	}
 	
 	return result;

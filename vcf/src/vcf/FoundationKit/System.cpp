@@ -171,66 +171,12 @@ void System::setErrorLog( ErrorLog* errorLog )
 }
 
 void System::print( const String& text )
-{
-	/*
-	text = StringUtils::convertFormatString( text );
-
-	va_list args;
-	va_start( args, text );
-	int charRequired = 1024;
-	VCFChar* tmpChar = new VCFChar[charRequired];
-	memset( tmpChar, 0, charRequired*sizeof(VCFChar) );
-
-#if defined(VCF_GCC) || defined(VCF_CW)
-	#ifdef VCF_OSX
-
-		CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
-
-		CFStringAppendCharacters( fmt, text.c_str(), text.size() );
-
-		CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
-
-		int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
-
-		CFRange range = {0, length };
-		CFStringGetCharacters( res, range, tmpChar );
-
-		CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
-		CFShow( res );
-
-		CFRelease( res );
-		CFRelease( fmt );
-
-	#else
-		vswprintf( tmpChar, charRequired, text.c_str(), args );
-	#endif
-#else
-	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
-#endif
-
-	va_end( args );
-
-	#ifndef VCF_OSX
-		wprintf( L"WARNING: Using deprecated function!!!\n" );
-		wprintf( tmpChar );
-	#endif
-
-	if ( NULL != System::systemInstance ) {
-		if ( (NULL != System::systemInstance->errorLogInstance_) && (charRequired>0) ) {
-			String tmp(tmpChar);
-			System::systemInstance->errorLogInstance_->toLog( tmp );
-		}
-	}
-
-	delete [] tmpChar;*/
-
-
+{	
 #ifdef VCF_OSX
-	CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
-
-	CFStringAppendCharacters( tmp, text.c_str(), text.size() );
-	CFShow( tmp );
-	CFRelease( tmp );
+	//JC - I got rid of CFShow as it doesn't 
+	//seem to work well in a multi-threaded context, and also seems a 
+	//bit slow
+	printf( text.ansi_c_str() );
 #elif defined(VCF_CW_W32)
 	printf( text.ansi_c_str() );
 #else
@@ -244,89 +190,9 @@ void System::print( const String& text )
 	}
 }
 
-/*
-void System::print( const Format& formatter )
-{
-	String output = formatter;
-
-	if ( output.empty() ) {
-		return;
-	}
-
-#ifdef VCF_OSX
-	CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
-
-	CFStringAppendCharacters( tmp, output.c_str(), output.size() );
-	CFShow( tmp );
-	CFRelease( tmp );
-#else
-	wprintf( output.c_str() );
-#endif
-
-	if ( NULL != System::systemInstance ) {
-		if ( NULL != System::systemInstance->errorLogInstance_ ) {			
-			System::systemInstance->errorLogInstance_->toLog( output );
-		}
-	}
-}
-*/
 
 void System::println( const String& text )
 {
-	/*
-	text = StringUtils::convertFormatString( text );
-
-	va_list args;
-	va_start( args, text );
-	int charRequired = 1024;
-	VCFChar* tmpChar = new VCFChar[charRequired];
-	memset( tmpChar, 0, charRequired*sizeof(VCFChar) );
-
-#if defined(VCF_GCC) || defined(VCF_CW)
-	#ifdef VCF_OSX
-
-		CFMutableStringRef fmt = CFStringCreateMutable( NULL, 0 );
-
-		CFStringAppendCharacters( fmt, text.c_str(), text.size() );
-
-		CFStringRef res = CFStringCreateWithFormatAndArguments( NULL, NULL, fmt, args );
-
-		int length = minVal<uint32>( charRequired-1, CFStringGetLength( res ) );
-
-		CFRange range = {0, length };
-		CFStringGetCharacters( res, range, tmpChar );
-
-		CFShow( CFSTR("WARNING: Using deprecated function!!!\n") );
-		CFShow( res );
-		CFShow( CFSTR( "\n" ) );
-
-		CFRelease( res );
-		CFRelease( fmt );
-	#else
-		vswprintf( tmpChar, charRequired, text.c_str(), args );
-	#endif
-#else
-	_vsnwprintf( tmpChar, charRequired, text.c_str(), args );
-#endif
-
-	va_end( args );
-
-	#ifndef VCF_OSX
-		wprintf( L"WARNING: Using deprecated function!!!\n" );
-		wprintf( tmpChar );
-		wprintf( L"\n" );
-	#endif
-
-	if ( NULL != System::systemInstance ) {
-		if ( (NULL != System::systemInstance->errorLogInstance_) && (charRequired>0) ) {
-			String tmp(tmpChar);
-			System::systemInstance->errorLogInstance_->toLog( tmp );
-		}
-	}
-
-	delete [] tmpChar;
-	*/
-
 	String output = text;
 
 	if ( output.empty() ) {
@@ -336,11 +202,10 @@ void System::println( const String& text )
 	output += "\n";
 
 #ifdef VCF_OSX
-	CFMutableStringRef tmp = CFStringCreateMutable( NULL, 0 );
-
-	CFStringAppendCharacters( tmp, output.c_str(), output.size() );
-	CFShow( tmp );
-	CFRelease( tmp );
+	//JC - I got rid of CFShow as it doesn't 
+	//seem to work well in a multi-threaded context, and also seems a 
+	//bit slow
+	printf( output.ansi_c_str() );
 #elif defined(VCF_CW_W32)
 	printf( output.ansi_c_str() );
 #else
@@ -862,6 +727,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.8  2005/12/04 20:58:32  ddiego
+*more osx impl work. foundationkit is mostly complete now.
+*
 *Revision 1.6.2.7  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

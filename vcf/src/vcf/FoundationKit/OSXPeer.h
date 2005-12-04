@@ -21,6 +21,8 @@ public:
 
 		return result;
 	}
+	
+	static String getErrnoString( int errCode ); 
 
 	static String extractStringValueFromCFType( CFTypeRef ref ) {
 		String result;
@@ -396,6 +398,9 @@ private:
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.4.2.6  2005/12/04 20:58:32  ddiego
+ *more osx impl work. foundationkit is mostly complete now.
+ *
  *Revision 1.4.2.5  2005/11/27 23:55:45  ddiego
  *more osx updates.
  *

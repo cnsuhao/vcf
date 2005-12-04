@@ -15,7 +15,9 @@ where you installed the VCF.
 #include "vcf/FoundationKit/ThreadManager.h"
 
 #include <unistd.h>
-
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 using namespace VCF;
 
@@ -66,12 +68,16 @@ void OSXSystemPeer::sleep( const uint32& milliseconds )
 
 bool OSXSystemPeer::doesFileExist( const String& fileName )
 {
-	bool result = false;
-	FILE* f = fopen( fileName.ansi_c_str(), "r" );
-    result = (NULL != f ) ? true : false;
-    if ( NULL != f ) {
-        fclose( f );
-    }
+	bool result = true;
+	
+	struct stat sb;
+	int staterr  = stat( fileName.ansi_c_str(), &sb );
+	if ( -1 == staterr ) {
+		if ( errno == ENOENT ) {
+			result  = false;
+		}
+	}
+	
 	return result;
 }
 
@@ -264,7 +270,10 @@ DateTime OSXSystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
 	cfDate.day = day;
 	cfDate.hour = hour;
 	cfDate.minute = minute;
-	cfDate.second = ((double)second) + ( 1000.0/(double)millisecond );
+	cfDate.second = second;
+	if ( millisecond > 0 ) {
+		cfDate.second += (1000.0/(double)millisecond);
+	}
 	
 	//GMT/UTC time
 	CFAbsoluteTime utcTime = CFGregorianDateGetAbsoluteTime( cfDate, NULL );
@@ -306,8 +315,10 @@ DateTime OSXSystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 	cfDate.day = day;
 	cfDate.hour = hour;
 	cfDate.minute = minute;
-	cfDate.second = ((double)second) + ( 1000.0/(double)millisecond );
-	
+	cfDate.second = second;
+	if ( millisecond > 0 ) {
+		cfDate.second += (1000.0/(double)millisecond);
+	}
 	//GMT/UTC time
 	CFAbsoluteTime localTime = CFGregorianDateGetAbsoluteTime( cfDate, tz );
 	
@@ -351,6 +362,9 @@ ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2005/12/04 20:58:32  ddiego
+*more osx impl work. foundationkit is mostly complete now.
+*
 *Revision 1.5.2.3  2005/11/13 16:02:46  ddiego
 *more sox updates.
 *

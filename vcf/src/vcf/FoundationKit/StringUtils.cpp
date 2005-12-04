@@ -676,28 +676,20 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 
 #elif VCF_OSX
 	int status = 0;
-	char* c_name = 0;
+	const char* c_name = 0;
 
 	c_name = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
-	/*
-		static String classPrefix( "class " );
-		String name( typeInfo.name() );
-#ifdef VCF_POSIX
-		// Work around gcc 3.0 bug: strip number before type name.
-		unsigned int firstNotDigitIndex = 0;
-		while ( firstNotDigitIndex < name.length()  &&
-						name[firstNotDigitIndex] >= '0'  &&
-						name[firstNotDigitIndex] <= '9' ) {
-				++firstNotDigitIndex;
-		}
-
-		name = name.substr( firstNotDigitIndex );
-
-		if ( name.substr( 0, classPrefix.length() ) == classPrefix ) {
-				result = name.substr( classPrefix.length() );
-		}
-	*/
-	result = c_name;
+		
+	if ( NULL == c_name ) {
+		//try typeinfo.name() without the C++ de-mangler
+		c_name = typeInfo.name();
+	}
+	
+	
+	if ( NULL != c_name ) {
+		result = c_name;
+	}
+	
 #elif VCF_POSIX
 	int status = 0;
 	char* c_name = 0;
@@ -2264,6 +2256,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.11  2005/12/04 20:58:32  ddiego
+*more osx impl work. foundationkit is mostly complete now.
+*
 *Revision 1.4.2.10  2005/12/01 01:33:14  obirsoy
 *add back the borland fixes.
 *

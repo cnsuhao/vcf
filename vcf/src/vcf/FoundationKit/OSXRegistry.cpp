@@ -13,7 +13,7 @@ using namespace VCF;
 
 CFStringRef getAppID( RegistryKeyType root )
 {
-	CFStringRef result;
+	CFStringRef result = NULL;
 	switch ( root ) {
 		case RKT_ROOT : {
 			result = kCFPreferencesAnyApplication;
@@ -35,7 +35,7 @@ CFStringRef getAppID( RegistryKeyType root )
 
 CFStringRef getUserKey( RegistryKeyType root )
 {
-	CFStringRef result;
+	CFStringRef result = NULL;
 	switch ( root ) {
 		case RKT_ROOT : {
 			result = kCFPreferencesAnyUser;
@@ -57,7 +57,7 @@ CFStringRef getUserKey( RegistryKeyType root )
 
 CFStringRef getHostKey( RegistryKeyType root )
 {
-	CFStringRef result;
+	CFStringRef result = NULL;
 	switch ( root ) {
 		case RKT_ROOT : {
 			result = kCFPreferencesCurrentHost;
@@ -460,6 +460,9 @@ String OSXRegistry::getCurrentKey()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2005/12/04 20:58:32  ddiego
+*more osx impl work. foundationkit is mostly complete now.
+*
 *Revision 1.2.6.2  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *
