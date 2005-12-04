@@ -62,7 +62,7 @@ defined to use the DLL or static libraries.
 #if defined(_MSC_VER) || defined(__BORLANDC__)
 
 	//link to libAgg automatically here
-	#if !defined(DISABLE_PRAGMA_LINKING)
+	#if !defined(VCF_DISABLE_PRAGMA_LINKING)
 	#	ifdef _DEBUG
 	#		pragma comment(lib, "libAGG_"_LIB_CPLVERNUM"_sd.lib")
 	#		pragma comment(lib, "LibJPEG_"_LIB_CPLVERNUM"_sd.lib")
@@ -101,6 +101,9 @@ defined to use the DLL or static libraries.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2005/12/04 18:59:47  kdmix
+*The VCF_ prefix has been added.
+*
 *Revision 1.4.2.5  2005/12/04 15:05:32  kdmix
 *DISABLE_PRAGMA_LINKING is used to skip the pragma linking that is required by bakefiles.
 *
