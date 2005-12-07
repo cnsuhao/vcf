@@ -43,6 +43,7 @@
     <subproject id="Help" template="example"/>
     <subproject id="ImageBasics" template="example"/>
     <subproject id="ImageViewer" template="example"/>
+    <subproject id="InetKit" template="example"/>
     <subproject id="Labels" template="example"/>
     <subproject id="ListBox" template="example"/>
     <subproject id="Localization" template="example"/>
