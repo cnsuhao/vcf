@@ -45,7 +45,7 @@ MAKEARGS = -DCC="$(CC)" -DCXX="$(CXX)" -DCFLAGS="$(CFLAGS)" \
 
 ### Targets: ###
 
-all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer Labels ListBox Localization MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout ThreadBasics ThreadsInGUI Toolbars Transformations TreeListControls VisualFormFiles WorkingWithEnumerators
+all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout ThreadBasics ThreadsInGUI Toolbars Transformations TreeListControls VisualFormFiles WorkingWithEnumerators
 
 clean: 
 	-if exist .\*.obj del .\*.obj
@@ -191,6 +191,10 @@ clean:
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>ImageViewer.bat
 	call ImageViewer.bat
 	@del ImageViewer.bat
+	@echo cd InetKit >InetKit.bat
+	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>InetKit.bat
+	call InetKit.bat
+	@del InetKit.bat
 	@echo cd Labels >Labels.bat
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>Labels.bat
 	call Labels.bat
@@ -525,6 +529,12 @@ ImageViewer:
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>ImageViewer.bat
 	call ImageViewer.bat
 	@del ImageViewer.bat
+
+InetKit: 
+	@echo cd InetKit >InetKit.bat
+	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>InetKit.bat
+	call InetKit.bat
+	@del InetKit.bat
 
 Labels: 
 	@echo cd Labels >Labels.bat

@@ -23,6 +23,11 @@
 
         <define>$(substituteFromDict( OPTION_DEBUG, {'0':'NDEBUG', '1':'_DEBUG'} ))</define>
 
+        <!--
+        We disable the "#pragma comment" linking.
+        -->
+        <define>VCF_DISABLE_PRAGMA_LINKING</define>
+
         <if cond="PLATFORM_WIN32=='1'">
            <define>_WINDOWS</define>
            <define>_WIN32</define>
@@ -46,7 +51,7 @@
           <define>_CRT_NON_CONFORMING_SWPRINTFS</define>
         </if>
 
-      <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">
+        <if cond="FORMAT!='autoconf' and FORMAT!='gnu'">
 	        <if cond="FORMAT!='borland'">
                 <sys-lib>rpcrt4</sys-lib>
                 <sys-lib>odbc32</sys-lib>
