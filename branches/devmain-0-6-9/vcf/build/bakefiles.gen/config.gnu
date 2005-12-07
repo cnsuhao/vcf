@@ -10,35 +10,35 @@
 # These are configurable options:
 # -------------------------------------------------------------------------
 
-# 'install' program location
+# 'install' program location 
 INSTALL = install
 
-# Location where the package is installed by 'make install'
+# Location where the package is installed by 'make install' 
 prefix = /usr/local
 
-#
+#  
 AR = ar
 
-#
+#  
 RANLIB = ranlib
 
-# C compiler
+# C compiler 
 CC = gcc
 
-# C++ compiler
+# C++ compiler 
 CXX = g++
 
-# Standard flags for CC
-CFLAGS =
+# Standard flags for CC 
+CFLAGS = 
 
-# Standard flags for C++
-CXXFLAGS =
+# Standard flags for C++ 
+CXXFLAGS = 
 
-# Standard preprocessor flags (common for CC and CXX)
-CPPFLAGS =
+# Standard preprocessor flags (common for CC and CXX) 
+CPPFLAGS = 
 
-# Standard linker flags
-LDFLAGS =
+# Standard linker flags 
+LDFLAGS = 
 
 # Some meaningful string that will be added to the names
 # of the target files. Any string is possible.
@@ -47,7 +47,7 @@ LDFLAGS =
 # will be like this: FoundationKit_vc6_d.dll.
 # The default value is an empty string.
 # Backward compatibility: []
-OPTION_SELECTLIB =
+OPTION_SELECTLIB = 
 
 # The type of libraries: [0,1]
 OPTION_SHARED = 1
