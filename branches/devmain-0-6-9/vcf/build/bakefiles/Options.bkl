@@ -108,9 +108,13 @@ The type of runtime libraries.
         </description>
     </option>
 
+    <set var="OPTION_GRAPHICSKIT_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
     <option name="OPTION_GRAPHICSKIT">
         <values>0,1</values>
-        <default-value>1</default-value>
+        <default-value>$(OPTION_GRAPHICSKIT_DEFAULT)</default-value>
         <description>
 Depends on:
     OPTION_FOUNDATIONKIT
@@ -119,9 +123,13 @@ Compile GraphicsKit:
         </description>
     </option>
 
+    <set var="OPTION_APPLICATIONKIT_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
     <option name="OPTION_APPLICATIONKIT">
         <values>0,1</values>
-        <default-value>1</default-value>
+        <default-value>$(OPTION_APPLICATIONKIT_DEFAULT)</default-value>
         <description>
 Depends on:
     OPTION_GRAPHICSKIT
