@@ -59,6 +59,7 @@ OBJFILES=agg_arc.obj  \
 	agg_curves.obj  \
 	agg_path_storage.obj  \
 	agg_rasterizer_scanline_aa.obj  \
+	agg_sqrt_tables.obj  \
 	agg_trans_affine.obj  \
 	agg_vcgen_bspline.obj  \
 	agg_vcgen_dash.obj  \
