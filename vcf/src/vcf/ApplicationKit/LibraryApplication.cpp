@@ -76,13 +76,13 @@ Enumerator<VCF::LibraryApplication*>* LibraryApplication::getRegisteredLibraries
 	return LibraryApplication::namedLibAppContainer->getEnumerator();
 }
 
-void LibraryApplication::registerLibrary( LibraryApplication* libraryApp )
+void LibraryApplication::registerLibrary( VCF::LibraryApplication* libraryApp )
 {
 	(*LibraryApplication::namedLibraryAppMap)[ libraryApp->getName() ] = libraryApp;
 }
 
 
-void LibraryApplication::unRegisterLibrary( LibraryApplication* libraryApp )
+void LibraryApplication::unRegisterLibrary( VCF::LibraryApplication* libraryApp )
 {
 	std::map<String,LibraryApplication*>::iterator found = 	LibraryApplication::namedLibraryAppMap->find( libraryApp->getName() );
 	if ( found != LibraryApplication::namedLibraryAppMap->end() ) {
@@ -102,12 +102,12 @@ VCF::LibraryApplication* LibraryApplication::getRegisteredLibraryApplication( co
 	return result;
 }
 
-void LibraryApplication::load( LibraryApplication* libraryApp )
+void LibraryApplication::load( VCF::LibraryApplication* libraryApp )
 {
 
 }
 
-void LibraryApplication::unload( LibraryApplication* libraryApp )
+void LibraryApplication::unload( VCF::LibraryApplication* libraryApp )
 {
 
 }
@@ -133,6 +133,9 @@ void LibraryApplication::clearLibraryRegistrar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2005/12/08 21:09:18  kiklop74
+*fixes for borland compiler
+*
 *Revision 1.5  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

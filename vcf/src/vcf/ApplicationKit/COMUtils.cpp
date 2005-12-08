@@ -131,7 +131,7 @@ HRESULT COMUtils::UUIDtoString( const UUID id, String& dest )
 
 	if ( System::isUnicodeEnabled() ) {
 		WideChar* tmpid = NULL;
-		RPC_STATUS rpcresult = UuidToStringW( const_cast<UUID*>( &id ), &tmpid );
+		RPC_STATUS rpcresult = UuidToStringW( const_cast<UUID*>( &id ), reinterpret_cast<unsigned short**>(&tmpid) );
 		
 		if ( RPC_S_OUT_OF_MEMORY == rpcresult ) {
 			result = E_FAIL;
@@ -140,7 +140,7 @@ HRESULT COMUtils::UUIDtoString( const UUID id, String& dest )
 			dest = "";
 			dest = String( tmpid );
 			
-			RpcStringFreeW( &tmpid );
+			RpcStringFreeW( reinterpret_cast<unsigned short**>(&tmpid) );
 			
 			result = S_OK;
 		}
@@ -177,7 +177,7 @@ HRESULT COMUtils::StringtoUUID( const String& src, UUID& destID )
 		memset(tmpid,0,256);
 		src.copy( tmpid, minVal<>(sizeof(tmpid),src.size()) );
 
-		rpcresult = UuidFromStringW( tmpid, &tmpUUID );		
+		rpcresult = UuidFromStringW( reinterpret_cast<unsigned short*>(&tmpid[0]), &tmpUUID );		
 	}
 	else {
 		AnsiString s = src;
@@ -980,6 +980,9 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/12/08 21:09:18  kiklop74
+*fixes for borland compiler
+*
 *Revision 1.3.2.3  2005/11/04 17:56:17  ddiego
 *fixed bugs in some win32 code to better handle unicode - ansi functionality.
 *
