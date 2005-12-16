@@ -79,6 +79,7 @@ where you installed the VCF.
 
 #include "vcf/FoundationKit/FoundationKitSelectLib.h"
 
+#include "vcf/FoundationKit/SmartPtr.h"
 #include "vcf/FoundationKit/VCFChar.h"
 #include "vcf/FoundationKit/VCFString.h"
 #include "vcf/FoundationKit/CommonDefines.h"
@@ -490,6 +491,9 @@ that someone will be able to relate to your concern.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2005/12/16 02:01:09  obirsoy
+*. added boost smart_ptr library.
+*
 *Revision 1.6  2005/07/13 01:55:43  ddiego
 *doc updates.
 *
