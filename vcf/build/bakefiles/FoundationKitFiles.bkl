@@ -94,6 +94,7 @@
         vcf/FoundationKit/RuntimeException.h
         vcf/FoundationKit/Semaphore.h
         vcf/FoundationKit/SemaphorePeer.h
+        vcf/FoundationKit/SmartPtr.h
         vcf/FoundationKit/Stream.h
         vcf/FoundationKit/StringsMessageLoader.h
         vcf/FoundationKit/StringTokenizer.h
