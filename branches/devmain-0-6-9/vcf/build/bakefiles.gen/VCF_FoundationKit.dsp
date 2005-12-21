@@ -1410,6 +1410,10 @@ SOURCE=..\..\src\vcf\FoundationKit\SemaphorePeer.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\vcf\FoundationKit\SmartPtr.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\vcf\FoundationKit\Stream.h
 # End Source File
 # Begin Source File
