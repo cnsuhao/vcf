@@ -33,6 +33,7 @@ ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONICONS_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include \
 	$(__DEBUG_INFO) $(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) \
 	-DVCF_DISABLE_PRAGMA_LINKING -D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src \
+	$(__FOUNDATIONKIT_DLL_p) $(__GRAPHICSKIT_DLL_p) $(__APPLICATIONKIT_DLL_p) \
 	$(CPPFLAGS) $(CXXFLAGS)
 APPLICATIONICONS_OBJECTS =  \
 	$(OBJDIR)\ApplicationIcons_ApplicationIcons.obj
@@ -103,6 +104,9 @@ ____ApplicationIcons_FOUNDATIONKIT_p = $(FOUNDATIONKIT_FILENAME).lib
 !if "$(OPTION_ALLIN1)" == "1"
 ____ApplicationIcons_FOUNDATIONKIT_p = $(ALLIN1_FILENAME).lib
 !endif
+!if "$(OPTION_SHARED)" == "1"
+__FOUNDATIONKIT_DLL_p = -DFOUNDATIONKIT_DLL
+!endif
 !if "$(OPTION_ALLIN1)" == "0"
 ____ApplicationIcons_ZLIB_p = $(ZLIB_FILENAME).lib
 !endif
@@ -118,8 +122,14 @@ ____ApplicationIcons_LIBPNG_p = $(LIBPNG_FILENAME).lib
 !if "$(OPTION_ALLIN1)" == "0"
 ____ApplicationIcons_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
 !endif
+!if "$(OPTION_SHARED)" == "1"
+__GRAPHICSKIT_DLL_p = -DGRAPHICSKIT_DLL
+!endif
 !if "$(OPTION_ALLIN1)" == "0"
 ____ApplicationIcons_APPLICATIONKIT_p = $(APPLICATIONKIT_FILENAME).lib
+!endif
+!if "$(OPTION_SHARED)" == "1"
+__APPLICATIONKIT_DLL_p = -DAPPLICATIONKIT_DLL
 !endif
 !if "$(OPTION_DEBUG)" == "0"
 __DEBUG_INFO = -v-

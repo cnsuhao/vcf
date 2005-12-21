@@ -2,7 +2,7 @@
 
 #include "vcf/FoundationKit/FoundationKit.h"
 
-#if !defined(DISABLE_PRAGMA_LINKING)
+#if !defined(VCF_DISABLE_PRAGMA_LINKING)
 #   define USE_INTERNETKIT_DLL
 #endif
 

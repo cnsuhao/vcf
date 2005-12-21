@@ -2,6 +2,9 @@
 
 <makefile>
 
+    <!--
+    The <header> tag can be used to define header files in ms projects.
+    -->
     <define-tag name="headers" rules="dll,lib,exe,module">
         <if cond="FORMAT in ['msvc6prj','msevc4prj']">
             <msvc-project-files>$(value)</msvc-project-files>
@@ -17,12 +20,36 @@
     </define-tag>
 
 
+    <set var="FOUNDATIONKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">FOUNDATIONKIT_DLL</if>
+    </set>
+    <set var="GRAPHICSKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">GRAPHICSKIT_DLL</if>
+    </set>
+    <set var="APPLICATIONKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">APPLICATIONKIT_DLL</if>
+    </set>
+    <set var="OPENGLKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">OPENGLKIT_DLL</if>
+    </set>
+    <set var="NETWORKKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">NETWORKKIT_DLL</if>
+    </set>
+    <set var="REMOTEOBJECTKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">REMOTEOBJECTKIT_DLL</if>
+    </set>
+    <set var="INTERNETKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">INTERNETKIT_DLL</if>
+    </set>
+
+
     <define-tag name="vcf-use-FoundationKit" rules="dll,lib,exe,module">
         <set var="FOUNDATIONKIT">
             <if cond="OPTION_ALLIN1=='1'">$(ALLIN1_FILENAME)</if>
             <if cond="OPTION_ALLIN1=='0'">$(FOUNDATIONKIT_FILENAME)</if>
         </set>
         <sys-lib>$(FOUNDATIONKIT)</sys-lib>
+        <define>$(FOUNDATIONKIT_DLL)</define>
     </define-tag>
 
 
@@ -49,6 +76,7 @@
             <if cond="OPTION_ALLIN1=='0'">$(GRAPHICSKIT_FILENAME)</if>
         </set>
         <sys-lib>$(GRAPHICSKIT)</sys-lib>
+        <define>$(GRAPHICSKIT_DLL)</define>
     </define-tag>
 
 
@@ -58,6 +86,7 @@
             <if cond="OPTION_ALLIN1=='0'">$(APPLICATIONKIT_FILENAME)</if>
         </set>
         <sys-lib>$(APPLICATIONKIT)</sys-lib>
+        <define>$(APPLICATIONKIT_DLL)</define>
     </define-tag>
 
 
@@ -67,6 +96,7 @@
             <if cond="OPTION_ALLIN1=='0'">$(OPENGLKIT_FILENAME)</if>
         </set>
         <sys-lib>$(OPENGLKIT)</sys-lib>
+        <define>$(OPENGLKIT_DLL)</define>
     </define-tag>
 
 
@@ -76,6 +106,7 @@
             <if cond="OPTION_ALLIN1=='0'">$(NETWORKKIT_FILENAME)</if>
         </set>
         <sys-lib>$(NETWORKKIT)</sys-lib>
+        <define>$(NETWORKKIT_DLL)</define>
     </define-tag>
 
 
@@ -85,6 +116,7 @@
             <if cond="OPTION_ALLIN1=='0'">$(REMOTEOBJECTKIT_FILENAME)</if>
         </set>
         <sys-lib>$(REMOTEOBJECTKIT)</sys-lib>
+        <define>$(REMOTEOBJECTKIT_DLL)</define>
     </define-tag>
 
 
@@ -94,6 +126,7 @@
             <if cond="OPTION_ALLIN1=='0'">$(INTERNETKIT_FILENAME)</if>
         </set>
         <sys-lib>$(INTERNETKIT)</sys-lib>
+        <define>$(INTERNETKIT_DLL)</define>
     </define-tag>
 
 </makefile>
