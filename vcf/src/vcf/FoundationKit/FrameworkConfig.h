@@ -98,7 +98,11 @@ VCF_BCC - compiling with Borland's C++ compiler
 #ifdef __BORLANDC__
 	#define VCF_BCC
 
-#if (__BORLANDC__ >= 0x0570)
+#if (__BORLANDC__ >= 0x0581 )
+	#define VCF_BCC8  //BDS 2006
+# undef VCF_COMPILER_NAME
+# define VCF_COMPILER_NAME	"BCC8"
+#elif (__BORLANDC__ == 0x0570)
 	#define VCF_BCCKLX  //Kylix
 #	undef VCF_COMPILER_NAME
 #	define VCF_COMPILER_NAME	"BCCKLX"
@@ -672,6 +676,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2005/12/23 23:07:18  kiklop74
+*Added detection of new Borland compiler shipped in BDS 2006. New symbol has name VCF_BCC8
+*
 *Revision 1.6.2.4  2005/12/23 22:55:05  kiklop74
 *Disabled one more worning for Borland compiler
 *
