@@ -126,6 +126,7 @@ VCF_BCC - compiling with Borland's C++ compiler
 #endif //minmax defined
 
 //Some pragmas now
+  #pragma warn -8026
 	#pragma warn -inl
 	#pragma warn -aus
 	#pragma warn -ccc
@@ -671,6 +672,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2005/12/23 22:55:05  kiklop74
+*Disabled one more worning for Borland compiler
+*
 *Revision 1.6.2.3  2005/11/10 00:04:07  obirsoy
 *changes required for gcc under Linux.
 *
