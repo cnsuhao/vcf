@@ -30,7 +30,7 @@ template <class SOURCE_TYPE> class SocketEventHandler : public VCF::EventHandler
 public:
 
 	SocketEventHandler( SOURCE_TYPE* source,
-		VCF::EventHandlerInstance<SOURCE_TYPE,SocketEvent>::OnEventHandlerMethod handlerMethod,
+		_typename_ VCF::EventHandlerInstance<SOURCE_TYPE,SocketEvent>::OnEventHandlerMethod handlerMethod,
 		const VCF::String& handlerName="") :
 			VCF::EventHandlerInstance<SOURCE_TYPE,SocketEvent>( source, handlerMethod, handlerName ) {
 
@@ -48,6 +48,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2005/12/28 02:50:41  dougtinkham
+*_typename_ added in template for MinGW to build
+*
 *Revision 1.2  2004/08/07 02:49:19  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
