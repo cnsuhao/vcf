@@ -1957,7 +1957,7 @@ ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_FOUNDATIONKIT),1)
 ifeq ($(OPTION_SHARED),1)
 ..\..\lib\..\bin\FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(FOUNDATIONKIT_DLL_OBJECTS)
-	$(CXX) -shared -fPIC -o $@ $(FOUNDATIONKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libFoundationKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(FOUNDATIONKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libFoundationKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 endif
 endif
@@ -1965,7 +1965,7 @@ endif
 ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_GRAPHICSKIT),1)
 ifeq ($(OPTION_SHARED),0)
-..\..\lib\libGraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a: $(GRAPHICSKIT_LIB_OBJECTS) $(VAR) $(VAR_0) $(VAR_1) $(VAR_3) $(__FoundationKit_lib___depname)
+..\..\lib\libGraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a: $(GRAPHICSKIT_LIB_OBJECTS) $(VAR) $(VAR_1) $(VAR_3) $(VAR_0) $(__FoundationKit_lib___depname)
 	if exist $@ del $@
 	ar rcu $@ $(GRAPHICSKIT_LIB_OBJECTS)
 	ranlib $@
@@ -1976,8 +1976,8 @@ endif
 ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_GRAPHICSKIT),1)
 ifeq ($(OPTION_SHARED),1)
-..\..\lib\..\bin\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(GRAPHICSKIT_DLL_OBJECTS) $(VAR) $(VAR_0) $(VAR_1) $(VAR_3) $(__FoundationKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(GRAPHICSKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libGraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) ..\..\lib\liblibAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+..\..\lib\..\bin\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(GRAPHICSKIT_DLL_OBJECTS) $(VAR) $(VAR_1) $(VAR_3) $(VAR_0) $(__FoundationKit_dll___depname)
+	$(CXX) -shared -fPIC -o $@ $(GRAPHICSKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libGraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) ..\..\lib\liblibAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 endif
 endif
@@ -1997,7 +1997,7 @@ ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_APPLICATIONKIT),1)
 ifeq ($(OPTION_SHARED),1)
 ..\..\lib\..\bin\ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(APPLICATIONKIT_DLL_OBJECTS) $(OBJDIR)\ApplicationKit_dll_ApplicationKit_rc.o $(__GraphicsKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(APPLICATIONKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(dll_ZLIB_p) $(dll_LIBAGG_p) $(dll_LIBJPEG_p) $(dll_LIBPNG_p) $(dll_GRAPHICSKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(APPLICATIONKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(dll_ZLIB_p) $(dll_LIBAGG_p) $(dll_LIBJPEG_p) $(dll_LIBPNG_p) $(dll_GRAPHICSKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 endif
 endif
@@ -2017,7 +2017,7 @@ ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_OPENGLKIT),1)
 ifeq ($(OPTION_SHARED),1)
 ..\..\lib\..\bin\OpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(OPENGLKIT_DLL_OBJECTS) $(__ApplicationKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(OPENGLKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libOpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(dll_ZLIB_p) $(dll_LIBAGG_p) $(dll_LIBJPEG_p) $(dll_LIBPNG_p) $(dll_GRAPHICSKIT_p) $(dll_APPLICATIONKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(OPENGLKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libOpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(dll_ZLIB_p) $(dll_LIBAGG_p) $(dll_LIBJPEG_p) $(dll_LIBPNG_p) $(dll_GRAPHICSKIT_p) $(dll_APPLICATIONKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 endif
 endif
@@ -2037,7 +2037,7 @@ ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_NETWORKKIT),1)
 ifeq ($(OPTION_SHARED),1)
 ..\..\lib\..\bin\NetworkKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(NETWORKKIT_DLL_OBJECTS) $(__FoundationKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(NETWORKKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libNetworkKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(NETWORKKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libNetworkKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 endif
 endif
@@ -2057,7 +2057,7 @@ ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_REMOTEOBJECTKIT),1)
 ifeq ($(OPTION_SHARED),1)
 ..\..\lib\..\bin\RemoteObjectKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(REMOTEOBJECTKIT_DLL_OBJECTS) $(__NetworkKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(REMOTEOBJECTKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libRemoteObjectKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(____RemoteObjectKit_dll_FOUNDATIONKIT_p_1) $(____RemoteObjectKit_dll_NETWORKKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(REMOTEOBJECTKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libRemoteObjectKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(____RemoteObjectKit_dll_FOUNDATIONKIT_p_1) $(____RemoteObjectKit_dll_NETWORKKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 endif
 endif
@@ -2077,7 +2077,7 @@ ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_INTERNETKIT),1)
 ifeq ($(OPTION_SHARED),1)
 ..\..\lib\..\bin\InternetKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(INTERNETKIT_DLL_OBJECTS) $(__FoundationKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(INTERNETKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libInternetKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(INTERNETKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libInternetKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 endif
 endif
@@ -2094,7 +2094,7 @@ endif
 ifeq ($(OPTION_ALLIN1),1)
 ifeq ($(OPTION_SHARED),1)
 ..\..\lib\..\bin\VCF$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(ALLIN1_DLL_OBJECTS) $(____Allin1) $(____Allin1_0) $(____Allin1_1) $(____Allin1_2) $(____Allin1_3) $(____Allin1_4) $(____Allin1_5) $(____Allin1_6) $(______Allin1_dll_ALLIN1_APPLICATIONKIT_RES_FILENAMES_OBJECTS)
-	$(CXX) -shared -fPIC -o $@ $(ALLIN1_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libVCF$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(VAR_0) $(VAR) $(VAR_1) $(VAR_3) $(VAR_2) $(VAR_4) $(VAR_6) $(VAR_5) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(ALLIN1_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libVCF$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(VAR_0) $(VAR) $(VAR_1) $(VAR_3) $(VAR_2) $(VAR_4) $(VAR_6) $(VAR_5) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 endif
 
@@ -2107,12 +2107,12 @@ endif
 
 ifeq ($(OPTION_IMAGEFORMATS),1)
 ..\..\lib\..\bin\ImageFormats$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(IMAGEFORMATS_DLL_OBJECTS) $(VAR_0) $(VAR_1) $(VAR_3) $(VAR_2) $(VAR_4) $(VAR_6) $(__Allin1_dll___depname) $(__ApplicationKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(IMAGEFORMATS_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libImageFormats$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(dll_ZLIB_p) $(dll_LIBAGG_p) $(dll_LIBJPEG_p) $(dll_LIBPNG_p) $(dll_GRAPHICSKIT_p) $(dll_APPLICATIONKIT_p) ..\..\lib\libZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibMNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibTIFF$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libFreeImage$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(IMAGEFORMATS_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libImageFormats$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(dll_ZLIB_p) $(dll_LIBAGG_p) $(dll_LIBJPEG_p) $(dll_LIBPNG_p) $(dll_GRAPHICSKIT_p) $(dll_APPLICATIONKIT_p) ..\..\lib\libZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibMNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libLibTIFF$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a ..\..\lib\libFreeImage$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 
 ifeq ($(OPTION_WIN32HTMLBROWSER),1)
 ..\..\lib\..\bin\Win32HTMLBrowser$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(WIN32HTMLBROWSER_DLL_OBJECTS) $(__Allin1_dll___depname) $(__ApplicationKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(WIN32HTMLBROWSER_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -L..\..\lib -Wl,--out-implib,..\..\lib\libWin32HTMLBrowser$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(dll_ZLIB_p) $(dll_LIBAGG_p) $(dll_LIBJPEG_p) $(dll_LIBPNG_p) $(dll_GRAPHICSKIT_p) $(dll_APPLICATIONKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
+	$(CXX) -shared -fPIC -o $@ $(WIN32HTMLBROWSER_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--out-implib,..\..\lib\libWin32HTMLBrowser$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).a  $(dll_FOUNDATIONKIT_p) $(dll_ZLIB_p) $(dll_LIBAGG_p) $(dll_LIBJPEG_p) $(dll_LIBPNG_p) $(dll_GRAPHICSKIT_p) $(dll_APPLICATIONKIT_p) -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32
 endif
 
 ifeq ($(OPTION_FOUNDATIONKIT),1)
