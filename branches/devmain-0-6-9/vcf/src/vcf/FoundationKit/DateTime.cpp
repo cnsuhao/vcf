@@ -1030,7 +1030,7 @@ void DateTimeSpan::subtract( const DateTime& lhs, const DateTime& rhs )
 		++monthIt;
 	}
 
-	years_ = abs(ey-sy);
+	years_ = abs(static_cast<int>(ey-sy));
 
 	if ( years_ > 0 ) {
 		if ( lhs > rhs ) {
@@ -1143,6 +1143,9 @@ ulong64 DateTimeSpan::getTotalMilliseconds() const
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.3  2005/12/28 21:02:21  kiklop74
+*Fixed ambiguity error when compiling with bcb6
+*
 *Revision 1.3.4.2  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
