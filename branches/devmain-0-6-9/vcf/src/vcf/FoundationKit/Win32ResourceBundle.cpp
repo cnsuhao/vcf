@@ -12,6 +12,9 @@ where you installed the VCF.
 #include "vcf/FoundationKit/ResourceBundlePeer.h"
 #include "vcf/FoundationKit/Win32ResourceBundle.h"
 
+#ifdef __BORLANDC__
+  using std::strcmp;
+#endif
 
 using namespace VCF;
 
@@ -677,6 +680,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2005/12/28 20:43:40  kiklop74
+*Fixed error - missing strcmp
+*
 *Revision 1.3.2.3  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

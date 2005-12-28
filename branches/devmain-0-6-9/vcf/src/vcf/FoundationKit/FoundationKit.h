@@ -46,6 +46,10 @@ where you installed the VCF.
 	#include <extras.h>
 #endif
 
+#ifdef __BORLANDC__
+  #include <string.h>
+#endif
+
 #ifdef WIN32
   #include <process.h>
 #endif
@@ -491,6 +495,9 @@ that someone will be able to relate to your concern.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2005/12/28 20:43:40  kiklop74
+*Fixed error - missing strcmp
+*
 *Revision 1.6.2.1  2005/12/16 02:01:09  obirsoy
 *. added boost smart_ptr library.
 *
