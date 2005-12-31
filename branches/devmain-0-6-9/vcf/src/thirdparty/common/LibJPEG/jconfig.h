@@ -16,9 +16,15 @@
 #undef INCOMPLETE_TYPES_BROKEN
 
 /* Define "boolean" as unsigned char, not int, per Windows custom */
-#ifndef __RPCNDR_H__		/* don't conflict if rpcndr.h already read */
+//#ifndef __RPCNDR_H__		/* don't conflict if rpcndr.h already read */
+//typedef unsigned char boolean;
+//#endif
+
+/* Following is required for building VCF GraphicsKit with mingw */
+#if ( defined(__MINGW32__) && !defined(boolean) ) || !defined(__RPCNDR_H__)
 typedef unsigned char boolean;
 #endif
+
 #define HAVE_BOOLEAN		/* prevent jmorecfg.h from redefining it */
 
 
