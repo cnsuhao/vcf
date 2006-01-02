@@ -141,7 +141,7 @@ VCF_BCC - compiling with Borland's C++ compiler
 	#pragma warn -rch
 	#pragma warn -rng
 	#pragma warn -hid
-#ifdef VCF_BCC6
+#if (__BORLANDC__ > 0x0551)
 	#pragma warn -8098
 #endif	
 	#pragma warn -ngu
@@ -676,6 +676,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.6  2006/01/02 13:27:05  kiklop74
+*Warning 8098 for BDS 2006
+*
 *Revision 1.6.2.5  2005/12/23 23:07:18  kiklop74
 *Added detection of new Borland compiler shipped in BDS 2006. New symbol has name VCF_BCC8
 *
