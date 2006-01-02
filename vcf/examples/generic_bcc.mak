@@ -8,9 +8,10 @@
 .autodepend
 
 #tools
-ILINK32=ilink32
-CC=bcc32
-RC=brcc32
+BCCROOT=C:\Borland\BCC55\bin
+ILINK32=$(BCCROOT)\ilink32
+CC=$(BCCROOT)\bcc32
+RC=$(BCCROOT)\brcc32
 
 !ifndef BMODE
 BMODE=RELEASE
