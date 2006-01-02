@@ -227,7 +227,7 @@ void AbstractDistributedApplication::onDataReceived( VCFNet::SocketEvent* event 
 				}
 			}
 
-#if (! defined _MSC_VER) || ( (_MSC_VER < 1300) || defined ( STLPORT ) )
+#if (defined(__BORLANDC__) && (__BORLANDC__ < 0x0581)) || (defined(_MSC_VER) && (_MSC_VER < 1300)) || defined(STLPORT)
 			VariantData** methodArgs = (VariantData**)argList.begin();
 #else
 			VariantData** methodArgs = (VariantData**)argList.begin().operator->();
@@ -334,6 +334,9 @@ void AppInfo::loadFromStream( InputStream * stream )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/01/02 13:26:14  kiklop74
+*Fixed compilation issue with BDS 2006
+*
 *Revision 1.2.6.1  2005/11/02 04:38:23  obirsoy
 *changes required for vc80 support.
 *
