@@ -16,6 +16,7 @@
         <headers>$(APPLICATIONKIT_HDR)</headers>
         <sources>$(APPLICATIONKIT_SRC)</sources>
 
+        <res-include>../resources/win32</res-include>
         <define>$(VCF_NO_ATL)</define>
 
         <vcf-use-GraphicsKit/>
