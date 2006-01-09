@@ -284,9 +284,13 @@ void OSXControl::setParent( Control* parent )
 	Frame* windowParent = NULL;
 	
 	if ( parent->isLightWeight() ) {
-		OSXLightweightControl* lwPeer = (OSXLightweightControl*) parent->getPeer();
-		
-		windowParent = dynamic_cast<Frame*>(lwPeer->getHeavyWeightParent());
+		OSXLightweightControl* lwPeer = dynamic_cast<OSXLightweightControl*>(parent->getPeer());
+		if ( NULL != lwPeer ) {
+			Control* lwParent = lwPeer->getHeavyWeightParent();
+			if ( NULL != lwParent ) {
+				windowParent = dynamic_cast<Frame*>(lwParent);
+			}
+		}
 	}
 	else {
 		windowParent = dynamic_cast<Frame*>(parent);
@@ -294,7 +298,7 @@ void OSXControl::setParent( Control* parent )
 	
 	
 	if ( NULL != windowParent ) {
- 		OSXWindow* osxWnd = (OSXWindow*)parent->getPeer();
+ 		OSXWindow* osxWnd = dynamic_cast<OSXWindow*>(windowParent->getPeer());
 		WindowRef wnd = (WindowRef) osxWnd->getHandleID();
 		
 		ControlRef contentView = osxWnd->getRootControl();		
@@ -449,16 +453,15 @@ OSStatus OSXControl::handleWrappedControlHitTest( EventRef theEvent )
 	GetEventParameter( theEvent, kEventParamMouseLocation, typeQDPoint, NULL,
 					   sizeof (lastMousePt_), NULL, &lastMousePt_);
 	
-	//printf( "lastMousePt_ X: %d, Y: %d\n", lastMousePt_.h, lastMousePt_.v );				
 	OSXEventMsg msg( theEvent, control_ );
 	
 	Event* mouseMove = UIToolkit::createEventFromNativeOSEventData( &msg );
 	if ( NULL != mouseMove ) {
-		MouseEvent* e = (MouseEvent*)mouseMove;
-		//printf( "X: %0.2f, Y: %0.2f\n", e->getPoint()->x_, e->getPoint()->y_ );
 		control_->handleEvent( mouseMove );
 		mouseMove->free();
 	}
+	
+	return noErr;
 }
 
 OSStatus OSXControl::handleWrappedControlTrack( EventRef theEvent )
@@ -505,6 +508,8 @@ OSStatus OSXControl::handleWrappedControlTrackDone( EventRef theEvent )
 	mouseUp->free();
 	
 	mouseState_ = OSXControl::msUp;
+	
+	return noErr;
 }
 
 OSStatus OSXControl::handleControlTrack( EventRef theEvent )
@@ -749,7 +754,6 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 	return result;
 }
 
-
 	
 };
 
@@ -758,6 +762,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/01/09 02:22:30  ddiego
+*more osx code
+*
 *Revision 1.5.2.2  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *
@@ -836,6 +843,9 @@ OSStatus OSXControl::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef t
 *Revision 1.1.2.6  2004/05/23 14:11:59  ddiego
 *osx updates
 *$Log$
+*Revision 1.5.2.3  2006/01/09 02:22:30  ddiego
+*more osx code
+*
 *Revision 1.5.2.2  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

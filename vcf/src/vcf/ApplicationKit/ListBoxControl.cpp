@@ -66,10 +66,8 @@ void ListBoxControl::init()
 	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
 
 	GraphicsContext* context = getContext();
-	Font* font = context->getCurrentFont();
 	UIMetricsManager* mgr = UIToolkit::getUIMetricsManager();
-	defaultItemHeight_ = mgr->getDefaultHeightFor( UIMetricsManager::htListItemHeight );//context->getTextHeight("EM") ); //font->getPixelSize() );
-	//defaultItemHeight_ = getContext()->getTextHeight( "EM" ) + 4;
+	defaultItemHeight_ = mgr->getDefaultHeightFor( UIMetricsManager::htListItemHeight );
 
 	EventHandler* lmh =
 		new ListModelEventHandler<ListBoxControl>( this, &ListBoxControl::onItemAdded, "ListBoxControl::onItemAdded" );
@@ -194,7 +192,6 @@ void ListBoxControl::onItemAdded( ListModelEvent* event )
 
 	//listBoxPeer_->addItem( event->getListItem() );
 	Scrollable* scrollable = getScrollable();
-	ListModel* lm = getListModel();
 
 
 	double width = getWidth();
@@ -902,6 +899,9 @@ void ListBoxControl::setStateImageList( ImageList* stateImageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2006/01/09 02:22:30  ddiego
+*more osx code
+*
 *Revision 1.6.2.2  2005/10/05 03:37:11  ddiego
 *minor fix to typed object property class.
 *

@@ -26,6 +26,8 @@ class Cursor;
 
 class Border;
 
+class GraphicsContext;
+
 /** The base Peer interface.
  *   In the Visual Control Framework Peers are the equivalent of Peers in Java.
  *   Peers can be either light weight or heavyweight.
@@ -171,6 +173,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/01/09 02:22:30  ddiego
+*more osx code
+*
 *Revision 1.4.2.1  2005/08/05 01:11:38  ddiego
 *splitter fixes finished.
 *

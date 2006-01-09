@@ -441,7 +441,7 @@ void DocumentManager::prepareOpenDialog( CommonFileOpenDialog* openDialog )
 		DocumentInfo& info = it->second;
 		fileTypes = info.fileTypes;
 
-		int pos = fileTypes.find( ";" );
+		size_t pos = fileTypes.find( ";" );
 		while ( pos != String::npos ) {
 			String filter = fileTypes.substr( 0 , pos );
 			fileTypes.erase( 0, pos + 1 );
@@ -469,7 +469,7 @@ void DocumentManager::prepareSaveDialog( CommonFileSaveDialog* saveDialog, Docum
 		fileTypes = info->fileTypes;
 	}
 
-	int pos = fileTypes.find( ";" );
+	size_t pos = fileTypes.find( ";" );
 	while ( pos != String::npos ) {
 		String filter = fileTypes.substr( 0 , pos );
 		fileTypes.erase( 0, pos + 1 );
@@ -615,6 +615,9 @@ void DocumentManager::addAction( ulong32 tag, Action* action )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2006/01/09 02:22:30  ddiego
+*more osx code
+*
 *Revision 1.4.2.6  2005/10/19 04:25:00  ddiego
 *minor doc view manager update.
 *

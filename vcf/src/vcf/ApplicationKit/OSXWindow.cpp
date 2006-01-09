@@ -1028,12 +1028,16 @@ void OSXWindow::copyControlsFromWndRef( WindowRef oldWndRef )
 	}						
 }
 
+
 };//end of namespace VCF
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/01/09 02:22:31  ddiego
+*more osx code
+*
 *Revision 1.4.2.2  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *
