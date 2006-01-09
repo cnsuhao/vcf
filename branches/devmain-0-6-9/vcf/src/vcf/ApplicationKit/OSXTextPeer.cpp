@@ -76,8 +76,9 @@ OSXTextPeer::OSXTextPeer():
 OSXTextPeer::~OSXTextPeer()
 {
 
-	TXNDeleteObject(txnObject_);
-	
+	if ( NULL != txnObject_ ) {
+		TXNDeleteObject(txnObject_);
+	}
 	if ( MLTERefCount > 0 ) {
 		MLTERefCount --;
 	}
@@ -545,6 +546,9 @@ void OSXTextPeer::setDefaultStyle( Dictionary&  styles )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2006/01/09 02:22:31  ddiego
+*more osx code
+*
 *Revision 1.2  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

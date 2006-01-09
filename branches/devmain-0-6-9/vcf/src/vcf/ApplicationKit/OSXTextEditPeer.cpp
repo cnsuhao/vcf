@@ -31,19 +31,19 @@ OSXTextEditPeer::OSXTextEditPeer( TextControl* component, const bool& isMultiLin
 
 OSXTextEditPeer::~OSXTextEditPeer()
 {
-	
+	//null this out so the ~OSXTextPeer doesn't
+	//release the txnObject_ - this is handled by the 
+	//HITextView
+	txnObject_ = NULL;
 }
 
 void OSXTextEditPeer::create( Control* owningControl )
 {
 	if ( NULL == textControl_ ){
-		//throw exception !!!!!!
+		throw RuntimeException( MAKE_ERROR_MSG_2( "NULL owner control for Text Edit Peer" ) );
 	}
 
-	OSXControl::create( owningControl );
-	
 
-	if ( hiView_ ){
 		TXNFrameOptions frameOptions;
 		frameOptions = kTXNDoFontSubstitutionMask;
 		
@@ -55,10 +55,34 @@ void OSXTextEditPeer::create( Control* owningControl )
 		r.origin.y = 0;				
 		r.size.width = 0;
 		r.size.height = 0;
-		if ( noErr != TXNCreateObject( &r, frameOptions, &txnObject_ ) ) {
-			throw RuntimeException( MAKE_ERROR_MSG_2("MLTE TXNCreateObject failed!") );
+		//if ( noErr != TXNCreateObject( &r, frameOptions, &txnObject_ ) ) {
+		//	throw RuntimeException( MAKE_ERROR_MSG_2("MLTE TXNCreateObject failed!") );
+	//	}
+	
+		hiView_ = NULL;
+	
+		HITextViewCreate( &r, 0, kTXNSingleLineOnlyMask, &hiView_ );
+		
+		if ( NULL == hiView_ ) {
+			throw RuntimeException( MAKE_ERROR_MSG_2("HITextViewCreate failed for OSXTextEditPeer!") );
 		}
 		
+		txnObject_ = HITextViewGetTXNObject( hiView_ ) ;
+		
+		OSXControl* thisPtr = this;
+		SetControlProperty( hiView_, 
+							VCF_PROPERTY_CREATOR, 
+							VCF_PROPERTY_CONTROL_VAL, 
+							sizeof(thisPtr), 
+							&thisPtr );
+							
+		OSStatus err = OSXControl::installStdControlHandler();
+							
+		if ( err != noErr ) {
+			throw RuntimeException( MAKE_ERROR_MSG_2("InstallEventHandler failed for OSXTextEditPeer!") );
+		}
+		
+		/*
 		TXNCarbonEventInfo      carbonEventInfo;
 		TXNControlTag           iControlTags[] = { kTXNUseCarbonEvents };  
 		TXNControlData          iControlData[1];
@@ -68,6 +92,7 @@ void OSXTextEditPeer::create( Control* owningControl )
 		carbonEventInfo.fDictionary = NULL;
 		iControlData[0].uValue = (UInt32) &carbonEventInfo;
 		TXNSetTXNObjectControls( txnObject_, false, 1, iControlTags, iControlData ); 
+		*/
 
 		setFont( textControl_->getFont() );
 
@@ -78,12 +103,7 @@ void OSXTextEditPeer::create( Control* owningControl )
 		textControl_->getFont()->FontChanged += 
 			new GenericEventHandler<OSXTextEditPeer>( this, &OSXTextEditPeer::onTextControlFontChanged, "OSXTextEditPeer::onTextControlFontChanged" );
 
-	}
-	else {
-		//throw exception
-		throw RuntimeException( "Runtime Exception!" );
-	}
-
+	
 }
 
 	
@@ -143,6 +163,91 @@ OSStatus OSXTextEditPeer::handleOSXEvent( EventHandlerCallRef nextHandler, Event
 					}
                 }
                 break;
+				
+				case kEventControlGetPartRegion : {
+					// get the region type
+					ControlPartCode part;
+					GetEventParameter( theEvent, kEventParamControlPart, typeControlPartCode,
+                                                NULL, sizeof(part), NULL, &part);
+					
+					if ( kControlStructureMetaPart == part ) {
+						
+						HIRect frame;	
+						HIViewGetFrame( hiView_, &frame );
+						::Rect r;
+						
+						SInt32 frameOutset;
+						GetThemeMetric( kThemeMetricEditTextFrameOutset, &frameOutset );
+						SInt32 focusRingOutset;
+						GetThemeMetric( kThemeMetricFocusRectOutset, &focusRingOutset );
+					
+						r.left = - (frameOutset + focusRingOutset);
+						r.top = -(frameOutset + focusRingOutset);
+						r.right = frame.size.width+(frameOutset + focusRingOutset);
+						r.bottom = frame.size.height+(frameOutset + focusRingOutset);
+						
+						RgnHandle rgn;
+						GetEventParameter( theEvent, kEventParamControlRegion, typeQDRgnHandle,
+                                                NULL, sizeof(rgn), NULL, &rgn);
+						
+						RectRgn( rgn, &r );
+					
+						result = noErr;
+					}
+					else {
+						result = CallNextEventHandler( nextHandler, theEvent );	
+					}
+
+										
+				}
+				break;
+				
+				case kEventControlDraw : {
+					//Make SURE to call our default handler here so that text
+					//get painted
+					::Rect r;
+					HIRect frame;	
+					HIViewGetFrame( hiView_, &frame );
+					SInt32 frameOutset;
+					GetThemeMetric( kThemeMetricEditTextFrameOutset, &frameOutset );
+					SInt32 focusRingOutset;
+					GetThemeMetric( kThemeMetricFocusRectOutset, &focusRingOutset );
+						
+					r.left = -frameOutset;
+					r.top = -frameOutset;
+					r.right = frame.size.width + frameOutset;
+					r.bottom = frame.size.height + frameOutset;
+					
+					result = CallNextEventHandler( nextHandler, theEvent );					
+					
+					
+					r.left = -frameOutset;
+					r.top = -frameOutset;
+					r.right = frame.size.width + frameOutset;
+					r.bottom = frame.size.height + frameOutset;
+					
+					ThemeDrawState  state = kThemeStateInactive;
+					
+					if ( IsControlActive( hiView_ ) ) {
+						state = kThemeStateActive;
+					}
+					
+					DrawThemeEditTextFrame( &r, state );
+					
+					HIViewPartCode focusPart = 0;
+					HIViewGetFocusPart( hiView_, &focusPart );						
+					
+					if ( focusPart != kHIViewNoPart ) {
+						r.left = -frameOutset;
+						r.top = -frameOutset;
+						r.right = frame.size.width + frameOutset;
+						r.bottom = frame.size.height + frameOutset;
+					
+						DrawThemeFocusRect( &r, TRUE );
+					}
+
+				}
+				break;
 				
 				default : {
                     result = OSXControl::handleOSXEvent( nextHandler, theEvent );
@@ -908,6 +1013,9 @@ void OSXTextEditPeer::onTextControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2006/01/09 02:22:31  ddiego
+*more osx code
+*
 *Revision 1.2.2.1  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

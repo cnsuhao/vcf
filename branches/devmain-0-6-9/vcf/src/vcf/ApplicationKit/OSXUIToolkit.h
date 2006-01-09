@@ -38,8 +38,7 @@ public:
 
 		OSStatus			err;
 		EventRef			event = TObject::CreateInitializationEvent();
-		ControlRef			root = NULL;
-
+		
 		// Register this class
 		VCF::CFTextString classID;
 		VCF::String className = VCF::StringUtils::getClassNameFromTypeInfo( typeid(ViewType) );
@@ -276,6 +275,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2006/01/09 02:22:31  ddiego
+*more osx code
+*
 *Revision 1.6.2.2  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

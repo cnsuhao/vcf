@@ -77,6 +77,7 @@ public:
 		p1->setColor( Color::getColor("yellow") );
 		p1->setToolTipText( "p1: AlignBottom, yellow" );
 
+
 		Panel* p2 = new Panel();
 		p2->setHeight( 5 );
 		p2->setUseColorForBackground( true );
@@ -253,6 +254,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/01/09 02:21:58  ddiego
+*more osx code
+*
 *Revision 1.5.2.1  2005/07/23 21:45:24  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

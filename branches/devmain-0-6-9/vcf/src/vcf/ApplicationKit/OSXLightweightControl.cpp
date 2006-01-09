@@ -254,7 +254,7 @@ void OSXLightweightControl::translateToScreenCoords( Point* pt )
 			parent->translateToScreenCoords( &tmpPt );
 			*pt = tmpPt;
 		}
-	}
+	}	
 }
 
 void OSXLightweightControl::translateFromScreenCoords( Point* pt )
@@ -296,13 +296,16 @@ void OSXLightweightControl::translateFromScreenCoords( Point* pt )
 
 			*pt = tmpPt;
 		}
-	}
+	}	
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/01/09 02:22:31  ddiego
+*more osx code
+*
 *Revision 1.5.2.1  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

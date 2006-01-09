@@ -1258,17 +1258,23 @@ void OSXContext::setClippingPath( Path* clippingPath )
 
 void OSXContext::setClippingRect( Rect* clipRect )
 {	
-	if ( clipRect->isNull() || clipRect->isEmpty() ) {
-		CGContextRestoreGState( contextID_ );	
+	if ( NULL != clipRect ) {
+		if ( clipRect->isNull() || clipRect->isEmpty() ) {
+			//CGContextRestoreGState( contextID_ );	
+			//CGContextRestoreGState( contextID_ );		
+		}
+		else {
+			Rect tmpClipRect = *clipRect;
+			tmpClipRect.offset( origin_.x_, origin_.y_ );
+			
+			OSXRect r = &tmpClipRect;
+			
+			//CGContextSaveGState( contextID_ );
+			CGContextClipToRect( contextID_, r );
+		}
 	}
 	else {
-		Rect tmpClipRect = *clipRect;
-		tmpClipRect.offset( origin_.x_, origin_.y_ );
-		
-		OSXRect r = &tmpClipRect;
-		
-		CGContextSaveGState( contextID_ );
-		CGContextClipToRect( contextID_, r );
+		//CGContextRestoreGState( contextID_ );		
 	}
 }
 
@@ -2281,6 +2287,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/01/09 02:22:31  ddiego
+*more osx code
+*
 *Revision 1.5.2.2  2005/11/27 23:55:45  ddiego
 *more osx updates.
 *
