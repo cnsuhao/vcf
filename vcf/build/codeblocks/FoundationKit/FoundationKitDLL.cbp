@@ -14,7 +14,7 @@
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-O2" />
@@ -76,7 +76,7 @@
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
