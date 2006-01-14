@@ -20,7 +20,6 @@
 					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-pipe" />
-					<Add option="-frtti" />
 					<Add option="-fexceptions" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
@@ -54,7 +53,6 @@
 					<Add option="-W" />
 					<Add option="-g" />
 					<Add option="-pipe" />
-					<Add option="-frtti" />
 					<Add option="-fexceptions" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
