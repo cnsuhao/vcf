@@ -45,6 +45,7 @@
 				<ResourceCompiler>
 					<Add directory="$(GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
+					<Add directory="..\..\resources\win32" />
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
@@ -93,6 +94,7 @@
 				<ResourceCompiler>
 					<Add directory="$(GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
+					<Add directory="..\..\resources\win32" />
 				</ResourceCompiler>
 				<Linker>
 					<Add library="GraphicsKit_$(COMPILER)$(COMPILER_VER)_sd" />
@@ -286,7 +288,6 @@
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ApplicationKit.h">
 			<Option compilerVar="CPP" />
-			<Option compile="0" />
 			<Option link="0" />
 			<Option target="mingw_gcc344_Release" />
 			<Option target="mingw_gcc344_Debug" />
