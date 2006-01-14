@@ -36,6 +36,7 @@
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
 					<Add option="-DUSE_APPLICATIONKIT_LIB" />
 					<Add directory="$(VCF_INCLUDE)" />
+					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(VCF_INCLUDE)" />
@@ -74,6 +75,7 @@
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
 					<Add option="-DUSE_APPLICATIONKIT_LIB" />
 					<Add directory="$(VCF_INCLUDE)" />
+					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(VCF_INCLUDE)" />
