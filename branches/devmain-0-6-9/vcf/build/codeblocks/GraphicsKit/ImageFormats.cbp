@@ -13,7 +13,7 @@
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
-				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="0" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-W" />
@@ -63,7 +63,7 @@
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
-				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="0" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />

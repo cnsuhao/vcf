@@ -10,14 +10,14 @@
 				<Option output="..\..\..\lib\libApplicationKit_mgcc_s.a" />
 				<Option working_dir="" />
 				<Option object_output="mgcc\ReleaseS\" />
-				<Option external_deps="C:\Dev\VCF\vcf\lib\libGraphicsKit_vc6_s.a;" />
+				<Option external_deps="$(VCF_LIB)\libGraphicsKit_mgcc_s.a;" />
 				<Option type="2" />
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
@@ -60,14 +60,14 @@
 				<Option output="..\..\..\lib\libApplicationKit_mgcc_sd.a" />
 				<Option working_dir="" />
 				<Option object_output="mgcc\DebugS\" />
-				<Option external_deps="C:\Dev\VCF\vcf\lib\libGraphicsKit_vc6_sd.a;" />
+				<Option external_deps="$(VCF_LIB)\libGraphicsKit_mgcc_sd.a;" />
 				<Option type="2" />
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
@@ -289,6 +289,7 @@
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ApplicationKit.h">
 			<Option compilerVar="CPP" />
 			<Option link="0" />
+			<Option weight="0" />
 			<Option target="mingw_gcc344_Release" />
 			<Option target="mingw_gcc344_Debug" />
 		</Unit>

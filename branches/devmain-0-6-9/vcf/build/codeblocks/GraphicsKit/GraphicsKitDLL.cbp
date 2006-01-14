@@ -9,14 +9,14 @@
 			<Target title="mingw_gcc344_Release">
 				<Option output="..\..\..\bin\GraphicsKit_mgcc.dll" />
 				<Option object_output="mgcc\ReleaseDLL\" />
-				<Option external_deps="C:\Dev\vcf\vcf\lib\libFoundationKitDLL.a;C:\Dev\vcf\vcf\lib\libLibJPEG_vc6_s.a;C:\Dev\vcf\vcf\lib\libLibPNG_vc6_s.a;C:\Dev\vcf\vcf\lib\libAGG_vc6_s.a;" />
+				<Option external_deps="$(VCF_BIN)\libFoundationKitDLL.a;$(VCF_LIB)\libLibJPEG_mgcc_s.a;$(VCF_LIB)\libLibPNG_mgcc_s.a;$(VCF_LIB)\libAGG_mgcc_s.a;" />
 				<Option type="3" />
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -78,14 +78,14 @@
 			<Target title="mingw_gcc344_Debug">
 				<Option output="..\..\..\bin\GraphicsKit_mgcc_d.dll" />
 				<Option object_output="mgcc\DebugDLL\" />
-				<Option external_deps="C:\Dev\vcf\vcf\lib\libFoundationKitDLL.a;C:\Dev\vcf\vcf\lib\libLibJPEG_vc6_sd.a;C:\Dev\vcf\vcf\lib\libLibPNG_vc6_sd.a;C:\Dev\vcf\vcf\lib\libAGG_vc6_sd.a;" />
+				<Option external_deps="$(VCF_BIN)\libFoundationKitDLL_mgcc_d.a;$(VCF_LIB)\libLibJPEG_mgcc_sd.a;$(VCF_LIB)\libLibPNG_mgcc_sd.a;$(VCF_LIB)\libAGG_mgcc_sd.a;" />
 				<Option type="3" />
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="1" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
