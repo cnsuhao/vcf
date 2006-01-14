@@ -14,7 +14,8 @@
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -45,7 +46,7 @@
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
 				<Environment>
-					<Variable name="GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\Release\src" />
+					<Variable name="GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\ReleaseS\src" />
 				</Environment>
 			</Target>
 			<Target title="mingw_gcc344_Debug">
@@ -56,7 +57,8 @@
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -86,7 +88,7 @@
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
 				<Environment>
-					<Variable name="GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\Debug\src" />
+					<Variable name="GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\DebugS\src" />
 				</Environment>
 			</Target>
 			<Environment>

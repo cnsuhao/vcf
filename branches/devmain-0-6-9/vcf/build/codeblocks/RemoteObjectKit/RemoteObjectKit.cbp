@@ -15,7 +15,7 @@
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -67,9 +67,6 @@
 					<Add directory="$(VCF_BIN)" />
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
-				<Environment>
-					<Variable name="FOUNDATIONKITDLL_GCH_DIR" value="..\FoundationKit\mingw_gcc344\ReleaseDLL\src" />
-				</Environment>
 			</Target>
 			<Target title="mingw_gcc344_Debug">
 				<Option output="..\..\..\bin\RemoteObjectKit_mgcc_d.dll" />
@@ -77,9 +74,10 @@
 				<Option external_deps="C:\Dev\VCF\vcf\lib\libNetworkKitDLL.a;" />
 				<Option type="3" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -101,11 +99,9 @@
 					<Add option="-DUSE_NETKIT_DLL" />
 					<Add option="-DREMOTEKIT_DLL" />
 					<Add option="-DREMOTEKIT_EXPORTS" />
-					<Add directory="$(FOUNDATIONKITDLL_GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="$(FOUNDATIONKITDLL_GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
@@ -132,9 +128,6 @@
 					<Add directory="$(VCF_BIN)" />
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
-				<Environment>
-					<Variable name="FOUNDATIONKITDLL_GCH_DIR" value="..\FoundationKit\mingw_gcc344\DebugDLL\src" />
-				</Environment>
 			</Target>
 			<Environment>
 				<Variable name="COMPILER" value="mgcc" />

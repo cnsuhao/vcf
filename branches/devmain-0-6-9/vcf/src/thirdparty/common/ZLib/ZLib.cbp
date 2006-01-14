@@ -13,7 +13,7 @@
 				<Option type="2" />
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -47,7 +47,8 @@
 				<Option object_output="mgcc\Debug\" />
 				<Option type="2" />
 				<Option compiler="0" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option includeInTargetAll="1" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
