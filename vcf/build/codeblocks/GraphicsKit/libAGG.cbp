@@ -13,13 +13,12 @@
 				<Option type="2" />
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
-				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="0" />
 				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
 					<Add option="-pipe" />
-					<Add option="-frtti" />
 					<Add option="-fexceptions" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
@@ -49,13 +48,12 @@
 				<Option type="2" />
 				<Option compiler="0" />
 				<Option includeInTargetAll="1" />
-				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="0" />
 				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
 					<Add option="-pipe" />
-					<Add option="-frtti" />
 					<Add option="-fexceptions" />
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
