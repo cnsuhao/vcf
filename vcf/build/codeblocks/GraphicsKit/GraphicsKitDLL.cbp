@@ -15,8 +15,8 @@
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectIncludeDirsRelation="1" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -81,10 +81,12 @@
 				<Option external_deps="C:\Dev\vcf\vcf\lib\libFoundationKitDLL.a;C:\Dev\vcf\vcf\lib\libLibJPEG_vc6_sd.a;C:\Dev\vcf\vcf\lib\libLibPNG_vc6_sd.a;C:\Dev\vcf\vcf\lib\libAGG_vc6_sd.a;" />
 				<Option type="3" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectIncludeDirsRelation="1" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />

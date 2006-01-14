@@ -15,7 +15,8 @@
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -37,16 +38,10 @@
 					<Add option="-DUSE_APPLICATIONKIT_DLL" />
 					<Add option="-DOPENGLKIT_DLL" />
 					<Add option="-DOPENGLKIT_EXPORTS" />
-					<Add directory="$(APPLICATIONKITDLL_GCH_DIR)" />
-					<Add directory="$(GRAPHICSKITDLL_GCH_DIR)" />
-					<Add directory="$(FOUNDATIONKITDLL_GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="$(APPLICATIONKITDLL_GCH_DIR)" />
-					<Add directory="$(GRAPHICSKITDLL_GCH_DIR)" />
-					<Add directory="$(FOUNDATIONKITDLL_GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
@@ -80,11 +75,6 @@
 					<Add directory="$(VCF_BIN)" />
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
-				<Environment>
-					<Variable name="APPLICATIONKITDLL_GCH_DIR" value="..\ApplicationKit\$(COMPILER)$(COMPILER_VER)\ReleaseDLL\src" />
-					<Variable name="GRAPHICSKITDLL_GCH_DIR" value="..\GraphicsKit\$(COMPILER)$(COMPILER_VER)\ReleaseDLL\src" />
-					<Variable name="FOUNDATIONKITDLL_GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\ReleaseDLL\src" />
-				</Environment>
 			</Target>
 			<Target title="mingw_gcc344_Debug">
 				<Option output="..\..\..\bin\OpenGLKit_mgcc_d.dll" />
@@ -92,9 +82,11 @@
 				<Option external_deps="C:\Dev\VCF\vcf\lib\libApplicationKitDLL.a;" />
 				<Option type="3" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -151,11 +143,6 @@
 					<Add directory="$(VCF_BIN)" />
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
-				<Environment>
-					<Variable name="APPLICATIONKITDLL_GCH_DIR" value="..\ApplicationKit\mingw_gcc344\DebugDLL\src" />
-					<Variable name="GRAPHICSKITDLL_GCH_DIR" value="..\GraphicsKit\mingw_gcc344\DebugDLL\src" />
-					<Variable name="FOUNDATIONKITDLL_GCH_DIR" value="..\FoundationKit\mingw_gcc344\DebugDLL\src" />
-				</Environment>
 			</Target>
 			<Environment>
 				<Variable name="COMPILER" value="mgcc" />

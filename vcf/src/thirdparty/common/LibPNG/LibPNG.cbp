@@ -12,6 +12,7 @@
 				<Option object_output="mgcc\Release\" />
 				<Option type="2" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectCompilerOptionsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="0" />
@@ -46,6 +47,7 @@
 				<Option object_output="mgcc\Debug\" />
 				<Option type="2" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectResourceIncludeDirsRelation="0" />
 				<Compiler>

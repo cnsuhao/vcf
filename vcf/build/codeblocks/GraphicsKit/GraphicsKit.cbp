@@ -16,7 +16,8 @@
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -52,7 +53,7 @@
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
 				<Environment>
-					<Variable name="GCH_DIR" value="..\GraphicsKit\mingw_gcc344\Release\src" />
+					<Variable name="GCH_DIR" value="..\GraphicsKit\$(COMPILER)$(COMPILER_VER)\ReleaseS\src" />
 				</Environment>
 			</Target>
 			<Target title="mingw_gcc344_Debug">
@@ -62,9 +63,11 @@
 				<Option external_deps="C:\Dev\vcf\vcf\lib\libFoundationKit_vc6_sd.a;C:\Dev\vcf\vcf\lib\libAGG_vc6_sd.a;" />
 				<Option type="2" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -99,7 +102,7 @@
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
 				<Environment>
-					<Variable name="GCH_DIR" value="..\GraphicsKit\mingw_gcc344\Debug\src" />
+					<Variable name="GCH_DIR" value="..\GraphicsKit\$(COMPILER)$(COMPILER_VER)\DebugS\src" />
 				</Environment>
 			</Target>
 			<Environment>

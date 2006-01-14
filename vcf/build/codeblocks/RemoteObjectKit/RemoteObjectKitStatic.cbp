@@ -13,20 +13,27 @@
 				<Option external_deps="C:\Dev\VCF\vcf\lib\libNetworkKit_vc6_s.a;" />
 				<Option type="2" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
+					<Add option="-pipe" />
 					<Add option="-frtti" />
 					<Add option="-fexceptions" />
 					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-Winvalid-pch" />
 					<Add option="-Wno-multichar" />
-					<Add option="-Wno-system-headers" />
-					<Add option="-DWIN32" />
 					<Add option="-DNDEBUG" />
-					<Add option="-D_MBCS" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WIN32" />
+					<Add option="-D_WINDOWS" />
 					<Add option="-D_LIB" />
+					<Add option="-D_UNICODE" />
+					<Add option="-DVCF_MINGW" />
+					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
 					<Add option="-DUSE_NETKIT_LIB" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
@@ -34,7 +41,7 @@
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="C:\Dev\VCF\vcf\lib\libNetworkKit_vc6_s.a" />
+					<Add library="NetworkKit_$(COMPILER)$(COMPILER_VER)_s" />
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
 			</Target>
@@ -45,19 +52,26 @@
 				<Option external_deps="C:\Dev\VCF\vcf\lib\libNetworkKit_vc6_sd.a;" />
 				<Option type="2" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
+					<Add option="-pipe" />
 					<Add option="-frtti" />
 					<Add option="-fexceptions" />
 					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-Winvalid-pch" />
 					<Add option="-Wno-multichar" />
-					<Add option="-Wno-system-headers" />
-					<Add option="-DWIN32" />
 					<Add option="-D_DEBUG" />
-					<Add option="-D_MBCS" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WIN32" />
+					<Add option="-D_WINDOWS" />
 					<Add option="-D_LIB" />
+					<Add option="-D_UNICODE" />
+					<Add option="-DVCF_MINGW" />
+					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
 					<Add option="-DUSE_NETKIT_LIB" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
@@ -65,7 +79,7 @@
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
-					<Add library="C:\Dev\VCF\vcf\lib\libNetworkKit_vc6_sd.a" />
+					<Add library="NetworkKit_$(COMPILER)$(COMPILER_VER)_sd" />
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
 			</Target>

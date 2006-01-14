@@ -15,7 +15,7 @@
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -37,11 +37,9 @@
 					<Add option="-DUSE_FOUNDATIONKIT_DLL" />
 					<Add option="-DNETKIT_DLL" />
 					<Add option="-DNETKIT_EXPORTS" />
-					<Add directory="$(FOUNDATIONKITDLL_GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="$(FOUNDATIONKITDLL_GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
@@ -79,9 +77,10 @@
 				<Option external_deps="C:\Dev\VCF\vcf\lib\libFoundationKitDLL.a;" />
 				<Option type="3" />
 				<Option compiler="0" />
+				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -103,11 +102,9 @@
 					<Add option="-DUSE_FOUNDATIONKIT_DLL" />
 					<Add option="-DNETKIT_DLL" />
 					<Add option="-DNETKIT_EXPORTS" />
-					<Add directory="$(FOUNDATIONKITDLL_GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="$(FOUNDATIONKITDLL_GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
