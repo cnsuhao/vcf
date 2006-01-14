@@ -15,7 +15,8 @@ where you installed the VCF.
 
 using namespace VCF;
 
-OSXProcessPeer::OSXProcessPeer()
+OSXProcessPeer::OSXProcessPeer():
+	processTerminated_(false)
 {
 	memset( &processHandle_, 0, sizeof(processHandle_) );
 	memset( &processHandle_.launchBlock, 0, sizeof(processHandle_.launchBlock) );
@@ -35,6 +36,7 @@ int OSXProcessPeer::getProcessThreadID()
 bool OSXProcessPeer::createProcess( const String& processName, const String& arguments )
 {
 	bool result = false;
+	processTerminated_ = false;
 
 	memset( &processHandle_, 0, sizeof(processHandle_) );
 	memset( &processHandle_.launchBlock, 0, sizeof(processHandle_.launchBlock) );
@@ -88,16 +90,15 @@ bool OSXProcessPeer::createProcess( const String& processName, const String& arg
 				}
 				
 				
-				//static const EventTypeSpec events[] ={
-				//								{ kEventClassApplication, kEventAppTerminated }
-				//							};
+				static const EventTypeSpec events[] ={
+												{ kEventClassApplication, kEventAppTerminated }
+											};
 											
 
 				//install event handler for appl close!
-				
-				//EventHandlerUPP myUPP = NewEventHandlerUPP(handleAppEvent);
-				//InstallApplicationEventHandler(myUPP, sizeof(events) / sizeof(EventTypeSpec), 
-				//								&events, NULL, NULL);
+				InstallApplicationEventHandler(OSXProcessPeer::osxProcessTerminated, 
+												sizeof(events) / sizeof(EventTypeSpec), 
+												events, this, NULL);
 
 				
 				
@@ -293,9 +294,66 @@ ulong32 OSXProcessPeer::terminate()
 }
 
 
+Waitable::WaitResult OSXProcessPeer::wait( uint32 milliseconds )
+{
+	Waitable::WaitResult result = Waitable::wrWaitFinished;
+	
+	return result;
+}
+
+Waitable::WaitResult OSXProcessPeer::wait()
+{
+	Waitable::WaitResult result = Waitable::wrWaitFinished;
+	
+	//the following is probably wrong, we need another solution???
+	if ( processHandle_.isUnixProcess ) {
+	}
+	else {		
+		EventRef theRecvdEvent;				
+		while  (ReceiveNextEvent(0, NULL,kEventDurationForever,true,
+								 
+								 &theRecvdEvent)== noErr)
+			
+		{	
+			
+			SendEventToEventTarget (theRecvdEvent, GetEventDispatcherTarget());
+			
+			ProcessSerialNumber psn = {0};
+			OSStatus err = GetEventParameter( theRecvdEvent,
+                                        kEventParamProcessID,
+                                        typeProcessSerialNumber,
+                                        NULL,
+                                        sizeof(psn),
+                                        NULL,
+                                        &psn );
+			
+			ReleaseEvent(theRecvdEvent);
+			if ( processTerminated_ && (psn.highLongOfPSN == processHandle_.launchBlock.launchProcessSN.highLongOfPSN) &&
+					(psn.lowLongOfPSN == processHandle_.launchBlock.launchProcessSN.lowLongOfPSN) ) {
+				printf( "Process quit!\n" );
+				break;
+			}
+		}
+	}
+	
+	return result;
+}
+
+OSStatus OSXProcessPeer::osxProcessTerminated( EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void * inUserData )
+{
+	OSXProcessPeer* thisPtr = (OSXProcessPeer*)inUserData;
+	thisPtr->processTerminated_ = true;
+	
+	return noErr;
+}
+
+
 /**
 *CVS Log info
  *$Log$
+ *Revision 1.3.4.3  2006/01/14 21:49:21  ddiego
+ *general osx checkin
+ *
  *Revision 1.3.4.2  2005/11/27 23:55:45  ddiego
  *more osx updates.
  *
