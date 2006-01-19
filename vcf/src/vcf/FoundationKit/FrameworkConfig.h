@@ -332,6 +332,9 @@ this define is to fix:
 
 #if defined(VCF_MINGW)  
 #define _WIN32_IE 0x0500
+# if defined(_WIN32_WINNT)
+#   undef _WIN32_WINNT
+# endif
 #define _WIN32_WINNT 0x0500
 #endif
 
@@ -676,6 +679,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.7  2006/01/19 06:04:58  dougtinkham
+*removed warning for mingw
+*
 *Revision 1.6.2.6  2006/01/02 13:27:05  kiklop74
 *Warning 8098 for BDS 2006
 *
