@@ -11,7 +11,7 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/DateTime.h"
 
-#ifdef VCF_OSX 
+#if defined(VCF_OSX) || defined(VCF_MINGW) 
     #include <cxxabi.h>  //add this so we can demangle the GCC typeinfo names
 #endif
 
@@ -637,7 +637,7 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInfo  )
 {
 	VCF::String result = "";
-#ifdef WIN32 //don't know if we really need this here
+#if defined(WIN32) && !defined(VCF_MINGW) //don't know if we really need this here
 		std::string tmp = typeInfo.name();  //put back in when we find typeid
 		if ( tmp != "void *" ) {//void* is a special case!
 			//strip out the preceding "class" or "enum" or whatever
@@ -674,7 +674,7 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 
 	#endif
 
-#elif VCF_OSX
+#elif defined(VCF_OSX) || defined(VCF_MINGW)
 	int status = 0;
 	const char* c_name = 0;
 
@@ -2256,6 +2256,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.12  2006/01/20 20:04:26  dougtinkham
+*demangle typeinfo names for MinGW
+*
 *Revision 1.4.2.11  2005/12/04 20:58:32  ddiego
 *more osx impl work. foundationkit is mostly complete now.
 *
