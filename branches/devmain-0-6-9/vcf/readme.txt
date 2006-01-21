@@ -1,3 +1,8 @@
+Visual Component Framework 0.6.9
+
+Readme
+
+
 Visual Component Framework 0.6.8
 
 Readme
