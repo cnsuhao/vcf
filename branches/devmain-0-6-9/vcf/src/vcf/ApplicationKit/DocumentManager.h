@@ -1454,7 +1454,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile()
 template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 {
-	closingDocument_ = true;
+	//JC - I got rid of this because I beleive it is no longer 
+	//neccessary
+	/*closingDocument_ = true;
 
 	Document* currentDoc = DocInterfacePolicy::getCurrentDocument();
 
@@ -1462,6 +1464,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 	if ( NULL != owner ) {
 		owner->removeComponent( currentDoc );
 	}
+	documentClosedOK_ = false;
 	// closes the current document window ( and so the window 
 	// associated  to the just deleted document ).
 	DocInterfacePolicy::closeDocument();
@@ -1476,6 +1479,11 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 	removeUndoRedoStackForDocument( currentDoc );
 
 	currentDoc->free();
+
+	documentClosedOK_ = false;
+	*/
+
+	DocInterfacePolicy::closeDocument();
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
@@ -1879,6 +1887,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/01/22 23:52:21  ddiego
+*some minor changed to doc manager.
+*
 *Revision 1.4.2.4  2005/10/18 04:42:39  ddiego
 *fixed minor bug in doc manager.
 *
