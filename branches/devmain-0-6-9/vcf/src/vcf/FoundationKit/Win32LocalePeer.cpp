@@ -342,14 +342,31 @@ void Win32LocalePeer::setLocale( const UnicodeString& language, const UnicodeStr
 int Win32LocalePeer::collate( const UnicodeString& s1, const UnicodeString& s2 )
 {
 	int result = 0;
+	int cmpRes = CSTR_EQUAL;
 	if ( System::isUnicodeEnabled() ) {
-		result = ::CompareStringW( lcid_, 0, s1.c_str(), s1.size(), s2.c_str(), s2.size() );
+		cmpRes = ::CompareStringW( lcid_, 0, s1.c_str(), s1.size(), s2.c_str(), s2.size() );
 	}
 	else {
 		AnsiString tmp1 = s1;
 		AnsiString tmp2 = s2;
 
-		result = ::CompareStringA( lcid_, 0, tmp1.c_str(), tmp1.size(), tmp2.c_str(), tmp2.size() );
+		cmpRes = ::CompareStringA( lcid_, 0, tmp1.c_str(), tmp1.size(), tmp2.c_str(), tmp2.size() );
+	}
+	switch ( cmpRes ) {
+		case CSTR_LESS_THAN : {
+			result = -1;
+		}
+		break;
+		
+		case CSTR_EQUAL : {
+			result = 0;
+		}
+		break;
+		
+		case CSTR_GREATER_THAN : {
+			result = 1;
+		}
+		break;
 	}
 
 	return result;
@@ -2781,6 +2798,9 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/01/22 14:24:12  ddiego
+*updated to add case insens str compare.
+*
 *Revision 1.4  2005/07/09 23:15:07  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -500,7 +500,7 @@ void FileSearchFilterStandard::buildSearchFilters( const String& basenameFilterL
 		while ( String::npos != pos ) {
 			pos = basenameFilterList.find( separator_, lastpos );
 			if ( String::npos != pos ) {
-				searchFiltersBasename_.push_back( basenameFilterList.substr( lastpos, pos ) );
+				searchFiltersBasename_.push_back( basenameFilterList.substr( lastpos, pos-lastpos ) );
 				lastpos = pos + 1;
 			}
 		};
@@ -607,6 +607,9 @@ File* FileSearchFilterStandard::passSearchFilter( const File* file, const Direct
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/01/22 14:24:12  ddiego
+*updated to add case insens str compare.
+*
 *Revision 1.4.2.1  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

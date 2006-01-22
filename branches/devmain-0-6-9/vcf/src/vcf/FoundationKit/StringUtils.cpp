@@ -320,15 +320,32 @@ int StringUtils::noCaseCompare( const VCF::String& str1, const VCF::String& str2
 	}
 
 #elif defined(WIN32)
-	int result = 0;
+	int cmpRes = CSTR_EQUAL;
 	if ( System::isUnicodeEnabled() ) {
-		result = ::CompareStringW( GetThreadLocale(), NORM_IGNORECASE, str1.c_str(), str1.size(), str2.c_str(), str2.size() );
+		cmpRes = ::CompareStringW( GetThreadLocale(), NORM_IGNORECASE, str1.c_str(), str1.size(), str2.c_str(), str2.size() );
+		
 	}
 	else {
-		AnsiString tmp1 = s1;
-		AnsiString tmp2 = s2;
+		AnsiString tmp1 = str1;
+		AnsiString tmp2 = str2;
 
-		result = ::CompareStringA( GetThreadLocale(), NORM_IGNORECASE, tmp1.c_str(), tmp1.size(), tmp2.c_str(), tmp2.size() );
+		cmpRes = ::CompareStringA( GetThreadLocale(), NORM_IGNORECASE, tmp1.c_str(), tmp1.size(), tmp2.c_str(), tmp2.size() );
+	}
+	switch ( cmpRes ) {
+		case CSTR_LESS_THAN : {
+			result = -1;
+		}
+		break;
+		
+		case CSTR_EQUAL : {
+			result = 0;
+		}
+		break;
+		
+		case CSTR_GREATER_THAN : {
+			result = 1;
+		}
+		break;
 	}
 #else
 	String s1 = StringUtils::upperCase(str1);
@@ -2305,6 +2322,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.14  2006/01/22 14:24:12  ddiego
+*updated to add case insens str compare.
+*
 *Revision 1.4.2.13  2006/01/22 05:50:09  ddiego
 *added case insensitive string compare to string utils class.
 *

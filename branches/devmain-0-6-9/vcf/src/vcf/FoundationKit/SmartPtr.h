@@ -11,7 +11,7 @@ where you installed the VCF.
 #   pragma once
 #endif
 
-#include <thirdparty/common/boost/smart_ptr.hpp>
+#include "thirdparty/common/boost/smart_ptr.hpp"
 
 namespace VCF  {
 
