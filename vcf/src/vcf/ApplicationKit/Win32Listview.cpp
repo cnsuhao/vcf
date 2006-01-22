@@ -481,7 +481,9 @@ LRESULT CALLBACK Win32Listview::Header_WndProc(HWND hWnd, UINT message, WPARAM w
 void Win32Listview::postPaintItem( NMLVCUSTOMDRAW* drawItem )
 {
 	ListModel* model = listviewControl_->getListModel();
-	ListItem* item = model->getItemFromIndex( (ulong32 )drawItem->nmcd.dwItemSpec );
+	ListItem* item = (ListItem*)drawItem->nmcd.lItemlParam;
+	StringUtils::trace( Format("Painting item: %d\n") % drawItem->nmcd.dwItemSpec );
+		//model->getItemFromIndex( (ulong32 )drawItem->nmcd.dwItemSpec );
 
 	if ( NULL != item ) {
 
@@ -2415,6 +2417,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/01/22 23:52:21  ddiego
+*some minor changed to doc manager.
+*
 *Revision 1.5.2.3  2005/11/21 21:28:03  ddiego
 *updated win32 code a bit due to osx changes.
 *

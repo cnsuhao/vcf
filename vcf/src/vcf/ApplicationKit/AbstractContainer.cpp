@@ -310,7 +310,6 @@ void AbstractContainer::paintChildren( GraphicsContext* context )
 		VCF_ASSERT( NULL != child );
 
 		if ( child->isLightWeight() && child->getVisible() ){
-			StringUtils::trace( "preparing to paint lightweight child" );
 			
 			bounds = child->getBounds();
 			
@@ -578,6 +577,9 @@ void AbstractContainer::setContainerControl( Control* control )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/01/22 23:52:21  ddiego
+*some minor changed to doc manager.
+*
 *Revision 1.5.2.2  2006/01/09 02:22:30  ddiego
 *more osx code
 *

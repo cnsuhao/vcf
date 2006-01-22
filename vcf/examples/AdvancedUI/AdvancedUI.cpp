@@ -327,6 +327,7 @@ public:
 		templates_->getFont()->setPointSize( 10 );
 
 
+
 		TemplateItem* templateItem = new TemplateItem();
 		templateItem->setCaption( "Oggle Boggle" );
 		templateItem->setImageIndex( 0 );
