@@ -173,6 +173,17 @@ public:
 	*/
 	static VCF::String upperCase( const VCF::String& text );
 
+	/**
+	Performs a case insensitive string compare between str1 and
+	str2. This may not be locale safe, but it will try and use
+	the lower level OS facilities for case insensitive string
+	comparison if they exist. Otherwise it will simply convert 
+	both strings to uppercase and compare the results.
+	@return int returns 0 if the strings are equivalent, returns
+	greater than 0 if str1 is greater than str2, and returns less
+	than 0 if str1 is less than str2.
+ 	*/
+	static int noCaseCompare( const VCF::String& str1, const VCF::String& str2 );
 
 	/**
 	converts the value to a string
@@ -805,6 +816,9 @@ inline String& operator+= ( String& lhs, const VariantData& rhs )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/01/22 05:50:09  ddiego
+*added case insensitive string compare to string utils class.
+*
 *Revision 1.5.2.2  2005/08/01 17:11:46  marcelloptr
 *minor fixes or additions
 *

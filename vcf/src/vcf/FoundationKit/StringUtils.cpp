@@ -295,6 +295,55 @@ String StringUtils::upperCase( const VCF::String& text )
 	return result;
 }
 
+int StringUtils::noCaseCompare( const VCF::String& str1, const VCF::String& str2 )
+{
+	int result = 0;
+#if defined(VCF_OSX)
+	CFTextString tmp1(str1);	
+	CFTextString tmp2(str2);
+	CFComparisonResult cmpRes = CFStringCompare( tmp1, tmp2, kCFCompareCaseInsensitive );
+	switch ( cmpRes ) {
+		case kCFCompareLessThan : {
+			result = -1;
+		}
+		break;
+		
+		case kCFCompareEqualTo : {
+			result = 0;
+		}
+		break;
+		
+		case kCFCompareGreaterThan : {
+			result = 1;
+		}
+		break;
+	}
+
+#elif defined(WIN32)
+	int result = 0;
+	if ( System::isUnicodeEnabled() ) {
+		result = ::CompareStringW( GetThreadLocale(), NORM_IGNORECASE, str1.c_str(), str1.size(), str2.c_str(), str2.size() );
+	}
+	else {
+		AnsiString tmp1 = s1;
+		AnsiString tmp2 = s2;
+
+		result = ::CompareStringA( GetThreadLocale(), NORM_IGNORECASE, tmp1.c_str(), tmp1.size(), tmp2.c_str(), tmp2.size() );
+	}
+#else
+	String s1 = StringUtils::upperCase(str1);
+	String s2 = StringUtils::upperCase(str2);
+	
+	if ( s1 < s2 ) {
+		result = -1;
+	}
+	else if ( s1 > s2 ) {
+		result = 1;
+	}
+#endif
+	return result;
+}
+
 VCF::String StringUtils::toStringFromHexNumber( const uchar& value )
 {
 	VCF::String result;
@@ -2256,6 +2305,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.13  2006/01/22 05:50:09  ddiego
+*added case insensitive string compare to string utils class.
+*
 *Revision 1.4.2.12  2006/01/20 20:04:26  dougtinkham
 *demangle typeinfo names for MinGW
 *
