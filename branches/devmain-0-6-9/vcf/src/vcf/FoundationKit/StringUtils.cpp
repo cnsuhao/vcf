@@ -700,6 +700,67 @@ VCF::String StringUtils::format( VCF::String formatText, ... )
 }
 */
 
+VCF::String StringUtils::toString( const std::type_info& typeInfo )
+{
+#if defined(WIN32) && !defined(VCF_MINGW)
+	return StringUtils::getClassNameFromTypeInfo( typeInfo );
+#elif defined(VCF_GCC)
+	String result;
+	
+	int status = 0;
+	char* nameBuf;
+	const char* c_name = 0;
+
+	nameBuf = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
+	c_name = nameBuf;
+	
+		
+	if ( NULL == c_name ) {
+		//try typeinfo.name() without the C++ de-mangler
+		c_name = typeInfo.name();
+		
+		if ( -2 == status && (strlen(c_name) == 1) ) { //built-in type
+			switch (c_name[0])
+			{
+				case 'v': c_name = "void"; break;
+				case 'w': c_name = "wchar_t"; break;
+				case 'b': c_name = "bool"; break;
+				case 'c': c_name = "char"; break;
+				case 'a': c_name = "signed char"; break;
+				case 'h': c_name = "unsigned char"; break;
+				case 's': c_name = "short"; break;
+				case 't': c_name = "unsigned short"; break;
+				case 'i': c_name = "int"; break;
+				case 'j': c_name = "unsigned int"; break;
+				case 'l': c_name = "long"; break;
+				case 'm': c_name = "unsigned long"; break;
+				case 'x': c_name = "long long"; break;
+				case 'y': c_name = "unsigned long long"; break;
+				case 'n': c_name = "__int128"; break;
+				case 'o': c_name = "unsigned __int128"; break;
+				case 'f': c_name = "float"; break;
+				case 'd': c_name = "double"; break;
+				case 'e': c_name = "long double"; break;
+				case 'g': c_name = "__float128"; break;
+				case 'z': c_name = "..."; break;
+			} 
+		}		
+	}
+	
+	
+	if ( NULL != c_name ) {
+		result = c_name;
+	}
+	
+	if ( NULL != nameBuf ) {
+		::free( nameBuf );
+	}
+	return result;
+#else
+	return typeInfo.name();
+#endif	
+}
+
 VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInfo  )
 {
 	VCF::String result = "";
@@ -742,10 +803,62 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 
 #elif defined(VCF_OSX) || defined(VCF_MINGW)
 	int status = 0;
+	char* nameBuf;
 	const char* c_name = 0;
 
-	c_name = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
+	nameBuf = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
+	c_name = nameBuf;
+	
 		
+	if ( NULL == c_name ) {
+		//try typeinfo.name() without the C++ de-mangler
+		c_name = typeInfo.name();
+		
+		if ( -2 == status && (strlen(c_name) == 1) ) { //built-in type
+			switch (c_name[0])
+			{
+				case 'v': c_name = "void"; break;
+				case 'w': c_name = "wchar_t"; break;
+				case 'b': c_name = "bool"; break;
+				case 'c': c_name = "char"; break;
+				case 'a': c_name = "signed char"; break;
+				case 'h': c_name = "unsigned char"; break;
+				case 's': c_name = "short"; break;
+				case 't': c_name = "unsigned short"; break;
+				case 'i': c_name = "int"; break;
+				case 'j': c_name = "unsigned int"; break;
+				case 'l': c_name = "long"; break;
+				case 'm': c_name = "unsigned long"; break;
+				case 'x': c_name = "long long"; break;
+				case 'y': c_name = "unsigned long long"; break;
+				case 'n': c_name = "__int128"; break;
+				case 'o': c_name = "unsigned __int128"; break;
+				case 'f': c_name = "float"; break;
+				case 'd': c_name = "double"; break;
+				case 'e': c_name = "long double"; break;
+				case 'g': c_name = "__float128"; break;
+				case 'z': c_name = "..."; break;
+			} 
+		}		
+	}
+	
+	
+	if ( NULL != c_name ) {
+		result = c_name;
+	}
+	
+	if ( NULL != nameBuf ) {
+		::free( nameBuf );
+	}
+	
+#elif VCF_POSIX
+	int status = 0;
+	char* nameBuf;
+	const char* c_name = 0;
+
+	nameBuf = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
+	c_name = nameBuf;
+	
 	if ( NULL == c_name ) {
 		//try typeinfo.name() without the C++ de-mangler
 		c_name = typeInfo.name();
@@ -756,12 +869,9 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 		result = c_name;
 	}
 	
-#elif VCF_POSIX
-	int status = 0;
-	char* c_name = 0;
-
-	c_name = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
-	result = c_name;
+	if ( NULL != nameBuf ) {
+		::free(nameBuf);
+	}
 #else
 	result = typeInfo.name();
 #endif
@@ -2322,6 +2432,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.15  2006/01/22 17:19:37  ddiego
+*fixed some bugs in type_info handling for gcc.
+*
 *Revision 1.4.2.14  2006/01/22 14:24:12  ddiego
 *updated to add case insens str compare.
 *

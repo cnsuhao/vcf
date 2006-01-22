@@ -377,6 +377,13 @@ public:
 	static VCF::String getClassNameFromTypeInfo( const std::type_info& typeInfo );
 
 	/**
+	Converts a typeinfo to a string. GCC does such a piss poor job of this
+	that we have to write our own coverter, since the data returned by
+	the GCC implemented type_info::name() is useless.
+	*/
+	static VCF::String toString( const std::type_info& typeInfo );
+	
+	/**
 	Formats a string from date time object using the various argument/formatting
 	tags in the formatting string. For example, a date that equals "Jan 2, 2005",
 	and a formatting string of "%a %B %#d, %Y" will return string that equals
@@ -816,6 +823,9 @@ inline String& operator+= ( String& lhs, const VariantData& rhs )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/01/22 17:19:38  ddiego
+*fixed some bugs in type_info handling for gcc.
+*
 *Revision 1.5.2.3  2006/01/22 05:50:09  ddiego
 *added case insensitive string compare to string utils class.
 *
