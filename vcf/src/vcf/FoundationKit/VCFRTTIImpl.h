@@ -2573,8 +2573,8 @@ static PropertyDescriptorType getDescriptor( const std::type_info& typeInfo )
 {
 	PropertyDescriptorType result = pdUndefined;
 
-	String typeName = typeInfo.name();
-
+	String typeName = StringUtils::toString(typeInfo);
+/*
 #ifdef WIN32 //don't know if we really need this here		
 		//strip out the preceding "class" or "enum" or whatever
 		std::string::size_type idx = typeName.find( " " );
@@ -2582,7 +2582,7 @@ static PropertyDescriptorType getDescriptor( const std::type_info& typeInfo )
 			typeName = typeName.substr( idx+1 );
 		}
 #endif
-
+*/
 
 	if ( typeName.find( "basic_string" ) != String::npos ) {
 		result = pdString;
@@ -3596,6 +3596,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2006/01/22 17:19:38  ddiego
+*fixed some bugs in type_info handling for gcc.
+*
 *Revision 1.4.2.6  2005/11/10 00:04:23  obirsoy
 *changes required for gcc under Linux.
 *
