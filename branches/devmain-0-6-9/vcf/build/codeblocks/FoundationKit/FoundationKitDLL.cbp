@@ -18,7 +18,7 @@
 				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-w" />
+					<Add option="-W" />
 					<Add option="-pipe" />
 					<Add option="-frtti" />
 					<Add option="-fexceptions" />
@@ -45,7 +45,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-fPIC" />
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="rpcrt4" />
 					<Add library="uuid" />
 					<Add library="oleaut32" />
@@ -106,7 +106,7 @@
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
-					<Add option="-fPIC" />
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="rpcrt4" />
 					<Add library="uuid" />
 					<Add library="oleaut32" />

@@ -19,7 +19,7 @@
 				<Option projectResourceIncludeDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-w" />
+					<Add option="-W" />
 					<Add option="-pipe" />
 					<Add option="-frtti" />
 					<Add option="-fexceptions" />
@@ -40,8 +40,8 @@
 					<Add option="-DGRAPHICSKIT_EXPORTS" />
 					<Add directory="$(GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include\" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\zlib\" />
+					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
+					<Add directory="$(VCF_INCLUDE)\thirdparty\common\zlib" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(GCH_DIR)" />
@@ -49,7 +49,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-fPIC" />
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="LibPNG_$(COMPILER)$(COMPILER_VER)_s" />
 					<Add library="LibJPEG_$(COMPILER)$(COMPILER_VER)_s" />
 					<Add library="ZLIB_$(COMPILER)$(COMPILER_VER)_s" />
@@ -86,7 +86,6 @@
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
-				<Option projectLibDirsRelation="1" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -110,15 +109,15 @@
 					<Add option="-DGRAPHICSKIT_EXPORTS" />
 					<Add directory="$(GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include\" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\zlib\" />
+					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
+					<Add directory="$(VCF_INCLUDE)\thirdparty\common\zlib" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(GCH_DIR)" />
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
-					<Add option="-fPIC" />
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="LibPNG_$(COMPILER)$(COMPILER_VER)_sd" />
 					<Add library="LibJPEG_$(COMPILER)$(COMPILER_VER)_sd" />
 					<Add library="ZLIB_$(COMPILER)$(COMPILER_VER)_sd" />
