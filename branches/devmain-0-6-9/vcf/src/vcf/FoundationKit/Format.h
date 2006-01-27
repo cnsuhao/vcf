@@ -25,7 +25,7 @@ where you installed the VCF.
 #  define VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
 #endif
 
-#if defined(_MSC_VER) || defined(__MINGW32__) || defined(VCF_BCC) || defined(VCF_DMC)
+#if defined(_MSC_VER) || defined(VCF_MINGW) || defined(VCF_BCC) || defined(VCF_DMC)
 #  define snprintf _snprintf
 #  define vsnprintf(b,c,f,a) _vsnprintf(b,c,f,a)
 #endif
@@ -131,8 +131,8 @@ namespace VCF {
 				char* tmp = new char[size+1];
 				const char* tmpFmt = fmt.ansi_c_str();
 				memset( tmp, 0, (size+1)*sizeof(char) );
-				size_t cb = snprintf( tmp, size, tmpFmt, val );
-				if ( (size < cb) || (cb < 0) ) {
+				int cb = snprintf( tmp, size, tmpFmt, val );
+				if ( (static_cast<int>(size) < cb) || (cb < 0) ) {
 					String msg = String("Format: [") + cb + "] unable to printout the full formatted string: \"" + tmp + "\"\n";
 					StringUtils::trace( msg );
 				}
@@ -415,6 +415,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.8  2006/01/27 20:51:47  dougtinkham
+*remove MinGW warning
+*
 *Revision 1.2.2.7  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
