@@ -44,6 +44,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="NetworkKit_$(COMPILER)$(COMPILER_VER)" />
 					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)" />
 					<Add library="rpcrt4" />
@@ -105,6 +106,7 @@
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="NetworkKit_$(COMPILER)$(COMPILER_VER)_d" />
 					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)_d" />
 					<Add library="rpcrt4" />

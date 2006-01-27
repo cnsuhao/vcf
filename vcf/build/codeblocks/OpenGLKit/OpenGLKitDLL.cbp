@@ -46,7 +46,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-fPIC" />
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)" />
 					<Add library="ZLib_$(COMPILER)$(COMPILER_VER)_s" />
 					<Add library="libAGG_$(COMPILER)$(COMPILER_VER)_s" />
@@ -115,6 +115,7 @@
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)_d" />
 					<Add library="ZLib_$(COMPILER)$(COMPILER_VER)_sd" />
 					<Add library="libAGG_$(COMPILER)$(COMPILER_VER)_sd" />
