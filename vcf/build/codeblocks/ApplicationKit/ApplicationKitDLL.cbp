@@ -36,6 +36,7 @@
 					<Add option="-D_UNICODE" />
 					<Add option="-DVCF_MINGW" />
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
+					<Add option="-DVCF_NO_ATL" />
 					<Add option="-DUSE_GRAPHICSKIT_DLL" />
 					<Add option="-DAPPLICATIONKIT_DLL" />
 					<Add option="-DAPPLICATIONKIT_EXPORTS" />
@@ -50,7 +51,10 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-Wl,--enable-auto-import" />
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
+					<Add option="-Wl,--subsystem=windows" />
+					<Add option="-Wl,--check-sections" />
 					<Add library="GraphicsKit_$(COMPILER)$(COMPILER_VER)" />
 					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)" />
 					<Add library="rpcrt4" />
@@ -109,6 +113,7 @@
 					<Add option="-D_UNICODE" />
 					<Add option="-DVCF_MINGW" />
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
+					<Add option="-DVCF_NO_ATL" />
 					<Add option="-DUSE_GRAPHICSKIT_DLL" />
 					<Add option="-DAPPLICATIONKIT_DLL" />
 					<Add option="-DAPPLICATIONKIT_EXPORTS" />
@@ -122,7 +127,10 @@
 					<Add directory="$(VCF_INCLUDE)" />
 				</ResourceCompiler>
 				<Linker>
+					<Add option="-Wl,--enable-auto-import" />
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
+					<Add option="-Wl,--subsystem=windows" />
+					<Add option="-Wl,--check-sections" />
 					<Add library="GraphicsKit_$(COMPILER)$(COMPILER_VER)_d" />
 					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)_d" />
 					<Add library="rpcrt4" />
@@ -1242,11 +1250,6 @@
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_gcc344_Release" />
 			<Option target="mingw_gcc344_Debug" />
 		</Unit>
@@ -2574,34 +2577,6 @@
 		<Unit filename="..\..\resources\win32\ApplicationKit.rc">
 			<Option compilerVar="WINDRES" />
 			<Option objectName="build\resources\win32\ApplicationKit.res" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
-		</Unit>
-		<Unit filename="..\..\resources\win32\inform.bmp">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
-		</Unit>
-		<Unit filename="..\..\resources\win32\question.bmp">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
-		</Unit>
-		<Unit filename="..\..\resources\win32\stop.bmp">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
-		</Unit>
-		<Unit filename="..\..\resources\win32\vcf.ico">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
 			<Option target="mingw_gcc344_Release" />
 			<Option target="mingw_gcc344_Debug" />
 		</Unit>
