@@ -28,8 +28,8 @@ public:
 		if ( Panel::isFocused() ) {
 			Rect r = getClientBounds();
 			r.inflate( -5, -5 );
-
-			ctx->drawThemeFocusRect( &r, DrawUIState() );
+			DrawUIState state;
+			ctx->drawThemeFocusRect( &r, state );
 		}
 	}
 };
@@ -331,6 +331,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.1  2006/01/29 18:18:10  dougtinkham
+*minor change for mingw
+*
 *Revision 1.2  2005/07/09 23:14:13  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
