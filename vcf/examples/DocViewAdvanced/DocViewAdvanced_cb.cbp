@@ -7,7 +7,7 @@
 		<Option compiler="0" />
 		<Build>
 			<Target title="mgcc_Release">
-				<Option output="mgcc\Release\DocViewAdvanced_mgcc.exe" />
+				<Option output="DocViewAdvanced_mgcc.exe" />
 				<Option object_output="mgcc\Release\" />
 				<Option external_deps="$(VCF_BIN)\FoundationKit_mgcc;$(VCF_BIN)\GraphicsKit_mgcc;$(VCF_BIN)\ApplicationKit_mgcc;" />
 				<Option type="0" />
@@ -64,7 +64,7 @@
 				</Linker>
 			</Target>
 			<Target title="mgcc_Debug">
-				<Option output="mgcc\Debug\DocViewAdvanced_mgcc_d.exe" />
+				<Option output="DocViewAdvanced_mgcc_d.exe" />
 				<Option object_output="mgcc\Debug\" />
 				<Option external_deps="$(VCF_BIN)\FoundationKit_mgcc_d;$(VCF_BIN)\GraphicsKit_mgcc_d;$(VCF_BIN)\ApplicationKit_mgcc_d;" />
 				<Option type="0" />
