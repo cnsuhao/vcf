@@ -116,7 +116,7 @@ HINSTANCE Win32ToolKit_toolkitHInstance = NULL;
 
 #ifndef _LIB //DLL Linkage...
 
-BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved )
+extern "C" BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved )
 {
     switch ( ul_reason_for_call ) {
 		case DLL_PROCESS_ATTACH:  {
@@ -3322,6 +3322,9 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.14  2006/01/29 16:41:56  dougtinkham
+*added extern C linkage to DllMain
+*
 *Revision 1.6.2.13  2005/11/21 21:28:04  ddiego
 *updated win32 code a bit due to osx changes.
 *
