@@ -5,7 +5,7 @@
 		<Option title="Controls" />
 		<Option compiler="0" />
 		<Build>
-			<Target title="mingw_gcc344_Release">
+			<Target title="mingw_Release">
 				<Option output="mgcc\Release\Controls.exe" />
 				<Option object_output="mgcc\Release\" />
 				<Option type="0" />
@@ -59,7 +59,7 @@
 					<Add directory="$(VCF_BIN)" />
 				</Linker>
 			</Target>
-			<Target title="mingw_gcc344_Debug">
+			<Target title="mingw_Debug">
 				<Option output="mgcc\Debug\Controls_d.exe" />
 				<Option object_output="mgcc\Debug\" />
 				<Option type="0" />
@@ -115,64 +115,64 @@
 		</Build>
 		<Unit filename="Controls.cpp">
 			<Option compilerVar="CPP" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="Controls.rc">
 			<Option compilerVar="WINDRES" />
 			<Option objectName="Controls.res" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="ControlsAbout.cpp">
 			<Option compilerVar="CPP" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="ControlsAbout.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="ControlsApplication.cpp">
 			<Option compilerVar="CPP" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="ControlsApplication.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="MainWindow.cpp">
 			<Option compilerVar="CPP" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="MainWindow.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="Spacers.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="iconSaveDown.bmp">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_gcc344_Release" />
-			<Option target="mingw_gcc344_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

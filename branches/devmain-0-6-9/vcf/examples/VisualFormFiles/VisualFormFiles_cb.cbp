@@ -5,7 +5,7 @@
 		<Option title="VisualFormFiles" />
 		<Option compiler="0" />
 		<Build>
-			<Target title="mgcc_Release">
+			<Target title="mingw_Release">
 				<Option output="VisualFormFiles_mgcc.exe" />
 				<Option object_output="mgcc\Release\" />
 				<Option external_deps="$(VCF_BIN)\FoundationKit_mgcc;$(VCF_BIN)\GraphicsKit_mgcc;$(VCF_BIN)\ApplicationKit_mgcc;" />
@@ -61,7 +61,7 @@
 					<Add directory="$(VCF_LIB)" />
 				</Linker>
 			</Target>
-			<Target title="mgcc_Debug">
+			<Target title="mingw_Debug">
 				<Option output="VisualFormFiles_mgcc_d.exe" />
 				<Option object_output="mgcc\Debug\" />
 				<Option external_deps="$(VCF_BIN)\FoundationKit_mgcc_d;$(VCF_BIN)\GraphicsKit_mgcc_d;$(VCF_BIN)\ApplicationKit_mgcc_d;" />
@@ -122,13 +122,13 @@
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mgcc_Release" />
-			<Option target="mgcc_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="VisualFormFiles.cpp">
 			<Option compilerVar="CPP" />
-			<Option target="mgcc_Release" />
-			<Option target="mgcc_Debug" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>
