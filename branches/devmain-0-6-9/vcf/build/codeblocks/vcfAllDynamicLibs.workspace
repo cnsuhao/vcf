@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="vcfAllDynamicLibs">
+		<Project filename="FoundationKit\FoundationKitDLL.cbp" active="1" />
+		<Project filename="GraphicsKit\libAGG.cbp" />
+		<Project filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
+		<Project filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp" />
+		<Project filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp" />
+		<Project filename="GraphicsKit\GraphicsKitDLL.cbp">
+			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
+			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
+			<Depends filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp" />
+			<Depends filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp" />
+		</Project>
+		<Project filename="ApplicationKit\ApplicationKitDLL.cbp" />
+		<Project filename="OpenGLKit\OpenGLKitDLL.cbp" />
+		<Project filename="RemoteObjectKit\RemoteObjectKit.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="vcfAllStaticLibs">
+		<Project filename="FoundationKit\FoundationKit.cbp" active="1" />
+		<Project filename="GraphicsKit\libAGG.cbp" />
+		<Project filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
+		<Project filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp" />
+		<Project filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp" />
+		<Project filename="GraphicsKit\GraphicsKit.cbp" />
+		<Project filename="ApplicationKit\ApplicationKit.cbp" />
+		<Project filename="OpenGLKit\OpenGLKit.cbp" />
+		<Project filename="RemoteObjectKit\RemoteObjectKitStatic.cbp" />
+		<Project filename="..\..\src\thirdparty\common\FreeImage\Source\LibMNG\LibMNG.cbp" />
+		<Project filename="..\..\src\thirdparty\common\FreeImage\Source\LibTIFF\LibTIFF.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
