@@ -6,11 +6,6 @@ Bugs fixed include:
 
 New features include:
 
-Miscellaneous information:
-
-
-
-
 
 
 
