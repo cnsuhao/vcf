@@ -2,6 +2,12 @@ Visual Component Framework 0.6.9
 
 Readme
 
+Bugs fixed include:
+
+New features include:
+
+
+
 
 Visual Component Framework 0.6.8
 
@@ -56,7 +62,7 @@ performance issues, miscellaneous bugs in the TableControl and
 TreeListControl.
 
 
-New features include:
+New features included:
 
 RunLoops, which allow for repitive loop behaviour, and the ability to 
 now post an event from any RunLoop to another RunLoop. Each RunLoop
