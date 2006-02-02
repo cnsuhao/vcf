@@ -1208,7 +1208,7 @@ public:
 	}
 
 
-	TypedMethod( const TypedMethod<SOURCE_TYPE>& method ) {
+	TypedMethod( const TypedMethod<SOURCE_TYPE>& method ) : Method() {
 		*this = method;
 	}
 
@@ -1306,7 +1306,7 @@ public:
 		methodPtr_=methodPtr;
 	}
 
-	TypedMethodArg0( const TypedMethodArg0<SOURCE_TYPE>& method )  {
+	TypedMethodArg0( const TypedMethodArg0<SOURCE_TYPE>& method ) : TypedMethod<SOURCE_TYPE>( method )  {
 		*this = method;
 	}
 
@@ -1431,7 +1431,7 @@ public:
 
 	}
 
-	TypedMethodArg2( const TypedMethodArg2<SOURCE_TYPE,ARG1_TYPE,ARG2_TYPE>& method )  {
+	TypedMethodArg2( const TypedMethodArg2<SOURCE_TYPE,ARG1_TYPE,ARG2_TYPE>& method ) : TypedMethod<SOURCE_TYPE>( method )  {
 		*this = method;
 	}
 
@@ -3596,6 +3596,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.8  2006/02/02 03:45:29  dougtinkham
+*added base class constructor calls in 3 copy constructors; makes mingw-gcc happier
+*
 *Revision 1.4.2.7  2006/01/22 17:19:38  ddiego
 *fixed some bugs in type_info handling for gcc.
 *
