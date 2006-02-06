@@ -26,6 +26,8 @@
 					<Add option="-fmessage-length=0" />
 					<Add option="-Winvalid-pch" />
 					<Add option="-Wno-multichar" />
+					<Add option="-Wno-system-headers" />
+					<Add option="-Wno-extra" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DWIN32" />
 					<Add option="-D_WIN32" />

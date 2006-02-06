@@ -4,15 +4,22 @@
 		<Project filename="FoundationKit\FoundationKitDLL.cbp" active="1" />
 		<Project filename="GraphicsKit\libAGG.cbp" />
 		<Project filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
-		<Project filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp" />
-		<Project filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp" />
+		<Project filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp">
+			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
+		</Project>
+		<Project filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp">
+			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
+		</Project>
 		<Project filename="GraphicsKit\GraphicsKitDLL.cbp">
 			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
+			<Depends filename="GraphicsKit\libAGG.cbp" />
 			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
 			<Depends filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp" />
 			<Depends filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp" />
 		</Project>
-		<Project filename="ApplicationKit\ApplicationKitDLL.cbp" />
+		<Project filename="ApplicationKit\ApplicationKitDLL.cbp">
+			<Depends filename="GraphicsKit\GraphicsKitDLL.cbp" />
+		</Project>
 		<Project filename="OpenGLKit\OpenGLKitDLL.cbp" />
 		<Project filename="RemoteObjectKit\RemoteObjectKit.cbp" />
 	</Workspace>
