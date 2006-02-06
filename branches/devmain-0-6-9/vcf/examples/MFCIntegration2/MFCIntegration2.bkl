@@ -3,7 +3,7 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="MFCIntegration2" template="vcf_exe" cond="OPTION_GRAPHICSKIT=='1'">
+    <exe id="MFCIntegration2" template="vcf_exe" cond="PLATFORM_WIN32=='1' and OPTION_GRAPHICSKIT=='1'">
         <app-type>gui</app-type>
         <dirname>.</dirname>
         <headers>
