@@ -50,21 +50,35 @@ VCF_VC71
 
 VCF_GCC - compiling with GCC's C++ compiler
 
+VCF_MINGW - compiling with MinGW version of GCC's C++ compiler
+
 VCF_DMC - compiling with Digital Mar's C++ compiler
 
 VCF_BCC - compiling with Borland's C++ compiler
 */
 
 
-#ifdef _MSC_VER
-	#define VCF_MSC
+/**
+Setup VCF_ operating system
+*/
+#ifdef WIN32
+	#define VCF_WIN32
+#endif
+
+#ifdef OSX
+	#define VCF_OSX
 #endif
 
 
-
+/**
+Setup compiler names, and some compiler-specific warnings
+*/
 #define VCF_COMPILER_NAME	""
 
 
+#ifdef _MSC_VER
+	#define VCF_MSC
+#endif
 
 #if (_MSC_VER >= 1400)
 #	define VCF_VC80
@@ -88,8 +102,9 @@ VCF_BCC - compiling with Borland's C++ compiler
 #	define VCF_COMPILER_NAME	"VC60"
 #endif
 
+
 #ifdef __DMC__
-	#define VCF_DMC
+#	define VCF_DMC
 #	undef VCF_COMPILER_NAME
 #	define VCF_COMPILER_NAME	"DMC"
 #endif
@@ -188,44 +203,29 @@ VCF_BCC - compiling with Borland's C++ compiler
 
 
 #ifdef WIN32
-	//define VCF_WIN32
-	#define VCF_WIN32
-#endif
-
-#ifdef OSX
-	#define VCF_OSX
-#endif
-
-#ifdef WIN32
-
-
-#ifdef VCF_MSC
-//disable warnings on 255 char debug symbols
+  #ifdef VCF_MSC
+	//disable warnings on 255 char debug symbols
 	#pragma warning (disable : 4786)
-//disable warnings on extern before template instantiation
+	//disable warnings on extern before template instantiation
 	#pragma warning (disable : 4231)
 
-//'identifier' : decorated name length exceeded, name was truncated
+	//'identifier' : decorated name length exceeded, name was truncated
 	#pragma warning (disable:4503)
 
 	//disable C++ Exception Specification ignored
 	#pragma warning (disable : 4290)
 
+#include "vcf/FoundationKit/WarningsOffVc.h"
 
+  #endif
 
-#	include "vcf/FoundationKit/WarningsOffVc.h"
-
-#endif
-
-#if ( _MSC_VER < 1300 )
-//disable warning on base class not declared with the __declspec(dllexport) keyword
+  #if ( _MSC_VER < 1300 )
+	//disable warning on base class not declared with the __declspec(dllexport) keyword
 	#pragma warning (disable : 4251)
 
-//disable warning on exported class derived from a class that was not exported.
+	//disable warning on exported class derived from a class that was not exported.
 	#pragma warning (disable : 4275)
-#endif //_MSC_VER < 1300
-
-
+  #endif //_MSC_VER < 1300  
 #endif //WIN32
 
 
@@ -235,13 +235,6 @@ VCF_BCC - compiling with Borland's C++ compiler
 		#define VCF_UNICODE_ENABLED
 	#endif
 #endif
-
-
-
-
-
-
-
 
 
 
@@ -273,34 +266,27 @@ namespace VCF {
 
 //this section will turn the advanced RTTI features on or off. By default they are on
 //Note: Turning them off means that code that depends on the RTTI API's will fail.
-
 #ifndef VCF_NO_RTTI
 	#define VCF_RTTI
 #endif
 
 //comment this out to prevent the framework from using it's debug operator new() functions
-
 #ifdef _DEBUG
 	#define _VCF_DEBUG_NEW
 #endif
 
 //apparently NULL may not always be 0 - this makes it so...
+
 #ifdef VCF_GCC
-  #undef NULL
-
-  #ifdef __GNUWIN32__
-    #define NULL		0
-  #endif
-
-  //this is for handling the "implicit typename is deprecated" warning of GCC
-  #define _typename_    typename
-
-
+	#undef NULL
+	#ifdef __GNUWIN32__
+		#define NULL		0
+	#endif
 #endif //VCF_GCC
 
 #ifndef __GNUWIN32__
-#undef NULL
-#define NULL		0
+	#undef NULL
+	#define NULL		0
 #endif //__GNUWIN32__
 
 
@@ -331,14 +317,13 @@ this define is to fix:
 #endif
 
 #if defined(VCF_MINGW)  
-#define _WIN32_IE 0x0500
-# if defined(_WIN32_WINNT)
-#   undef _WIN32_WINNT
-# endif
-#define _WIN32_WINNT 0x0500
+#	define _WIN32_IE 0x0500
+#	if defined(_WIN32_WINNT)
+#		undef _WIN32_WINNT
+#	endif
+#	define _WIN32_WINNT 0x0500
 #endif
 
-//#endif
 
 
 #define WIN32_LEAN_AND_MEAN
@@ -350,6 +335,9 @@ this define is to fix:
 #include <shlobj.h>
 
 #endif //WIN32
+
+
+
 
 
 //Macros to handle the All-in-1 library option
@@ -492,7 +480,7 @@ kit needs to have either "VCF_USE_ALLIN1_DLL" defined or
 
 
 
-#if defined (_MSC_VER) || defined (__DMC__) || defined (__GNUWIN32__) || defined(__BORLANDC__) || defined(__MWERKS__)
+#if defined (_MSC_VER) || defined (__DMC__) || defined (__GNUWIN32__) ||defined(__MINGW32__) || defined(__BORLANDC__) || defined(__MWERKS__)
   // when we use USE_FOUNDATIONKIT_DLL we always want FOUNDATIONKIT_DLL
 	// and we save a MACRO defines at the same time.
 	// Nevertheless USE_FOUNDATIONKIT_DLL cannot replace FOUNDATIONKIT_DLL
@@ -509,130 +497,182 @@ kit needs to have either "VCF_USE_ALLIN1_DLL" defined or
 
 	#ifdef USE_NETKIT_DLL
 	# 	ifndef NETKIT_DLL
-	#			define NETKIT_DLL
+	#		define NETKIT_DLL
 	# 	endif
 	# 	ifndef USE_FOUNDATIONKIT_DLL
-	#			define USE_FOUNDATIONKIT_DLL
+	#		define USE_FOUNDATIONKIT_DLL
 	# 	endif
-  #elif defined (USE_NETKIT_LIB)
+	#elif defined (USE_NETKIT_LIB)
 	# 	ifndef USE_FOUNDATIONKIT_LIB
-	#			define USE_FOUNDATIONKIT_LIB
+	#		define USE_FOUNDATIONKIT_LIB
 	# 	endif
 	#endif
 
 	#ifdef USE_OPENGLKIT_DLL
 	# 	ifndef OPENGLKIT_DLL
-	#			define OPENGLKIT_DLL
+	#		define OPENGLKIT_DLL
 	# 	endif
 	# 	ifndef USE_APPLICATIONKIT_DLL
-	#			define USE_APPLICATIONKIT_DLL
+	#		define USE_APPLICATIONKIT_DLL
 	# 	endif
-  #elif defined (USE_OPENGLKIT_LIB)
+	#elif defined (USE_OPENGLKIT_LIB)
 	# 	ifndef USE_APPLICATIONKIT_LIB
-	#			define USE_APPLICATIONKIT_LIB
+	#		define USE_APPLICATIONKIT_LIB
 	# 	endif
-	#endif
-	
+	#endif	
 
 	#ifdef USE_APPLICATIONKIT_DLL
 	# 	ifndef APPLICATIONKIT_DLL
-	#			define APPLICATIONKIT_DLL
+	#		define APPLICATIONKIT_DLL
 	# 	endif
 	# 	ifndef USE_GRAPHICSKIT_DLL
-	#			define USE_GRAPHICSKIT_DLL
+	#		define USE_GRAPHICSKIT_DLL
 	# 	endif
-  #elif defined (USE_APPLICATIONKIT_LIB)
+	#elif defined (USE_APPLICATIONKIT_LIB)
 	# 	ifndef USE_GRAPHICSKIT_LIB
-	#			define USE_GRAPHICSKIT_LIB
+	#		define USE_GRAPHICSKIT_LIB
 	# 	endif
 	#endif
 
 	#ifdef USE_GRAPHICSKIT_DLL
 	# 	ifndef GRAPHICSKIT_DLL
-	#			define GRAPHICSKIT_DLL
+	#		define GRAPHICSKIT_DLL
 	# 	endif
 	# 	ifndef USE_FOUNDATIONKIT_DLL
-	#			define USE_FOUNDATIONKIT_DLL
+	#		define USE_FOUNDATIONKIT_DLL
 	# 	endif
-  #elif defined (USE_GRAPHICSKIT_LIB)
+	#elif defined (USE_GRAPHICSKIT_LIB)
 	# 	ifndef USE_FOUNDATIONKIT_LIB
-	#			define USE_FOUNDATIONKIT_LIB
+	#		define USE_FOUNDATIONKIT_LIB
 	# 	endif
 	#endif
 
 	#ifdef USE_FOUNDATIONKIT_DLL
 	#	 ifndef FOUNDATIONKIT_DLL
-	#			define FOUNDATIONKIT_DLL
+	#		define FOUNDATIONKIT_DLL
 	#	 endif
 	#endif
 
 #endif
 
-// Moved here in order to avoid unnecessary repetition later on - ACH
-#if defined(FOUNDATIONKIT_DLL) && !defined(VCF_GCC)
-	#if defined(FOUNDATIONKIT_EXPORTS)
-		#define FOUNDATIONKIT_API __declspec(dllexport)
-		#define FOUNDATIONKIT_EXPIMP_TEMPLATE
+
+
+/**
+* Setup attributes for importing/exporting
+*/
+
+// MinGW chokes on inline and __declspec(dllimport) together.
+// this is lesser of 2 evils hopefully
+#if defined(VCF_MINGW)
+	#ifdef FOUNDATIONKIT_DLL
+	#	if defined(FOUNDATIONKIT_EXPORTS)
+	#		define FOUNDATIONKIT_API __declspec(dllexport)
+	#	else
+	#		define FOUNDATIONKIT_API
+	#	endif
 	#else
-		#define FOUNDATIONKIT_API __declspec(dllimport)
-		#define FOUNDATIONKIT_EXPIMP_TEMPLATE extern
+	#	define FOUNDATIONKIT_API
 	#endif
-#else
-	#define FOUNDATIONKIT_API
-#endif //FOUNDATIONKIT_DLL
 
-
-#ifdef GRAPHICSKIT_DLL
-	#if defined(GRAPHICSKIT_EXPORTS)
-		#define GRAPHICSKIT_API __declspec(dllexport)
-		#define GRAPHICSKIT_EXPIMP_TEMPLATE
+	#ifdef GRAPHICSKIT_DLL
+	#	if defined(GRAPHICSKIT_EXPORTS)
+	#		define GRAPHICSKIT_API __declspec(dllexport)
+	#	else
+	#		define GRAPHICSKIT_API
+	#	endif
 	#else
-		#define GRAPHICSKIT_API __declspec(dllimport)
-		#define GRAPHICSKIT_EXPIMP_TEMPLATE extern
+	#	define GRAPHICSKIT_API
 	#endif
-#else
-	#define GRAPHICSKIT_API
-#endif //GRAPHICSKIT_DLL
 
-
-#ifdef APPLICATIONKIT_DLL
-	#if defined(APPLICATIONKIT_EXPORTS)
-		#define APPLICATIONKIT_API __declspec(dllexport)
-		#define APPLICATIONKIT_EXPIMP_TEMPLATE
+	#ifdef APPLICATIONKIT_DLL
+	#	if defined(APPLICATIONKIT_EXPORTS)
+	#		define APPLICATIONKIT_API __declspec(dllexport)
+	#	else
+	#		define APPLICATIONKIT_API
+	#	endif
 	#else
-		#define APPLICATIONKIT_API __declspec(dllimport)
-		#define APPLICATIONKIT_EXPIMP_TEMPLATE extern
+	#	define APPLICATIONKIT_API
 	#endif
-#else
-	#define APPLICATIONKIT_API
-#endif //APPLICATIONKIT_DLL
 
-
-#ifdef OPENGLKIT_DLL
-	#if defined(OPENGLKIT_EXPORTS)
-		#define OPENGLKIT_API __declspec(dllexport)
-		#define OPENGLKIT_EXPIMP_TEMPLATE
+	#ifdef OPENGLKIT_DLL
+	#	if defined(OPENGLKIT_EXPORTS)
+	#		define OPENGLKIT_API __declspec(dllexport)
+	#	else
+	#		define OPENGLKIT_API
+	#	endif
 	#else
-		#define OPENGLKIT_API __declspec(dllimport)
-		#define OPENGLKIT_EXPIMP_TEMPLATE extern
+	#	define OPENGLKIT_API
 	#endif
-#else
-	#define OPENGLKIT_API
-#endif //OPENGLKIT_DLL
 
-
-#ifdef NETKIT_DLL
-	#if defined(NETKIT_EXPORTS)
-		#define NETKIT_API __declspec(dllexport)
-		#define NETKIT_EXPIMP_TEMPLATE
+	#ifdef NETKIT_DLL
+	#	if defined(NETKIT_EXPORTS)
+	#		define NETKIT_API __declspec(dllexport)
+	#	else
+	#		define NETKIT_API
+	#	endif
 	#else
-		#define NETKIT_API __declspec(dllimport)
-		#define NETKIT_EXPIMP_TEMPLATE extern
-	#endif
+	#	define NETKIT_API
+	#endif	
 #else
-	#define NETKIT_API
-#endif //NETKIT_DLL
 
+	// Moved here in order to avoid unnecessary repetition later on - ACH
+	#if defined(FOUNDATIONKIT_DLL) && !defined(VCF_GCC)
+		#if defined(FOUNDATIONKIT_EXPORTS)
+			#define FOUNDATIONKIT_API __declspec(dllexport)
+		#else
+			#define FOUNDATIONKIT_API __declspec(dllimport)
+		#endif
+	#else
+		#define FOUNDATIONKIT_API
+	#endif //FOUNDATIONKIT_DLL
+
+	#ifdef GRAPHICSKIT_DLL
+		#if defined(GRAPHICSKIT_EXPORTS)
+			#define GRAPHICSKIT_API __declspec(dllexport)
+		#else
+			#define GRAPHICSKIT_API __declspec(dllimport)
+		#endif
+	#else
+		#define GRAPHICSKIT_API
+	#endif //GRAPHICSKIT_DLL
+
+	#ifdef APPLICATIONKIT_DLL
+		#if defined(APPLICATIONKIT_EXPORTS)
+			#define APPLICATIONKIT_API __declspec(dllexport)
+		#else
+			#define APPLICATIONKIT_API __declspec(dllimport)
+		#endif
+	#else
+		#define APPLICATIONKIT_API
+	#endif //APPLICATIONKIT_DLL
+
+	#ifdef OPENGLKIT_DLL
+		#if defined(OPENGLKIT_EXPORTS)
+			#define OPENGLKIT_API __declspec(dllexport)
+		#else
+			#define OPENGLKIT_API __declspec(dllimport)
+		#endif
+	#else
+		#define OPENGLKIT_API
+	#endif //OPENGLKIT_DLL
+
+	#ifdef NETKIT_DLL
+		#if defined(NETKIT_EXPORTS)
+			#define NETKIT_API __declspec(dllexport)
+		#else
+			#define NETKIT_API __declspec(dllimport)
+		#endif
+	#else
+		#define NETKIT_API
+	#endif //NETKIT_DLL
+	
+#endif
+
+
+
+/**
+VCF code should use _typename_, and it gets set appropriately here
+*/
 #ifdef _MSC_VER //we are compiling with Microsoft's Visual C++ compiler
 
 	//don't define  _typename_ as a "typename" keyword because
@@ -649,9 +689,11 @@ kit needs to have either "VCF_USE_ALLIN1_DLL" defined or
 
 	#define _typename_
 
-#elif defined(__GNUWIN32__)
+//#elif defined(__GNUWIN32__)
 
+#elif defined(VCF_GCC)
 
+	#define _typename_ typename
 
 #elif defined(VCF_BCC)
 
@@ -679,6 +721,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.8  2006/02/06 02:58:51  dougtinkham
+*remove __declspec(dllimport) attribute for MinGW - inline problems
+*
 *Revision 1.6.2.7  2006/01/19 06:04:58  dougtinkham
 *removed warning for mingw
 *
