@@ -128,3 +128,6 @@ void Win32MenuManagerPeer::menuItemChanged( int menuItemEventType, MenuItem* ite
 		break;	
 	}
 }
+
+
+

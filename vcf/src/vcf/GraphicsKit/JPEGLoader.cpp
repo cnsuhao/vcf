@@ -529,3 +529,6 @@ void JPEGLoader::saveImageToFile( const String& fileName, Image* image )
 	
 	jpeg_destroy_compress(&cinfo);
 }
+
+
+
