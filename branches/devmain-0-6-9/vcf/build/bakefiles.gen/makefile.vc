@@ -2184,7 +2184,7 @@ clean:
 !endif
 
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_GRAPHICSKIT)" == "1" && "$(OPTION_SHARED)" == "0"
-..\..\lib\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib: $(OBJDIR)\GraphicsKit_lib_GraphicsKit.obj  $(GRAPHICSKIT_LIB_OBJECTS) $(VAR) $(VAR_0) $(VAR_1) $(VAR_3) $(__FoundationKit_lib___depname)
+..\..\lib\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib: $(OBJDIR)\GraphicsKit_lib_GraphicsKit.obj  $(GRAPHICSKIT_LIB_OBJECTS) $(VAR) $(VAR_1) $(VAR_3) $(VAR_0) $(__FoundationKit_lib___depname)
 	if exist $@ del $@
 	link /LIB /NOLOGO /OUT:$@ @<<
 	$(GRAPHICSKIT_LIB_OBJECTS)
@@ -2192,9 +2192,9 @@ clean:
 !endif
 
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_GRAPHICSKIT)" == "1" && "$(OPTION_SHARED)" == "1"
-..\..\lib\..\bin\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(OBJDIR)\GraphicsKit_dll_GraphicsKit.obj  $(GRAPHICSKIT_DLL_OBJECTS) $(VAR) $(VAR_0) $(VAR_1) $(VAR_3) $(__FoundationKit_dll___depname)
+..\..\lib\..\bin\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(OBJDIR)\GraphicsKit_dll_GraphicsKit.obj  $(GRAPHICSKIT_DLL_OBJECTS) $(VAR) $(VAR_1) $(VAR_3) $(VAR_0) $(__FoundationKit_dll___depname)
 	link /DLL /NOLOGO /OUT:$@ $(LDFLAGS) $(__DEBUG_INFO_3)  /LIBPATH:..\..\lib @<<
-	$(GRAPHICSKIT_DLL_OBJECTS)  $(dll_FOUNDATIONKIT_p) ..\..\lib\libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /IMPLIB:..\..\lib\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).lib
+	$(GRAPHICSKIT_DLL_OBJECTS)  $(dll_FOUNDATIONKIT_p) ..\..\lib\libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /IMPLIB:..\..\lib\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).lib
 <<
 !endif
 
@@ -4343,7 +4343,7 @@ $(OBJDIR)\ApplicationKit_dll_HTMLBrowserControl.obj: ..\..\src\vcf\ApplicationKi
 	$(CXX) /c /nologo /TP /Fo$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\ApplicationKit_dll_ApplicationKit.res: ..\..\src\..\build\resources\win32\ApplicationKit.rc
-	rc /fo$@  /d WIN32 $(__VCF_NO_ATL_p_0) $(__FOUNDATIONKIT_DLL_p_5) $(__GRAPHICSKIT_DLL_p_2) $(____DEBUG_RUNTIME_LIBS_0) $(____OPTION_DEBUG_0) /d VCF_DISABLE_PRAGMA_LINKING /d _WINDOWS /d _WIN32 /d WIN32 /d _CRT_SECURE_NO_DEPRECATE /d _SCL_SECURE_NO_DEPRECATE /d _CRT_NON_CONFORMING_SWPRINTFS /i ..\..\src /d _USRDLL /d APPLICATIONKIT_DLL /d APPLICATIONKIT_EXPORTS $**
+	rc /fo$@  /d WIN32 /i ..\resources\win32 $(__VCF_NO_ATL_p_0) $(__FOUNDATIONKIT_DLL_p_5) $(__GRAPHICSKIT_DLL_p_2) $(____DEBUG_RUNTIME_LIBS_0) $(____OPTION_DEBUG_0) /d VCF_DISABLE_PRAGMA_LINKING /d _WINDOWS /d _WIN32 /d WIN32 /d _CRT_SECURE_NO_DEPRECATE /d _SCL_SECURE_NO_DEPRECATE /d _CRT_NON_CONFORMING_SWPRINTFS /i ..\..\src /d _USRDLL /d APPLICATIONKIT_DLL /d APPLICATIONKIT_EXPORTS $**
 
 $(OBJDIR)\OpenGLKit_lib_OpenGLControl.obj: ..\..\src\vcf\OpenGLKit\OpenGLControl.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(OPENGLKIT_LIB_CXXFLAGS) $**
