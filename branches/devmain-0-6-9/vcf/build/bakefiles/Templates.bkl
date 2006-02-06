@@ -45,6 +45,7 @@
 
         <if cond="FORMAT=='mingw'">
            <define>VCF_MINGW</define>
+           <ldflags>-Wl,--enable-runtime-pseudo-reloc</ldflags>
         </if>
 
         <if cond="FORMAT in ['mingw','gnu']">
