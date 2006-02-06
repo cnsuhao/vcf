@@ -18,6 +18,9 @@ where you installed the VCF.
 *Helps linking with the right library
 */
 
+// We don't need any of this if we've disabled pragma linking
+#ifndef VCF_DISABLE_PRAGMA_LINKING
+
 //If using the All-in-1 library, then this task has already been done
 #if !defined(VCF_USE_ALLIN1_DLL) && !defined(VCF_USE_ALLIN1_LIB)
 
@@ -84,9 +87,16 @@ defined to use the DLL or static libraries.
 #endif //_MSC_VER
 
 #endif //VCF_USE_ALLIN1_DLL/LIB
+
+#endif
+// VCF_DISABLE_PRAGMA_LINKING
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/02/06 00:39:52  dougtinkham
+*skip pragmas if VCF_DISABLE_PRAGMA_LINKING is defined
+*
 *Revision 1.4.2.2  2005/11/02 04:38:23  obirsoy
 *changes required for vc80 support.
 *
