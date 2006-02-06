@@ -2013,7 +2013,7 @@ clean:
 !endif
 
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_GRAPHICSKIT)" == "1" && "$(OPTION_SHARED)" == "0"
-..\..\lib\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib: $(GRAPHICSKIT_LIB_OBJECTS) $(VAR) $(VAR_0) $(VAR_1) $(VAR_3) $(__FoundationKit_lib___depname)
+..\..\lib\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib: $(GRAPHICSKIT_LIB_OBJECTS) $(VAR) $(VAR_1) $(VAR_3) $(VAR_0) $(__FoundationKit_lib___depname)
 	if exist $@ del $@
 	tlib /a /p4096 $@ @&&|
 	$(GRAPHICSKIT_LIB_OBJECTS)
@@ -2021,9 +2021,9 @@ clean:
 !endif
 
 !if "$(OPTION_ALLIN1)" == "0" && "$(OPTION_GRAPHICSKIT)" == "1" && "$(OPTION_SHARED)" == "1"
-..\..\lib\..\bin\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(GRAPHICSKIT_DLL_OBJECTS) $(VAR) $(VAR_0) $(VAR_1) $(VAR_3) $(__FoundationKit_dll___depname)
+..\..\lib\..\bin\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).dll: $(GRAPHICSKIT_DLL_OBJECTS) $(VAR) $(VAR_1) $(VAR_3) $(VAR_0) $(__FoundationKit_dll___depname)
 	ilink32 -Tpd -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib @&&|
-	c0d32.obj $(GRAPHICSKIT_DLL_OBJECTS),$@,, $(dll_FOUNDATIONKIT_p) ..\..\lib\libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ole2w32.lib oleacc.lib glaux.lib urlmon.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
+	c0d32.obj $(GRAPHICSKIT_DLL_OBJECTS),$@,, $(dll_FOUNDATIONKIT_p) ..\..\lib\libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ..\..\lib\ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC).lib ole2w32.lib oleacc.lib glaux.lib urlmon.lib import32.lib cw32mt$(__RUNTIME_LIBS_8).lib,,
 |
 	implib -f ..\..\lib\GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC) $@
 !endif
@@ -4190,7 +4190,7 @@ $(OBJDIR)\ApplicationKit_dll_HTMLBrowserControl.obj: ..\..\src\vcf\ApplicationKi
 	$(CXX) -q -c -P -o$@ $(APPLICATIONKIT_DLL_CXXFLAGS) $**
 
 $(OBJDIR)\ApplicationKit_dll_ApplicationKit.res: ..\..\src\..\build\resources\win32\ApplicationKit.rc
-	brcc32 -32 -r -fo$@ -i$(BCCDIR)\include $(__VCF_NO_ATL_p_0) $(__FOUNDATIONKIT_DLL_p_5) $(__GRAPHICSKIT_DLL_p_2) $(____OPTION_DEBUG_0) -dVCF_DISABLE_PRAGMA_LINKING -d_WINDOWS -d_WIN32 -dWIN32 -i..\..\src -d_USRDLL -dAPPLICATIONKIT_DLL -dAPPLICATIONKIT_EXPORTS $**
+	brcc32 -32 -r -fo$@ -i$(BCCDIR)\include -i..\resources\win32 $(__VCF_NO_ATL_p_0) $(__FOUNDATIONKIT_DLL_p_5) $(__GRAPHICSKIT_DLL_p_2) $(____OPTION_DEBUG_0) -dVCF_DISABLE_PRAGMA_LINKING -d_WINDOWS -d_WIN32 -dWIN32 -i..\..\src -d_USRDLL -dAPPLICATIONKIT_DLL -dAPPLICATIONKIT_EXPORTS $**
 
 $(OBJDIR)\OpenGLKit_lib_OpenGLControl.obj: ..\..\src\vcf\OpenGLKit\OpenGLControl.cpp
 	$(CXX) -q -c -P -o$@ $(OPENGLKIT_LIB_CXXFLAGS) $**
