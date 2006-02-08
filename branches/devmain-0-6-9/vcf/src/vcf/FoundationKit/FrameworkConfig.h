@@ -47,6 +47,7 @@ VCF_VC50
 VCF_VC60
 VCF_VC70
 VCF_VC71
+VCF_VC80
 
 VCF_GCC - compiling with GCC's C++ compiler
 
@@ -217,8 +218,14 @@ Setup compiler names, and some compiler-specific warnings
 
 #include "vcf/FoundationKit/WarningsOffVc.h"
 
-  #endif
-
+	#ifdef VCF_VC80
+		#pragma message ( "VC8 compiler detected - deprecation warnings turned off for now." )
+		#pragma warning (disable : 4996)
+		#define _CRT_SECURE_NO_DEPRECATE 1
+		#define _CRT_NONSTDC_NO_DEPRECATE 1
+		#pragma message ( "_CRT_SECURE_NO_DEPRECATE turned on for now." )
+	#endif 
+#endif
   #if ( _MSC_VER < 1300 )
 	//disable warning on base class not declared with the __declspec(dllexport) keyword
 	#pragma warning (disable : 4251)
@@ -721,6 +728,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.9  2006/02/08 02:06:31  ddiego
+*updated more vc80 projects.
+*
 *Revision 1.6.2.8  2006/02/06 02:58:51  dougtinkham
 *remove __declspec(dllimport) attribute for MinGW - inline problems
 *

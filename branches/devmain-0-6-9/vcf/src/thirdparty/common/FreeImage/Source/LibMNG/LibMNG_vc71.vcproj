@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="8.00"
 	Name="LibMNG"
-	SccProjectName=""
-	SccLocalPath="">
+	ProjectGUID="{0D1657E0-F310-46C9-A9DE-7C63CB378E3C}"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\vc71\Debug\"
 			IntermediateDirectory=".\vc71\Debug\"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -25,81 +45,122 @@
 				PreprocessorDefinitions="WIN32,_DEBUG,_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\vc71\Debug\LibMNG_vc71_sd.pch"
 				AssemblerListingLocation=".\vc71\Debug\"
 				ObjectFile=".\vc71\Debug\"
 				ProgramDataBaseFileName="..\..\..\..\..\..\lib\LibMNG_vc71_sd.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\LibMNG_vc71_sd.lib"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1043"/>
+				Culture="1043"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\..\..\lib\LibMNG_vc71_sd.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\vc71\Release\"
 			IntermediateDirectory=".\vc71\Release\"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="$(VCF_INCLUDE),..\Zlib,..\libjpeg\"
 				PreprocessorDefinitions="WIN32,NDEBUG,_LIB"
-				StringPooling="TRUE"
+				StringPooling="true"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\vc71\Release\LibMNG_vc71_s.pch"
 				AssemblerListingLocation=".\vc71\Release\"
 				ObjectFile=".\vc71\Release\"
 				ProgramDataBaseFileName=".\vc71\Release\"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				CompileAs="0"/>
+				SuppressStartupBanner="true"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\LibMNG_vc71_s.lib"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1043"/>
+				Culture="1043"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\..\..\lib\LibMNG_vc71_s.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -107,127 +168,168 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+			>
 			<File
-				RelativePath="libmng_callback_xs.c">
+				RelativePath="libmng_callback_xs.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_chunk_io.c">
+				RelativePath="libmng_chunk_io.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_chunk_prc.c">
+				RelativePath="libmng_chunk_prc.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_chunk_xs.c">
+				RelativePath="libmng_chunk_xs.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_cms.c">
+				RelativePath="libmng_cms.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_display.c">
+				RelativePath="libmng_display.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_dither.c">
+				RelativePath="libmng_dither.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_error.c">
+				RelativePath="libmng_error.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_filter.c">
+				RelativePath="libmng_filter.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_hlapi.c">
+				RelativePath="libmng_hlapi.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_jpeg.c">
+				RelativePath="libmng_jpeg.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_object_prc.c">
+				RelativePath="libmng_object_prc.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_pixels.c">
+				RelativePath="libmng_pixels.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_prop_xs.c">
+				RelativePath="libmng_prop_xs.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_read.c">
+				RelativePath="libmng_read.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_trace.c">
+				RelativePath="libmng_trace.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_write.c">
+				RelativePath="libmng_write.c"
+				>
 			</File>
 			<File
-				RelativePath="libmng_zlib.c">
+				RelativePath="libmng_zlib.c"
+				>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl">
+			Filter="h;hpp;hxx;hm;inl"
+			>
 			<File
-				RelativePath="libmng.h">
+				RelativePath="libmng.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_chunk_io.h">
+				RelativePath="libmng_chunk_io.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_chunk_prc.h">
+				RelativePath="libmng_chunk_prc.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_chunks.h">
+				RelativePath="libmng_chunks.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_cms.h">
+				RelativePath="libmng_cms.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_conf.h">
+				RelativePath="libmng_conf.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_data.h">
+				RelativePath="libmng_data.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_display.h">
+				RelativePath="libmng_display.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_dither.h">
+				RelativePath="libmng_dither.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_error.h">
+				RelativePath="libmng_error.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_filter.h">
+				RelativePath="libmng_filter.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_jpeg.h">
+				RelativePath="libmng_jpeg.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_memory.h">
+				RelativePath="libmng_memory.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_object_prc.h">
+				RelativePath="libmng_object_prc.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_objects.h">
+				RelativePath="libmng_objects.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_pixels.h">
+				RelativePath="libmng_pixels.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_read.h">
+				RelativePath="libmng_read.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_trace.h">
+				RelativePath="libmng_trace.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_types.h">
+				RelativePath="libmng_types.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_write.h">
+				RelativePath="libmng_write.h"
+				>
 			</File>
 			<File
-				RelativePath="libmng_zlib.h">
+				RelativePath="libmng_zlib.h"
+				>
 			</File>
 		</Filter>
 	</Files>
