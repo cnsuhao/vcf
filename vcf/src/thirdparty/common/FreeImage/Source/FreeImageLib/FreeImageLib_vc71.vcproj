@@ -1,23 +1,43 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="8.00"
 	Name="FreeImageLib"
-	SccProjectName=""
-	SccLocalPath="">
+	ProjectGUID="{BE31E1AF-5FD5-466A-AEE8-247CA6A01B31}"
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\vc71\Debug\"
 			IntermediateDirectory=".\vc71\Debug\"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -25,81 +45,122 @@
 				PreprocessorDefinitions="WIN32,_DEBUG,_LIB,USE_LIBMNG_LIB,USE_LIBJPEG_LIB,USE_LIBPNG_LIB,USE_LIBTIFF_LIB,USE_ZLIB_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\vc71\Debug\FreeImageLib_vc71_sd.pch"
 				AssemblerListingLocation=".\vc71\Debug\"
 				ObjectFile=".\vc71\Debug\"
 				ProgramDataBaseFileName="..\..\..\..\..\..\lib\FreeImage_vc71_sd.pdb"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\FreeImage_vc71_sd.lib"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1043"/>
+				Culture="1043"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\..\..\lib\FreeImage_vc71_sd.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\vc71\Release\"
 			IntermediateDirectory=".\vc71\Release\"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="2">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\,$(VCF_INCLUDE)"
 				PreprocessorDefinitions="WIN32,NDEBUG,_LIB,USE_LIBMNG_LIB,USE_LIBJPEG_LIB,USE_LIBPNG_LIB,USE_LIBTIFF_LIB,USE_ZLIB_LIB"
-				StringPooling="TRUE"
+				StringPooling="true"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="TRUE"
-				UsePrecompiledHeader="2"
+				EnableFunctionLevelLinking="true"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\vc71\Release\FreeImageLib_vc71_s.pch"
 				AssemblerListingLocation=".\vc71\Release\"
 				ObjectFile=".\vc71\Release\"
 				ProgramDataBaseFileName=".\vc71\Release\"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				CompileAs="0"/>
+				SuppressStartupBanner="true"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\..\..\..\..\lib\FreeImage_vc71_s.lib"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1043"/>
+				Culture="1043"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\..\..\..\..\lib\FreeImage_vc71_s.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -107,127 +168,164 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+			>
+			<File
+				RelativePath="..\FreeImage\BitmapAccess.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FreeImage\FreeImage.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FreeImage\FreeImageIO.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FreeImage\GetType.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\FreeImage\LoadFunctions.cpp"
+				>
+			</File>
 			<Filter
 				Name="Quantizers"
-				Filter="">
+				>
 				<File
-					RelativePath="..\FreeImage\NNQuantizer.cpp">
+					RelativePath="..\FreeImage\NNQuantizer.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\WuQuantizer.cpp">
+					RelativePath="..\FreeImage\WuQuantizer.cpp"
+					>
 				</File>
 			</Filter>
 			<Filter
 				Name="Conversion"
-				Filter="">
+				>
 				<File
-					RelativePath="..\FreeImage\Conversion.cpp">
+					RelativePath="..\FreeImage\Conversion.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\Conversion16_555.cpp">
+					RelativePath="..\FreeImage\Conversion16_555.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\Conversion16_565.cpp">
+					RelativePath="..\FreeImage\Conversion16_565.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\Conversion24.cpp">
+					RelativePath="..\FreeImage\Conversion24.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\Conversion32.cpp">
+					RelativePath="..\FreeImage\Conversion32.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\Conversion8.cpp">
+					RelativePath="..\FreeImage\Conversion8.cpp"
+					>
 				</File>
 			</Filter>
 			<Filter
 				Name="Plugins"
-				Filter="">
+				>
 				<File
-					RelativePath="..\FreeImage\Plugin.cpp">
+					RelativePath="..\FreeImage\Plugin.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginBMP.cpp">
+					RelativePath="..\FreeImage\PluginBMP.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginICO.cpp">
+					RelativePath="..\FreeImage\PluginICO.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginIFF.cpp">
+					RelativePath="..\FreeImage\PluginIFF.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginJPEG.cpp">
+					RelativePath="..\FreeImage\PluginJPEG.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginKOALA.cpp">
+					RelativePath="..\FreeImage\PluginKOALA.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginMNG.cpp">
+					RelativePath="..\FreeImage\PluginMNG.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginPCD.cpp">
+					RelativePath="..\FreeImage\PluginPCD.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginPCX.cpp">
+					RelativePath="..\FreeImage\PluginPCX.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginPNG.cpp">
+					RelativePath="..\FreeImage\PluginPNG.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginPNM.cpp">
+					RelativePath="..\FreeImage\PluginPNM.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginPSD.cpp">
+					RelativePath="..\FreeImage\PluginPSD.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginRAS.cpp">
+					RelativePath="..\FreeImage\PluginRAS.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginTARGA.cpp">
+					RelativePath="..\FreeImage\PluginTARGA.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginTIFF.cpp">
+					RelativePath="..\FreeImage\PluginTIFF.cpp"
+					>
 				</File>
 				<File
-					RelativePath="..\FreeImage\PluginWBMP.cpp">
+					RelativePath="..\FreeImage\PluginWBMP.cpp"
+					>
 				</File>
 			</Filter>
-			<File
-				RelativePath="..\FreeImage\BitmapAccess.cpp">
-			</File>
-			<File
-				RelativePath="..\FreeImage\FreeImage.cpp">
-			</File>
-			<File
-				RelativePath="..\FreeImage\FreeImageIO.cpp">
-			</File>
-			<File
-				RelativePath="..\FreeImage\GetType.cpp">
-			</File>
-			<File
-				RelativePath="..\FreeImage\LoadFunctions.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl">
+			Filter="h;hpp;hxx;hm;inl"
+			>
 			<File
-				RelativePath="..\FreeImage.h">
+				RelativePath="..\FreeImage.h"
+				>
 			</File>
 			<File
-				RelativePath="..\FreeImageIO.h">
+				RelativePath="..\FreeImageIO.h"
+				>
 			</File>
 			<File
-				RelativePath="..\FreeImageSelectLib.h">
+				RelativePath="..\FreeImageSelectLib.h"
+				>
 			</File>
 			<File
-				RelativePath="..\Plugin.h">
+				RelativePath="..\Plugin.h"
+				>
 			</File>
 			<File
-				RelativePath="..\Quantizers.h">
+				RelativePath="..\Quantizers.h"
+				>
 			</File>
 			<File
-				RelativePath="..\Utilities.h">
+				RelativePath="..\Utilities.h"
+				>
 			</File>
 		</Filter>
 	</Files>

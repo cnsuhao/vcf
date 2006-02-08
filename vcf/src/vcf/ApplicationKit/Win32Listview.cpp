@@ -932,6 +932,7 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 		break;
 
 		case LVN_GETDISPINFOW:{
+
 			NMLVDISPINFOW* displayInfo = (NMLVDISPINFOW*)lParam;
 			if ( displayInfo->hdr.hwndFrom == hwnd_ ) {
 
@@ -2417,6 +2418,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/02/08 02:06:31  ddiego
+*updated more vc80 projects.
+*
 *Revision 1.5.2.4  2006/01/22 23:52:21  ddiego
 *some minor changed to doc manager.
 *
