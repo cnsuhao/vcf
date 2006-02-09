@@ -13,15 +13,13 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/COMUtils.h"
 #include "vcf/ApplicationKit/Win32Clipboard.h"
 #include <shellapi.h>
-
-#if !defined(__GNUWIN32__) && !defined(VCF_CW_W32) && !defined(VCF_MINGW)
-#include <comdef.h>
-#endif
+#include "thirdparty/win32/comet/bstr.h"
+#include "vcf/ApplicationKit/Win32HResult.h"
 
 
 using namespace VCFCOM;
 using namespace VCF;
-
+using namespace comet;
 
 std::map<VCF::String,UINT> COMUtils::standardWin32DataTypes;
 
@@ -56,10 +54,10 @@ HRESULT COMUtils::createCOMObject( const String& progID, IID interfaceID,
 	SysFreeString( tmpProgID );
 	delete [] tmp;
 #else
-	_bstr_t tmpProgID;
+	bstr_t tmpProgID;
 	tmpProgID = progID.c_str();
 
-	comResult = CLSIDFromProgID( tmpProgID, &clsid );
+	comResult = CLSIDFromProgID( tmpProgID.in(), &clsid );
 
 	if ( SUCCEEDED(comResult) ){
 		comResult = createCOMObject( clsid, interfaceID, object );
@@ -116,8 +114,8 @@ HRESULT COMUtils::BSTRtoString( const BSTR src, String& dest )
 		SafeArrayDestroy( safeArray );
 	}
 #else
-	_bstr_t tmp( src );
-	String tmpString( (VCFChar*)tmp );
+	bstr_t tmp( src );
+	String tmpString( tmp.c_str() );
 #endif
 	dest = tmpString;
 	result = S_OK;
@@ -299,8 +297,8 @@ HRESULT COMUtils::StringtoBSTR( const String& src, BSTR& dest )
 
 	delete [] tmp;
 #else
-	_bstr_t tmp( src.c_str() );
-	dest = tmp.copy();
+	bstr_t tmp( src.c_str() );
+	dest = bstr_t::detach(tmp);
 #endif
 
 
@@ -980,6 +978,12 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2006/02/09 04:54:02  ddiego
+*added missing lib tiff project for vc80. Also removed
+*ATL dependency and comdef.h dependency. We are now using comet for
+*basic COM types, and I have a new chunk of code that implements the
+*basics for hosting the browser.
+*
 *Revision 1.3.2.4  2005/12/08 21:09:18  kiklop74
 *fixes for borland compiler
 *

@@ -129,6 +129,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Browser"=.\Browser\Browser.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Cards"=.\Cards\Cards.dsp - Package Owner=<4>
 
 Package=<5>

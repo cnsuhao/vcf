@@ -22,13 +22,7 @@ where you installed the VCF.
 #endif
 
 
-#include <comdef.h>
-#include <atlbase.h>
 
-extern CComModule _Module;
-
-#include <atlcom.h>
-#include <atlwin.h>
 
 void initWin32HTMLBrowserLib( HMODULE module=NULL );
 
@@ -38,6 +32,12 @@ void terminateWin32HTMLBrowserLib();
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/02/09 04:54:02  ddiego
+*added missing lib tiff project for vc80. Also removed
+*ATL dependency and comdef.h dependency. We are now using comet for
+*basic COM types, and I have a new chunk of code that implements the
+*basics for hosting the browser.
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

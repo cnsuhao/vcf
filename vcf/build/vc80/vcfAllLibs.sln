@@ -34,7 +34,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageFormats", "GraphicsKit
 		{F89F253D-BDD2-4F7F-BF22-CE1CB9356C81} = {F89F253D-BDD2-4F7F-BF22-CE1CB9356C81}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibTIFF", "..\..\src\thirdparty\common\FreeImage\Source\LibTIFF\LibTIFF.vcproj", "{4FE129EB-89D6-46D7-A580-DBBA422B823E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibTIFF", "..\..\src\thirdparty\common\FreeImage\Source\LibTIFF\LibTIFF_vc80.vcproj", "{4FE129EB-89D6-46D7-A580-DBBA422B823E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkKit", "NetworkKit\NetworkKit.vcproj", "{CCEC6DC6-6C17-4E1B-BC0B-3E5B81453C04}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -101,7 +101,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAllStaticLibs", "vcfAllS
 		{2ADA4DEC-0C1F-4EED-A812-5BF7040CEEF3} = {2ADA4DEC-0C1F-4EED-A812-5BF7040CEEF3}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib_vc80", "..\..\src\thirdparty\common\ZLib\ZLib_vc80.vcproj", "{CBBDCC9C-B1A6-4833-BA47-6A5660FAC812}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "..\..\src\thirdparty\common\ZLib\ZLib_vc80.vcproj", "{CBBDCC9C-B1A6-4833-BA47-6A5660FAC812}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FreeImageLib", "..\..\src\thirdparty\common\FreeImage\Source\FreeImageLib\FreeImageLib_vc80.vcproj", "{F89F253D-BDD2-4F7F-BF22-CE1CB9356C81}"
 EndProject
