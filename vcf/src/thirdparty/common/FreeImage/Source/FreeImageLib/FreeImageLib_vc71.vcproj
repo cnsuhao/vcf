@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="7.10"
 	Name="FreeImageLib"
 	ProjectGUID="{BE31E1AF-5FD5-466A-AEE8-247CA6A01B31}"
 	>
