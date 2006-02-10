@@ -129,6 +129,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Browser"=".\Browser\Browser_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Cards"=".\Cards\Cards_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -357,6 +369,9 @@ Package=<4>
     Project_Dep_Name ApplicationIcons
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Browser
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Cards
     End Project Dependency
     Begin Project Dependency
@@ -429,10 +444,16 @@ Package=<4>
     Project_Dep_Name HelloWorld3
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Help
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ImageBasics
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ImageViewer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name InetKit
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Labels
@@ -451,6 +472,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name MVCBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MoreImages
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name OpenGLShapes
@@ -696,6 +720,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Help"=".\Help\Help_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ImageBasics"=".\ImageBasics\ImageBasics_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -709,6 +745,18 @@ Package=<4>
 ###############################################################################
 
 Project: "ImageViewer"=".\ImageViewer\ImageViewer_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InetKit"=".\InetKit\InetKit_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -781,6 +829,18 @@ Package=<4>
 ###############################################################################
 
 Project: "MVCBasics"=".\MVCBasics\MVCBasics_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MoreImages"=".\MoreImages\MoreImages_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

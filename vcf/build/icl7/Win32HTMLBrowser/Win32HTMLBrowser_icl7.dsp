@@ -102,6 +102,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.cpp
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32WebBrowserHost.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 
