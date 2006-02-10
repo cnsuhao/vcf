@@ -153,6 +153,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Browser"="..\..\examples\Browser\Browser_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Cards"="..\..\examples\Cards\Cards_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -393,6 +405,9 @@ Package=<4>
     Project_Dep_Name ApplicationIcons
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Browser
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Cards
     End Project Dependency
     Begin Project Dependency
@@ -465,10 +480,16 @@ Package=<4>
     Project_Dep_Name HelloWorld3
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Help
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ImageBasics
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ImageViewer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name InetKit
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Labels
@@ -487,6 +508,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name MVCBasics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MoreImages
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name OpenGLShapes
@@ -759,6 +783,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Help"="..\..\examples\Help\Help_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "ImageBasics"="..\..\examples\ImageBasics\ImageBasics_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -787,6 +823,42 @@ Package=<4>
 ###############################################################################
 
 Project: "ImageViewer"="..\..\examples\ImageViewer\ImageViewer_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InetKit"="..\..\examples\InetKit\InetKit_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InternetKit"=".\InternetKit\InternetKit_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InternetKitDLL"=".\InternetKit\InternetKitDLL_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -907,6 +979,18 @@ Package=<4>
 ###############################################################################
 
 Project: "MVCBasics"="..\..\examples\MVCBasics\MVCBasics_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MoreImages"="..\..\examples\MoreImages\MoreImages_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -3,15 +3,11 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="LibPNG"
-	ProjectGUID="{FF4477C9-98CF-40DC-8858-2852BE09EC22}"
-	>
+	ProjectGUID="{FF4477C9-98CF-40DC-8858-2852BE09EC22}">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32"/>
 	</Platforms>
-	<ToolFiles>
-	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
@@ -21,23 +17,17 @@
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
+			CharacterSet="2">
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
+				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCMIDLTool"
-			/>
+				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -53,39 +43,29 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCManagedResourceCompilerTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
-			/>
+				Culture="1033"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\lib\LibPNG_vc71_sd.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="true"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCALinkTool"/>
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCXDCMakeTool"/>
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCBscMakeTool"/>
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCFxCopTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCPostBuildEventTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -95,23 +75,17 @@
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
+			CharacterSet="2">
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
+				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCMIDLTool"
-			/>
+				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
@@ -128,39 +102,29 @@
 				ProgramDataBaseFileName=".\vc71\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				CompileAs="0"
-			/>
+				CompileAs="0"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCManagedResourceCompilerTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-			/>
+				Culture="1033"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCLibrarianTool"
 				OutputFile="..\..\..\..\lib\LibPNG_vc71_s.lib"
-				SuppressStartupBanner="true"
-			/>
+				SuppressStartupBanner="true"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCALinkTool"/>
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCXDCMakeTool"/>
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCBscMakeTool"/>
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCFxCopTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCPostBuildEventTool"/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -168,92 +132,70 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
-			>
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
-				RelativePath="png.c"
-				>
+				RelativePath="png.c">
 			</File>
 			<File
-				RelativePath="pngerror.c"
-				>
+				RelativePath="pngerror.c">
 			</File>
 			<File
-				RelativePath="pnggccrd.c"
-				>
+				RelativePath="pnggccrd.c">
 			</File>
 			<File
-				RelativePath="pngget.c"
-				>
+				RelativePath="pngget.c">
 			</File>
 			<File
-				RelativePath="pngmem.c"
-				>
+				RelativePath="pngmem.c">
 			</File>
 			<File
-				RelativePath="pngpread.c"
-				>
+				RelativePath="pngpread.c">
 			</File>
 			<File
-				RelativePath="pngread.c"
-				>
+				RelativePath="pngread.c">
 			</File>
 			<File
-				RelativePath="pngrio.c"
-				>
+				RelativePath="pngrio.c">
 			</File>
 			<File
-				RelativePath="pngrtran.c"
-				>
+				RelativePath="pngrtran.c">
 			</File>
 			<File
-				RelativePath="pngrutil.c"
-				>
+				RelativePath="pngrutil.c">
 			</File>
 			<File
-				RelativePath="pngset.c"
-				>
+				RelativePath="pngset.c">
 			</File>
 			<File
-				RelativePath="pngtest.c"
-				>
+				RelativePath="pngtest.c">
 			</File>
 			<File
-				RelativePath="pngtrans.c"
-				>
+				RelativePath="pngtrans.c">
 			</File>
 			<File
-				RelativePath="pngvcrd.c"
-				>
+				RelativePath="pngvcrd.c">
 			</File>
 			<File
-				RelativePath="pngwio.c"
-				>
+				RelativePath="pngwio.c">
 			</File>
 			<File
-				RelativePath="pngwrite.c"
-				>
+				RelativePath="pngwrite.c">
 			</File>
 			<File
-				RelativePath="pngwtran.c"
-				>
+				RelativePath="pngwtran.c">
 			</File>
 			<File
-				RelativePath="pngwutil.c"
-				>
+				RelativePath="pngwutil.c">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl"
-			>
+			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="png.h"
-				>
+				RelativePath="png.h">
 			</File>
 			<File
-				RelativePath="pngconf.h"
-				>
+				RelativePath="pngconf.h">
 			</File>
 		</Filter>
 	</Files>

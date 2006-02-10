@@ -150,6 +150,9 @@
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.h">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32WebBrowserHost.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

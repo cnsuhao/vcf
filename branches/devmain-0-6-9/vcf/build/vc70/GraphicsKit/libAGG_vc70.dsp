@@ -40,7 +40,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "vc70\Release\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GR /GX /O1 /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/thirdparty/common/agg/include" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -129,6 +129,10 @@ SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_path_storage.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_rasterizer_scanline_aa.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_sqrt_tables.cpp
 # End Source File
 # Begin Source File
 

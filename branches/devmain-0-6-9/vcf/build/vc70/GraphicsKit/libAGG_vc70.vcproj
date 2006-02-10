@@ -173,6 +173,9 @@
 				RelativePath="..\..\..\src\thirdparty\common\agg\src\agg_rasterizer_scanline_aa.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\thirdparty\common\agg\src\agg_sqrt_tables.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\thirdparty\common\agg\src\agg_trans_affine.cpp">
 			</File>
 			<File
