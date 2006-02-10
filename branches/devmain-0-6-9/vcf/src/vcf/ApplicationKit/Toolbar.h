@@ -314,6 +314,10 @@ public:
 	ulong32 getItemIndex( ToolbarItem* item );
 	void setItemIndex( ToolbarItem* item, const ulong32& newIndex );
 
+	ToolbarItem* getItemAtIndex( const ulong32& index ) {
+		return toolbarItems_[index];
+	}
+
 	Enumerator<ToolbarItem*>* getToolbarItems() {
 		return itemsContainer_.getEnumerator();
 	}
@@ -411,6 +415,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/02/10 04:24:11  ddiego
+*more updates.
+*
 *Revision 1.4  2005/07/09 23:14:56  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
