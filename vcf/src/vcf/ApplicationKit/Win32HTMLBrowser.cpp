@@ -14,67 +14,6 @@ where you installed the VCF.
 
 
 #include "vcf/ApplicationKit/Win32HTMLBrowser.h"
-/*
-
-#include <atlhost.h>
-
-#ifdef _ATL_STATIC_REGISTRY
-
-#include <statreg.h>
-
-#if  (_MSC_VER < 1300) //less than VC7
-  #include <statreg.cpp>
-#endif
-
-#endif
-
-#include <ExDispID.h>
-*/
-/*
-static CLSID const clsid = { 0x8856f961, 0x340a, 0x11d0, { 0xa9, 0x6b, 0x0, 0xc0, 0x4f, 0xd7, 0x5, 0xa2 } };
-
-
-// {CBD123C7-4389-4a24-95B3-F971065B6CD5}
-static const GUID LIB_Win32HTMLBrowserGUID =
-{ 0xcbd123c7, 0x4389, 0x4a24, { 0x95, 0xb3, 0xf9, 0x71, 0x6, 0x5b, 0x6c, 0xd5 } };
-*/
-
-/*
-HRESULT DoAdvise(IUnknown* unknownConnectionPt, IUnknown* unknown, const IID& iid, DWORD* cookie)
-{
-	IConnectionPointContainerPtr connectionPtContainer;
-	IConnectionPointPtr connectionPt;
-	HRESULT hr = unknownConnectionPt->QueryInterface(IID_IConnectionPointContainer, (void**)&connectionPtContainer);
-
-	if (SUCCEEDED(hr)) {
-		hr = connectionPtContainer->FindConnectionPoint(iid, &connectionPt);
-	}
-
-	if (SUCCEEDED(hr)) {
-		hr = connectionPt->Advise(unknown, cookie);
-	}
-	return hr;
-}
-
-
-HRESULT DoUnadvise(IUnknown* unknownConnectionPt, const IID& iid, DWORD cookie )
-{
-	IConnectionPointContainerPtr connectionPtContainer;
-	IConnectionPointPtr connectionPt;
-
-	HRESULT hr = unknownConnectionPt->QueryInterface(IID_IConnectionPointContainer, (void**)&connectionPtContainer);
-
-	if (SUCCEEDED(hr)) {
-		hr = connectionPtContainer->FindConnectionPoint(iid, &connectionPt);
-	}
-
-	if (SUCCEEDED(hr)) {
-		hr = connectionPt->Unadvise(cookie);
-	}
-	return hr;
-}
-
-*/
 
 
 
@@ -327,6 +266,9 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/02/10 02:26:44  ddiego
+*vc80 updates for comet.
+*
 *Revision 1.4.2.1  2006/02/09 04:54:02  ddiego
 *added missing lib tiff project for vc80. Also removed
 *ATL dependency and comdef.h dependency. We are now using comet for

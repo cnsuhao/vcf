@@ -1726,8 +1726,8 @@ public:
 				
 				VCF_ASSERT( pDispParams != NULL );
 				VCF_ASSERT( pDispParams->cArgs == 2 );
-				VCF_ASSERT( pDispParams->rgvarg[1].vt & VT_I4 != 0 );
-				VCF_ASSERT( pDispParams->rgvarg[0].vt & VT_I4 != 0 );
+				VCF_ASSERT( (pDispParams->rgvarg[1].vt & VT_I4) != 0 );
+				VCF_ASSERT( (pDispParams->rgvarg[0].vt & VT_I4) != 0 );
 
 				onProgressChange( pDispParams->rgvarg[1].lVal, pDispParams->rgvarg[0].lVal );
 			}
@@ -1784,7 +1784,7 @@ public:
 				
 				VCF_ASSERT( pDispParams != NULL );
 				VCF_ASSERT( pDispParams->cArgs == 7 );
-				VCF_ASSERT( pDispParams->rgvarg[6].vt & VT_DISPATCH != 0 );
+				VCF_ASSERT( (pDispParams->rgvarg[6].vt & VT_DISPATCH) != 0 );
 				VCF_ASSERT( pDispParams->rgvarg[5].vt == (VT_BYREF|VT_VARIANT) );
 				VCF_ASSERT( pDispParams->rgvarg[4].vt == (VT_BYREF|VT_VARIANT) );
 				VCF_ASSERT( pDispParams->rgvarg[3].vt == (VT_BYREF|VT_VARIANT) );
@@ -1889,7 +1889,7 @@ public:
 				
 				VCF_ASSERT( pDispParams != NULL );
 				VCF_ASSERT( pDispParams->cArgs == 5 );
-				VCF_ASSERT( pDispParams->rgvarg[4].vt & VT_DISPATCH != 0 );
+				VCF_ASSERT( (pDispParams->rgvarg[4].vt & VT_DISPATCH) != 0 );
 				VCF_ASSERT( pDispParams->rgvarg[3].vt == (VT_BYREF|VT_VARIANT) );
 				VCF_ASSERT( pDispParams->rgvarg[2].vt == (VT_BYREF|VT_VARIANT) );
 				VCF_ASSERT( pDispParams->rgvarg[1].vt == (VT_BYREF|VT_VARIANT) );
@@ -1907,7 +1907,7 @@ public:
 				
 				VCF_ASSERT( pDispParams != NULL );
 				VCF_ASSERT( pDispParams->cArgs == 1 );
-				VCF_ASSERT( pDispParams->rgvarg[0].vt & VT_DISPATCH != 0 );
+				VCF_ASSERT( (pDispParams->rgvarg[0].vt & VT_DISPATCH) != 0 );
 
 				onPrintTemplateInstantiation( pDispParams->rgvarg[0].pdispVal );
 			}
@@ -1918,7 +1918,7 @@ public:
 
 				VCF_ASSERT( pDispParams != NULL );
 				VCF_ASSERT( pDispParams->cArgs == 1 );
-				VCF_ASSERT( pDispParams->rgvarg[0].vt & VT_DISPATCH != 0 );
+				VCF_ASSERT( (pDispParams->rgvarg[0].vt & VT_DISPATCH) != 0 );
 
 				onPrintTemplateTeardown( pDispParams->rgvarg[0].pdispVal );
 			}
@@ -1929,7 +1929,7 @@ public:
 
 				VCF_ASSERT( pDispParams != NULL );
 				VCF_ASSERT( pDispParams->cArgs == 3 );
-				VCF_ASSERT( pDispParams->rgvarg[2].vt & VT_DISPATCH != 0 );
+				VCF_ASSERT( (pDispParams->rgvarg[2].vt & VT_DISPATCH) != 0 );
 				VCF_ASSERT( pDispParams->rgvarg[1].vt == (VT_BYREF|VT_VARIANT) );
 				VCF_ASSERT( pDispParams->rgvarg[0].vt == (VT_BYREF|VT_VARIANT) );
 
