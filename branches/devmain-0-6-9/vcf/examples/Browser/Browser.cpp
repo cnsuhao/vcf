@@ -5,6 +5,73 @@
 #include "vcf/ApplicationKit/ControlsKit.h"
 
 
+namespace VCF {
+
+
+	class URLCombo : public ComboBoxControl {
+	public:
+		DELEGATE(URLChanged);
+
+		URLCombo(){
+			edit_->KeyPressed += 
+				new KeyboardEventHandler<URLCombo>( this, &URLCombo::onCBEditReturnKeyPressed, "URLCombo::onCBEditReturnKeyPressed" );
+		}
+
+		void onCBEditReturnKeyPressed( KeyboardEvent* event ) {
+			if ( vkReturn == event->getVirtualCode() ) {
+				Event e(this);
+				URLChanged.fireEvent( &e );
+			}
+		}
+	};
+
+
+
+	class ActionManager : public Component {
+	public:
+		ActionManager( Component* owner ) : Component(owner){}
+		ActionManager(){}
+		virtual ~ActionManager(){}
+
+		Action* addAction( const String& name ) {
+			Action* action = new Action(this);
+			action->setName( name );			
+			return action;
+		}
+
+		void addTarget( const String& actionName, Component* component ) {
+			Action* action = (Action*) findComponent( actionName );
+			if ( NULL == action ) {
+				action = addAction( actionName );
+			}
+			action->addTarget(component) ;
+		}
+
+		Action* getAction( const String& action ) {
+			return (Action*) findComponent( action );
+		}
+
+		void addPerformed( const String& actionName, EventHandler* ev ) {
+			Action* action = (Action*) findComponent( actionName );
+			if ( NULL == action ) {
+				action = addAction( actionName );
+			}
+
+			action->Performed += ev;
+		}
+
+		void addUpdate( const String& actionName, EventHandler* ev ) {
+			Action* action = (Action*) findComponent( actionName );
+			if ( NULL == action ) {
+				action = addAction( actionName );
+			}
+
+			action->Update += ev;
+		}
+	};
+
+};
+
 using namespace VCF;
 
 
@@ -81,10 +148,15 @@ public:
 		item = tb->addToolBarButton( "url" );
 		item->setEnabled( false );
 
-		urlBox = new ComboBoxControl();
+		urlBox = new URLCombo();
 		urlBox->setWidth( 175 );
 		urlBox->setComboBoxStyle( cbsDropDownWithEdit );
+		urlBox->URLChanged += 
+			new GenericEventHandler<BrowserApp>(this,&BrowserApp::urlChanged,"BrowserApp::urlChanged");
+
 		item->setItemControl( urlBox );
+
+		
 
 		item = tb->addToolBarButton( "go" );
 		item->setImageIndex(4);
@@ -97,34 +169,31 @@ public:
 
 
 		
+		mgr = new ActionManager(mainWindow);
+
 
 		//hook up actions
 		ToolbarModel* tbModel = tb->getToolbarModel();
 
-		Action* backAction = new Action(mainWindow);		
-		backAction->addTarget( tbModel->getItemAtIndex(0) );
-		backAction->Performed +=
-			new GenericEventHandler<BrowserApp>(this, &BrowserApp::back, "BrowserApp::back" );
+		mgr->addTarget( "back", tbModel->getItemAtIndex(0) );
+		mgr->addPerformed( "back", new GenericEventHandler<BrowserApp>(this, &BrowserApp::back, "BrowserApp::back" ) );
 
-		Action* fwdAction = new Action(mainWindow);		
-		fwdAction->addTarget( tbModel->getItemAtIndex(1) );
-		fwdAction->Performed +=
-			new GenericEventHandler<BrowserApp>(this, &BrowserApp::forward, "BrowserApp::forward" );
+		
+		mgr->addTarget( "forward", tbModel->getItemAtIndex(1) );
+		mgr->addPerformed( "forward", 
+			new GenericEventHandler<BrowserApp>(this, &BrowserApp::forward, "BrowserApp::forward" ) );
 
-		Action* refreshAction = new Action(mainWindow);		
-		refreshAction->addTarget( tbModel->getItemAtIndex(2) );
-		refreshAction->Performed +=
-			new GenericEventHandler<BrowserApp>(this, &BrowserApp::refresh, "BrowserApp::refresh" );
+		mgr->addTarget( "refresh", tbModel->getItemAtIndex(2) );
+		mgr->addPerformed( "refresh", 
+			new GenericEventHandler<BrowserApp>(this, &BrowserApp::refresh, "BrowserApp::refresh" ) );
 
-		Action* homeAction = new Action(mainWindow);		
-		homeAction->addTarget( tbModel->getItemAtIndex(3) );
-		homeAction->Performed +=
-			new GenericEventHandler<BrowserApp>(this, &BrowserApp::home, "BrowserApp::home" );
+		mgr->addTarget( "home", tbModel->getItemAtIndex(3) );
+		mgr->addPerformed( "home", 
+			new GenericEventHandler<BrowserApp>(this, &BrowserApp::home, "BrowserApp::home" ) );
 
-		Action* goAction = new Action(mainWindow);		
-		goAction->addTarget( tbModel->getItemAtIndex(5) );
-		goAction->Performed +=
-			new GenericEventHandler<BrowserApp>(this, &BrowserApp::go, "BrowserApp::go" );
+		mgr->addTarget( "go", tbModel->getItemAtIndex(5) );
+		mgr->addPerformed( "go", 
+			new GenericEventHandler<BrowserApp>(this, &BrowserApp::go, "BrowserApp::go" ) );
 
 
 
@@ -139,7 +208,12 @@ public:
 
 protected:
 	HTMLBrowserControl* browser;
-	ComboBoxControl* urlBox;
+	URLCombo* urlBox;
+	ActionManager* mgr;
+
+	void urlChanged( Event* ) {
+		browser->setCurrentURL( urlBox->getCurrentText() );	
+	}
 
 	void go( Event* ) {
 		browser->setCurrentURL( urlBox->getCurrentText() );
