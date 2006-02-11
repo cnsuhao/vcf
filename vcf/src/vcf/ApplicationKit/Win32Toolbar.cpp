@@ -835,6 +835,8 @@ void Win32Toolbar::resizeToolbarItems( int startAt )
 	}
 }
 
+
+
 void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item, bool showCaption )
 {
 	currentlyModifyingItem_ = true;
@@ -856,8 +858,9 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 
 		caption.copy( tmp, caption.size() );
 		tmp[caption.size()] = 0;
+		
+		btn.iString = SendMessage( hwnd_, TB_ADDSTRINGW, (WPARAM) 0, (LPARAM) (LPSTR) tmp);		
 
-		btn.iString = SendMessage( hwnd_, TB_ADDSTRINGW, (WPARAM) 0, (LPARAM) (LPSTR) tmp);
 		buttonCaptionsMap_[caption] = btn.iString;
 
 		if ( buttonCaptionsMap_.size() == 1 ) {
@@ -1423,6 +1426,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/02/11 04:51:34  ddiego
+*little more browser coding.
+*
 *Revision 1.4  2005/07/09 23:14:58  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
