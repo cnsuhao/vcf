@@ -23,6 +23,28 @@ using namespace VCF;
 
 
 
+STDMETHODIMP HTMLEventHandler::Invoke( DISPID dispIdMember, REFIID riid, LCID lcid, 
+										WORD wFlags, DISPPARAMS* pDispParams, VARIANT* pVarResult, 
+										EXCEPINFO* pExcepInfo, UINT* puArgErr ) 
+{
+	if ( 0 == dispIdMember && NULL != handler ) {
+		HTMLElementEvent e(eventSource,HTMLBrowserControl::heElementClicked);
+		e.elementID = elementID;
+		
+		handler->invoke( &e );
+		
+		return S_OK;
+	}
+	
+	return E_NOTIMPL;
+}
+
+
+
+
+
+
+
 Win32HTMLBrowser::Win32HTMLBrowser():
 	browserHwnd_(NULL)	
 {
@@ -31,7 +53,7 @@ Win32HTMLBrowser::Win32HTMLBrowser():
 
 Win32HTMLBrowser::~Win32HTMLBrowser()
 {
-
+	clearHTMLHandlers();
 }
 
 void Win32HTMLBrowser::create( VCF::Control* owningControl )
@@ -224,6 +246,11 @@ String Win32HTMLBrowser::getTitle()
 {
 	String result;
 
+	HTMLDocument doc = WebBrowserCtrl::getDocument();
+	if ( !doc.null() ) {
+		result = doc.getTitle();
+	}
+
 	return result;
 }
 
@@ -279,12 +306,80 @@ void Win32HTMLBrowser::setAllowsTextSelection( bool val )
 
 void Win32HTMLBrowser::setElementHTMLText( const String& elementName, const String& html )
 {
+	com_ptr<IHTMLElementCollection> collection;	
+	com_ptr<IDispatch> disp;
+	IHTMLDocument2Ptr doc;
+	browser_->get_Document( disp.out() );
+	doc = com_cast( disp );
+	if ( doc ) {
+		doc->get_all( collection.out() );
+		if ( collection ) {
+			HTMLElementCollection coll2 = collection.in();			
+			long len = coll2.getLength();
 
+			for (int i=0;i<len;i++ ) {
+				HTMLElement* f = coll2[i];
+				if ( NULL != f ) {
+					if ( elementName == f->getID() ) {						
+
+						IHTMLElementPtr item = *f;
+						bstr_t val = html.c_str();
+						item->put_innerText( val.in() );
+
+						break;
+					}
+				}
+			}			
+		}
+	}
 }
 
 bool Win32HTMLBrowser::setElementClickedEventHandler( const String& elementName, EventHandler* handler )
 {
-	bool result = true;
+	bool result = false;
+
+	com_ptr<IHTMLElementCollection> collection;	
+	com_ptr<IDispatch> disp;
+	IHTMLDocument2Ptr doc;
+	browser_->get_Document( disp.out() );
+	doc = com_cast( disp );
+	if ( doc ) {
+		doc->get_all( collection.out() );
+		if ( collection ) {
+			HTMLElementCollection coll2 = collection.in();			
+			long len = coll2.getLength();
+
+			for (int i=0;i<len;i++ ) {
+				HTMLElement* f = coll2[i];
+				if ( NULL != f ) {
+					if ( elementName == f->getID() ) {
+						String name = handler->getHandlerName();
+
+						HTMLEventHandler* htmlHandler = getElementEventHandler(name);
+						if ( NULL == htmlHandler ) {
+							htmlHandler = new HTMLEventHandler();
+							eventHandlers_[name] = htmlHandler;
+						}
+
+						htmlHandler->eventSource = peerControl_;
+						htmlHandler->handler = handler;
+						htmlHandler->elementID = elementName;
+
+						IHTMLElementPtr item = *f;
+
+						variant_t e;
+						com_ptr<IDispatch> idisp = htmlHandler;
+
+						e = idisp;							
+						item->put_onclick( e.in() );
+
+						result = true;
+						break;
+					}
+				}
+			}			
+		}
+	}
 
 	return result;
 }
@@ -344,12 +439,32 @@ void Win32HTMLBrowser::onBeforeNavigate2( LPDISPATCH pDisp,
 
 void Win32HTMLBrowser::onNewWindow2( LPDISPATCH* ppDisp, VARIANT_BOOL* Cancel)
 {
-	
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+
+	if ( !browserCtrl->getAllowsPopupWindows() ) {
+		*Cancel = TRUE;
+	}
+	else {
+		
+		HTMLEvent e(peerControl_,HTMLBrowserControl::heNewWindowDisplayed);
+		HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+		
+		browserCtrl->NewWindowDisplayed.fireEvent( &e );
+	}
 }
 
 void Win32HTMLBrowser::onDocumentComplete( LPDISPATCH pDisp, VARIANT* URL)
 {
+	HTMLEvent e(peerControl_,HTMLBrowserControl::heURLLoaded);
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
 
+	if ( NULL != URL && URL->vt == VT_BSTR ) {
+		bstr_t tmp;
+		tmp = URL->bstrVal;
+		e.url = tmp.c_str();
+	}
+
+	browserCtrl->URLLoaded.fireEvent( &e );
 }
 
 void Win32HTMLBrowser::onWindowClosing( VARIANT_BOOL IsChildWindow, VARIANT_BOOL* Cancel )
@@ -368,12 +483,26 @@ void Win32HTMLBrowser::onNavigateError( LPDISPATCH pDisp,
 							 VARIANT* StatusCode, 
 							 VARIANT_BOOL* Cancel)
 {
+	HTMLEvent e(peerControl_,HTMLBrowserControl::heURLLoadingBegun);
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
 
+	if ( NULL != URL && URL->vt == VT_BSTR ) {
+		bstr_t tmp;
+		tmp = URL->bstrVal;
+		e.url = tmp.c_str();
+	}
+
+	hresult hr = (HRESULT) StatusCode->lVal;
+	e.status = hr.toString();
+
+	browserCtrl->URLLoadError.fireEvent( &e );
 }
 
 STDMETHODIMP Win32HTMLBrowser::ShowContextMenu( DWORD hWndID, POINT *ppt, 
 								IUnknown *pcmdtReserved, IDispatch *pdispReserved)
 {
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+
 	PopupMenu* contextMenu = peerControl_->getPopupMenu();
 	if ( NULL != contextMenu ) {
 		//point is in screen coords
@@ -384,7 +513,11 @@ STDMETHODIMP Win32HTMLBrowser::ShowContextMenu( DWORD hWndID, POINT *ppt,
 		contextMenu->popup( &pt );
 
 		return S_OK; //we've handled this!
-	}	
+	}
+	else if ( !browserCtrl->getAllowDefaultContextMenu() ) {
+		//do nothing - we don't want the default context menu to show up!
+		return S_OK;
+	}
 
 	return E_NOTIMPL;
 }
@@ -506,6 +639,9 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/02/13 22:11:59  ddiego
+*added further html support and better browser example code.
+*
 *Revision 1.4.2.3  2006/02/13 05:10:32  ddiego
 *added better html browser support.
 *

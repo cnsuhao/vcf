@@ -814,6 +814,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		}
 		break;
 
+
 		case WM_PAINT:{
 			if ( true == isCreated() ){
 				//StringUtils::trace( Format( "AbstractWin32Component::WM_PAINT: [%d] %s\n" ) % peerControl_->getRepaintOnSize() % peerControl_->getToolTipText() );
@@ -1642,6 +1643,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.9  2006/02/13 22:11:59  ddiego
+*added further html support and better browser example code.
+*
 *Revision 1.7.2.8  2005/11/02 04:41:27  obirsoy
 *fix a typo. changed LOGFONTW to LOGFONTA.
 *

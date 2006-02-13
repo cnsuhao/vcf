@@ -16,7 +16,9 @@ where you installed the VCF.
 using namespace VCF;
 
 
-HTMLBrowserControl::HTMLBrowserControl()
+HTMLBrowserControl::HTMLBrowserControl():
+	browserPeer_(NULL),
+	policyState_(0)
 {
 	browserPeer_ = UIToolkit::createHTMLBrowserPeer( this );
 
@@ -32,6 +34,13 @@ HTMLBrowserControl::HTMLBrowserControl()
 
 	peer_->create( this );
 	setVisible( true );
+
+	policyState_ |= HTMLBrowserControl::hpAllowPopups;
+	policyState_ |= HTMLBrowserControl::hpAllowDefaultContextMenu;
+	policyState_ |= HTMLBrowserControl::hpUseDefaultAuthenticationUI;
+	policyState_ |= HTMLBrowserControl::hpAllowsScrollbars;
+	policyState_ |= HTMLBrowserControl::hpAllowsTextSelection;
+
 }
 
 HTMLBrowserControl::~HTMLBrowserControl()
@@ -51,89 +60,123 @@ void HTMLBrowserControl::afterCreate( ComponentEvent* e )
 
 String HTMLBrowserControl::getCurrentURL()
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	return browserPeer_->getCurrentURL();
 }
 
 void HTMLBrowserControl::setCurrentURL( const String& url )
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	browserPeer_->setCurrentURL( url );
 }
 
 void HTMLBrowserControl::goBack()
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	browserPeer_->goBack();
 }
 
 void HTMLBrowserControl::goForward()
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	browserPeer_->goForward();
 }
 
 void HTMLBrowserControl::goHome()
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	browserPeer_->goHome();
 }
 
 void HTMLBrowserControl::refresh()
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	browserPeer_->refresh();
 }
 
 bool HTMLBrowserControl::isLoadingURL()
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	return browserPeer_->isLoadingURL();
 }
 
 void HTMLBrowserControl::stopLoadingURL()
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	browserPeer_->stopLoadingURL();
 }
 
 void HTMLBrowserControl::setFromHTML( const String& html )
 {
-	if ( NULL == browserPeer_ ) {
-		throw InvalidPeer(MAKE_ERROR_MSG(NO_PEER), __LINE__);
-	}
-
 	browserPeer_->setFromHTML( html );
 }
 
+String HTMLBrowserControl::getTitle()
+{
+	return browserPeer_->getTitle();
+}
+
+void HTMLBrowserControl::edit( const bool& val )
+{
+	browserPeer_->edit( val );
+}
+
+void HTMLBrowserControl::copy()
+{
+	browserPeer_->copy() ;
+}
+
+void HTMLBrowserControl::selectAll()
+{
+	browserPeer_->selectAll() ;
+}
+
+void HTMLBrowserControl::setAllowsPopupWindows( bool val )
+{	
+	if ( val ) {
+		policyState_ |= HTMLBrowserControl::hpAllowPopups;
+	}
+	else {
+		policyState_ &= ~HTMLBrowserControl::hpAllowPopups;
+	}
+
+	browserPeer_->setAllowsPopupWindows( val ) ;
+}
+
+
+void HTMLBrowserControl::setAllowsScrollbars( bool val )
+{
+	if ( val ) {
+		policyState_ |= HTMLBrowserControl::hpAllowsScrollbars;
+	}
+	else {
+		policyState_ &= ~HTMLBrowserControl::hpAllowsScrollbars;
+	}	
+
+	browserPeer_->setAllowsScrollbars( val ) ;
+}
+
+
+void HTMLBrowserControl::setAllowsTextSelection( bool val )
+{
+	if ( val ) {
+		policyState_ |= HTMLBrowserControl::hpAllowsTextSelection;
+	}
+	else {
+		policyState_ &= ~HTMLBrowserControl::hpAllowsTextSelection;
+	}
+
+	browserPeer_->setAllowsTextSelection( val ) ;
+}
+
+void HTMLBrowserControl::setElementHTMLText( const String& elementName, const String& html )
+{
+	browserPeer_->setElementHTMLText( elementName, html ) ;
+}
+
+bool HTMLBrowserControl::setElementClickedEventHandler( const String& elementName, EventHandler* handler )
+{
+	return browserPeer_->setElementClickedEventHandler( elementName, handler );
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/02/13 22:11:59  ddiego
+*added further html support and better browser example code.
+*
 *Revision 1.3  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

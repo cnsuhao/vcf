@@ -109,6 +109,10 @@ SOURCE=.\Resources\back.png
 # End Source File
 # Begin Source File
 
+SOURCE=.\Resources\customUI.html
+# End Source File
+# Begin Source File
+
 SOURCE=.\Resources\forward.png
 # End Source File
 # Begin Source File
