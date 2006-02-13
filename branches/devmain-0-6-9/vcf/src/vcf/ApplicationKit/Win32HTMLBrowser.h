@@ -97,10 +97,80 @@ public:
 
 	virtual void setFromHTML( const String& html );
 
-	
-protected:
+	virtual String getTitle();
 
-	HWND browserHwnd_;	
+	virtual void edit( const bool& val );
+
+	virtual void copy();
+
+	virtual void selectAll();
+
+	virtual void setAllowsPopupWindows( bool val );
+
+	virtual void setAllowsScrollbars( bool val );
+
+	virtual void setAllowsTextSelection( bool val );
+
+	virtual void setElementHTMLText( const String& elementName, const String& html );
+
+	virtual bool setElementClickedEventHandler( const String& elementName, EventHandler* handler );
+
+	
+	//callbacks...
+	virtual void onDownloadComplete();
+
+	virtual void onProgressChange( long x, long y );
+
+	virtual void onStatusTextChange( BSTR val );
+
+    virtual void onDownloadBegin();
+    
+	virtual void onTitleChange( BSTR Text);
+    
+	virtual void onBeforeNavigate2( LPDISPATCH pDisp, 
+									VARIANT* URL, 
+									VARIANT* Flags, 
+									VARIANT* TargetFrameName, 
+									VARIANT* PostData, 
+									VARIANT* Headers, 
+									VARIANT_BOOL* Cancel );
+    
+	virtual void onNewWindow2( LPDISPATCH* ppDisp, VARIANT_BOOL* Cancel);
+    
+	virtual void onDocumentComplete( LPDISPATCH pDisp, VARIANT* URL);
+    
+	virtual void onWindowClosing( VARIANT_BOOL IsChildWindow, VARIANT_BOOL* Cancel );
+    
+	virtual void onFileDownload( VARIANT_BOOL* Cancel );
+    
+	virtual void onNavigateError( LPDISPATCH pDisp, 
+									VARIANT* URL, 
+									VARIANT* Frame, 
+									VARIANT* StatusCode, 
+									VARIANT_BOOL* Cancel);
+    
+	
+
+	
+	//IDocHostUIHandlerImpl impl
+	STDMETHOD(ShowContextMenu)( DWORD hWndID, POINT *ppt, 
+								IUnknown *pcmdtReserved, IDispatch *pdispReserved);
+
+	STDMETHOD(GetHostInfo)( DOCHOSTUIINFO *pInfo ) ;
+	
+	STDMETHOD(OnDocWindowActivate)( BOOL fEnable );
+
+	STDMETHOD(OnFrameWindowActivate)( BOOL fEnable );
+    
+	//IServiceProviderImpl impl
+	STDMETHOD (QueryService)( REFGUID guidService, REFIID riid, void **ppv );
+
+	//IAuthenticateImpl impl
+	STDMETHOD(Authenticate)( HWND* phwnd, LPWSTR* pszUsername, 
+							LPWSTR* pszPassword);
+protected:
+	String loadingURL_;
+	HWND browserHwnd_;		
 };
 
 
@@ -110,6 +180,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/02/13 05:10:32  ddiego
+*added better html browser support.
+*
 *Revision 1.4.2.1  2006/02/09 04:54:02  ddiego
 *added missing lib tiff project for vc80. Also removed
 *ATL dependency and comdef.h dependency. We are now using comet for

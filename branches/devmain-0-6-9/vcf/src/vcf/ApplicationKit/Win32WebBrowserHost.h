@@ -276,75 +276,119 @@ public:
 
 	STDMETHOD(ShowContextMenu)( DWORD hWndID, POINT *ppt, 
 								IUnknown *pcmdtReserved, IDispatch *pdispReserved) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->ShowContextMenu(hWndID,ppt,pcmdtReserved,pdispReserved);
+		}
 		return E_NOTIMPL;
 	}
 
 	STDMETHOD(GetHostInfo)( DOCHOSTUIINFO *pInfo ) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->GetHostInfo(pInfo);
+		}
+
 		pInfo->cbSize = sizeof(DOCHOSTUIINFO);
 
 		pInfo->dwFlags = DOCHOSTUIFLAG_NO3DBORDER;
 
 		pInfo->dwDoubleClick = DOCHOSTUIDBLCLK_DEFAULT;
+
 		return S_OK;
 	}
 	
-	STDMETHOD(ShowUI)( DWORD dwID,
-		 IOleInPlaceActiveObject *pActiveObject,
-		 IOleCommandTarget *pCommandTarget,
-		 IOleInPlaceFrame *pFrame,
-		 IOleInPlaceUIWindow *pDoc) {
+	STDMETHOD(ShowUI)( DWORD dwID, IOleInPlaceActiveObject *pActiveObject,
+						IOleCommandTarget *pCommandTarget, IOleInPlaceFrame *pFrame,
+						IOleInPlaceUIWindow *pDoc) {
+
+		if ( NULL != realImpl_ ) {
+			return realImpl_->ShowUI(dwID,pActiveObject,pCommandTarget,pFrame,pDoc);
+		}
 
 		return S_OK;
 	}
 
 
 	STDMETHOD(HideUI)(void) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->HideUI();
+		}
 		return E_NOTIMPL;
 	}
 
 	STDMETHOD(UpdateUI)(void) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->UpdateUI();
+		}
 		return S_OK;
 	}
 
 	STDMETHOD(EnableModeless)( BOOL fEnable) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->EnableModeless(fEnable);
+		}
 		return E_NOTIMPL;
 	}
 
 	STDMETHOD(OnDocWindowActivate)( BOOL fEnable ) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->OnDocWindowActivate(fEnable);
+		}
 		return E_NOTIMPL;
 	}
 
 	STDMETHOD(OnFrameWindowActivate)( BOOL fEnable ) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->OnFrameWindowActivate(fEnable);
+		}
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(ResizeBorder)( LPCRECT prcBorder,
-		 IOleInPlaceUIWindow *pUIWindow,
-		 BOOL fRameWindow ) {
+	STDMETHOD(ResizeBorder)( LPCRECT prcBorder, IOleInPlaceUIWindow *pUIWindow, BOOL fRameWindow ) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->ResizeBorder(prcBorder,pUIWindow,fRameWindow);
+		}
 		return E_NOTIMPL;
 	}
 
 	STDMETHOD(TranslateAccelerator)( LPMSG lpMsg, const GUID *pguidCmdGroup, DWORD nCmdID ) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->TranslateAccelerator(lpMsg,pguidCmdGroup,nCmdID);
+		}
 		return S_OK;
 	}
 
 	STDMETHOD(GetOptionKeyPath)( LPOLESTR *pchKey, DWORD dw) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->GetOptionKeyPath(pchKey,dw);
+		}
 		return S_FALSE;
 	}
 
 	STDMETHOD(GetDropTarget)( IDropTarget *pDropTarget, IDropTarget **ppDropTarget) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->GetDropTarget(pDropTarget,ppDropTarget);
+		}
 		return E_NOTIMPL;
 	}
 
 	STDMETHOD(GetExternal)( IDispatch **ppDispatch) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->GetExternal(ppDispatch);
+		}
 		return E_NOTIMPL;
 	}
 	
 	STDMETHOD(TranslateUrl)( DWORD dwTranslate, OLECHAR *pchURLIn, OLECHAR **ppchURLOut) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->TranslateUrl(dwTranslate,pchURLIn,ppchURLOut);
+		}
 		return E_NOTIMPL;
 	}
 
 	STDMETHOD(FilterDataObject)( IDataObject *pDO, IDataObject **ppDORet) {
+		if ( NULL != realImpl_ ) {
+			return realImpl_->FilterDataObject(pDO,ppDORet);
+		}
 		return E_NOTIMPL;
 	}
 	
@@ -400,14 +444,75 @@ public:
 };
 
 
+class IServiceProviderImpl : public IServiceProvider {
+public:
+	IServiceProviderImpl(){}
+
+	STDMETHOD(QueryInterface)( REFIID iid, void ** ppvObject ) {
+		if ( iid == IID_IServiceProvider ) {
+			*ppvObject = (void*)(IServiceProvider*)this;
+			return S_OK;
+		}
+		else if ( iid == IID_IUnknown ) {
+			*ppvObject = (void*)(IUnknown*)this;
+			return S_OK;
+		}
+		return E_NOINTERFACE;
+	}
+
+	STDMETHODIMP_(ULONG)AddRef() {
+		return 0;
+	}
+
+	STDMETHODIMP_(ULONG)Release() {
+		return 0;
+	}
+	
+	STDMETHOD (QueryService)( REFGUID guidService, REFIID riid, void **ppv ) {
+		return E_NOINTERFACE;
+	}
+};
+
+
+class IAuthenticateImpl : public IAuthenticate {
+public:
+	IAuthenticateImpl(){};
+
+	STDMETHOD (QueryInterface) (REFIID  riid, void** ppObj ) {
+		if ( riid == IID_IAuthenticate ) {
+			*ppObj = (void*) (IAuthenticate*)this;
+			return S_OK;
+		}
+		else if ( riid == IID_IUnknown ) {
+			*ppObj = (void*) (IUnknown*)this;
+			return S_OK;
+		}
+
+		return E_NOINTERFACE;
+	}
+
+	STDMETHODIMP_(ULONG)AddRef() {
+		return 0;
+	}
+
+	STDMETHODIMP_(ULONG)Release() {
+		return 0;
+	}
+
+	STDMETHOD(Authenticate)( HWND* phwnd, LPWSTR* pszUsername, 
+							LPWSTR* pszPassword) {
+		return E_NOTIMPL;
+	}
+};
 
 
 class IOleClientSiteImpl : public IOleClientSite {
 public:
-	IOleClientSiteImpl() : inPlaceSite_(NULL), docUI_(NULL) {}
+	IOleClientSiteImpl() : inPlaceSite_(NULL), docUI_(NULL), serviceProvider_(NULL) {}
 
 
 	STDMETHOD(QueryInterface)( REFIID iid, void ** ppvObject ) {
+		
 		if ( iid == IID_IOleClientSite ) {
 			*ppvObject = (void*)(IOleClientSite*)this;
 			return S_OK;
@@ -417,7 +522,10 @@ public:
 		}
 		else if ( iid == IID_IDocHostUIHandler ) {			
 			return docUI_->QueryInterface(iid,ppvObject);
-		}		
+		}
+		else if ( iid == IID_IServiceProvider ) {
+			return serviceProvider_->QueryInterface(iid,ppvObject);
+		}
 		else if ( iid == IID_IUnknown ) {
 			*ppvObject = (void*)(IUnknown*)this;
 			return S_OK;
@@ -462,6 +570,7 @@ public:
 
 	IOleInPlaceSiteImpl* inPlaceSite_;
 	IDocHostUIHandlerImpl* docUI_;
+	IServiceProviderImpl* serviceProvider_;
 };
 
 
@@ -1456,12 +1565,14 @@ HTMLElement*HTMLElementCollection::operator[](const std::string& name)
 
 
 
-class WebBrowserCtrl : public IDispatchImpl, protected IDocHostUIHandlerImpl {
+class WebBrowserCtrl : public IDispatchImpl, protected IDocHostUIHandlerImpl, 
+						protected IServiceProviderImpl,
+						protected IAuthenticateImpl {
 public:
-	WebBrowserCtrl():connectionPointCookie_(0) {
+	WebBrowserCtrl():connectionPointCookie_(0),uiStyle_(0) {
 		OleInitialize(NULL);
 		
-		
+		uiStyle_ |= DOCHOSTUIFLAG_NO3DBORDER;
 	}
 
 	virtual ~WebBrowserCtrl() {
@@ -1514,12 +1625,17 @@ public:
 
 		site_ = new IOleClientSiteImpl();
 		site_->docUI_ = new IDocHostUIHandlerImpl();
+		
+		site_->docUI_->realImpl_ = this;
+
 		site_->inPlaceSite_ = new IOleInPlaceSiteImpl();
 		
 		site_->inPlaceSite_->frameImpl_ = new IOleInPlaceFrameImpl();
 		
 		site_->inPlaceSite_->frameImpl_->wnd_ = hwnd;
 		
+		site_->serviceProvider_ = this;
+
 		IOleObject* oleObject;
 		
 		hresult res = ::OleCreate( CLSID_WebBrowser, 
@@ -1648,7 +1764,17 @@ public:
 		browser_->Refresh();
 	}
 
+	void stop() {
+		browser_->Stop();
+	}
 
+
+	bool busy() const {
+		VARIANT_BOOL b = FALSE;
+		browser_->get_Busy( &b );
+		return b ? true : false;
+	}
+	
 
 /*
 	void test() {
@@ -1696,6 +1822,9 @@ public:
 */
 
 
+
+
+	//IDispatch impl
 	//this should get called back by the connection point container...
 	STDMETHOD(Invoke)( DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, 
 					DISPPARAMS* pDispParams, VARIANT* pVarResult, 
@@ -2050,6 +2179,7 @@ protected:
 	com_ptr<IOleObject> oleObject_;
 	com_ptr<IWebBrowser2> browser_;
 	DWORD connectionPointCookie_;
+	DWORD uiStyle_;
 };
 
 #endif //_VCF_WIN32WEBBROWSERHOST_H__

@@ -18,6 +18,35 @@ where you installed the VCF.
 
 
 namespace VCF  {
+	class HTMLAuthenticationEvent : public Event {
+	public:
+		inline HTMLAuthenticationEvent( Object* source, const String& url );
+
+
+		String userName;
+		String password;
+		String url;
+		bool authenticationCancelled;
+
+		virtual Object* clone( bool deep=false ) {
+			return new HTMLAuthenticationEvent(*this);
+		}		
+	};
+
+	class APPLICATIONKIT_API HTMLEvent : public Event {
+	public:
+		HTMLEvent( Object* source, uint32 type ):Event(source,type), value(0),maxValue(0) {};
+
+		virtual Object* clone( bool deep=false ) {
+			return new HTMLEvent(*this);
+		}
+	
+		uint32 value;
+		uint32 maxValue;
+		String status;
+		String url;
+
+	};
 
 /**
 *Class HTMLBrowserControl documentation
@@ -26,6 +55,84 @@ class APPLICATIONKIT_API HTMLBrowserControl : public Control {
 public:
 	HTMLBrowserControl();
 	virtual ~HTMLBrowserControl();
+	
+	enum HTMLPolicy {
+		hpNone = 0,
+		hpAllowPopups =			0x0001,
+		hpAllowsScrollbars =	0x0002,
+		hpAllowsTextSelection = 0x0004,
+		hpUseDefaultAuthenticationUI  = 0x0008,
+	};
+
+	enum HTMLEvents{
+		heBase = 'HTev',
+		heURLLoadingBegun,
+		heURLLoading,
+		heURLLoaded,
+		heURLLoadError,
+		heStatusChanged,
+		heNewWindowDisplayed,
+		heTitleChanged,
+		heAuthenticationRequested
+	};
+
+	/**
+	@delegate URLLoadingBegun
+	@event HTMLEvent
+	@eventtype heURLLoadingBegun
+	*/
+	DELEGATE( URLLoadingBegun );
+
+	/**
+	@delegate URLLoading
+	@event HTMLEvent
+	@eventtype heURLLoading
+	*/
+	DELEGATE( URLLoading );
+
+	/**
+	@delegate URLLoaded
+	@event HTMLEvent
+	@eventtype heURLLoaded
+	*/
+	DELEGATE( URLLoaded );
+
+	/**
+	@delegate URLLoadError
+	@event HTMLEvent
+	@eventtype heURLLoadError
+	*/
+	DELEGATE( URLLoadError );
+
+
+	/**
+	@delegate StatusChanged
+	@event HTMLEvent
+	@eventtype heStatusChanged
+	*/
+	DELEGATE( StatusChanged );
+
+	/**
+	@delegate NewWindowDisplayed
+	@event HTMLEvent
+	@eventtype heNewWindowDisplayed
+	*/
+	DELEGATE( NewWindowDisplayed );
+
+	/**
+	@delegate TitleChanged
+	@event HTMLEvent
+	@eventtype heTitleChanged
+	*/
+	DELEGATE( TitleChanged );
+	
+	/**
+	@delegate AuthenticationRequested
+	@event HTMLAuthenticationEvent
+	@eventtype heAuthenticationRequested
+	*/
+	DELEGATE( AuthenticationRequested );
+
 
 	virtual void paint( GraphicsContext* ctx );
 
@@ -49,12 +156,70 @@ public:
 
 	void setFromHTML( const String& html );
 
+	String getTitle();
+
+	void edit( const bool& val );
+
+	void copy();
+
+	void selectAll();
+
+	bool getAllowsPopupWindows() {
+		return (policyState_ & hpAllowPopups) ? true : false;
+	}
+
+	void setAllowsPopupWindows( bool val );
+
+	bool getAllowsScrollbars() {
+		return (policyState_ & hpAllowsScrollbars) ? true : false;
+	}
+
+	void setAllowsScrollbars( bool val );
+
+	bool getAllowsTextSelection() {
+		return (policyState_ & hpAllowsTextSelection) ? true : false;
+	}	
+
+	void setAllowsTextSelection( bool val );
+
+	bool getUseDefaultAuthenticationUI() {
+		return (policyState_ & hpUseDefaultAuthenticationUI) ? true : false;
+	}
+
+	void setUseDefaultAuthenticationUI( bool val ) {
+		if ( val ) {
+			policyState_ |= hpUseDefaultAuthenticationUI;
+		}
+		else {
+			policyState_ &= ~hpUseDefaultAuthenticationUI;
+		}		
+	}
+
+	void setElementHTMLText( const String& elementName, const String& html );
+	
+	/**
+	Sets one of the more common event handlers for an element. Some elements
+	may not respond to this.
+	*/
+	bool setElementClickedEventHandler( const String& elementName, EventHandler* handler );
+
+
 protected:
 	HTMLBrowserPeer* browserPeer_;
-
+	uint32 policyState_;
 
 private:
 };
+
+
+
+HTMLAuthenticationEvent::HTMLAuthenticationEvent( Object* source, const String& aUrl ):
+	Event( source, HTMLBrowserControl::heAuthenticationRequested),
+	url(aUrl),
+	authenticationCancelled(false)
+{
+
+}
 
 
 }; //end of namespace VCF
@@ -63,6 +228,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/02/13 05:10:32  ddiego
+*added better html browser support.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
