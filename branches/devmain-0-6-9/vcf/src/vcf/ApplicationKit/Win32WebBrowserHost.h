@@ -787,23 +787,32 @@ public:
 		return elementImpl_.is_null();
 	}
 
-	void setAttribute( const bstr_t& attributeName,
-						const variant_t& attributeValue,
+	void setAttribute( const std::string& attributeName,
+						const std::string& attributeValue,
 						bool caseSensitive ) {
 
-
-		elementImpl_->setAttribute( attributeName.in(), attributeValue.in(), caseSensitive ? TRUE:FALSE );
+		bstr_t name = attributeName;
+		variant_t val = attributeValue;
+		elementImpl_->setAttribute( name.in(), val.in(), caseSensitive ? TRUE:FALSE );
 	}
 
-	variant_t getAttribute(const bstr_t& attributeName, bool caseSensitive=true) const {
-		variant_t result;
-		elementImpl_->getAttribute(attributeName.in(), caseSensitive ? TRUE:FALSE, result.out() );
+	std::string getAttribute(const std::string& attributeName, bool caseSensitive=true) const {
+		std::string result;
+
+		variant_t tmp;
+		bstr_t name = attributeName;
+
+		elementImpl_->getAttribute(name.in(), caseSensitive ? TRUE:FALSE, tmp.out() );
+
+		result = tmp;
+
 		return result;
 	}
 
-	bool removeAttribute( const bstr_t& attributeName, bool caseSensitive=true ) {
+	bool removeAttribute( const std::string& attributeName, bool caseSensitive=true ) {
 		VARIANT_BOOL result = FALSE;
-		elementImpl_->removeAttribute( attributeName.in(), caseSensitive ? TRUE:FALSE, &result );
+		bstr_t name = attributeName;
+		elementImpl_->removeAttribute( name.in(), caseSensitive ? TRUE:FALSE, &result );
 		return result ? true : false;
 	}
 

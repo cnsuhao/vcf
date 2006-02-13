@@ -48,6 +48,18 @@ namespace VCF  {
 
 	};
 
+
+	class APPLICATIONKIT_API HTMLElementEvent : public Event {
+	public:
+		HTMLElementEvent( Object* source, uint32 type ):Event(source,type) {};
+
+		virtual Object* clone( bool deep=false ) {
+			return new HTMLElementEvent(*this);
+		}
+
+		String elementID;
+	};
+
 /**
 *Class HTMLBrowserControl documentation
 */
@@ -62,6 +74,7 @@ public:
 		hpAllowsScrollbars =	0x0002,
 		hpAllowsTextSelection = 0x0004,
 		hpUseDefaultAuthenticationUI  = 0x0008,
+		hpAllowDefaultContextMenu  = 0x0010,
 	};
 
 	enum HTMLEvents{
@@ -73,7 +86,8 @@ public:
 		heStatusChanged,
 		heNewWindowDisplayed,
 		heTitleChanged,
-		heAuthenticationRequested
+		heAuthenticationRequested,
+		heElementClicked
 	};
 
 	/**
@@ -195,11 +209,27 @@ public:
 		}		
 	}
 
+	bool getAllowDefaultContextMenu() {
+		return (policyState_ & hpAllowDefaultContextMenu) ? true : false;
+	}
+
+	void setAllowDefaultContextMenu( bool val ) {
+		if ( val ) {
+			policyState_ |= hpAllowDefaultContextMenu;
+		}
+		else {
+			policyState_ &= ~hpAllowDefaultContextMenu;
+		}		
+	}
+
+	
+
 	void setElementHTMLText( const String& elementName, const String& html );
 	
 	/**
 	Sets one of the more common event handlers for an element. Some elements
 	may not respond to this.
+	This will fire a HTMLElementEvent instance.
 	*/
 	bool setElementClickedEventHandler( const String& elementName, EventHandler* handler );
 
@@ -228,6 +258,9 @@ HTMLAuthenticationEvent::HTMLAuthenticationEvent( Object* source, const String& 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/13 22:11:59  ddiego
+*added further html support and better browser example code.
+*
 *Revision 1.2.6.1  2006/02/13 05:10:32  ddiego
 *added better html browser support.
 *

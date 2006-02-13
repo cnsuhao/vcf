@@ -53,6 +53,20 @@ struct CLSIDPred {
 
 
 
+class HTMLEventHandler : public IDispatchImpl {
+public:
+
+	HTMLEventHandler():eventSource(NULL), handler(NULL){}
+
+	STDMETHOD(Invoke)( DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, 
+					DISPPARAMS* pDispParams, VARIANT* pVarResult, 
+					EXCEPINFO* pExcepInfo, UINT* puArgErr );
+
+	Object* eventSource;
+	EventHandler* handler;
+	String elementID;
+};
+
 /**
 *Class Win32HTMLBrowser documentation
 */
@@ -168,9 +182,31 @@ public:
 	//IAuthenticateImpl impl
 	STDMETHOD(Authenticate)( HWND* phwnd, LPWSTR* pszUsername, 
 							LPWSTR* pszPassword);
+
+
+	HTMLEventHandler* getElementEventHandler( const String& name ) {
+		HTMLEventHandler* result = NULL;
+		std::map<String,HTMLEventHandler*>::iterator found = eventHandlers_.find(name);
+		if ( found != eventHandlers_.end() ) {
+			result = found->second;
+		}
+
+		return result;
+	}
 protected:
 	String loadingURL_;
-	HWND browserHwnd_;		
+	HWND browserHwnd_;	
+	std::map<String,HTMLEventHandler*> eventHandlers_;
+
+	void clearHTMLHandlers() {
+		std::map<String,HTMLEventHandler*>::iterator it = eventHandlers_.begin();
+		while ( it != eventHandlers_.end() ) {
+			delete it->second;
+			it ++;
+		}
+
+		eventHandlers_.clear();
+	}
 };
 
 
@@ -180,6 +216,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/02/13 22:11:59  ddiego
+*added further html support and better browser example code.
+*
 *Revision 1.4.2.2  2006/02/13 05:10:32  ddiego
 *added better html browser support.
 *

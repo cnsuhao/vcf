@@ -76,6 +76,44 @@ using namespace VCF;
 
 
 
+class CustomHTMLUI : public Window {
+public:
+	CustomHTMLUI() {
+		browser = new HTMLBrowserControl();
+
+		browser->URLLoaded += 
+			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onURLLoaded, "CustomHTMLUI::onURLLoaded" );
+
+		add( browser, AlignClient );
+
+		browser->setAllowsScrollbars(false);
+		browser->setAllowsTextSelection(false);
+		browser->setAllowDefaultContextMenu(false);
+		
+		
+
+		String resHTML = System::findResourceDirectory() + "customUI.html";
+
+		browser->setCurrentURL( resHTML );
+	}
+
+	HTMLBrowserControl* browser;
+protected:
+	void onURLLoaded( Event* e ) {
+		//add callbacks for various UI elements here
+
+		browser->setElementClickedEventHandler( "ClickMe", 
+			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onElementClicked, "CustomHTMLUI::onElementClicked" ) ); 
+
+	}
+
+	void onElementClicked( Event* e ) {
+		HTMLElementEvent* htmElementEv = (HTMLElementEvent*)e;
+
+		Dialog::showMessage( "Element \"" + htmElementEv->elementID + "\" clicked!" );
+	}
+};
+
 class BrowserApp : public Application {
 public:
 
@@ -167,9 +205,46 @@ public:
 		browser->setDoubleBuffered( false );
 		mainWindow->add( browser, AlignClient );
 
+		browser->StatusChanged += 
+			new GenericEventHandler<BrowserApp>(this,&BrowserApp::onHTMLStatusChanged, "BrowserApp::onHTMLStatusChanged" );
+
+
+
+		statusLabel = new Label();
+		statusLabel->setCaption( "Enter URL" );
+
+		Panel* statPane = new Panel();
+		statPane->setBorder( NULL );
+		statPane->setHeight( statusLabel->getPreferredHeight() + 5 );
+		statPane->add( statusLabel, AlignClient );
+		
+		mainWindow->add( statPane, AlignBottom );
+
+
+
+
+
+		mgr = new ActionManager(mainWindow);
+
+
+
+
+		MenuBar* menuBar = new MenuBar(mainWindow);
+		mainWindow->setMenuBar( menuBar );
+		MenuItem* root = menuBar->getRootMenuItem();
+		DefaultMenuItem* app = new DefaultMenuItem( "Browser App", root, menuBar );
+
+		DefaultMenuItem* appEVDemo = new DefaultMenuItem( "Event Handler Demo...", app, menuBar );
+		
+
+		mgr->addTarget( "appEVDemo", appEVDemo );
+		mgr->addPerformed( "appEVDemo", new GenericEventHandler<BrowserApp>(this, &BrowserApp::doEventHandlerDemo, "BrowserApp::doEventHandlerDemo" ) );
+
+
+
 
 		
-		mgr = new ActionManager(mainWindow);
+		
 
 
 		//hook up actions
@@ -210,6 +285,7 @@ protected:
 	HTMLBrowserControl* browser;
 	URLCombo* urlBox;
 	ActionManager* mgr;
+	Label* statusLabel;
 
 	void urlChanged( Event* ) {
 		browser->setCurrentURL( urlBox->getCurrentText() );	
@@ -233,6 +309,18 @@ protected:
 
 	void refresh( Event* ) {
 		browser->refresh();
+	}
+
+	void onHTMLStatusChanged( Event* e ) {
+		HTMLEvent* htmlEvent = (HTMLEvent*)e;
+
+		statusLabel->setCaption( htmlEvent->status );
+	}
+
+	void doEventHandlerDemo( Event* ) {
+		CustomHTMLUI* window = new CustomHTMLUI();
+		window->setBounds( 100, 100, 500, 500 );
+		window->show();
 	}
 };
 
