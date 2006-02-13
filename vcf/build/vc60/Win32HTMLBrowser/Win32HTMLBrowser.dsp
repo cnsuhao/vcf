@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/thirdparty/win32" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_APPLICATIONKIT_DLL" /D "WIN32HTMLBROWSER_DLL" /D "WIN32HTMLBROWSER_EXPORTS" /D "_ATL_STATIC_REGISTRY" /Fd"..\..\..\bin\Win32HTMLBrowser_vc6_d.pdb" /FD /GZ /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/thirdparty/win32" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "USE_APPLICATIONKIT_DLL" /D "WIN32HTMLBROWSER_DLL" /D "WIN32HTMLBROWSER_EXPORTS" /Fd"..\..\..\bin\Win32HTMLBrowser_vc6_d.pdb" /FD /GZ /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"

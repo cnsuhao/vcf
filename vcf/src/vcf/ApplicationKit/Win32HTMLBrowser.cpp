@@ -14,6 +14,7 @@ where you installed the VCF.
 
 
 #include "vcf/ApplicationKit/Win32HTMLBrowser.h"
+#include "vcf/ApplicationKit/HTMLBrowserControl.h"
 
 
 
@@ -25,7 +26,7 @@ using namespace VCF;
 Win32HTMLBrowser::Win32HTMLBrowser():
 	browserHwnd_(NULL)	
 {
-	
+	uiStyle_ = DOCHOSTUIFLAG_NO3DBORDER;
 }
 
 Win32HTMLBrowser::~Win32HTMLBrowser()
@@ -172,6 +173,7 @@ String Win32HTMLBrowser::getCurrentURL()
 
 void Win32HTMLBrowser::setCurrentURL( const String& url )
 {
+	loadingURL_ = url;
 	openURL( url );
 }
 
@@ -197,20 +199,258 @@ void Win32HTMLBrowser::refresh()
 
 bool Win32HTMLBrowser::isLoadingURL()
 {
-	bool result = false;
-	
-	return result;
+	return busy();
 }
 
 void Win32HTMLBrowser::stopLoadingURL()
 {
-
+	WebBrowserCtrl::stop();
 }
 
 void Win32HTMLBrowser::setFromHTML( const String& html )
 {
+	if ( busy() ) {
+		//barf!
+		throw RuntimeException( "The browser is still loading it's document and you can't set the document's HTML while it's loading." );
+	}
+
+	HTMLDocument doc = WebBrowserCtrl::getDocument();
+	if ( !doc.null() ) {
+		doc.write( html );
+	}
+}
+
+String Win32HTMLBrowser::getTitle()
+{
+	String result;
+
+	return result;
+}
+
+void Win32HTMLBrowser::edit( const bool& val )
+{
+	HTMLDocument doc = WebBrowserCtrl::getDocument();
+	if ( !doc.null() ) {
+		doc.setDesignMode( val );
+	}
+	else {
+		throw RuntimeException( "Can't edit a null document." );
+	}
+}
+
+void Win32HTMLBrowser::copy()
+{
+	HTMLDocument doc = WebBrowserCtrl::getDocument();
+	if ( !doc.null() ) {
+		doc.copy();
+	}
+	else {
+		throw RuntimeException( "Can't copy from a null document." );
+	}
+}
+
+void Win32HTMLBrowser::selectAll()
+{
+	HTMLDocument doc = WebBrowserCtrl::getDocument();
+	if ( !doc.null() ) {
+		doc.selectAll();
+	}
+	else {
+		throw RuntimeException( "Can't make a selection from a null document." );
+	}
+}
+
+void Win32HTMLBrowser::setAllowsPopupWindows( bool val )
+{
+//no-op
+}
+
+void Win32HTMLBrowser::setAllowsScrollbars( bool val )
+{
+	uiStyle_ = val ? (uiStyle_ ^ DOCHOSTUIFLAG_SCROLL_NO)
+                                      : (uiStyle_ | DOCHOSTUIFLAG_SCROLL_NO);	
+}
+
+void Win32HTMLBrowser::setAllowsTextSelection( bool val )
+{
+	uiStyle_ = val ? (uiStyle_ ^ DOCHOSTUIFLAG_DIALOG)
+                                      : (uiStyle_ | DOCHOSTUIFLAG_DIALOG);
+}
+
+void Win32HTMLBrowser::setElementHTMLText( const String& elementName, const String& html )
+{
+
+}
+
+bool Win32HTMLBrowser::setElementClickedEventHandler( const String& elementName, EventHandler* handler )
+{
+	bool result = true;
+
+	return result;
+}
+
+
+void Win32HTMLBrowser::onDownloadComplete()
+{
+
+}
+
+void Win32HTMLBrowser::onProgressChange( long x, long y )
+{
+	HTMLEvent e(peerControl_,HTMLBrowserControl::heURLLoading);
+	e.maxValue = y;
+	e.value = x;
+
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+	browserCtrl->URLLoading.fireEvent( &e );
+}
+
+void Win32HTMLBrowser::onStatusTextChange( BSTR val )
+{
+	HTMLEvent e(peerControl_,HTMLBrowserControl::heStatusChanged);
+	bstr_t tmp(val);
+	e.status = tmp.c_str();
+
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+	browserCtrl->StatusChanged.fireEvent( &e );
+}
+
+void Win32HTMLBrowser::onDownloadBegin()
+{
+	HTMLEvent e(peerControl_,HTMLBrowserControl::heURLLoadingBegun);
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+	browserCtrl->URLLoadingBegun.fireEvent( &e );
+}
+
+void Win32HTMLBrowser::onTitleChange( BSTR Text)
+{
+	HTMLEvent e(peerControl_,HTMLBrowserControl::heTitleChanged);
+	bstr_t tmp(Text);
+	e.status = tmp.c_str();
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+	browserCtrl->TitleChanged.fireEvent( &e );
+}
+
+void Win32HTMLBrowser::onBeforeNavigate2( LPDISPATCH pDisp, 
+							   VARIANT* URL, 
+							   VARIANT* Flags, 
+							   VARIANT* TargetFrameName, 
+							   VARIANT* PostData, 
+							   VARIANT* Headers, 
+							   VARIANT_BOOL* Cancel )
+{
+
+}
+
+void Win32HTMLBrowser::onNewWindow2( LPDISPATCH* ppDisp, VARIANT_BOOL* Cancel)
+{
 	
 }
+
+void Win32HTMLBrowser::onDocumentComplete( LPDISPATCH pDisp, VARIANT* URL)
+{
+
+}
+
+void Win32HTMLBrowser::onWindowClosing( VARIANT_BOOL IsChildWindow, VARIANT_BOOL* Cancel )
+{
+
+}
+
+void Win32HTMLBrowser::onFileDownload( VARIANT_BOOL* Cancel )
+{
+
+}
+
+void Win32HTMLBrowser::onNavigateError( LPDISPATCH pDisp, 
+							 VARIANT* URL, 
+							 VARIANT* Frame, 
+							 VARIANT* StatusCode, 
+							 VARIANT_BOOL* Cancel)
+{
+
+}
+
+STDMETHODIMP Win32HTMLBrowser::ShowContextMenu( DWORD hWndID, POINT *ppt, 
+								IUnknown *pcmdtReserved, IDispatch *pdispReserved)
+{
+	PopupMenu* contextMenu = peerControl_->getPopupMenu();
+	if ( NULL != contextMenu ) {
+		//point is in screen coords
+		Point pt(ppt->x, ppt->y);
+		//convert to client coords
+
+		peerControl_->translateFromScreenCoords( &pt );
+		contextMenu->popup( &pt );
+
+		return S_OK; //we've handled this!
+	}	
+
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP Win32HTMLBrowser::GetHostInfo( DOCHOSTUIINFO *pInfo ) 
+{
+	pInfo->cbSize = sizeof(DOCHOSTUIINFO);
+	pInfo->dwFlags = uiStyle_;
+
+	pInfo->dwDoubleClick = DOCHOSTUIDBLCLK_DEFAULT;
+
+	return S_OK;
+}
+
+STDMETHODIMP Win32HTMLBrowser::OnDocWindowActivate( BOOL fEnable ) 
+{
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP Win32HTMLBrowser::OnFrameWindowActivate( BOOL fEnable ) 
+{
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP Win32HTMLBrowser::QueryService( REFGUID guidService, REFIID riid, void **ppv )
+{
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+	if ( riid == IID_IAuthenticate && !browserCtrl->getUseDefaultAuthenticationUI() ) {		
+		IAuthenticateImpl* authenticater = this;
+
+		*ppv = (IAuthenticate*) authenticater;
+
+		return S_OK;
+	}
+	return E_NOINTERFACE;
+}
+
+STDMETHODIMP Win32HTMLBrowser::Authenticate( HWND* phwnd, LPWSTR* pszUsername, 
+							LPWSTR* pszPassword)
+{	
+	HTMLAuthenticationEvent e(peerControl_, loadingURL_ );
+
+	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
+	browserCtrl->AuthenticationRequested.fireEvent( &e );
+
+	if ( e.authenticationCancelled ) {
+		return E_ACCESSDENIED;
+	}
+
+	if ( e.userName.empty() && e.password.empty() ) {
+		return E_ACCESSDENIED;
+	}
+
+	*phwnd = NULL;
+
+	*pszUsername = (LPWSTR) CoTaskMemAlloc( e.userName.size_in_bytes() + sizeof(WCHAR) );
+	memset( *pszUsername, 0, e.userName.size_in_bytes() + sizeof(WCHAR) );
+	e.userName.copy( *pszUsername, e.userName.size() );
+
+	*pszPassword = (LPWSTR) CoTaskMemAlloc( e.password.size_in_bytes() + sizeof(WCHAR) );
+	memset( *pszPassword, 0, e.password.size_in_bytes() + sizeof(WCHAR) );
+	e.password.copy( *pszPassword, e.password.size() );
+
+	return S_OK;
+}
+
 
 
 using namespace VCF;
@@ -266,6 +506,9 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/02/13 05:10:32  ddiego
+*added better html browser support.
+*
 *Revision 1.4.2.2  2006/02/10 02:26:44  ddiego
 *vc80 updates for comet.
 *

@@ -43,6 +43,24 @@ public:
 	virtual void stopLoadingURL() = 0;
 
 	virtual void setFromHTML( const String& html ) = 0;
+
+	virtual String getTitle() = 0;
+
+	virtual void edit( const bool& val ) = 0;
+
+	virtual void copy() = 0;
+
+	virtual void selectAll() = 0;
+
+	virtual void setAllowsPopupWindows( bool val ) = 0;
+
+	virtual void setAllowsScrollbars( bool val ) = 0;
+
+	virtual void setAllowsTextSelection( bool val ) = 0;
+
+	virtual void setElementHTMLText( const String& elementName, const String& html ) = 0;
+
+	virtual bool setElementClickedEventHandler( const String& elementName, EventHandler* handler ) = 0;
 protected:
 
 private:
@@ -55,6 +73,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/02/13 05:10:32  ddiego
+*added better html browser support.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
