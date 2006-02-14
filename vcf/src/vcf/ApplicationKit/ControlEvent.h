@@ -113,7 +113,17 @@ protected:
 };
 
 
+class APPLICATIONKIT_API ControlPopupMenuMenuEvent : public Event {
+public:
+	ControlPopupMenuMenuEvent( Object* source, const ulong32& eventType ): 
+	  Event(source,eventType), popupMenu(NULL), cancelPopup(false){
+		
+	}
 
+	PopupMenu* popupMenu;
+	bool cancelPopup;
+
+};
 
 
 /**
@@ -141,6 +151,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/14 05:13:09  ddiego
+*more browser updates.
+*
 *Revision 1.2.6.1  2005/09/05 14:38:31  ddiego
 *added pre and post paint delegates to the control class.
 *

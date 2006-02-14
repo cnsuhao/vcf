@@ -81,8 +81,13 @@ public:
 	CustomHTMLUI() {
 		browser = new HTMLBrowserControl();
 
+		setCaption( "Custom HTML UI" );
+
 		browser->URLLoaded += 
 			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onURLLoaded, "CustomHTMLUI::onURLLoaded" );
+
+		browser->BeforePopupMenu += 
+			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onPopupMenu, "CustomHTMLUI::onPopupMenu" );
 
 		add( browser, AlignClient );
 
@@ -95,6 +100,13 @@ public:
 		String resHTML = System::findResourceDirectory() + "customUI.html";
 
 		browser->setCurrentURL( resHTML );
+
+		PopupMenu* contextMenu = new PopupMenu(this);
+		MenuItem* root = contextMenu->getRootMenuItem();
+		DefaultMenuItem* pmItem1 = new DefaultMenuItem( "Hello", root,contextMenu );
+		DefaultMenuItem* pmItem2 = new DefaultMenuItem( "There!", root,contextMenu );
+
+		browser->setPopupMenu( contextMenu );
 	}
 
 	HTMLBrowserControl* browser;
@@ -105,12 +117,42 @@ protected:
 		browser->setElementClickedEventHandler( "ClickMe", 
 			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onElementClicked, "CustomHTMLUI::onElementClicked" ) ); 
 
+		browser->setElementClickedEventHandler( "DoItBtn", 
+			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onButtonClicked, "CustomHTMLUI::onButtonClicked" ) ); 
 	}
 
 	void onElementClicked( Event* e ) {
 		HTMLElementEvent* htmElementEv = (HTMLElementEvent*)e;
 
 		Dialog::showMessage( "Element \"" + htmElementEv->elementID + "\" clicked!" );
+	}
+
+
+	void onButtonClicked( Event* e ) {
+		static bool theWeatherIsSunny = false;
+
+		if ( theWeatherIsSunny ) {
+			browser->setElementHTMLText( "weatherValue", "Sunny<img src=\"mostly_sunny.gif\">" );
+		}
+		else {
+			browser->setElementHTMLText( "weatherValue", "Maybe Rainy<img src=\"chance_of_rain.gif\">" );
+		}
+
+		theWeatherIsSunny = !theWeatherIsSunny;
+	}
+
+	void onPopupMenu( Event* e ) {
+		ControlPopupMenuMenuEvent* popupMenuEvent = (ControlPopupMenuMenuEvent*)e;
+
+		String id = browser->getActiveElementID();
+
+		if ( id == "ctxMenuPara" ) {
+			MenuItem* item = popupMenuEvent->popupMenu->getRootMenuItem()->getChildAt(0);
+			item->setCaption( id );
+		}
+		else {MenuItem* item = popupMenuEvent->popupMenu->getRootMenuItem()->getChildAt(0);
+			item->setCaption( "Hello" );
+		}
 	}
 };
 

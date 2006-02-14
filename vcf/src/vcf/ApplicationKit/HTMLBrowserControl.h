@@ -222,9 +222,17 @@ public:
 		}		
 	}
 
-	
+	String getActiveElementID();
+
+	String getElementIDFromPoint( Point* pt );
+
+	String getElementHTMLText( const String& elementName );
 
 	void setElementHTMLText( const String& elementName, const String& html );
+
+	String getElementText( const String& elementName );
+
+	void setElementText( const String& elementName, const String& text );	
 	
 	/**
 	Sets one of the more common event handlers for an element. Some elements
@@ -258,6 +266,9 @@ HTMLAuthenticationEvent::HTMLAuthenticationEvent( Object* source, const String& 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/02/14 05:13:09  ddiego
+*more browser updates.
+*
 *Revision 1.2.6.2  2006/02/13 22:11:59  ddiego
 *added further html support and better browser example code.
 *

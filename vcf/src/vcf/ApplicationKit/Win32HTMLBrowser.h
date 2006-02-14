@@ -125,7 +125,17 @@ public:
 
 	virtual void setAllowsTextSelection( bool val );
 
+	virtual String getElementHTMLText( const String& elementName );
+
 	virtual void setElementHTMLText( const String& elementName, const String& html );
+
+	virtual String getElementText( const String& elementName );
+
+	virtual void setElementText( const String& elementName, const String& text );
+
+	virtual String getActiveElementID();
+
+	virtual String getElementIDFromPoint( Point* pt );
 
 	virtual bool setElementClickedEventHandler( const String& elementName, EventHandler* handler );
 
@@ -198,6 +208,9 @@ protected:
 	HWND browserHwnd_;	
 	std::map<String,HTMLEventHandler*> eventHandlers_;
 
+	String getElementText( bool textIsHTML, const String& elementName );
+	void setElementText( bool textIsHTML, const String& elementName, const String& text );
+
 	void clearHTMLHandlers() {
 		std::map<String,HTMLEventHandler*>::iterator it = eventHandlers_.begin();
 		while ( it != eventHandlers_.end() ) {
@@ -216,6 +229,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/02/14 05:13:09  ddiego
+*more browser updates.
+*
 *Revision 1.4.2.3  2006/02/13 22:11:59  ddiego
 *added further html support and better browser example code.
 *

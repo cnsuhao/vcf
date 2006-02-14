@@ -161,9 +161,35 @@ void HTMLBrowserControl::setAllowsTextSelection( bool val )
 	browserPeer_->setAllowsTextSelection( val ) ;
 }
 
+
+String HTMLBrowserControl::getElementHTMLText( const String& elementName )
+{
+	return browserPeer_->getElementHTMLText( elementName ) ;
+}
+
 void HTMLBrowserControl::setElementHTMLText( const String& elementName, const String& html )
 {
 	browserPeer_->setElementHTMLText( elementName, html ) ;
+}
+
+String HTMLBrowserControl::getElementText( const String& elementName )
+{
+	return browserPeer_->getElementText( elementName ) ;
+}
+
+void HTMLBrowserControl::setElementText( const String& elementName, const String& text )
+{
+	browserPeer_->setElementText( elementName, text ) ;
+}
+
+String HTMLBrowserControl::getActiveElementID()
+{
+	return browserPeer_->getActiveElementID() ;
+}
+
+String HTMLBrowserControl::getElementIDFromPoint( Point* pt )
+{
+	return browserPeer_->getElementIDFromPoint(pt) ;
 }
 
 bool HTMLBrowserControl::setElementClickedEventHandler( const String& elementName, EventHandler* handler )
@@ -171,9 +197,14 @@ bool HTMLBrowserControl::setElementClickedEventHandler( const String& elementNam
 	return browserPeer_->setElementClickedEventHandler( elementName, handler );
 }
 
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/02/14 05:13:09  ddiego
+*more browser updates.
+*
 *Revision 1.3.2.1  2006/02/13 22:11:59  ddiego
 *added further html support and better browser example code.
 *

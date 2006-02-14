@@ -304,8 +304,74 @@ void Win32HTMLBrowser::setAllowsTextSelection( bool val )
                                       : (uiStyle_ | DOCHOSTUIFLAG_DIALOG);
 }
 
+String Win32HTMLBrowser::getElementHTMLText( const String& elementName )
+{
+	return getElementText( true, elementName );
+}
+
 void Win32HTMLBrowser::setElementHTMLText( const String& elementName, const String& html )
 {
+	setElementText( true, elementName, html );
+}
+
+String Win32HTMLBrowser::getElementText( const String& elementName )
+{
+	return getElementText( false, elementName );
+}
+
+void Win32HTMLBrowser::setElementText( const String& elementName, const String& text )
+{
+	setElementText( false, elementName, text );
+}
+
+String Win32HTMLBrowser::getActiveElementID()
+{
+	String result;
+
+	com_ptr<IDispatch> disp;
+	IHTMLDocument2Ptr doc;
+	browser_->get_Document( disp.out() );
+	doc = com_cast( disp );
+	if ( doc ) {
+		IHTMLElementPtr item;
+		doc->get_activeElement( item.out() );
+		bstr_t tmp;
+		item->get_id( tmp.out() );
+
+		result = tmp.c_str();
+
+		item->get_tagName( tmp.out() );
+	}
+
+	return result;
+}
+
+String Win32HTMLBrowser::getElementIDFromPoint( Point* pt )
+{
+	String result;
+
+	com_ptr<IDispatch> disp;
+	IHTMLDocument2Ptr doc;
+	browser_->get_Document( disp.out() );
+	doc = com_cast( disp );
+	if ( doc ) {
+		IHTMLElementPtr item;
+		doc->elementFromPoint( (long)pt->x_, (long)pt->y_, item.out() );
+		bstr_t tmp;
+		item->get_id( tmp.out() );
+
+		result = tmp.c_str();
+	}
+
+	return result;
+}
+
+String Win32HTMLBrowser::getElementText( bool textIsHTML, const String& elementName )
+{
+	String result;
+
+	IHTMLElementPtr item;
+
 	com_ptr<IHTMLElementCollection> collection;	
 	com_ptr<IDispatch> disp;
 	IHTMLDocument2Ptr doc;
@@ -316,23 +382,74 @@ void Win32HTMLBrowser::setElementHTMLText( const String& elementName, const Stri
 		if ( collection ) {
 			HTMLElementCollection coll2 = collection.in();			
 			long len = coll2.getLength();
-
+			
 			for (int i=0;i<len;i++ ) {
 				HTMLElement* f = coll2[i];
 				if ( NULL != f ) {
-					if ( elementName == f->getID() ) {						
+					if ( elementName == f->getID() ) {							
+						item = *f;							
+						break;
+					}
+				}
+			}			
+		}
+	}	
 
-						IHTMLElementPtr item = *f;
-						bstr_t val = html.c_str();
-						item->put_innerText( val.in() );
+	if ( !item.is_null() ) {
+		bstr_t val;
+		if ( textIsHTML ) {
+			item->get_innerHTML( val.out() );
+		}
+		else {
+			item->get_innerText( val.out() );
+		}
 
+		result = val.c_str();
+	}
+
+	return result;
+}
+
+void Win32HTMLBrowser::setElementText( bool textIsHTML, const String& elementName, const String& text )
+{
+	IHTMLElementPtr item;
+	
+	com_ptr<IHTMLElementCollection> collection;	
+	com_ptr<IDispatch> disp;
+	IHTMLDocument2Ptr doc;
+	browser_->get_Document( disp.out() );
+	doc = com_cast( disp );
+	if ( doc ) {
+		doc->get_all( collection.out() );
+		if ( collection ) {
+			HTMLElementCollection coll2 = collection.in();			
+			long len = coll2.getLength();
+			
+			for (int i=0;i<len;i++ ) {
+				HTMLElement* f = coll2[i];
+				if ( NULL != f ) {
+					if ( elementName == f->getID() ) {							
+						item = *f;							
 						break;
 					}
 				}
 			}			
 		}
 	}
+	
+
+	if ( !item.is_null() ) {
+		bstr_t val = text.c_str();						
+
+		if ( textIsHTML ) {
+			item->put_innerHTML( val.in() );
+		}
+		else {
+			item->put_innerText( val.in() );
+		}
+	}
 }
+
 
 bool Win32HTMLBrowser::setElementClickedEventHandler( const String& elementName, EventHandler* handler )
 {
@@ -503,14 +620,16 @@ STDMETHODIMP Win32HTMLBrowser::ShowContextMenu( DWORD hWndID, POINT *ppt,
 {
 	HTMLBrowserControl* browserCtrl = (HTMLBrowserControl*)peerControl_;
 
-	PopupMenu* contextMenu = peerControl_->getPopupMenu();
-	if ( NULL != contextMenu ) {
+	ControlPopupMenuMenuEvent e(this,Control::BEFORE_POPUP_MENU);
+	e.popupMenu = peerControl_->getPopupMenu();
+	peerControl_->BeforePopupMenu.fireEvent( &e );
+	if ( (NULL != e.popupMenu) && !e.cancelPopup ) {
 		//point is in screen coords
 		Point pt(ppt->x, ppt->y);
 		//convert to client coords
 
 		peerControl_->translateFromScreenCoords( &pt );
-		contextMenu->popup( &pt );
+		e.popupMenu->popup( &pt );
 
 		return S_OK; //we've handled this!
 	}
@@ -639,6 +758,9 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/02/14 05:13:09  ddiego
+*more browser updates.
+*
 *Revision 1.4.2.4  2006/02/13 22:11:59  ddiego
 *added further html support and better browser example code.
 *
