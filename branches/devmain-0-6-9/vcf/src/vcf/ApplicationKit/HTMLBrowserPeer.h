@@ -58,7 +58,17 @@ public:
 
 	virtual void setAllowsTextSelection( bool val ) = 0;
 
+	virtual String getElementHTMLText( const String& elementName ) = 0;
+
 	virtual void setElementHTMLText( const String& elementName, const String& html ) = 0;
+
+	virtual String getElementText( const String& elementName ) = 0;
+
+	virtual void setElementText( const String& elementName, const String& text ) = 0;
+
+	virtual String getActiveElementID() = 0;
+
+	virtual String getElementIDFromPoint( Point* pt ) = 0;
 
 	virtual bool setElementClickedEventHandler( const String& elementName, EventHandler* handler ) = 0;
 protected:
@@ -73,6 +83,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/14 05:13:09  ddiego
+*more browser updates.
+*
 *Revision 1.2.6.1  2006/02/13 05:10:32  ddiego
 *added better html browser support.
 *

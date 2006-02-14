@@ -258,6 +258,7 @@ public:
 		MOUSE_LEAVE,
 		BEFORE_CONTROL_PAINTED,
 		AFTER_CONTROL_PAINTED,
+		BEFORE_POPUP_MENU,
 		CONTROL_EVENTS_LAST
 	};
 
@@ -473,6 +474,16 @@ public:
 	@eventtype Control::AFTER_CONTROL_PAINTED
 	*/
 	DELEGATE(AfterControlPainted);
+
+	/**
+	@delegate AfterControlPainted fires an ControlPopupMenuMenuEvent
+	before the popup menu is displayed, allowing for customization
+	of the popup menu.
+	@event ControlPopupMenuMenuEvent
+	@eventtype Control::BEFORE_POPUP_MENU
+	*/
+	DELEGATE(BeforePopupMenu);
+	
 	
 
 	/**
@@ -1612,6 +1623,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.10  2006/02/14 05:13:09  ddiego
+*more browser updates.
+*
 *Revision 1.4.2.9  2005/11/27 23:55:44  ddiego
 *more osx updates.
 *

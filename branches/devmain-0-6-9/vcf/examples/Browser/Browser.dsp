@@ -109,6 +109,10 @@ SOURCE=.\Resources\back.png
 # End Source File
 # Begin Source File
 
+SOURCE=.\Resources\chance_of_rain.gif
+# End Source File
+# Begin Source File
+
 SOURCE=.\Resources\customUI.html
 # End Source File
 # Begin Source File
@@ -122,6 +126,10 @@ SOURCE=.\Resources\go.png
 # Begin Source File
 
 SOURCE=.\Resources\home.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\Resources\mostly_sunny.gif
 # End Source File
 # Begin Source File
 

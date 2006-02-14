@@ -597,15 +597,22 @@ void Control::handleEvent( Event* event )
 				if (!mouseEvent->isConsumed() && !isDesigning()) {
 					mouseUp( mouseEvent );
 				}
-				if ( (NULL != popupMenu_) && (true == rightBtn) && !isDesigning() ){
-					Point tmpPt = *mouseEvent->getPoint();
-					if ( NULL != scrollable_ ) {
-						tmpPt.x_ -= scrollable_->getHorizontalPosition();
-						tmpPt.y_ -= scrollable_->getVerticalPosition();
-					}
+				if ( (true == rightBtn) && !isDesigning() ){
+					//(NULL != popupMenu_) && 
+					ControlPopupMenuMenuEvent e(this,Control::BEFORE_POPUP_MENU);
+					e.popupMenu = popupMenu_;
 
-					
-					popupMenu_->popup( &tmpPt );
+					BeforePopupMenu.fireEvent( &e );
+
+					if ( !e.cancelPopup && (NULL != e.popupMenu) ) {
+						Point tmpPt = *mouseEvent->getPoint();
+						if ( NULL != scrollable_ ) {
+							tmpPt.x_ -= scrollable_->getHorizontalPosition();
+							tmpPt.y_ -= scrollable_->getVerticalPosition();
+						}
+
+						e.popupMenu->popup( &tmpPt );
+					}
 				}
 
 
@@ -1636,6 +1643,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.12  2006/02/14 05:13:08  ddiego
+*more browser updates.
+*
 *Revision 1.8.2.11  2005/10/07 04:38:47  ddiego
 *scroll fixes.
 *
