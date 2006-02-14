@@ -23,8 +23,6 @@ CFG=Browser - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -53,7 +51,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /machine:I386 /out:"Browser.exe" /libpath:"$(VCF_LIB)"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /machine:I386 /out:"Browser_vc6.exe" /libpath:"$(VCF_LIB)"
 
 !ELSEIF  "$(CFG)" == "Browser - Win32 Debug"
 
@@ -79,7 +77,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /pdb:"Browser.pdb" /debug /machine:I386 /out:"Browser.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib rpcrt4.lib /nologo /entry:"mainCRTStartup" /subsystem:windows /debug /machine:I386 /out:"Browser_vc6.exe" /pdbtype:sept /libpath:"$(VCF_LIB)"
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
@@ -95,6 +93,10 @@ LINK32=link.exe
 
 SOURCE=Browser.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=test.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -105,39 +107,39 @@ SOURCE=Browser.cpp
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=.\Resources\back.png
+SOURCE=Resources\back.png
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\chance_of_rain.gif
+SOURCE=Resources\chance_of_rain.gif
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\customUI.html
+SOURCE=Resources\customUI.html
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\forward.png
+SOURCE=Resources\forward.png
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\go.png
+SOURCE=Resources\go.png
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\home.png
+SOURCE=Resources\home.png
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\mostly_sunny.gif
+SOURCE=Resources\mostly_sunny.gif
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\refresh.png
+SOURCE=Resources\refresh.png
 # End Source File
 # Begin Source File
 
-SOURCE=.\Resources\stop.png
+SOURCE=Resources\stop.png
 # End Source File
 # End Group
 # End Target

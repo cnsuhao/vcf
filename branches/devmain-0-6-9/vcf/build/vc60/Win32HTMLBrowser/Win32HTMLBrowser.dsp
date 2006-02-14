@@ -23,8 +23,6 @@ CFG=Win32HTMLBrowser - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -80,7 +78,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo /o"../../../bin/Win32HTMLBrowser_vc6_d.bsc"
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib /nologo /subsystem:windows /dll /debug /machine:I386 /out:"..\..\..\bin\Win32HTMLBrowser_vc6_d.dll" /implib:"../../../lib/Win32HTMLBrowser_vc6_d.lib" /pdbtype:sept /libpath:"$(VCF_LIB)"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib /nologo /subsystem:windows /dll /debug /machine:I386 /implib:"../../../lib/Win32HTMLBrowser_vc6_d.lib" /out:"..\..\..\bin\Win32HTMLBrowser_vc6_d.dll" /pdbtype:sept /libpath:"$(VCF_LIB)"
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
@@ -96,10 +94,18 @@ LINK32=link.exe
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLDOMElements.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.h

@@ -23,8 +23,6 @@ CFG=Win32HTMLBrowser_StaticLib - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
-# PROP Scc_ProjName ""
-# PROP Scc_LocalPath ""
 CPP=cl.exe
 RSC=rc.exe
 
@@ -64,7 +62,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "vc6\DebugS\"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/thirdparty/win32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /Fd"..\..\..\lib\Win32HTMLBrowser_vc6_sd.pdb" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /I "$(VCF_INCLUDE)/thirdparty/win32" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fd"..\..\..\lib\Win32HTMLBrowser_vc6_sd.pdb" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -87,10 +85,18 @@ LIB32=link.exe -lib
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLDOMElements.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.h

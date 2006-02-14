@@ -21,7 +21,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(VCF_INCLUDE)&quot;;&quot;$(VCF_INCLUDE)/thirdparty/win32&quot;"
+				AdditionalIncludeDirectories=".\&quot;$(VCF_INCLUDE)&quot;;&quot;$(VCF_INCLUDE)\thirdparty\win32&quot;\"
 				PreprocessorDefinitions="WIN32,_DEBUG,_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -74,7 +74,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="&quot;$(VCF_INCLUDE)&quot;;&quot;$(VCF_INCLUDE)/thirdparty/win32&quot;"
+				AdditionalIncludeDirectories=".\&quot;$(VCF_INCLUDE)&quot;;&quot;$(VCF_INCLUDE)\thirdparty\win32&quot;\"
 				PreprocessorDefinitions="WIN32,NDEBUG,_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -125,10 +125,16 @@
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.cpp">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLDOMElements.h">
+			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.h">
 			</File>

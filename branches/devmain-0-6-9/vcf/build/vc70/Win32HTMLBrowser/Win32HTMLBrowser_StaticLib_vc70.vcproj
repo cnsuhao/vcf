@@ -111,10 +111,16 @@
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.cpp">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLDOMElements.h">
+			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.h">
 			</File>
