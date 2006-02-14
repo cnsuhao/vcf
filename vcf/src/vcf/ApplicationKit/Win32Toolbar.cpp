@@ -177,6 +177,16 @@ bool Win32Toolbar::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPar
 		}
 		break;
 
+		case WM_DESTROY : {
+			if ( NULL != imageListCtrl_ ) {
+				//destroy the old one
+				int err = ImageList_Destroy( imageListCtrl_ );
+				imageListCtrl_ = NULL;
+			}
+			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+		}
+		break;
+
 		case WM_SIZE : {
 
 
@@ -854,10 +864,11 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 			caption = System::getCurrentThreadLocale()->translate( caption );
 		}
 
-		VCFChar* tmp = new VCFChar[caption.size()+1];
+		VCFChar* tmp = new VCFChar[caption.size()+2];
 
 		caption.copy( tmp, caption.size() );
 		tmp[caption.size()] = 0;
+		tmp[caption.size()+1] = 0;
 		
 		btn.iString = SendMessage( hwnd_, TB_ADDSTRINGW, (WPARAM) 0, (LPARAM) (LPSTR) tmp);		
 
@@ -950,10 +961,11 @@ void Win32Toolbar::insertToolbarButton( const ulong32& index, ToolbarItem* item,
 		}
 
 		AnsiString ansiCaption = caption;
-		char* tmp = new char[ansiCaption.size()+1];
+		char* tmp = new char[ansiCaption.size()+2];
 
 		ansiCaption.copy( tmp, ansiCaption.size() );
 		tmp[ansiCaption.size()] = 0;
+		tmp[ansiCaption.size()+1] = 0;
 
 		btn.iString = SendMessage( hwnd_, TB_ADDSTRINGA, (WPARAM) 0, (LPARAM) (LPSTR) tmp);
 		buttonCaptionsMap_[ansiCaption] = btn.iString;
@@ -1426,6 +1438,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/02/14 20:19:25  ddiego
+*some minor bugs
+*
 *Revision 1.4.2.1  2006/02/11 04:51:34  ddiego
 *little more browser coding.
 *

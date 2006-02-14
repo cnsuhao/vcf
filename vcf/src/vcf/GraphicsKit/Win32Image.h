@@ -25,6 +25,10 @@ public:
 	}
 
 	~HBitmapData(){
+		if ( NULL != hbmp_ ) {
+			::SelectObject( dc_, hOldBitmap_ );
+			::DeleteObject( hbmp_ );
+		}
 		if ( NULL != dc_ ) {
 			DeleteDC( dc_ );
 		}
@@ -240,6 +244,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.3  2006/02/14 20:19:25  ddiego
+*some minor bugs
+*
 *Revision 1.3.4.2  2005/10/17 01:36:34  ddiego
 *some more under the hood image stuff. updated agg.
 *

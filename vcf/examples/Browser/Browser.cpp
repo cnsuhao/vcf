@@ -185,23 +185,23 @@ public:
 		tb->setImageList( il );
 
 		GraphicsResourceBundle* resBundle = getResourceBundle();
-		Image* img = resBundle->getImage( "back.bmp" );
+		Image* img = resBundle->getImage( "back.png" );
 		il->addImage( img );
 		delete img;
 
-		img = resBundle->getImage( "forward.bmp" );
+		img = resBundle->getImage( "forward.png" );
 		il->addImage( img );
 		delete img;
 
-		img = resBundle->getImage( "refresh.bmp" );
+		img = resBundle->getImage( "refresh.png" );
 		il->addImage( img );
 		delete img;
 
-		img = resBundle->getImage( "home.bmp" );
+		img = resBundle->getImage( "home.png" );
 		il->addImage( img );
 		delete img;
 
-		img = resBundle->getImage( "go.bmp" );
+		img = resBundle->getImage( "go.png" );
 		il->addImage( img );
 		delete img;
 
