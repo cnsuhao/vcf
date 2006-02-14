@@ -23,6 +23,12 @@ using namespace VCF;
 
 
 
+class Win32HTMLElement : public IHTMLElementPtr {
+
+};
+
+
+
 STDMETHODIMP HTMLEventHandler::Invoke( DISPID dispIdMember, REFIID riid, LCID lcid, 
 										WORD wFlags, DISPPARAMS* pDispParams, VARIANT* pVarResult, 
 										EXCEPINFO* pExcepInfo, UINT* puArgErr ) 
@@ -758,6 +764,9 @@ BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2006/02/14 22:04:24  ddiego
+*more html updates.
+*
 *Revision 1.4.2.5  2006/02/14 05:13:09  ddiego
 *more browser updates.
 *
