@@ -32,8 +32,10 @@ public:
 
 	virtual void paint( GraphicsContext* ctx ) {
 		Window::paint( ctx );
-		
 
+		/*
+		ignore this - this is justa test for 
+		dealing with pixels
 		const int w = 200;
 		const int h = 200;
 		SysPixelType* newPix = new SysPixelType[h*w];
@@ -73,6 +75,7 @@ public:
 								DIB_RGB_COLORS );
 
 		delete [] newPix;
+		*/
 
 
 		/**
@@ -264,6 +267,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.9  2006/02/14 20:19:25  ddiego
+*some minor bugs
+*
 *Revision 1.5.2.8  2005/11/11 00:20:58  ddiego
 *comitting mostuffs linux foundationkit patchs [1351922].
 *

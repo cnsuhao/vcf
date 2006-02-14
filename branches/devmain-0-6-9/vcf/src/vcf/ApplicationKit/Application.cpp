@@ -261,10 +261,10 @@ void Application::main()
 #endif
 	}
 	catch (...){
-		if ( NULL != mainWindow ) {
+		//if ( NULL != mainWindow ) {
 			Dialog::showMessage( "Unknown exception occurred. Application exiting abnormally.",
 									"Framework Exception", Dialog::mbOK, Dialog::msError  );
-		}
+		//}
 //#ifdef _DEBUG
 		throw ;
 //#endif
@@ -468,6 +468,9 @@ void Application::getHelpInfo( String& helpBookName, String& helpDirectory )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/02/14 20:19:25  ddiego
+*some minor bugs
+*
 *Revision 1.5.2.2  2005/09/14 18:55:17  ddiego
 *update to win32window. initial code for new pixels
 *type to replace imagebits class.
