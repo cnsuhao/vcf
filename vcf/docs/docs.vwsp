@@ -1,7 +1,0 @@
-<!-- Workspace xmake file -->
-<workspace name="docs.vwsp" >
-	<projects>
-		<project src="./docs.vbp"/>
-	</projects>
-</workspace>
-

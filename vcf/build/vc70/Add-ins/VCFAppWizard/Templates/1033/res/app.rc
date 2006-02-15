@@ -1,5 +1,0 @@
-//[!output PROJECT_NAME].rc RC Script for [!output PROJECT_NAME] application
-
-SPLASH		BITMAP		"Splash.bmp"
-
-
