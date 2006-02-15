@@ -15,11 +15,11 @@ where you installed the VCF.
 #endif
 
 
-#ifdef PIXELS 
+#ifdef PIXELS
 
 namespace VCF {
 
-	
+
 template < typename SizeType, bool FloatingPoint=false, bool GrayScale=false >
 struct PixelTraits {
 	enum {
@@ -388,7 +388,7 @@ which in turn defines the default pixel types and formats
 #include "vcf/GraphicsKit/PixelFormats.h"
 #include "vcf/GraphicsKit/AggCommon.h"
 
-#endif 
+#endif
 
 
 namespace VCF {
@@ -431,7 +431,7 @@ namespace VCF {
 	template <typename PixelType>
 	class Pixels {
 	public:
-		typedef _typename_ PixelType Type;
+		typedef PixelType Type;
 
 		Pixels( Image* img ):buffer_(NULL),currentImage_(NULL),width_(0),height_(0) {
 			assign( img );
@@ -456,12 +456,12 @@ namespace VCF {
 		}
 
 		Type& at( uint32 x, uint32 y ) {
-			
+
 			return ((Type*)buffer_)[(y*width_)+x];
 		}
 
 		Type at( uint32 x, uint32 y ) const {
-			
+
 			return ((Type*)buffer_)[(y*width_)+x];
 		}
 
@@ -491,16 +491,16 @@ namespace VCF {
 				unLockImageBuffer( currentImage_ );
 			}
 
-			if ( (Type::Traits::getTraitsImageType() != img->getType()) || 
+			if ( (Type::Traits::getTraitsImageType() != img->getType()) ||
 					(Type::ChannelSize != img->getChannelSize()) ) {
 				throw PixelException( "Incompatible pixel type for this image. The image channel size doesn't match the pixel's expected size." );
 			}
-			
+
 
 			currentImage_ = img;
 
 			lockImageBuffer( currentImage_ );
-			
+
 			width_ = currentImage_->getWidth();
 			height_ = currentImage_->getHeight();
 
@@ -511,7 +511,7 @@ namespace VCF {
 		}
 
 		void lockImageBuffer( Image* img ) {
-			
+
 		}
 
 		void unLockImageBuffer( Image* img ) {
