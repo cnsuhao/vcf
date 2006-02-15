@@ -59,6 +59,8 @@ public:
 	virtual ulong32 desktopGetHeight() = 0;
 
 	virtual Rect desktopGetUsableBounds() = 0;
+
+	virtual Point getCurrentMousePosition() = 0;
 };
 
 
@@ -68,6 +70,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/02/15 05:14:33  ddiego
+*more browser code.
+*
 *Revision 1.3  2005/01/02 03:04:21  ddiego
 *merged over some of the changes from the dev branch because they're important resoource loading bug fixes. Also fixes a few other bugs as well.
 *

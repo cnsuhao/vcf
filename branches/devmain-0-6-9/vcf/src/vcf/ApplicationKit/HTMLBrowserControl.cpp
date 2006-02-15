@@ -197,11 +197,19 @@ bool HTMLBrowserControl::setElementClickedEventHandler( const String& elementNam
 	return browserPeer_->setElementClickedEventHandler( elementName, handler );
 }
 
+HTMLDocument HTMLBrowserControl::getDocument()
+{	
+	return browserPeer_->getDocument();
+}
+
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/02/15 05:14:33  ddiego
+*more browser code.
+*
 *Revision 1.3.2.2  2006/02/14 05:13:09  ddiego
 *more browser updates.
 *

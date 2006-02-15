@@ -23,6 +23,8 @@ CFG=Browser - Win32 Debug
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
+# PROP Scc_ProjName ""
+# PROP Scc_LocalPath ""
 CPP=cl.exe
 MTL=midl.exe
 RSC=rc.exe
@@ -92,10 +94,6 @@ LINK32=link.exe
 # Begin Source File
 
 SOURCE=Browser.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=test.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"

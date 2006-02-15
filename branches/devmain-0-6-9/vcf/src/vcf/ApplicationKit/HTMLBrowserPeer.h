@@ -13,6 +13,10 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#ifndef _VCF_HTMLDOMELEMENTS_H__
+#include "vcf/ApplicationKit/HTMLDOMElements.h"
+#endif
+
 
 namespace VCF  {
 
@@ -71,9 +75,8 @@ public:
 	virtual String getElementIDFromPoint( Point* pt ) = 0;
 
 	virtual bool setElementClickedEventHandler( const String& elementName, EventHandler* handler ) = 0;
-protected:
 
-private:
+	virtual HTMLDocument getDocument() = 0;
 };
 
 
@@ -83,6 +86,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/02/15 05:14:33  ddiego
+*more browser code.
+*
 *Revision 1.2.6.2  2006/02/14 05:13:09  ddiego
 *more browser updates.
 *

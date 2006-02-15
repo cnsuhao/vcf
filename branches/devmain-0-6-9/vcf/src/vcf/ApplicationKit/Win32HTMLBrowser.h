@@ -139,6 +139,7 @@ public:
 
 	virtual bool setElementClickedEventHandler( const String& elementName, EventHandler* handler );
 
+	virtual HTMLDocument getDocument();
 	
 	//callbacks...
 	virtual void onDownloadComplete();
@@ -229,6 +230,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/02/15 05:14:33  ddiego
+*more browser code.
+*
 *Revision 1.4.2.4  2006/02/14 05:13:09  ddiego
 *more browser updates.
 *
