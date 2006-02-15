@@ -13,6 +13,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/COMUtils.h"
 #include "vcf/ApplicationKit/Win32Clipboard.h"
 #include <shellapi.h>
+#include "thirdparty/win32/comet/interface.h"
 #include "thirdparty/win32/comet/bstr.h"
 #include "vcf/ApplicationKit/Win32HResult.h"
 
@@ -130,32 +131,32 @@ HRESULT COMUtils::UUIDtoString( const UUID id, String& dest )
 	if ( System::isUnicodeEnabled() ) {
 		WideChar* tmpid = NULL;
 		RPC_STATUS rpcresult = UuidToStringW( const_cast<UUID*>( &id ), reinterpret_cast<unsigned short**>(&tmpid) );
-		
+
 		if ( RPC_S_OUT_OF_MEMORY == rpcresult ) {
 			result = E_FAIL;
 		}
 		else {
 			dest = "";
 			dest = String( tmpid );
-			
+
 			RpcStringFreeW( reinterpret_cast<unsigned short**>(&tmpid) );
-			
+
 			result = S_OK;
 		}
 	}
 	else{
 		char* tmpid = NULL;
 		RPC_STATUS rpcresult = UuidToStringA( const_cast<UUID*>( &id ), (unsigned char**)&tmpid );
-		
+
 		if ( RPC_S_OUT_OF_MEMORY == rpcresult ) {
 			result = E_FAIL;
 		}
 		else {
 			dest = "";
 			dest = String( tmpid );
-			
+
 			RpcStringFreeA( (unsigned char**)&tmpid );
-			
+
 			result = S_OK;
 		}
 	}
@@ -175,7 +176,7 @@ HRESULT COMUtils::StringtoUUID( const String& src, UUID& destID )
 		memset(tmpid,0,256);
 		src.copy( tmpid, minVal<>(sizeof(tmpid),src.size()) );
 
-		rpcresult = UuidFromStringW( reinterpret_cast<unsigned short*>(&tmpid[0]), &tmpUUID );		
+		rpcresult = UuidFromStringW( reinterpret_cast<unsigned short*>(&tmpid[0]), &tmpUUID );
 	}
 	else {
 		AnsiString s = src;
@@ -191,7 +192,7 @@ HRESULT COMUtils::StringtoUUID( const String& src, UUID& destID )
 	}
 	else {
 		destID = tmpUUID;
-		
+
 		result = S_OK;
 	}
 
@@ -256,7 +257,7 @@ HRESULT COMUtils::getPidlsFromHGlobal(const HGLOBAL HGlob, std::vector<String>& 
 			char path[MAX_PATH] = "";
 			SHGetPathFromIDListA(pidl, path);
 			pidlPath = path;
-		}		
+		}
 
 		int pos = pidlPath.find_last_of( "\\");
 		if ( pos != 0 ){
@@ -948,7 +949,7 @@ VCF::DataObject* COMUtils::getDataObjectFromOLEDataObject( const VCF::String dat
 
 void COMUtils::registerDataTypes()
 {
-	
+
 #if defined(VCF_CW) && defined(UNICODE)
 	VCFCOM::COMUtils::standardWin32DataTypes[STRING_DATA_TYPE] = CF_TEXT;
 	VCFCOM::COMUtils::standardWin32DataTypes[INTEGER_DATA_TYPE] = ::RegisterClipboardFormat( L"text/x-vcf-integer" );
@@ -978,6 +979,9 @@ void COMUtils::registerDataTypes()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2006/02/15 18:35:42  iamfraggle
+*added comet/interface.h #include (so uuidof gets defined from comet rather than somewhere else...)
+*
 *Revision 1.3.2.5  2006/02/09 04:54:02  ddiego
 *added missing lib tiff project for vc80. Also removed
 *ATL dependency and comdef.h dependency. We are now using comet for
