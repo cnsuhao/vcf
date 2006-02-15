@@ -9,7 +9,7 @@
 		<Option compiler="0"/>
 		<Build>
 			<Target title="mingw_Release">
-				<Option output="mgcc\Release\SketchIt_mgcc.exe"/>
+				<Option output="SketchIt_mgcc.exe"/>
 				<Option working_dir="."/>
 				<Option object_output="mgcc\Release\"/>
 				<Option deps_output=".deps"/>
@@ -68,7 +68,7 @@
 				</Linker>
 			</Target>
 			<Target title="mingw_Debug">
-				<Option output="mgcc\Debug\SketchIt_mgcc_d.exe"/>
+				<Option output="SketchIt_mgcc_d.exe"/>
 				<Option working_dir="."/>
 				<Option object_output="mgcc\Debug\"/>
 				<Option deps_output=".deps"/>
