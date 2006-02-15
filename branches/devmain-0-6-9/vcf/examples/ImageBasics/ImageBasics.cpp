@@ -33,6 +33,7 @@ public:
 	virtual void paint( GraphicsContext* ctx ) {
 		Window::paint( ctx );
 
+
 		/*
 		ignore this - this is justa test for 
 		dealing with pixels
@@ -84,15 +85,15 @@ public:
 		Image* logoImage = GraphicsToolkit::createImage( "logo.bmp" );
 
 		{
-			ColorPixels pixels = logoImage;
+			ColorPixels pixels(logoImage);
 
 			SysPixelType* p = pixels;
 
 			SysPixelType p1 = pixels[1];
-			
+
 
 			try {
-				GrayPixels pixels2 = logoImage;
+				GrayPixels pixels2(logoImage);
 			}
 			catch ( BasicException& e ) {
 				StringUtils::trace( "Error: " + e.getMessage() + "\n" );
@@ -206,8 +207,8 @@ public:
 		a SysPixelType
 		*/
 		{
-			ColorPixels pix = logoImage;//->getImageBits()->pixels_;
-			
+			ColorPixels pix(logoImage);//->getImageBits()->pixels_;
+
 										/**
 										Calculate the size, width * height
 			*/
@@ -218,8 +219,8 @@ public:
 			for ( int i=0;i<size;i++ ) {
 				pix[i].g = minVal<>( 255, pix[i].g + 50 );
 			}
-			
-			
+
+
 			ctx->drawImage( x, y, logoImage );
 		}
 
@@ -267,6 +268,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.10  2006/02/15 18:24:27  iamfraggle
+*Corrected pixels etc. constructor calls
+*
 *Revision 1.5.2.9  2006/02/14 20:19:25  ddiego
 *some minor bugs
 *
