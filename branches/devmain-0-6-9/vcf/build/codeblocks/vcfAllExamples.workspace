@@ -10,6 +10,7 @@
 		<Project filename="..\..\examples\Anchors\Anchors_cb.cbp"/>
 		<Project filename="..\..\examples\ApplicationIcons\ApplicationIcons_cb.cbp"/>
 		<Project filename="..\..\examples\AppResources\AppResources_cb.cbp"/>
+		<Project filename="..\..\examples\Browser\Browser_cb.cbp"/>
 		<Project filename="..\..\examples\Cards\Cards_cb.cbp"/>
 		<Project filename="..\..\examples\Colors\Colors_cb.cbp"/>
 		<Project filename="..\..\examples\Combos\Combos_cb.cbp"/>
