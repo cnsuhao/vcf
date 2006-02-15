@@ -6,8 +6,28 @@
 		<Option title="SharedLibraries"/>
 		<Option makefile="Makefile"/>
 		<Option makefile_is_custom="0"/>
+		<Option default_target="1"/>
 		<Option compiler="0"/>
 		<Build>
+			<Target title="mingwdll_Release">
+				<Option output="mgcc\Release\SimpleDll.so"/>
+				<Option working_dir="."/>
+				<Option object_output=".objs"/>
+				<Option deps_output=".deps"/>
+				<Option type="3"/>
+				<Option compiler="0"/>
+				<Option createDefFile="1"/>
+				<Option createStaticLib="1"/>
+				<Compiler>
+					<Add option="-O2"/>
+					<Add option="-W"/>
+					<Add option="-pipe"/>
+					<Add option="-frtti"/>
+					<Add option="-fexceptions"/>
+					<Add option="-mthreads"/>
+					<Add option="-Wno-multichar"/>
+				</Compiler>
+			</Target>
 			<Target title="mingw_Release">
 				<Option output="mgcc\Release\SharedLibraries_mgcc.exe"/>
 				<Option working_dir="."/>
@@ -45,6 +65,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-runtime-pseudo-reloc"/>
+					<Add library="SimpleDll"/>
 					<Add library="FoundationKit_mgcc"/>
 					<Add library="kernel32"/>
 					<Add library="user32"/>
@@ -61,7 +82,27 @@
 					<Add library="ws2_32"/>
 					<Add directory="$(VCF_BIN)"/>
 					<Add directory="$(VCF_LIB)"/>
+					<Add directory="mgcc\Release"/>
 				</Linker>
+			</Target>
+			<Target title="mingwdll_Debug">
+				<Option output="mgcc\Debug\SimpleDll.so"/>
+				<Option working_dir="."/>
+				<Option object_output=".objs"/>
+				<Option deps_output=".deps"/>
+				<Option type="3"/>
+				<Option compiler="0"/>
+				<Option createDefFile="1"/>
+				<Option createStaticLib="1"/>
+				<Compiler>
+					<Add option="-W"/>
+					<Add option="-g"/>
+					<Add option="-pipe"/>
+					<Add option="-frtti"/>
+					<Add option="-fexceptions"/>
+					<Add option="-mthreads"/>
+					<Add option="-Wno-multichar"/>
+				</Compiler>
 			</Target>
 			<Target title="mingw_Debug">
 				<Option output="mgcc\Debug\SharedLibraries_mgcc_d.exe"/>
@@ -100,6 +141,7 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-runtime-pseudo-reloc"/>
+					<Add library="SimpleDll"/>
 					<Add library="FoundationKit_mgcc_d"/>
 					<Add library="kernel32"/>
 					<Add library="user32"/>
@@ -116,6 +158,7 @@
 					<Add library="ws2_32"/>
 					<Add directory="$(VCF_BIN)"/>
 					<Add directory="$(VCF_LIB)"/>
+					<Add directory="mgcc\Debug"/>
 				</Linker>
 			</Target>
 		</Build>
@@ -126,15 +169,15 @@
 		</Unit>
 		<Unit filename="SimpleDLL.cpp">
 			<Option compilerVar="CPP"/>
-			<Option target="mingw_Release"/>
-			<Option target="mingw_Debug"/>
+			<Option target="mingwdll_Release"/>
+			<Option target="mingwdll_Debug"/>
 		</Unit>
 		<Unit filename="SimpleDLL.h">
 			<Option compilerVar="CPP"/>
 			<Option compile="0"/>
 			<Option link="0"/>
-			<Option target="mingw_Release"/>
-			<Option target="mingw_Debug"/>
+			<Option target="mingwdll_Release"/>
+			<Option target="mingwdll_Debug"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>
