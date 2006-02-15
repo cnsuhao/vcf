@@ -8,6 +8,10 @@ Please see License.txt in the top level directory
 where you installed the VCF.
 */
 
+#ifndef _VCF_HTMLDOMELEMENTS_H__
+#include "vcf/ApplicationKit/HTMLDOMElements.h"
+#endif
+
 
 #if _MSC_VER > 1000
 #   pragma once
@@ -242,6 +246,7 @@ public:
 	bool setElementClickedEventHandler( const String& elementName, EventHandler* handler );
 
 
+	HTMLDocument getDocument();
 protected:
 	HTMLBrowserPeer* browserPeer_;
 	uint32 policyState_;
@@ -266,6 +271,9 @@ HTMLAuthenticationEvent::HTMLAuthenticationEvent( Object* source, const String& 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.4  2006/02/15 05:14:33  ddiego
+*more browser code.
+*
 *Revision 1.2.6.3  2006/02/14 05:13:09  ddiego
 *more browser updates.
 *

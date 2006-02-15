@@ -662,6 +662,8 @@ public:
 };
 
 
+#ifdef USE_SIMPLE_HTMLDOM_WRAPPER
+
 class HTMLElement;
 class HTMLDocument;
 
@@ -1572,6 +1574,9 @@ HTMLElement*HTMLElementCollection::operator[](const std::string& name)
 	return item(name);
 }
 
+#endif //USE_SIMPLE_HTMLDOM_WRAPPER
+
+
 
 
 class WebBrowserCtrl : public IDispatchImpl, protected IDocHostUIHandlerImpl, 
@@ -1742,7 +1747,7 @@ public:
 		}
 	}
 
-
+#ifdef USE_SIMPLE_HTMLDOM_WRAPPER
 	HTMLDocument getDocument() {
 		IHTMLDocument2Ptr doc;
 		com_ptr<IDispatch> disp;
@@ -1755,7 +1760,7 @@ public:
 
 		return HTMLDocument();
 	}
-
+#endif //USE_SIMPLE_HTMLDOM_WRAPPER
 
 	void home() {
 		browser_->GoHome();

@@ -14,7 +14,19 @@ where you installed the VCF.
 #   pragma once
 #endif
 
-
+/**
+\par
+These classes provide a \em very thin wrapper around 
+the browsers HTML DOM nodes, so you can do more advanced
+manipulation of browsers document content. They do not
+completely expose all the functionality, but they do 
+expose most of the more commonly used functions.
+\par
+Currently, on Win32, these classes represent a thin layer
+over the IHTMLElement, IHTMLDocument2, and 
+IHTMLElementCollection COM interfaces exposed by the MSHTML 
+and WebBrowser modules.
+*/
 namespace VCF {
 
 class HTMLElement;
@@ -24,7 +36,9 @@ class HTMLElementCollectionPeer;
 class HTMLElementPeer;
 class HTMLDocumentPeer;
 
-
+/**
+This is a collection of 0 or more HTMLElement nodes
+*/
 class HTMLElementCollection {
 public:
 
@@ -70,12 +84,16 @@ private:
 	HTMLElement* currentItem_;
 };
 
-
+/**
+This represents an individual node. 
+*/
 class HTMLElement {
 public:	
 	HTMLElement();
 
 	HTMLElement( const HTMLElement& rhs );
+
+	HTMLElement( HTMLElementPeer* element );
 
 	~HTMLElement();
 
@@ -209,7 +227,9 @@ public:
 
 	HTMLDocument();	
 
-	HTMLDocument( const HTMLDocument& rhs );	
+	HTMLDocument( const HTMLDocument& rhs );
+
+	~HTMLDocument();	
 
 	HTMLDocument& operator= ( const HTMLDocument& rhs );
 
@@ -304,6 +324,14 @@ public:
 	void writeln( const String& text ) ;
 
 	HTMLElement createElement( const String& elementTag ) const ;
+
+	/**
+	Returns the element at the point x, y. The x/y corrdinates
+	are in client local coordinate space.
+	@return HTMLElement the element found. If no element was found
+	the HTMLElement's null() method will return true.
+	*/
+	HTMLElement elementFromPoint( long x, long y );
 
 	void setDesignMode( bool val ) ;
 
