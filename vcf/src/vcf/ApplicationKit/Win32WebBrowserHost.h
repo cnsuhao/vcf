@@ -7,6 +7,10 @@
 #   pragma once
 #endif
 
+#include "vcf/ApplicationKit/Win32HTMLDOMElements.h"
+
+#ifndef _VCF_WIN32HTMLDOMELEMENTS_H__ 
+//we need to pull all this stuff in
 #include <exdisp.h>		// Defines of stuff like IWebBrowser2. This is an include file with Visual C 6 and above
 #include <mshtml.h>		// Defines of stuff like IHTMLDocument2. This is an include file with Visual C 6 and above
 #include <mshtmhst.h>	// Defines of stuff like IDocHostUIHandler. This is an include file with Visual C 6 and above
@@ -39,7 +43,7 @@ COM_PTR(IHTMLElement)
 COM_PTR(IHTMLElementCollection)
 COM_PTR(IWebBrowser2)
 
-
+#endif //_VCF_WIN32HTMLDOMELEMENTS_H__
 
 
 

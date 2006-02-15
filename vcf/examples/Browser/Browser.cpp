@@ -3,6 +3,8 @@
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
+#include "vcf/ApplicationKit/DefaultTreeItem.h"
+
 
 
 namespace VCF {
@@ -171,6 +173,21 @@ public:
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( 100.0, 100.0, 500.0, 500.0 );
 
+		browser = new HTMLBrowserControl();
+		browser->setDoubleBuffered( false );
+		mainWindow->add( browser, AlignClient );
+
+		browser->StatusChanged += 
+			new GenericEventHandler<BrowserApp>(this,&BrowserApp::onHTMLStatusChanged, "BrowserApp::onHTMLStatusChanged" );
+
+		browser->URLLoaded += 
+			new GenericEventHandler<BrowserApp>(this,&BrowserApp::onURLLoaded, "BrowserApp::onURLLoaded" );
+
+
+
+
+
+
 		Toolbar* tb = new Toolbar();
 		tb->setName( "Toolbar1" );
 		tb->setHeight( 25 );
@@ -229,13 +246,12 @@ public:
 		item->setEnabled( false );
 
 		urlBox = new URLCombo();
-		urlBox->setWidth( 175 );
+		urlBox->setWidth( 250 );
 		urlBox->setComboBoxStyle( cbsDropDownWithEdit );
 		urlBox->URLChanged += 
 			new GenericEventHandler<BrowserApp>(this,&BrowserApp::urlChanged,"BrowserApp::urlChanged");
 
-		item->setItemControl( urlBox );
-
+		item->setItemControl( urlBox );		
 		
 
 		item = tb->addToolBarButton( "go" );
@@ -243,14 +259,41 @@ public:
 		item->setTooltip( "Load URL" );
 
 
-		browser = new HTMLBrowserControl();
-		browser->setDoubleBuffered( false );
-		mainWindow->add( browser, AlignClient );
-
-		browser->StatusChanged += 
-			new GenericEventHandler<BrowserApp>(this,&BrowserApp::onHTMLStatusChanged, "BrowserApp::onHTMLStatusChanged" );
+		tb->addToolBarButton( "" )->setAsSeparator();
 
 
+		allowPopupsBtn = new CheckBoxControl();
+		allowPopupsBtn->setWidth( 100 );
+		allowPopupsBtn->setCaption( "Allow Popups" );		
+		allowPopupsBtn->setChecked( browser->getAllowsPopupWindows() );
+
+		allowPopupsBtn->ButtonClicked += 
+			new GenericEventHandler<BrowserApp>(this,&BrowserApp::onAllowPopupsChecked, "BrowserApp::onAllowPopupsChecked" );
+
+		
+
+		item = tb->addToolBarButton( "popups" );
+		item->setEnabled( false );
+		item->setItemControl( allowPopupsBtn );		
+
+
+		tb->addToolBarButton( "" )->setAsSeparator();
+
+		editDocument = new CheckBoxControl();
+		editDocument->setWidth( 200 );
+		editDocument->setCaption( "Edit current document" );		
+		editDocument->setChecked( false );
+
+		editDocument->ButtonClicked += 
+			new GenericEventHandler<BrowserApp>(this,&BrowserApp::onEditCurrentDocChecked, "BrowserApp::onEditCurrentDocChecked" );
+
+		
+
+		item = tb->addToolBarButton( "editDoc" );
+		item->setEnabled( false );
+		item->setItemControl( editDocument );	
+
+		
 
 		statusLabel = new Label();
 		statusLabel->setCaption( "Enter URL" );
@@ -263,6 +306,14 @@ public:
 		mainWindow->add( statPane, AlignBottom );
 
 
+
+		TreeControl* treeCtrl = new TreeControl();
+		treeCtrl->setWidth( 100 );
+		mainWindow->add( treeCtrl, AlignLeft );
+		Splitter* splitter = new Splitter();
+		mainWindow->add( splitter, AlignLeft );
+		
+		documentTree = treeCtrl->getTreeModel();
 
 
 
@@ -328,6 +379,9 @@ protected:
 	URLCombo* urlBox;
 	ActionManager* mgr;
 	Label* statusLabel;
+	CheckBoxControl* allowPopupsBtn;
+	CheckBoxControl* editDocument;
+	TreeModel* documentTree;
 
 	void urlChanged( Event* ) {
 		browser->setCurrentURL( urlBox->getCurrentText() );	
@@ -364,6 +418,64 @@ protected:
 		window->setBounds( 100, 100, 500, 500 );
 		window->show();
 	}
+
+
+	void walkElements( HTMLElement& parent, TreeItem* treeItemParent ) {
+		HTMLElementCollection children = parent.getChildren();
+
+		long length = children.getLength();
+		for (long i=0;i<length;i++ ) {
+			HTMLElement* child = children.item(i);
+			String s = child->getOuterText();
+
+			String title = "<" + child->getTagName() + ">";
+			if ( !s.empty() ) {
+				title += " " + s.substr(0,minVal<size_t>(s.size(),25));
+			}
+
+			TreeItem* item = new DefaultTreeItem( title );
+
+			documentTree->addNodeItem( item, treeItemParent );
+
+			walkElements( *child, item );
+		}
+	}
+
+	void onURLLoaded( Event* e ) {
+		HTMLEvent* htmlEvent = (HTMLEvent*)e;
+		urlBox->setCurrentText( htmlEvent->url );
+		getMainWindow()->setCaption( browser->getTitle() + " - Browser" );
+
+		editDocument->setChecked( false );
+
+		//walk the DOM tree
+
+		//first clear out the old stuff
+		Model* treeModel = dynamic_cast<Model*>(documentTree);
+		treeModel->empty();
+
+
+		HTMLDocument doc = browser->getDocument();
+
+		if ( !doc.null() ) {			
+			HTMLElement body = doc.getBody();			
+			TreeItem* item = new DefaultTreeItem( doc.getTitle() + " - Body" );
+			documentTree->addNodeItem( item );
+			walkElements( body, item );
+		}
+	}
+
+	void onAllowPopupsChecked( Event* ) {
+		browser->setAllowsPopupWindows( allowPopupsBtn->isChecked() );
+
+	}
+
+	void onEditCurrentDocChecked( Event* ) {
+		browser->edit( editDocument->isChecked() );
+
+	}
+
+	
 };
 
 
