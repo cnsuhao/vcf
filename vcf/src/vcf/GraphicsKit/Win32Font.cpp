@@ -98,7 +98,22 @@ void Win32Font::init()
 
 	if ( VER_PLATFORM_WIN32_NT == osVersion.dwPlatformId ) {
 		if ( (osVersion.dwMinorVersion >= 1) && (osVersion.dwMinorVersion != 51) ) { //Windows XP or better
-			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
+			/*****************************************************
+			*
+			*
+			*NOTE THIS WELL!!!!
+			*If we do not use DEFAULT_GUI_FONT, we get a rather ugly
+			*aliased font that looks like crap. This is on:
+			*OS Name	Microsoft Windows XP Professional
+			*Version	5.1.2600 Service Pack 2 Build 2600
+			*Hardware Abstraction Layer	Version = "5.1.2600.2180 (xpsp_sp2_rtm.040803-2158)"
+			*
+			*So to sum up - if we change this ANSI_VAR_FONT then it looks ugly,
+			*if we use DEFAULT_GUI_FONT it looks much nicer.
+			*
+			*JC
+			******************************************************/
+			defFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
 		}
 		else { //Windows 2k or worse
 			defFont = (HFONT)GetStockObject( ANSI_VAR_FONT );
@@ -941,6 +956,9 @@ void Win32Font::setAttributes( const double& pointSize, const bool& bold, const 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/02/16 04:49:57  ddiego
+*minor fixes to vc80 projects and a bug fix in graphics kit for default font on XP.
+*
 *Revision 1.5.2.1  2005/11/04 17:56:17  ddiego
 *fixed bugs in some win32 code to better handle unicode - ansi functionality.
 *
