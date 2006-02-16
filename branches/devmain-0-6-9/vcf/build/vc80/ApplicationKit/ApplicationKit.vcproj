@@ -1878,6 +1878,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLDOMElements.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\LightweightComponent.cpp"
 				>
 				<FileConfiguration
@@ -2351,6 +2355,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h"
 				>
 			</File>
 			<File
