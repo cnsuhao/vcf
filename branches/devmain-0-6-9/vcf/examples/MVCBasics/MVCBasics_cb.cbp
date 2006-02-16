@@ -3,13 +3,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="1"/>
 	<Project>
-		<Option title="MVCBasics cb"/>
+		<Option title="MVCBasics"/>
 		<Option makefile="Makefile"/>
 		<Option makefile_is_custom="0"/>
 		<Option compiler="0"/>
 		<Build>
 			<Target title="mingw_Release">
-				<Option output="mgcc\Release\MVCBasics_mgcc_mgcc.exe"/>
+				<Option output="mgcc\Release\MVCBasics_mgcc.exe"/>
 				<Option working_dir="."/>
 				<Option object_output="mgcc\Release\"/>
 				<Option deps_output=".deps"/>
@@ -68,7 +68,7 @@
 				</Linker>
 			</Target>
 			<Target title="mingw_Debug">
-				<Option output="mgcc\Debug\MVCBasics_mgcc_mgcc_d.exe"/>
+				<Option output="mgcc\Debug\MVCBasics_mgcc_d.exe"/>
 				<Option working_dir="."/>
 				<Option object_output="mgcc\Debug\"/>
 				<Option deps_output=".deps"/>
