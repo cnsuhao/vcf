@@ -94,10 +94,6 @@ LINK32=link.exe
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.cpp
 # End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp
-# End Source File
 # End Group
 # Begin Group "Header Files"
 

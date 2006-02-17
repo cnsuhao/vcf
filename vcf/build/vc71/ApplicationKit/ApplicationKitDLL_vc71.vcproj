@@ -186,6 +186,9 @@
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\CommonPrintDialog.h">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Res"
@@ -489,13 +492,7 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageList.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageListEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Item.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\KeyboardEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\LibraryApplication.cpp">
@@ -607,9 +604,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Window.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\WindowEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Wizard.h">
@@ -754,6 +748,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Listview.cpp">
 			</File>
 			<File
@@ -842,25 +839,13 @@
 			Name="Events"
 			Filter="*.h;*.cpp">
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ButtonEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ButtonEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ClipboardEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ClipboardEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnItemEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnItemEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnModelEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnModelEvent.h">
@@ -869,22 +854,13 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ComponentEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ControlEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ControlEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\FocusEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\FocusEvent.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\FrameEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HelpEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\HelpEvent.h">
@@ -896,16 +872,10 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ItemEditorEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ItemEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ItemEvent.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\KeyboardEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ListModelEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ListModelEvent.h">
@@ -917,9 +887,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ModelEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\MouseEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MouseEvent.h">
 			</File>
 			<File
@@ -929,40 +896,22 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TableModelEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\TabModelEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TabModelEvent.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TextEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\TimerEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TimerEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ToolTipEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ToolTipEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\TreeModelEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TreeModelEvent.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\UndoRedoEvent.cpp">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\UndoRedoEvent.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ValidationEvent.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ValidationEvent.h">
