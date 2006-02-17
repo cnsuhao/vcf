@@ -474,6 +474,12 @@ Package=<4>
     Project_Dep_Name MVCBasics
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name MinMax
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MoreImages
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name OpenGLShapes
     End Project Dependency
     Begin Project Dependency
@@ -544,6 +550,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Toolbars
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Tooltips
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Transformations
@@ -826,6 +835,30 @@ Package=<4>
 ###############################################################################
 
 Project: "MVCBasics"=".\MVCBasics\MVCBasics_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MinMax"=".\MinMax\MinMax_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MoreImages"=".\MoreImages\MoreImages_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1174,6 +1207,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Toolbars"=".\Toolbars\Toolbars_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Tooltips"=".\Tooltips\Tooltips_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -510,6 +510,12 @@ Package=<4>
     Project_Dep_Name MVCBasics
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name MinMax
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MoreImages
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name OpenGLShapes
     End Project Dependency
     Begin Project Dependency
@@ -580,6 +586,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Toolbars
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Tooltips
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Transformations
@@ -987,6 +996,30 @@ Package=<4>
 
 ###############################################################################
 
+Project: "MinMax"="..\..\examples\MinMax\MinMax.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MoreImages"="..\..\examples\MoreImages\MoreImages.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "NetworkKit"=".\NetworkKit\NetworkKit.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1378,6 +1411,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Toolbars"="..\..\examples\Toolbars\Toolbars.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Tooltips"="..\..\examples\Tooltips\Tooltips.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

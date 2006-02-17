@@ -133,6 +133,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\CommonFontDialog.h
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\CommonPrintDialog.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h
+# End Source File
 # End Group
 # Begin Group "Res"
 
@@ -504,15 +508,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ImageList.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\ImageListEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\Item.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\KeyboardEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -661,10 +657,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Window.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Window.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\WindowEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -856,6 +848,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Listview.cpp
 # End Source File
 # Begin Source File
@@ -972,15 +968,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Window.h
 # PROP Default_Filter "*.h;*.cpp"
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\ButtonEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\ButtonEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ClipboardEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -988,15 +976,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ClipboardEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\ColumnItemEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\ColumnItemEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ColumnModelEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1008,15 +988,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ComponentEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\ControlEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\ControlEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\FocusEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1025,10 +997,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\FocusEvent.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\FrameEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HelpEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1044,19 +1012,11 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ItemEditorEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\ItemEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\ItemEvent.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\KeyboardEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ListModelEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1072,10 +1032,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ModelEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\MouseEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\MouseEvent.h
 # End Source File
 # Begin Source File
@@ -1088,10 +1044,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\TableModelEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\TabModelEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\TabModelEvent.h
 # End Source File
 # Begin Source File
@@ -1100,15 +1052,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\TextEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\TimerEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\TimerEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ToolTipEvent.cpp
 # End Source File
 # Begin Source File
 
@@ -1116,23 +1060,11 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ToolTipEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\TreeModelEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\TreeModelEvent.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\UndoRedoEvent.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\UndoRedoEvent.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ValidationEvent.cpp
 # End Source File
 # Begin Source File
 

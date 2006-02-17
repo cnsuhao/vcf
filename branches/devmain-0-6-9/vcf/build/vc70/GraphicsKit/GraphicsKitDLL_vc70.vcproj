@@ -386,6 +386,9 @@
 			<File
 				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32PrintSession.h">
 			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\GraphicsKit\Win32ThemeDLLWrapper.h">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
