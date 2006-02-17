@@ -108,7 +108,6 @@ Action classes
 #include "vcf/ApplicationKit/ToolTipEvent.h"
 #include "vcf/ApplicationKit/WhatsThisHelpEvent.h"
 #include "vcf/ApplicationKit/HelpEvent.h"
-#include "vcf/ApplicationKit/ControlEvent.h"
 
 #include "vcf/ApplicationKit/ControlGraphicsContext.h"
 
@@ -134,6 +133,9 @@ Action classes
 
 
 #include "vcf/ApplicationKit/Control.h"
+#include "vcf/ApplicationKit/ControlEvent.h"
+
+
 #include "vcf/ApplicationKit/CustomControl.h"
 #include "vcf/ApplicationKit/Container.h"
 #include "vcf/ApplicationKit/ControlContainer.h"
@@ -272,6 +274,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.3  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.3.4.2  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *

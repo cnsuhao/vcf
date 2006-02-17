@@ -39,12 +39,17 @@ enum KeyboardMasks{
 class APPLICATIONKIT_API KeyboardEvent : public Event {
 public:
 
-	KeyboardEvent( Object* source );
+	KeyboardEvent( Object* source ) : Event(source),
+		keyMask_(0), keyValue_(0), repeatCount_(0), virtualKeyCode_((VirtualKeyCode)0)  {
+
+	}
 
 	KeyboardEvent( Object* source, const unsigned long& eventType,
 		           const unsigned long& repeatCount, const unsigned long& keyMask,
 				   const VCFChar& keyValue,
-				   const VirtualKeyCode& virtKeyValue );
+				   const VirtualKeyCode& virtKeyValue ): Event(source,eventType),
+		keyMask_(keyMask), keyValue_(keyValue), repeatCount_(repeatCount),
+		virtualKeyCode_(virtKeyValue) {}
 
 	KeyboardEvent( const KeyboardEvent& rhs ):Event(rhs) {
 		*this = rhs;
@@ -59,24 +64,38 @@ public:
 		keyValue_ = rhs.keyValue_;
 		repeatCount_ = rhs.repeatCount_;
 		virtualKeyCode_ = rhs.virtualKeyCode_;
-
+		
 		return *this;
 	}
-
-    unsigned long getKeyMask();
-
-	VCFChar getKeyValue();
-
-	unsigned long getRepeatCount();
-
-	void init();
-
-	bool hasShiftKey();
-	bool hasAltKey();
-	bool hasControlKey();
-
-	VirtualKeyCode getVirtualCode();
-
+	
+    unsigned long getKeyMask() {
+		return keyMask_;
+	}
+	
+	VCFChar getKeyValue() {
+		return keyValue_;
+	}
+	
+	unsigned long getRepeatCount() {
+		return repeatCount_;
+	}
+	
+	bool hasShiftKey() {
+		return ( kmShift & keyMask_ ) != 0;
+	}
+	
+	bool hasAltKey() {
+		return ( kmAlt & keyMask_ ) != 0;
+	}
+	
+	bool hasControlKey() {
+		return ( kmCtrl & keyMask_ ) != 0;
+	}
+	
+	VirtualKeyCode getVirtualCode() {
+		return virtualKeyCode_;
+	}
+	
 	virtual Object* clone( bool deep=false ) {
 		return new KeyboardEvent(*this);
 	}
@@ -114,6 +133,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.2.6.1  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

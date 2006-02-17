@@ -245,6 +245,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKitDLL", "..\build\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Browser", "Browser\Browser_vc80.vcproj", "{406ACD25-2CE1-46CD-9A2D-31C62D312AB0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinMax", "MinMax\MinMax_vc80.vcproj", "{ED8854E5-7399-4413-9503-39CF705899A4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tooltips", "Tooltips\Tooltips_vc80.vcproj", "{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -669,6 +673,22 @@ Global
 		{406ACD25-2CE1-46CD-9A2D-31C62D312AB0}.GTK Debug|Win32.Build.0 = Debug|Win32
 		{406ACD25-2CE1-46CD-9A2D-31C62D312AB0}.Release|Win32.ActiveCfg = Release|Win32
 		{406ACD25-2CE1-46CD-9A2D-31C62D312AB0}.Release|Win32.Build.0 = Release|Win32
+		{ED8854E5-7399-4413-9503-39CF705899A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ED8854E5-7399-4413-9503-39CF705899A4}.Debug|Win32.Build.0 = Debug|Win32
+		{ED8854E5-7399-4413-9503-39CF705899A4}.Generate YY and LL files|Win32.ActiveCfg = Debug|Win32
+		{ED8854E5-7399-4413-9503-39CF705899A4}.Generate YY and LL files|Win32.Build.0 = Debug|Win32
+		{ED8854E5-7399-4413-9503-39CF705899A4}.GTK Debug|Win32.ActiveCfg = Debug|Win32
+		{ED8854E5-7399-4413-9503-39CF705899A4}.GTK Debug|Win32.Build.0 = Debug|Win32
+		{ED8854E5-7399-4413-9503-39CF705899A4}.Release|Win32.ActiveCfg = Release|Win32
+		{ED8854E5-7399-4413-9503-39CF705899A4}.Release|Win32.Build.0 = Release|Win32
+		{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}.Debug|Win32.ActiveCfg = Debug|Win32
+		{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}.Debug|Win32.Build.0 = Debug|Win32
+		{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}.Generate YY and LL files|Win32.ActiveCfg = Release|Win32
+		{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}.Generate YY and LL files|Win32.Build.0 = Release|Win32
+		{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}.GTK Debug|Win32.ActiveCfg = Debug|Win32
+		{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}.GTK Debug|Win32.Build.0 = Debug|Win32
+		{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}.Release|Win32.ActiveCfg = Release|Win32
+		{67C2FFBF-3F8D-4BE7-8F92-40750F03EA20}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -33,17 +33,20 @@ class GraphicsContext;
 class APPLICATIONKIT_API ItemEvent : public Event
 {
 public:
-	ItemEvent( Object* source );
+	ItemEvent( Object* source ):Event(source),
+		paintContext_(NULL){}
 
-	ItemEvent( Object* source, const unsigned long& eventType );
+	ItemEvent( Object* source, const unsigned long& eventType ):Event(source,eventType),
+		paintContext_(NULL){}
 
-	ItemEvent( Object* source, GraphicsContext* context );
+	ItemEvent( Object* source, GraphicsContext* context ):Event(source),
+		paintContext_(context){}
 
-	ItemEvent( const ItemEvent& rhs ):Event(rhs) {
+	ItemEvent( const ItemEvent& rhs ):Event(rhs),paintContext_(NULL) {
 		*this = rhs;
 	}
 
-	virtual ~ItemEvent();
+	virtual ~ItemEvent(){}
 
 
 	ItemEvent& operator=( const ItemEvent& rhs ) {
@@ -57,14 +60,22 @@ public:
 		return new ItemEvent(*this);
 	}
 
-	GraphicsContext* getContext();
+	GraphicsContext* getContext() {
+		return this->paintContext_;
+	}
+
 
 	/**
 	*returns the point for this mouse event
 	*/
-	Point* getPoint();
+	Point* getPoint() {
+		return  &this->point_;
+	}
 
-	void setPoint( Point* point );
+	void setPoint( Point* point ){
+		point_.x_ = point->x_;
+		point_.y_ = point->y_;
+	}
 
 private:
 	GraphicsContext* paintContext_;
@@ -92,6 +103,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.3  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

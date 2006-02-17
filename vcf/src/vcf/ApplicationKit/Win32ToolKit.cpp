@@ -1733,6 +1733,9 @@ class ToolTipWatcher : public ObjectWithEvents {
 public:
 	ToolTipWatcher() {
 		currentControlWithTooltip_ = NULL;
+		
+		autoDestroyEmbeddedTooltipControl_ = false;
+		embeddedTooltipControl_ = NULL;
 
 		toolTip_ = NULL;
 
@@ -1790,6 +1793,19 @@ public:
 
 	void showTooltip( Control* control, Point* pt ) {
 
+		if ( NULL != embeddedTooltipControl_ ) {
+			toolTip_->remove(embeddedTooltipControl_) ;
+			if ( autoDestroyEmbeddedTooltipControl_ ) {
+				Component* owner = embeddedTooltipControl_->getOwner();
+				owner->removeComponent( embeddedTooltipControl_ );
+				embeddedTooltipControl_->free();
+			}
+		}
+
+
+		toolTip_->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP ) );
+		autoDestroyEmbeddedTooltipControl_ = false;
+		embeddedTooltipControl_ = NULL;
 
 		//pt is in screen coordinates
 		Point tmpPt = *pt;
@@ -1804,12 +1820,15 @@ public:
 		String tooltip = actualToolTipControl->getToolTipText();
 
 		ToolTipEvent tooltipEvent( actualToolTipControl, 0 );
+		
+		tooltipEvent.setBackgroundColor( toolTip_->getColor() );
+
 		tooltipEvent.setToolTipLocation( pt );
 		tooltipEvent.setCustomTooltipContext( toolTip_->getContext() );
 		Size sz;
 		tooltipEvent.setToolTipSize( &sz );
 
-		if ( true == tooltip.empty() ) {
+		if ( tooltip.empty() ) {
 			//fire a tooltip requested
 			tooltipEvent.setType( TOOLTIP_EVENT_TIP_REQESTED );
 
@@ -1820,12 +1839,13 @@ public:
 			tooltipEvent.setType( 0 );
 		}
 
-		if ( false == tooltip.empty() ) {
+		if ( !tooltip.empty() ) {
 
 			actualToolTipControl->ToolTip.fireEvent( &tooltipEvent );
 			Point tmpPt = *tooltipEvent.getToolTipLocation();
 
 
+			toolTip_->setColor( tooltipEvent.getBackgroundColor() );
 
 			toolTip_->setLeft( tmpPt.x_ );
 			toolTip_->setTop( tmpPt.y_ );
@@ -1849,6 +1869,14 @@ public:
 				//toolTip_->setParent(  );
 			}
 
+			//embed control?
+			if ( NULL != tooltipEvent.getEmbeddedControl() ) {
+				embeddedTooltipControl_ = tooltipEvent.getEmbeddedControl();
+				autoDestroyEmbeddedTooltipControl_ = tooltipEvent.getAutoDestroyEmbeddedControl();
+
+				toolTip_->add( embeddedTooltipControl_, AlignClient );
+			}
+
 			toolTip_->setCaption( tooltip );
 			toolTip_->show();
 			//toolTip_->setFrameTopmost( true );
@@ -1856,17 +1884,40 @@ public:
 		}
 	}
 
+	void hideToolTip() {
+		toolTip_->hide();
+
+		if ( NULL != embeddedTooltipControl_ ) {
+			toolTip_->remove(embeddedTooltipControl_) ;
+			if ( autoDestroyEmbeddedTooltipControl_ ) {
+				Component* owner = embeddedTooltipControl_->getOwner();
+				owner->removeComponent( embeddedTooltipControl_ );
+				embeddedTooltipControl_->free();
+			}
+		}
+
+		embeddedTooltipControl_ = NULL;
+		autoDestroyEmbeddedTooltipControl_ = false;
+	}
+
 	void onToolTipLostFocus( WindowEvent* e ) {
 		Window* w = (Window*)e->getSource();
-
-		if ( false == w->isActive() ) {
-			w->hide();
+		
+		if ( w == toolTip_ ) {
+			hideToolTip();
+		}
+		else {			
+			if ( !w->isActive() ) {
+				w->hide();
+			}
 		}
 	};
-
+	
+	bool autoDestroyEmbeddedTooltipControl_;
 	Win32ToolTip* toolTip_;
 	Point checkPt_;
 	Control* currentControlWithTooltip_;
+	Control* embeddedTooltipControl_;
 };
 
 static ToolTipWatcher* toolTipWatcher = NULL;
@@ -2020,7 +2071,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 				::KillTimer( hWnd, TOOLTIP_TIMEOUT_TIMERID );
 
 				if ( NULL != toolTipWatcher->toolTip_ ) {
-					toolTipWatcher->toolTip_->hide();
+					toolTipWatcher->hideToolTip();
 				}
 
 			}
@@ -3322,6 +3373,9 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.15  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.6.2.14  2006/01/29 16:41:56  dougtinkham
 *added extern C linkage to DllMain
 *

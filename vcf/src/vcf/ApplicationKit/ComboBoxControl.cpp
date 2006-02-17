@@ -37,6 +37,8 @@ public:
 		scrollBarMgr->setDiscreteScroll( false, comboBoxControl->getDiscreteScroll() );
 
 		setUseColorForBackground( true );
+
+		setFont( comboBoxControl->getFont() );
 	}
 
 	virtual ~DropDownListBox(){
@@ -1048,6 +1050,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.5.2.2  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

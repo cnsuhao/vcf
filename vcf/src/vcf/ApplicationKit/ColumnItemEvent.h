@@ -29,9 +29,11 @@ namespace VCF  {
 */
 class ColumnItemEvent : public Event {
 public:
-	ColumnItemEvent( Object* source, const unsigned long& eventType );
+	ColumnItemEvent( Object* source, const unsigned long& eventType ):
+	  Event(source, eventType ){}
 
-	virtual ~ColumnItemEvent();
+
+	virtual ~ColumnItemEvent(){}
 
 	virtual Object* clone( bool deep=false ) {
 		return new ColumnItemEvent(*this);
@@ -49,6 +51,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
