@@ -56,11 +56,18 @@ where you installed the VCF.
 # endif
 
 
-#	ifdef _DEBUG
-#		define WIN32HTMLBROWSER_DYNLIB		"Win32HTMLBrowser_"_LIB_CPLVERNUM"_d.dll"
+// We don't need any of this if we've disabled pragma linking
+#ifndef VCF_DISABLE_PRAGMA_LINKING
+#   ifdef _DEBUG
+#       define WIN32HTMLBROWSER_DYNLIB		"Win32HTMLBrowser_"_LIB_CPLVERNUM"_d.dll"
+#   else
+#       define WIN32HTMLBROWSER_DYNLIB		"Win32HTMLBrowser_"_LIB_CPLVERNUM".dll"
+#   endif
 #else
-#		define WIN32HTMLBROWSER_DYNLIB		"Win32HTMLBrowser_"_LIB_CPLVERNUM".dll"
-# endif
+#   define STRINGIZE(lex) #lex
+#   define STRINGIZE2(lex) STRINGIZE(lex)
+#   define WIN32HTMLBROWSER_DYNLIB STRINGIZE2(WIN32HTMLBROWSER_DYNLIB_UNQUOTED)
+#endif
 
 
 
@@ -106,6 +113,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/02/17 19:09:04  kdmix
+*Allows baked makefiles define WIN32HTMLBROWSER_DYNLIB with appropriate library name string.
+*
 *Revision 1.4.2.2  2005/11/02 04:38:23  obirsoy
 *changes required for vc80 support.
 *
