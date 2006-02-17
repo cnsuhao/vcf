@@ -21,13 +21,13 @@ namespace VCF  {
 
 class APPLICATIONKIT_API HelpEvent : public Event {
 public:
-	HelpEvent( Object* source );
+	HelpEvent( Object* source ): Event(source,HELP_EVENT_TYPE){}
 
 	enum {
 		HELP_REQUESTED_ID = 0
 	};
 
-	virtual ~HelpEvent();
+	virtual ~HelpEvent() {}
 
 	virtual Object* clone( bool deep=false ) {
 		return new HelpEvent(*this);
@@ -63,6 +63,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

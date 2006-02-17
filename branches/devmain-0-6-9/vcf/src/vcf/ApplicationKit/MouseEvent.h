@@ -40,15 +40,18 @@ enum MouseButtomMasks{
 
 class APPLICATIONKIT_API MouseEvent : public Event {
 public:
-	MouseEvent( Object* source );
+	MouseEvent( Object* source ) : Event(source),
+		keyMask_(0),buttonMask_(0){}
 
-	MouseEvent( Object* source, const unsigned long& eventType );
+	MouseEvent( Object* source, const unsigned long& eventType ): Event(source,eventType),
+		keyMask_(0),buttonMask_(0){}
 
 	MouseEvent( Object* source, const unsigned long& eventType, const unsigned long& buttonMask,
-		        const unsigned long& keyMask, Point* point );
+		        const unsigned long& keyMask, Point* point ): Event(source,eventType),
+		keyMask_(keyMask),buttonMask_(buttonMask),point_(*point){}
 
-	MouseEvent( const MouseEvent& rhs ):Event(rhs) {
-		init();
+	MouseEvent( const MouseEvent& rhs ):Event(rhs),
+		keyMask_(0),buttonMask_(0) {
 		*this = rhs;
 	}
 
@@ -63,8 +66,6 @@ public:
 		return *this;
 	}
 
-	void init();
-
 	virtual Object* clone( bool deep=false ) {
 		return new MouseEvent(*this);
 	}
@@ -72,21 +73,48 @@ public:
 	/**
 	*returns the point for this mouse event
 	*/
-    Point* getPoint();
+    Point* getPoint(){
+		return &point_;
+	}
 
-	void setPoint( Point* point );
+	void setPoint( Point* point ){
+		point_.x_ = point->x_;
+		point_.y_ = point->y_;
+	}
 
-    unsigned long getKeyMask();
+    unsigned long getKeyMask(){
+		return keyMask_;
+	}
 
-    unsigned long getButtonMask();
+    unsigned long getButtonMask(){
+		return buttonMask_;
+	}
+	
+	
+	bool hasLeftButton(){
+		return ( mbmLeftButton & buttonMask_ ) != 0;
+	}
 
-	bool hasLeftButton();
-	bool hasMiddleButton();
-	bool hasRightButton();
+	bool hasMiddleButton(){
+		return ( mbmMiddleButton & buttonMask_ ) != 0;
+	}
 
-	bool hasShiftKey();
-	bool hasAltKey();
-	bool hasControlKey();
+	bool hasRightButton(){
+		return ( mbmRightButton & buttonMask_ ) != 0;
+	}
+	
+
+	bool hasShiftKey(){
+		return ( kmShift & keyMask_ ) != 0;
+	}
+	
+	bool hasAltKey(){
+		return ( kmAlt & keyMask_ ) != 0;
+	}
+	
+	bool hasControlKey(){
+		return ( kmCtrl & keyMask_ ) != 0;
+	}
 
 private:
     unsigned long buttonMask_;
@@ -128,6 +156,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.2.6.1  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

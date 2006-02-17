@@ -235,6 +235,13 @@ public:
 		csDefaultControlState = csEnabled | csTabStop | csDoubleBuffered
 	};
 
+	enum MinMaxSizeDefaults{
+		mmIgnoreMinWidth = -1,
+		mmIgnoreMinHeight = -1,
+		mmIgnoreMaxWidth = -1,
+		mmIgnoreMaxHeight = -1
+	};
+
 	enum ControlEvents {
 		CONTROL_EVENTS = COMPONENT_EVENTS_LAST + 200,
 		CONTROL_SIZED,
@@ -1113,6 +1120,55 @@ public:
 	*/
 	virtual void setPreferredHeight( const double& height ){};
 
+
+	Size getMinSize() {
+		return minSize_;
+	}
+
+	void setMinSize( const Size& val ) {
+		minSize_ = val;
+	}
+
+	double getMinWidth() {
+		return minSize_.width_;
+	}
+
+	void setMinWidth( const double& val ) {
+		minSize_.width_ = val;
+	}
+
+	double getMinHeight() {
+		return minSize_.height_;
+	}
+
+	void setMinHeight( const double& val ) {
+		minSize_.height_ = val;
+	}
+
+	Size getMaxSize() {
+		return maxSize_;
+	}
+
+	void setMaxSize( const Size& val ) {
+		maxSize_ = val;
+	}
+
+	double getMaxWidth() {
+		return maxSize_.width_;
+	}
+
+	void setMaxWidth( const double& val ) {
+		maxSize_.width_ = val;
+	}
+
+	double getMaxHeight() {
+		return maxSize_.height_;
+	}
+
+	void setMaxHeight( const double& val ) {
+		maxSize_.height_ = val;
+	}
+
 	/**
 	*returns an object implementing the Scrollable interface
 	*The default value is NULL, indicating the control does not support
@@ -1606,6 +1662,9 @@ protected:
 	Point clickPt_;
 	//bool useRenderBuffer_;
 	Container* container_;
+	Size minSize_;
+	Size maxSize_;
+
 	/*
 	bool ignoredForLayout_;
 	bool allowPaintNotification_;
@@ -1623,6 +1682,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.11  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.4.2.10  2006/02/14 05:13:09  ddiego
 *more browser updates.
 *

@@ -245,6 +245,39 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 	static bool windowRestoredAlready = true;
 	switch ( message ) {
+/*
+		case WM_GETMINMAXINFO : {
+			return result;
+			if ( !peerControl_->isDesigning() ) {
+				result = false;
+				wndProcResult = 0;
+				
+				Size minSize = peerControl_->getMinSize();
+				Size maxSize = peerControl_->getMaxSize();
+				
+				
+				MINMAXINFO* info = (MINMAXINFO*)lParam;
+				
+				if ( minSize.width_ > Control::mmIgnoreMinWidth ) {
+					info->ptMinTrackSize.x = minSize.width_;
+				}
+				
+				if ( minSize.height_ > Control::mmIgnoreMinHeight ) {
+					info->ptMinTrackSize.y = minSize.height_;
+				}
+				
+				if ( maxSize.width_ > Control::mmIgnoreMaxWidth ) {
+					info->ptMaxTrackSize.x = maxSize.width_;
+				}
+				
+				if ( maxSize.height_ > Control::mmIgnoreMaxHeight ) {
+					info->ptMaxTrackSize.y = maxSize.height_;
+				}
+			}
+
+		}
+		break;
+		*/
 
 		case WM_SIZE : {
 
@@ -802,6 +835,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.10  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.5.2.9  2005/09/19 04:55:46  ddiego
 *minor updates.
 *

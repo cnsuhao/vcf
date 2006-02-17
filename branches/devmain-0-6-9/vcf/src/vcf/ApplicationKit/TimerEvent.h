@@ -27,9 +27,9 @@ namespace VCF  {
 */
 class APPLICATIONKIT_API TimerEvent : public VCF::Event {
 public:
-	TimerEvent( Object* source, const unsigned long& eventType );
+	TimerEvent( Object* source, const unsigned long& eventType ): Event(source,eventType){}
 
-	virtual ~TimerEvent();
+	virtual ~TimerEvent(){}
 
 	virtual Object* clone( bool deep=false ) {
 		return new TimerEvent(*this);
@@ -58,6 +58,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

@@ -58,6 +58,12 @@ Control::Control():
 	anchorDeltas_[ANCHOR_DLEFT] = 0.0f;
 	anchorDeltas_[ANCHOR_DBOTTOM] = 0.0f;
 	anchorDeltas_[ANCHOR_DRIGHT] = 0.0f;
+
+	minSize_.width_ = Control::mmIgnoreMinWidth;
+	minSize_.height_ = Control::mmIgnoreMinHeight;
+
+	maxSize_.width_ = Control::mmIgnoreMaxWidth;
+	maxSize_.height_ = Control::mmIgnoreMaxHeight;
 }
 
 Control::~Control()
@@ -791,7 +797,9 @@ void Control::setParent( Control* parent ) /**throw( InvalidPeer ); -JEC - FIXME
 
 	if ( NULL != parent_ ) {
 
-		parent->addComponent( this );
+		if ( NULL == getOwner() ) {
+			parent->addComponent( this );
+		}
 
 		if ( parent_->isLightWeight() && !isLightWeight() ) {
 
@@ -1643,6 +1651,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.13  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.8.2.12  2006/02/14 05:13:08  ddiego
 *more browser updates.
 *

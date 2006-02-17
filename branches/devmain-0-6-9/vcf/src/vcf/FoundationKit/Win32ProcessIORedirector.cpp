@@ -229,7 +229,7 @@ bool Win32ProcessIORedirector::createProcess( const String& processName, const S
 	//		close the inheritable read handle.
 
 	// Save the handle to the current STDOUT.
-	HANDLE hSaveStdout = ::GetStdHandle(STD_OUTPUT_HANDLE);
+	savedStdoutHandle_ = ::GetStdHandle(STD_OUTPUT_HANDLE);
 
 	// Create a pipe for the child process's STDOUT.
 	if (!::CreatePipe(&hChildStdoutRdTmp, &childStdoutWrHandle_, &saAttr, 0))	{
@@ -462,6 +462,9 @@ Waitable::WaitResult Win32ProcessIORedirector::wait()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.3.2.1  2005/11/28 21:01:06  ddiego
 *added wait function to process class. added stubs for linux.
 *

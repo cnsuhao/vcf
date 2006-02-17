@@ -26,12 +26,28 @@ class GraphicsContext;
 
 class APPLICATIONKIT_API ToolTipEvent : public Event {
 public:
-	ToolTipEvent( Object* source, const ulong32& type );
+	ToolTipEvent( Object* source, const ulong32& type ):
+	  Event( source, type ),
+		  customToolTipGraphicsCtx_(NULL),
+		  embeddedControl_(NULL),
+			autoDestroyEmbeddedControl_(true){		  
+		  tooltipLocation_.x_ = 0.0;
+		  tooltipLocation_.y_ = 0.0;
+		  
+		  tooltipSize_.height_ = 0.0;
+		  tooltipSize_.width_ = 0.0;
+		  
+		  tooltipString_ = "";
 
-	ToolTipEvent( const ToolTipEvent& rhs ):Event(rhs) {
+		  backgroundColor_ = *GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP );
+	}
+
+	ToolTipEvent( const ToolTipEvent& rhs ):Event(rhs),
+		customToolTipGraphicsCtx_(NULL),embeddedControl_(NULL),autoDestroyEmbeddedControl_(true) {
 		*this = rhs;
 	}
-	virtual ~ToolTipEvent();
+
+	virtual ~ToolTipEvent(){};
 
 
 	ToolTipEvent& operator=( const ToolTipEvent& rhs ) {
@@ -41,6 +57,9 @@ public:
 		customToolTipGraphicsCtx_ = rhs.customToolTipGraphicsCtx_;
 		tooltipLocation_ = rhs.tooltipLocation_;
 		tooltipSize_ = rhs.tooltipSize_;
+		embeddedControl_ = rhs.embeddedControl_;
+		autoDestroyEmbeddedControl_ = rhs.autoDestroyEmbeddedControl_;
+		backgroundColor_ = rhs.backgroundColor_;
 
 		return *this;
 	}
@@ -80,11 +99,40 @@ public:
 	void setCustomTooltipContext( GraphicsContext* customToolTipGraphicsCtx ) {
 		customToolTipGraphicsCtx_ = customToolTipGraphicsCtx;
 	}
+
+	Control* getEmbeddedControl() {
+		return embeddedControl_;
+	}
+
+	void setEmbeddedControl( Control* val ) {
+		embeddedControl_ = val;
+	}
+
+	bool getAutoDestroyEmbeddedControl() {
+		return autoDestroyEmbeddedControl_;
+	}
+
+	void setAutoDestroyEmbeddedControl( const bool& val ) {
+		autoDestroyEmbeddedControl_ = val;
+	}
+
+	Color* getBackgroundColor() {
+		return &backgroundColor_;
+	}
+
+	void setBackgroundColor( Color* color ) {
+		backgroundColor_ = *color;
+	}
+
+	
 protected:
 	String tooltipString_;
 	GraphicsContext* customToolTipGraphicsCtx_;
 	Point tooltipLocation_;
 	Size tooltipSize_;
+	Control* embeddedControl_;
+	bool autoDestroyEmbeddedControl_;
+	Color backgroundColor_;
 };
 
 
@@ -116,6 +164,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.2  2004/08/07 02:49:10  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

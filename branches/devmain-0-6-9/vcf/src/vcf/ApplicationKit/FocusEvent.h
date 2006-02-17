@@ -22,11 +22,11 @@ namespace VCF {
 */
 class APPLICATIONKIT_API FocusEvent : public Event {
 public:
-	FocusEvent( Object* source );
+	FocusEvent( Object* source ): Event(source){}
 
-	FocusEvent( Object* source, const ulong32& eventType );
+	FocusEvent( Object* source, const ulong32& eventType ): Event(source,eventType){}
 
-	virtual ~FocusEvent();
+	virtual ~FocusEvent(){}
 
 	virtual Object* clone( bool deep=false ) {
 		return new FocusEvent(*this);
@@ -61,6 +61,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

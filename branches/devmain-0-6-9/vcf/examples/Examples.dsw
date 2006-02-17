@@ -837,6 +837,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "MinMax"=.\MinMax\MinMax.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "NetworkKit"=..\build\vc60\NetworkKit\NetworkKit.dsp - Package Owner=<4>
 
 Package=<5>
@@ -1174,6 +1186,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Toolbars"=.\Toolbars\Toolbars.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Tooltips"=.\Tooltips\Tooltips.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

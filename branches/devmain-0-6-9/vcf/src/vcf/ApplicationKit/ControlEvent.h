@@ -30,38 +30,54 @@ class Control;
 */
 class APPLICATIONKIT_API ControlEvent : public Event  {
 public:
-	ControlEvent( Object* source );
+	ControlEvent( Object* source ):Event( source ),newParent_(NULL),gc_(NULL) {
 
-	ControlEvent( Object* source, const ulong32& eventType );
+	}
+
+	ControlEvent( Object* source, const ulong32& eventType ):Event( source,eventType ),
+		newParent_(NULL),gc_(NULL) {
+
+	}
 
 	/**
 	*use this constructor for creating CONTROL_SIZED events
 	*/
-	ControlEvent( Object* source, const Size& newSize );
+	ControlEvent( Object* source, const Size& newSize ):Event( source, Control::CONTROL_SIZED ),
+		newSize_(newSize), newParent_(NULL),gc_(NULL) {
+
+	}
 
 	/**
 	*use this constructor for creating CONTROL_POSITIONED events
 	*/
-	ControlEvent( Object* source, const Point& newPosition );
+	ControlEvent( Object* source, const Point& newPosition ):Event( source, Control::CONTROL_POSITIONED ),
+		newPosition_(newPosition), newParent_(NULL),gc_(NULL) {
+
+	}
 
 	/**
 	*use this constructor for creating CONTROL_PARENT_CHANGED events
 	*/
-	ControlEvent( Object* source, Control* newParent );
+	ControlEvent( Object* source, Control* newParent ):Event( source, Control::CONTROL_PARENT_CHANGED ),
+		newParent_(newParent),gc_(NULL) {
+
+	}
 
 	/**
 	*use this constructor for creating BEFORE_CONTROL_PAINTED or
 	AFTER_CONTROL_PAINTED events
 	*/
-	ControlEvent( Object* source, const ulong32& eventType, GraphicsContext* gc );
+	ControlEvent( Object* source, const ulong32& eventType, GraphicsContext* gc ):Event( source, eventType ),
+		newParent_(NULL),gc_(gc) {
+
+	}
 
 
-	ControlEvent( const ControlEvent& rhs ):Event(rhs) {
-		init();
+	ControlEvent( const ControlEvent& rhs ):Event(rhs) {		
 		*this = rhs;
 	}
 
-	virtual ~ControlEvent();
+	virtual ~ControlEvent() {}
 
 	ControlEvent& operator=( const ControlEvent& rhs ) {
 		Event::operator =( rhs );
@@ -74,8 +90,6 @@ public:
 
 		return *this;
 	}
-
-	void init();
 
 	virtual Object* clone( bool deep=false ) {
 		return new ControlEvent(*this);
@@ -151,6 +165,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/02/17 05:23:05  ddiego
+*fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
+*
 *Revision 1.2.6.2  2006/02/14 05:13:09  ddiego
 *more browser updates.
 *
