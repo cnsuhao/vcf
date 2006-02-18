@@ -420,8 +420,7 @@ inline std::basic_ostream<E, TR>& operator<<(std::basic_ostream<E, TR>& os, cons
 template<class E, class TR>
 inline std::basic_istream<E, TR>& operator>>(std::basic_istream<E, TR>& is, comet::uuid_t& u)
 {
-	typedef COMET_STRICT_TYPENAME std::basic_istream<E,TR>::sentry se_sentry;
-	se_sentry se(is);
+	COMET_STRICT_TYPENAME std::basic_istream<E,TR>::sentry se(is);
 	if (se)
 	{
 		E buf[36];
