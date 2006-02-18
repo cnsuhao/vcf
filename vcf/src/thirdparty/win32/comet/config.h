@@ -106,8 +106,17 @@
 
 // WIN32 defines for GCC
 #define NONAMELESSUNION
-#define NOCOMATTRIBUTE 
-#endif 
+#define NOCOMATTRIBUTE
+
+#elif defined(__MINGW32__)
+#define COMET_PARTIAL_SPECIALISATION
+#define COMET_NESTED_TEMPLATES
+#define COMET_GCC_HEADERS
+#define COMET_STD_ITERATOR
+#define NONAMELESSUNION
+#define NOCOMATTRIBUTE
+
+#endif
 #endif
 
 
