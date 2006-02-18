@@ -50,6 +50,9 @@ public:
 	datetime_exception( const char *desc) : desc_(desc)
 	{}
 
+	~datetime_exception() throw()
+	{}
+
 	const char* what() const throw()
 	{
 		return desc_.c_str();
@@ -244,6 +247,9 @@ inline size_t str_formattime<wchar_t>( wchar_t *strDest, size_t maxsize, const w
 
 namespace impl {
 // Internally used to group div/mod so optimiser is likely to pick it up.
+#ifdef __MINGW32__
+	const double half_millisecond = 1.0/172800000.0;
+#endif
 	template<typename T>
 		struct datetime_base
 		{
@@ -389,16 +395,16 @@ namespace impl {
 			}
 
 		};
-	//! @endif 
-
+	//! @endif
+#ifndef __MINGW32__
 	const double half_millisecond = 1.0/172800000.0;
-
+#endif
 	// Convert TM to OLE date
 	template<typename T>
 		bool
 		datetime_base<T>::from_tm_( const struct tm &src, DATE *dt, convert_mode mode)
 		{
-			return oledate_from_datetime_( dt, unsigned short(src.tm_year + 1900),unsigned short( src.tm_mon+1),unsigned short( src.tm_mday),unsigned short( src.tm_hour),unsigned short( src.tm_min),unsigned short( src.tm_sec), 0U, mode);
+			return oledate_from_datetime_( dt, (unsigned short)(src.tm_year + 1900),(unsigned short)( src.tm_mon+1),(unsigned short)( src.tm_mday),(unsigned short)( src.tm_hour),(unsigned short)( src.tm_min),(unsigned short)( src.tm_sec), 0U, mode);
 		}
 
 	// Convert OLE date to TM. \retval true Successful conversion.
@@ -1117,7 +1123,7 @@ class datetime_t : private impl::datetime_base<DATE>
 		 */
 		bool from_filetime(const FILETIME& src)
 		{
-			double ftd = (((__int64(src.dwHighDateTime) << 32 | src.dwLowDateTime)/(36000000000.)) - 2620920.)/24;
+			double ftd = ((((__int64)(src.dwHighDateTime) << 32 | src.dwLowDateTime)/(36000000000.)) - 2620920.)/24;
 			return  set_check_range_( to_date(ftd));
 		}
 		/** Convert from a \e FILETIME struct.
@@ -1148,7 +1154,7 @@ class datetime_t : private impl::datetime_base<DATE>
 		{
 			double val = ((to_double(dt_)  * 24.) + 2620920.)*(36000000000.) ;
 
-			__int64 llval = __int64(val);
+			__int64 llval = (__int64)(val);
 			filetime->dwHighDateTime = long (llval >> 32);
 			filetime->dwLowDateTime = long (llval);
 			return val > 0;
@@ -1194,7 +1200,7 @@ class datetime_t : private impl::datetime_base<DATE>
 		bool from_unixtime( time_t val)
 		{
 			FILETIME ft;
-			__int64 ll =(__int64(val) * 10000000L) + 116444736000000000L;
+			__int64 ll =((__int64)(val) * 10000000L) + 116444736000000000LL;
 			ft.dwLowDateTime = (DWORD) ll;
 			ft.dwHighDateTime = (DWORD)(ll >>32);
 			return from_filetime(ft);
@@ -1210,7 +1216,7 @@ class datetime_t : private impl::datetime_base<DATE>
 		bool from_unixtime( time_t val, utc_convert_mode utcMode = ucm_utc_to_local, tz_bias_mode biasMode = tbm_use_local_date, const datetime_t &conversionTime = datetime_t())
 		{
 			FILETIME ft;
-			__int64 ll =(__int64(val) * 10000000L) + 116444736000000000L;
+			__int64 ll =((__int64)(val) * 10000000L) + 116444736000000000LL;
 			ft.dwLowDateTime = (DWORD) ll;
 			ft.dwHighDateTime = (DWORD)(ll >>32);
 			return from_filetime( ft, utcMode, biasMode, conversionTime);
@@ -1236,7 +1242,7 @@ class datetime_t : private impl::datetime_base<DATE>
 			FILETIME ft;
 			if( !dtval.to_filetime(&ft) )
 				return false;
-			*val = time_t(((__int64(ft.dwHighDateTime) << 32 | ft.dwLowDateTime) - 116444736000000000L)/10000000L);
+			*val = time_t((((__int64)(ft.dwHighDateTime) << 32 | ft.dwLowDateTime) - 116444736000000000LL)/10000000L);
 			return true;
 		}
 
@@ -1409,7 +1415,7 @@ class datetime_t : private impl::datetime_base<DATE>
 				if(!to_tm_( dt_, &src, NULL))
 					throw datetime_exception("Invalid Date");
 
-				auto_buffer_t<CHAR>::size_type capacity = 50;
+				COMET_STRICT_TYPENAME auto_buffer_t<CHAR>::size_type capacity = 50;
 				auto_buffer_t<CHAR> buf(capacity);
 				size_t ret;
 				while( (ret = str_formattime( buf.get() , capacity, fmt, &src ))==0 && capacity < 1024)
