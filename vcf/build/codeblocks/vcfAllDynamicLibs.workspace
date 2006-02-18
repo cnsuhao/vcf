@@ -20,7 +20,14 @@
 		<Project filename="ApplicationKit\ApplicationKitDLL.cbp">
 			<Depends filename="GraphicsKit\GraphicsKitDLL.cbp" />
 		</Project>
-		<Project filename="OpenGLKit\OpenGLKitDLL.cbp" />
-		<Project filename="RemoteObjectKit\RemoteObjectKit.cbp" />
+		<Project filename="OpenGLKit\OpenGLKitDLL.cbp">
+			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
+		</Project>
+		<Project filename="NetworkKit\NetworkKitDLL.cbp">
+			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
+		</Project>
+		<Project filename="RemoteObjectKit\RemoteObjectKit.cbp">
+			<Depends filename="NetworkKit\NetworkKitDLL.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

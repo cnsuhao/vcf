@@ -18,24 +18,34 @@
 		<Project filename="NetworkKit\NetworkKitDLL.cbp">
 			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
 		</Project>
-		<Project filename="RemoteObjectKit\RemoteObjectKit.cbp" />
+		<Project filename="RemoteObjectKit\RemoteObjectKit.cbp">
+			<Depends filename="NetworkKit\NetworkKitDLL.cbp" />
+		</Project>
 		<Project filename="FoundationKit\FoundationKit.cbp" />
 		<Project filename="GraphicsKit\GraphicsKit.cbp">
-			<Depends filename="GraphicsKit\libAGG.cbp" />
 			<Depends filename="FoundationKit\FoundationKit.cbp" />
+			<Depends filename="GraphicsKit\libAGG.cbp" />
+			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
 			<Depends filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp" />
 			<Depends filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp" />
-			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
 		</Project>
 		<Project filename="ApplicationKit\ApplicationKit.cbp">
+			<Depends filename="GraphicsKit\GraphicsKit.cbp" />
+		</Project>
+		<Project filename="OpenGLKit\OpenGLKit.cbp">
+			<Depends filename="ApplicationKit\ApplicationKit.cbp" />
+		</Project>
+		<Project filename="NetworkKit\NetworkKit.cbp">
 			<Depends filename="FoundationKit\FoundationKit.cbp" />
 		</Project>
-		<Project filename="OpenGLKit\OpenGLKit.cbp" />
-		<Project filename="NetworkKit\NetworkKit.cbp" />
-		<Project filename="RemoteObjectKit\RemoteObjectKitStatic.cbp" />
+		<Project filename="RemoteObjectKit\RemoteObjectKitStatic.cbp">
+			<Depends filename="NetworkKit\NetworkKit.cbp" />
+		</Project>
 		<Project filename="GraphicsKit\libAGG.cbp" />
 		<Project filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
-		<Project filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp" />
+		<Project filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp">
+			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
+		</Project>
 		<Project filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp">
 			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
 		</Project>
