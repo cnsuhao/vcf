@@ -387,11 +387,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ButtonEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ButtonEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -454,18 +449,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ClipboardEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ClipboardEvent.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ClipboardPeer.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -492,25 +475,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ColumnItemEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ColumnItemEvent.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ColumnLayoutContainer.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ColumnModel.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -518,20 +482,10 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ColumnModelEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ColumnModelEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ComboBoxControl.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -764,11 +718,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ControlEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ControlEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -778,13 +727,6 @@
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ControlGraphicsContext.cpp">
 			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ControlGraphicsContext.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -1169,11 +1111,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\FocusEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\FocusEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -1229,18 +1166,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\HelpEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\HelpEvent.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -1272,19 +1197,7 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ImageListEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ImageListEvent.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Item.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -1298,24 +1211,7 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ItemEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ItemEvent.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\KeyboardEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\KeyboardEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -1331,11 +1227,6 @@
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\LibraryApplication.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -1396,18 +1287,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ListModelEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ListModelEvent.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ListViewControl.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
@@ -1424,11 +1303,6 @@
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Menu.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -1536,20 +1410,10 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\MouseEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\MouseEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\MultilineTextControl.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -1755,11 +1619,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\TabModelEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\TabModelEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -1771,11 +1630,6 @@
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\TabbedPages.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -1871,11 +1725,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\TimerEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\TimerEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -1895,20 +1744,10 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ToggledButton.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ToggledButton.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ToolTipEvent.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -1933,13 +1772,6 @@
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ToolbarDock.cpp">
 			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ToolbarDock.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -1981,11 +1813,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\TreeModelEvent.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\TreeModelEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -2015,18 +1842,6 @@
 			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\UIToolkit.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\UIToolkit.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\UndoRedoEvent.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
@@ -2069,20 +1884,10 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\VFFOutputStream.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\VFFOutputStream.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ValidationEvent.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
@@ -2515,11 +2320,6 @@
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\WindowEvent.cpp">
-			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
