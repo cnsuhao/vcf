@@ -141,10 +141,8 @@ NB: This software will not save the world.
 
 
 
-<book>
-	
-	&vcf_book;
-	
+<book>	
+	&vcf_book;	
 	<index id="index"/>
 </book>
 
@@ -152,6 +150,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.6.4.1  2006/02/18 03:44:52  ddiego
+general.xml
+
 Revision 1.6  2004/12/02 04:54:02  ddiego
 added some more documentation to the graphics kit classes.
 

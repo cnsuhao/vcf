@@ -321,6 +321,170 @@ NB: This software will not save the world.
 		<section><title>For Linux systems</title>
 		Pull down the latest tar.gz source file and unzip in the directory of you choice.
 		</section>
+		
+		<section><title>Third Party Libraries</title>
+		<para>
+		In general you don't need to worry about installing any third party libraries,
+		as the VCF comes with all the code you need, including third party libraries 
+		that it makes use of. However, this section will discuss those third party libraries
+		that, due perhaps to the size of the library, are not included in the main VCF
+		code base.
+		</para>
+		<section><title>Open SSL on Win32</title>
+		  <para>
+		  Currently this is NOT needed! Please ignore these instructions for now.
+		  </para>
+		  <para>
+		  You can get the latest version of SSL from 
+		  http://www.openssl.org/source/, and the most recent version is currently 
+		  openssl-0.9.7b, but this will obviously change over time.
+		  </para>
+		  <para>
+		  OpenSSL does not use VC workspaces or project files, and unless you want to
+		  find some existing binary installer, you'll need to install it from source.
+		  To do this you'll need perl installed on your system, as the OpenSSL build scripts
+		  make use of perl to do their work. If you have a version of perl as a result 
+		  of an existing cygwin installation, do <emphasis>not</emphasis> use this version
+		  unless you plan to completely build from the cygwin prompt and create a GCC
+		  based version of the library. These instructions are for building a version of 
+		  the library using Microsoft's VC++.
+		  </para>
+		  <para>
+		  With that in mind, get the latest perl from ActiveState at 
+		  http://www.activestate.com/Products/ActivePerl/. They have an excellent
+		  installer that will install Perl in a jiffy with no hassle.
+		  </para>
+		  <para>
+		  OpenSSL has some parts of the library that are coded using optimized assembler,
+		  but to make use of this, you'll need Microsoft's MASM tool installed. This may 
+		  or may not already be on your machine, look for an executable called "ml.exe"
+		  in the "bin" directory of the main VC++ directory. If this is not there, you can
+		  download it here:
+		  http://msdn.microsoft.com/vstudio/downloads/tools/ppack/default.aspx
+		  for free. If that link is not working, you may be able to find more information 
+		  here http://users.easystreet.com/jkirwan/new/pctools.html that provides links
+		  to versions of MASM. Please note that you do <emphasis>not</emphasis> have to
+		  get MASM, you can build OpenSLL just without it, but the performance may be slightly
+		  slower than if you used the assembly version of the some of the routines.
+		  </para>
+		  <para>
+		  Once you have your tools installed, open a command prompt, and navigate to the 
+		  bin directory fo your version of VC++. For example, if you installed to the default
+		  location and you're using VC6, then this would be 
+		  "C:\Program Files\Visual Studio\VC98\Bin". For Visual C++ 7.1, it might be
+		  "C:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\bin" and so forth. Once 
+		  there run the the vcvars32.bat file to initialize your path to point to the
+		  right place for the compiler, linker, etc tools.
+		  </para>
+		  <para>
+		  In the same shell, cd to the directory that you installed OpenSSL to, for example
+		  "c:\openssl-0.9.8a\". Now configure it for VC++ by typing:
+		  <programlisting>
+		  <![CDATA[
+perl Configure VC-WIN32
+		  ]]>
+		  </programlisting>
+		  You should see something like this when its done:
+		  <programlisting>
+		  <![CDATA[
+Configuring for VC-WIN32
+    no-gmp          [default]  OPENSSL_NO_GMP (skip dir)
+    no-krb5         [krb5-flavor not specified] OPENSSL_NO_KRB5
+    no-mdc2         [default]  OPENSSL_NO_MDC2 (skip dir)
+    no-rc5          [default]  OPENSSL_NO_RC5 (skip dir)
+    no-shared       [default]
+    no-zlib         [default]
+    no-zlib-dynamic [default]
+IsMK1MF=1
+CC            =cl
+CFLAG         =-DOPENSSL_THREADS  -DDSO_WIN32
+EX_LIBS       =
+CPUID_OBJ     =
+BN_ASM        =bn_asm.o
+DES_ENC       =des_enc.o fcrypt_b.o
+AES_ASM_OBJ   =aes_core.o aes_cbc.o
+BF_ENC        =bf_enc.o
+CAST_ENC      =c_enc.o
+RC4_ENC       =rc4_enc.o
+RC5_ENC       =rc5_enc.o
+MD5_OBJ_ASM   =
+SHA1_OBJ_ASM  =
+RMD160_OBJ_ASM=
+PROCESSOR     =
+RANLIB        =true
+ARFLAGS       =
+PERL          =perl
+THIRTY_TWO_BIT mode
+BN_LLONG mode
+RC4_INDEX mode
+RC4_CHUNK is undefined
+
+Configured for VC-WIN32.
+			]]>
+		  </programlisting>
+		  At this point you can choose to either build the ASM files or not. If you have MASM, then 
+		  type:
+		  <programlisting>
+		  ms\do_masm
+		  </programlisting>
+		  If you don't have MASM, then simply type:
+		  <programlisting>
+		  ms\do_ms
+		  </programlisting>
+		  The MASM version should generate something like this:
+		  <programlisting>
+		  <![CDATA[
+Generating x86 for MASM assember
+Bignum
+DES
+"crypt(3)"
+Blowfish
+CAST5
+RC4
+MD5
+SHA1
+RIPEMD160
+RC5\32
+
+C:\openssl-0.9.8a>perl util\mkfiles.pl  1>MINFO
+
+C:\openssl-0.9.8a>perl util\mk1mf.pl VC-WIN32  1>ms\nt.mak
+
+C:\openssl-0.9.8a>perl util\mk1mf.pl dll VC-WIN32  1>ms\ntdll.mak
+
+C:\openssl-0.9.8a>perl util\mkdef.pl 32 libeay  1>ms\libeay32.def
+
+C:\openssl-0.9.8a>perl util\mkdef.pl 32 ssleay  1>ms\ssleay32.def		  
+]]>
+		  </programlisting>
+		  You're now ready to start the actual makefile based build process. You 
+		  can choose to build a static or DLL version of the libraries. For a 
+		  static build (i.e. a build that you'll statically link to) you'll
+		  use the ms\nt.mak file, and for a DLL build you'll use the ms\ntdll.mak
+		  file.
+		  </para>
+		  <para>
+		  To begin a static lib build, type:
+		  <programlisting>
+		  nmake -f ms\nt.mak
+		  </programlisting>
+		  You should see a whole bunch of output stream by. You'll find the final 
+		  binaries in .\out32\. Repeat the above step with the DLL Makefile for 
+		  building the DLL version of the library. If you do this, the DLL
+		  binaries will be in .\out32dll\.
+		  </para>
+		  <para>
+		  To make use of the library you'll need to link to it. The libraries
+		  are obviously in the out32 directory, and the include files are in 
+		  the .\inc32\ directory.
+		  </para>
+		  <para>
+		  If you want to build for a different version of VC++ make
+		  <emphasis>sure</emphasis> to clean the old object code/binaries out
+		  first! Otherwise you'll get all sorts of compiler errors
+		  </para>
+		</section>
+		</section>
 	</section>
 
 	<section><title>Building the VCF</title>
@@ -1884,6 +2048,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.5  2006/02/18 03:44:52  ddiego
+general.xml
+
 Revision 1.6.2.4  2005/10/13 15:49:17  ddiego
 added more borland info
 
