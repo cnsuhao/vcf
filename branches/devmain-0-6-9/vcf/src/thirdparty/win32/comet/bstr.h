@@ -106,7 +106,7 @@ namespace comet {
 	class bstr_t {
 	public:
 		typedef wchar_t value_type;
-#if !defined(_STLP_DEBUG) && _MSC_VER <= 1300
+#if !defined(_STLP_DEBUG) && defined(_MSC_VER) && _MSC_VER <= 1300
 		typedef std::wstring::iterator iterator;
 		typedef std::wstring::const_iterator const_iterator;
 
@@ -941,7 +941,12 @@ namespace std {
 	template<> inline void swap( comet::bstr_t& x, comet::bstr_t& y) COMET_STD_SWAP_NOTHROW { x.swap(y); }
 }
 
+/* This exclusion is here only to let mingw/gcc build, b/c gcc cannot handle comet code.
+   This needs fixed.
+*/
+#ifndef __MINGW32__
 #include <comet/variant.h>
+#endif
 #include <comet/uuid.h>
 
 #pragma warning(pop)
