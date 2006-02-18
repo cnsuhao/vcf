@@ -4,13 +4,13 @@
 /*
  * Copyright © 2001 Sofus Mortensen
  *
- * This material is provided "as is", with absolutely no warranty 
- * expressed or implied. Any use is at your own risk. Permission to 
- * use or copy this software for any purpose is hereby granted without 
- * fee, provided the above notices are retained on all copies. 
- * Permission to modify the code and to distribute modified code is 
- * granted, provided the above notices are retained, and a notice that 
- * the code was modified is included with the above copyright notice. 
+ * This material is provided "as is", with absolutely no warranty
+ * expressed or implied. Any use is at your own risk. Permission to
+ * use or copy this software for any purpose is hereby granted without
+ * fee, provided the above notices are retained on all copies.
+ * Permission to modify the code and to distribute modified code is
+ * granted, provided the above notices are retained, and a notice that
+ * the code was modified is included with the above copyright notice.
  *
  * This header is part of comet.
  * http://www.lambdasoft.dk/comet
@@ -44,7 +44,7 @@ struct assert_failed : std::runtime_error
 
 # else
 #  define COMET_THROWS_ASSERT throw()
-#  ifndef __CYGWIN__
+#  if !defined( __CYGWIN__ ) && !defined( __MINGW32__ )
 
 #   include <crtdbg.h>
 #   define COMET_ASSERT _ASSERTE

@@ -92,7 +92,7 @@
 #define COMET_GUID_BASE GUID
 #endif
 
-#ifdef __CYGWIN__
+#if defined( __CYGWIN__ ) || defined( __MINGW32__ )
 #define COMET_PARTIAL_SPECIALISATION
 #define COMET_NESTED_TEMPLATES
 #define COMET_GCC_HEADERS
@@ -150,9 +150,9 @@
 #define COMET_STD_ITERATOR
 #else
 #ifdef __MINGW32__
-__STL_BEGIN_NAMESPACE
-template <class _Tp, class _Distance>struct iterator:  bidirectional_iterator<_Tp,_Distance>{};
-__STL_END_NAMESPACE
+//__STL_BEGIN_NAMESPACE
+//template <class _Tp, class _Distance>struct iterator:  bidirectional_iterator<_Tp,_Distance>{};
+//__STL_END_NAMESPACE
 #endif // __MINGW32__
 #endif
 #else
