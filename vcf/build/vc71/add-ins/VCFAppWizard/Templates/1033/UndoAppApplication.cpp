@@ -29,8 +29,8 @@ bool [!output PROJECT_NAME]Application::initRunningApplication(){
 	
 	setMainWindow(mainWindow);
 	mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
-	mainWindow->setVisible( true );
 	mainWindow->setCaption( "[!output PROJECT_NAME]" );
+	mainWindow->show();
 	
 	return result;
 }

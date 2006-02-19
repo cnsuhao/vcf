@@ -371,9 +371,34 @@ public:
 	static void setCurrentWorkingDirectory( const String& currentDirectory );
 
 	/**
-
+	This returns the name of a standard directory for the 
+	OS. 
+	@see CommonDirectory
 	*/
 	static String getCommonDirectory( CommonDirectory directory );
+
+	/**
+	This creates a temp file name. You can pass in a standard 
+	directory type to indicate the directory to use in 
+	creating the file name. For example to create 
+	a temp file in the user's temp directory you might use:
+	\code
+	String tempFile = System::createTempFileName( System::cdUserTemp );
+	\endcode
+	*/
+	static String createTempFileName( CommonDirectory directory );
+
+	/**
+	This creates a temp file name. You can pass in directory 
+	name to indicate the directory to use in 
+	creating the file name. The directory is empty
+	by default. For example to create 
+	just a temp file name (no directory) you might use:
+	\code
+	String tempFile = System::createTempFileName();
+	\endcode
+	*/
+	static String createTempFileName( const String& directory = "" );
 
 	/**
 	Sets the date instance to the current system time (UTC based).
@@ -499,6 +524,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.3  2006/02/19 06:50:31  ddiego
+*minor updates.
+*
 *Revision 1.8.2.2  2005/09/07 04:19:55  ddiego
 *filled in initial code for help support.
 *

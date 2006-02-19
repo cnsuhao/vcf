@@ -217,7 +217,7 @@ parse the command line into switches and arguments.
 
 
 
-	unsigned long getArgCount() {
+	size_t getArgCount() {
 		return originalCommandLine_.size();
 	}
 	
@@ -248,6 +248,9 @@ the first character of a switch must be non-numeric!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/02/19 06:50:31  ddiego
+*minor updates.
+*
 *Revision 1.5.2.1  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
