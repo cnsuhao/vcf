@@ -84,9 +84,7 @@ object Form1 : Window, 'ED88C0A1-26AB-11d4-B539-00C04F0196DA'
 
 	object label1 : VCF::Label, 'ED88C09F-26AB-11d4-B539-00C04F0196DA'
 
-		alignment = AlignNone
-
-		anchor = 4
+		anchor = [AnchorLeft,AnchorRight]
 
 		autoStartDragDrop = false
 

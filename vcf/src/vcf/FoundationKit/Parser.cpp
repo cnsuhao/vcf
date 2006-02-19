@@ -324,17 +324,6 @@ String Parser::tokenString()
 
 bool Parser::tokenSymbolIs(const String& s)
 {
-/*
-	//only work under WIN32 for the moment - need to replace _stricmp
-#if defined(_MSC_VER) || defined (VCF_BCC)
-	return (token_ == TO_SYMBOL) && ( _wcsicmp( s.c_str(), tokenString().c_str() ) == 0 );
-#elif defined(VCF_CW)
-	return (token_ == TO_SYMBOL) && ( wcscmp( StringUtils::lowerCase(s).c_str(), 
-											StringUtils::lowerCase(tokenString()).c_str() ) ==0);
-#else
-	return false;
-#endif
-*/
 	return (token_ == TO_SYMBOL) && (StringUtils::noCaseCompare( s, tokenString() ) == 0);
 }
 
@@ -342,6 +331,9 @@ bool Parser::tokenSymbolIs(const String& s)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.6  2006/02/19 02:07:46  ddiego
+*mac osx update.
+*
 *Revision 1.3.2.5  2006/01/22 05:50:09  ddiego
 *added case insensitive string compare to string utils class.
 *

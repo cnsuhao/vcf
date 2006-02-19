@@ -609,13 +609,9 @@
 		5E73425D082E76C300CDD184 /* ApplicationKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEA20648693B00A8020D /* ApplicationKit.cpp */; };
 		5E73425E082E76C300CDD184 /* Basic3DBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEAB0648693B00A8020D /* Basic3DBorder.cpp */; };
 		5E73425F082E76C300CDD184 /* BasicTableItemEditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEAD0648693C00A8020D /* BasicTableItemEditor.cpp */; };
-		5E734260082E76C300CDD184 /* ButtonEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEB10648693C00A8020D /* ButtonEvent.cpp */; };
 		5E734261082E76C300CDD184 /* CheckBoxControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEB40648693C00A8020D /* CheckBoxControl.cpp */; };
 		5E734262082E76C300CDD184 /* Clipboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEB60648693C00A8020D /* Clipboard.cpp */; };
-		5E734263082E76C300CDD184 /* ClipboardEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEB80648693C00A8020D /* ClipboardEvent.cpp */; };
 		5E734264082E76C300CDD184 /* ColorEtchedBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEBB0648693C00A8020D /* ColorEtchedBorder.cpp */; };
-		5E734265082E76C300CDD184 /* ColumnItemEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEBE0648693C00A8020D /* ColumnItemEvent.cpp */; };
-		5E734266082E76C300CDD184 /* ColumnModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEC20648693C00A8020D /* ColumnModelEvent.cpp */; };
 		5E734267082E76C300CDD184 /* ComboBoxControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEC40648693C00A8020D /* ComboBoxControl.cpp */; };
 		5E734268082E76C300CDD184 /* CommandButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDECA0648693C00A8020D /* CommandButton.cpp */; };
 		5E734269082E76C300CDD184 /* CommandGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDECC0648693C00A8020D /* CommandGroup.cpp */; };
@@ -626,7 +622,6 @@
 		5E734274082E76C300CDD184 /* Containers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEED0648693C00A8020D /* Containers.cpp */; };
 		5E734275082E76C300CDD184 /* Control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEEF0648693C00A8020D /* Control.cpp */; };
 		5E734276082E76C300CDD184 /* ControlContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEF10648693C00A8020D /* ControlContainer.cpp */; };
-		5E734277082E76C300CDD184 /* ControlEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEF30648693C00A8020D /* ControlEvent.cpp */; };
 		5E734278082E76C300CDD184 /* ControlGraphicsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEF50648693C00A8020D /* ControlGraphicsContext.cpp */; };
 		5E734279082E76C300CDD184 /* Cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEF90648693C00A8020D /* Cursor.cpp */; };
 		5E73427A082E76C300CDD184 /* CursorManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEFB0648693C00A8020D /* CursorManager.cpp */; };
@@ -651,28 +646,21 @@
 		5E73428D082E76C300CDD184 /* DragSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF310648693C00A8020D /* DragSource.cpp */; };
 		5E73428E082E76C300CDD184 /* DropTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF340648693C00A8020D /* DropTarget.cpp */; };
 		5E73428F082E76C300CDD184 /* EtchedBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF380648693C00A8020D /* EtchedBorder.cpp */; };
-		5E734290082E76C300CDD184 /* FocusEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF3A0648693C00A8020D /* FocusEvent.cpp */; };
 		5E734291082E76C300CDD184 /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF3C0648693C00A8020D /* Frame.cpp */; };
 		5E734292082E76C300CDD184 /* HeaderControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF580648693C00A8020D /* HeaderControl.cpp */; };
-		5E734293082E76C300CDD184 /* HelpEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF5A0648693C00A8020D /* HelpEvent.cpp */; };
 		5E734294082E76C300CDD184 /* HTMLBrowserControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF5C0648693C00A8020D /* HTMLBrowserControl.cpp */; };
 		5E734295082E76C300CDD184 /* ImageControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF5F0648693C00A8020D /* ImageControl.cpp */; };
 		5E734296082E76C300CDD184 /* ImageList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF610648693C00A8020D /* ImageList.cpp */; };
-		5E734297082E76C300CDD184 /* ImageListEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF630648693C00A8020D /* ImageListEvent.cpp */; };
-		5E734298082E76C300CDD184 /* ItemEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF670648693C00A8020D /* ItemEvent.cpp */; };
-		5E734299082E76C300CDD184 /* KeyboardEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF690648693C00A8020D /* KeyboardEvent.cpp */; };
 		5E73429A082E76C300CDD184 /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF6B0648693C00A8020D /* Label.cpp */; };
 		5E73429B082E76C300CDD184 /* LibraryApplication.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF6D0648693C00A8020D /* LibraryApplication.cpp */; };
 		5E73429C082E76C300CDD184 /* Light3DBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF6F0648693C00A8020D /* Light3DBorder.cpp */; };
 		5E73429D082E76C300CDD184 /* LightweightComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF710648693C00A8020D /* LightweightComponent.cpp */; };
 		5E73429E082E76C300CDD184 /* ListBoxControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF730648693C00A8020D /* ListBoxControl.cpp */; };
-		5E73429F082E76C300CDD184 /* ListModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF770648693C00A8020D /* ListModelEvent.cpp */; };
 		5E7342A0082E76C300CDD184 /* ListViewControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF790648693C00A8020D /* ListViewControl.cpp */; };
 		5E7342A1082E76C300CDD184 /* Menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF7C0648693C00A8020D /* Menu.cpp */; };
 		5E7342A2082E76C300CDD184 /* MenuBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF7E0648693C00A8020D /* MenuBar.cpp */; };
 		5E7342A4082E76C300CDD184 /* MessageDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF870648693C00A8020D /* MessageDialog.cpp */; };
 		5E7342A5082E76C300CDD184 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF890648693C00A8020D /* Model.cpp */; };
-		5E7342A6082E76C300CDD184 /* MouseEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF8D0648693C00A8020D /* MouseEvent.cpp */; };
 		5E7342A7082E76C300CDD184 /* MultilineTextControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF8F0648693C00A8020D /* MultilineTextControl.cpp */; };
 		5E7342A8082E76C300CDD184 /* OSXApplicationPeer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF930648693C00A8020D /* OSXApplicationPeer.cpp */; };
 		5E7342AD082E76C300CDD184 /* Panel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFA30648693C00A8020D /* Panel.cpp */; };
@@ -687,27 +675,19 @@
 		5E7342B6082E76C300CDD184 /* StatusBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFC80648693C00A8020D /* StatusBar.cpp */; };
 		5E7342B7082E76C300CDD184 /* TabbedPages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFCA0648693C00A8020D /* TabbedPages.cpp */; };
 		5E7342B8082E76C300CDD184 /* TableControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFCD0648693C00A8020D /* TableControl.cpp */; };
-		5E7342B9082E76C300CDD184 /* TableModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFD10648693C00A8020D /* TableModelEvent.cpp */; };
-		5E7342BA082E76C300CDD184 /* TabModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFD40648693C00A8020D /* TabModelEvent.cpp */; };
 		5E7342BB082E76C300CDD184 /* TextControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFD70648693C00A8020D /* TextControl.cpp */; };
 		5E7342BD082E76C300CDD184 /* TimerComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFDD0648693C00A8020D /* TimerComponent.cpp */; };
-		5E7342BE082E76C300CDD184 /* TimerEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFDF0648693C00A8020D /* TimerEvent.cpp */; };
 		5E7342BF082E76C300CDD184 /* TitledBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFE10648693C00A8020D /* TitledBorder.cpp */; };
 		5E7342C0082E76C300CDD184 /* ToggledButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFE30648693C00A8020D /* ToggledButton.cpp */; };
 		5E7342C1082E76C300CDD184 /* Toolbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFE50648693C00A8020D /* Toolbar.cpp */; };
 		5E7342C2082E76C300CDD184 /* ToolbarDock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFE70648693C00A8020D /* ToolbarDock.cpp */; };
-		5E7342C3082E76C300CDD184 /* ToolTipEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFEA0648693C00A8020D /* ToolTipEvent.cpp */; };
 		5E7342C4082E76C300CDD184 /* TreeControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFEC0648693C00A8020D /* TreeControl.cpp */; };
 		5E7342C5082E76C300CDD184 /* TreeListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFF00648693C00A8020D /* TreeListControl.cpp */; };
-		5E7342C6082E76C300CDD184 /* TreeModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFF30648693C00A8020D /* TreeModelEvent.cpp */; };
 		5E7342C7082E76C300CDD184 /* UIToolkit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFFA0648693C00A8020D /* UIToolkit.cpp */; };
-		5E7342C8082E76C300CDD184 /* UndoRedoEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFFC0648693C00A8020D /* UndoRedoEvent.cpp */; };
 		5E7342C9082E76C300CDD184 /* UndoRedoStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFFE0648693C00A8020D /* UndoRedoStack.cpp */; };
-		5E7342CA082E76C300CDD184 /* ValidationEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0000648693C00A8020D /* ValidationEvent.cpp */; };
 		5E7342CB082E76C300CDD184 /* VFFInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0030648693C00A8020D /* VFFInputStream.cpp */; };
 		5E7342CC082E76C300CDD184 /* VFFOutputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0050648693C00A8020D /* VFFOutputStream.cpp */; };
 		5E7342CE082E76C300CDD184 /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0510648693C00A8020D /* Window.cpp */; };
-		5E7342CF082E76C300CDD184 /* WindowEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0530648693C00A8020D /* WindowEvent.cpp */; };
 		5E7342D0082E76C300CDD184 /* TCarbonEvent.cp in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5A025064DD84E00345023 /* TCarbonEvent.cp */; };
 		5E7342D1082E76C300CDD184 /* TObject.cp in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5A027064DD84E00345023 /* TObject.cp */; };
 		5E7342D2082E76C300CDD184 /* TRect.cp in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5A029064DD84E00345023 /* TRect.cp */; };
@@ -1080,24 +1060,20 @@
 		5EC1A7B40941F53F001EA41D /* BasicTableItemEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEAE0648693C00A8020D /* BasicTableItemEditor.h */; };
 		5EC1A7B50941F53F001EA41D /* Border.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEAF0648693C00A8020D /* Border.h */; };
 		5EC1A7B60941F53F001EA41D /* Button.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEB00648693C00A8020D /* Button.h */; };
-		5EC1A7B70941F53F001EA41D /* ButtonEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEB10648693C00A8020D /* ButtonEvent.cpp */; };
 		5EC1A7B80941F53F001EA41D /* ButtonEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEB20648693C00A8020D /* ButtonEvent.h */; };
 		5EC1A7B90941F53F001EA41D /* ButtonPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEB30648693C00A8020D /* ButtonPeer.h */; };
 		5EC1A7BA0941F53F001EA41D /* CheckBoxControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEB40648693C00A8020D /* CheckBoxControl.cpp */; };
 		5EC1A7BB0941F53F001EA41D /* CheckBoxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEB50648693C00A8020D /* CheckBoxControl.h */; };
 		5EC1A7BC0941F53F001EA41D /* Clipboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEB60648693C00A8020D /* Clipboard.cpp */; };
 		5EC1A7BD0941F53F001EA41D /* Clipboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEB70648693C00A8020D /* Clipboard.h */; };
-		5EC1A7BE0941F53F001EA41D /* ClipboardEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEB80648693C00A8020D /* ClipboardEvent.cpp */; };
 		5EC1A7BF0941F53F001EA41D /* ClipboardEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEB90648693C00A8020D /* ClipboardEvent.h */; };
 		5EC1A7C00941F53F001EA41D /* ClipboardPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEBA0648693C00A8020D /* ClipboardPeer.h */; };
 		5EC1A7C10941F53F001EA41D /* ColorEtchedBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEBB0648693C00A8020D /* ColorEtchedBorder.cpp */; };
 		5EC1A7C20941F53F001EA41D /* ColorEtchedBorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEBC0648693C00A8020D /* ColorEtchedBorder.h */; };
 		5EC1A7C30941F53F001EA41D /* ColumnItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEBD0648693C00A8020D /* ColumnItem.h */; };
-		5EC1A7C40941F53F001EA41D /* ColumnItemEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEBE0648693C00A8020D /* ColumnItemEvent.cpp */; };
 		5EC1A7C50941F53F001EA41D /* ColumnItemEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEBF0648693C00A8020D /* ColumnItemEvent.h */; };
 		5EC1A7C60941F53F001EA41D /* ColumnLayoutContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEC00648693C00A8020D /* ColumnLayoutContainer.h */; };
 		5EC1A7C70941F53F001EA41D /* ColumnModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEC10648693C00A8020D /* ColumnModel.h */; };
-		5EC1A7C80941F53F001EA41D /* ColumnModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEC20648693C00A8020D /* ColumnModelEvent.cpp */; };
 		5EC1A7C90941F53F001EA41D /* ColumnModelEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEC30648693C00A8020D /* ColumnModelEvent.h */; };
 		5EC1A7CA0941F53F001EA41D /* ComboBoxControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEC40648693C00A8020D /* ComboBoxControl.cpp */; };
 		5EC1A7CB0941F53F001EA41D /* ComboBoxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEC50648693C00A8020D /* ComboBoxControl.h */; };
@@ -1137,7 +1113,6 @@
 		5EC1A7ED0941F53F001EA41D /* Control.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEF00648693C00A8020D /* Control.h */; };
 		5EC1A7EE0941F53F001EA41D /* ControlContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEF10648693C00A8020D /* ControlContainer.cpp */; };
 		5EC1A7EF0941F53F001EA41D /* ControlContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEF20648693C00A8020D /* ControlContainer.h */; };
-		5EC1A7F00941F53F001EA41D /* ControlEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEF30648693C00A8020D /* ControlEvent.cpp */; };
 		5EC1A7F10941F53F001EA41D /* ControlEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEF40648693C00A8020D /* ControlEvent.h */; };
 		5EC1A7F20941F53F001EA41D /* ControlGraphicsContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDEF50648693C00A8020D /* ControlGraphicsContext.cpp */; };
 		5EC1A7F30941F53F001EA41D /* ControlGraphicsContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDEF60648693C00A8020D /* ControlGraphicsContext.h */; };
@@ -1203,14 +1178,12 @@
 		5EC1A82F0941F53F001EA41D /* EnumObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF370648693C00A8020D /* EnumObject.h */; };
 		5EC1A8300941F53F001EA41D /* EtchedBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF380648693C00A8020D /* EtchedBorder.cpp */; };
 		5EC1A8310941F53F001EA41D /* EtchedBorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF390648693C00A8020D /* EtchedBorder.h */; };
-		5EC1A8320941F53F001EA41D /* FocusEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF3A0648693C00A8020D /* FocusEvent.cpp */; };
 		5EC1A8330941F53F001EA41D /* FocusEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF3B0648693C00A8020D /* FocusEvent.h */; };
 		5EC1A8340941F53F001EA41D /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF3C0648693C00A8020D /* Frame.cpp */; };
 		5EC1A8350941F53F001EA41D /* Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF3D0648693C00A8020D /* Frame.h */; };
 		5EC1A8360941F53F001EA41D /* FrameEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF3E0648693C00A8020D /* FrameEvent.h */; };
 		5EC1A8370941F53F001EA41D /* HeaderControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF580648693C00A8020D /* HeaderControl.cpp */; };
 		5EC1A8380941F53F001EA41D /* HeaderControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF590648693C00A8020D /* HeaderControl.h */; };
-		5EC1A8390941F53F001EA41D /* HelpEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF5A0648693C00A8020D /* HelpEvent.cpp */; };
 		5EC1A83A0941F53F001EA41D /* HelpEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF5B0648693C00A8020D /* HelpEvent.h */; };
 		5EC1A83B0941F53F001EA41D /* HTMLBrowserControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF5C0648693C00A8020D /* HTMLBrowserControl.cpp */; };
 		5EC1A83C0941F53F001EA41D /* HTMLBrowserControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF5D0648693C00A8020D /* HTMLBrowserControl.h */; };
@@ -1219,13 +1192,10 @@
 		5EC1A83F0941F53F001EA41D /* ImageControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF600648693C00A8020D /* ImageControl.h */; };
 		5EC1A8400941F53F001EA41D /* ImageList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF610648693C00A8020D /* ImageList.cpp */; };
 		5EC1A8410941F53F001EA41D /* ImageList.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF620648693C00A8020D /* ImageList.h */; };
-		5EC1A8420941F53F001EA41D /* ImageListEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF630648693C00A8020D /* ImageListEvent.cpp */; };
 		5EC1A8430941F53F001EA41D /* ImageListEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF640648693C00A8020D /* ImageListEvent.h */; };
 		5EC1A8440941F53F001EA41D /* Item.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF650648693C00A8020D /* Item.h */; };
 		5EC1A8450941F53F001EA41D /* ItemEditorEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF660648693C00A8020D /* ItemEditorEvent.h */; };
-		5EC1A8460941F53F001EA41D /* ItemEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF670648693C00A8020D /* ItemEvent.cpp */; };
 		5EC1A8470941F53F001EA41D /* ItemEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF680648693C00A8020D /* ItemEvent.h */; };
-		5EC1A8480941F53F001EA41D /* KeyboardEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF690648693C00A8020D /* KeyboardEvent.cpp */; };
 		5EC1A8490941F53F001EA41D /* KeyboardEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF6A0648693C00A8020D /* KeyboardEvent.h */; };
 		5EC1A84A0941F53F001EA41D /* Label.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF6B0648693C00A8020D /* Label.cpp */; };
 		5EC1A84B0941F53F001EA41D /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF6C0648693C00A8020D /* Label.h */; };
@@ -1239,7 +1209,6 @@
 		5EC1A8530941F53F001EA41D /* ListBoxControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF740648693C00A8020D /* ListBoxControl.h */; };
 		5EC1A8540941F53F001EA41D /* ListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF750648693C00A8020D /* ListItem.h */; };
 		5EC1A8550941F53F001EA41D /* ListModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF760648693C00A8020D /* ListModel.h */; };
-		5EC1A8560941F53F001EA41D /* ListModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF770648693C00A8020D /* ListModelEvent.cpp */; };
 		5EC1A8570941F53F001EA41D /* ListModelEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF780648693C00A8020D /* ListModelEvent.h */; };
 		5EC1A8580941F53F001EA41D /* ListViewControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF790648693C00A8020D /* ListViewControl.cpp */; };
 		5EC1A8590941F53F001EA41D /* ListViewControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF7A0648693C00A8020D /* ListViewControl.h */; };
@@ -1261,7 +1230,6 @@
 		5EC1A8690941F53F001EA41D /* Model.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF8A0648693C00A8020D /* Model.h */; };
 		5EC1A86A0941F53F001EA41D /* ModelEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF8B0648693C00A8020D /* ModelEvent.h */; };
 		5EC1A86B0941F53F001EA41D /* ModelViewKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF8C0648693C00A8020D /* ModelViewKit.h */; };
-		5EC1A86C0941F53F001EA41D /* MouseEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF8D0648693C00A8020D /* MouseEvent.cpp */; };
 		5EC1A86D0941F53F001EA41D /* MouseEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF8E0648693C00A8020D /* MouseEvent.h */; };
 		5EC1A86E0941F53F001EA41D /* MultilineTextControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDF8F0648693C00A8020D /* MultilineTextControl.cpp */; };
 		5EC1A86F0941F53F001EA41D /* MultilineTextControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDF900648693C00A8020D /* MultilineTextControl.h */; };
@@ -1360,10 +1328,8 @@
 		5EC1A8CC0941F53F001EA41D /* TableControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFCE0648693C00A8020D /* TableControl.h */; };
 		5EC1A8CD0941F53F001EA41D /* TableItemEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFCF0648693C00A8020D /* TableItemEditor.h */; };
 		5EC1A8CE0941F53F001EA41D /* TableModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFD00648693C00A8020D /* TableModel.h */; };
-		5EC1A8CF0941F53F001EA41D /* TableModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFD10648693C00A8020D /* TableModelEvent.cpp */; };
 		5EC1A8D00941F53F001EA41D /* TableModelEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFD20648693C00A8020D /* TableModelEvent.h */; };
 		5EC1A8D10941F53F001EA41D /* TabModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFD30648693C00A8020D /* TabModel.h */; };
-		5EC1A8D20941F53F001EA41D /* TabModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFD40648693C00A8020D /* TabModelEvent.cpp */; };
 		5EC1A8D30941F53F001EA41D /* TabModelEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFD50648693C00A8020D /* TabModelEvent.h */; };
 		5EC1A8D40941F53F001EA41D /* TabPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFD60648693C00A8020D /* TabPage.h */; };
 		5EC1A8D50941F53F001EA41D /* TCarbonEvent.cp in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5A025064DD84E00345023 /* TCarbonEvent.cp */; };
@@ -1375,7 +1341,6 @@
 		5EC1A8DB0941F53F001EA41D /* TextPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFDC0648693C00A8020D /* TextPeer.h */; };
 		5EC1A8DC0941F53F001EA41D /* TimerComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFDD0648693C00A8020D /* TimerComponent.cpp */; };
 		5EC1A8DD0941F53F001EA41D /* TimerComponent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFDE0648693C00A8020D /* TimerComponent.h */; };
-		5EC1A8DE0941F53F001EA41D /* TimerEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFDF0648693C00A8020D /* TimerEvent.cpp */; };
 		5EC1A8DF0941F53F001EA41D /* TimerEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFE00648693C00A8020D /* TimerEvent.h */; };
 		5EC1A8E00941F53F001EA41D /* TitledBorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFE10648693C00A8020D /* TitledBorder.cpp */; };
 		5EC1A8E10941F53F001EA41D /* TitledBorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFE20648693C00A8020D /* TitledBorder.h */; };
@@ -1388,7 +1353,6 @@
 		5EC1A8E80941F53F001EA41D /* ToolbarDock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFE70648693C00A8020D /* ToolbarDock.cpp */; };
 		5EC1A8E90941F53F001EA41D /* ToolbarDock.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFE80648693C00A8020D /* ToolbarDock.h */; };
 		5EC1A8EA0941F53F001EA41D /* ToolbarPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFE90648693C00A8020D /* ToolbarPeer.h */; };
-		5EC1A8EB0941F53F001EA41D /* ToolTipEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFEA0648693C00A8020D /* ToolTipEvent.cpp */; };
 		5EC1A8EC0941F53F001EA41D /* ToolTipEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFEB0648693C00A8020D /* ToolTipEvent.h */; };
 		5EC1A8ED0941F53F001EA41D /* TRect.cp in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5A029064DD84E00345023 /* TRect.cp */; };
 		5EC1A8EE0941F53F001EA41D /* TRect.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EC5A02A064DD84E00345023 /* TRect.h */; };
@@ -1398,7 +1362,6 @@
 		5EC1A8F20941F53F001EA41D /* TreeListControl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFF00648693C00A8020D /* TreeListControl.cpp */; };
 		5EC1A8F30941F53F001EA41D /* TreeListControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFF10648693C00A8020D /* TreeListControl.h */; };
 		5EC1A8F40941F53F001EA41D /* TreeModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFF20648693C00A8020D /* TreeModel.h */; };
-		5EC1A8F50941F53F001EA41D /* TreeModelEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFF30648693C00A8020D /* TreeModelEvent.cpp */; };
 		5EC1A8F60941F53F001EA41D /* TreeModelEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFF40648693C00A8020D /* TreeModelEvent.h */; };
 		5EC1A8F70941F53F001EA41D /* TreePeer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFF50648693C00A8020D /* TreePeer.h */; };
 		5EC1A8F80941F53F001EA41D /* TView.cp in Sources */ = {isa = PBXBuildFile; fileRef = 5EC5A02B064DD84E00345023 /* TView.cp */; };
@@ -1408,11 +1371,9 @@
 		5EC1A8FC0941F53F001EA41D /* UIPolicyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFF90648693C00A8020D /* UIPolicyManager.h */; };
 		5EC1A8FD0941F53F001EA41D /* UIToolkit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFFA0648693C00A8020D /* UIToolkit.cpp */; };
 		5EC1A8FE0941F53F001EA41D /* UIToolkit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFFB0648693C00A8020D /* UIToolkit.h */; };
-		5EC1A8FF0941F53F001EA41D /* UndoRedoEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFFC0648693C00A8020D /* UndoRedoEvent.cpp */; };
 		5EC1A9000941F53F001EA41D /* UndoRedoEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFFD0648693C00A8020D /* UndoRedoEvent.h */; };
 		5EC1A9010941F53F001EA41D /* UndoRedoStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CDFFE0648693C00A8020D /* UndoRedoStack.cpp */; };
 		5EC1A9020941F53F001EA41D /* UndoRedoStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CDFFF0648693C00A8020D /* UndoRedoStack.h */; };
-		5EC1A9030941F53F001EA41D /* ValidationEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0000648693C00A8020D /* ValidationEvent.cpp */; };
 		5EC1A9040941F53F001EA41D /* ValidationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CE0010648693C00A8020D /* ValidationEvent.h */; };
 		5EC1A9050941F53F001EA41D /* VFFInputStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0030648693C00A8020D /* VFFInputStream.cpp */; };
 		5EC1A9060941F53F001EA41D /* VFFInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CE0040648693C00A8020D /* VFFInputStream.h */; };
@@ -1422,7 +1383,6 @@
 		5EC1A90A0941F53F001EA41D /* WhatsThisHelpEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CE0090648693C00A8020D /* WhatsThisHelpEvent.h */; };
 		5EC1A90B0941F53F001EA41D /* Window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0510648693C00A8020D /* Window.cpp */; };
 		5EC1A90C0941F53F001EA41D /* Window.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CE0520648693C00A8020D /* Window.h */; };
-		5EC1A90D0941F53F001EA41D /* WindowEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E2CE0530648693C00A8020D /* WindowEvent.cpp */; };
 		5EC1A90E0941F53F001EA41D /* WindowEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CE0540648693C00A8020D /* WindowEvent.h */; };
 		5EC1A90F0941F53F001EA41D /* WindowPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CE0550648693C00A8020D /* WindowPeer.h */; };
 		5EC1A9100941F53F001EA41D /* Wizard.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E2CE0560648693C00A8020D /* Wizard.h */; };
@@ -1767,24 +1727,20 @@
 		5E2CDEAE0648693C00A8020D /* BasicTableItemEditor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BasicTableItemEditor.h; path = ../../src/vcf/ApplicationKit/BasicTableItemEditor.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEAF0648693C00A8020D /* Border.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Border.h; path = ../../src/vcf/ApplicationKit/Border.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEB00648693C00A8020D /* Button.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Button.h; path = ../../src/vcf/ApplicationKit/Button.h; sourceTree = SOURCE_ROOT; };
-		5E2CDEB10648693C00A8020D /* ButtonEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ButtonEvent.cpp; path = ../../src/vcf/ApplicationKit/ButtonEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEB20648693C00A8020D /* ButtonEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ButtonEvent.h; path = ../../src/vcf/ApplicationKit/ButtonEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEB30648693C00A8020D /* ButtonPeer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ButtonPeer.h; path = ../../src/vcf/ApplicationKit/ButtonPeer.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEB40648693C00A8020D /* CheckBoxControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = CheckBoxControl.cpp; path = ../../src/vcf/ApplicationKit/CheckBoxControl.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEB50648693C00A8020D /* CheckBoxControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CheckBoxControl.h; path = ../../src/vcf/ApplicationKit/CheckBoxControl.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEB60648693C00A8020D /* Clipboard.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Clipboard.cpp; path = ../../src/vcf/ApplicationKit/Clipboard.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEB70648693C00A8020D /* Clipboard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Clipboard.h; path = ../../src/vcf/ApplicationKit/Clipboard.h; sourceTree = SOURCE_ROOT; };
-		5E2CDEB80648693C00A8020D /* ClipboardEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ClipboardEvent.cpp; path = ../../src/vcf/ApplicationKit/ClipboardEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEB90648693C00A8020D /* ClipboardEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ClipboardEvent.h; path = ../../src/vcf/ApplicationKit/ClipboardEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEBA0648693C00A8020D /* ClipboardPeer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ClipboardPeer.h; path = ../../src/vcf/ApplicationKit/ClipboardPeer.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEBB0648693C00A8020D /* ColorEtchedBorder.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ColorEtchedBorder.cpp; path = ../../src/vcf/ApplicationKit/ColorEtchedBorder.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEBC0648693C00A8020D /* ColorEtchedBorder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ColorEtchedBorder.h; path = ../../src/vcf/ApplicationKit/ColorEtchedBorder.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEBD0648693C00A8020D /* ColumnItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ColumnItem.h; path = ../../src/vcf/ApplicationKit/ColumnItem.h; sourceTree = SOURCE_ROOT; };
-		5E2CDEBE0648693C00A8020D /* ColumnItemEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ColumnItemEvent.cpp; path = ../../src/vcf/ApplicationKit/ColumnItemEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEBF0648693C00A8020D /* ColumnItemEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ColumnItemEvent.h; path = ../../src/vcf/ApplicationKit/ColumnItemEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEC00648693C00A8020D /* ColumnLayoutContainer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ColumnLayoutContainer.h; path = ../../src/vcf/ApplicationKit/ColumnLayoutContainer.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEC10648693C00A8020D /* ColumnModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ColumnModel.h; path = ../../src/vcf/ApplicationKit/ColumnModel.h; sourceTree = SOURCE_ROOT; };
-		5E2CDEC20648693C00A8020D /* ColumnModelEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ColumnModelEvent.cpp; path = ../../src/vcf/ApplicationKit/ColumnModelEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEC30648693C00A8020D /* ColumnModelEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ColumnModelEvent.h; path = ../../src/vcf/ApplicationKit/ColumnModelEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEC40648693C00A8020D /* ComboBoxControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ComboBoxControl.cpp; path = ../../src/vcf/ApplicationKit/ComboBoxControl.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEC50648693C00A8020D /* ComboBoxControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ComboBoxControl.h; path = ../../src/vcf/ApplicationKit/ComboBoxControl.h; sourceTree = SOURCE_ROOT; };
@@ -1812,7 +1768,6 @@
 		5E2CDEF00648693C00A8020D /* Control.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Control.h; path = ../../src/vcf/ApplicationKit/Control.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEF10648693C00A8020D /* ControlContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ControlContainer.cpp; path = ../../src/vcf/ApplicationKit/ControlContainer.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEF20648693C00A8020D /* ControlContainer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ControlContainer.h; path = ../../src/vcf/ApplicationKit/ControlContainer.h; sourceTree = SOURCE_ROOT; };
-		5E2CDEF30648693C00A8020D /* ControlEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ControlEvent.cpp; path = ../../src/vcf/ApplicationKit/ControlEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEF40648693C00A8020D /* ControlEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ControlEvent.h; path = ../../src/vcf/ApplicationKit/ControlEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDEF50648693C00A8020D /* ControlGraphicsContext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ControlGraphicsContext.cpp; path = ../../src/vcf/ApplicationKit/ControlGraphicsContext.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDEF60648693C00A8020D /* ControlGraphicsContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ControlGraphicsContext.h; path = ../../src/vcf/ApplicationKit/ControlGraphicsContext.h; sourceTree = SOURCE_ROOT; };
@@ -1878,14 +1833,12 @@
 		5E2CDF370648693C00A8020D /* EnumObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EnumObject.h; path = ../../src/vcf/ApplicationKit/EnumObject.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF380648693C00A8020D /* EtchedBorder.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = EtchedBorder.cpp; path = ../../src/vcf/ApplicationKit/EtchedBorder.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF390648693C00A8020D /* EtchedBorder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = EtchedBorder.h; path = ../../src/vcf/ApplicationKit/EtchedBorder.h; sourceTree = SOURCE_ROOT; };
-		5E2CDF3A0648693C00A8020D /* FocusEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = FocusEvent.cpp; path = ../../src/vcf/ApplicationKit/FocusEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF3B0648693C00A8020D /* FocusEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FocusEvent.h; path = ../../src/vcf/ApplicationKit/FocusEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF3C0648693C00A8020D /* Frame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Frame.cpp; path = ../../src/vcf/ApplicationKit/Frame.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF3D0648693C00A8020D /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Frame.h; path = ../../src/vcf/ApplicationKit/Frame.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF3E0648693C00A8020D /* FrameEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = FrameEvent.h; path = ../../src/vcf/ApplicationKit/FrameEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF580648693C00A8020D /* HeaderControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = HeaderControl.cpp; path = ../../src/vcf/ApplicationKit/HeaderControl.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF590648693C00A8020D /* HeaderControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HeaderControl.h; path = ../../src/vcf/ApplicationKit/HeaderControl.h; sourceTree = SOURCE_ROOT; };
-		5E2CDF5A0648693C00A8020D /* HelpEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = HelpEvent.cpp; path = ../../src/vcf/ApplicationKit/HelpEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF5B0648693C00A8020D /* HelpEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HelpEvent.h; path = ../../src/vcf/ApplicationKit/HelpEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF5C0648693C00A8020D /* HTMLBrowserControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = HTMLBrowserControl.cpp; path = ../../src/vcf/ApplicationKit/HTMLBrowserControl.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF5D0648693C00A8020D /* HTMLBrowserControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = HTMLBrowserControl.h; path = ../../src/vcf/ApplicationKit/HTMLBrowserControl.h; sourceTree = SOURCE_ROOT; };
@@ -1894,13 +1847,10 @@
 		5E2CDF600648693C00A8020D /* ImageControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ImageControl.h; path = ../../src/vcf/ApplicationKit/ImageControl.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF610648693C00A8020D /* ImageList.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ImageList.cpp; path = ../../src/vcf/ApplicationKit/ImageList.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF620648693C00A8020D /* ImageList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ImageList.h; path = ../../src/vcf/ApplicationKit/ImageList.h; sourceTree = SOURCE_ROOT; };
-		5E2CDF630648693C00A8020D /* ImageListEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ImageListEvent.cpp; path = ../../src/vcf/ApplicationKit/ImageListEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF640648693C00A8020D /* ImageListEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ImageListEvent.h; path = ../../src/vcf/ApplicationKit/ImageListEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF650648693C00A8020D /* Item.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Item.h; path = ../../src/vcf/ApplicationKit/Item.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF660648693C00A8020D /* ItemEditorEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ItemEditorEvent.h; path = ../../src/vcf/ApplicationKit/ItemEditorEvent.h; sourceTree = SOURCE_ROOT; };
-		5E2CDF670648693C00A8020D /* ItemEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ItemEvent.cpp; path = ../../src/vcf/ApplicationKit/ItemEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF680648693C00A8020D /* ItemEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ItemEvent.h; path = ../../src/vcf/ApplicationKit/ItemEvent.h; sourceTree = SOURCE_ROOT; };
-		5E2CDF690648693C00A8020D /* KeyboardEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = KeyboardEvent.cpp; path = ../../src/vcf/ApplicationKit/KeyboardEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF6A0648693C00A8020D /* KeyboardEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = KeyboardEvent.h; path = ../../src/vcf/ApplicationKit/KeyboardEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF6B0648693C00A8020D /* Label.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Label.cpp; path = ../../src/vcf/ApplicationKit/Label.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF6C0648693C00A8020D /* Label.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Label.h; path = ../../src/vcf/ApplicationKit/Label.h; sourceTree = SOURCE_ROOT; };
@@ -1914,7 +1864,6 @@
 		5E2CDF740648693C00A8020D /* ListBoxControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ListBoxControl.h; path = ../../src/vcf/ApplicationKit/ListBoxControl.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF750648693C00A8020D /* ListItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ListItem.h; path = ../../src/vcf/ApplicationKit/ListItem.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF760648693C00A8020D /* ListModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ListModel.h; path = ../../src/vcf/ApplicationKit/ListModel.h; sourceTree = SOURCE_ROOT; };
-		5E2CDF770648693C00A8020D /* ListModelEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ListModelEvent.cpp; path = ../../src/vcf/ApplicationKit/ListModelEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF780648693C00A8020D /* ListModelEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ListModelEvent.h; path = ../../src/vcf/ApplicationKit/ListModelEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF790648693C00A8020D /* ListViewControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ListViewControl.cpp; path = ../../src/vcf/ApplicationKit/ListViewControl.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF7A0648693C00A8020D /* ListViewControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ListViewControl.h; path = ../../src/vcf/ApplicationKit/ListViewControl.h; sourceTree = SOURCE_ROOT; };
@@ -1933,7 +1882,6 @@
 		5E2CDF8A0648693C00A8020D /* Model.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Model.h; path = ../../src/vcf/ApplicationKit/Model.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF8B0648693C00A8020D /* ModelEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ModelEvent.h; path = ../../src/vcf/ApplicationKit/ModelEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF8C0648693C00A8020D /* ModelViewKit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ModelViewKit.h; path = ../../src/vcf/ApplicationKit/ModelViewKit.h; sourceTree = SOURCE_ROOT; };
-		5E2CDF8D0648693C00A8020D /* MouseEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MouseEvent.cpp; path = ../../src/vcf/ApplicationKit/MouseEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF8E0648693C00A8020D /* MouseEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MouseEvent.h; path = ../../src/vcf/ApplicationKit/MouseEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDF8F0648693C00A8020D /* MultilineTextControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = MultilineTextControl.cpp; path = ../../src/vcf/ApplicationKit/MultilineTextControl.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDF900648693C00A8020D /* MultilineTextControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MultilineTextControl.h; path = ../../src/vcf/ApplicationKit/MultilineTextControl.h; sourceTree = SOURCE_ROOT; };
@@ -1982,10 +1930,8 @@
 		5E2CDFCE0648693C00A8020D /* TableControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TableControl.h; path = ../../src/vcf/ApplicationKit/TableControl.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFCF0648693C00A8020D /* TableItemEditor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TableItemEditor.h; path = ../../src/vcf/ApplicationKit/TableItemEditor.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFD00648693C00A8020D /* TableModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TableModel.h; path = ../../src/vcf/ApplicationKit/TableModel.h; sourceTree = SOURCE_ROOT; };
-		5E2CDFD10648693C00A8020D /* TableModelEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TableModelEvent.cpp; path = ../../src/vcf/ApplicationKit/TableModelEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFD20648693C00A8020D /* TableModelEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TableModelEvent.h; path = ../../src/vcf/ApplicationKit/TableModelEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFD30648693C00A8020D /* TabModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TabModel.h; path = ../../src/vcf/ApplicationKit/TabModel.h; sourceTree = SOURCE_ROOT; };
-		5E2CDFD40648693C00A8020D /* TabModelEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TabModelEvent.cpp; path = ../../src/vcf/ApplicationKit/TabModelEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFD50648693C00A8020D /* TabModelEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TabModelEvent.h; path = ../../src/vcf/ApplicationKit/TabModelEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFD60648693C00A8020D /* TabPage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TabPage.h; path = ../../src/vcf/ApplicationKit/TabPage.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFD70648693C00A8020D /* TextControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TextControl.cpp; path = ../../src/vcf/ApplicationKit/TextControl.cpp; sourceTree = SOURCE_ROOT; };
@@ -1995,7 +1941,6 @@
 		5E2CDFDC0648693C00A8020D /* TextPeer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TextPeer.h; path = ../../src/vcf/ApplicationKit/TextPeer.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFDD0648693C00A8020D /* TimerComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TimerComponent.cpp; path = ../../src/vcf/ApplicationKit/TimerComponent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFDE0648693C00A8020D /* TimerComponent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TimerComponent.h; path = ../../src/vcf/ApplicationKit/TimerComponent.h; sourceTree = SOURCE_ROOT; };
-		5E2CDFDF0648693C00A8020D /* TimerEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TimerEvent.cpp; path = ../../src/vcf/ApplicationKit/TimerEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFE00648693C00A8020D /* TimerEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TimerEvent.h; path = ../../src/vcf/ApplicationKit/TimerEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFE10648693C00A8020D /* TitledBorder.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TitledBorder.cpp; path = ../../src/vcf/ApplicationKit/TitledBorder.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFE20648693C00A8020D /* TitledBorder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TitledBorder.h; path = ../../src/vcf/ApplicationKit/TitledBorder.h; sourceTree = SOURCE_ROOT; };
@@ -2006,7 +1951,6 @@
 		5E2CDFE70648693C00A8020D /* ToolbarDock.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ToolbarDock.cpp; path = ../../src/vcf/ApplicationKit/ToolbarDock.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFE80648693C00A8020D /* ToolbarDock.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToolbarDock.h; path = ../../src/vcf/ApplicationKit/ToolbarDock.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFE90648693C00A8020D /* ToolbarPeer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToolbarPeer.h; path = ../../src/vcf/ApplicationKit/ToolbarPeer.h; sourceTree = SOURCE_ROOT; };
-		5E2CDFEA0648693C00A8020D /* ToolTipEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ToolTipEvent.cpp; path = ../../src/vcf/ApplicationKit/ToolTipEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFEB0648693C00A8020D /* ToolTipEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ToolTipEvent.h; path = ../../src/vcf/ApplicationKit/ToolTipEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFEC0648693C00A8020D /* TreeControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TreeControl.cpp; path = ../../src/vcf/ApplicationKit/TreeControl.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFED0648693C00A8020D /* TreeControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TreeControl.h; path = ../../src/vcf/ApplicationKit/TreeControl.h; sourceTree = SOURCE_ROOT; };
@@ -2014,7 +1958,6 @@
 		5E2CDFF00648693C00A8020D /* TreeListControl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TreeListControl.cpp; path = ../../src/vcf/ApplicationKit/TreeListControl.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFF10648693C00A8020D /* TreeListControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TreeListControl.h; path = ../../src/vcf/ApplicationKit/TreeListControl.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFF20648693C00A8020D /* TreeModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TreeModel.h; path = ../../src/vcf/ApplicationKit/TreeModel.h; sourceTree = SOURCE_ROOT; };
-		5E2CDFF30648693C00A8020D /* TreeModelEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = TreeModelEvent.cpp; path = ../../src/vcf/ApplicationKit/TreeModelEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFF40648693C00A8020D /* TreeModelEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TreeModelEvent.h; path = ../../src/vcf/ApplicationKit/TreeModelEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFF50648693C00A8020D /* TreePeer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TreePeer.h; path = ../../src/vcf/ApplicationKit/TreePeer.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFF70648693C00A8020D /* UIApplication.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UIApplication.h; path = ../../src/vcf/ApplicationKit/UIApplication.h; sourceTree = SOURCE_ROOT; };
@@ -2022,11 +1965,9 @@
 		5E2CDFF90648693C00A8020D /* UIPolicyManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UIPolicyManager.h; path = ../../src/vcf/ApplicationKit/UIPolicyManager.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFFA0648693C00A8020D /* UIToolkit.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UIToolkit.cpp; path = ../../src/vcf/ApplicationKit/UIToolkit.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFFB0648693C00A8020D /* UIToolkit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UIToolkit.h; path = ../../src/vcf/ApplicationKit/UIToolkit.h; sourceTree = SOURCE_ROOT; };
-		5E2CDFFC0648693C00A8020D /* UndoRedoEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UndoRedoEvent.cpp; path = ../../src/vcf/ApplicationKit/UndoRedoEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFFD0648693C00A8020D /* UndoRedoEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UndoRedoEvent.h; path = ../../src/vcf/ApplicationKit/UndoRedoEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CDFFE0648693C00A8020D /* UndoRedoStack.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = UndoRedoStack.cpp; path = ../../src/vcf/ApplicationKit/UndoRedoStack.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CDFFF0648693C00A8020D /* UndoRedoStack.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UndoRedoStack.h; path = ../../src/vcf/ApplicationKit/UndoRedoStack.h; sourceTree = SOURCE_ROOT; };
-		5E2CE0000648693C00A8020D /* ValidationEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ValidationEvent.cpp; path = ../../src/vcf/ApplicationKit/ValidationEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CE0010648693C00A8020D /* ValidationEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ValidationEvent.h; path = ../../src/vcf/ApplicationKit/ValidationEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CE0030648693C00A8020D /* VFFInputStream.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = VFFInputStream.cpp; path = ../../src/vcf/ApplicationKit/VFFInputStream.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CE0040648693C00A8020D /* VFFInputStream.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = VFFInputStream.h; path = ../../src/vcf/ApplicationKit/VFFInputStream.h; sourceTree = SOURCE_ROOT; };
@@ -2036,7 +1977,6 @@
 		5E2CE0090648693C00A8020D /* WhatsThisHelpEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WhatsThisHelpEvent.h; path = ../../src/vcf/ApplicationKit/WhatsThisHelpEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CE0510648693C00A8020D /* Window.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Window.cpp; path = ../../src/vcf/ApplicationKit/Window.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CE0520648693C00A8020D /* Window.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Window.h; path = ../../src/vcf/ApplicationKit/Window.h; sourceTree = SOURCE_ROOT; };
-		5E2CE0530648693C00A8020D /* WindowEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = WindowEvent.cpp; path = ../../src/vcf/ApplicationKit/WindowEvent.cpp; sourceTree = SOURCE_ROOT; };
 		5E2CE0540648693C00A8020D /* WindowEvent.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WindowEvent.h; path = ../../src/vcf/ApplicationKit/WindowEvent.h; sourceTree = SOURCE_ROOT; };
 		5E2CE0550648693C00A8020D /* WindowPeer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WindowPeer.h; path = ../../src/vcf/ApplicationKit/WindowPeer.h; sourceTree = SOURCE_ROOT; };
 		5E2CE0560648693C00A8020D /* Wizard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Wizard.h; path = ../../src/vcf/ApplicationKit/Wizard.h; sourceTree = SOURCE_ROOT; };
@@ -2889,12 +2829,8 @@
 				5E2CDEA20648693B00A8020D /* ApplicationKit.cpp */,
 				5E2CDEAB0648693B00A8020D /* Basic3DBorder.cpp */,
 				5E2CDEAD0648693C00A8020D /* BasicTableItemEditor.cpp */,
-				5E2CDEB10648693C00A8020D /* ButtonEvent.cpp */,
 				5E2CDEB60648693C00A8020D /* Clipboard.cpp */,
-				5E2CDEB80648693C00A8020D /* ClipboardEvent.cpp */,
 				5E2CDEBB0648693C00A8020D /* ColorEtchedBorder.cpp */,
-				5E2CDEBE0648693C00A8020D /* ColumnItemEvent.cpp */,
-				5E2CDEC20648693C00A8020D /* ColumnModelEvent.cpp */,
 				5E2CDECC0648693C00A8020D /* CommandGroup.cpp */,
 				5E2CDED40648693C00A8020D /* CommonFileDialog.cpp */,
 				5E2CDEDE0648693C00A8020D /* Component.cpp */,
@@ -2902,7 +2838,6 @@
 				5E2CDEE40648693C00A8020D /* ComponentInfo.cpp */,
 				5E2CDEED0648693C00A8020D /* Containers.cpp */,
 				5E2CDEEF0648693C00A8020D /* Control.cpp */,
-				5E2CDEF30648693C00A8020D /* ControlEvent.cpp */,
 				5E2CDEF50648693C00A8020D /* ControlGraphicsContext.cpp */,
 				5E2CDEF90648693C00A8020D /* Cursor.cpp */,
 				5E2CDEFB0648693C00A8020D /* CursorManager.cpp */,
@@ -2913,38 +2848,23 @@
 				5E2CDF310648693C00A8020D /* DragSource.cpp */,
 				5E2CDF340648693C00A8020D /* DropTarget.cpp */,
 				5E2CDF380648693C00A8020D /* EtchedBorder.cpp */,
-				5E2CDF3A0648693C00A8020D /* FocusEvent.cpp */,
 				5E2CDF3C0648693C00A8020D /* Frame.cpp */,
-				5E2CDF5A0648693C00A8020D /* HelpEvent.cpp */,
 				5E2CDF610648693C00A8020D /* ImageList.cpp */,
-				5E2CDF630648693C00A8020D /* ImageListEvent.cpp */,
-				5E2CDF670648693C00A8020D /* ItemEvent.cpp */,
-				5E2CDF690648693C00A8020D /* KeyboardEvent.cpp */,
 				5E2CDF6D0648693C00A8020D /* LibraryApplication.cpp */,
 				5E2CDF6F0648693C00A8020D /* Light3DBorder.cpp */,
-				5E2CDF770648693C00A8020D /* ListModelEvent.cpp */,
 				5E2CDF7C0648693C00A8020D /* Menu.cpp */,
 				5E2CDF7E0648693C00A8020D /* MenuBar.cpp */,
 				5E2CDF870648693C00A8020D /* MessageDialog.cpp */,
-				5E2CDF8D0648693C00A8020D /* MouseEvent.cpp */,
 				5E2CDFA50648693C00A8020D /* PopupMenu.cpp */,
 				5E2CDFAD0648693C00A8020D /* PropertyEditorManager.cpp */,
 				5E2CDFBD0648693C00A8020D /* ScrollbarManager.cpp */,
-				5E2CDFD40648693C00A8020D /* TabModelEvent.cpp */,
-				5E2CDFD10648693C00A8020D /* TableModelEvent.cpp */,
 				5E2CDFDD0648693C00A8020D /* TimerComponent.cpp */,
-				5E2CDFDF0648693C00A8020D /* TimerEvent.cpp */,
 				5E2CDFE10648693C00A8020D /* TitledBorder.cpp */,
-				5E2CDFEA0648693C00A8020D /* ToolTipEvent.cpp */,
-				5E2CDFF30648693C00A8020D /* TreeModelEvent.cpp */,
 				5E2CDFFA0648693C00A8020D /* UIToolkit.cpp */,
-				5E2CDFFC0648693C00A8020D /* UndoRedoEvent.cpp */,
 				5E2CDFFE0648693C00A8020D /* UndoRedoStack.cpp */,
 				5E2CE0030648693C00A8020D /* VFFInputStream.cpp */,
 				5E2CE0050648693C00A8020D /* VFFOutputStream.cpp */,
-				5E2CE0000648693C00A8020D /* ValidationEvent.cpp */,
 				5E2CE0510648693C00A8020D /* Window.cpp */,
-				5E2CE0530648693C00A8020D /* WindowEvent.cpp */,
 				5E2CDEA50648693B00A8020D /* ApplicationKitRTTI.inl */,
 			);
 			name = Sources;
@@ -5018,13 +4938,9 @@
 				5E73425D082E76C300CDD184 /* ApplicationKit.cpp in Sources */,
 				5E73425E082E76C300CDD184 /* Basic3DBorder.cpp in Sources */,
 				5E73425F082E76C300CDD184 /* BasicTableItemEditor.cpp in Sources */,
-				5E734260082E76C300CDD184 /* ButtonEvent.cpp in Sources */,
 				5E734261082E76C300CDD184 /* CheckBoxControl.cpp in Sources */,
 				5E734262082E76C300CDD184 /* Clipboard.cpp in Sources */,
-				5E734263082E76C300CDD184 /* ClipboardEvent.cpp in Sources */,
 				5E734264082E76C300CDD184 /* ColorEtchedBorder.cpp in Sources */,
-				5E734265082E76C300CDD184 /* ColumnItemEvent.cpp in Sources */,
-				5E734266082E76C300CDD184 /* ColumnModelEvent.cpp in Sources */,
 				5E734267082E76C300CDD184 /* ComboBoxControl.cpp in Sources */,
 				5E734268082E76C300CDD184 /* CommandButton.cpp in Sources */,
 				5E734269082E76C300CDD184 /* CommandGroup.cpp in Sources */,
@@ -5035,7 +4951,6 @@
 				5E734274082E76C300CDD184 /* Containers.cpp in Sources */,
 				5E734275082E76C300CDD184 /* Control.cpp in Sources */,
 				5E734276082E76C300CDD184 /* ControlContainer.cpp in Sources */,
-				5E734277082E76C300CDD184 /* ControlEvent.cpp in Sources */,
 				5E734278082E76C300CDD184 /* ControlGraphicsContext.cpp in Sources */,
 				5E734279082E76C300CDD184 /* Cursor.cpp in Sources */,
 				5E73427A082E76C300CDD184 /* CursorManager.cpp in Sources */,
@@ -5060,28 +4975,21 @@
 				5E73428D082E76C300CDD184 /* DragSource.cpp in Sources */,
 				5E73428E082E76C300CDD184 /* DropTarget.cpp in Sources */,
 				5E73428F082E76C300CDD184 /* EtchedBorder.cpp in Sources */,
-				5E734290082E76C300CDD184 /* FocusEvent.cpp in Sources */,
 				5E734291082E76C300CDD184 /* Frame.cpp in Sources */,
 				5E734292082E76C300CDD184 /* HeaderControl.cpp in Sources */,
-				5E734293082E76C300CDD184 /* HelpEvent.cpp in Sources */,
 				5E734294082E76C300CDD184 /* HTMLBrowserControl.cpp in Sources */,
 				5E734295082E76C300CDD184 /* ImageControl.cpp in Sources */,
 				5E734296082E76C300CDD184 /* ImageList.cpp in Sources */,
-				5E734297082E76C300CDD184 /* ImageListEvent.cpp in Sources */,
-				5E734298082E76C300CDD184 /* ItemEvent.cpp in Sources */,
-				5E734299082E76C300CDD184 /* KeyboardEvent.cpp in Sources */,
 				5E73429A082E76C300CDD184 /* Label.cpp in Sources */,
 				5E73429B082E76C300CDD184 /* LibraryApplication.cpp in Sources */,
 				5E73429C082E76C300CDD184 /* Light3DBorder.cpp in Sources */,
 				5E73429D082E76C300CDD184 /* LightweightComponent.cpp in Sources */,
 				5E73429E082E76C300CDD184 /* ListBoxControl.cpp in Sources */,
-				5E73429F082E76C300CDD184 /* ListModelEvent.cpp in Sources */,
 				5E7342A0082E76C300CDD184 /* ListViewControl.cpp in Sources */,
 				5E7342A1082E76C300CDD184 /* Menu.cpp in Sources */,
 				5E7342A2082E76C300CDD184 /* MenuBar.cpp in Sources */,
 				5E7342A4082E76C300CDD184 /* MessageDialog.cpp in Sources */,
 				5E7342A5082E76C300CDD184 /* Model.cpp in Sources */,
-				5E7342A6082E76C300CDD184 /* MouseEvent.cpp in Sources */,
 				5E7342A7082E76C300CDD184 /* MultilineTextControl.cpp in Sources */,
 				5E7342A8082E76C300CDD184 /* OSXApplicationPeer.cpp in Sources */,
 				5E7342AD082E76C300CDD184 /* Panel.cpp in Sources */,
@@ -5096,27 +5004,19 @@
 				5E7342B6082E76C300CDD184 /* StatusBar.cpp in Sources */,
 				5E7342B7082E76C300CDD184 /* TabbedPages.cpp in Sources */,
 				5E7342B8082E76C300CDD184 /* TableControl.cpp in Sources */,
-				5E7342B9082E76C300CDD184 /* TableModelEvent.cpp in Sources */,
-				5E7342BA082E76C300CDD184 /* TabModelEvent.cpp in Sources */,
 				5E7342BB082E76C300CDD184 /* TextControl.cpp in Sources */,
 				5E7342BD082E76C300CDD184 /* TimerComponent.cpp in Sources */,
-				5E7342BE082E76C300CDD184 /* TimerEvent.cpp in Sources */,
 				5E7342BF082E76C300CDD184 /* TitledBorder.cpp in Sources */,
 				5E7342C0082E76C300CDD184 /* ToggledButton.cpp in Sources */,
 				5E7342C1082E76C300CDD184 /* Toolbar.cpp in Sources */,
 				5E7342C2082E76C300CDD184 /* ToolbarDock.cpp in Sources */,
-				5E7342C3082E76C300CDD184 /* ToolTipEvent.cpp in Sources */,
 				5E7342C4082E76C300CDD184 /* TreeControl.cpp in Sources */,
 				5E7342C5082E76C300CDD184 /* TreeListControl.cpp in Sources */,
-				5E7342C6082E76C300CDD184 /* TreeModelEvent.cpp in Sources */,
 				5E7342C7082E76C300CDD184 /* UIToolkit.cpp in Sources */,
-				5E7342C8082E76C300CDD184 /* UndoRedoEvent.cpp in Sources */,
 				5E7342C9082E76C300CDD184 /* UndoRedoStack.cpp in Sources */,
-				5E7342CA082E76C300CDD184 /* ValidationEvent.cpp in Sources */,
 				5E7342CB082E76C300CDD184 /* VFFInputStream.cpp in Sources */,
 				5E7342CC082E76C300CDD184 /* VFFOutputStream.cpp in Sources */,
 				5E7342CE082E76C300CDD184 /* Window.cpp in Sources */,
-				5E7342CF082E76C300CDD184 /* WindowEvent.cpp in Sources */,
 				5E7342D0082E76C300CDD184 /* TCarbonEvent.cp in Sources */,
 				5E7342D1082E76C300CDD184 /* TObject.cp in Sources */,
 				5E7342D2082E76C300CDD184 /* TRect.cp in Sources */,
@@ -5283,13 +5183,9 @@
 				5EC1A7AC0941F53F001EA41D /* ApplicationResourceBundle.cpp in Sources */,
 				5EC1A7B10941F53F001EA41D /* Basic3DBorder.cpp in Sources */,
 				5EC1A7B30941F53F001EA41D /* BasicTableItemEditor.cpp in Sources */,
-				5EC1A7B70941F53F001EA41D /* ButtonEvent.cpp in Sources */,
 				5EC1A7BA0941F53F001EA41D /* CheckBoxControl.cpp in Sources */,
 				5EC1A7BC0941F53F001EA41D /* Clipboard.cpp in Sources */,
-				5EC1A7BE0941F53F001EA41D /* ClipboardEvent.cpp in Sources */,
 				5EC1A7C10941F53F001EA41D /* ColorEtchedBorder.cpp in Sources */,
-				5EC1A7C40941F53F001EA41D /* ColumnItemEvent.cpp in Sources */,
-				5EC1A7C80941F53F001EA41D /* ColumnModelEvent.cpp in Sources */,
 				5EC1A7CA0941F53F001EA41D /* ComboBoxControl.cpp in Sources */,
 				5EC1A7CD0941F53F001EA41D /* CommandButton.cpp in Sources */,
 				5EC1A7CF0941F53F001EA41D /* CommandGroup.cpp in Sources */,
@@ -5306,7 +5202,6 @@
 				5EC1A7EA0941F53F001EA41D /* Containers.cpp in Sources */,
 				5EC1A7EC0941F53F001EA41D /* Control.cpp in Sources */,
 				5EC1A7EE0941F53F001EA41D /* ControlContainer.cpp in Sources */,
-				5EC1A7F00941F53F001EA41D /* ControlEvent.cpp in Sources */,
 				5EC1A7F20941F53F001EA41D /* ControlGraphicsContext.cpp in Sources */,
 				5EC1A7F60941F53F001EA41D /* Cursor.cpp in Sources */,
 				5EC1A7F80941F53F001EA41D /* CursorManager.cpp in Sources */,
@@ -5331,29 +5226,22 @@
 				5EC1A8290941F53F001EA41D /* DragSource.cpp in Sources */,
 				5EC1A82C0941F53F001EA41D /* DropTarget.cpp in Sources */,
 				5EC1A8300941F53F001EA41D /* EtchedBorder.cpp in Sources */,
-				5EC1A8320941F53F001EA41D /* FocusEvent.cpp in Sources */,
 				5EC1A8340941F53F001EA41D /* Frame.cpp in Sources */,
 				5EC1A8370941F53F001EA41D /* HeaderControl.cpp in Sources */,
-				5EC1A8390941F53F001EA41D /* HelpEvent.cpp in Sources */,
 				5EC1A83B0941F53F001EA41D /* HTMLBrowserControl.cpp in Sources */,
 				5EC1A83E0941F53F001EA41D /* ImageControl.cpp in Sources */,
 				5EC1A8400941F53F001EA41D /* ImageList.cpp in Sources */,
-				5EC1A8420941F53F001EA41D /* ImageListEvent.cpp in Sources */,
-				5EC1A8460941F53F001EA41D /* ItemEvent.cpp in Sources */,
-				5EC1A8480941F53F001EA41D /* KeyboardEvent.cpp in Sources */,
 				5EC1A84A0941F53F001EA41D /* Label.cpp in Sources */,
 				5EC1A84C0941F53F001EA41D /* LibraryApplication.cpp in Sources */,
 				5EC1A84E0941F53F001EA41D /* Light3DBorder.cpp in Sources */,
 				5EC1A8500941F53F001EA41D /* LightweightComponent.cpp in Sources */,
 				5EC1A8520941F53F001EA41D /* ListBoxControl.cpp in Sources */,
-				5EC1A8560941F53F001EA41D /* ListModelEvent.cpp in Sources */,
 				5EC1A8580941F53F001EA41D /* ListViewControl.cpp in Sources */,
 				5EC1A85B0941F53F001EA41D /* Menu.cpp in Sources */,
 				5EC1A85D0941F53F001EA41D /* MenuBar.cpp in Sources */,
 				5EC1A8630941F53F001EA41D /* MenuManager.cpp in Sources */,
 				5EC1A8660941F53F001EA41D /* MessageDialog.cpp in Sources */,
 				5EC1A8680941F53F001EA41D /* Model.cpp in Sources */,
-				5EC1A86C0941F53F001EA41D /* MouseEvent.cpp in Sources */,
 				5EC1A86E0941F53F001EA41D /* MultilineTextControl.cpp in Sources */,
 				5EC1A8700941F53F001EA41D /* OSXApplicationPeer.cpp in Sources */,
 				5EC1A8720941F53F001EA41D /* OSXAppResourceBundle.cpp in Sources */,
@@ -5396,31 +5284,23 @@
 				5EC1A8C50941F53F001EA41D /* SystemTray.cpp in Sources */,
 				5EC1A8C80941F53F001EA41D /* TabbedPages.cpp in Sources */,
 				5EC1A8CB0941F53F001EA41D /* TableControl.cpp in Sources */,
-				5EC1A8CF0941F53F001EA41D /* TableModelEvent.cpp in Sources */,
-				5EC1A8D20941F53F001EA41D /* TabModelEvent.cpp in Sources */,
 				5EC1A8D50941F53F001EA41D /* TCarbonEvent.cp in Sources */,
 				5EC1A8D70941F53F001EA41D /* TextControl.cpp in Sources */,
 				5EC1A8DC0941F53F001EA41D /* TimerComponent.cpp in Sources */,
-				5EC1A8DE0941F53F001EA41D /* TimerEvent.cpp in Sources */,
 				5EC1A8E00941F53F001EA41D /* TitledBorder.cpp in Sources */,
 				5EC1A8E20941F53F001EA41D /* TObject.cp in Sources */,
 				5EC1A8E40941F53F001EA41D /* ToggledButton.cpp in Sources */,
 				5EC1A8E60941F53F001EA41D /* Toolbar.cpp in Sources */,
 				5EC1A8E80941F53F001EA41D /* ToolbarDock.cpp in Sources */,
-				5EC1A8EB0941F53F001EA41D /* ToolTipEvent.cpp in Sources */,
 				5EC1A8ED0941F53F001EA41D /* TRect.cp in Sources */,
 				5EC1A8EF0941F53F001EA41D /* TreeControl.cpp in Sources */,
 				5EC1A8F20941F53F001EA41D /* TreeListControl.cpp in Sources */,
-				5EC1A8F50941F53F001EA41D /* TreeModelEvent.cpp in Sources */,
 				5EC1A8F80941F53F001EA41D /* TView.cp in Sources */,
 				5EC1A8FD0941F53F001EA41D /* UIToolkit.cpp in Sources */,
-				5EC1A8FF0941F53F001EA41D /* UndoRedoEvent.cpp in Sources */,
 				5EC1A9010941F53F001EA41D /* UndoRedoStack.cpp in Sources */,
-				5EC1A9030941F53F001EA41D /* ValidationEvent.cpp in Sources */,
 				5EC1A9050941F53F001EA41D /* VFFInputStream.cpp in Sources */,
 				5EC1A9070941F53F001EA41D /* VFFOutputStream.cpp in Sources */,
 				5EC1A90B0941F53F001EA41D /* Window.cpp in Sources */,
-				5EC1A90D0941F53F001EA41D /* WindowEvent.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
