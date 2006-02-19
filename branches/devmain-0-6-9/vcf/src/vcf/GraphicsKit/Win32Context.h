@@ -15,14 +15,11 @@ where you installed the VCF.
 
 
 // Win32Context.h: interface for the Win32Context class.
-
+#define WINTHEMES
 
 
 #include <deque>
 
-#ifdef WINTHEMES
-#include "Win32ThemeDLLWrapper.h"
-#endif
 
 namespace VCF
 {
@@ -442,11 +439,12 @@ protected:
 	static void drawTransparentBitmap( HDC hdc, HBITMAP hBitmap, long xStart,
 	                                   long yStart, COLORREF cTransparentColor );
 
+	
 #ifdef WINTHEMES
 	/**
 	* AutoPointer to a wrapper for the UxTheme.dll
 	*/
-	static std::auto_ptr<Win32ThemeDLLWrapper> pThemeDLL_;
+	//static std::auto_ptr<Win32ThemeDLLWrapper> pThemeDLL_;
 #endif
 
 
@@ -460,7 +458,7 @@ private:
 	*          fully implemented.
 	*@return bool, false if themed drawing was not possible.
 	*/
-	bool drawThemeButtonRectDLL( Rect* rect, ButtonState& state, Rect* captionRect=NULL );
+	//bool drawThemeButtonRectDLL( Rect* rect, ButtonState& state, Rect* captionRect=NULL );
 #endif
 
 protected:
@@ -495,6 +493,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/02/19 22:59:44  ddiego
+*more vc80 project updates, plus some new theme aware code for xp. this is still in development.
+*
 *Revision 1.5.2.2  2005/10/17 01:36:34  ddiego
 *some more under the hood image stuff. updated agg.
 *
