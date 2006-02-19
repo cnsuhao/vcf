@@ -23,11 +23,17 @@ where you installed the VCF.
 #include "thirdparty/common/agg/include/agg_scanline_u.h"
 
 
+#include "vcf/GraphicsKit/Win32VisualStylesWrapper.h"
+
+
+
+
+
+
+
 using namespace VCF;
 
-#ifdef WINTHEMES
-	std::auto_ptr<Win32ThemeDLLWrapper> Win32Context::pThemeDLL_;
-#endif
+
 
 Win32Context::Win32Context()
 {
@@ -105,7 +111,7 @@ void Win32Context::init()
 	currentHFont_ = NULL;
 
 #ifdef WINTHEMES
-	if (pThemeDLL_.get()==0) pThemeDLL_.reset(new Win32ThemeDLLWrapper());
+//	if (pThemeDLL_.get()==0) pThemeDLL_.reset(new Win32ThemeDLLWrapper());
 #endif
 
 }
@@ -1771,7 +1777,7 @@ void Win32Context::drawThemeButtonFocusRect( Rect* rect )
 void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* captionRect )
 {
 #ifdef WINTHEMES
-	if (drawThemeButtonRectDLL( rect, state, captionRect )) return;
+//	if (drawThemeButtonRectDLL( rect, state, captionRect )) return;
 #endif
 
 	checkHandle();
@@ -1782,194 +1788,198 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 	btnRect.right = rect->right_;
 	btnRect.bottom = rect->bottom_;
 
-
-	COLORREF backColor = ::GetSysColor( COLOR_3DFACE );
-
-	HBRUSH backBrush = CreateSolidBrush( backColor );
-	HPEN hilightPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DHIGHLIGHT ) );
-	HPEN shadowPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DSHADOW ) );
-	HPEN blackPen = CreatePen( PS_SOLID, 0, 0 );
-
-	HBRUSH oldBrush = (HBRUSH)::SelectObject( dc_, backBrush );
-	::FillRect( dc_, &btnRect, backBrush );
-
-	bool isPressed = state.isPressed();
-
-	HPEN oldPen = NULL;
-
-	RECT tmpRect = btnRect;
-	//InflateRect( &tmpRect, -1, -1 );
-	if ( state.isDefaultButton() ) {
-		InflateRect( &tmpRect, -1, -1 );
-	}
-
-	RECT capRect = btnRect;
-	if ( NULL != captionRect ) {
-		capRect.left = captionRect->left_;
-		capRect.top = captionRect->top_;
-		capRect.right = captionRect->right_;
-		capRect.bottom = captionRect->bottom_;
-	}
-
-
-	if ( true == isPressed ) {
-		HBRUSH shadowBrush = CreateSolidBrush( ::GetSysColor( COLOR_3DSHADOW ) );
-		::FrameRect( dc_, &tmpRect, shadowBrush );
-		DeleteObject( shadowBrush );
-		::OffsetRect( &capRect, 1, 1 );
+	if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+		
 	}
 	else {
-
-		oldPen = (HPEN) ::SelectObject( dc_, hilightPen );
-
-
-		::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
-		::LineTo( dc_, tmpRect.left, tmpRect.top );
-		::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
-
-		::SelectObject( dc_, shadowPen );
-		::MoveToEx( dc_, tmpRect.right-2, tmpRect.top+1, NULL );
-		::LineTo( dc_, tmpRect.right-2, tmpRect.bottom-2 );
-		::LineTo( dc_, tmpRect.left, tmpRect.bottom-2 );
-
-		::SelectObject( dc_, blackPen );
-		::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
-		::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
-		::LineTo( dc_, tmpRect.left-1, tmpRect.bottom-1 );
-
-/*
-		::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
-		::LineTo( dc_, tmpRect.left, tmpRect.top );
-		::LineTo( dc_, tmpRect.left, tmpRect.bottom );
-
-		::SelectObject( dc_, shadowPen );
-		::MoveToEx( dc_, tmpRect.right-1, tmpRect.top+1, NULL );
-		::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
-		::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
-
-		::SelectObject( dc_, blackPen );
-		::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
-		::LineTo( dc_, tmpRect.right, tmpRect.bottom );
-		::LineTo( dc_, tmpRect.left, tmpRect.bottom );
-		*/
-
-	}
-
-	bool enabled = state.isEnabled();
-
-
-
-
-	HFONT font = NULL;
-	HFONT oldFont = NULL;
-
-	VCF::Font btnFont = *context_->getCurrentFont();
-
-	Rect centerRect( capRect.left, capRect.top, capRect.right, capRect.bottom );
-	if ( System::isUnicodeEnabled() ) {
-		LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
-		font = ::CreateFontIndirectW( lf );
-		oldFont = (HFONT) ::SelectObject( dc_, font );
-
-		::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
-	}
-	else {
-		LOGFONTA* lf = (LOGFONTA*) btnFont.getFontPeer()->getFontHandleID();
-		font = ::CreateFontIndirectA( lf );
-		oldFont = (HFONT) ::SelectObject( dc_, font );
-
-		::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
-	}
-
-
-	::OffsetRect( &capRect,
-		(centerRect.getWidth() - (capRect.right - capRect.left))/2,
-		(centerRect.getHeight() - (capRect.bottom - capRect.top))/2 );
-
-	int oldBkMode = SetBkMode( dc_, TRANSPARENT );
-
-
-	COLORREF textColor = 0;
-	if ( true == enabled ) {
-		textColor = ::GetSysColor( COLOR_BTNTEXT );
-	}
-	else {
-		textColor = ::GetSysColor( COLOR_GRAYTEXT );
-	}
-
-
-
-	COLORREF oldTextColor = SetTextColor( dc_, textColor );
-
-	if ( false == enabled ) {
-		SetTextColor( dc_, ::GetSysColor( COLOR_BTNHIGHLIGHT ) );
-
-		OffsetRect( &capRect, 1, 1 );
-
+		COLORREF backColor = ::GetSysColor( COLOR_3DFACE );
+		
+		HBRUSH backBrush = CreateSolidBrush( backColor );
+		HPEN hilightPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DHIGHLIGHT ) );
+		HPEN shadowPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DSHADOW ) );
+		HPEN blackPen = CreatePen( PS_SOLID, 0, 0 );
+		
+		HBRUSH oldBrush = (HBRUSH)::SelectObject( dc_, backBrush );
+		::FillRect( dc_, &btnRect, backBrush );
+		
+		bool isPressed = state.isPressed();
+		
+		HPEN oldPen = NULL;
+		
+		RECT tmpRect = btnRect;
+		//InflateRect( &tmpRect, -1, -1 );
+		if ( state.isDefaultButton() ) {
+			InflateRect( &tmpRect, -1, -1 );
+		}
+		
+		RECT capRect = btnRect;
+		if ( NULL != captionRect ) {
+			capRect.left = captionRect->left_;
+			capRect.top = captionRect->top_;
+			capRect.right = captionRect->right_;
+			capRect.bottom = captionRect->bottom_;
+		}
+		
+		
+		if ( true == isPressed ) {
+			HBRUSH shadowBrush = CreateSolidBrush( ::GetSysColor( COLOR_3DSHADOW ) );
+			::FrameRect( dc_, &tmpRect, shadowBrush );
+			DeleteObject( shadowBrush );
+			::OffsetRect( &capRect, 1, 1 );
+		}
+		else {
+			
+			oldPen = (HPEN) ::SelectObject( dc_, hilightPen );
+			
+			
+			::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
+			::LineTo( dc_, tmpRect.left, tmpRect.top );
+			::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
+			
+			::SelectObject( dc_, shadowPen );
+			::MoveToEx( dc_, tmpRect.right-2, tmpRect.top+1, NULL );
+			::LineTo( dc_, tmpRect.right-2, tmpRect.bottom-2 );
+			::LineTo( dc_, tmpRect.left, tmpRect.bottom-2 );
+			
+			::SelectObject( dc_, blackPen );
+			::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
+			::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
+			::LineTo( dc_, tmpRect.left-1, tmpRect.bottom-1 );
+			
+			/*
+			::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
+			::LineTo( dc_, tmpRect.left, tmpRect.top );
+			::LineTo( dc_, tmpRect.left, tmpRect.bottom );
+			
+			  ::SelectObject( dc_, shadowPen );
+			  ::MoveToEx( dc_, tmpRect.right-1, tmpRect.top+1, NULL );
+			  ::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
+			  ::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
+			  
+				::SelectObject( dc_, blackPen );
+				::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
+				::LineTo( dc_, tmpRect.right, tmpRect.bottom );
+				::LineTo( dc_, tmpRect.left, tmpRect.bottom );
+			*/
+			
+		}
+		
+		bool enabled = state.isEnabled();
+		
+		
+		
+		
+		HFONT font = NULL;
+		HFONT oldFont = NULL;
+		
+		VCF::Font btnFont = *context_->getCurrentFont();
+		
+		Rect centerRect( capRect.left, capRect.top, capRect.right, capRect.bottom );
+		if ( System::isUnicodeEnabled() ) {
+			LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
+			font = ::CreateFontIndirectW( lf );
+			oldFont = (HFONT) ::SelectObject( dc_, font );
+			
+			::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
+		}
+		else {
+			LOGFONTA* lf = (LOGFONTA*) btnFont.getFontPeer()->getFontHandleID();
+			font = ::CreateFontIndirectA( lf );
+			oldFont = (HFONT) ::SelectObject( dc_, font );
+			
+			::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
+		}
+		
+		
+		::OffsetRect( &capRect,
+			(centerRect.getWidth() - (capRect.right - capRect.left))/2,
+			(centerRect.getHeight() - (capRect.bottom - capRect.top))/2 );
+		
+		int oldBkMode = SetBkMode( dc_, TRANSPARENT );
+		
+		
+		COLORREF textColor = 0;
+		if ( true == enabled ) {
+			textColor = ::GetSysColor( COLOR_BTNTEXT );
+		}
+		else {
+			textColor = ::GetSysColor( COLOR_GRAYTEXT );
+		}
+		
+		
+		
+		COLORREF oldTextColor = SetTextColor( dc_, textColor );
+		
+		if ( false == enabled ) {
+			SetTextColor( dc_, ::GetSysColor( COLOR_BTNHIGHLIGHT ) );
+			
+			OffsetRect( &capRect, 1, 1 );
+			
+			if ( System::isUnicodeEnabled() ) {
+				::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
+			}
+			else {
+				::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
+			}
+			
+			OffsetRect( &capRect, -1, -1 );
+			
+			SetTextColor( dc_, textColor );
+		}
+		
 		if ( System::isUnicodeEnabled() ) {
 			::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 		}
 		else {
 			::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 		}
-
-		OffsetRect( &capRect, -1, -1 );
-
-		SetTextColor( dc_, textColor );
-	}
-
-	if ( System::isUnicodeEnabled() ) {
-		::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
-	}
-	else {
-		::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
-	}
-
-
-
-	SetTextColor( dc_, oldTextColor );
-	SetBkMode( dc_, oldBkMode );
-
-	::SelectObject( dc_, oldFont );
-	::DeleteObject( font );
-
-
-
-	/*if ( state.isFocused() ) {
+		
+		
+		
+		SetTextColor( dc_, oldTextColor );
+		SetBkMode( dc_, oldBkMode );
+		
+		::SelectObject( dc_, oldFont );
+		::DeleteObject( font );
+		
+		
+		
+		/*if ( state.isFocused() ) {
 		RECT focusRect = btnRect;
 		InflateRect( &focusRect, -4, -4 );
-
-		::DrawFocusRect( dc_, &focusRect );
+		
+		  ::DrawFocusRect( dc_, &focusRect );
 	}*/
-
-
-	if ( state.isDefaultButton() ) {
-		RECT defRect = btnRect;
-
-		//defRect.right -= 1;
-		//defRect.bottom -= 1;
-
-
-		FrameRect( dc_, &defRect, (HBRUSH)GetStockObject(BLACK_BRUSH) );
+		
+		
+		if ( state.isDefaultButton() ) {
+			RECT defRect = btnRect;
+			
+			//defRect.right -= 1;
+			//defRect.bottom -= 1;
+			
+			
+			FrameRect( dc_, &defRect, (HBRUSH)GetStockObject(BLACK_BRUSH) );
+		}
+		
+		if ( NULL != oldBrush ) {
+			::SelectObject( dc_, oldBrush );
+		}
+		if ( NULL != oldPen ) {
+			::SelectObject( dc_, oldPen );
+		}
+		
+		::DeleteObject( hilightPen );
+		::DeleteObject( shadowPen );
+		::DeleteObject( blackPen );
+		::DeleteObject( backBrush );
 	}
-
-	if ( NULL != oldBrush ) {
-		::SelectObject( dc_, oldBrush );
-	}
-	if ( NULL != oldPen ) {
-		::SelectObject( dc_, oldPen );
-	}
-
-	::DeleteObject( hilightPen );
-	::DeleteObject( shadowPen );
-	::DeleteObject( blackPen );
-	::DeleteObject( backBrush );
-
 
 
 	releaseHandle();
 }
 
+/*
 #ifdef WINTHEMES
 bool Win32Context::drawThemeButtonRectDLL( Rect* rect, ButtonState& state )
 {
@@ -2005,12 +2015,15 @@ bool Win32Context::drawThemeButtonRectDLL( Rect* rect, ButtonState& state )
 	return true;
 }
 #endif
+*/
 
 void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 {
 	checkHandle();
 
 	Rect tmp = *rect;
+
+	
 
 	/**
 	JC
@@ -3127,6 +3140,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.4  2006/02/19 22:59:44  ddiego
+*more vc80 project updates, plus some new theme aware code for xp. this is still in development.
+*
 *Revision 1.7.2.3  2005/10/17 01:36:34  ddiego
 *some more under the hood image stuff. updated agg.
 *

@@ -21,12 +21,19 @@ where you installed the VCF.
 #include "vcf/GraphicsKit/GraphicsResourceBundlePeer.h"
 #include "vcf/GraphicsKit/Win32GraphicsResourceBundle.h"
 
+#include "vcf/GraphicsKit/Win32VisualStylesWrapper.h"
+
+//init singleton
+Win32VisualStylesWrapper Win32VisualStylesWrapper::Instance;
+
+
 using namespace VCF;
 
 Win32FontManager* Win32FontManager::win32FontMgr = NULL;
 
 
-Win32GraphicsToolkit::Win32GraphicsToolkit()
+Win32GraphicsToolkit::Win32GraphicsToolkit():
+	systemFont_(NULL)
 {
 	Win32FontManager::create();
 
@@ -34,7 +41,7 @@ Win32GraphicsToolkit::Win32GraphicsToolkit()
 	loadSystemColors();
 	registerImageLoader( "image/bmp", new BMPLoader() );
 
-	initSystemFont();
+	initSystemFont();	
 }
 
 Win32GraphicsToolkit::~Win32GraphicsToolkit()
@@ -220,6 +227,9 @@ GraphicsResourceBundlePeer* Win32GraphicsToolkit::internal_createGraphicsResourc
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/02/19 22:59:44  ddiego
+*more vc80 project updates, plus some new theme aware code for xp. this is still in development.
+*
 *Revision 1.5.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *
