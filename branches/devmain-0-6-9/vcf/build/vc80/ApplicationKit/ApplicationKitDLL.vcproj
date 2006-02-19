@@ -1360,52 +1360,8 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageListEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Item.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\KeyboardEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\LibraryApplication.cpp"
@@ -1808,28 +1764,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\WindowEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Wizard.h"
 				>
 			</File>
@@ -1862,58 +1796,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractWin32Component.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\COMDataObject.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\COMDataObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\COMUtils.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\COMUtils.h"
 				>
 			</File>
 			<File
@@ -2085,6 +1967,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMDataObject.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMDataObject.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMException.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Component.cpp"
 				>
 				<FileConfiguration
@@ -2108,6 +2002,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Component.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMUtils.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMUtils.h"
 				>
 			</File>
 			<File
@@ -2774,104 +2676,16 @@
 			Filter="*.h;*.cpp"
 			>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ButtonEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ButtonEvent.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ClipboardEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ClipboardEvent.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnItemEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnItemEvent.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnModelEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ColumnModelEvent.h"
@@ -2882,52 +2696,8 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ControlEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ControlEvent.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\FocusEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\FocusEvent.h"
@@ -2936,28 +2706,6 @@
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\FrameEvent.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HelpEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\HelpEvent.h"
@@ -2972,56 +2720,12 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ItemEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ItemEvent.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\KeyboardEvent.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ListModelEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ListModelEvent.h"
@@ -3036,28 +2740,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\MouseEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\MouseEvent.h"
 				>
 			</File>
@@ -3070,28 +2752,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\TabModelEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TabModelEvent.h"
 				>
 			</File>
@@ -3100,130 +2760,20 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\TimerEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TimerEvent.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ToolTipEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ToolTipEvent.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\TreeModelEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TreeModelEvent.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\UndoRedoEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\UndoRedoEvent.h"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ValidationEvent.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ValidationEvent.h"

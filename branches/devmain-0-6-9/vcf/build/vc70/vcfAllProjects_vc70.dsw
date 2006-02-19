@@ -579,6 +579,9 @@ Package=<4>
     Project_Dep_Name TextLayout
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name Themes
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name ThreadBasics
     End Project Dependency
     Begin Project Dependency
@@ -1375,6 +1378,18 @@ Package=<4>
 ###############################################################################
 
 Project: "TextLayout"="..\..\examples\TextLayout\TextLayout_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Themes"="..\..\examples\Themes\Themes_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

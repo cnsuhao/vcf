@@ -595,18 +595,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\AbstractWin32Component.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\COMDataObject.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\COMDataObject.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\COMUtils.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\COMUtils.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\EnumObject.h">
 			</File>
 			<File
@@ -652,10 +640,25 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ColorDialog.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMDataObject.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMDataObject.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMException.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Component.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Component.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMUtils.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32COMUtils.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32ControlContext.cpp">
