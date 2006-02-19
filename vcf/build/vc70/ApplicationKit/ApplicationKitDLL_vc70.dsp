@@ -676,22 +676,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\AbstractWin32Component.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\COMDataObject.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\COMDataObject.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\COMUtils.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\COMUtils.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\EnumObject.h
 # End Source File
 # Begin Source File
@@ -752,11 +736,31 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32ColorDialog.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32COMDataObject.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32COMDataObject.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32COMException.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Component.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Component.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32COMUtils.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\src\vcf\ApplicationKit\Win32COMUtils.h
 # End Source File
 # Begin Source File
 
