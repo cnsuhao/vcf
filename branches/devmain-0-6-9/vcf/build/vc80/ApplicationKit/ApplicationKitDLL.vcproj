@@ -151,7 +151,7 @@
 				AdditionalOptions="/Zm200 "
 				Optimization="1"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="$(VCF_INCLUDE),$(VCF_INCLUDE)/../thirdparty/common/agg/include/"
+				AdditionalIncludeDirectories="&quot;$(VCF_INCLUDE)&quot;;&quot;$(VCF_INCLUDE)/thirdparty/win32&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;USE_GRAPHICSKIT_DLL;APPLICATIONKIT_DLL;APPLICATIONKIT_EXPORTS"
 				StringPooling="true"
 				RuntimeLibrary="2"
