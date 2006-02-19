@@ -101,7 +101,10 @@ void Application::init()
 	}
 
 	applicationPeer_->setApplication( this );
-
+/*
+I am turning this off completely. There is an MS DLL called blackbox, and 
+I'd like to revisit this later.
+JC
 #if defined( WIN32 ) && defined ( _MSC_VER )
 	//load the BlacBox error trapper
 	try {
@@ -112,6 +115,7 @@ void Application::init()
 		StringUtils::trace( "Unable to load the BlackBox error detection library\n" );
 	}
 #endif
+	*/
 }
 
 void Application::main()
@@ -468,6 +472,9 @@ void Application::getHelpInfo( String& helpBookName, String& helpDirectory )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/02/19 19:38:12  ddiego
+*adjusted some comet code to make it compile again. renamed some of the COM utility files to have a Win32 prefix.
+*
 *Revision 1.5.2.3  2006/02/14 20:19:25  ddiego
 *some minor bugs
 *

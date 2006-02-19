@@ -38,7 +38,7 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Win32Component.h"
 #include "vcf/ApplicationKit/Win32Window.h"
 #include "vcf/ApplicationKit/Win32DragDropPeer.h"
-#include "vcf/ApplicationKit/COMUtils.h"
+#include "vcf/ApplicationKit/Win32COMUtils.h"
 #include "vcf/ApplicationKit/Win32Toolbar.h"
 #include "vcf/ApplicationKit/Toolbar.h"
 #include "vcf/ApplicationKit/SystemTrayPeer.h"
@@ -3373,6 +3373,9 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.16  2006/02/19 19:38:13  ddiego
+*adjusted some comet code to make it compile again. renamed some of the COM utility files to have a Win32 prefix.
+*
 *Revision 1.6.2.15  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *
