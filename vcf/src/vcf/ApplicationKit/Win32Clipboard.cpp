@@ -12,8 +12,8 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ApplicationKitPrivate.h"
 #include "vcf/ApplicationKit/Win32Clipboard.h"
-#include "vcf/ApplicationKit/COMDataObject.h"
-#include "vcf/ApplicationKit/COMUtils.h"
+#include "vcf/ApplicationKit/Win32COMDataObject.h"
+#include "vcf/ApplicationKit/Win32COMUtils.h"
 
 
 using namespace VCF;
@@ -93,6 +93,9 @@ FORMATETC Win32Clipboard::translateDataTypeToWin32( const String& dataType )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/19 19:38:12  ddiego
+*adjusted some comet code to make it compile again. renamed some of the COM utility files to have a Win32 prefix.
+*
 *Revision 1.2.6.1  2005/08/12 03:13:44  ddiego
 *minor changes
 *

@@ -266,6 +266,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2006/02/19 19:38:12  ddiego
+*adjusted some comet code to make it compile again. renamed some of the COM utility files to have a Win32 prefix.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
