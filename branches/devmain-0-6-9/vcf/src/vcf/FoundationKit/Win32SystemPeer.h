@@ -46,6 +46,8 @@ public:
 
 	virtual String getCommonDirectory( System::CommonDirectory directory );
 
+	virtual String createTempFileName( const String& directory );
+
 	virtual void setDateToSystemTime( DateTime* date );
 
 	virtual void setDateToLocalTime( DateTime* date );
@@ -76,6 +78,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/02/19 06:50:31  ddiego
+*minor updates.
+*
 *Revision 1.5  2005/07/09 23:15:07  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

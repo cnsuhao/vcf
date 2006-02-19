@@ -288,6 +288,16 @@ String System::getCommonDirectory( System::CommonDirectory directory )
 	return System::systemInstance->systemPeer_->getCommonDirectory( directory );
 }
 
+String System::createTempFileName( System::CommonDirectory directory )
+{
+	return System::createTempFileName( System::getCommonDirectory( directory ) );
+}
+
+String System::createTempFileName( const String& directory )
+{
+	return System::systemInstance->systemPeer_->createTempFileName( directory );
+}
+
 void System::setDateToSystemTime( DateTime* date )
 {
 	System::systemInstance->systemPeer_->setDateToSystemTime( date );
@@ -727,6 +737,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.9  2006/02/19 06:50:31  ddiego
+*minor updates.
+*
 *Revision 1.6.2.8  2005/12/04 20:58:32  ddiego
 *more osx impl work. foundationkit is mostly complete now.
 *
