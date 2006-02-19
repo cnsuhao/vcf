@@ -112,10 +112,22 @@ VCF::Rect OSXDesktopPeer::desktopGetUsableBounds()
 	return result;
 }
 
+VCF::Point OSXDesktopPeer::getCurrentMousePosition()
+{
+	VCF::Point result;
+	::Point pt;
+	GetMouse( &pt );
+	result.x_ = pt.h;
+	result.y_ = pt.v;
+	return result;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/02/19 02:07:46  ddiego
+*mac osx update.
+*
 *Revision 1.4.2.1  2005/11/27 23:55:44  ddiego
 *more osx updates.
 *

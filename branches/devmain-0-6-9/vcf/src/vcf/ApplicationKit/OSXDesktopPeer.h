@@ -45,6 +45,8 @@ public:
 	virtual ulong32 desktopGetHeight();
 
 	virtual Rect desktopGetUsableBounds();
+	
+	virtual Point getCurrentMousePosition();
 protected:
 
 };
@@ -57,6 +59,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/02/19 02:07:46  ddiego
+*mac osx update.
+*
 *Revision 1.4  2005/07/09 23:14:54  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
