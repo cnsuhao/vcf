@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="2" />
+	<FileVersion major="1" minor="3" />
 	<Project>
 		<Option title="NetworkKitDLL" />
 		<Option default_target="-1" />
-		<Option compiler="0" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="mingw_Release">
 				<Option output="..\..\..\bin\NetworkKit_mgcc.dll" />
 				<Option object_output="mgcc\Release\" />
 				<Option external_deps="$(VCF_BIN)\libFoundationKitDLL_mgcc.a;" />
 				<Option type="3" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -35,11 +38,7 @@
 					<Add option="-DUSE_FOUNDATIONKIT_DLL" />
 					<Add option="-DNETKIT_DLL" />
 					<Add option="-DNETKIT_EXPORTS" />
-					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(VCF_INCLUDE)" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
@@ -62,9 +61,10 @@
 					<Add library="ws2_32" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
-					<Add directory="$(VCF_BIN)" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c move ..\..\..\bin\libNetworkKit_mgcc.a ..\..\..\lib\libNetworkKit_mgcc.a" />
+				</ExtraCommands>
 				<Environment>
 					<Variable name="FOUNDATIONKITDLL_GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\ReleaseDLL\src" />
 				</Environment>
@@ -74,10 +74,13 @@
 				<Option object_output="mgcc\DebugDLL\" />
 				<Option external_deps="$(VCF_BIN)\libFoundationKitDLL_mgcc_d.a;" />
 				<Option type="3" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -98,11 +101,7 @@
 					<Add option="-DUSE_FOUNDATIONKIT_DLL" />
 					<Add option="-DNETKIT_DLL" />
 					<Add option="-DNETKIT_EXPORTS" />
-					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(VCF_INCLUDE)" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)_d" />
@@ -124,9 +123,10 @@
 					<Add library="ws2_32" />
 					<Add library="opengl32" />
 					<Add library="glu32" />
-					<Add directory="$(VCF_BIN)" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c move ..\..\..\bin\libNetworkKit_mgcc_d.a ..\..\..\lib\libNetworkKit_mgcc_d.a" />
+				</ExtraCommands>
 				<Environment>
 					<Variable name="FOUNDATIONKITDLL_GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\DebugDLL\src" />
 				</Environment>
@@ -136,6 +136,12 @@
 				<Variable name="COMPILER_VER" value="" />
 			</Environment>
 		</Build>
+		<Compiler>
+			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
+		</Compiler>
+		<Linker>
+			<Add directory='&quot;$(VCF_LIB)&quot;' />
+		</Linker>
 		<Unit filename="..\..\..\src\vcf\NetworkKit\DatagramSocket.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />

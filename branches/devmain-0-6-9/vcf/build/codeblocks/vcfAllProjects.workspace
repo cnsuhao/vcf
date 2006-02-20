@@ -19,7 +19,7 @@
 			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
 		</Project>
 		<Project filename="RemoteObjectKit\RemoteObjectKit.cbp">
-			<Depends filename="NetworkKit\NetworkKit.cbp" />
+			<Depends filename="NetworkKit\NetworkKitDLL.cbp" />
 		</Project>
 		<Project filename="FoundationKit\FoundationKit.cbp" />
 		<Project filename="GraphicsKit\GraphicsKit.cbp">
@@ -51,7 +51,9 @@
 		</Project>
 		<Project filename="..\..\src\thirdparty\common\FreeImage\Source\LibMNG\LibMNG.cbp" />
 		<Project filename="..\..\src\thirdparty\common\FreeImage\Source\LibTIFF\LibTIFF.cbp" />
-		<Project filename="..\..\examples\Accelerators\Accelerators_cb.cbp" />
+		<Project filename="..\..\examples\Accelerators\Accelerators_cb.cbp">
+			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
+		</Project>
 		<Project filename="..\..\examples\Actions\Actions_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
@@ -64,7 +66,9 @@
 		<Project filename="..\..\examples\Alignment\Alignment_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
-		<Project filename="..\..\examples\Anchors\Anchors_cb.cbp" />
+		<Project filename="..\..\examples\Anchors\Anchors_cb.cbp">
+			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
+		</Project>
 		<Project filename="..\..\examples\ApplicationIcons\ApplicationIcons_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="2" />
+	<FileVersion major="1" minor="3" />
 	<Project>
 		<Option title="FoundationKitDLL" />
-		<Option compiler="0" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="mingw_Release">
 				<Option output="..\..\..\bin\FoundationKit_mgcc.dll" />
 				<Option object_output="mgcc\ReleaseDLL\" />
 				<Option type="3" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
-				<Option projectLibDirsRelation="1" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-W" />
@@ -37,13 +37,7 @@
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
 					<Add option="-DFOUNDATIONKIT_DLL" />
 					<Add option="-DFOUNDATIONKIT_EXPORTS" />
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
@@ -61,9 +55,10 @@
 					<Add library="version" />
 					<Add library="odbccp32" />
 					<Add library="odbc32" />
-					<Add directory="$(VCF_BIN)" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c move ..\..\..\bin\libFoundationKit_mgcc.a ..\..\..\lib\libFoundationKit_mgcc.a" />
+				</ExtraCommands>
 				<Environment>
 					<Variable name="GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\ReleaseDLL\src" />
 				</Environment>
@@ -72,13 +67,13 @@
 				<Option output="..\..\..\bin\FoundationKit_mgcc_d.dll" />
 				<Option object_output="mgcc\DebugDLL\" />
 				<Option type="3" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
-				<Option projectLibDirsRelation="1" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -98,13 +93,7 @@
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
 					<Add option="-DFOUNDATIONKIT_DLL" />
 					<Add option="-DFOUNDATIONKIT_EXPORTS" />
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="rpcrt4" />
@@ -121,9 +110,10 @@
 					<Add library="version" />
 					<Add library="odbccp32" />
 					<Add library="odbc32" />
-					<Add directory="$(VCF_BIN)" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c move ..\..\..\bin\libFoundationKit_mgcc_d.a ..\..\..\lib\libFoundationKit_mgcc_d.a" />
+				</ExtraCommands>
 				<Environment>
 					<Variable name="GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\DebugDLL\src" />
 				</Environment>
@@ -133,6 +123,10 @@
 				<Variable name="COMPILER_VER" value="" />
 			</Environment>
 		</Build>
+		<Compiler>
+			<Add directory="$(GCH_DIR)" />
+			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
+		</Compiler>
 		<Unit filename="..\..\..\src\vcf\FoundationKit\BasicException.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />

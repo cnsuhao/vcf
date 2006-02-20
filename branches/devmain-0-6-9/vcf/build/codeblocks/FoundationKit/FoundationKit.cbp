@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="2" />
+	<FileVersion major="1" minor="3" />
 	<Project>
 		<Option title="FoundationKit" />
 		<Option default_target="-1" />
-		<Option compiler="0" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="mingw_Release">
 				<Option output="..\..\..\lib\libFoundationKit_mgcc_s.a" />
 				<Option working_dir="" />
 				<Option object_output="mgcc\ReleaseS\" />
 				<Option type="2" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -33,16 +34,9 @@
 					<Add option="-D_LIB" />
 					<Add option="-DVCF_MINGW" />
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
 				<Environment>
 					<Variable name="GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\ReleaseS\src" />
@@ -53,11 +47,12 @@
 				<Option working_dir="" />
 				<Option object_output="mgcc\DebugS\" />
 				<Option type="2" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -75,16 +70,7 @@
 					<Add option="-D_LIB" />
 					<Add option="-DVCF_MINGW" />
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-				</ResourceCompiler>
-				<Linker>
-					<Add directory="$(VCF_LIB)" />
-				</Linker>
 				<Environment>
 					<Variable name="GCH_DIR" value="..\FoundationKit\$(COMPILER)$(COMPILER_VER)\DebugS\src" />
 				</Environment>
@@ -94,6 +80,10 @@
 				<Variable name="COMPILER_VER" value="" />
 			</Environment>
 		</Build>
+		<Compiler>
+			<Add directory="$(GCH_DIR)" />
+			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
+		</Compiler>
 		<Unit filename="..\..\..\src\vcf\FoundationKit\BasicException.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="2" />
+	<FileVersion major="1" minor="3" />
 	<Project>
 		<Option title="ApplicationKit" />
 		<Option default_target="-1" />
-		<Option compiler="0" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="mingw_Release">
 				<Option output="..\..\..\lib\libApplicationKit_mgcc_s.a" />
@@ -12,7 +12,7 @@
 				<Option object_output="mgcc\ReleaseS\" />
 				<Option external_deps="$(VCF_LIB)\libGraphicsKit_mgcc_s.a;" />
 				<Option type="2" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -38,20 +38,10 @@
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
 					<Add option="-DVCF_NO_ATL" />
 					<Add option="-DUSE_GRAPHICSKIT_LIB" />
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\win32" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="..\..\resources\win32" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
 					<Add library="GraphicsKit_$(COMPILER)$(COMPILER_VER)_s" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
 				<Environment>
 					<Variable name="GCH_DIR" value="..\ApplicationKit\$(COMPILER)$(COMPILER_VER)\ReleaseS\src" />
@@ -63,7 +53,7 @@
 				<Option object_output="mgcc\DebugS\" />
 				<Option external_deps="$(VCF_LIB)\libGraphicsKit_mgcc_sd.a;" />
 				<Option type="2" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
 				<Option projectLinkerOptionsRelation="2" />
@@ -88,19 +78,9 @@
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
 					<Add option="-DVCF_NO_ATL" />
 					<Add option="-DUSE_GRAPHICSKIT_LIB" />
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\win32" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="..\..\resources\win32" />
-				</ResourceCompiler>
 				<Linker>
 					<Add library="GraphicsKit_$(COMPILER)$(COMPILER_VER)_sd" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
 				<Environment>
 					<Variable name="GCH_DIR" value="..\ApplicationKit\$(COMPILER)$(COMPILER_VER)\DebugS\src" />
@@ -111,6 +91,18 @@
 				<Variable name="COMPILER_VER" value="" />
 			</Environment>
 		</Build>
+		<Compiler>
+			<Add directory="$(GCH_DIR)" />
+			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\agg\include&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\win32&quot;' />
+		</Compiler>
+		<ResourceCompiler>
+			<Add directory="..\..\resources\win32" />
+		</ResourceCompiler>
+		<Linker>
+			<Add directory='&quot;$(VCF_LIB)&quot;' />
+		</Linker>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\AbstractApplication.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
@@ -395,30 +387,6 @@
 			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ButtonPeer.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\COMDataObject.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\COMDataObject.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\COMUtils.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\COMUtils.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -1948,6 +1916,37 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
+		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32COMDataObject.cpp">
+			<Option compilerVar="CPP" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
+		</Unit>
+		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32COMDataObject.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
+		</Unit>
+		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32COMException.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
+		</Unit>
+		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32COMUtils.cpp">
+			<Option compilerVar="CPP" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
+		</Unit>
+		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32COMUtils.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
+		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32Clipboard.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
@@ -2138,6 +2137,16 @@
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowserSelectLib.h">
 			<Option compilerVar="" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
+		</Unit>
+		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp">
+			<Option compilerVar="CPP" />
+		</Unit>
+		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h">
+			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
 			<Option target="mingw_Release" />
