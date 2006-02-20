@@ -61,6 +61,7 @@
 		<Project filename="..\..\examples\TeXLabel\TeXLabel_cb.cbp" />
 		<Project filename="..\..\examples\TextEdit\TextEdit_cb.cbp" />
 		<Project filename="..\..\examples\TextLayout\TextLayout_cb.cbp" />
+		<Project filename="..\..\examples\Themes\Themes_cb.cbp" />
 		<Project filename="..\..\examples\ThreadBasics\ThreadBasics_cb.cbp" />
 		<Project filename="..\..\examples\ThreadsInGUI\ThreadsInGUI_cb.cbp" />
 		<Project filename="..\..\examples\Toolbars\Toolbars_cb.cbp" />
