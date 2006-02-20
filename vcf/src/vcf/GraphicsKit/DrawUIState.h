@@ -498,7 +498,29 @@ public:
 
 class ScrollBarState : public DrawUIState {
 public:
-	ScrollBarState(): min_(0.0), max_(0.0), position_(0.0), viewSize_(0.0){};
+	ScrollBarState(): min_(0.0), max_(0.0), position_(0.0), viewSize_(0.0), buttonType_(sbNone){};
+
+	enum ScrollButtonType {
+		sbNone = 0,
+		sbUpOrLeftBtn = 1,
+		sbDownOrRightBtn = 2
+	};
+
+	void setButtonType( ScrollButtonType val ) {
+		buttonType_ = val;
+	}
+
+	ScrollButtonType getButtonType() {
+		return buttonType_;
+	}
+
+	bool isUpOrLeftBtn() const {
+		return ScrollBarState::sbUpOrLeftBtn == buttonType_ ? true : false;
+	}
+
+	bool isDownOrRightBtn() const {
+		return ScrollBarState::sbDownOrRightBtn == buttonType_ ? true : false;
+	}
 
 	bool isVertical() const {
 		return (state_ & DrawStates::dsVertical) ? true : false;
@@ -563,6 +585,7 @@ public:
 	double max_;
 	double position_;
 	double viewSize_;
+	ScrollButtonType buttonType_;
 };
 
 
@@ -668,6 +691,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/02/20 20:42:08  ddiego
+*comitting current state of theme code.
+*
 *Revision 1.5.2.1  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

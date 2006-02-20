@@ -120,7 +120,7 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		break;
 
 		case WM_ERASEBKGND:{
-			wndProcResult = TRUE;
+			wndProcResult = FALSE;
 			result = true;
 		}
 		break;
@@ -131,6 +131,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 			state_.setFocused( (drawItem->itemState & ODS_FOCUS) || peerControl_->isFocused() );
 			state_.setEnabled( !(drawItem->itemState & ODS_DISABLED) );
 			state_.setPressed( drawItem->itemState & ODS_SELECTED );
+
+			CommandButton* button = (CommandButton*)peerControl_;
+			button->setIsPressed( drawItem->itemState & ODS_SELECTED ? true : false );
 
 			if ( peerControl_->isDoubleBuffered() ){
 
@@ -153,13 +156,22 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 				HBITMAP oldBMP = (HBITMAP)::SelectObject( memDC_, memBitmap );
 
+				//clear the memdc
+				Control* parent = peerControl_->getParent();
+				Color* bkColor = parent->getColor();
+				HBRUSH bkBr = CreateSolidBrush( RGB( bkColor->getRed()*255.0, bkColor->getGreen()*255.0, bkColor->getBlue()*255.0 ) );
+				FillRect( memDC_, &drawItem->rcItem, bkBr );
+				DeleteObject( bkBr );
+
+
 				::SetViewportOrgEx( memDC_, -drawItem->rcItem.left, -drawItem->rcItem.top, NULL );
 
-				//VCF::GraphicsContext memCtx( tmp.getWidth(), tmp.getHeight() );
+				//::BitBlt( memDC_, 0, 0,
+				//					drawItem->rcItem.right - drawItem->rcItem.left,
+				//					drawItem->rcItem.bottom - drawItem->rcItem.top,
+				//					drawItem->hDC, drawItem->rcItem.left, drawItem->rcItem.top, SRCCOPY );
 
-				//memCtx.setOrigin( -tmp.left_, -tmp.top_ );
-
-				//HDC memDC = (HDC)memCtx.getPeer()->getContextID();
+				
 
 
 				ctx->getPeer()->setContextID( (OSHandleID)memDC_ );
@@ -234,8 +246,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 			}
 		}
 		break;
+		
 
-		case WM_COMMAND: {
+		case WM_COMMAND: {			
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );			
 		}
 
@@ -251,6 +264,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/02/20 20:42:08  ddiego
+*comitting current state of theme code.
+*
 *Revision 1.5.2.2  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *
