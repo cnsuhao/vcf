@@ -9,7 +9,7 @@
 			<Target title="mingw_Release">
 				<Option output="..\..\..\bin\GraphicsKit_mgcc.dll" />
 				<Option object_output="mgcc\ReleaseDLL\" />
-				<Option external_deps="$(VCF_BIN)\libFoundationKitDLL.a;$(VCF_LIB)\libLibJPEG_mgcc_s.a;$(VCF_LIB)\libLibPNG_mgcc_s.a;$(VCF_LIB)\libAGG_mgcc_s.a;" />
+				<Option external_deps="$(VCF_LIB)\libFoundationKit_mgcc.a;$(VCF_LIB)\libLibJPEG_mgcc_s.a;$(VCF_LIB)\libLibPNG_mgcc_s.a;$(VCF_LIB)\libAGG_mgcc_s.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
@@ -64,6 +64,7 @@
 					<Add library="odbc32" />
 				</Linker>
 				<ExtraCommands>
+					<Add after="cmd /c if NOT EXIST ..\..\..\lib MKDIR ..\..\..\lib" />
 					<Add after="cmd /c move ..\..\..\bin\libGraphicsKit_mgcc.a ..\..\..\lib\libGraphicsKit_mgcc.a" />
 				</ExtraCommands>
 				<Environment>
@@ -73,7 +74,7 @@
 			<Target title="mingw_Debug">
 				<Option output="..\..\..\bin\GraphicsKit_mgcc_d.dll" />
 				<Option object_output="mgcc\DebugDLL\" />
-				<Option external_deps="$(VCF_BIN)\libFoundationKitDLL_mgcc_d.a;$(VCF_LIB)\libLibJPEG_mgcc_sd.a;$(VCF_LIB)\libLibPNG_mgcc_sd.a;$(VCF_LIB)\libAGG_mgcc_sd.a;" />
+				<Option external_deps="$(VCF_LIB)\libFoundationKit_mgcc_d.a;$(VCF_LIB)\libLibJPEG_mgcc_sd.a;$(VCF_LIB)\libLibPNG_mgcc_sd.a;$(VCF_LIB)\libAGG_mgcc_sd.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
@@ -125,6 +126,7 @@
 					<Add library="odbc32" />
 				</Linker>
 				<ExtraCommands>
+					<Add after="cmd /c if NOT EXIST ..\..\..\lib MKDIR ..\..\..\lib" />
 					<Add after="cmd /c move ..\..\..\bin\libGraphicsKit_mgcc_d.a ..\..\..\lib\libGraphicsKit_mgcc_d.a" />
 				</ExtraCommands>
 				<Environment>
@@ -141,6 +143,7 @@
 			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
 			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\agg\include&quot;' />
 			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\zlib&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\win32\Microsoft&quot;' />
 		</Compiler>
 		<Linker>
 			<Add directory='&quot;$(VCF_LIB)&quot;' />
@@ -616,6 +619,13 @@
 			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\GraphicsKit\Win32PrintSession.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
+		</Unit>
+		<Unit filename="..\..\..\src\vcf\GraphicsKit\Win32VisualStylesWrapper.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
