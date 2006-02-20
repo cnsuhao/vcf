@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="2" />
+	<FileVersion major="1" minor="3" />
 	<Project>
 		<Option title="LibTIFF" />
 		<Option pch_mode="0" />
 		<Option default_target="-1" />
-		<Option compiler="0" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="mingw_Release">
 				<Option output="..\..\..\..\..\..\lib\libLibTIFF_mgcc_s.a" />
 				<Option working_dir="" />
 				<Option object_output="mgcc\Release\" />
 				<Option type="2" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
+				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
@@ -32,9 +34,6 @@
 					<Add option="-D_WINDOWS" />
 					<Add option="-DVCF_MINGW" />
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="..\libtiff\libtiff" />
-					<Add directory="..\zlib" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -45,10 +44,12 @@
 				<Option working_dir="" />
 				<Option object_output="mgcc\Debug\" />
 				<Option type="2" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createDefFile="1" />
+				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -65,9 +66,6 @@
 					<Add option="-D_WINDOWS" />
 					<Add option="-DVCF_MINGW" />
 					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="..\libtiff\libtiff" />
-					<Add directory="..\ZLib" />
 				</Compiler>
 			</Target>
 			<Environment>
@@ -75,6 +73,10 @@
 				<Variable name="COMPILER_VER" value="" />
 			</Environment>
 		</Build>
+		<Compiler>
+			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
+			<Add directory="..\ZLib" />
+		</Compiler>
 		<Unit filename="fax3sm_winnt.c">
 			<Option compilerVar="CC" />
 			<Option target="mingw_Release" />

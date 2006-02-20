@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="2" />
+	<FileVersion major="1" minor="3" />
 	<Project>
 		<Option title="GraphicsKitDLL" />
 		<Option default_target="-1" />
-		<Option compiler="0" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="mingw_Release">
 				<Option output="..\..\..\bin\GraphicsKit_mgcc.dll" />
 				<Option object_output="mgcc\ReleaseDLL\" />
 				<Option external_deps="$(VCF_BIN)\libFoundationKitDLL.a;$(VCF_LIB)\libLibJPEG_mgcc_s.a;$(VCF_LIB)\libLibPNG_mgcc_s.a;$(VCF_LIB)\libAGG_mgcc_s.a;" />
 				<Option type="3" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-W" />
@@ -39,15 +40,7 @@
 					<Add option="-DUSE_FOUNDATIONKIT_DLL" />
 					<Add option="-DGRAPHICSKIT_DLL" />
 					<Add option="-DGRAPHICSKIT_EXPORTS" />
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\zlib" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
@@ -69,9 +62,10 @@
 					<Add library="version" />
 					<Add library="odbccp32" />
 					<Add library="odbc32" />
-					<Add directory="$(VCF_BIN)" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c move ..\..\..\bin\libGraphicsKit_mgcc.a ..\..\..\lib\libGraphicsKit_mgcc.a" />
+				</ExtraCommands>
 				<Environment>
 					<Variable name="GCH_DIR" value="..\GraphicsKit\$(COMPILER)$(COMPILER_VER)\ReleaseDLL\src" />
 				</Environment>
@@ -81,12 +75,13 @@
 				<Option object_output="mgcc\DebugDLL\" />
 				<Option external_deps="$(VCF_BIN)\libFoundationKitDLL_mgcc_d.a;$(VCF_LIB)\libLibJPEG_mgcc_sd.a;$(VCF_LIB)\libLibPNG_mgcc_sd.a;$(VCF_LIB)\libAGG_mgcc_sd.a;" />
 				<Option type="3" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option createStaticLib="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
 				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
 					<Add option="-g" />
@@ -107,15 +102,7 @@
 					<Add option="-DUSE_FOUNDATIONKIT_DLL" />
 					<Add option="-DGRAPHICSKIT_DLL" />
 					<Add option="-DGRAPHICSKIT_EXPORTS" />
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\zlib" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(GCH_DIR)" />
-					<Add directory="$(VCF_INCLUDE)" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="LibPNG_$(COMPILER)$(COMPILER_VER)_sd" />
@@ -136,9 +123,10 @@
 					<Add library="version" />
 					<Add library="odbccp32" />
 					<Add library="odbc32" />
-					<Add directory="$(VCF_BIN)" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
+				<ExtraCommands>
+					<Add after="cmd /c move ..\..\..\bin\libGraphicsKit_mgcc_d.a ..\..\..\lib\libGraphicsKit_mgcc_d.a" />
+				</ExtraCommands>
 				<Environment>
 					<Variable name="GCH_DIR" value="..\GraphicsKit\$(COMPILER)$(COMPILER_VER)\DebugDLL\src" />
 				</Environment>
@@ -148,6 +136,15 @@
 				<Variable name="COMPILER_VER" value="" />
 			</Environment>
 		</Build>
+		<Compiler>
+			<Add directory="$(GCH_DIR)" />
+			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\agg\include&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\zlib&quot;' />
+		</Compiler>
+		<Linker>
+			<Add directory='&quot;$(VCF_LIB)&quot;' />
+		</Linker>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ImageList.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />

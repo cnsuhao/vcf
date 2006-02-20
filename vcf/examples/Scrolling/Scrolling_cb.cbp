@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="2" />
+	<FileVersion major="1" minor="3" />
 	<Project>
 		<Option title="Scrolling" />
-		<Option compiler="0" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="mingw_Release">
 				<Option output="mgcc\Release\Scrolling_mgcc.exe" />
 				<Option object_output="mgcc\Release\" />
 				<Option external_deps="$(VCF_BIN)\FoundationKit_mgcc;$(VCF_BIN)\GraphicsKit_mgcc;$(VCF_BIN)\ApplicationKit_mgcc;" />
 				<Option type="0" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-O2" />
@@ -33,13 +33,7 @@
 					<Add option="-DUSE_FOUNDATIONKIT_DLL" />
 					<Add option="-DUSE_GRAPHICSKIT_DLL" />
 					<Add option="-DUSE_APPLICATIONKIT_DLL" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\..\build\resources\win32" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="ApplicationKit_mgcc" />
@@ -58,8 +52,6 @@
 					<Add library="odbc32" />
 					<Add library="odbccp32" />
 					<Add library="ws2_32" />
-					<Add directory="$(VCF_BIN)" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
 			</Target>
 			<Target title="mingw_Debug">
@@ -67,11 +59,11 @@
 				<Option object_output="mgcc\Debug\" />
 				<Option external_deps="$(VCF_BIN)\FoundationKit_mgcc_d;$(VCF_BIN)\GraphicsKit_mgcc_d;$(VCF_BIN)\ApplicationKit_mgcc_d;" />
 				<Option type="0" />
-				<Option compiler="0" />
+				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Option projectIncludeDirsRelation="2" />
-				<Option projectResourceIncludeDirsRelation="0" />
+				<Option projectResourceIncludeDirsRelation="2" />
 				<Option projectLibDirsRelation="2" />
 				<Compiler>
 					<Add option="-W" />
@@ -90,13 +82,7 @@
 					<Add option="-DUSE_FOUNDATIONKIT_DLL" />
 					<Add option="-DUSE_GRAPHICSKIT_DLL" />
 					<Add option="-DUSE_APPLICATIONKIT_DLL" />
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="$(VCF_INCLUDE)" />
-					<Add directory="$(VCF_INCLUDE)\..\build\resources\win32" />
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="ApplicationKit_mgcc_d" />
@@ -115,11 +101,16 @@
 					<Add library="odbc32" />
 					<Add library="odbccp32" />
 					<Add library="ws2_32" />
-					<Add directory="$(VCF_BIN)" />
-					<Add directory="$(VCF_LIB)" />
 				</Linker>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\agg\include&quot;' />
+		</Compiler>
+		<Linker>
+			<Add directory='&quot;$(VCF_LIB)&quot;' />
+		</Linker>
 		<Unit filename="Scrolling.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
