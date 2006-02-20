@@ -231,6 +231,9 @@
 		<Project filename="..\..\examples\TextLayout\TextLayout_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
+		<Project filename="..\..\examples\Themes\Themes_cb.cbp">
+			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
+		</Project>
 		<Project filename="..\..\examples\ThreadBasics\ThreadBasics_cb.cbp">
 			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
 		</Project>
