@@ -176,13 +176,15 @@ void CommandButton::paint(GraphicsContext * context)
 
 	Rect rect = getClientBounds( true );
 
-	rect.setRect( 0, 0, rect.getWidth(), rect.getHeight() );
+	//rect.setRect( 0, 0, rect.getWidth(), rect.getHeight() );
 
 	ButtonState state = buttonPeer_->getState();
 	state.setActive( isActive() );
 
 	state.setDefaultButton( this == UIToolkit::getDefaultButton() );
 	state.buttonCaption_ = getCaption();
+
+	state.setPressed( isPressed_ );
 
 	context->setCurrentFont( getFont() );
 	context->drawThemeButtonRect( &rect, state );
@@ -220,6 +222,9 @@ void CommandButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/02/20 20:42:08  ddiego
+*comitting current state of theme code.
+*
 *Revision 1.4  2005/07/09 23:14:51  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
