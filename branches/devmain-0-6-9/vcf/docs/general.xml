@@ -932,6 +932,57 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				project group files Examples_bcb5.bpg (release projects) and Examples_bcb5_debug.bpg 
 				(debug projects).
 				</para>
+				
+				<formalpara><title>MinGW-GCC compiler with the Code::Blocks IDE</title>
+				This section describes building the VCF + examples in the Code::Blocks IDE (
+				<ulink url="http://www.codeblocks.org/">codeblocks.org</ulink>). The VCF has only been tested with 
+				the more recent "Nightly Build" versions of the C::B IDE (download info at their forum page at 
+				<ulink url="http://forums.codeblocks.org/index.php">forums.codeblocks.org</ulink>). While version 1.0 
+				RC2 might work, we have had troubles with precompiled header support, and strongly recommend the current
+				Nightly Builds or newer.  See instruction at the C::B site for using their IDE. Further, the VCF codeblocks 
+				projects have only been tested with versions 3.4.4 and 3.4.5 of the MinGW-GCC compiler, as of the release date.
+				</formalpara>
+				<para>There are several different Code::Blocks (C::B) workspaces you can use to build the 
+				VCF, depending on whether you want to build dynamic libraries, static libraries, or both. 
+				Building example VCF apps is also covered. These workspaces are found in the 
+				vcf\build\codeblocks directory.
+				<itemizedlist>
+					<listitem><para>
+					Dynamic and static libraries + example VCF applications: open vcfAllProjects.workspace 
+					</para></listitem>
+					<listitem><para>
+					Dynamic libraries only: open vcfAllDynamicLibs.workspace
+					</para></listitem>
+					<listitem><para>
+					Static libraries only: open vcfAllStaticLibs.workspace
+					</para></listitem>
+					<listitem><para>
+					Dynamic and static libraries only: open vcfAllLibs.workspace
+					</para></listitem>
+					<listitem><para>
+					Example VCF applications only: open vcfAllExamples.workspace . Note that you need to 
+					build the dynamic libraries before building these examples.
+					</para></listitem>
+				</itemizedlist>
+				</para>
+				<para>
+				Open the workspace of your choice in the C::B IDE. Available targets include "mingw_Release", 
+				"mingw_Debug", or "All" for both Release and Debug versions. Select the targer of your choice 
+				(or use the default target of All), make sure that the IDE is set to use the "GCC Compiler" 
+				compiler, and choose "Build->Build workspace" to build the libraries (+/- examples). The dynamic 
+				libraries (dll's) are placed in vcf\bin, and the dll import libraries and static libraries are placed in 
+				vcf\lib. All library names will have the suffix "_mgcc" added to their names to indicate they were built with 
+				the MinGW-GCC toolchain. 
+				</para>	
+				<para>
+				Building your own apps: The C::B IDE does not provide a great mechanism/wizard for creating an app skeleton, 
+				though it does provide a nice generic template mechanism. To start building your own VCF apps, we recommend 
+				opening one of the VCF example projects (such as HellowWorld), and saving it as a new project. This will give 
+				you an application outline with compiler options set up correctly, and you can add and remove your source files 
+				to the project as desired. You can also save an example project using "Project->Save project as user-template" 
+				and then create new projects from that template. This works well, but in both of these cases you have to change 
+				the name of the output binary through Project->Properties to your application output name.
+				</para>	
 			</section>
 			
 			<section><title>MacOSX</title>
@@ -2048,6 +2099,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.6  2006/02/20 04:26:55  dougtinkham
+docs for building vcf libs with codeblocks+MinGW
+
 Revision 1.6.2.5  2006/02/18 03:44:52  ddiego
 general.xml
 
