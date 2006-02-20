@@ -57,6 +57,7 @@
 					<Add library="odbc32" />
 				</Linker>
 				<ExtraCommands>
+					<Add after="cmd /c if NOT EXIST ..\..\..\lib MKDIR ..\..\..\lib" />
 					<Add after="cmd /c move ..\..\..\bin\libFoundationKit_mgcc.a ..\..\..\lib\libFoundationKit_mgcc.a" />
 				</ExtraCommands>
 				<Environment>
@@ -112,6 +113,7 @@
 					<Add library="odbc32" />
 				</Linker>
 				<ExtraCommands>
+					<Add after="cmd /c if NOT EXIST ..\..\..\lib MKDIR ..\..\..\lib" />
 					<Add after="cmd /c move ..\..\..\bin\libFoundationKit_mgcc_d.a ..\..\..\lib\libFoundationKit_mgcc_d.a" />
 				</ExtraCommands>
 				<Environment>
