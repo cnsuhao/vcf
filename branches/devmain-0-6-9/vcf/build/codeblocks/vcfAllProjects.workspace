@@ -75,7 +75,6 @@
 		<Project filename="..\..\examples\AppResources\AppResources_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
-		<Project filename="..\..\examples\Browser\Browser_cb.cbp" />
 		<Project filename="..\..\examples\Cards\Cards_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
@@ -165,6 +164,9 @@
 		</Project>
 		<Project filename="..\..\examples\Localization\Localization_cb.cbp">
 			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
+		</Project>
+		<Project filename="..\..\examples\MinMax\MinMax_cb.cbp">
+			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\MVCBasics\MVCBasics_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
