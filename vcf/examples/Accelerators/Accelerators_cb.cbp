@@ -9,7 +9,7 @@
 			<Target title="mingw_Release">
 				<Option output="mgcc\Release\Accelerators_mgcc.exe" />
 				<Option object_output="mgcc\Release\" />
-				<Option external_deps="$(VCF_BIN)\FoundationKit;$(VCF_BIN)\GraphicsKit;$(VCF_BIN)\ApplicationKit;" />
+				<Option external_deps="$(VCF_LIB)\libFoundationKit_mgcc.a;$(VCF_LIB)\libGraphicsKit_mgcc.a;$(VCF_LIB)\libApplicationKit_mgcc.a;" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
@@ -59,6 +59,7 @@
 			<Target title="mingw_Debug">
 				<Option output="mgcc\Debug\Accelerators_mgcc_d.exe" />
 				<Option object_output="mgcc\Debug\" />
+				<Option external_deps="$(VCF_LIB)\libFoundationKit_mgcc_d.a;$(VCF_LIB)\libGraphicsKit_mgcc_d.a;$(VCF_LIB)\libApplicationKit_mgcc_d.a;" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option includeInTargetAll="1" />
