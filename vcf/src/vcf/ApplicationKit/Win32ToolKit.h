@@ -212,6 +212,8 @@ public:
 
 	virtual void internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory );
 
+	virtual void internal_systemSettingsChanged();
+
 	static HINSTANCE getInstanceHandle();
 protected:
 
@@ -247,6 +249,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.5.2.3  2005/11/21 21:28:05  ddiego
 *updated win32 code a bit due to osx changes.
 *

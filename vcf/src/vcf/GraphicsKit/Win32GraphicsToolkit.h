@@ -46,6 +46,8 @@ public:
 	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer();
 
 	virtual double internal_getDPI( GraphicsContext* context );
+
+	virtual void internal_systemSettingsChanged();
 protected:
 	void initSystemFont();
 	void loadSystemColors();
@@ -60,6 +62,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.4.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

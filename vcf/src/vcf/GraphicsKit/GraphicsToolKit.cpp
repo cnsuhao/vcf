@@ -180,6 +180,10 @@ GraphicsResourceBundlePeer* GraphicsToolkit::createGraphicsResourceBundlePeer()
 }
 
 
+void GraphicsToolkit::systemSettingsChanged()
+{
+	GraphicsToolkit::graphicsToolkitInstance->internal_systemSettingsChanged();
+}
 
 
 
@@ -1344,6 +1348,9 @@ void GraphicsToolkit::destroySystemColorNameMap()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.5.2.4  2005/10/07 19:31:53  ddiego
 *merged patch 1315995 and 1315991 into dev repos.
 *

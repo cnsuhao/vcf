@@ -2682,7 +2682,221 @@ with the native windowing systems default look and feel
 */
 void Win32Context::drawThemeTab( Rect* rect, TabState& state )
 {
+	HTHEME theme = NULL;
 
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
+
+
+	if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+		theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"TAB" );
+	}
+
+	if ( theme ) {
+		int tabState = 0;
+		if ( !state.isEnabled() ) {
+			
+		}
+		else {
+
+		}
+
+		//HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TVP_GLYPH, partState, 
+		//														&r, TS_TRUE, &val);
+
+
+		Win32VisualStylesWrapper::CloseThemeData( theme );
+	}
+}
+
+void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, 
+									TabState& otherTabs, const std::vector<String>& tabsNames, 
+									int selectedTabIndex )
+{
+	HTHEME theme = NULL;
+
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
+
+
+	if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+		theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"TAB" );
+	}
+
+	if ( theme ) {
+
+		int dcs = SaveDC( dc_ );
+
+		SetBkMode(dc_, TRANSPARENT);
+		VCF::Font btnFont = *context_->getCurrentFont();		
+		
+		HFONT font = NULL;			
+		if ( System::isUnicodeEnabled() ) {
+			LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
+			font = ::CreateFontIndirectW( lf );
+			::SelectObject( dc_, font );
+		}
+		else {
+			LOGFONTA* lf = (LOGFONTA*) btnFont.getFontPeer()->getFontHandleID();
+			font = ::CreateFontIndirectA( lf );
+			::SelectObject( dc_, font );
+		}
+
+		SIZE bodySize = {0};
+		SIZE paneSize = {0};
+		RECT bodyContent = r;
+		RECT paneContent = r;
+
+		SIZE tabSz = {0};
+		SIZE tabSelectedSz = {0};
+		
+		HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_BODY, 1, 
+																&r, TS_TRUE, &bodySize);
+
+		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_PANE, 1, 
+																&r, TS_TRUE, &paneSize);
+
+		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_TABITEM, TIS_SELECTED, 
+																&r, TS_TRUE, &tabSelectedSz);
+
+		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_TABITEM, TIS_NORMAL, 
+																&r, TS_TRUE, &tabSz);
+
+
+		hr = Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, 
+			TABP_BODY, 1, &r, &bodyContent );
+
+		hr = Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, 
+			TABP_PANE, 1, &r, &paneContent );
+
+
+		int dy = abs(bodyContent.top - paneContent.top);
+
+		if ( !tabsNames.empty() ) {
+			bodyContent.top += max(tabSz.cy,tabSelectedSz.cy);
+			paneContent.top += max(tabSz.cy,tabSelectedSz.cy) + dy;
+		}
+ 
+		
+		
+		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_PANE, 1, &bodyContent, 0 );
+
+		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_BODY, 1, &paneContent, 0 );
+
+		if ( !tabsNames.empty() ) {
+
+			RECT tabRect;
+
+			int tabWidth = tabSz.cx;
+
+			std::vector<String>::const_iterator it = tabsNames.begin();		
+
+			int totalTabWidth = 0;
+
+			std::vector<int> textWidths;
+			SIZE textSz = {0};
+			//calculate total width
+			if ( System::isUnicodeEnabled() ) {
+				while ( it != tabsNames.end() ) {
+					const String& s = *it;
+
+					::GetTextExtentPoint32W( dc_, s.c_str(), s.size(), &textSz );
+
+					totalTabWidth += textSz.cx + tabSz.cx;
+
+					textWidths.push_back( textSz.cx );
+						
+					it ++;
+				}
+			}
+			else {
+				
+			}
+
+			bool scaleTabs = totalTabWidth > ((bodyContent.right - bodyContent.left) + (tabSz.cx*tabsNames.size()));
+
+			if ( scaleTabs ) {
+				tabWidth = (bodyContent.right - bodyContent.left) / tabsNames.size();
+			}
+
+			tabRect.left = bodyContent.left;
+			tabRect.right = tabRect.left;
+
+			//draw tabs
+			it = tabsNames.begin();		
+			int idx = 0;
+			RECT textRect = {0};
+
+			int tabState = 0;
+			int tabPart = 0;
+
+			if ( !paneState.isEnabled() ) {
+				tabState = TIS_DISABLED;
+			}
+
+			while ( it != tabsNames.end() ) {				
+
+				const String& s = *it;
+
+
+				if ( !scaleTabs ) {
+					tabWidth = textWidths[idx] + tabSz.cx;
+				}
+
+				tabRect.right += tabWidth;
+
+				if ( ((idx == 0) && (selectedTabIndex == -1)) || (selectedTabIndex == idx) ) {
+					tabRect.bottom = bodyContent.top+1;
+					tabRect.top = tabRect.bottom - tabSz.cy;
+
+					tabPart = TABP_TABITEMLEFTEDGE;
+					tabState = paneState.isEnabled() ? TILES_SELECTED : TILES_DISABLED;
+				}
+				else if ( idx == tabsNames.size()-1 ) {
+					//last tab
+
+					tabRect.bottom = bodyContent.top;
+					tabRect.top = tabRect.bottom - tabSz.cy + 2;
+
+					tabPart = TABP_TABITEM;
+					tabState = paneState.isEnabled() ? TIS_NORMAL : TIS_DISABLED;
+				}
+				else {
+					tabRect.bottom = bodyContent.top;
+					tabRect.top = tabRect.bottom - tabSz.cy + 2;
+
+					tabPart = TABP_TABITEM;
+					tabState = paneState.isEnabled() ? TIS_NORMAL : TIS_DISABLED;
+				}
+
+				Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, tabPart, tabState, &tabRect, 0 );
+
+				textRect = tabRect;
+				textRect.left += tabSz.cx/2;
+				textRect.right -= tabSz.cx/2;
+
+				Win32VisualStylesWrapper::DrawThemeText( theme, dc_, TABP_TABITEM, TIS_NORMAL, 
+													s.c_str(), s.size(), DT_SINGLELINE | DT_VCENTER | DT_LEFT | DT_EXPANDTABS,
+													0, &textRect );
+
+				tabRect.left += tabWidth;
+				
+				idx ++;
+				it ++;
+			}
+		}
+		
+		RestoreDC( dc_, dcs );
+		DeleteObject( font );
+
+		Win32VisualStylesWrapper::CloseThemeData( theme );
+	}
 }
 
 /**
@@ -2706,8 +2920,18 @@ void Win32Context::drawThemeTabPage( Rect* rect, DrawUIState& state )
 	}
 
 	if ( theme ) {
-		Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, TABP_BODY, 0, &r, 0);
-		Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, TABP_PANE, 0, &r, 0);
+		RECT bodyContent = r;
+		RECT paneContent = r;
+
+		Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, 
+			TABP_BODY, 1, &r, &bodyContent );
+
+		Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, 
+			TABP_PANE, 1, &r, &paneContent );
+
+		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_PANE, 1, &bodyContent, 0 );
+
+		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_BODY, 1, &paneContent, 0 );
 
 		Win32VisualStylesWrapper::CloseThemeData( theme );
 	}
@@ -2820,10 +3044,8 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 		RECT tick2;
 
 		if ( state.isVertical() ) {
-			tickVal = trackContent.top/* + thmbSize.cy/2*/ - val.cy/2;
+			tickVal = trackContent.top - val.cy/2;
 			length = (trackContent.bottom - trackContent.top);// - thmbSize.cy;
-
-			incr = length/(state.tickMarkFrequency_);
 
 			tick1.left = r.left + val.cx/2;
 			tick1.right = tick1.left + val.cx;
@@ -2834,17 +3056,16 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 		}
 		else {
 			tickVal = trackContent.left - val.cx/2;
-			incr = rect->getWidth()/((double)state.tickMarkFrequency_);
+			length = (trackContent.right - trackContent.left);			
 
-			//tickR.left = trackContent.left + (trackContent.right-trackContent.left)/2 - val.cx/2;
-			//tickR.right = tickR.left + val.cx;
+			tick1.top = r.top + val.cy/2;
+			tick1.bottom = tick1.top + val.cy;
+
+			tick2.top = r.bottom - val.cy/2;
+			tick2.bottom = tick2.top + val.cy;			
 		}
 
-		
-
-		
-
-		
+		incr = length/state.tickMarkFrequency_;
 
 		int count = state.tickMarkFrequency_;
 		for (long i=0;i<=count;i++ ) {
@@ -2852,17 +3073,19 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 				tick2.top = tick1.top = tickVal;
 				tick1.bottom = tick1.top + val.cy;
 				tick2.bottom = tick1.bottom;
-
-				if ( state.isTickMarkingOnBottomRight() ) {
-					Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, tickPart, tickState, &tick2, 0);
-				}
-
-				if ( state.isTickMarkingOnTopLeft() ) {
-					Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, tickPart, tickState, &tick1, 0);
-				}
 			}
 			else{
+				tick2.left = tick1.left = tickVal;
+				tick1.right = tick1.left + val.cy;
+				tick2.right = tick1.right;				
+			}
 
+			if ( state.isTickMarkingOnBottomRight() ) {
+				Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, tickPart, tickState, &tick2, 0);
+			}
+			
+			if ( state.isTickMarkingOnTopLeft() ) {
+				Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, tickPart, tickState, &tick1, 0);
 			}
 
 			tickVal += incr;
@@ -3048,7 +3271,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 			thmbR.top = trackContent.top + ((trackContent.bottom-trackContent.top)/2 - (val.cy/2));
 			thmbR.bottom = thmbR.top + val.cy;
 			thmbR.left =  (thmbR.left - val.cx/2) + 
-				((state.min_ + state.position_) / (state.max_ - state.min_)) * ((double)(r.right-r.left));
+				((state.position_) / (state.max_ - state.min_)) * ((double)(r.right-r.left));
 			thmbR.right = thmbR.left + val.cx;			
 		}
 
@@ -3090,7 +3313,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 		else {
 			thumbRect.right_ = thumbRect.left_ + thumbSize.width_;
 			
-			thumbRect.offset( (int)(((state.position_+state.min_)/(state.max_-state.min_))*rect->getWidth()) - (int)(thumbSize.width_/2), 0 );
+			thumbRect.offset( (int)(((state.position_)/(state.max_-state.min_))*rect->getWidth()) - (int)(thumbSize.width_/2), 0 );
 		}
 		
 		
@@ -3348,35 +3571,199 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 	}
 }
 
-/**
-Draws a progress bar control, that is compliant
-with the native windowing systems default look and feel
-*/
 void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 {
 	Rect tmp = *rect;
 
-	drawThemeEdge( &tmp, state, GraphicsContext::etAllSides, GraphicsContext::etSunken );
+	HTHEME theme = NULL;
 
-	tmp.inflate( -1, -1 );
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
 
-	Rect progressRect = tmp;
 
-	double s = minVal<>( state.min_, state.max_ );
-	double e = maxVal<>( state.min_, state.max_ );
+	if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+		theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"PROGRESS" );
+	}
 
-	if ( state.isVertical() ) {
-		progressRect.top_ = progressRect.bottom_ - ((state.position_/fabs(e-s)) * tmp.getHeight());
+	if ( theme ) {
+
+		int dcs = ::SaveDC( dc_ );
+		RECT progressContent = {0};
+		RECT textRect;
+
+		SetBkMode(dc_, TRANSPARENT);
+		VCF::Font btnFont = *context_->getCurrentFont();
+		HFONT font = NULL;
+			
+
+		if ( state.isVertical() ) {
+			Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, PP_CHUNKVERT, 0, &r, &progressContent );
+
+			Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, PP_BARVERT, 0, &r, 0);
+
+			textRect = progressContent;
+
+			progressContent.top += (progressContent.left - r.left);
+			progressContent.bottom -= (progressContent.left - r.left);
+			
+
+			progressContent.top = progressContent.bottom - 
+				((state.position_)/(state.max_-state.min_) * (progressContent.bottom-progressContent.top));
+
+			Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, PP_CHUNKVERT, 0, &progressContent, 0);
+
+			
+						
+			if ( System::isUnicodeEnabled() ) {
+				LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
+				font = ::CreateFontIndirectW( lf );
+				::SelectObject( dc_, font );
+			}
+			else {
+				LOGFONTA* lf = (LOGFONTA*) btnFont.getFontPeer()->getFontHandleID();
+				font = ::CreateFontIndirectA( lf );
+				::SelectObject( dc_, font );
+			}
+			
+			textRect.left += 1;
+			textRect.top += 1;
+			textRect.right -= 1;
+			textRect.bottom -= 1;
+
+			Win32VisualStylesWrapper::DrawThemeText(theme, dc_, PP_CHUNKVERT, 0,
+													state.progressCaption_.c_str(),
+													state.progressCaption_.length(),
+													DT_SINGLELINE | DT_VCENTER | DT_LEFT | DT_EXPANDTABS, 
+													NULL, 
+													&textRect);		
+			
+			
+		}
+		else {
+			Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, PP_CHUNK, 0, &r, &progressContent );
+
+			Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, PP_BAR, 0, &r, 0);
+
+			textRect = progressContent;
+
+			progressContent.left += (progressContent.top - r.top);
+			progressContent.right -= (progressContent.top - r.top);
+
+			progressContent.right = progressContent.left + 
+				((state.position_)/(state.max_-state.min_) * (progressContent.right-progressContent.left));
+
+			Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, PP_CHUNK, 0, &progressContent, 0);
+
+			textRect.left += 1;
+			textRect.top += 1;
+			textRect.right -= 1;
+			textRect.bottom -= 1;
+
+
+			if ( System::isUnicodeEnabled() ) {
+				LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
+				font = ::CreateFontIndirectW( lf );
+				::SelectObject( dc_, font );
+			}
+			else {
+				LOGFONTA* lf = (LOGFONTA*) btnFont.getFontPeer()->getFontHandleID();
+				font = ::CreateFontIndirectA( lf );
+				::SelectObject( dc_, font );
+			}
+			
+			Win32VisualStylesWrapper::DrawThemeText(theme, dc_, PP_CHUNK, 0,
+													state.progressCaption_.c_str(),
+													state.progressCaption_.length(),
+													DT_SINGLELINE | DT_CENTER | DT_VCENTER | DT_EXPANDTABS, 
+													NULL, 
+													&textRect);	
+		}
+
+		
+
+		RestoreDC( dc_, dcs );
+
+		DeleteObject( font );
+
+		Win32VisualStylesWrapper::CloseThemeData( theme );
 	}
 	else {
-		progressRect.right_ = progressRect.left_ + ((state.position_/(e-s)) * tmp.getWidth());
+		::DrawEdge( dc_, &r, BDR_SUNKENINNER, BF_TOPLEFT|BF_SOFT );
+		::DrawEdge( dc_, &r, BDR_SUNKENOUTER, BF_BOTTOMRIGHT|BF_SOFT );
+		tmp.inflate( -2, -2 );
+
+		Rect progressRect = tmp;
+		
+		double s = minVal<>( state.min_, state.max_ );
+		double e = maxVal<>( state.min_, state.max_ );
+		
+		if ( state.isVertical() ) {
+			progressRect.top_ = progressRect.bottom_ - ((state.position_/fabs(e-s)) * tmp.getHeight());
+		}
+		else {
+			progressRect.right_ = progressRect.left_ + ((state.position_/(e-s)) * tmp.getWidth());
+		}
+		
+		Color* progressBarColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION );
+		
+		if ( state.useCustomProgressColor() ) {
+			progressBarColor = &state.customColor_;
+		}
+
+		context_->setColor( progressBarColor );
+		context_->rectangle( progressRect );
+		context_->fillPath();
+		
+		//draw text
+	
+		if ( !state.progressCaption_.empty() ) {
+			Rect textBounds;
+			
+			
+			if ( state.isVertical() ) {
+				textBounds.left_ = progressRect.left_;
+				textBounds.right_ = progressRect.right_;
+				
+				double h = minVal<>( context_->getTextHeight( "EM" ), tmp.getHeight()-2 );
+				textBounds.top_ = tmp.top_ +
+					(tmp.getHeight()/2.0 - h/2.0);
+				
+				textBounds.bottom_ = textBounds.top_ + h;
+				
+				textBounds.inflate( 0, 2 );
+			}
+			else {
+				textBounds.top_ = progressRect.top_;
+				textBounds.bottom_ = progressRect.bottom_;
+				
+				double w = minVal<>( context_->getTextWidth( state.progressCaption_ ), tmp.getWidth()-2 );
+				
+				textBounds.left_ = tmp.left_ +
+					(tmp.getWidth()/2.0 - w/2.0);
+				
+				textBounds.right_ = textBounds.left_ + w;
+			}
+			
+			long drawOptions = GraphicsContext::tdoNone;
+			drawOptions |= GraphicsContext::tdoCenterHorzAlign;
+			drawOptions |= GraphicsContext::tdoCenterVertAlign;
+			
+			Color oldColor = *context_->getCurrentFont()->getColor();
+			
+			Color* progressTextColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
+			if ( state.useCustomProgressTextColor() ) {
+				progressTextColor = &state.customTextColor_;
+			}
+			context_->getCurrentFont()->setColor( progressTextColor );
+			
+			context_->textBoundedBy( &textBounds, state.progressCaption_, drawOptions );
+			
+			context_->getCurrentFont()->setColor(&oldColor);
+		}
 	}
-
-	Color* progressBarColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION );
-
-	context_->setColor( progressBarColor );
-	context_->rectangle( progressRect );
-	context_->fillPath();
 }
 
 void Win32Context::drawThemeImage( Rect* rect, Image* image, DrawUIState& state )
@@ -3554,7 +3941,14 @@ with the native windowing systems default look and feel
 */
 void Win32Context::drawThemeSizeGripper( Rect* rect, DrawUIState& state )
 {
+	HTHEME theme = NULL;
 
+	if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+		theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"GLOBALS" );
+	}
+
+	if ( theme ) {
+	}
 }
 
 /**
@@ -3925,6 +4319,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.6  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.7.2.5  2006/02/20 20:42:08  ddiego
 *comitting current state of theme code.
 *

@@ -581,6 +581,8 @@ public:
 	*/
 	void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
+	void drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, TabState& otherTabs, const std::vector<String>& tabNames, int selectedTabIndex );
+
 	/**
 	Draws tick marks, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
@@ -818,6 +820,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.2  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.7.2.1  2005/09/03 14:03:53  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

@@ -50,6 +50,48 @@ Win32GraphicsToolkit::~Win32GraphicsToolkit()
 	Win32FontManager::getFontManager()->free();
 }
 
+void Win32GraphicsToolkit::internal_systemSettingsChanged()
+{
+	StringUtils::trace( "Win32GraphicsToolkit::internal_systemSettingsChanged()\n" );
+
+	if ( System::isUnicodeEnabled() ) {
+		HFONT defGUIFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+		LOGFONTW lf = {0};
+		GetObjectW( defGUIFont, sizeof(LOGFONTW), &lf );
+
+		systemFont_->setBold( (lf.lfWeight == FW_BOLD) ? true : false );
+		systemFont_->setItalic( lf.lfItalic == TRUE );
+		systemFont_->setUnderlined( lf.lfUnderline == TRUE );
+		systemFont_->setStrikeOut( lf.lfStrikeOut == TRUE );
+		systemFont_->setPixelSize( lf.lfHeight );
+		systemFont_->setName( String(lf.lfFaceName) );
+	}
+	else {
+		HFONT defGUIFont = (HFONT)GetStockObject( DEFAULT_GUI_FONT );
+		LOGFONTA lf = {0};
+		GetObjectA( defGUIFont, sizeof(LOGFONTA), &lf );
+
+		systemFont_->setBold( (lf.lfWeight == FW_BOLD) ? true : false );
+		systemFont_->setItalic( lf.lfItalic == TRUE );
+		systemFont_->setUnderlined( lf.lfUnderline == TRUE );
+		systemFont_->setStrikeOut( lf.lfStrikeOut == TRUE );
+		systemFont_->setPixelSize( lf.lfHeight );
+		systemFont_->setName( String(lf.lfFaceName) );
+	}
+
+	
+	systemColorNameMap_->clear();
+
+	std::map<unsigned long,Color*>::iterator it = systemColors_.begin();
+	while ( it != systemColors_.end() ){
+		delete it->second;
+		it++;
+	}
+	systemColors_.clear();
+
+	loadSystemColors();
+}
+
 void Win32GraphicsToolkit::initSystemFont()
 {
 	systemFont_ = new Font();
@@ -227,6 +269,9 @@ GraphicsResourceBundlePeer* Win32GraphicsToolkit::internal_createGraphicsResourc
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.5.2.2  2006/02/19 22:59:44  ddiego
 *more vc80 project updates, plus some new theme aware code for xp. this is still in development.
 *

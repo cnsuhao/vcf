@@ -567,6 +567,13 @@ UIPolicyManager* UIToolkit::getUIPolicyManager()
 	return UIToolkit::toolKitInstance->internal_getUIPolicyManager();
 }
 
+void UIToolkit::systemSettingsChanged()
+{
+	GraphicsToolkit::systemSettingsChanged();
+
+	UIToolkit::toolKitInstance->internal_systemSettingsChanged();
+}
+
 
 void getHelpInfo( String& helpBookName, String& helpDirectory )
 {
@@ -1324,6 +1331,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.9  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.5.2.8  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.
