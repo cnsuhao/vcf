@@ -234,6 +234,8 @@ public:
 	*/
 	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state ) = 0;
 
+	virtual void drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, TabState& otherTabs, const std::vector<String>& tabNames, int selectedTabIndex ) = 0;
+
 	/**
 	Draws a tick mark, like that used for a slider control, that is compliant
 	with the native windowing systems default look and feel
@@ -299,6 +301,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.1  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.6  2005/07/09 23:05:58  ddiego
 *added missing gtk files
 *

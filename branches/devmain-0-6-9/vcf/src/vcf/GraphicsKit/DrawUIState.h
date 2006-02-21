@@ -162,7 +162,15 @@ public:
 		the default button is the button that will be "clicked" if the user hits the 
 		enter or return key.
 		*/
-		dsDefaultButton					= 0x00800000
+		dsDefaultButton					= 0x00800000,
+
+		/**
+		Indicates that the custom color should be used if the underlying
+		windowing theme API supports this. 
+		*/
+		dsUseCustomProgressColor		= 0x01000000,
+		dsUseCustomProgressTextColor	= 0x02000000,
+
 	};	
 };
 
@@ -417,8 +425,36 @@ public:
 		}
 	}
 	
+	void setUseCustomProgressColor( bool val ) {
+		if ( val ) {
+			state_ |= DrawStates::dsUseCustomProgressColor;		
+		}
+		else {
+			state_ &= ~DrawStates::dsUseCustomProgressColor;
+		}
+	}
+
+	bool useCustomProgressColor() const {
+		return state_ & DrawStates::dsUseCustomProgressColor ? true : false;
+	}
+
+	void setUseCustomProgressTextColor( bool val ) {
+		if ( val ) {
+			state_ |= DrawStates::dsUseCustomProgressTextColor;		
+		}
+		else {
+			state_ &= ~DrawStates::dsUseCustomProgressTextColor;
+		}
+	}
+
+	bool useCustomProgressTextColor() const {
+		return state_ & DrawStates::dsUseCustomProgressTextColor ? true : false;
+	}
+
 	
 public:	
+	Color customColor_;
+	Color customTextColor_;
 	String progressCaption_;
 	double min_;
 	double max_;
@@ -691,6 +727,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.5.2.2  2006/02/20 20:42:08  ddiego
 *comitting current state of theme code.
 *

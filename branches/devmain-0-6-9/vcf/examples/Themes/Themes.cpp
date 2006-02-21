@@ -486,8 +486,34 @@ public:
 		DrawUIState state;
 		ctx->drawThemeTabPage( &tabsR, state );
 
+		tabsR.offset( 0, tabsR.getHeight() + 10 );
+		textR.offset( 0, textR.getHeight() + 10 );
 		
-		
+		tabsR.bottom_ += 300;
+		textR.bottom_ = tabsR.bottom_;
+
+		ctx->textBoundedBy( &textR, "Complete Tabs Rect", options );
+
+		TabState tab;
+		TabState selectedTab;
+		state.setEnabled(true);
+		std::vector<String> tabs;
+		tabs.push_back( "Page 1" );
+		tabs.push_back( "Page 2" );
+		tabs.push_back( "Page 3" );
+		tabs.push_back( "Page 4" );
+
+		ctx->drawThemeTabs( &tabsR, state, selectedTab, tab, tabs, 2 );
+
+
+		tabsR.offset( 0, tabsR.getHeight() + 10 );
+		textR.offset( 0, textR.getHeight() + 10 );
+
+		ctx->textBoundedBy( &textR, "Complete Tabs Rect disabled", options );
+
+		state.setEnabled(false);			
+
+		ctx->drawThemeTabs( &tabsR, state, selectedTab, tab, tabs, 1 );
 
 	}
 };	
@@ -605,6 +631,103 @@ public:
 };	
 
 
+class ProgressPanel : public Panel {
+public:
+	ProgressPanel() {
+		setBorder( NULL );
+	}
+	virtual void paint( GraphicsContext* ctx ) {
+		Panel::paint( ctx );
+
+		Rect r = getClientBounds();
+
+		r.inflate( -10, -10 );
+
+		int height = 40;
+
+		Rect progressR = r;
+		Rect textR = r;
+		progressR.right_ = progressR.left_ + progressR.getWidth()/2;
+		progressR.bottom_ = progressR.top_ + height;
+
+		textR.left_ = progressR.right_;
+		textR.bottom_ = progressR.bottom_;
+
+		long options = GraphicsContext::tdoCenterHorzAlign | 
+							GraphicsContext::tdoCenterVertAlign;
+
+		ctx->textBoundedBy( &textR, "Horizontal Progress bar Rect", options );
+
+		ProgressState horzState;
+		horzState.setEnabled( true );
+		horzState.setVertical( false );
+		horzState.min_ = 0;
+		horzState.max_ = 100;
+		horzState.position_ = 23;
+		
+		ctx->drawThemeProgress( &progressR, horzState );
+		
+
+		progressR.offset( 0, height + 10 );
+		textR.offset( 0, height + 10 );
+
+
+		horzState.setEnabled( false );
+		horzState.position_ = 65;
+		
+
+		ctx->textBoundedBy( &textR, "Horizontal Progress bar disabled Rect", options );
+		ctx->drawThemeProgress( &progressR, horzState );
+
+		progressR.offset( 0, height + 10 );
+		textR.offset( 0, height + 10 );
+
+
+		horzState.setEnabled( true );
+		horzState.position_ = 37;
+		horzState.progressCaption_ = "Progress...";
+
+		ctx->textBoundedBy( &textR, "Horizontal Progress bar pressed Rect", options );
+		ctx->drawThemeProgress( &progressR, horzState );
+
+		progressR.offset( 0, height + 10 );
+		textR.offset( 0, height + 10 );
+
+		progressR.bottom_ += 40;
+		textR.bottom_ += 40;
+
+
+		ctx->textBoundedBy( &textR, "Vertical Progress bar Rect", options );
+
+		ProgressState vertState;
+		vertState.setEnabled( true );
+		vertState.setVertical( true );
+		vertState.min_ = 0;
+		vertState.max_ = 100;
+		vertState.position_ = 23;
+		
+		ctx->drawThemeProgress( &progressR, vertState );
+
+		progressR.offset( 0, progressR.getHeight() + 10 );
+		textR.offset( 0, textR.getHeight() + 10 );
+
+		ctx->textBoundedBy( &textR, "Vertical Progress bar Rect disabled", options );
+		vertState.setEnabled( false );
+		vertState.position_ = 65;
+		ctx->drawThemeProgress( &progressR, vertState );
+
+		progressR.offset( 0, progressR.getHeight() + 10 );
+		textR.offset( 0, textR.getHeight() + 10 );
+
+
+		vertState.setEnabled( true );
+		vertState.position_ = 37;
+
+		vertState.progressCaption_ = "Progress...";
+		ctx->textBoundedBy( &textR, "Vertical Progress bar pressed Rect", options );
+		ctx->drawThemeProgress( &progressR, vertState );
+	}
+};	
 
 class ThemesWindow : public Window {
 public:
@@ -624,7 +747,8 @@ public:
 		pages->addNewPage( "Tabs" )->getPageComponent()->getContainer()->add( new TabsPanel(), AlignClient );
 
 		pages->addNewPage( "Sliders" )->getPageComponent()->getContainer()->add( new SlidersPanel(), AlignClient );
-	
+
+		pages->addNewPage( "Progress Bars" )->getPageComponent()->getContainer()->add( new ProgressPanel(), AlignClient );		
 		
 	}
 

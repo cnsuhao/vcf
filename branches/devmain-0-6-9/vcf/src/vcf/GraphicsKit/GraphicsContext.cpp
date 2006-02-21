@@ -866,6 +866,11 @@ void GraphicsContext::drawThemeTabPage( Rect* rect, DrawUIState& state )
 	contextPeer_->drawThemeTabPage( rect, state );
 }
 
+void GraphicsContext::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, TabState& otherTabs, const std::vector<String>& tabNames, int selectedTabIndex )
+{
+	contextPeer_->drawThemeTabs( rect, paneState, selectedTabState, otherTabs, tabNames, selectedTabIndex );
+}
+
 void GraphicsContext::drawThemeTickMarks( Rect* rect, SliderState& state )
 {
 	contextPeer_->drawThemeTickMarks( rect, state );
@@ -1502,6 +1507,9 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.6  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.6.2.5  2005/11/27 23:55:45  ddiego
 *more osx updates.
 *

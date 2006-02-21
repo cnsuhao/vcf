@@ -1959,7 +1959,12 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 		}
 		break;
 
-		
+		case WM_SETTINGCHANGE : {
+			//settings change!
+
+			UIToolkit::systemSettingsChanged();
+		}
+		break;
 
 		case WM_ACTIVATEAPP: {
 
@@ -3370,9 +3375,17 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 	}
 }
 
+void Win32ToolKit::internal_systemSettingsChanged()
+{
+	
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.17  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.6.2.16  2006/02/19 19:38:13  ddiego
 *adjusted some comet code to make it compile again. renamed some of the COM utility files to have a Win32 prefix.
 *

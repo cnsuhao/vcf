@@ -245,9 +245,22 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 	static bool windowRestoredAlready = true;
 	switch ( message ) {
-/*
-		case WM_GETMINMAXINFO : {
+		case WM_SETTINGCHANGE : {
+			//settings change!
+
+			result = true;
+
+			wndProcResult = 0;
+
+			::RedrawWindow( hwnd_, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+
 			return result;
+		}
+		break;
+
+
+		case WM_GETMINMAXINFO : {
+			
 			if ( !peerControl_->isDesigning() ) {
 				result = false;
 				wndProcResult = 0;
@@ -277,7 +290,6 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 		}
 		break;
-		*/
 
 		case WM_SIZE : {
 
@@ -835,6 +847,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.11  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.5.2.10  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

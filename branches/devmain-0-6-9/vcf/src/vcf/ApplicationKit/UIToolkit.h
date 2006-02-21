@@ -435,6 +435,8 @@ public:
 	static void addToUpdateTimer( Component* component );
 	static void removeFromUpdateTimer( Component* component );
 	static void setUpdateTimerSpeed( const unsigned long& milliseconds );
+
+	static void systemSettingsChanged();
 protected:
 	static UIToolkit* toolKitInstance;
 
@@ -593,6 +595,8 @@ protected:
 
 	virtual void internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory ) = 0;
 
+	virtual void internal_systemSettingsChanged() = 0;
+
 	virtual void internal_handleKeyboardEvent( KeyboardEvent* event );
 
 	virtual VirtualKeyCode internal_findMnemonic( const String& caption );
@@ -659,6 +663,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.5.2.2  2005/10/07 16:41:21  kiklop74
 *Added support for building ApplicationKit with Borland Free Compiler
 *

@@ -157,24 +157,7 @@ void ProgressControl::paint( GraphicsContext* ctx )
 	CustomControl::paint( ctx );
 
 	Rect clientBounds = getClientBounds();
-	clientBounds.inflate( -2, -2 );
-	Rect progressRect = clientBounds;
 
-	if ( paVertical == displayAlignment_ ) {
-		double s = minVal<>( minVal_, maxVal_ );
-		double e = maxVal<>( minVal_, maxVal_ );
-
-		progressRect.top_ = progressRect.bottom_ - ((position_/fabs(e-s)) * clientBounds.getHeight());
-	}
-	else {
-		double s = minVal<>( minVal_, maxVal_ );
-		double e = maxVal<>( minVal_, maxVal_ );
-
-		progressRect.right_ = progressRect.left_ + ((position_/(e-s)) * clientBounds.getWidth());
-	}
-/*
-JC : Note! This is the *right* way to draw this control - once it's working on the 
-Win32 side we can phase in this code
 	ProgressState state;
 	state.min_ = minVal_;
 	state.max_ = maxVal_;
@@ -185,77 +168,24 @@ Win32 side we can phase in this code
 	if ( displayProgressText_ ) {
 		String text;
 		if ( useProgressFormatString_ && (!progressFormatString_.empty()) ) {
-			text = StringUtils::format( progressFormatString_, position_ );
-		}
-		else {
-			text = StringUtils::format( "%0.1f %%", position_ );
-		}
-		state.progressCaption_ = text; 
-	}
-	state.setVertical( (paVertical == displayAlignment_) ? true : false );
-	ctx->drawThemeProgress( &clientBounds, 	state );
-*/
-
-
-	ctx->setColor( progressBarColor_ );
-	ctx->rectangle( progressRect );
-	ctx->fillPath();
-
-	//draw text
-	if ( displayProgressText_ ) {
-		Rect textBounds;
-		String text;
-		if ( useProgressFormatString_ && (!progressFormatString_.empty()) ) {
 			text = StringUtils::format( Format(progressFormatString_) % position_ );
 		}
 		else {
 			text = StringUtils::format( Format("%0.1f %%") % position_ );
 		}
-
-
-		if ( paVertical == displayAlignment_ ) {
-			textBounds.left_ = progressRect.left_;
-			textBounds.right_ = progressRect.right_;
-
-			double h = minVal<>( ctx->getTextHeight( "EM" ), clientBounds.getHeight()-2 );
-			textBounds.top_ = clientBounds.top_ +
-								(clientBounds.getHeight()/2.0 - h/2.0);
-
-			textBounds.bottom_ = textBounds.top_ + h;
-
-			textBounds.inflate( 0, 2 );
-		}
-		else {
-			textBounds.top_ = progressRect.top_;
-			textBounds.bottom_ = progressRect.bottom_;
-
-			double w = minVal<>( ctx->getTextWidth( text ), clientBounds.getWidth()-2 );
-
-			textBounds.left_ = clientBounds.left_ +
-								(clientBounds.getWidth()/2.0 - w/2.0);
-
-			textBounds.right_ = textBounds.left_ + w;
-		}
-
-		long drawOptions = GraphicsContext::tdoNone;
-		drawOptions |= GraphicsContext::tdoCenterHorzAlign;
-		drawOptions |= GraphicsContext::tdoCenterVertAlign;
-
-		Color oldColor = *ctx->getCurrentFont()->getColor();
-
-		ctx->getCurrentFont()->setColor( progressTextColor_ );
-
-		ctx->textBoundedBy( &textBounds, text, drawOptions );
-
-		ctx->getCurrentFont()->setColor(&oldColor);
-
+		state.progressCaption_ = text; 
 	}
+	state.setVertical( (paVertical == displayAlignment_) ? true : false );
+	ctx->drawThemeProgress( &clientBounds, 	state );
 }
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
 *Revision 1.4  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
