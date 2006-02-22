@@ -1,6 +1,9 @@
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/22 04:21:02  dougtinkham
+*added __MINGW32__ check
+*
 *Revision 1.2.6.1  2005/11/18 16:03:05  obirsoy
 *changes required for gcc under Linux.
 *
@@ -176,7 +179,7 @@ public:
 template <class COLLECTION, class COLLECTION_TYPE> class  EnumeratorContainer : public Enumerator<COLLECTION_TYPE>{
 public:
 
-    #if defined(GCC)
+    #if defined(GCC) || defined(__MINGW32__)
     using Enumerator<COLLECTION_TYPE>::supportsEditing_; /* gcc follows the standart */
     #endif
 
