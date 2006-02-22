@@ -1874,6 +1874,8 @@ public:
 				embeddedTooltipControl_ = tooltipEvent.getEmbeddedControl();
 				autoDestroyEmbeddedTooltipControl_ = tooltipEvent.getAutoDestroyEmbeddedControl();
 
+				
+				
 				toolTip_->add( embeddedTooltipControl_, AlignClient );
 			}
 
@@ -3383,6 +3385,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.18  2006/02/22 05:00:40  ddiego
+*some minor text updates to support toggling word wrap.
+*
 *Revision 1.6.2.17  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

@@ -202,6 +202,12 @@ public:
 	*/
 	void redo();
 
+	/**
+	This toggles word wrapping. If you turn off word wrapping
+	the scroll bars will show up autmatically (if they are needed).
+	If you turn on word wrapping the scroll bars will disapear.
+	*/
+	void setTextWrapping( const bool& val );
 protected:
 	/**
 	handlers of some standard accelerator events.
@@ -235,6 +241,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/02/22 05:00:40  ddiego
+*some minor text updates to support toggling word wrap.
+*
 *Revision 1.4  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
