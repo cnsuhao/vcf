@@ -4,24 +4,44 @@
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
 #include "vcf/ApplicationKit/HorizontalLayoutContainer.h"
+#include "vcf/FoundationKit/Dictionary.h"
+#include "vcf/ApplicationKit/TextPeer.h"
 
 using namespace VCF;
 
-class Cooltip : public CustomControl {
+class Cooltip : public Panel {
 public:
-	Cooltip(): CustomControl(false) {
-		
+	Cooltip() {
+		setBorder( NULL );
+		setBorderSize( 1 );
+
+		MultilineTextControl* edit = new MultilineTextControl();
+		edit->setBorder( NULL );
+
+		edit->setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_TOOLTIP ) );
+		edit->setTextWrapping(false);
+
+		edit->getFont()->setPointSize( 12 );		
+		edit->getFont()->setName( "Times New Roman" );
+
+		String text = "Tooltip Help\nThis is some help for this cool tooltip.\nIt's in multiple styles!";
+		edit->getTextModel()->setText( text );
+
+		Dictionary styles;
+		styles [ Text::fsBold ] = true;
+		styles [ Text::fsPointSize ] = 14.0;
+		styles [ Text::fsFontName ] = "Arial";
+		styles [ Text::psAlignment ] = Text::paCenter;
+		styles [ Text::fsColor ] = Color::getColor("blue");
+		edit->setStyle( 0, 12, styles );
+
+		styles.clear();
+		styles [ Text::fsItalic ] = true;
+		styles [ Text::fsColor ] = Color::getColor("red");
+		edit->setStyle( text.size()-25, 24, styles );
+		add( edit, AlignClient );	
 	}
 
-	virtual void paint( GraphicsContext* ctx ) {
-		CustomControl::paint( ctx );
-
-		Rect r = getClientBounds();
-
-		r.inflate( -5, -5 );
-		Basic3DBorder bdr;
-		bdr.paint( &r, ctx );
-	}
 };
 
 class TooltipsWindow : public Window {
@@ -54,7 +74,7 @@ public:
 		cb2->setToolTipText( "Yet another tip!" );
 		p1->add( cb2 );
 
-		p1->setHeight( 200 );
+		p1->setHeight( 80 );
 		add( p1, AlignTop );
 
 		MultilineTextControl* tc = new MultilineTextControl();
@@ -77,7 +97,7 @@ public:
 	}
 
 	void onToolTip( ToolTipEvent* e ) {
-		e->setToolTipSize( &Size(200, 200) );
+		e->setToolTipSize( &Size(200, 100) );
 		Cooltip* cooltip = new Cooltip();
 
 		e->setAutoDestroyEmbeddedControl( true );

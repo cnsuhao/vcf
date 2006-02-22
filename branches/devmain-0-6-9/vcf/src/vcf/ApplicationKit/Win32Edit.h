@@ -159,6 +159,7 @@ public:
 
 	virtual void redo();
 
+	virtual void setTextWrapping( const bool& val ); 
 protected:
 	VCF::Point posAtChar_;
 	HBRUSH backgroundBrush_;
@@ -193,6 +194,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/02/22 05:00:40  ddiego
+*some minor text updates to support toggling word wrap.
+*
 *Revision 1.4.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

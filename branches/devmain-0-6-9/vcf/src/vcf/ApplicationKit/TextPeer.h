@@ -331,6 +331,8 @@ public:
 	virtual void print( PrintContext* context, const long& page ) = 0;
 
 	virtual void finishPrinting() = 0;	
+
+	virtual void setTextWrapping( const bool& val ) = 0; 
 };
 
 }; // namespace VCF
@@ -339,6 +341,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/02/22 05:00:40  ddiego
+*some minor text updates to support toggling word wrap.
+*
 *Revision 1.4  2005/07/09 23:14:56  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

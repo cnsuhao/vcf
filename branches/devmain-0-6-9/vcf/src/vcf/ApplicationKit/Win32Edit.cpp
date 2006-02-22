@@ -1358,9 +1358,23 @@ void Win32Edit::onTextControlFontChanged( Event* event )
 	setFont( font );
 }
 
+void Win32Edit::setTextWrapping( const bool& val )
+{
+	if ( val ) {
+		SendMessage(hwnd_, EM_SETTARGETDEVICE, 0, 1);
+	}
+	else {
+		SendMessage(hwnd_, EM_SETTARGETDEVICE, 0, 0);
+	}
+}
+
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2006/02/22 05:00:40  ddiego
+*some minor text updates to support toggling word wrap.
+*
 *Revision 1.5.2.5  2005/11/21 21:28:03  ddiego
 *updated win32 code a bit due to osx changes.
 *
