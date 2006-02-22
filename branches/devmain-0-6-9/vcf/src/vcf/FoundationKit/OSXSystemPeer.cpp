@@ -358,10 +358,20 @@ ProgramInfo* OSXSystemPeer::getProgramInfoFromFileName( const String& fileName )
 {
 	return OSXResourceBundle::getProgramInfo( fileName );
 }
+
+String OSXSystemPeer::createTempFileName( const String& directory )
+{
+	String result;
+	throw RuntimeException( MAKE_ERROR_MSG_2("OSXSystemPeer::createTempFileName() not implemented!") );
+	return result;
+}
 	
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/02/22 01:26:22  ddiego
+*mac osx updates.
+*
 *Revision 1.5.2.4  2005/12/04 20:58:32  ddiego
 *more osx impl work. foundationkit is mostly complete now.
 *

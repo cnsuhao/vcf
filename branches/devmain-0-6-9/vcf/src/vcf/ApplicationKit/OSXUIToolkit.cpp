@@ -2384,9 +2384,17 @@ void OSXUIToolkit::internal_displayContextHelpForControl( Control* control, cons
 
 }
 
+void OSXUIToolkit::internal_systemSettingsChanged()
+{
+
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2006/02/22 01:26:22  ddiego
+*mac osx updates.
+*
 *Revision 1.6.2.4  2005/11/30 05:31:35  ddiego
 *further osx drag-drop updates.
 *

@@ -154,6 +154,7 @@ public:
 
 	virtual void drawThemeText( Rect* rect, TextState& state );
 	
+	virtual void drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, TabState& otherTabs, const std::vector<String>& tabNames, int selectedTabIndex );
 	
 	void setCGContext( CGContextRef cgRef, GrafPtr port, const Rect& ownerRect  );
 	void setPortFromImage( GrafPtr port, uint32 width, uint32 height );
@@ -203,6 +204,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/02/22 01:26:22  ddiego
+*mac osx updates.
+*
 *Revision 1.5  2005/07/09 23:06:00  ddiego
 *added missing gtk files
 *

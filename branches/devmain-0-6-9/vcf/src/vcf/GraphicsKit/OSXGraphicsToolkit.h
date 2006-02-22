@@ -184,6 +184,8 @@ public:
 	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer();
 
 	virtual double internal_getDPI( GraphicsContext* context );
+	
+	virtual void internal_systemSettingsChanged();
 protected:
 	void initSystemFont();
 	void loadSystemColors();
@@ -198,6 +200,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/02/22 01:26:22  ddiego
+*mac osx updates.
+*
 *Revision 1.5.2.1  2005/11/10 02:02:39  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

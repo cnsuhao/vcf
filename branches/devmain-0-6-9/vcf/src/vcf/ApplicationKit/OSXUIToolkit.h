@@ -225,6 +225,7 @@ public:
 
 	virtual void internal_quitCurrentEventLoop();
 
+	virtual void internal_systemSettingsChanged();
 	/**
 	*@param void* in this implementation, the eventData represents a
 	*pointer to an OSX EventRef structure.
@@ -275,6 +276,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2006/02/22 01:26:22  ddiego
+*mac osx updates.
+*
 *Revision 1.6.2.3  2006/01/09 02:22:31  ddiego
 *more osx code
 *

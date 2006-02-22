@@ -1596,6 +1596,12 @@ void OSXContext::drawThemeTabPage( Rect* rect, DrawUIState& state )
 	DrawThemeTabPane( r, state.isActive() ? kThemeStateActive : kThemeStateInactive );
 }
 
+void OSXContext::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, TabState& otherTabs, const std::vector<String>& tabNames, int selectedTabIndex )
+{
+		
+
+}
+
 void OSXContext::drawThemeTickMarks( Rect* rect, SliderState& state )
 {
 	Rect tmp = *rect;
@@ -2287,6 +2293,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/02/22 01:26:22  ddiego
+*mac osx updates.
+*
 *Revision 1.5.2.3  2006/01/09 02:22:31  ddiego
 *more osx code
 *
