@@ -157,6 +157,11 @@ void OSXGraphicsToolkit::loadSystemColors()
 
 }
 
+void OSXGraphicsToolkit::internal_systemSettingsChanged()
+{
+
+}
+
 ContextPeer* OSXGraphicsToolkit::internal_createContextPeer( const unsigned long& width, const unsigned long& height )
 {
 	return new OSXContext( width, height );
@@ -205,6 +210,9 @@ double OSXGraphicsToolkit::internal_getDPI( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/02/22 01:26:22  ddiego
+*mac osx updates.
+*
 *Revision 1.5.2.1  2005/11/10 02:02:39  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

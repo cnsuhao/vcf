@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30042B6F09ABF3BF008AF18B /* FoundationKit_d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30042B6E09ABF3BF008AF18B /* FoundationKit_d.framework */; };
 		5E0E672D0943522F001442D7 /* FilesAndDirectories.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E0E672C0943522F001442D7 /* FilesAndDirectories.cpp */; };
-		5EAE2F2F0690EC4C009D8EF1 /* FoundationKit_d.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EAE2F2E0690EC4C009D8EF1 /* FoundationKit_d.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildStyle section */
@@ -62,8 +62,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		30042B6E09ABF3BF008AF18B /* FoundationKit_d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FoundationKit_d.framework; path = ../../../Library/Frameworks/FoundationKit_d.framework; sourceTree = SOURCE_ROOT; };
 		5E0E672C0943522F001442D7 /* FilesAndDirectories.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = FilesAndDirectories.cpp; sourceTree = "<group>"; };
-		5EAE2F2E0690EC4C009D8EF1 /* FoundationKit_d.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FoundationKit_d.framework; path = /Users/jimcrafton/Library/Frameworks/FoundationKit_d.framework; sourceTree = "<absolute>"; };
 		8DD76F6C0486A84900D96B5E /* FilesAndDirectories */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FilesAndDirectories; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EAE2F2F0690EC4C009D8EF1 /* FoundationKit_d.framework in Frameworks */,
+				30042B6F09ABF3BF008AF18B /* FoundationKit_d.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,7 +82,7 @@
 		0249A662FF388D9811CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5EAE2F2E0690EC4C009D8EF1 /* FoundationKit_d.framework */,
+				30042B6E09ABF3BF008AF18B /* FoundationKit_d.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -214,7 +214,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = /Users/jimcrafton/Library/Frameworks;
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -230,9 +230,9 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "$(VCF_INCLUDE)";
+				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\"";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
@@ -251,7 +251,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -259,9 +259,9 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\"";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = FilesAndDirectories;
 				WARNING_CFLAGS = (
@@ -277,16 +277,16 @@
 		5E0E67310943522F001442D7 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "\"$(HOME)/Library/Frameworks\"";
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = "\"$(VCF_INCLUDE)\"";
 				INSTALL_PATH = "$(HOME)/bin";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "\"$(VCF_LIB)\"";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = FilesAndDirectories;
 				WARNING_CFLAGS = (
