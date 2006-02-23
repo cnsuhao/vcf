@@ -249,6 +249,9 @@
 		<Project filename="..\..\examples\TreeListControls\TreeListControls_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
+		<Project filename="..\..\examples\Variants\Variants_cb.cbp">
+			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
+		</Project>
 		<Project filename="..\..\examples\VisualFormFiles\VisualFormFiles_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>

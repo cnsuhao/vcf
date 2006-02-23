@@ -67,6 +67,7 @@
 		<Project filename="..\..\examples\Toolbars\Toolbars_cb.cbp" />
 		<Project filename="..\..\examples\Transformations\Transformations_cb.cbp" />
 		<Project filename="..\..\examples\TreeListControls\TreeListControls_cb.cbp" />
+		<Project filename="..\..\examples\Variants\Variants_cb.cbp" />
 		<Project filename="..\..\examples\VisualFormFiles\VisualFormFiles_cb.cbp" />
 		<Project filename="..\..\examples\WorkingWithEnumerators\WorkingWithEnumerators_cb.cbp" />
 	</Workspace>
