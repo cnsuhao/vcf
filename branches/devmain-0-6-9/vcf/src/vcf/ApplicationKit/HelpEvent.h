@@ -23,18 +23,16 @@ class APPLICATIONKIT_API HelpEvent : public Event {
 public:
 	HelpEvent( Object* source ): Event(source,HELP_EVENT_TYPE){}
 
-	enum {
-		HELP_REQUESTED_ID = 0
-	};
-
 	virtual ~HelpEvent() {}
 
 	virtual Object* clone( bool deep=false ) {
 		return new HelpEvent(*this);
 	}
-protected:
 
-private:
+	String helpSection;
+	String helpBook;
+	String helpDirectory;
+
 };
 
 
@@ -63,6 +61,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/23 05:54:23  ddiego
+*some html help integration fixes and new features. context sensitive help is finished now.
+*
 *Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

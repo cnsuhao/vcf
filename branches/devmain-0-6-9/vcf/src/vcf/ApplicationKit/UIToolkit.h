@@ -421,10 +421,133 @@ public:
 
 	static UIPolicyManager* getUIPolicyManager();
 
+	/**
+	\par
+	This attempts to to display the help contents for the application.
+	\par
+	It first checks to see if there's a running Application instance.
+	If there is, then it calls the Application's virtual displayHelpContents()
+	which lets the application have first crack at this. If 
+	Application::displayHelpContents() returns true, then the function exits,
+	if it does not then it attempts to determine the help book and help directory
+	using this set of methods:
+	\li it checks for the running app instance, and if it finds it, then it 
+	requests the application to fill in the help book and help directory
+	(these are virtual methods that can be overridden). 
+	\li if no app is found or the help dir or help book entries are still
+	empty, then the toolkit attempts to extract this from the resource bundle's 
+	book and help directory entries.
+	\li if the entries are still empty, then the help book becomes the 
+	applications name (Application::getName()) or the executables name (
+	without the extension), and the help directory is assumed to be "Help".
+
+	\par
+	So if you do nothing all, provide no overridden functions, or 
+	resource bundle support for program info entries, then the default
+	help would be look something like this, assuming the 
+	app is in c:/Program Files/MyApp/MyApp.exe, the help book
+	would be "MyApp" and the the peers would look in the directory
+	c:/Program Files/MyApp/Help/ for the help content.
+
+	@see Application::displayHelpContents()
+	@see Application::getHelpInfo()
+	*/
 	static void displayHelpContents();
 
+	/**
+	\par
+	This attempts to to display the help index for the application.
+	\par
+	It first checks to see if there's a running Application instance.
+	If there is, then it calls the Application's virtual displayHelpContents()
+	which lets the application have first crack at this. If 
+	Application::displayHelpContents() returns true, then the function exits,
+	if it does not then it attempts to determine the help book and help directory
+	using this set of methods:
+	\li it checks for the running app instance, and if it finds it, then it 
+	requests the application to fill in the help book and help directory
+	(these are virtual methods that can be overridden). 
+	\li if no app is found or the help dir or help book entries are still
+	empty, then the toolkit attempts to extract this from the resource bundle's 
+	book and help directory entries.
+	\li if the entries are still empty, then the help book becomes the 
+	applications name (Application::getName()) or the executables name (
+	without the extension), and the help directory is assumed to be "Help".
+
+	\par
+	So if you do nothing all, provide no overridden functions, or 
+	resource bundle support for program info entries, then the default
+	help would be look something like this, assuming the 
+	app is in c:/Program Files/MyApp/MyApp.exe, the help book
+	would be "MyApp" and the the peers would look in the directory
+	c:/Program Files/MyApp/Help/ for the help content.
+
+	@see Application::displayHelpContents()
+	@see Application::getHelpInfo()
+	*/
 	static void displayHelpIndex();
 
+
+	/**
+	\par
+	This attempts to to display a specific help section for a given
+	help book and help directory. The help section is normally assumed 
+	to be an anchor ref. This method allows you exact control over what 
+	gets loaded. The helpBookName and helpDirectory may be
+	be empty strings.
+	\par
+	If the helpBookName or helpDirectory are empty the toolkit
+	first checks to see if there's a running Application instance.
+	It then attempts to determine the help book and help directory
+	using this set of methods:
+	\li it checks for the running app instance, and if it finds it, then it 
+	requests the application to fill in the help book and help directory
+	(these are virtual methods that can be overridden). 
+	\li if no app is found or the help dir or help book entries are still
+	empty, then the toolkit attempts to extract this from the resource bundle's 
+	book and help directory entries.
+	\li if the entries are still empty, then the help book becomes the 
+	applications name (Application::getName()) or the executables name (
+	without the extension), and the help directory is assumed to be "Help".
+
+	So if you do nothing all, provide no overridden functions, or 
+	resource bundle support for program info entries, then the default
+	help would be look something like this, assuming the 
+	app is in c:/Program Files/MyApp/MyApp.exe, the help book
+	would be "MyApp" and the the peers would look in the directory
+	c:/Program Files/MyApp/Help/ for the help content.
+
+
+
+	@see Application::displayHelpContents()
+	@see Application::getHelpInfo()
+	*/
+	static void displayHelpSection( const String& helpSection, const String& helpBookName="", const String& helpDirectory="" );
+
+	/**
+	\par
+	This attempts to display the context sensitive help for a control. It is 
+	triggered by the underlying windowing platform, usually as a result of 
+	the user hitting the F1 key.
+	When this is called it first calls the toolkit's internal_displayContextHelpForControl(),
+	this is turn will trigger the control's ControlHelpRequested delegate and fire and
+	event. The WhatsThisHelpEvent has a member variable called helpString, and can be
+	set to override the the value of the control's getWhatThisHelpString(). If the
+	event's helpString member is not empty, \em or the controls getWhatThisHelpString()
+	returns a non empty string, then the OS specific portion of the context help display
+	should take place and the internal_displayContextHelpForControl() will return true.
+	For Win32 systems this generally means the display of popup help.
+	\par
+	However, if internal_displayContextHelpForControl() returns false, then the toolkit 
+	performs the following actions:
+	\li It first fires a HelpEvent on the control's HelpRequested delegate. When this returns
+	if the event's helpSection value is an empty string, then the toolkit gets the
+	control's parent and does the same thing, continuing to do so until it receives 
+	a NULL parent, or finds a non empty helpSection string. 
+	\li if the helpSection from the event is not empty the toolkit will then call 
+	UIToolkit::displayHelpSection() passing in the values of the event's helpSection,
+	helpBook, and helpDirectory.
+	*/
 	static void displayContextHelpForControl( Control* control );
 
 	/**
@@ -593,7 +716,13 @@ protected:
 
 	virtual void internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory ) = 0;
 
-	virtual void internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory ) = 0;
+	virtual void internal_displayHelpSection( const String& helpBookName, const String& helpDirectory, const String& helpSection ) = 0;
+	/**
+	This should display the appropriate context sensitive infor for the control,
+	and return true, or it should return false, indicating that the control didn't 
+	have any context help to display.
+	*/
+	virtual bool internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory ) = 0;
 
 	virtual void internal_systemSettingsChanged() = 0;
 
@@ -663,6 +792,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/02/23 05:54:23  ddiego
+*some html help integration fixes and new features. context sensitive help is finished now.
+*
 *Revision 1.5.2.3  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

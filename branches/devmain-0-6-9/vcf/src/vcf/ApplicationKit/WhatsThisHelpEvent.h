@@ -23,8 +23,8 @@ namespace VCF  {
 
 class WhatsThisHelpEvent : public Event {
 public:
-	WhatsThisHelpEvent( Object* source, const String& helpString="" ):
-	  Event( source, WHAT_THIS_EVENT_TYPE ), helpString_(helpString) {
+	WhatsThisHelpEvent( Object* source ):
+	  Event( source, WHAT_THIS_EVENT_TYPE ) {
 
 	}
 
@@ -37,19 +37,20 @@ public:
 	WhatsThisHelpEvent& operator= ( const WhatsThisHelpEvent& rhs ) {
 		Event::operator =( rhs );
 
-		helpString_ = rhs.helpString_;
+		helpString = rhs.helpString;
 
 		return *this;
 	}
 
-	String getHelpString() {
-		return helpString_;
-	}
+
+	String helpString;
+
+	
 	virtual Object* clone( bool deep=false ) {
 		return new WhatsThisHelpEvent(*this);
 	}
-protected:
-	String helpString_;
+
+
 };
 
 
@@ -79,6 +80,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/02/23 05:54:23  ddiego
+*some html help integration fixes and new features. context sensitive help is finished now.
+*
 *Revision 1.2.6.1  2005/09/07 20:24:48  ddiego
 *added some more help support.
 *

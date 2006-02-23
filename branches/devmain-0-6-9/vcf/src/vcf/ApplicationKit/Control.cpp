@@ -1171,12 +1171,6 @@ void Control::setScrollable( Scrollable* scrollable )
 	}
 }
 
-void Control::processWhatsThisHelpEvent()
-{
-	WhatsThisHelpEvent event( this, whatThisHelpString_ );
-	ControlHelpRequested.fireEvent( &event );
-}
-
 void Control::setToolTipText( const String& tooltip )
 {
 	toolTip_ = tooltip;
@@ -1651,6 +1645,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.14  2006/02/23 05:54:23  ddiego
+*some html help integration fixes and new features. context sensitive help is finished now.
+*
 *Revision 1.8.2.13  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *
