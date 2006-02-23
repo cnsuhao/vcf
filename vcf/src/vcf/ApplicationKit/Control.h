@@ -1211,11 +1211,6 @@ public:
 	}
 
 	/**
-	*
-	*/
-	void processWhatsThisHelpEvent();
-
-	/**
 	*returns a string that is used to display in the tooltip
 	*for the control.
 	*/
@@ -1682,6 +1677,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.12  2006/02/23 05:54:23  ddiego
+*some html help integration fixes and new features. context sensitive help is finished now.
+*
 *Revision 1.4.2.11  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

@@ -1809,6 +1809,9 @@ public:
 
 		//pt is in screen coordinates
 		Point tmpPt = *pt;
+		Point adjustedPtForCursor = *pt;
+		adjustedPtForCursor.y_ += (::GetSystemMetrics( SM_CYCURSOR )*0.66);
+
 		control->translateFromScreenCoords( &tmpPt );
 
 		Control* actualToolTipControl = getActualToolTipControl( control, &tmpPt );
@@ -1816,6 +1819,7 @@ public:
 			return;// nothing to do
 		}
 
+		
 
 		String tooltip = actualToolTipControl->getToolTipText();
 
@@ -1823,7 +1827,7 @@ public:
 		
 		tooltipEvent.setBackgroundColor( toolTip_->getColor() );
 
-		tooltipEvent.setToolTipLocation( pt );
+		tooltipEvent.setToolTipLocation( &adjustedPtForCursor );
 		tooltipEvent.setCustomTooltipContext( toolTip_->getContext() );
 		Size sz;
 		tooltipEvent.setToolTipSize( &sz );
@@ -1842,7 +1846,7 @@ public:
 		if ( !tooltip.empty() ) {
 
 			actualToolTipControl->ToolTip.fireEvent( &tooltipEvent );
-			Point tmpPt = *tooltipEvent.getToolTipLocation();
+			tmpPt = *tooltipEvent.getToolTipLocation();
 
 
 			toolTip_->setColor( tooltipEvent.getBackgroundColor() );
@@ -2046,7 +2050,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 							ScreenToClient( hwndCursorIsOver, &pt );
 						}
 
-						if ( FALSE != IsWindow( hwndCursorIsOver ) ) {
+						if ( IsWindow( hwndCursorIsOver ) ) {
 							Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCursorIsOver );
 
 							if ( NULL != win32Obj ) {
@@ -2056,7 +2060,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 										break;
 									}
 								}
-								tmpPt.y_ += (::GetSystemMetrics( SM_CYCURSOR )*0.66);
+								
 
 								if ( (toolTipWatcher->checkPt_.x_ == tmpPt.x_) && (toolTipWatcher->checkPt_.y_ == tmpPt.y_) ) {
 									toolTipWatcher->showTooltip( win32Obj->getPeerControl(), &tmpPt );
@@ -3349,19 +3353,25 @@ void Win32ToolKit::internal_displayHelpIndex( const String& helpBookName, const 
 	}
 }
 
-void Win32ToolKit::internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory )
+bool Win32ToolKit::internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory )
 {
 	if ( NULL == HtmlHelpLibHandle ) {
 		StringUtils::trace( "HTML Help features are not available on your system. Please install HTML Help to rectify this." );
-		return;
+		return false;
 	}
 
+	bool result = false;
 	String whatsThis = control->getWhatThisHelpString();
 
-	if ( whatsThis.empty() ) {
+	WhatsThisHelpEvent event(control);
 
+	control->ControlHelpRequested.fireEvent( &event );
+
+	if ( !event.helpString.empty() ) {
+		whatsThis = event.helpString;
 	}
-	else {	
+
+	if ( !whatsThis.empty() ) {
 		HH_POPUP popup;
 		memset( &popup, 0, sizeof(popup));
 		popup.cbStruct = sizeof(popup);
@@ -3374,6 +3384,49 @@ void Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 		memset( &popup.rcMargins, -1, sizeof(popup.rcMargins) );
 
 		LastHTMLHelpWnd = HtmlHelp_A( (HWND)control->getPeer()->getHandleID(), NULL, HH_DISPLAY_TEXT_POPUP, (DWORD) &popup );
+		result =true;
+	}
+
+	return result;
+}
+
+void Win32ToolKit::internal_displayHelpSection( const String& helpBookName, const String& helpDirectory, const String& helpSection )
+{
+	if ( NULL == HtmlHelpLibHandle ) {
+		StringUtils::trace( "HTML Help features are not available on your system. Please install HTML Help to rectify this." );
+		return;
+	}
+
+	FilePath helpPath = FilePath::makeDirectoryName(helpDirectory)  + helpBookName;
+
+	//check to see if need to add the .chm extension
+	if ( helpBookName.find( ".chm" ) == String::npos ) {
+		helpPath += ".chm";
+	}
+
+	//check to see if the file exists
+	if ( !File::exists( helpPath ) ) {
+		//oops it doesn't try a fill path, and assume that 
+		//the current value in helpPath is not complete 
+		String path = System::findResourceDirectory();
+		helpPath = path + helpPath;
+	}
+
+
+	if ( File::exists( helpPath ) ) {
+
+		//add the section:
+
+		if ( !helpSection.empty() ) {
+			helpPath += "::/" + helpSection;
+		}
+
+		if ( System::isUnicodeEnabled() ) {
+			LastHTMLHelpWnd = HtmlHelp_W( 0, helpPath.getFileName().c_str(), HH_DISPLAY_TOPIC, NULL );	
+		}
+		else {
+			LastHTMLHelpWnd = HtmlHelp_A( 0, helpPath.getFileName().ansi_c_str(), HH_DISPLAY_TOPIC, NULL );	
+		}
 	}
 }
 
@@ -3385,6 +3438,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.19  2006/02/23 05:54:23  ddiego
+*some html help integration fixes and new features. context sensitive help is finished now.
+*
 *Revision 1.6.2.18  2006/02/22 05:00:40  ddiego
 *some minor text updates to support toggling word wrap.
 *

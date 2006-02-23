@@ -646,12 +646,66 @@ void UIToolkit::displayHelpIndex()
 	}
 }
 
+void UIToolkit::displayHelpSection( const String& helpSection, const String& helpBookName, const String& helpDirectory )
+{	
+	String helpBookNameTmp;
+	String helpDirectoryTmp;
+	getHelpInfo( helpBookNameTmp, helpDirectoryTmp );
+	if ( !helpBookName.empty() ) {
+		helpBookNameTmp = helpBookName;
+	}
+
+	if ( !helpDirectory.empty() ) {
+		helpDirectoryTmp = helpDirectory;
+	}
+
+	UIToolkit::toolKitInstance->internal_displayHelpSection(helpBookNameTmp, helpDirectoryTmp,helpSection);
+}
+
 void UIToolkit::displayContextHelpForControl( Control* control )
 {
 	String helpBookName;
 	String helpDirectory;
 	getHelpInfo( helpBookName, helpDirectory );
-	UIToolkit::toolKitInstance->internal_displayContextHelpForControl( control, helpBookName, helpDirectory );
+
+	String whatsThis = control->getWhatThisHelpString();
+
+
+	if ( !UIToolkit::toolKitInstance->internal_displayContextHelpForControl( control, helpBookName, helpDirectory ) ) {
+		//oops - this control didn't have any immediate what's up help. Lets start walking the parent chain
+		//and notifying delegates that a context help event is happening and see if we can get
+		//some help there
+
+		HelpEvent event(control);
+		
+		control->HelpRequested.fireEvent( &event );
+
+		String helpSection = event.helpSection;
+		String helpBook = event.helpBook;
+		String helpDir = event.helpDirectory;
+		if ( helpSection.empty() ) {
+			//start searching the up the parent chain...
+			Control* parent = control->getParent();
+			while ( NULL != parent ) {
+				HelpEvent event2(parent);
+				parent->HelpRequested.fireEvent( &event2 );
+				
+				helpSection = event.helpSection;
+				helpBook = event.helpBook;
+				helpDir = event.helpDirectory;
+
+				if ( !helpSection.empty() ) {
+					break;
+				}
+
+				parent = parent->getParent();
+			}
+		}
+
+		if ( !helpSection.empty() ) {
+			UIToolkit::displayHelpSection( helpSection, helpBook, helpDir );
+		}
+	}
 }
 
 
@@ -1331,6 +1385,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.10  2006/02/23 05:54:23  ddiego
+*some html help integration fixes and new features. context sensitive help is finished now.
+*
 *Revision 1.5.2.9  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

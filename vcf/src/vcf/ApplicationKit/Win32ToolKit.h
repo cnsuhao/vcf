@@ -210,7 +210,9 @@ public:
 
 	virtual void internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory );
 
-	virtual void internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory );
+	virtual void internal_displayHelpSection( const String& helpBookName, const String& helpDirectory, const String& helpSection );
+
+	virtual bool internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory );
 
 	virtual void internal_systemSettingsChanged();
 
@@ -249,6 +251,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/02/23 05:54:23  ddiego
+*some html help integration fixes and new features. context sensitive help is finished now.
+*
 *Revision 1.5.2.4  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *
