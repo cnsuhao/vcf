@@ -58,8 +58,10 @@ AbstractDistributedApplication::AbstractDistributedApplication()
 	DistributedApplication::runningDistributedApp = this;
 
 	unMarshalledArgTypes_["i"] = pdInt;
+	unMarshalledArgTypes_["+i"] = pdUInt;
 	unMarshalledArgTypes_["l"] = pdLong;
 	unMarshalledArgTypes_["+l"] = pdULong;
+	unMarshalledArgTypes_["+h"] = pdUShort;
 	unMarshalledArgTypes_["h"] = pdShort;
 	unMarshalledArgTypes_["c"] = pdChar;
 	unMarshalledArgTypes_["d"] = pdDouble;
@@ -334,6 +336,9 @@ void AppInfo::loadFromStream( InputStream * stream )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/02/23 01:41:58  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.2.6.2  2006/01/02 13:26:14  kiklop74
 *Fixed compilation issue with BDS 2006
 *

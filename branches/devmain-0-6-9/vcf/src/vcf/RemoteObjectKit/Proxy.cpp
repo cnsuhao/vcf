@@ -56,6 +56,12 @@ void Proxy::marshallArguments( const VCF::uint32& argCount,
 			}
 			break;
 
+			case pdUInt : {
+				marshallingStream->write( String("+i") );
+				marshallingStream->write( (uint32)(*arg) );
+			}
+			break;
+
 			case pdLong : {
 				marshallingStream->write( String("l") );
 				marshallingStream->write( (long)(*arg) );
@@ -71,6 +77,12 @@ void Proxy::marshallArguments( const VCF::uint32& argCount,
 			case pdShort : {
 				marshallingStream->write( String("h") );
 				marshallingStream->write( (short)(*arg) );
+			}
+			break;
+
+			case pdUShort : {
+				marshallingStream->write( String("+h") );
+				marshallingStream->write( (ushort)(*arg) );
 			}
 			break;
 
@@ -202,6 +214,9 @@ void Proxy::loadFromStream( VCF::InputStream * stream )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/02/23 01:41:58  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.2  2004/08/07 02:49:20  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

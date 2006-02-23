@@ -440,6 +440,11 @@ public:
 				}
 				break;
 
+				case pdUInt: {
+					result = CLASS_UINT;
+				}
+				break;
+
 				case pdLong: {
 					result = CLASS_LONG;
 				}
@@ -447,6 +452,11 @@ public:
 
 				case pdShort: {
 					result = CLASS_SHORT;
+				}
+				break;
+
+				case pdUShort: {
+					result = CLASS_USHORT;
 				}
 				break;
 
@@ -2602,10 +2612,10 @@ static PropertyDescriptorType getDescriptor( const std::type_info& typeInfo )
 			result = pdULong;
 		}
 		else if ( typeName.find( "int" ) != String::npos ) {
-			result = pdULong;
+			result = pdUInt;
 		}
 		else if ( typeName.find( "short" ) != String::npos ) {
-			result = pdShort;
+			result = pdUShort;
 		}
 		else if ( typeName.find( "char" ) != String::npos ) {
 			result = pdChar;
@@ -3596,6 +3606,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.9  2006/02/23 01:41:57  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.4.2.8  2006/02/02 03:45:29  dougtinkham
 *added base class constructor calls in 3 copy constructors; makes mingw-gcc happier
 *

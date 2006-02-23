@@ -213,6 +213,13 @@ public:
 			}
 			break;
 
+			case pdUInt : {
+				outStream_->write( String("+i") );
+				uint32 tmp = (*data);
+				outStream_->write( (int)tmp );
+			}
+			break;
+
 			case pdLong : {
 				outStream_->write( String("l") );
 				outStream_->write( (long)(*data) );
@@ -228,6 +235,12 @@ public:
 			case pdShort : {
 				outStream_->write( String("h") );
 				outStream_->write( (short)(*data) );
+			}
+			break;
+
+			case pdUShort : {
+				outStream_->write( String("+h") );
+				outStream_->write( (ushort)(*data) );
 			}
 			break;
 
@@ -291,6 +304,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/02/23 01:41:58  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.3.2.1  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *
