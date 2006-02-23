@@ -43,6 +43,15 @@ String VariantData::toString() const
 		}
 		break;
 
+		case pdUShort:{
+			ushort i = *this;
+			char tmp[VariantData::DefaultPropertyValLength];
+			memset(tmp, 0, sizeof(tmp));
+			sprintf( tmp, "%u", i );
+			result += tmp;
+		}
+		break;
+
 		case pdUInt:{
 			unsigned int i = *this;
 			char tmp[VariantData::DefaultPropertyValLength];
@@ -216,6 +225,11 @@ void VariantData::setFromString( const String& value )
 		}
 		break;
 
+		case pdUShort:{
+			UShortVal = (ushort) StringUtils::fromStringAsShort( value );
+		}
+		break;
+
 		case pdUInt:{
 			UIntVal = StringUtils::fromStringAsUInt( value );
 		}
@@ -383,6 +397,10 @@ void VariantData::setValue( const VariantData& value )
 			ShortVal = value.ShortVal;
 		}
 
+		case pdUShort : {
+			UShortVal = value.UShortVal;
+		}
+
 		case pdUInt : {
 			UIntVal = value.UIntVal;
 		}
@@ -447,6 +465,9 @@ void VariantData::setValue( const VariantData& value )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/02/23 01:41:58  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.5.2.2  2005/09/17 21:37:44  ddiego
 *minor update
 *

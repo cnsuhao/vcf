@@ -142,9 +142,28 @@ public:
 	};
 
 	/**
+	creates a VariantData initialized by a short value
+	*/
+	VariantData( const ushort& val ) {
+		UShortVal = val;
+		type = pdUShort;
+	};
+
+
+	/**
 	creates a VariantData initialized by a String value
 	*/
 	VariantData( const String& val ) {
+		StringVal = val;
+		type = pdString;
+	};
+
+	VariantData( const char* val ) {
+		StringVal = val;
+		type = pdString;
+	};
+
+	VariantData( const WideChar* val ) {
 		StringVal = val;
 		type = pdString;
 	};
@@ -311,6 +330,13 @@ public:
 	};
 
 	/**
+	converts the VariantData to an unsigned short
+	*/
+	operator ushort () const {
+		return UShortVal;
+	};
+
+	/**
 	converts the VariantData to an unsigned int
 	*/
 	operator unsigned int () const {
@@ -474,6 +500,15 @@ public:
 	VariantData& operator=( const short& newValue ){
 		ShortVal = newValue;
 		type = pdShort;
+		return *this;
+	};
+
+	/**
+	Assigns an unsigned short value to the VariantData
+	*/
+	VariantData& operator=( const ushort& newValue ){
+		UShortVal = newValue;
+		type = pdUShort;
 		return *this;
 	};
 
@@ -661,6 +696,7 @@ public:
 			int IntVal;
 			long LongVal;
 			short ShortVal;
+			ushort UShortVal;
 			unsigned int UIntVal;
 			unsigned long ULongVal;
 			float FloatVal;
@@ -698,6 +734,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/02/23 01:41:58  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.5.2.1  2005/08/01 17:20:46  marcelloptr
 *minor changes
 *

@@ -27,6 +27,8 @@ class Field;
 *common class names for native types, like int, long, char, bool, etc.
 */
 #define CLASS_INTEGER		"integer"
+#define CLASS_INT			"integer"
+#define CLASS_UINT			"uint"
 #define CLASS_LONG			"long"
 #define CLASS_ULONG			"ulong"
 #define CLASS_FLOAT			"float"
@@ -34,6 +36,7 @@ class Field;
 #define CLASS_CHAR			"char"
 #define CLASS_BOOL			"bool"
 #define CLASS_SHORT			"short"
+#define CLASS_USHORT		"ushort"
 #define CLASS_ENUM			"enum"
 #define CLASS_STRING		"string"
 
@@ -408,6 +411,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/02/23 01:41:57  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.3  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

@@ -185,6 +185,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", ".\Examples\Exam
 		{522240bc-a04c-4f63-bf8f-e7a84460c1dd} = {522240bc-a04c-4f63-bf8f-e7a84460c1dd}
 		{7A5ADC11-11B0-4895-949A-3395B1F062F4} = {7A5ADC11-11B0-4895-949A-3395B1F062F4}
 		{28752FB5-33EC-4C1C-9890-0C2FC514F123} = {28752FB5-33EC-4C1C-9890-0C2FC514F123}
+		{9b587db6-bdf9-48c0-bd72-be9913b6eb62} = {9b587db6-bdf9-48c0-bd72-be9913b6eb62}
 		{BB659A71-52E1-431C-BDDA-32E438AE0CF1} = {BB659A71-52E1-431C-BDDA-32E438AE0CF1}
 		{070F393F-DA87-4BD3-8A3E-C71F847C88B0} = {070F393F-DA87-4BD3-8A3E-C71F847C88B0}
 	EndProjectSection
@@ -418,6 +419,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Transformations", ".\Transf
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreeListControls", ".\TreeListControls\TreeListControls_vc71.vcproj", "{28752FB5-33EC-4C1C-9890-0C2FC514F123}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Variants", ".\Variants\Variants_vc71.vcproj", "{9b587db6-bdf9-48c0-bd72-be9913b6eb62}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -779,6 +784,8 @@ Global
 		{28752FB5-33EC-4C1C-9890-0C2FC514F123}.Generate YY and LL files.ActiveCfg = Debug|Win32
 		{28752FB5-33EC-4C1C-9890-0C2FC514F123}.GTK Debug.ActiveCfg = Debug|Win32
 		{28752FB5-33EC-4C1C-9890-0C2FC514F123}.Release.ActiveCfg = Release|Win32
+		{9b587db6-bdf9-48c0-bd72-be9913b6eb62}.Debug.ActiveCfg = Debug|Win32
+		{9b587db6-bdf9-48c0-bd72-be9913b6eb62}.Release.ActiveCfg = Release|Win32
 		{BB659A71-52E1-431C-BDDA-32E438AE0CF1}.Debug.ActiveCfg = Debug|Win32
 		{BB659A71-52E1-431C-BDDA-32E438AE0CF1}.Generate YY and LL files.ActiveCfg = Debug|Win32
 		{BB659A71-52E1-431C-BDDA-32E438AE0CF1}.GTK Debug.ActiveCfg = Debug|Win32

@@ -151,6 +151,12 @@ public:
 				if ( 'l' == next ){
 					result = pdULong;
 				}
+				else if ( 'i' == next ){
+					result = pdUInt;
+				}
+				else if ( 'h' == next ){
+					result = pdUShort;
+				}
 			}
 			break;
 
@@ -209,6 +215,9 @@ protected:
 /**
 CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/02/23 01:41:57  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.3  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

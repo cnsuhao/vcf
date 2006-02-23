@@ -26,6 +26,7 @@ enum PropertyDescriptorType{
 	pdInt,
 	pdLong,
 	pdShort,
+	pdUShort,
 	pdULong,
 	pdFloat,
 	pdChar,
@@ -223,6 +224,9 @@ enum VirtualKeyCode{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/02/23 01:41:57  ddiego
+*some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
+*
 *Revision 1.4.2.1  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *
