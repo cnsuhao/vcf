@@ -8,6 +8,7 @@
 
     <include file="Options.bkl"/>
     <include file="Vars.bkl"/>
+    <include file="Names.bkl"/>
     <include file="Defines.bkl"/>
 
 
@@ -90,6 +91,11 @@
             </if>
         </if>
 
+        <if cond="FORMAT=='gnu'">
+            <sys-lib>dl</sys-lib>
+			<sys-lib>uuid</sys-lib>
+        </if>
+
         <include>$(VCF_INCLUDE)</include>
         <lib-path>$(VCF_LIB)</lib-path>
     </template>
@@ -137,6 +143,15 @@
            <define>_MBCS</define>
            <define>NO_MFC</define>
         </if>
+
+        <!--
+        Add an appropriate .pdb file to the "clean" target.
+        -->
+        <if cond="FORMAT=='msvc'">
+            <clean-files>
+                $(vcf.joinPaths( VCF_LIB, LIBRARY_FILENAME + ".pdb" ))
+            </clean-files>
+        </if>
     </template>
 
 
@@ -150,6 +165,20 @@
 
         <if cond="PLATFORM_WIN32=='1'">
             <define>_USRDLL</define>
+        </if>
+
+        <!--
+        Add an appropriate .exp file to the "clean" target.
+        -->
+        <if cond="FORMAT=='msvc'">
+            <clean-files>
+                $(vcf.joinPaths( VCF_LIB, LIBRARY_FILENAME + ".exp" ))
+            </clean-files>
+        </if>
+        <if cond="FORMAT=='borland'">
+            <clean-files>
+                $(vcf.joinPaths( VCF_LIB, '..' + DIRSEP + 'bin' + DIRSEP + LIBRARY_FILENAME + ".map" ))
+            </clean-files>
         </if>
     </template>
 

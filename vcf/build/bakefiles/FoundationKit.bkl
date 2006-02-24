@@ -10,11 +10,6 @@
 
         <headers>$(FOUNDATIONKIT_HDR)</headers>
         <sources>$(FOUNDATIONKIT_SRC)</sources>
-
-        <if cond="FORMAT=='gnu'">
-            <sys-lib>dl</sys-lib>
-			<sys-lib>uuid</sys-lib>
-        </if>
     </template>
 
     <lib id="FoundationKit_lib" template="FoundationKit_base,vcf_lib,precomp"

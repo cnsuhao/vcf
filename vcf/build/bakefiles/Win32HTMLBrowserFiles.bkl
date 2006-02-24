@@ -3,7 +3,9 @@
 <makefile>
 
     <set var="WIN32HTMLBROWSER_HDR" hints="files">
+        vcf/ApplicationKit/HTMLDOMElements.h
         vcf/ApplicationKit/Win32HTMLBrowser.h
+        vcf/ApplicationKit/Win32WebBrowserHost.h
     </set>
 
     <set var="WIN32HTMLBROWSER_SRC" hints="files">

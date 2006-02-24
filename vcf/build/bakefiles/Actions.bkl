@@ -24,6 +24,7 @@
         
         <action id="Win32HTMLBrowser" cond="OPTION_WIN32HTMLBROWSER=='1' and PLATFORM_WIN32=='1'">
             <is-phony>1</is-phony>
+            <depends>Win32HTMLBrowser_lib</depends>
             <depends>Win32HTMLBrowser_dll</depends>
         </action>
 
@@ -51,9 +52,45 @@
             <depends>InternetKit_dll</depends>
         </action>
         
-        <action id="ImageFormats" cond="OPTION_IMAGEFORMATS=='1'">
+        <action id="ImageFormats" cond="OPTION_IMAGEFORMATS=='1' and PLATFORM_WIN32=='1'">
             <is-phony>1</is-phony>
+            <depends>ImageFormats_lib</depends>
             <depends>ImageFormats_dll</depends>
+        </action>
+
+        <action id="ZLib" cond="OPTION_ZLIB=='1'">
+            <is-phony>1</is-phony>
+            <depends>ZLib_lib</depends>
+        </action>
+
+        <action id="libAGG" cond="OPTION_LIBAGG=='1'">
+            <is-phony>1</is-phony>
+            <depends>libAGG_lib</depends>
+        </action>
+
+        <action id="LibJPEG" cond="OPTION_LIBJPEG=='1'">
+            <is-phony>1</is-phony>
+            <depends>LibJPEG_lib</depends>
+        </action>
+
+        <action id="LibPNG" cond="OPTION_LIBPNG=='1'">
+            <is-phony>1</is-phony>
+            <depends>LibPNG_lib</depends>
+        </action>
+
+        <action id="LibMNG" cond="OPTION_LIBMNG=='1'">
+            <is-phony>1</is-phony>
+            <depends>LibMNG_lib</depends>
+        </action>
+
+        <action id="LibTIFF" cond="OPTION_LIBTIFF=='1'">
+            <is-phony>1</is-phony>
+            <depends>LibTIFF_lib</depends>
+        </action>
+
+        <action id="FreeImage" cond="OPTION_FREEIMAGE=='1'">
+            <is-phony>1</is-phony>
+            <depends>FreeImage_lib</depends>
         </action>
 
         <action id="RegExx" cond="OPTION_REGEXX=='1'">

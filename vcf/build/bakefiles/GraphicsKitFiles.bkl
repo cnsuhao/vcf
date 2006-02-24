@@ -84,6 +84,7 @@
         vcf/GraphicsKit/Win32GraphicsToolkit.h
         vcf/GraphicsKit/Win32Image.h
         vcf/GraphicsKit/Win32PrintSession.h
+        vcf/GraphicsKit/Win32VisualStylesWrapper.h
     </set>
 
     <set var="GRAPHICSKIT_WIN_SRC" hints="files">

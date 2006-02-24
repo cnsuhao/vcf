@@ -8,6 +8,13 @@
         <if cond="OPTION_WIN32HTMLBROWSER=='0'">VCF_NO_ATL</if>
     </set>
 
+    <set var="WIN32HTMLBROWSER_DYNLIB_UNQUOTED">
+        <if cond="OPTION_WIN32HTMLBROWSER=='1'">
+            WIN32HTMLBROWSER_DYNLIB_UNQUOTED=$(WIN32HTMLBROWSER_FILENAME)$(DLLEXT)
+        </if>
+        <if cond="OPTION_WIN32HTMLBROWSER=='0'"></if>
+    </set>
+
     <template id="ApplicationKit_base">
         <set var="LIBRARY_NAME">$(APPLICATIONKIT_NAME)</set>
         <set var="LIBRARY_PRECOMP_HDR">vcf$(DIRSEP)ApplicationKit$(DIRSEP)ApplicationKit.h</set>
@@ -16,14 +23,16 @@
         <headers>$(APPLICATIONKIT_HDR)</headers>
         <sources>$(APPLICATIONKIT_SRC)</sources>
 
-        <res-include>../resources/win32</res-include>
         <define>$(VCF_NO_ATL)</define>
 
+        <vcf-include-thirdparty/>
         <vcf-use-GraphicsKit/>
     </template>
 
     <lib id="ApplicationKit_lib" template="ApplicationKit_base,vcf_lib,precomp"
             cond="OPTION_SHARED=='0' and OPTION_APPLICATIONKIT=='1' and OPTION_ALLIN1=='0'">
+        <define>RUNTIME_LOADLIBRARY</define>
+        <define>USE_WIN32HTMLBROWSER_LIB</define>
         <depends>GraphicsKit_lib</depends>
     </lib>
 
@@ -31,7 +40,11 @@
             cond="OPTION_SHARED=='1' and OPTION_APPLICATIONKIT=='1' and OPTION_ALLIN1=='0'">
         <define>APPLICATIONKIT_DLL</define>
         <define>APPLICATIONKIT_EXPORTS</define>
-        <win32-res>..$(DIRSEP)build$(DIRSEP)resources$(DIRSEP)win32$(DIRSEP)ApplicationKit.rc</win32-res>
+        <define>$(WIN32HTMLBROWSER_DYNLIB_UNQUOTED)</define>
+
+        <res-include>../build/resources/win32</res-include>
+        <win32-res>../build/resources/win32/ApplicationKit.rc</win32-res>
+        
         <depends>GraphicsKit_dll</depends>
     </dll>
 

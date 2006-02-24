@@ -28,12 +28,10 @@
         thirdparty/common/FreeImage/Source/FreeImage/PluginBMP.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginICO.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginIFF.cpp
-        thirdparty/common/FreeImage/Source/FreeImage/PluginJPEG.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginKOALA.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginMNG.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginPCD.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginPCX.cpp
-        thirdparty/common/FreeImage/Source/FreeImage/PluginPNG.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginPNM.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginPSD.cpp
         thirdparty/common/FreeImage/Source/FreeImage/PluginRAS.cpp
