@@ -17,6 +17,7 @@
 
     <lib id="RemoteObjectKit_lib" template="RemoteObjectKit_base,vcf_lib,precomp"
             cond="OPTION_SHARED=='0' and OPTION_REMOTEOBJECTKIT=='1' and OPTION_ALLIN1=='0'">
+        <depends>FoundationKit_lib</depends>
         <depends>NetworkKit_lib</depends>
     </lib>
 
@@ -24,6 +25,7 @@
             cond="OPTION_SHARED=='1' and OPTION_REMOTEOBJECTKIT=='1' and OPTION_ALLIN1=='0'">
         <define>REMOTEKIT_DLL</define>
         <define>REMOTEKIT_EXPORTS</define>
+        <depends>FoundationKit_dll</depends>
         <depends>NetworkKit_dll</depends>
     </dll>
 

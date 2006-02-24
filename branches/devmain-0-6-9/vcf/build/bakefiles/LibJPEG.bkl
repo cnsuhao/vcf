@@ -11,6 +11,6 @@
     </template>
 
     <lib id="LibJPEG_lib" template="LibJPEG_base,vcf_lib"
-            cond="OPTION_GRAPHICSKIT=='1'">
+            cond="OPTION_LIBJPEG=='1'">
     </lib>
 </makefile>

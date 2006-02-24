@@ -17,6 +17,6 @@
     </template>
 
     <lib id="FreeImage_lib" template="FreeImage_base,vcf_lib"
-            cond="OPTION_IMAGEFORMATS=='1'">
+            cond="OPTION_FREEIMAGE=='1'">
     </lib>
 </makefile>

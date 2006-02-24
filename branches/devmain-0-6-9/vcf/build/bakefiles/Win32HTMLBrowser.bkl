@@ -9,19 +9,31 @@
         <headers>$(WIN32HTMLBROWSER_HDR)</headers>
         <sources>$(WIN32HTMLBROWSER_SRC)</sources>
 
+        <vcf-include-thirdparty/>
         <vcf-use-ApplicationKit/>
+
+        <library>libAGG_lib</library>
+        <library>ZLib_lib</library>
+        <library>LibJPEG_lib</library>
+        <library>LibPNG_lib</library>
     </template>
 
-    <!--
-    The current desing allows us to use Win32HTMLBrowser
-    as a dynamic link library only.
-    -->
+    <lib id="Win32HTMLBrowser_lib" template="Win32HTMLBrowser_base,vcf_lib"
+            cond="OPTION_SHARED=='0' and OPTION_WIN32HTMLBROWSER=='1' and PLATFORM_WIN32=='1'">
+        <depends>ApplicationKit_lib</depends>
+    </lib>
+
     <dll id="Win32HTMLBrowser_dll" template="Win32HTMLBrowser_base,vcf_dll"
-            cond="OPTION_WIN32HTMLBROWSER=='1' and PLATFORM_WIN32=='1'">
+            cond="OPTION_SHARED=='1' and OPTION_WIN32HTMLBROWSER=='1' and PLATFORM_WIN32=='1'">
         <define>WIN32HTMLBROWSER_DLL</define>
         <define>WIN32HTMLBROWSER_EXPORTS</define>
         <depends>Allin1_dll</depends>
         <depends>ApplicationKit_dll</depends>
     </dll>
+
+    <set var="MSVC6PRJ_MERGED_TARGETS" append="1"
+            cond="OPTION_WIN32HTMLBROWSER=='1' and PLATFORM_WIN32=='1'">
+        Win32HTMLBrowser=Win32HTMLBrowser_lib+Win32HTMLBrowser_dll
+    </set>
 
 </makefile>

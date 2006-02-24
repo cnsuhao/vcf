@@ -1100,6 +1100,10 @@ SOURCE=..\..\src\vcf\GraphicsKit\Win32Image.h
 
 SOURCE=..\..\src\vcf\GraphicsKit\Win32PrintSession.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\src\vcf\GraphicsKit\Win32VisualStylesWrapper.h
+# End Source File
 # End Group
 # End Target
 # End Project

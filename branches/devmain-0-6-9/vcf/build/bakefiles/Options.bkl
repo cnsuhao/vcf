@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 
 <makefile>
+    <using module="vcf"/>
 
     <set var="OPTION_SELECTLIB_DEFAULT"/>
     <set var="OPTION_SELECTLIB_DEFAULT">
@@ -10,7 +11,9 @@
     <option name="OPTION_SELECTLIB">
         <values>$(OPTION_SELECTLIB_DEFAULT)</values>
         <values-description>,icl6,icl7,vc6,vc70,vc71,vc80</values-description>
-        <default-value></default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_SELECTLIB', '' ))
+        </default-value>
         <description>
 Some meaningful string that will be added to the names
 of the target files. Any string is possible.
@@ -25,7 +28,9 @@ Backward compatibility:
     <option name="OPTION_SHARED">
         <values>0,1</values>
         <values-description>,DLL</values-description>
-        <default-value>1</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_SHARED', '1' ))
+        </default-value>
         <description>
             The type of libraries:
         </description>
@@ -33,7 +38,9 @@ Backward compatibility:
 
     <option name="OPTION_SHARED_RUNTIME">
         <values>default,0,1</values>
-        <default-value>default</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_SHARED_RUNTIME', 'default' ))
+        </default-value>
         <description>
 The type of runtime libraries.
 "default" means the same value as OPTION_SHARED:
@@ -43,7 +50,9 @@ The type of runtime libraries.
     <option name="OPTION_DEBUG">
         <values>0,1</values>
         <values-description>Release,Debug</values-description>
-        <default-value>1</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_DEBUG', '1' ))
+        </default-value>
         <description>
             The build configuration:
         </description>
@@ -66,7 +75,9 @@ The type of runtime libraries.
     <if cond="PRECOMPILED=='1' and FORMAT!='msvc6prj'">
         <option name="OPTION_PRECOMPILED">
             <values>0,1</values>
-            <default-value>1</default-value>
+            <default-value>
+                $(vcf.getOptionValue( 'OPTION_PRECOMPILED', '1' ))
+            </default-value>
             <description>
                 Create and use a precompiled header file where it is possible:
             </description>
@@ -86,23 +97,19 @@ The type of runtime libraries.
 
     <option name="OPTION_ALLIN1">
         <values>0,1</values>
-        <default-value>0</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_ALLIN1', '0' ))
+        </default-value>
         <description>
             Make the all-in-1 library:
         </description>
     </option>
 
-    <option name="OPTION_ZLIB">
-        <values>0,1</values>
-        <default-value>1</default-value>
-        <description>
-            Compile ZLib:
-        </description>
-    </option>
-
     <option name="OPTION_FOUNDATIONKIT">
         <values>0,1</values>
-        <default-value>1</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_FOUNDATIONKIT', '1' ))
+        </default-value>
         <description>
             Compile FoundationKit:
         </description>
@@ -114,10 +121,13 @@ The type of runtime libraries.
     </set>
     <option name="OPTION_GRAPHICSKIT">
         <values>0,1</values>
-        <default-value>$(OPTION_GRAPHICSKIT_DEFAULT)</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_GRAPHICSKIT', OPTION_GRAPHICSKIT_DEFAULT ))
+        </default-value>
         <description>
 Depends on:
     OPTION_FOUNDATIONKIT
+    OPTION_LIBAGG
     OPTION_ZLIB
 Compile GraphicsKit:
         </description>
@@ -129,7 +139,9 @@ Compile GraphicsKit:
     </set>
     <option name="OPTION_APPLICATIONKIT">
         <values>0,1</values>
-        <default-value>$(OPTION_APPLICATIONKIT_DEFAULT)</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_APPLICATIONKIT', OPTION_APPLICATIONKIT_DEFAULT ))
+        </default-value>
         <description>
 Depends on:
     OPTION_GRAPHICSKIT
@@ -142,15 +154,15 @@ Compile ApplicationKit:
         <if cond="FORMAT=='msvc'">1</if>
     </set>
     <!--
-    It makes sence to consider:
-        - ATL (Win32HTMLBrowser support) is suitable,
-          only if PLATFORM_WIN32=='1'.
-        - Visual Studio includes ATL always.
+        1) Win32HTMLBrowser support is suitable, only if PLATFORM_WIN32=='1'.
+        2) Visual Studio includes ATL always.
     -->
     <if cond="PLATFORM_WIN32=='1' and FORMAT!='msvc6prj'">
         <option name="OPTION_WIN32HTMLBROWSER">
             <values>0,1</values>
-            <default-value>$(OPTION_WIN32HTMLBROWSER_DEFAULT)</default-value>
+            <default-value>
+                $(vcf.getOptionValue( 'OPTION_WIN32HTMLBROWSER', OPTION_WIN32HTMLBROWSER_DEFAULT ))
+            </default-value>
             <description>
 Depends on:
     OPTION_APPLICATIONKIT
@@ -167,7 +179,9 @@ Compile the Win32HTMLBrowser control:
 
     <option name="OPTION_OPENGLKIT">
         <values>0,1</values>
-        <default-value>0</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_OPENGLKIT', '0' ))
+        </default-value>
         <description>
 Depends on:
     OPTION_APPLICATIONKIT
@@ -177,7 +191,9 @@ Compile OpenGLKit:
 
     <option name="OPTION_NETWORKKIT">
         <values>0,1</values>
-        <default-value>0</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_NETWORKKIT', '0' ))
+        </default-value>
         <description>
 Depends on:
     OPTION_FOUNDATIONKIT
@@ -187,7 +203,9 @@ Compile NetworkKit:
 
     <option name="OPTION_REMOTEOBJECTKIT">
         <values>0,1</values>
-        <default-value>0</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_REMOTEOBJECTKIT', '0' ))
+        </default-value>
         <description>
 Depends on:
     OPTION_NETWORKKIT
@@ -197,7 +215,9 @@ Compile RemoteObjectKit:
 
     <option name="OPTION_INTERNETKIT">
         <values>0,1</values>
-        <default-value>0</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_INTERNETKIT', '0' ))
+        </default-value>
         <description>
 Depends on:
     OPTION_FOUNDATIONKIT
@@ -205,11 +225,88 @@ Compile InternetKit:
         </description>
     </option>
 
-    <option name="OPTION_IMAGEFORMATS">
+    <option name="OPTION_ZLIB">
         <values>0,1</values>
-        <default-value>0</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_ZLIB', '1' ))
+        </default-value>
+        <description>
+            Compile the Zip library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBAGG">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBAGG', '1' ))
+        </default-value>
+        <description>
+            Compile the AGG library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBJPEG">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBJPEG', '1' ))
+        </default-value>
+        <description>
+            Compile the JPEG library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBPNG">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBPNG', '1' ))
+        </default-value>
+        <description>
+            Compile the PNG library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBMNG">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBMNG', '0' ))
+        </default-value>
+        <description>
+            Compile the MNG library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBTIFF">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBTIFF', '0' ))
+        </default-value>
+        <description>
+            Compile the TIFF library:
+        </description>
+    </option>
+
+    <option name="OPTION_FREEIMAGE">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_FREEIMAGE', '0' ))
+        </default-value>
         <description>
 Depends on:
+    OPTION_ZLIB
+    OPTION_LIBMNG
+    OPTION_LIBTIFF
+Compile the FreeImage library:
+        </description>
+    </option>
+
+    <option name="OPTION_IMAGEFORMATS">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_IMAGEFORMATS', '0' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FREEIMAGE
     OPTION_APPLICATIONKIT
 Compile ImageFormats:
         </description>
@@ -217,9 +314,11 @@ Compile ImageFormats:
 
     <option name="OPTION_REGEXX">
         <values>0,1</values>
-        <default-value>0</default-value>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_REGEXX', '0' ))
+        </default-value>
         <description>
-            Compile RegExx:
+            Compile the RegExx library:
         </description>
     </option>
 

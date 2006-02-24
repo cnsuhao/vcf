@@ -11,6 +11,6 @@
     </template>
 
     <lib id="LibPNG_lib" template="LibPNG_base,vcf_lib"
-            cond="OPTION_GRAPHICSKIT=='1'">
+            cond="OPTION_LIBPNG=='1'">
     </lib>
 </makefile>

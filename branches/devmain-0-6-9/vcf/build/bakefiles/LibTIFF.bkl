@@ -11,6 +11,6 @@
     </template>
 
     <lib id="LibTIFF_lib" template="LibTIFF_base,vcf_lib"
-            cond="OPTION_IMAGEFORMATS=='1'">
+            cond="OPTION_LIBTIFF=='1'">
     </lib>
 </makefile>

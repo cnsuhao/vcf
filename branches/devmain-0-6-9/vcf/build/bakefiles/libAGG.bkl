@@ -6,12 +6,13 @@
     <template id="libAGG_base">
         <set var="LIBRARY_NAME">$(LIBAGG_NAME)</set>
 
-        <include>$(SRCDIR)$(DIRSEP)thirdparty$(DIRSEP)common$(DIRSEP)agg$(DIRSEP)include</include>
         <headers>$(LIBAGG_HDR)</headers>
         <sources>$(LIBAGG_SRC)</sources>
+
+        <vcf-include-libAGG/>
     </template>
 
     <lib id="libAGG_lib" template="libAGG_base,vcf_lib"
-            cond="OPTION_GRAPHICSKIT=='1'">
+            cond="OPTION_LIBAGG=='1'">
     </lib>
 </makefile>

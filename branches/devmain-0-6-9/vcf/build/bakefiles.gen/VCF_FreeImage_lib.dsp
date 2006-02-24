@@ -799,10 +799,6 @@ SOURCE=..\..\src\thirdparty\common\FreeImage\Source\FreeImage\PluginIFF.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\thirdparty\common\FreeImage\Source\FreeImage\PluginJPEG.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\thirdparty\common\FreeImage\Source\FreeImage\PluginKOALA.cpp
 # End Source File
 # Begin Source File
@@ -816,10 +812,6 @@ SOURCE=..\..\src\thirdparty\common\FreeImage\Source\FreeImage\PluginPCD.cpp
 # Begin Source File
 
 SOURCE=..\..\src\thirdparty\common\FreeImage\Source\FreeImage\PluginPCX.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\thirdparty\common\FreeImage\Source\FreeImage\PluginPNG.cpp
 # End Source File
 # Begin Source File
 

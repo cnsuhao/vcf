@@ -225,13 +225,9 @@
         vcf/ApplicationKit/ApplicationResourceBundle.cpp
         vcf/ApplicationKit/Basic3DBorder.cpp
         vcf/ApplicationKit/BasicTableItemEditor.cpp
-        vcf/ApplicationKit/ButtonEvent.cpp
         vcf/ApplicationKit/CheckBoxControl.cpp
         vcf/ApplicationKit/Clipboard.cpp
-        vcf/ApplicationKit/ClipboardEvent.cpp
         vcf/ApplicationKit/ColorEtchedBorder.cpp
-        vcf/ApplicationKit/ColumnItemEvent.cpp
-        vcf/ApplicationKit/ColumnModelEvent.cpp
         vcf/ApplicationKit/ComboBoxControl.cpp
         vcf/ApplicationKit/CommandButton.cpp
         vcf/ApplicationKit/CommandGroup.cpp
@@ -248,7 +244,6 @@
         vcf/ApplicationKit/Containers.cpp
         vcf/ApplicationKit/Control.cpp
         vcf/ApplicationKit/ControlContainer.cpp
-        vcf/ApplicationKit/ControlEvent.cpp
         vcf/ApplicationKit/ControlGraphicsContext.cpp
         vcf/ApplicationKit/Cursor.cpp
         vcf/ApplicationKit/CursorManager.cpp
@@ -273,28 +268,21 @@
         vcf/ApplicationKit/DragSource.cpp
         vcf/ApplicationKit/DropTarget.cpp
         vcf/ApplicationKit/EtchedBorder.cpp
-        vcf/ApplicationKit/FocusEvent.cpp
         vcf/ApplicationKit/Frame.cpp
         vcf/ApplicationKit/HeaderControl.cpp
-        vcf/ApplicationKit/HelpEvent.cpp
         vcf/ApplicationKit/ImageControl.cpp
         vcf/ApplicationKit/ImageList.cpp
-        vcf/ApplicationKit/ImageListEvent.cpp
-        vcf/ApplicationKit/ItemEvent.cpp
-        vcf/ApplicationKit/KeyboardEvent.cpp
         vcf/ApplicationKit/Label.cpp
         vcf/ApplicationKit/LibraryApplication.cpp
         vcf/ApplicationKit/Light3DBorder.cpp
         vcf/ApplicationKit/LightweightComponent.cpp
         vcf/ApplicationKit/ListBoxControl.cpp
-        vcf/ApplicationKit/ListModelEvent.cpp
         vcf/ApplicationKit/ListViewControl.cpp
         vcf/ApplicationKit/Menu.cpp
         vcf/ApplicationKit/MenuBar.cpp
         vcf/ApplicationKit/MenuManager.cpp
         vcf/ApplicationKit/MessageDialog.cpp
         vcf/ApplicationKit/Model.cpp
-        vcf/ApplicationKit/MouseEvent.cpp
         vcf/ApplicationKit/MultilineTextControl.cpp
         vcf/ApplicationKit/Panel.cpp
         vcf/ApplicationKit/PopupMenu.cpp
@@ -309,33 +297,23 @@
         vcf/ApplicationKit/SystemTray.cpp
         vcf/ApplicationKit/TabbedPages.cpp
         vcf/ApplicationKit/TableControl.cpp
-        vcf/ApplicationKit/TableModelEvent.cpp
-        vcf/ApplicationKit/TabModelEvent.cpp
         vcf/ApplicationKit/TextControl.cpp
         vcf/ApplicationKit/TimerComponent.cpp
-        vcf/ApplicationKit/TimerEvent.cpp
         vcf/ApplicationKit/TitledBorder.cpp
         vcf/ApplicationKit/ToggledButton.cpp
         vcf/ApplicationKit/Toolbar.cpp
         vcf/ApplicationKit/ToolbarDock.cpp
-        vcf/ApplicationKit/ToolTipEvent.cpp
         vcf/ApplicationKit/TreeControl.cpp
         vcf/ApplicationKit/TreeListControl.cpp
-        vcf/ApplicationKit/TreeModelEvent.cpp
         vcf/ApplicationKit/UIToolkit.cpp
-        vcf/ApplicationKit/UndoRedoEvent.cpp
         vcf/ApplicationKit/UndoRedoStack.cpp
-        vcf/ApplicationKit/ValidationEvent.cpp
         vcf/ApplicationKit/VFFInputStream.cpp
         vcf/ApplicationKit/VFFOutputStream.cpp
         vcf/ApplicationKit/Window.cpp
-        vcf/ApplicationKit/WindowEvent.cpp
     </set>
 
     <set var="APPLICATIONKIT_WIN_HDR" hints="files">
         vcf/ApplicationKit/AbstractWin32Component.h
-        vcf/ApplicationKit/COMDataObject.h
-        vcf/ApplicationKit/COMUtils.h
         vcf/ApplicationKit/EnumObject.h
         vcf/ApplicationKit/SystemTray.h
         vcf/ApplicationKit/VCFCOM.h
@@ -344,7 +322,10 @@
         vcf/ApplicationKit/Win32Button.h
         vcf/ApplicationKit/Win32Clipboard.h
         vcf/ApplicationKit/Win32ColorDialog.h
+        vcf/ApplicationKit/Win32COMDataObject.h
+        vcf/ApplicationKit/Win32COMException.h
         vcf/ApplicationKit/Win32Component.h
+        vcf/ApplicationKit/Win32COMUtils.h
         vcf/ApplicationKit/Win32ControlContext.h
         vcf/ApplicationKit/Win32CursorPeer.h
         vcf/ApplicationKit/Win32Desktop.h
@@ -356,6 +337,8 @@
         vcf/ApplicationKit/Win32FileSaveDialog.h
         vcf/ApplicationKit/Win32FolderBrowseDialog.h
         vcf/ApplicationKit/Win32FontDialog.h
+        vcf/ApplicationKit/Win32HResult.h
+        vcf/ApplicationKit/Win32HTMLDOMElements.h
         vcf/ApplicationKit/Win32ListBox.h
         vcf/ApplicationKit/Win32Listview.h
         vcf/ApplicationKit/Win32MenuBar.h
@@ -375,14 +358,14 @@
 
     <set var="APPLICATIONKIT_WIN_SRC" hints="files">
         vcf/ApplicationKit/AbstractWin32Component.cpp
-        vcf/ApplicationKit/COMDataObject.cpp
-        vcf/ApplicationKit/COMUtils.cpp
         vcf/ApplicationKit/Win32Application.cpp
         vcf/ApplicationKit/Win32AppResourceBundle.cpp
         vcf/ApplicationKit/Win32Button.cpp
         vcf/ApplicationKit/Win32Clipboard.cpp
         vcf/ApplicationKit/Win32ColorDialog.cpp
+        vcf/ApplicationKit/Win32COMDataObject.cpp
         vcf/ApplicationKit/Win32Component.cpp
+        vcf/ApplicationKit/Win32COMUtils.cpp
         vcf/ApplicationKit/Win32ControlContext.cpp
         vcf/ApplicationKit/Win32CursorPeer.cpp
         vcf/ApplicationKit/Win32Desktop.cpp
@@ -394,6 +377,7 @@
         vcf/ApplicationKit/Win32FileSaveDialog.cpp
         vcf/ApplicationKit/Win32FolderBrowseDialog.cpp
         vcf/ApplicationKit/Win32FontDialog.cpp
+        vcf/ApplicationKit/Win32HTMLDOMElements.cpp
         vcf/ApplicationKit/Win32Listview.cpp
         vcf/ApplicationKit/Win32MenuBar.cpp
         vcf/ApplicationKit/Win32MenuItem.cpp
