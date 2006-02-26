@@ -2379,7 +2379,12 @@ void OSXUIToolkit::internal_displayHelpIndex( const String& helpBookName, const 
 
 }
 
-void OSXUIToolkit::internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory )
+bool OSXUIToolkit::internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory )
+{
+	return false;
+}
+
+void OSXUIToolkit::internal_displayHelpSection( const String& helpBookName, const String& helpDirectory, const String& helpSection )
 {
 
 }
@@ -2392,6 +2397,9 @@ void OSXUIToolkit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.6  2006/02/26 23:44:10  ddiego
+*minor updates to sync osx version with latest cvs. added xcode proj for Themes example.
+*
 *Revision 1.6.2.5  2006/02/22 01:26:22  ddiego
 *mac osx updates.
 *

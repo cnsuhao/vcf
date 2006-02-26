@@ -354,12 +354,12 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 										(ATSUAttributeValuePtr)&orginalVal, &actualSz[0] );
 	
 	if ( err != noErr ) {
-		StringUtils::trace( "ATSUGetLayoutControl(kATSULineFlushFactorTag) failed" );
+		//StringUtils::trace( "ATSUGetLayoutControl(kATSULineFlushFactorTag) failed" );
 	}
 	
 	err = ATSUSetLayoutControls( textLayout_, 1, tag, actualSz, attrVals );
 	if ( err != noErr ) {
-		StringUtils::trace( "ATSUSetLayoutControls(kATSULineFlushFactorTag) failed" );
+		//StringUtils::trace( "ATSUSetLayoutControls(kATSULineFlushFactorTag) failed" );
 	}
 	
 	
@@ -392,7 +392,7 @@ void OSXContext::textAt( const VCF::Rect& bounds, const String & text, const lon
 		err = ATSUBreakLine(textLayout_, kATSUFromTextBeginning, lineWidth, true, &lineEndOffset);
 		
 		if ( noErr != err ) {
-			StringUtils::trace( "ATSUBreakLine() failed" );
+			//StringUtils::trace( "ATSUBreakLine() failed" );
 		}
 		
 		err = ATSUDrawText( textLayout_,
@@ -2293,6 +2293,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/02/26 23:44:10  ddiego
+*minor updates to sync osx version with latest cvs. added xcode proj for Themes example.
+*
 *Revision 1.5.2.4  2006/02/22 01:26:22  ddiego
 *mac osx updates.
 *
