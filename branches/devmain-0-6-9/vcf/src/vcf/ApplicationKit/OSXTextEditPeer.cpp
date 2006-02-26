@@ -1010,9 +1010,17 @@ void OSXTextEditPeer::onTextControlFontChanged( Event* event )
 	setFont( font );
 }
 
+void OSXTextEditPeer::setTextWrapping( const bool& val )
+{
+
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2006/02/26 23:44:10  ddiego
+*minor updates to sync osx version with latest cvs. added xcode proj for Themes example.
+*
 *Revision 1.2.2.2  2006/01/09 02:22:31  ddiego
 *more osx code
 *

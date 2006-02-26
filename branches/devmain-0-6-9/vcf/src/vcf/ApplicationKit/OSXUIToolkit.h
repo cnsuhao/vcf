@@ -238,12 +238,11 @@ public:
 
 	virtual void internal_displayHelpIndex( const String& helpBookName, const String& helpDirectory );
 
-	virtual void internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory );
+	virtual bool internal_displayContextHelpForControl( Control* control, const String& helpBookName, const String& helpDirectory );
 
-	//static void  internal_osxEventHandler( EventRef osxEvent, gpointer data);
-
-	//static gboolean internal_gdkIdleHandler(gpointer data);
-    static EventRef createUserCarbonEvent( UInt32 eventType );
+	virtual void internal_displayHelpSection( const String& helpBookName, const String& helpDirectory, const String& helpSection );
+	
+	static EventRef createUserCarbonEvent( UInt32 eventType );
 protected:
 	//VirtualKeyCode translateKeyCode( guint code );
 	//ulong32 translateKeyMask( GdkModifierType keyState );
@@ -276,6 +275,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2006/02/26 23:44:10  ddiego
+*minor updates to sync osx version with latest cvs. added xcode proj for Themes example.
+*
 *Revision 1.6.2.4  2006/02/22 01:26:22  ddiego
 *mac osx updates.
 *
