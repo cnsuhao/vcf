@@ -153,7 +153,7 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 	imagePath.close_polygon();
 
 	bool safeToRender = true;
-	
+
 	BITMAPINFO bmpInfo;
 	memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
 	bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
@@ -177,7 +177,7 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 
 	bool defaultXFrm = context_->isDefaultTransform();
 	if ( !defaultXFrm ) {
-		
+
 
 		double xx = x * (currentXFrm[Matrix2D::mei00]) +
 							y * (currentXFrm[Matrix2D::mei10]) +
@@ -198,13 +198,13 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 										Math::degreesToRadians(context_->getShearY()) );
 
 		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,pathMat);
-		
+
 		double vert_x, vert_y;
 		xfrmedImgPath.vertex( &vert_x, &vert_y );
-		
+
 		Point p1(vert_x, vert_y );
 
-		
+
 		xfrmedImgPath.vertex( &vert_x, &vert_y );
 
 		Point p2( vert_x, vert_y );
@@ -301,7 +301,7 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 					dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
-			
+
 			imgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth,
 										-bmpInfo.bmiHeader.biHeight,
 										bmpInfo.bmiHeader.biWidth * 4 );
@@ -329,10 +329,10 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 
 
 			agg::rendering_buffer tmpImgRenderBuf;
-			tmpImgRenderBuf.attach( (unsigned char*)image->getData(), 
+			tmpImgRenderBuf.attach( (unsigned char*)image->getData(),
 									image->getWidth(),
 									image->getHeight(),
-									image->getWidth() * image->getType() ); 
+									image->getWidth() * image->getType() );
 
 			SpanGenerator spanGen(spanAllocator,
 							 tmpImgRenderBuf,
@@ -342,11 +342,11 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 
 			RendererType imageRenderer(rb, spanGen);
 
-			
+
 
 			rasterizer.add_path(xfrmedImgPath2);
 			agg::render_scanlines(rasterizer, scanLine, imageRenderer );
-		}		
+		}
 	}
 	else {
 		bmpInfo.bmiHeader.biWidth = (long)xfrmedImageRect.getWidth();
@@ -366,7 +366,7 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 					dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
-			
+
 			imgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth,
 										-bmpInfo.bmiHeader.biHeight,
 										bmpInfo.bmiHeader.biWidth * 4 );
@@ -379,10 +379,10 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 			SpanInterpolator interpolator(imageMat);
 
 			agg::rendering_buffer tmpImgRenderBuf;
-			tmpImgRenderBuf.attach( (unsigned char*)image->getData(), 
+			tmpImgRenderBuf.attach( (unsigned char*)image->getData(),
 									image->getWidth(),
 									image->getHeight(),
-									image->getWidth() * image->getType() ); 
+									image->getWidth() * image->getType() );
 
 
 			//image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
@@ -393,7 +393,7 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 							 interpolator);
 			RendererType imageRenderer(rb, spanGen);
 
-			
+
 
 			//rasterizer.add_path(imagePath);
 			//rasterizer.render(scanLine, imageRenderer);
@@ -571,7 +571,7 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 		size_t hbmpWidth = xfrmedImageRect.getWidth();
 		size_t hbmpHeight = xfrmedImageRect.getHeight();
 
-		//we can't get rid of this be cause we 
+		//we can't get rid of this be cause we
 		//need it for the SetDIBitsToDevice
 		//call
 		BITMAPINFO bmpInfo;
@@ -777,7 +777,7 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 	imagePath.close_polygon();
 
 	bool safeToRender = true;
-	
+
 	BITMAPINFO bmpInfo;
 	memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
 	bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
@@ -801,7 +801,7 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 
 	bool defaultXFrm = false;//context_->isDefaultTransform();
 	if ( !defaultXFrm ) {
-		
+
 
 		double xx = x * (currentXFrm[Matrix2D::mei00]) +
 							y * (currentXFrm[Matrix2D::mei10]) +
@@ -823,7 +823,7 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 
 		agg::conv_transform< agg::path_storage > xfrmedImgPath(imagePath,pathMat);
 
-		
+
 		double vert_x, vert_y;
 		xfrmedImgPath.vertex( &vert_x, &vert_y );
 
@@ -931,7 +931,7 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 					dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
-			
+
 			imgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth,
 										-bmpInfo.bmiHeader.biHeight,
 										bmpInfo.bmiHeader.biWidth * 4 );
@@ -959,10 +959,10 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 
 
 			agg::rendering_buffer tmpImgRenderBuf;
-			tmpImgRenderBuf.attach( (unsigned char*)image->getData(), 
+			tmpImgRenderBuf.attach( (unsigned char*)image->getData(),
 									image->getWidth(),
 									image->getHeight(),
-									image->getWidth() * image->getType() ); 
+									image->getWidth() * image->getType() );
 
 			SpanGenerator spanGen(spanAllocator,
 							 tmpImgRenderBuf,
@@ -972,11 +972,11 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 
 			RendererType imageRenderer(rb, spanGen);
 
-			
+
 
 			rasterizer.add_path(xfrmedImgPath2);
 			agg::render_scanlines(rasterizer, scanLine, imageRenderer);
-		}		
+		}
 	}
 	else {
 		bmpInfo.bmiHeader.biWidth = (long)xfrmedImageRect.getWidth();
@@ -997,7 +997,7 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 			//		dc_, xfrmedImageRect.left_, xfrmedImageRect.top_, SRCCOPY );
 
 
-			
+
 			imgRenderBuf.attach( (unsigned char*)bmpBuf, bmpInfo.bmiHeader.biWidth,
 										-bmpInfo.bmiHeader.biHeight,
 										bmpInfo.bmiHeader.biWidth * 4 );
@@ -1012,10 +1012,10 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 			SpanInterpolator interpolator(imageMat);
 
 			agg::rendering_buffer tmpImgRenderBuf;
-			tmpImgRenderBuf.attach( (unsigned char*)image->getData(), 
+			tmpImgRenderBuf.attach( (unsigned char*)image->getData(),
 									image->getWidth(),
 									image->getHeight(),
-									image->getWidth() * image->getType() ); 
+									image->getWidth() * image->getType() );
 
 
 			//image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
@@ -1026,7 +1026,7 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 							 interpolator);
 			RendererType imageRenderer(rb, spanGen);
 
-			
+
 
 			rasterizer.add_path(imagePath);
 			agg::render_scanlines(rasterizer, scanLine, imageRenderer);
@@ -1788,18 +1788,18 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 	btnRect.right = rect->right_;
 	btnRect.bottom = rect->bottom_;
 
-	
+
 	HTHEME theme = NULL;
 
 	if ( Win32VisualStylesWrapper::IsThemeActive() ) {
 		theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"BUTTON" );
 	}
 
-	if ( theme ) {		
+	if ( theme ) {
 		int dcs = SaveDC( dc_ );
-		
+
 		int btnState = 0;
-		
+
 		if ( !state.isEnabled() ) {
 			btnState =	PBS_DISABLED;
 		}
@@ -1808,14 +1808,14 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 			btnState |=	state.isDefaultButton()	? PBS_DEFAULTED : PBS_NORMAL;
 
 			btnState = state.isPressed() ? PBS_PRESSED	: btnState;
-		}			
-		
+		}
+
 		Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, BP_PUSHBUTTON, btnState, &btnRect, 0);
-		
+
 		SetBkMode(dc_, TRANSPARENT);
-		VCF::Font btnFont = *context_->getCurrentFont();		
-		
-		HFONT font = NULL;			
+		VCF::Font btnFont = *context_->getCurrentFont();
+
+		HFONT font = NULL;
 		if ( System::isUnicodeEnabled() ) {
 			LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
 			font = ::CreateFontIndirectW( lf );
@@ -1826,43 +1826,43 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 			font = ::CreateFontIndirectA( lf );
 			::SelectObject( dc_, font );
 		}
-		
-		
+
+
 		Win32VisualStylesWrapper::DrawThemeText(theme, dc_, BP_PUSHBUTTON, btnState,
 			state.buttonCaption_.c_str(),
 			state.buttonCaption_.length(),
-			DT_SINGLELINE | DT_CENTER | DT_VCENTER, NULL, 
+			DT_SINGLELINE | DT_CENTER | DT_VCENTER, NULL,
 			&btnRect);
-		
-		
+
+
 		Win32VisualStylesWrapper::CloseThemeData( theme );
-		
+
 		RestoreDC(dc_, dcs );
-		
+
 		DeleteObject( font );
-		
+
 	}
 	else {
 		COLORREF backColor = ::GetSysColor( COLOR_3DFACE );
-		
+
 		HBRUSH backBrush = CreateSolidBrush( backColor );
 		HPEN hilightPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DHIGHLIGHT ) );
 		HPEN shadowPen = CreatePen( PS_SOLID, 0, ::GetSysColor( COLOR_3DSHADOW ) );
 		HPEN blackPen = CreatePen( PS_SOLID, 0, 0 );
-		
+
 		HBRUSH oldBrush = (HBRUSH)::SelectObject( dc_, backBrush );
 		::FillRect( dc_, &btnRect, backBrush );
-		
+
 		bool isPressed = state.isPressed();
-		
+
 		HPEN oldPen = NULL;
-		
+
 		RECT tmpRect = btnRect;
 		//InflateRect( &tmpRect, -1, -1 );
 		if ( state.isDefaultButton() ) {
 			InflateRect( &tmpRect, -1, -1 );
 		}
-		
+
 		RECT capRect = btnRect;
 		if ( NULL != captionRect ) {
 			capRect.left = captionRect->left_;
@@ -1870,8 +1870,8 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 			capRect.right = captionRect->right_;
 			capRect.bottom = captionRect->bottom_;
 		}
-		
-		
+
+
 		if ( true == isPressed ) {
 			HBRUSH shadowBrush = CreateSolidBrush( ::GetSysColor( COLOR_3DSHADOW ) );
 			::FrameRect( dc_, &tmpRect, shadowBrush );
@@ -1879,76 +1879,76 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 			::OffsetRect( &capRect, 1, 1 );
 		}
 		else {
-			
+
 			oldPen = (HPEN) ::SelectObject( dc_, hilightPen );
-			
-			
+
+
 			::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
 			::LineTo( dc_, tmpRect.left, tmpRect.top );
 			::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
-			
+
 			::SelectObject( dc_, shadowPen );
 			::MoveToEx( dc_, tmpRect.right-2, tmpRect.top+1, NULL );
 			::LineTo( dc_, tmpRect.right-2, tmpRect.bottom-2 );
 			::LineTo( dc_, tmpRect.left, tmpRect.bottom-2 );
-			
+
 			::SelectObject( dc_, blackPen );
 			::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
 			::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
 			::LineTo( dc_, tmpRect.left-1, tmpRect.bottom-1 );
-			
+
 			/*
 			::MoveToEx( dc_, tmpRect.right, tmpRect.top, NULL );
 			::LineTo( dc_, tmpRect.left, tmpRect.top );
 			::LineTo( dc_, tmpRect.left, tmpRect.bottom );
-			
+
 			  ::SelectObject( dc_, shadowPen );
 			  ::MoveToEx( dc_, tmpRect.right-1, tmpRect.top+1, NULL );
 			  ::LineTo( dc_, tmpRect.right-1, tmpRect.bottom-1 );
 			  ::LineTo( dc_, tmpRect.left, tmpRect.bottom-1 );
-			  
+
 				::SelectObject( dc_, blackPen );
 				::MoveToEx( dc_, tmpRect.right-1, tmpRect.top, NULL );
 				::LineTo( dc_, tmpRect.right, tmpRect.bottom );
 				::LineTo( dc_, tmpRect.left, tmpRect.bottom );
 			*/
-			
+
 		}
-		
+
 		bool enabled = state.isEnabled();
-		
-		
-		
-		
+
+
+
+
 		HFONT font = NULL;
 		HFONT oldFont = NULL;
-		
+
 		VCF::Font btnFont = *context_->getCurrentFont();
-		
+
 		Rect centerRect( capRect.left, capRect.top, capRect.right, capRect.bottom );
 		if ( System::isUnicodeEnabled() ) {
 			LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
 			font = ::CreateFontIndirectW( lf );
 			oldFont = (HFONT) ::SelectObject( dc_, font );
-			
+
 			::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
 		}
 		else {
 			LOGFONTA* lf = (LOGFONTA*) btnFont.getFontPeer()->getFontHandleID();
 			font = ::CreateFontIndirectA( lf );
 			oldFont = (HFONT) ::SelectObject( dc_, font );
-			
+
 			::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER | DT_CALCRECT);
 		}
-		
-		
+
+
 		::OffsetRect( &capRect,
 			(centerRect.getWidth() - (capRect.right - capRect.left))/2,
 			(centerRect.getHeight() - (capRect.bottom - capRect.top))/2 );
-		
+
 		int oldBkMode = SetBkMode( dc_, TRANSPARENT );
-		
-		
+
+
 		COLORREF textColor = 0;
 		if ( true == enabled ) {
 			textColor = ::GetSysColor( COLOR_BTNTEXT );
@@ -1956,70 +1956,70 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 		else {
 			textColor = ::GetSysColor( COLOR_GRAYTEXT );
 		}
-		
-		
-		
+
+
+
 		COLORREF oldTextColor = SetTextColor( dc_, textColor );
-		
+
 		if ( false == enabled ) {
 			SetTextColor( dc_, ::GetSysColor( COLOR_BTNHIGHLIGHT ) );
-			
+
 			OffsetRect( &capRect, 1, 1 );
-			
+
 			if ( System::isUnicodeEnabled() ) {
 				::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 			}
 			else {
 				::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 			}
-			
+
 			OffsetRect( &capRect, -1, -1 );
-			
+
 			SetTextColor( dc_, textColor );
 		}
-		
+
 		if ( System::isUnicodeEnabled() ) {
 			::DrawTextW( dc_, state.buttonCaption_.c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 		}
 		else {
 			::DrawTextA( dc_, state.buttonCaption_.ansi_c_str(), -1, &capRect, DT_WORDBREAK | DT_CENTER);
 		}
-		
-		
-		
+
+
+
 		SetTextColor( dc_, oldTextColor );
 		SetBkMode( dc_, oldBkMode );
-		
+
 		::SelectObject( dc_, oldFont );
 		::DeleteObject( font );
-		
-		
-		
+
+
+
 		/*if ( state.isFocused() ) {
 		RECT focusRect = btnRect;
 		InflateRect( &focusRect, -4, -4 );
-		
+
 		  ::DrawFocusRect( dc_, &focusRect );
 	}*/
-		
-		
+
+
 		if ( state.isDefaultButton() ) {
 			RECT defRect = btnRect;
-			
+
 			//defRect.right -= 1;
 			//defRect.bottom -= 1;
-			
-			
+
+
 			FrameRect( dc_, &defRect, (HBRUSH)GetStockObject(BLACK_BRUSH) );
 		}
-		
+
 		if ( NULL != oldBrush ) {
 			::SelectObject( dc_, oldBrush );
 		}
 		if ( NULL != oldPen ) {
 			::SelectObject( dc_, oldPen );
 		}
-		
+
 		::DeleteObject( hilightPen );
 		::DeleteObject( shadowPen );
 		::DeleteObject( blackPen );
@@ -2087,48 +2087,48 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 		btnRect.right = rect->right_;
 		btnRect.bottom = rect->bottom_;
 		btnRect.right = btnRect.left + (btnRect.bottom - btnRect.top);
-		
-		
-		
+
+
+
 		int dcs = SaveDC( dc_ );
-		
+
 		int btnState = 0;
 		bool normal = true;
 		if ( state.isPressed() ) {
 			btnState |= state.isToggled() ? CBS_CHECKEDPRESSED : CBS_UNCHECKEDPRESSED;
 			normal = false;
 		}
-		
+
 		if ( !state.isEnabled() ) {
 			btnState |= state.isToggled() ? CBS_CHECKEDDISABLED : CBS_UNCHECKEDDISABLED;
 			normal = false;
 		}
-		
+
 		if ( state.isFocused() || state.isHighlighted() ) {
-			btnState |= state.isToggled() ? CBS_CHECKEDHOT : CBS_UNCHECKEDHOT;				
+			btnState |= state.isToggled() ? CBS_CHECKEDHOT : CBS_UNCHECKEDHOT;
 			normal = false;
 		}
-		
+
 		if ( normal ) {
 			btnState |= state.isToggled() ? CBS_CHECKEDNORMAL : CBS_UNCHECKEDNORMAL;
-			
+
 		}
-		
+
 		SIZE val = {0};
 		Win32VisualStylesWrapper::GetThemePartSize (theme, dc_, BP_CHECKBOX, 0, NULL, TS_DRAW, &val );
-		
-		btnRect.right = btnRect.left + val.cx;		
-		
+
+		btnRect.right = btnRect.left + val.cx;
+
 		Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, BP_CHECKBOX, btnState, &btnRect, 0);
-		
+
 		btnRect.left = btnRect.right;
 		btnRect.right = rect->right_;
-		
-		
+
+
 		SetBkMode(dc_, TRANSPARENT);
-		VCF::Font btnFont = *context_->getCurrentFont();		
-		
-		HFONT font = NULL;			
+		VCF::Font btnFont = *context_->getCurrentFont();
+
+		HFONT font = NULL;
 		if ( System::isUnicodeEnabled() ) {
 			LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
 			font = ::CreateFontIndirectW( lf );
@@ -2139,26 +2139,26 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 			font = ::CreateFontIndirectA( lf );
 			::SelectObject( dc_, font );
 		}
-		
+
 		btnRect.left += 5; //this is totally made up! Where would I get this from????
-		
+
 		Win32VisualStylesWrapper::DrawThemeText(theme, dc_, BP_CHECKBOX, btnState,
 			state.buttonCaption_.c_str(),
 			state.buttonCaption_.length(),
-			DT_SINGLELINE | DT_VCENTER, NULL, 
+			DT_SINGLELINE | DT_VCENTER, NULL,
 			&btnRect);
-		
-		
+
+
 		Win32VisualStylesWrapper::CloseThemeData( theme );
-		
+
 		RestoreDC(dc_, dcs );
-		
+
 		DeleteObject( font );
-		
+
 	}
 	else {
-		
-		
+
+
 	/**
 	JC
 	it turns out that the height/width is ALWAYS 13 pixels - no matter what
@@ -2167,39 +2167,39 @@ void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 	13 at 96 DPI and 17 at 120 DPI
 		*/
 		int checkBoxHeight = 13;
-		
+
 		tmp.top_ = (int)(rect->top_ + rect->getHeight() /2.0 + 0.5);
 		tmp.top_ -= checkBoxHeight/2;
 		tmp.bottom_ = tmp.top_ + checkBoxHeight;
 		tmp.right_ = tmp.left_ + checkBoxHeight;
-		
-		
-		
-		
+
+
+
+
 		RECT r = {0,0,0,0};
 		r.left = (long)tmp.left_;
 		r.top = (long)tmp.top_;
 		r.right = (long)tmp.right_;
 		r.bottom = (long)tmp.bottom_;
 		UINT chkState =  (state.isToggled() || state.isPressed()) ?  DFCS_BUTTONCHECK | DFCS_CHECKED : DFCS_BUTTONCHECK;
-		
+
 		int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, chkState );
-		
-		
+
+
 		tmp = *rect;
 		tmp.left_ = r.right + 3;
 		tmp.inflate( -1.0, -1.0 );
-		
+
 		/*
 		JC - commented this out - it looked dorky???
 		if ( state.isFocused() ) {
 		drawThemeFocusRect( &tmp, state );
 		}
 		*/
-		
-		
+
+
 		releaseHandle();
-		
+
 		long flags = GraphicsContext::tdoCenterVertAlign;
 		context_->textBoundedBy( &tmp, state.buttonCaption_, flags );
 	}
@@ -2224,48 +2224,48 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 		btnRect.right = rect->right_;
 		btnRect.bottom = rect->bottom_;
 		btnRect.right = btnRect.left + (btnRect.bottom - btnRect.top);
-		
-		
-		
+
+
+
 		int dcs = SaveDC( dc_ );
-		
+
 		int btnState = 0;
 		bool normal = true;
 		if ( state.isPressed() ) {
 			btnState |= state.isToggled() ? RBS_CHECKEDPRESSED : RBS_UNCHECKEDPRESSED;
 			normal = false;
 		}
-		
+
 		if ( !state.isEnabled() ) {
 			btnState |= state.isToggled() ? RBS_CHECKEDDISABLED : RBS_UNCHECKEDDISABLED;
 			normal = false;
 		}
-		
+
 		if ( state.isFocused() || state.isHighlighted() ) {
-			btnState |= state.isToggled() ? RBS_CHECKEDHOT : RBS_UNCHECKEDHOT;				
+			btnState |= state.isToggled() ? RBS_CHECKEDHOT : RBS_UNCHECKEDHOT;
 			normal = false;
 		}
-		
+
 		if ( normal ) {
 			btnState |= state.isToggled() ? RBS_CHECKEDNORMAL : RBS_UNCHECKEDNORMAL;
-			
+
 		}
-		
+
 		SIZE val = {0};
 		Win32VisualStylesWrapper::GetThemePartSize (theme, dc_, BP_RADIOBUTTON, 0, NULL, TS_DRAW, &val );
-		
-		btnRect.right = btnRect.left + val.cx;		
-		
+
+		btnRect.right = btnRect.left + val.cx;
+
 		Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, BP_RADIOBUTTON, btnState, &btnRect, 0);
-		
+
 		btnRect.left = btnRect.right;
 		btnRect.right = rect->right_;
-		
-		
+
+
 		SetBkMode(dc_, TRANSPARENT);
-		VCF::Font btnFont = *context_->getCurrentFont();		
-		
-		HFONT font = NULL;			
+		VCF::Font btnFont = *context_->getCurrentFont();
+
+		HFONT font = NULL;
 		if ( System::isUnicodeEnabled() ) {
 			LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
 			font = ::CreateFontIndirectW( lf );
@@ -2276,22 +2276,22 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 			font = ::CreateFontIndirectA( lf );
 			::SelectObject( dc_, font );
 		}
-		
+
 		btnRect.left += 5; //this is totally made up! Where would I get this from????
-		
+
 		Win32VisualStylesWrapper::DrawThemeText(theme, dc_, BP_RADIOBUTTON, btnState,
 			state.buttonCaption_.c_str(),
 			state.buttonCaption_.length(),
-			DT_SINGLELINE | DT_VCENTER, NULL, 
+			DT_SINGLELINE | DT_VCENTER, NULL,
 			&btnRect);
-		
-		
+
+
 		Win32VisualStylesWrapper::CloseThemeData( theme );
-		
+
 		RestoreDC(dc_, dcs );
-		
+
 		DeleteObject( font );
-		
+
 	}
 	else {
 	/**
@@ -2302,40 +2302,40 @@ void Win32Context::drawThemeRadioButtonRect( Rect* rect, ButtonState& state )
 	13 at 96 DPI and 17 at 120 DPI
 		*/
 		int radioBoxHeight = 13;
-		
+
 		tmp.top_ = (int)(rect->top_ + rect->getHeight() /2.0 + 0.5);
 		tmp.top_ -= radioBoxHeight/2;
 		tmp.bottom_ = tmp.top_ + radioBoxHeight;
 		tmp.right_ = tmp.left_ + radioBoxHeight;
-		
-		
-		
-		
+
+
+
+
 		RECT r = {0,0,0,0};
 		r.left = (long)tmp.left_;
 		r.top = (long)tmp.top_;
 		r.right = (long)tmp.right_;
 		r.bottom = (long)tmp.bottom_;
-		
+
 		UINT btnState =  state.isToggled() ?  DFCS_BUTTONRADIO | DFCS_CHECKED : DFCS_BUTTONRADIO;
-		
+
 		::DrawFrameControl( dc_, &r, DFC_BUTTON, btnState );
-		
-		
+
+
 		tmp = *rect;
 		tmp.left_ = r.right + 3;
 		tmp.inflate( -1.0, -1.0 );
-		
+
 		/*
 		JC - commented this out - it looked dorky???
 		if ( state.isFocused() ) {
 		drawThemeFocusRect( &tmp, state );
 		}
 		*/
-		
+
 		releaseHandle();
-		
-		
+
+
 		long flags = GraphicsContext::tdoCenterVertAlign;
 		context_->textBoundedBy( &tmp, state.buttonCaption_, flags );
 	}
@@ -2357,21 +2357,21 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 
 	if ( theme ) {
 		int dcs = SaveDC( dc_ );
-		
+
 		int btnState = 0;
-		
+
 		btnState |= state.isPressed() ? CBXS_PRESSED : CBXS_NORMAL;
-		
+
 		if ( !state.isEnabled() ) {
 			btnState |= CBXS_DISABLED;
 		}
-		
+
 		if ( state.isFocused() || state.isHighlighted() ) {
 			btnState |= CBXS_HOT;
 		}
-		
+
 		int editState = state.isEnabled() ? ETS_NORMAL : ETS_DISABLED;
-		
+
 		if ( state.isEnabled() ) {
 			if ( state.isFocused() ) {
 				editState |= ETS_FOCUSED;
@@ -2388,9 +2388,9 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 		Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, EP_EDITTEXT, editState, &r, 0);
 
 		SetBkMode(dc_, TRANSPARENT);
-		VCF::Font btnFont = *context_->getCurrentFont();		
-		
-		HFONT font = NULL;			
+		VCF::Font btnFont = *context_->getCurrentFont();
+
+		HFONT font = NULL;
 		if ( System::isUnicodeEnabled() ) {
 			LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
 			font = ::CreateFontIndirectW( lf );
@@ -2401,7 +2401,7 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 			font = ::CreateFontIndirectA( lf );
 			::SelectObject( dc_, font );
 		}
-		
+
 		r.left += 2;
 		r.top += 2;
 		r.bottom -= 2;
@@ -2410,13 +2410,13 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 		Win32VisualStylesWrapper::DrawThemeText(theme, dc_, EP_EDITTEXT, editState,
 												state.buttonCaption_.c_str(),
 												state.buttonCaption_.length(),
-												DT_SINGLELINE | DT_VCENTER | DT_LEFT | DT_EXPANDTABS, 
-												NULL, 
+												DT_SINGLELINE | DT_VCENTER | DT_LEFT | DT_EXPANDTABS,
+												NULL,
 												&r);
-		
-		
+
+
 		Win32VisualStylesWrapper::CloseThemeData( theme );
-		
+
 		r.left -= 1;
 		r.top -= 1;
 		r.bottom += 1;
@@ -2434,7 +2434,7 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 			NONCLIENTMETRICS ncm;
 			memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
 			ncm.cbSize = sizeof(NONCLIENTMETRICS);
-		
+
 			SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
 			r.left = r.right - ncm.iScrollWidth;
 		}
@@ -2442,54 +2442,54 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 
 		Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, CP_DROPDOWNBUTTON, btnState, &r, 0);
 
-		
+
 
 		Win32VisualStylesWrapper::CloseThemeData( theme );
 
 		RestoreDC(dc_, dcs );
-		
+
 		DeleteObject( font );
 	}
 	else {
-		
+
 		int dcState = ::SaveDC( dc_ );
-		
-		
+
+
 		::FillRect( dc_, &r, (HBRUSH)(COLOR_WINDOW+1) );
-		
+
 		RECT btnRect = r;
-		
+
 		NONCLIENTMETRICS ncm;
 		memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
 		ncm.cbSize = sizeof(NONCLIENTMETRICS);
-		
+
 		SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
-		
+
 		btnRect.left = r.right - ncm.iScrollWidth;
-		
+
 		::FillRect( dc_, &btnRect, (HBRUSH)(COLOR_3DFACE+1) );
-		
+
 		UINT flags = 0;
-		
+
 		flags |= DFCS_SCROLLDOWN;
-		
+
 		if ( state.isPressed() ) {
 			// Native win32 pressed combobox buttons are always flat, so
 			// we're going to do our best to make it look flat in our
 			// combobox emulation too
 			flags |= DFCS_PUSHED | DFCS_FLAT;
 		}
-		
+
 		if ( !state.isEnabled() ) {
 			flags |= DFCS_INACTIVE;
 		}
-		
+
 		DrawFrameControl( dc_, &btnRect, DFC_SCROLL, flags );
-		
+
 		RECT bkRect = r;
 		bkRect.right = btnRect.left;
-		
-		
+
+
 		SetBkMode( dc_, TRANSPARENT );
 		COLORREF bkColor;
 		COLORREF textColor;
@@ -2499,15 +2499,15 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 		}
 		else {
 			InflateRect( &bkRect, -2, -2 );
-			
+
 			if ( state.isFocused() ) {
 				bkColor = GetSysColor( COLOR_HIGHLIGHT );
 				textColor = GetSysColor( COLOR_HIGHLIGHTTEXT );
-				
+
 				InflateRect( &bkRect, +1, +1 );
-				
+
 				::DrawFocusRect( dc_, &bkRect );
-				
+
 				InflateRect( &bkRect, -1, -1 );
 			}
 			else {
@@ -2515,18 +2515,18 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 				textColor = GetSysColor( COLOR_WINDOWTEXT );
 			}
 		}
-		
+
 		HBRUSH bkBrush = CreateSolidBrush( bkColor );
-		
+
 		FillRect( dc_, &bkRect, bkBrush );
 		SetTextColor( dc_, textColor );
 		UINT fmt = DT_VCENTER | DT_SINGLELINE | DT_LEFT | DT_EXPANDTABS | DT_END_ELLIPSIS;
-		
+
 		HFONT font;
 		prepareDCWithContextFont( font );
-		
+
 		::SelectObject( dc_, font );
-		
+
 		if ( System::isUnicodeEnabled() ) {
 			DrawTextW( dc_, state.buttonCaption_.c_str(), state.buttonCaption_.size(), &bkRect, fmt );
 		}
@@ -2534,10 +2534,10 @@ void Win32Context::drawThemeComboboxRect( Rect* rect, ButtonState& state )
 			AnsiString tmp = state.buttonCaption_;
 			DrawTextA( dc_, tmp.c_str(), tmp.size(), &bkRect, fmt );
 		}
-		
-		
+
+
 		::RestoreDC( dc_, dcState );
-		
+
 		DeleteObject( font );
 		DeleteObject( bkBrush );
 	}
@@ -2578,7 +2578,7 @@ void Win32Context::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state 
 				}
 				else if ( state.isScrollBarDecrArrowPressed() ) {
 					scrollState |= ABS_DOWNPRESSED;
-				}				
+				}
 			}
 		}
 		else if ( !state.isVertical() ) {
@@ -2595,12 +2595,12 @@ void Win32Context::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state 
 				}
 				else if ( state.isScrollBarDecrArrowPressed() ) {
 					scrollState |= ABS_RIGHTPRESSED;
-				}				
+				}
 			}
 		}
 
-		
-		
+
+
 		if ( true == state.isScrollBarThumbPressed() ) {
 			scrollState |= DFCS_PUSHED;
 		}
@@ -2610,9 +2610,9 @@ void Win32Context::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state 
 		Win32VisualStylesWrapper::CloseThemeData( theme );
 	}
 	else {
-		
+
 		UINT scrollState =  0;
-		
+
 		if ( state.isVertical() ) {
 			if ( state.isScrollBarIncrArrowPressed() ) {
 				scrollState |= DFCS_SCROLLUP;
@@ -2629,11 +2629,11 @@ void Win32Context::drawThemeScrollButtonRect( Rect* rect, ScrollBarState& state 
 				scrollState |= DFCS_SCROLLLEFT;
 			}
 		}
-		
+
 		if ( true == state.isScrollBarThumbPressed() ) {
 			scrollState |= DFCS_PUSHED;
 		}
-		
+
 		int err = ::DrawFrameControl( dc_, &r, DFC_SCROLL, scrollState );
 	}
 	releaseHandle();
@@ -2658,7 +2658,7 @@ void Win32Context::drawThemeDisclosureButton( Rect* rect, DisclosureButtonState&
 		SIZE val = {0};
 		int partState = state.isOpened() ? GLPS_OPENED : GLPS_CLOSED;
 
-		HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TVP_GLYPH, partState, 
+		HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TVP_GLYPH, partState,
 																&r, TS_TRUE, &val);
 
 		RECT disclR = r;
@@ -2698,13 +2698,13 @@ void Win32Context::drawThemeTab( Rect* rect, TabState& state )
 	if ( theme ) {
 		int tabState = 0;
 		if ( !state.isEnabled() ) {
-			
+
 		}
 		else {
 
 		}
 
-		//HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TVP_GLYPH, partState, 
+		//HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TVP_GLYPH, partState,
 		//														&r, TS_TRUE, &val);
 
 
@@ -2712,8 +2712,8 @@ void Win32Context::drawThemeTab( Rect* rect, TabState& state )
 	}
 }
 
-void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, 
-									TabState& otherTabs, const std::vector<String>& tabsNames, 
+void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState,
+									TabState& otherTabs, const std::vector<String>& tabsNames,
 									int selectedTabIndex )
 {
 	HTHEME theme = NULL;
@@ -2734,9 +2734,9 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 		int dcs = SaveDC( dc_ );
 
 		SetBkMode(dc_, TRANSPARENT);
-		VCF::Font btnFont = *context_->getCurrentFont();		
-		
-		HFONT font = NULL;			
+		VCF::Font btnFont = *context_->getCurrentFont();
+
+		HFONT font = NULL;
 		if ( System::isUnicodeEnabled() ) {
 			LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
 			font = ::CreateFontIndirectW( lf );
@@ -2755,36 +2755,36 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 
 		SIZE tabSz = {0};
 		SIZE tabSelectedSz = {0};
-		
-		HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_BODY, 1, 
+
+		HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_BODY, 1,
 																&r, TS_TRUE, &bodySize);
 
-		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_PANE, 1, 
+		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_PANE, 1,
 																&r, TS_TRUE, &paneSize);
 
-		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_TABITEM, TIS_SELECTED, 
+		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_TABITEM, TIS_SELECTED,
 																&r, TS_TRUE, &tabSelectedSz);
 
-		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_TABITEM, TIS_NORMAL, 
+		hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_TABITEM, TIS_NORMAL,
 																&r, TS_TRUE, &tabSz);
 
 
-		hr = Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, 
+		hr = Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_,
 			TABP_BODY, 1, &r, &bodyContent );
 
-		hr = Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, 
+		hr = Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_,
 			TABP_PANE, 1, &r, &paneContent );
 
 
 		int dy = abs(bodyContent.top - paneContent.top);
 
 		if ( !tabsNames.empty() ) {
-			bodyContent.top += max(tabSz.cy,tabSelectedSz.cy);
-			paneContent.top += max(tabSz.cy,tabSelectedSz.cy) + dy;
+			bodyContent.top += VCF::maxVal(tabSz.cy,tabSelectedSz.cy);
+			paneContent.top += VCF::maxVal(tabSz.cy,tabSelectedSz.cy) + dy;
 		}
- 
-		
-		
+
+
+
 		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_PANE, 1, &bodyContent, 0 );
 
 		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_BODY, 1, &paneContent, 0 );
@@ -2795,7 +2795,7 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 
 			int tabWidth = tabSz.cx;
 
-			std::vector<String>::const_iterator it = tabsNames.begin();		
+			std::vector<String>::const_iterator it = tabsNames.begin();
 
 			int totalTabWidth = 0;
 
@@ -2811,12 +2811,12 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 					totalTabWidth += textSz.cx + tabSz.cx;
 
 					textWidths.push_back( textSz.cx );
-						
+
 					it ++;
 				}
 			}
 			else {
-				
+
 			}
 
 			bool scaleTabs = totalTabWidth > ((bodyContent.right - bodyContent.left) + (tabSz.cx*tabsNames.size()));
@@ -2829,7 +2829,7 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 			tabRect.right = tabRect.left;
 
 			//draw tabs
-			it = tabsNames.begin();		
+			it = tabsNames.begin();
 			int idx = 0;
 			RECT textRect = {0};
 
@@ -2840,7 +2840,7 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 				tabState = TIS_DISABLED;
 			}
 
-			while ( it != tabsNames.end() ) {				
+			while ( it != tabsNames.end() ) {
 
 				const String& s = *it;
 
@@ -2881,17 +2881,17 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 				textRect.left += tabSz.cx/2;
 				textRect.right -= tabSz.cx/2;
 
-				Win32VisualStylesWrapper::DrawThemeText( theme, dc_, TABP_TABITEM, TIS_NORMAL, 
+				Win32VisualStylesWrapper::DrawThemeText( theme, dc_, TABP_TABITEM, TIS_NORMAL,
 													s.c_str(), s.size(), DT_SINGLELINE | DT_VCENTER | DT_LEFT | DT_EXPANDTABS,
 													0, &textRect );
 
 				tabRect.left += tabWidth;
-				
+
 				idx ++;
 				it ++;
 			}
 		}
-		
+
 		RestoreDC( dc_, dcs );
 		DeleteObject( font );
 
@@ -2923,10 +2923,10 @@ void Win32Context::drawThemeTabPage( Rect* rect, DrawUIState& state )
 		RECT bodyContent = r;
 		RECT paneContent = r;
 
-		Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, 
+		Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_,
 			TABP_BODY, 1, &r, &bodyContent );
 
-		Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, 
+		Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_,
 			TABP_PANE, 1, &r, &paneContent );
 
 		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_PANE, 1, &bodyContent, 0 );
@@ -2987,7 +2987,7 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 				thmbPart = TKP_THUMBLEFT;
 			}
 
-			
+
 			if ( state.isEnabled() ) {
 				thmbState = TUVS_NORMAL;
 				if ( state.isPressed() ) {
@@ -3015,7 +3015,7 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 			else if ( state.isTickMarkingOnTopLeft() && !state.isTickMarkingOnBottomRight() ) {
 				thmbPart = TKP_THUMBTOP;
 			}
-			
+
 			if ( state.isEnabled() ) {
 				thmbState = TUS_NORMAL;
 				if ( state.isPressed() ) {
@@ -3027,7 +3027,7 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 			}
 			else {
 				thmbState = TUS_DISABLED;
-			}		
+			}
 			Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, TKP_TRACK, TKS_NORMAL, &r, &trackContent );
 
 			Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, thmbPart, thmbState, &r, TS_TRUE, &thmbSize );
@@ -3052,24 +3052,24 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 
 			tick2.left = r.right - val.cx/2;
 			tick2.right = tick2.left + val.cx;
-			
+
 		}
 		else {
 			tickVal = trackContent.left - val.cx/2;
-			length = (trackContent.right - trackContent.left);			
+			length = (trackContent.right - trackContent.left);
 
 			tick1.top = r.top + val.cy/2;
 			tick1.bottom = tick1.top + val.cy;
 
 			tick2.top = r.bottom - val.cy/2;
-			tick2.bottom = tick2.top + val.cy;			
+			tick2.bottom = tick2.top + val.cy;
 		}
 
 		incr = length/state.tickMarkFrequency_;
 
 		int count = state.tickMarkFrequency_;
 		for (long i=0;i<=count;i++ ) {
-			if ( state.isVertical() ) {				
+			if ( state.isVertical() ) {
 				tick2.top = tick1.top = tickVal;
 				tick1.bottom = tick1.top + val.cy;
 				tick2.bottom = tick1.bottom;
@@ -3077,13 +3077,13 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 			else{
 				tick2.left = tick1.left = tickVal;
 				tick1.right = tick1.left + val.cy;
-				tick2.right = tick1.right;				
+				tick2.right = tick1.right;
 			}
 
 			if ( state.isTickMarkingOnBottomRight() ) {
 				Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, tickPart, tickState, &tick2, 0);
 			}
-			
+
 			if ( state.isTickMarkingOnTopLeft() ) {
 				Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, tickPart, tickState, &tick1, 0);
 			}
@@ -3093,9 +3093,9 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 		Win32VisualStylesWrapper::CloseThemeData( theme );
 	}
 	else {
-		
+
 		context_->setColor( Color::getColor( "black" ) );
-		
+
 		double incr = 0;
 		if ( state.isVertical() ) {
 			incr = (1.0/(double)(state.tickMarkFrequency_)) * rect->getHeight();
@@ -3103,27 +3103,27 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 		else {
 			incr = (1.0/(double)(state.tickMarkFrequency_)) * rect->getWidth();
 		}
-		
+
 		double y = rect->top_;
 		double x = rect->left_;
-		
+
 		for (long i=0;i<=state.tickMarkFrequency_;i++ ) {
 			if ( state.isVertical() ) {
-				
-				
+
+
 				if ( state.isTickMarkingOnTopLeft() ) {
 					x = rect->left_;
 					double x2 = x - 5;
-					
+
 					context_->moveTo( x, y );
 					context_->lineTo( x2, y );
 					context_->strokePath();
 				}
-				
+
 				if ( state.isTickMarkingOnBottomRight() ) {
 					x = rect->right_;
 					double x2 = x + 5;
-					
+
 					context_->moveTo( x, y );
 					context_->lineTo( x2, y );
 					context_->strokePath();
@@ -3134,16 +3134,16 @@ void Win32Context::drawThemeTickMarks( Rect* rect, SliderState& state )
 				if ( state.isTickMarkingOnTopLeft() ) {
 					y = rect->top_;
 					double y2 = y - 5;
-					
+
 					context_->moveTo( x, y );
 					context_->lineTo( x, y2 );
 					context_->strokePath();
 				}
-				
+
 				if ( state.isTickMarkingOnBottomRight() ) {
 					y = rect->bottom_;
 					double y2 = y + 5;
-					
+
 					context_->moveTo( x, y );
 					context_->lineTo( x, y2 );
 					context_->strokePath();
@@ -3186,7 +3186,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 		RECT trackContent = {0};
 		RECT thmbR;
 
-		if ( state.isVertical() ) {	
+		if ( state.isVertical() ) {
 
 			trackPart = TKP_TRACKVERT;
 			trkState = TRVS_NORMAL;
@@ -3207,7 +3207,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 				thmbPart = TKP_THUMBLEFT;
 			}
 
-			
+
 			if ( state.isEnabled() ) {
 				thmbState = TUVS_NORMAL;
 				if ( state.isPressed() ) {
@@ -3226,7 +3226,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 
 			thmbR.left = trackContent.left + ((trackContent.right-trackContent.left)/2 - (val.cx/2));
 			thmbR.right = thmbR.left + val.cx;
-			thmbR.top =  (trackContent.bottom - val.cy/2) - 
+			thmbR.top =  (trackContent.bottom - val.cy/2) -
 				((state.min_ + state.position_) / (state.max_ - state.min_)) * ((double)(r.bottom-r.top));
 			thmbR.bottom = thmbR.top + val.cy;
 
@@ -3234,14 +3234,14 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 		else {
 			trackPart = TKP_TRACK;
 			trkState = TRS_NORMAL;
-			
+
 			Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, trackPart, trkState, &r, TS_TRUE, &val );
-			
+
 			trackR.top = r.top + ((r.bottom-r.top)/2 - (val.cy/2));
-			trackR.bottom = trackR.top + val.cy;			
+			trackR.bottom = trackR.top + val.cy;
 
 			Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, trackPart, trkState, &r, &trackContent );
-			
+
 			thmbPart = TKP_THUMB;
 
 			if ( state.isTickMarkingOnBottomRight() && !state.isTickMarkingOnTopLeft() ) {
@@ -3251,7 +3251,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 				thmbPart = TKP_THUMBTOP;
 			}
 
-			
+
 			if ( state.isEnabled() ) {
 				thmbState = TUS_NORMAL;
 				if ( state.isPressed() ) {
@@ -3270,9 +3270,9 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 
 			thmbR.top = trackContent.top + ((trackContent.bottom-trackContent.top)/2 - (val.cy/2));
 			thmbR.bottom = thmbR.top + val.cy;
-			thmbR.left =  (thmbR.left - val.cx/2) + 
+			thmbR.left =  (thmbR.left - val.cx/2) +
 				((state.position_) / (state.max_ - state.min_)) * ((double)(r.right-r.left));
-			thmbR.right = thmbR.left + val.cx;			
+			thmbR.right = thmbR.left + val.cx;
 		}
 
 		//draw slider "rail"
@@ -3284,7 +3284,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 
 		Win32VisualStylesWrapper::CloseThemeData( theme );
 	}
-	else {		
+	else {
 		if ( state.isVertical() ) {
 			tmp.left_ = tmp.left_ + rect->getWidth()/2.0;
 			tmp.right_ = tmp.left_;
@@ -3295,70 +3295,70 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 			tmp.bottom_ = tmp.top_;
 			tmp.inflate( 0, 2 );
 		}
-		
+
 		drawThemeEdge( &tmp, state, GraphicsContext::etAllSides, GraphicsContext::etSunken );
-		
-		
-		
+
+
+
 		Size thumbSize;
 		thumbSize.width_ = ::GetSystemMetrics( SM_CXHTHUMB )*0.85+1;
 		thumbSize.height_ = ::GetSystemMetrics( SM_CYVTHUMB );
-		
+
 		Rect thumbRect = *rect;
 		if ( state.isVertical() ) {
 			thumbRect.top_ = thumbRect.bottom_ - thumbSize.width_;
-			
+
 			thumbRect.offset( 0, (int)(thumbSize.width_/2)-(int)(((state.position_+state.min_)/(state.max_-state.min_))*rect->getHeight()) );
 		}
 		else {
 			thumbRect.right_ = thumbRect.left_ + thumbSize.width_;
-			
+
 			thumbRect.offset( (int)(((state.position_)/(state.max_-state.min_))*rect->getWidth()) - (int)(thumbSize.width_/2), 0 );
 		}
-		
-		
+
+
 		Color* highlite = GraphicsToolkit::getSystemColor( SYSCOLOR_HIGHLIGHT );
 		Color* shadow = GraphicsToolkit::getSystemColor( SYSCOLOR_SHADOW );
 		Color faceTmp = *GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
 		Color* black = Color::getColor("black");
-		
+
 		//
-		
+
 		if ( (!state.isEnabled()) || state.isPressed() ) {
 			double h,l,s;
 			faceTmp.getHSL( h,l,s );
 			faceTmp.setHSL( h,0.85,s );
 		}
-		
+
 		Color* face = &faceTmp;
-		
-		
+
+
 		if ( state.isVertical() ) {
-			
+
 			int x1 = thumbRect.left_;
 			int x2 = thumbRect.right_;
 			int y1 = thumbRect.top_;
 			int y2 = thumbRect.bottom_;
-			
-			
+
+
 			if ( state.isTickMarkingOnBottomRight() && state.isTickMarkingOnTopLeft() ) {
 				context_->setColor( face );
 				context_->rectangle( &thumbRect );
 				context_->fillPath();
-				
+
 				context_->setColor( highlite );
-				
+
 				context_->moveTo( x2, y1 );
 				context_->lineTo( x1, y1 );
 				context_->lineTo( x1, y2 );
 				context_->strokePath();
-				
+
 				context_->setColor( black );
 				context_->moveTo( x1, y2 );
 				context_->lineTo( x2, y2 );
 				context_->lineTo( x2, y1-1 );
 				context_->strokePath();
-				
+
 				context_->setColor( shadow );
 				context_->moveTo( x1+1, y2-1 );
 				context_->lineTo( x2-1, y2-1 );
@@ -3369,7 +3369,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 				if ( state.isTickMarkingOnTopLeft() ) {
 					int xmid = x1 + ((y2-y1)/2);
 					int ymid = y1 + ((y2-y1)/2);
-					
+
 					std::vector<Point> pts(6);
 					pts[0] = Point(x2,y1);
 					pts[1] = Point(xmid,y1);
@@ -3377,39 +3377,39 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 					pts[3] = Point(xmid,y2);
 					pts[4] = Point(x2,y2);
 					pts[5] = Point(x2,y1);
-					
+
 					context_->setColor( face );
 					context_->polyline( pts );
 					context_->fillPath();
-					
+
 					context_->setColor( highlite );
-					
+
 					context_->moveTo( x2, y1 );
 					context_->lineTo( xmid, y1 );
 					context_->lineTo( x1, ymid );
 					context_->strokePath();
-					
+
 					context_->setColor( black );
-					
+
 					context_->moveTo( x1, ymid );
 					context_->lineTo( xmid, y2 );
 					context_->lineTo( x2, y2 );
 					context_->lineTo( x2, y1-1 );
 					context_->strokePath();
-					
+
 					context_->setColor( shadow );
-					
+
 					context_->moveTo( x1+1, ymid );
 					context_->lineTo( xmid, y2-1 );
 					context_->lineTo( x2-1, y2-1 );
 					context_->lineTo( x2-1, y1 );
 					context_->strokePath();
-					
+
 				}
 				else if (state.isTickMarkingOnBottomRight()) {
 					int xmid = x2 - ((y2-y1)/2);
 					int ymid = y1 + ((y2-y1)/2);
-					
+
 					std::vector<Point> pts(6);
 					pts[0] = Point(x1,y1);
 					pts[1] = Point(xmid,y1);
@@ -3417,28 +3417,28 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 					pts[3] = Point(xmid,y2);
 					pts[4] = Point(x1,y2);
 					pts[5] = Point(x1,y1);
-					
+
 					context_->setColor( face );
 					context_->polyline( pts );
 					context_->fillPath();
-					
+
 					context_->setColor( highlite );
-					
+
 					context_->moveTo( x1, y2 );
 					context_->lineTo( x1, y1 );
 					context_->lineTo( xmid, y1 );
 					context_->lineTo( x2, ymid );
 					context_->strokePath();
-					
+
 					context_->setColor( black );
-					
+
 					context_->moveTo( x2, ymid );
 					context_->lineTo( xmid, y2 );
 					context_->lineTo( x1, y2 );
 					context_->strokePath();
-					
+
 					context_->setColor( shadow );
-					
+
 					context_->moveTo( x2-1, ymid );
 					context_->lineTo( xmid, y2-1 );
 					context_->lineTo( x1-1, y2-1 );
@@ -3447,32 +3447,32 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 			}
 	}
 	else {
-		
-		
+
+
 		int x1 = thumbRect.left_;
 		int x2 = thumbRect.right_;
 		int y1 = thumbRect.top_;
 		int y2 = thumbRect.bottom_;
-		
-		
+
+
 		if ( state.isTickMarkingOnBottomRight() && state.isTickMarkingOnTopLeft() ) {
 			context_->setColor( face );
 			context_->rectangle( &thumbRect );
 			context_->fillPath();
-			
+
 			context_->setColor( highlite );
-			
+
 			context_->moveTo( x2, y1 );
 			context_->lineTo( x1, y1 );
 			context_->lineTo( x1, y2 );
 			context_->strokePath();
-			
+
 			context_->setColor( black );
 			context_->moveTo( x1, y2 );
 			context_->lineTo( x2, y2 );
 			context_->lineTo( x2, y1-1 );
 			context_->strokePath();
-			
+
 			context_->setColor( shadow );
 			context_->moveTo( x1+1, y2-1 );
 			context_->lineTo( x2-1, y2-1 );
@@ -3481,11 +3481,11 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 		}
 		else {
 			if ( state.isTickMarkingOnTopLeft() ) {
-				
-				
+
+
 				int xmid = x1 + ((x2-x1)/2);
 				int ymid = y1 + ((x2-x1)/2);
-				
+
 				std::vector<Point> pts(6);
 				pts[0] = Point(xmid,y1);
 				pts[1] = Point(x1,ymid);
@@ -3493,42 +3493,42 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 				pts[3] = Point(x2,y2);
 				pts[4] = Point(x2,ymid);
 				pts[5] = Point(xmid,y1);
-				
+
 				context_->setColor( face );
 				context_->polyline( pts );
 				context_->fillPath();
-				
-				
+
+
 				context_->setColor( highlite );
-				
+
 				context_->moveTo( xmid, y1 );
 				context_->lineTo( x1, ymid );
 				context_->lineTo( x1, y2 );
 				context_->strokePath();
-				
+
 				context_->setColor( black );
-				
+
 				context_->moveTo( x1, y2 );
 				context_->lineTo( x2, y2 );
 				context_->lineTo( x2, ymid );
 				context_->lineTo( xmid-1, y1-1 );
-				
+
 				context_->strokePath();
-				
+
 				context_->setColor( shadow );
-				
+
 				context_->moveTo( x1+1, y2-1 );
 				context_->lineTo( x2-1, y2-1 );
 				context_->lineTo( x2-1, ymid );
 				context_->lineTo( xmid-1, y1 );
-				
+
 				context_->strokePath();
 			}
 			else if (state.isTickMarkingOnBottomRight()) {
-				
+
 				int xmid = x1 + ((x2-x1)/2);
 				int ymid = y2 - ((x2-x1)/2);
-				
+
 				std::vector<Point> pts(6);
 				pts[0] = Point(x1,y1);
 				pts[1] = Point(x1,ymid);
@@ -3536,34 +3536,34 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 				pts[3] = Point(x2,ymid);
 				pts[4] = Point(x2,y1);
 				pts[5] = Point(x1,y1);
-				
+
 				context_->setColor( face );
 				context_->polyline( pts );
 				context_->fillPath();
-				
-				
+
+
 				context_->setColor( highlite );
-				
+
 				context_->moveTo( x2, y1 );
 				context_->lineTo( x1, y1 );
 				context_->lineTo( x1, ymid );
 				context_->lineTo( xmid, y2 );
 				context_->strokePath();
-				
+
 				context_->setColor( black );
-				
+
 				context_->moveTo( xmid, y2 );
 				context_->lineTo( x2, ymid );
 				context_->lineTo( x2, y1-1 );
-				
+
 				context_->strokePath();
-				
+
 				context_->setColor( shadow );
-				
+
 				context_->moveTo( xmid, y2-1 );
 				context_->lineTo( x2-1, ymid );
 				context_->lineTo( x2-1, y1 );
-				
+
 				context_->strokePath();
 			}
 		}
@@ -3597,7 +3597,7 @@ void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 		SetBkMode(dc_, TRANSPARENT);
 		VCF::Font btnFont = *context_->getCurrentFont();
 		HFONT font = NULL;
-			
+
 
 		if ( state.isVertical() ) {
 			Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, PP_CHUNKVERT, 0, &r, &progressContent );
@@ -3608,15 +3608,15 @@ void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 
 			progressContent.top += (progressContent.left - r.left);
 			progressContent.bottom -= (progressContent.left - r.left);
-			
 
-			progressContent.top = progressContent.bottom - 
+
+			progressContent.top = progressContent.bottom -
 				((state.position_)/(state.max_-state.min_) * (progressContent.bottom-progressContent.top));
 
 			Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, PP_CHUNKVERT, 0, &progressContent, 0);
 
-			
-						
+
+
 			if ( System::isUnicodeEnabled() ) {
 				LOGFONTW* lf = (LOGFONTW*) btnFont.getFontPeer()->getFontHandleID();
 				font = ::CreateFontIndirectW( lf );
@@ -3627,7 +3627,7 @@ void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 				font = ::CreateFontIndirectA( lf );
 				::SelectObject( dc_, font );
 			}
-			
+
 			textRect.left += 1;
 			textRect.top += 1;
 			textRect.right -= 1;
@@ -3636,11 +3636,11 @@ void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 			Win32VisualStylesWrapper::DrawThemeText(theme, dc_, PP_CHUNKVERT, 0,
 													state.progressCaption_.c_str(),
 													state.progressCaption_.length(),
-													DT_SINGLELINE | DT_VCENTER | DT_LEFT | DT_EXPANDTABS, 
-													NULL, 
-													&textRect);		
-			
-			
+													DT_SINGLELINE | DT_VCENTER | DT_LEFT | DT_EXPANDTABS,
+													NULL,
+													&textRect);
+
+
 		}
 		else {
 			Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc_, PP_CHUNK, 0, &r, &progressContent );
@@ -3652,7 +3652,7 @@ void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 			progressContent.left += (progressContent.top - r.top);
 			progressContent.right -= (progressContent.top - r.top);
 
-			progressContent.right = progressContent.left + 
+			progressContent.right = progressContent.left +
 				((state.position_)/(state.max_-state.min_) * (progressContent.right-progressContent.left));
 
 			Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, PP_CHUNK, 0, &progressContent, 0);
@@ -3673,16 +3673,16 @@ void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 				font = ::CreateFontIndirectA( lf );
 				::SelectObject( dc_, font );
 			}
-			
+
 			Win32VisualStylesWrapper::DrawThemeText(theme, dc_, PP_CHUNK, 0,
 													state.progressCaption_.c_str(),
 													state.progressCaption_.length(),
-													DT_SINGLELINE | DT_CENTER | DT_VCENTER | DT_EXPANDTABS, 
-													NULL, 
-													&textRect);	
+													DT_SINGLELINE | DT_CENTER | DT_VCENTER | DT_EXPANDTABS,
+													NULL,
+													&textRect);
 		}
 
-		
+
 
 		RestoreDC( dc_, dcs );
 
@@ -3696,19 +3696,19 @@ void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 		tmp.inflate( -2, -2 );
 
 		Rect progressRect = tmp;
-		
+
 		double s = minVal<>( state.min_, state.max_ );
 		double e = maxVal<>( state.min_, state.max_ );
-		
+
 		if ( state.isVertical() ) {
 			progressRect.top_ = progressRect.bottom_ - ((state.position_/fabs(e-s)) * tmp.getHeight());
 		}
 		else {
 			progressRect.right_ = progressRect.left_ + ((state.position_/(e-s)) * tmp.getWidth());
 		}
-		
+
 		Color* progressBarColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION );
-		
+
 		if ( state.useCustomProgressColor() ) {
 			progressBarColor = &state.customColor_;
 		}
@@ -3716,51 +3716,51 @@ void Win32Context::drawThemeProgress( Rect* rect, ProgressState& state )
 		context_->setColor( progressBarColor );
 		context_->rectangle( progressRect );
 		context_->fillPath();
-		
+
 		//draw text
-	
+
 		if ( !state.progressCaption_.empty() ) {
 			Rect textBounds;
-			
-			
+
+
 			if ( state.isVertical() ) {
 				textBounds.left_ = progressRect.left_;
 				textBounds.right_ = progressRect.right_;
-				
+
 				double h = minVal<>( context_->getTextHeight( "EM" ), tmp.getHeight()-2 );
 				textBounds.top_ = tmp.top_ +
 					(tmp.getHeight()/2.0 - h/2.0);
-				
+
 				textBounds.bottom_ = textBounds.top_ + h;
-				
+
 				textBounds.inflate( 0, 2 );
 			}
 			else {
 				textBounds.top_ = progressRect.top_;
 				textBounds.bottom_ = progressRect.bottom_;
-				
+
 				double w = minVal<>( context_->getTextWidth( state.progressCaption_ ), tmp.getWidth()-2 );
-				
+
 				textBounds.left_ = tmp.left_ +
 					(tmp.getWidth()/2.0 - w/2.0);
-				
+
 				textBounds.right_ = textBounds.left_ + w;
 			}
-			
+
 			long drawOptions = GraphicsContext::tdoNone;
 			drawOptions |= GraphicsContext::tdoCenterHorzAlign;
 			drawOptions |= GraphicsContext::tdoCenterVertAlign;
-			
+
 			Color oldColor = *context_->getCurrentFont()->getColor();
-			
+
 			Color* progressTextColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
 			if ( state.useCustomProgressTextColor() ) {
 				progressTextColor = &state.customTextColor_;
 			}
 			context_->getCurrentFont()->setColor( progressTextColor );
-			
+
 			context_->textBoundedBy( &textBounds, state.progressCaption_, drawOptions );
-			
+
 			context_->getCurrentFont()->setColor(&oldColor);
 		}
 	}
@@ -3823,17 +3823,17 @@ void Win32Context::drawThemeEdge( Rect* rect, DrawUIState& state, const long& ed
 				edge = BDR_SUNKENOUTER;//EDGE_BUMP;
 			}
 			break;
-			
+
 			case GraphicsContext::etEtched : {
 				edge = EDGE_ETCHED;
 			}
 			break;
-			
+
 			case GraphicsContext::etRaised : {
 				edge = EDGE_RAISED;
 			}
 			break;
-			
+
 			case GraphicsContext::etSunken : {
 				edge = EDGE_SUNKEN;
 			}
@@ -3843,51 +3843,51 @@ void Win32Context::drawThemeEdge( Rect* rect, DrawUIState& state, const long& ed
 		if ( edgeSides & GraphicsContext::etLeftSide ) {
 			flags |= BF_LEFT;
 		}
-		
+
 		if ( edgeSides & GraphicsContext::etRightSide ) {
 			flags |= BF_RIGHT;
 		}
-		
+
 		if ( edgeSides & GraphicsContext::etTopSide ) {
 			flags |= BF_TOP;
 		}
-		
+
 		if ( edgeSides & GraphicsContext::etBottomSide ) {
 			flags |= BF_BOTTOM;
 		}
 
-		part = 1;//GP_BORDER;	
+		part = 1;//GP_BORDER;
 		//ignore styles????
 
 		int stateFlags = state.isEnabled() ? GBS_NORMAL : GBS_DISABLED;
-		
+
 		switch ( edgeStyle ) {
 			case GraphicsContext::etRecessed : {
 				stateFlags = 1;//BSS_FLAT;
 			}
 			break;
-			
+
 			case GraphicsContext::etEtched : {
 				stateFlags = 1;//BSS_FLAT;
 			}
 			break;
-			
+
 			case GraphicsContext::etRaised : {
 				stateFlags = 2;//BSS_RAISED;
 			}
 			break;
-			
+
 			case GraphicsContext::etSunken : {
 				stateFlags = 3;//BSS_SUNKEN;
 			}
 			break;
 		}
-			
 
-			
+
+
 		Win32VisualStylesWrapper::DrawThemeEdge(theme, dc_, part, stateFlags, &r, edge, flags, 0);
 
-		Win32VisualStylesWrapper::CloseThemeData( theme );		
+		Win32VisualStylesWrapper::CloseThemeData( theme );
 	}
 	else {
 		UINT edge = 0;
@@ -3896,17 +3896,17 @@ void Win32Context::drawThemeEdge( Rect* rect, DrawUIState& state, const long& ed
 				edge = BDR_SUNKENOUTER;//EDGE_BUMP;
 			}
 			break;
-			
+
 			case GraphicsContext::etEtched : {
 				edge = EDGE_ETCHED;
 			}
 			break;
-			
+
 			case GraphicsContext::etRaised : {
 				edge = EDGE_RAISED;
 			}
 			break;
-			
+
 			case GraphicsContext::etSunken : {
 				edge = EDGE_SUNKEN;
 			}
@@ -3916,19 +3916,19 @@ void Win32Context::drawThemeEdge( Rect* rect, DrawUIState& state, const long& ed
 		if ( edgeSides & GraphicsContext::etLeftSide ) {
 			flags |= BF_LEFT;
 		}
-		
+
 		if ( edgeSides & GraphicsContext::etRightSide ) {
 			flags |= BF_RIGHT;
 		}
-		
+
 		if ( edgeSides & GraphicsContext::etTopSide ) {
 			flags |= BF_TOP;
 		}
-		
+
 		if ( edgeSides & GraphicsContext::etBottomSide ) {
 			flags |= BF_BOTTOM;
 		}
-		
+
 		//flags |= BF_SOFT;// | BF_ADJUST;
 		::DrawEdge( dc_, &r, edge, flags );
 	}
@@ -4319,6 +4319,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.7  2006/02/27 19:00:04  iamfraggle
+*Fixed calls to max (now VCF::maxVal)
+*
 *Revision 1.7.2.6  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *
