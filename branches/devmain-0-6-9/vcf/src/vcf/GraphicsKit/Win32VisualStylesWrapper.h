@@ -57,7 +57,7 @@ private:
 		int iPartId, int iStateId, const RECT *pContentRect,
 		RECT *pExtentRect);
 	typedef HRESULT(__stdcall *PFNGETTHEMEPARTSIZE)(HTHEME hTheme, HDC hdc,
-		int iPartId, int iStateId, RECT * pRect, enum THEMESIZE eSize,  SIZE *psz);
+		int iPartId, int iStateId, RECT * pRect, THEMESIZE eSize,  SIZE *psz);
 	typedef HRESULT (__stdcall *PFNGETTHEMETEXTEXTENT)(HTHEME hTheme, HDC hdc,
 		int iPartId, int iStateId, LPCWSTR pszText, int iCharCount,
 		DWORD dwTextFlags,  const RECT *pBoundingRect,
@@ -100,7 +100,7 @@ private:
 	typedef HRESULT (__stdcall *PFNGETTHEMEINTLIST)(HTHEME hTheme, int iPartId,
 		int iStateId, int iPropId,  INTLIST *pIntList);
 	typedef HRESULT (__stdcall *PFNGETTHEMEPROPERTYORIGIN)(HTHEME hTheme, int iPartId,
-		int iStateId, int iPropId,  enum PROPERTYORIGIN *pOrigin);
+		int iStateId, int iPropId, PROPERTYORIGIN *pOrigin);
 	typedef HRESULT (__stdcall *PFNSETWINDOWTHEME)(HWND hwnd, LPCWSTR pszSubAppName,
 		LPCWSTR pszSubIdList);
 	typedef HRESULT (__stdcall *PFNGETTHEMEFILENAME)(HTHEME hTheme, int iPartId,
@@ -210,7 +210,7 @@ private:
 	{return E_FAIL;}
 
 
-	static HRESULT GetThemePartSizeFail(HTHEME, HDC, int, int, RECT *, enum THEMESIZE, SIZE *)
+	static HRESULT GetThemePartSizeFail(HTHEME, HDC, int, int, RECT *, THEMESIZE, SIZE *)
 	{return E_FAIL;}
 
 
@@ -313,7 +313,7 @@ private:
 
 
 	static HRESULT GetThemePropertyOriginFail(HTHEME hTheme, int iPartId,
-		int iStateId, int iPropId,  enum PROPERTYORIGIN *pOrigin)
+		int iStateId, int iPropId, PROPERTYORIGIN *pOrigin)
 	{return E_FAIL;}
 
 
@@ -493,7 +493,7 @@ public:
 	}
 
 	static HRESULT GetThemePartSize(HTHEME hTheme, HDC hdc,
-		int iPartId, int iStateId, RECT * pRect, enum THEMESIZE eSize, SIZE *psz)
+		int iPartId, int iStateId, RECT * pRect, THEMESIZE eSize, SIZE *psz)
 	{
 		if ( NULL == Instance.funcs_.getThemePartSizeFunc ) {
 			Instance.funcs_.getThemePartSizeFunc =
@@ -677,7 +677,7 @@ public:
 	}
 
 	static HRESULT GetThemePropertyOrigin(HTHEME hTheme, int iPartId,
-		int iStateId, int iPropId,  enum PROPERTYORIGIN *pOrigin)
+		int iStateId, int iPropId, PROPERTYORIGIN *pOrigin)
 	{
 		if ( NULL == Instance.funcs_.getThemePropertyOriginFunc ) {
 			Instance.funcs_.getThemePropertyOriginFunc = (PFNGETTHEMEPROPERTYORIGIN)Instance.getProc("GetThemePropertyOrigin", (FARPROC)GetThemePropertyOriginFail);
