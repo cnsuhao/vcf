@@ -7,8 +7,8 @@ CC=$(BCROOT)\bcc32
 RC=$(BCROOT)\brcc32
 
 #C/C++ compile/link flags
-CFLAGS=-q -6 -tWD -tWR -tWM -Q -w-aus -w-sus -w-pia -w-rch -w-ccc -w-eff -w-sig -w-use -w-voi -w-def -w-pin -D$(USERDEFINES);$(SYSDEFINES)
-CPPFLAGS=-q -6 -tWD  -tWR -tWM -RT -x -a8 -b -X- -Q -w-aus -w-sig -w-voi -w-use -w-def -w-pin -w-8084 -D$(USERDEFINES);$(SYSDEFINES)
+CFLAGS=-q -6 -tWDR -tWM -Q -w-aus -w-sus -w-pia -w-rch -w-ccc -w-eff -w-sig -w-use -w-voi -w-def -w-pin -D$(USERDEFINES);$(SYSDEFINES)
+CPPFLAGS=-q -6 -tWDR -tWM -RT -x -a8 -b -X- -Q -w-aus -w-sig -w-voi -w-use -w-def -w-pin -w-8084 -D$(USERDEFINES);$(SYSDEFINES)
 LINKFLAGS=-q -aa -Tpd -Gn -Gi -c -Af:0x1000 -Ao:0x1000 -L$(LIBDIR) -j$(OBJ)
 BCC32RTLIB=cw32mti.lib
 
