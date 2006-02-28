@@ -114,7 +114,7 @@ Setup compiler names, and some compiler-specific warnings
 #ifdef __BORLANDC__
 	#define VCF_BCC
 
-#if (__BORLANDC__ >= 0x0581 )
+#if (__BORLANDC__ >= 0x0580 )
 	#define VCF_BCC8  //BDS 2006
 # undef VCF_COMPILER_NAME
 # define VCF_COMPILER_NAME	"BCC8"
@@ -728,6 +728,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.10  2006/02/28 14:39:55  kiklop74
+*Fixed version check for BDS 2006
+*
 *Revision 1.6.2.9  2006/02/08 02:06:31  ddiego
 *updated more vc80 projects.
 *
