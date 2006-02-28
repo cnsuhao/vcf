@@ -6,6 +6,11 @@
 //---------------------------------------------------------------------------
 #ifndef _UXTHEME_H_
 #define _UXTHEME_H_
+
+#ifdef __BORLANDC__
+#pragma option push -b -a8 -pc -A- /*P_O_Push*/
+#endif
+
 //---------------------------------------------------------------------------
 #include <commctrl.h>
 //---------------------------------------------------------------------------
@@ -168,12 +173,12 @@ THEMEAPI GetThemeBackgroundExtent(HTHEME hTheme, OPTIONAL HDC hdc,
     OUT RECT *pExtentRect);
 
 //-------------------------------------------------------------------------
-typedef enum THEMESIZE
+typedef enum tag_THEMESIZE
 {
     TS_MIN,             // minimum size
     TS_TRUE,            // size without stretching
     TS_DRAW,            // size that theme mgr will use to draw part
-};
+} THEMESIZE;
 //-------------------------------------------------------------------------
 //  GetThemePartSize() - returns the specified size of the theme part
 //
@@ -186,7 +191,7 @@ typedef enum THEMESIZE
 //  psz                 - receives the specified size of the part 
 //-------------------------------------------------------------------------
 THEMEAPI GetThemePartSize(HTHEME hTheme, HDC hdc, int iPartId, int iStateId, 
-    OPTIONAL RECT *prc, enum THEMESIZE eSize, OUT SIZE *psz);
+    OPTIONAL RECT *prc, enum tag_THEMESIZE eSize, OUT SIZE *psz);
 
 //-------------------------------------------------------------------------
 //  GetThemeTextExtent() - calculates the size/location of the specified 
@@ -536,14 +541,14 @@ THEMEAPI GetThemeIntList(HTHEME hTheme, int iPartId,
     int iStateId, int iPropId, OUT INTLIST *pIntList);
 
 //-----------------------------------------------------------------------
-typedef enum PROPERTYORIGIN
+typedef enum tag_PROPERTYORIGIN
 {
     PO_STATE,           // property was found in the state section
     PO_PART,            // property was found in the part section
     PO_CLASS,           // property was found in the class section
     PO_GLOBAL,          // property was found in [globals] section
     PO_NOTFOUND         // property was not found
-};
+} PROPERTYORIGIN;
 
 //-----------------------------------------------------------------------
 //  GetThemePropertyOrigin()
@@ -558,7 +563,7 @@ typedef enum PROPERTYORIGIN
 //  pOrigin             - receives the value of the property origin
 //-----------------------------------------------------------------------
 THEMEAPI GetThemePropertyOrigin(HTHEME hTheme, int iPartId, 
-    int iStateId, int iPropId, OUT enum PROPERTYORIGIN *pOrigin);
+    int iStateId, int iPropId, OUT enum tag_PROPERTYORIGIN *pOrigin);
 
 //---------------------------------------------------------------------------
 //  SetWindowTheme()
@@ -877,8 +882,54 @@ THEMEAPI DrawThemeParentBackground(HWND hwnd, HDC hdc, OPTIONAL RECT* prc);
 //---------------------------------------------------------------------------
 THEMEAPI EnableTheming(BOOL fEnable);
 
+//------------------------------------------------------------------------
+//---- bits used in dwFlags of DTBGOPTS ----
+#define DTBG_CLIPRECT        0x00000001   // rcClip has been specified
+#define DTBG_DRAWSOLID       0x00000002   // draw transparent/alpha images as solid
+#define DTBG_OMITBORDER      0x00000004   // don't draw border of part
+#define DTBG_OMITCONTENT     0x00000008   // don't draw content area of part
+
+#define DTBG_COMPUTINGREGION 0x00000010   // TRUE if calling to compute region
+
+#define DTBG_MIRRORDC        0x00000020   // assume the hdc is mirrorred and
+                                          // flip images as appropriate (currently 
+                                          // only supported for bgtype=imagefile)
+//------------------------------------------------------------------------
+typedef struct _DTBGOPTS
+{
+    DWORD dwSize;           // size of the struct
+    DWORD dwFlags;          // which options have been specified
+    RECT rcClip;            // clipping rectangle
+}
+DTBGOPTS, *PDTBGOPTS;
+
+//------------------------------------------------------------------------
+//  DrawThemeBackgroundEx()   
+//                      - draws the theme-specified border and fill for 
+//                        the "iPartId" and "iStateId".  This could be 
+//                        based on a bitmap file, a border and fill, or 
+//                        other image description.  NOTE: This will be
+//                        merged back into DrawThemeBackground() after 
+//                        BETA 2.
+//
+//  hTheme              - theme data handle
+//  hdc                 - HDC to draw into
+//  iPartId             - part number to draw
+//  iStateId            - state number (of the part) to draw
+//  pRect               - defines the size/location of the part
+//  pOptions            - ptr to optional params
+//------------------------------------------------------------------------
+THEMEAPI DrawThemeBackgroundEx(HTHEME hTheme, HDC hdc, 
+    int iPartId, int iStateId, const RECT *pRect, OPTIONAL const DTBGOPTS *pOptions);
+
+
 //---------------------------------------------------------------------------
 //#endif  /* (_WIN32_WINNT >= 0x0500) *// 
 //---------------------------------------------------------------------------
+
+#ifdef __BORLANDC__
+#pragma option pop /*P_O_Pop*/
+#endif
+
 #endif // _UXTHEME_H_
 //---------------------------------------------------------------------------
