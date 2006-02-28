@@ -164,6 +164,8 @@ public:
 		return is_null();
 	}
 
+// Borland compiler does not like class template friends
+#ifndef VCF_BCC
 	/// Output to an ostream.
 	template<class E, class TR>
 	friend inline std::basic_ostream<E, TR>& operator<<(std::basic_ostream<E, TR>& os, const uuid_t& u);
@@ -171,6 +173,7 @@ public:
 	/// Input from an ostream
 	template<class E, class TR>
 	friend inline std::basic_istream<E, TR>& operator>>(std::basic_istream<E, TR>& is, uuid_t& u);
+#endif
 
 	/** \internal
 	 */

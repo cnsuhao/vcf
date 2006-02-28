@@ -352,8 +352,17 @@ namespace comet {
 
 		//! Swap
 		void swap(bstr_t& x) throw()
-		{
-			std::swap(str_, x.str_);
+		{ 
+		  /*
+		  * This is ugly as hell but it is the only way to make this work
+		  * For details take a look at QC4957
+		  * http://qc.borland.com/qc/wc/qcmain.aspx?d=4957
+		  */
+		  #if defined(VCF_BCC6) && defined(__SGI_STL_PORT)
+		  _STL::swap(str_, x.str_);
+		  #else
+		  std::swap(str_, x.str_);
+		  #endif
 		}
 
 
