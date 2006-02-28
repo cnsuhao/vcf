@@ -139,6 +139,9 @@ namespace comet {
 	class auto_handle_wrap_t : public handle_policy_base_t<H, INVALID_HANDLE_>
 	{
 		protected:
+		  #ifdef VCF_BCC
+		  typedef handle_policy_base_t<H, INVALID_HANDLE_>::value_type value_type;
+		  #endif
 			/// Call destroy_handle
 			static inline bool destroy_( value_type h)
 			{
@@ -299,13 +302,24 @@ namespace comet {
 	{
 		return rhs.close();
 	}
-
+  
+  //template <>
+  //struct auto_handle_t;
+  
 	/// Wrapper for HANDLE type
-	template< typename ERROR_POLICY = handle_nothrow_error_policy_t >
+	template<typename ERROR_POLICY= handle_nothrow_error_policy_t>
+	#ifdef VCF_BCC
 	struct auto_handle_t : auto_handle_wrap_t< auto_handle_t<ERROR_POLICY>, HANDLE, 0, ERROR_POLICY >
+  #else
+	struct auto_handle_t : auto_handle_wrap_t< auto_handle_t, HANDLE, 0, ERROR_POLICY > 
+  #endif	  
 	{
+		#ifdef VCF_BCC
+		typedef auto_handle_wrap_t< auto_handle_t<ERROR_POLICY>, HANDLE, 0, ERROR_POLICY > handle_base;
+    #else
 		typedef auto_handle_wrap_t< auto_handle_t, HANDLE, 0, ERROR_POLICY > handle_base;
-
+    #endif
+    
 		/// Default constructor.
 		auto_handle_t() {}
 		/// Copy constructor.
@@ -328,7 +342,6 @@ namespace comet {
 			handle_base::operator=(rhs);
 			return *this;
 		}
-
 		/// Destroy a handle
 		static bool destroy_handle( HANDLE h)
 		{

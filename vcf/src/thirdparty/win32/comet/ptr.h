@@ -149,7 +149,7 @@ namespace comet {
 
 	template<typename Itf> struct wrap_t : public Itf {};
 
-	template<> struct wrap_t<::IUnknown> {};
+	template<> struct wrap_t< ::IUnknown> {};
 
 	template<typename Itf> Itf* raw( wrap_t<Itf>* p ) { return reinterpret_cast<Itf*>(p); }
 
@@ -449,7 +449,18 @@ namespace comet {
 			IUnknown *ptr_;
 
 			void swap(identity_ptr& x) throw()
-			{ std::swap(ptr_, x.ptr_); }
+			{ 
+			  /*
+			  * This is ugly as hell but it is the only way to make this work
+			  * For details take a look at QC4957
+			  * http://qc.borland.com/qc/wc/qcmain.aspx?d=4957
+			  */
+			  #if defined(VCF_BCC6) && defined(__SGI_STL_PORT)
+			  _STL::swap(ptr_, x.ptr_);
+			  #else
+			  std::swap(ptr_, x.ptr_);
+			  #endif
+			}
 
 			void addref() const throw()
 			{ if (ptr_ != NULL) ptr_->AddRef(); }
@@ -679,7 +690,7 @@ namespace comet {
 
 			\exception com_error
 		*/
-		/*template<typename Itf2>*/ com_ptr(const uuid_t& clsid, const com_ptr<::IUnknown>& outer, DWORD dwClsContext = CLSCTX_ALL) throw(com_error)
+		/*template<typename Itf2>*/ com_ptr(const uuid_t& clsid, const com_ptr< ::IUnknown>& outer, DWORD dwClsContext = CLSCTX_ALL) throw(com_error)
 		{ create(clsid, outer, dwClsContext); }
 
 		//! Constructions of null pointer
@@ -717,7 +728,7 @@ namespace comet {
 
 			\exception com_error
 		*/
-		/*template<typename Itf2> */com_ptr(const wchar_t* progid, const com_ptr<::IUnknown>& outer, DWORD dwClsContext = CLSCTX_ALL) throw(com_error)
+		/*template<typename Itf2> */com_ptr(const wchar_t* progid, const com_ptr< ::IUnknown>& outer, DWORD dwClsContext = CLSCTX_ALL) throw(com_error)
 		{ create(progid, outer, dwClsContext); }
 
 		//! Construction using CoGetObject
@@ -1005,10 +1016,10 @@ namespace comet {
 
 	   inline void create(const variant_t& v) throw(com_error);
 
-	   void create(const uuid_t& clsid, const com_ptr<::IUnknown>& outer, DWORD dwClsContext = CLSCTX_ALL) throw(com_error)
+	   void create(const uuid_t& clsid, const com_ptr< ::IUnknown>& outer, DWORD dwClsContext = CLSCTX_ALL) throw(com_error)
 	   { CoCreateInstance(clsid, outer.in(), dwClsContext, iid(), reinterpret_cast<void**>(&ptr_)) | raise_exception; }
 
-	   void create(const wchar_t* clsidString, const com_ptr<::IUnknown>& outer, DWORD dwClsContext = CLSCTX_ALL) throw(com_error)
+	   void create(const wchar_t* clsidString, const com_ptr< ::IUnknown>& outer, DWORD dwClsContext = CLSCTX_ALL) throw(com_error)
 	   {
 		   if (clsidString == NULL) raise_exception(E_INVALIDARG);
 
@@ -1117,7 +1128,7 @@ namespace comet {
 
 	*/
 	template<typename Itf> inline impl::try_cast_t<Itf> try_cast(const com_ptr<Itf>& t) { return impl::try_cast_t<Itf>(t.get()); }
-	static inline impl::try_cast_t<::IUnknown> try_cast(const identity_ptr& t) { return impl::try_cast_t<::IUnknown>(t.get()); }
+	static inline impl::try_cast_t< ::IUnknown> try_cast(const identity_ptr& t) { return impl::try_cast_t< ::IUnknown>(t.get()); }
 	template<typename Itf> inline impl::try_cast_t<Itf> try_cast(Itf* t) { return impl::try_cast_t<Itf>(t); }
 	inline impl::try_cast_t<variant_t> try_cast(const variant_t& v) { return impl::try_cast_t<variant_t>(v); }
 	//@}
