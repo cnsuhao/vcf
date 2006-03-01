@@ -505,7 +505,7 @@ void PushButton::setCommandType( const ButtonCommandType& commandType )
 
 double PushButton::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight );
+	return UIToolkit::getUIMetricValue( UIMetricsManager::mtButtonHeight );
 }
 
 double PushButton::getPreferredWidth()
@@ -799,6 +799,9 @@ void PushButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.3.2.1  2005/08/01 18:50:31  marcelloptr
 *minor changes
 *

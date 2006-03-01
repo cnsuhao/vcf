@@ -419,6 +419,12 @@ public:
 
 	static UIMetricsManager* getUIMetricsManager();
 
+	static double getUIMetricValue( const UIMetricsManager::MetricType& type, const String& text="" );
+
+	static Size getUIMetricSize( const UIMetricsManager::MetricType& type, const String& text="" );
+
+	static Rect getUIMetricRect( const UIMetricsManager::MetricType& type, Rect* rect=NULL );
+
 	static UIPolicyManager* getUIPolicyManager();
 
 	/**
@@ -792,6 +798,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.5.2.4  2006/02/23 05:54:23  ddiego
 *some html help integration fixes and new features. context sensitive help is finished now.
 *

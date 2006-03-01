@@ -9,7 +9,7 @@ where you installed the VCF.
 
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/DefaultTabPage.h"
-
+#include "vcf/GraphicsKit/DrawUIState.h"
 
 using namespace VCF;
 
@@ -105,6 +105,7 @@ void DefaultTabPage::setSelected( const bool& selected )
 
 void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 {
+	/*
 	Color* hilite = GraphicsToolkit::getSystemColor(SYSCOLOR_HIGHLIGHT);
 	Color* shadow = GraphicsToolkit::getSystemColor(SYSCOLOR_SHADOW);
 	Color* face = GraphicsToolkit::getSystemColor(SYSCOLOR_FACE);
@@ -177,6 +178,21 @@ void DefaultTabPage::paint( GraphicsContext* context, Rect* paintRect )
 	context->textBoundedBy( &tmpR, text, flags );
 
 	context->getCurrentFont()->setColor( &oldFontColor );
+*/
+
+	String text = pageName_;
+	if ( this->getUseLocaleStrings() ) {
+		text = System::getCurrentThreadLocale()->translate( pageName_ );
+	}
+
+	TabState state;
+	state.setEnabled( true );
+	state.setPressed( isSelected() );
+	state.tabCaption_ = text;
+
+	
+
+	context->drawThemeTab( paintRect, state );
 
 	bounds_.setRect( paintRect->left_, paintRect->top_, paintRect->right_, paintRect->bottom_ );
 }
@@ -206,6 +222,9 @@ void DefaultTabPage::setBounds( Rect* bounds )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

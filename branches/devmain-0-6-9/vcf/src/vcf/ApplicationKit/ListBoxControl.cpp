@@ -66,8 +66,8 @@ void ListBoxControl::init()
 	setColor( GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
 
 	GraphicsContext* context = getContext();
-	UIMetricsManager* mgr = UIToolkit::getUIMetricsManager();
-	defaultItemHeight_ = mgr->getDefaultHeightFor( UIMetricsManager::htListItemHeight );
+	
+	defaultItemHeight_ = UIToolkit::getUIMetricValue( UIMetricsManager::mtListItemHeight );
 
 	EventHandler* lmh =
 		new ListModelEventHandler<ListBoxControl>( this, &ListBoxControl::onItemAdded, "ListBoxControl::onItemAdded" );
@@ -899,6 +899,9 @@ void ListBoxControl::setStateImageList( ImageList* stateImageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.6.2.3  2006/01/09 02:22:30  ddiego
 *more osx code
 *

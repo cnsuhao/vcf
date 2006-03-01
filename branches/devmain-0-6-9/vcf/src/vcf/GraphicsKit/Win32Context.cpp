@@ -109,11 +109,6 @@ void Win32Context::init()
 	currentHBrush_ = NULL;
 	currentHPen_ = NULL;
 	currentHFont_ = NULL;
-
-#ifdef WINTHEMES
-//	if (pThemeDLL_.get()==0) pThemeDLL_.reset(new Win32ThemeDLLWrapper());
-#endif
-
 }
 
 void Win32Context::releaseHandle()
@@ -1776,10 +1771,6 @@ void Win32Context::drawThemeButtonFocusRect( Rect* rect )
 
 void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* captionRect )
 {
-#ifdef WINTHEMES
-//	if (drawThemeButtonRectDLL( rect, state, captionRect )) return;
-#endif
-
 	checkHandle();
 
 	RECT btnRect;
@@ -2030,43 +2021,6 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 	releaseHandle();
 }
 
-/*
-#ifdef WINTHEMES
-bool Win32Context::drawThemeButtonRectDLL( Rect* rect, ButtonState& state )
-{
-	if (!pThemeDLL_->IsAppThemed()) return false;
-
-	HWND hWin=::WindowFromDC(dc_);
-    HTHEME hTheme = pThemeDLL_->OpenThemeData(hWin, L"BUTTON");
-
-	if (hTheme==0) return false;
-
-	int BtnState=	state.isPressed()		? PBS_PRESSED	: PBS_NORMAL;
-	BtnState|=		state.isEnabled()		? PBS_NORMAL	: PBS_DISABLED;
-	BtnState|=		state.isHighlighted()	? PBS_HOT		: PBS_NORMAL;
-	BtnState|=		state.isFocused()		? PBS_DEFAULTED : PBS_NORMAL;
-
-	RECT btnRect;
-	btnRect.left = rect->left_;
-	btnRect.top = rect->top_;
-	btnRect.right = rect->right_;
-	btnRect.bottom = rect->bottom_;
-
-    HRESULT res=pThemeDLL_->DrawThemeBackground(hTheme, dc_, BP_PUSHBUTTON, BtnState, &btnRect, 0);
-	if (res!=S_OK) return false;
-
-	res=pThemeDLL_->DrawThemeText(hTheme, dc_, BP_PUSHBUTTON, BtnState,
-		state.buttonCaption_.c_str(),
-		state.buttonCaption_.length(),
-		DT_SINGLELINE | DT_CENTER | DT_VCENTER, NULL, &btnRect);
-	if (res!=S_OK) return false;
-
-    pThemeDLL_->CloseThemeData(hTheme);
-
-	return true;
-}
-#endif
-*/
 
 void Win32Context::drawThemeCheckboxRect( Rect* rect, ButtonState& state )
 {
@@ -2696,19 +2650,120 @@ void Win32Context::drawThemeTab( Rect* rect, TabState& state )
 	}
 
 	if ( theme ) {
-		int tabState = 0;
-		if ( !state.isEnabled() ) {
+		int dcs = SaveDC( dc_ );
 
+		SetBkMode(dc_, TRANSPARENT);
+		VCF::Font tabFont = *context_->getCurrentFont();		
+		
+		HFONT font = NULL;			
+		if ( System::isUnicodeEnabled() ) {
+			LOGFONTW* lf = (LOGFONTW*) tabFont.getFontPeer()->getFontHandleID();
+			font = ::CreateFontIndirectW( lf );
+			::SelectObject( dc_, font );
 		}
 		else {
+			LOGFONTA* lf = (LOGFONTA*) tabFont.getFontPeer()->getFontHandleID();
+			font = ::CreateFontIndirectA( lf );
+			::SelectObject( dc_, font );
+		}
+
+		int tabPart = 0;
+		int tabState = 0;
+
+		SIZE tabSz = {0};
+		tabPart = (state.isHighlighted() || state.isPressed()) ? TABP_TABITEMLEFTEDGE : TABP_TABITEM;
+
+		if ( state.isEnabled() ) {
+			tabState = (state.isHighlighted() || state.isPressed()) ? TIS_SELECTED : TIS_NORMAL;
+		}
+		else {
+			tabState = TIS_DISABLED;
+		}
+
+		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, tabPart, tabState, &r, 0 );
+
+		RECT textRect = r;
+		Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TABP_TABITEM, TIS_NORMAL, 
+																&r, TS_TRUE, &tabSz);
+
+		textRect.left += tabSz.cx/2;
+		textRect.right -= tabSz.cx/2;
+
+		
+		Win32VisualStylesWrapper::DrawThemeText( theme, dc_, tabPart, tabState, 
+													state.tabCaption_.c_str(), state.tabCaption_.size(), 
+													DT_SINGLELINE | DT_VCENTER | DT_LEFT | DT_EXPANDTABS,
+													0, &textRect );
+
+		RestoreDC( dc_, dcs );
+		DeleteObject( font );
+
+		Win32VisualStylesWrapper::CloseThemeData( theme );
+	}
+	else {
+		Color* hilite = GraphicsToolkit::getSystemColor(SYSCOLOR_HIGHLIGHT);
+		Color* shadow = GraphicsToolkit::getSystemColor(SYSCOLOR_SHADOW);
+		Color* face = GraphicsToolkit::getSystemColor(SYSCOLOR_FACE);
+		Color* textColor = GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW_TEXT );
+		Color* selectedTextColor = GraphicsToolkit::getSystemColor( SYSCOLOR_SELECTION_TEXT );
+
+		context_->setColor( face );
+		context_->rectangle( rect );
+		context_->fillPath();
+		Color oldFontColor;
+		
+		oldFontColor = *context_->getCurrentFont()->getColor();
+		context_->getCurrentFont()->setColor( textColor );
+
+		if ( state.isPressed() ) {
+			context_->getCurrentFont()->setBold( true );
+			context_->setColor( hilite );
+			context_->moveTo(rect->left_ , rect->bottom_ -1 );
+			context_->lineTo(rect->left_ , rect->top_ + 2 );
+			context_->lineTo(rect->left_ + 2 , rect->top_ );
+			context_->lineTo(rect->right_ - 2 , rect->top_);
+			context_->strokePath();
+			
+			context_->setColor( Color::getColor( "black" ) );
+			context_->moveTo( rect->right_ - 2 , rect->top_ + 1);
+			context_->lineTo( rect->right_ - 1 , rect->top_ + 2);
+			context_->lineTo( rect->right_ - 1 , rect->bottom_ );
+			context_->strokePath();
+			
+			context_->setColor( shadow );
+			context_->moveTo( rect->right_ - 2, rect->top_ + 2);
+			context_->lineTo( rect->right_ - 2, rect->bottom_ );
+			context_->strokePath();
+		}
+		else {
+			context_->setColor( hilite );
+			context_->moveTo(rect->left_ , rect->bottom_ );
+			context_->lineTo(rect->left_ , rect->top_ + 2 );
+			context_->lineTo(rect->left_ + 2 , rect->top_  );
+			context_->lineTo(rect->right_ - 2 , rect->top_ );
+			context_->strokePath();
+			
+			context_->setColor( Color::getColor( "black" ) );
+			context_->moveTo( rect->right_ - 2 , rect->top_ + 1);
+			context_->lineTo( rect->right_ - 1 , rect->top_ + 2);
+			context_->lineTo( rect->right_ - 1 , rect->bottom_ );
+			context_->strokePath();
+			
+			context_->setColor( shadow );
+			context_->moveTo( rect->right_ - 2, rect->top_ + 2);
+			context_->lineTo( rect->right_ - 2, rect->bottom_ );
+			context_->strokePath();
 
 		}
 
-		//HRESULT hr = Win32VisualStylesWrapper::GetThemePartSize(theme, dc_, TVP_GLYPH, partState,
-		//														&r, TS_TRUE, &val);
-
-
-		Win32VisualStylesWrapper::CloseThemeData( theme );
+		Rect tmpR = *rect;
+		
+		tmpR.inflate( -4, 0 );
+		tmpR.normalize();
+		long flags = GraphicsContext::tdoCenterHorzAlign | GraphicsContext::tdoCenterVertAlign;
+		context_->textBoundedBy( &tmpR, state.tabCaption_, flags );
+		
+		context_->getCurrentFont()->setColor( &oldFontColor );
 	}
 }
 
@@ -2816,10 +2871,21 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 				}
 			}
 			else {
+				while ( it != tabsNames.end() ) {
+					AnsiString s = *it;
+
+					::GetTextExtentPoint32A( dc_, s.c_str(), s.size(), &textSz );
+
+					totalTabWidth += textSz.cx + tabSz.cx;
+
+					textWidths.push_back( textSz.cx );
+						
+					it ++;
+				}				
 
 			}
 
-			bool scaleTabs = totalTabWidth > ((bodyContent.right - bodyContent.left) + (tabSz.cx*tabsNames.size()));
+			bool scaleTabs = totalTabWidth > (bodyContent.right - bodyContent.left);
 
 			if ( scaleTabs ) {
 				tabWidth = (bodyContent.right - bodyContent.left) / tabsNames.size();
@@ -2897,6 +2963,9 @@ void Win32Context::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& 
 
 		Win32VisualStylesWrapper::CloseThemeData( theme );
 	}
+	else {
+
+	}
 }
 
 /**
@@ -2934,6 +3003,50 @@ void Win32Context::drawThemeTabPage( Rect* rect, DrawUIState& state )
 		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_BODY, 1, &paneContent, 0 );
 
 		Win32VisualStylesWrapper::CloseThemeData( theme );
+	}
+	else {
+		BackgroundState bkg;
+		bkg.setEnabled( state.isEnabled() );
+		bkg.setActive( state.isActive() );
+		bkg.colorType_ = SYSCOLOR_FACE;	
+		
+		drawThemeBackground( rect, bkg );
+
+		::DrawEdge( dc_, &r, BDR_RAISEDOUTER|BDR_RAISEDINNER, BF_RECT | BF_SOFT );
+
+	}
+}
+
+void Win32Context::drawThemeTabContent( Rect* rect, DrawUIState& state )
+{
+	HTHEME theme = NULL;
+
+	RECT r = {0,0,0,0};
+	r.left = (long)rect->left_;
+	r.top = (long)rect->top_;
+	r.right = (long)rect->right_;
+	r.bottom = (long)rect->bottom_;
+
+
+	if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+		theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"TAB" );
+	}
+
+	if ( theme ) {
+		
+		//Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_PANE, 1, &bodyContent, 0 );
+
+		Win32VisualStylesWrapper::DrawThemeBackground( theme, dc_, TABP_BODY, 1, &r, 0 );
+
+		Win32VisualStylesWrapper::CloseThemeData( theme );
+	}
+	else {
+		BackgroundState bkg;
+		bkg.setEnabled( state.isEnabled() );
+		bkg.setActive( state.isActive() );
+		bkg.colorType_ = SYSCOLOR_FACE;	
+		
+		drawThemeBackground( rect, bkg );
 	}
 }
 
@@ -3957,14 +4070,14 @@ Draws a them compliant background
 void Win32Context::drawThemeBackground( Rect* rect, BackgroundState& state )
 {
 	Color* backColor = GraphicsToolkit::getSystemColor( state.colorType_ );
-
+	
 	if ( state.colorType_ == SYSCOLOR_WINDOW ) {
 		backColor = GraphicsToolkit::getSystemColor( SYSCOLOR_FACE );
 	}
-
+		
 	context_->setColor( backColor );
 	context_->rectangle( rect );
-	context_->fillPath();
+	context_->fillPath();		
 }
 
 /**
@@ -4319,6 +4432,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.8  2006/03/01 04:34:57  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.7.2.7  2006/02/27 19:00:04  iamfraggle
 *Fixed calls to max (now VCF::maxVal)
 *

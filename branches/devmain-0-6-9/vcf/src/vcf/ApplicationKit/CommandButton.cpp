@@ -102,7 +102,7 @@ ButtonCommandType CommandButton::getCommandType()
 
 double CommandButton::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htButtonHeight );
+	return UIToolkit::getUIMetricValue( UIMetricsManager::mtButtonHeight );
 }
 
 void CommandButton::mnemonicActivate()
@@ -222,6 +222,9 @@ void CommandButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.4.2.1  2006/02/20 20:42:08  ddiego
 *comitting current state of theme code.
 *
