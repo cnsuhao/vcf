@@ -24,7 +24,7 @@ where you installed the VCF.
 
 #include "thirdparty/win32/Microsoft/htmlhelp.h"
 
-
+#include "vcf/GraphicsKit/Win32VisualStylesWrapper.h"
 
 using namespace VCF;
 
@@ -434,7 +434,6 @@ HDC AbstractWin32Component::doControlPaint( HDC paintDC, RECT paintRect, RECT* e
 			// point of the device context points to the origin of the window.
 			POINT oldOrg = {0};
 			::SetViewportOrgEx( memDC_, -paintRect.left, -paintRect.top, &oldOrg );
-			
 			
 			/**
 			* we prevents the owning control of the context to alter
@@ -1643,6 +1642,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.10  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.7.2.9  2006/02/13 22:11:59  ddiego
 *added further html support and better browser example code.
 *

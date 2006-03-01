@@ -20,6 +20,10 @@ where you installed the VCF.
 
 using namespace VCF;
 
+
+
+
+
 UIToolkit* UIToolkit::toolKitInstance = NULL;
 
 static Control* prevTabbedControlContainer = NULL;
@@ -560,6 +564,21 @@ ComponentInfo* UIToolkit::getComponentInfo( Class* componentClass )
 UIMetricsManager* UIToolkit::getUIMetricsManager()
 {
 	return UIToolkit::toolKitInstance->internal_getUIMetricsManager();
+}
+
+double UIToolkit::getUIMetricValue( const UIMetricsManager::MetricType& type, const String& text )
+{
+	return UIToolkit::toolKitInstance->internal_getUIMetricsManager()->getValue( type, text );
+}
+
+Size UIToolkit::getUIMetricSize( const UIMetricsManager::MetricType& type, const String& text )
+{
+	return UIToolkit::toolKitInstance->internal_getUIMetricsManager()->getSize( type, text );
+}
+
+Rect UIToolkit::getUIMetricRect( const UIMetricsManager::MetricType& type, Rect* rect )
+{
+	return UIToolkit::toolKitInstance->internal_getUIMetricsManager()->getRect( type, rect );
 }
 
 UIPolicyManager* UIToolkit::getUIPolicyManager()
@@ -1385,6 +1404,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.11  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.5.2.10  2006/02/23 05:54:23  ddiego
 *some html help integration fixes and new features. context sensitive help is finished now.
 *

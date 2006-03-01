@@ -73,7 +73,11 @@ public:
 
 	virtual ~Object();
 
-	virtual void init();
+	/**
+	This is going to be removed from the bext release
+	@deprecated
+	*/
+	void init();
 
 	/**
 	Call this method to free up the memory of the class
@@ -338,6 +342,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.4.2.1  2005/07/27 01:56:23  ddiego
 *fixed object ptr bug.
 *

@@ -181,7 +181,7 @@ void HeaderControl::paint( GraphicsContext * context )
 
 double HeaderControl::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
+	return UIToolkit::getUIMetricValue( UIMetricsManager::mtHeaderHeight );
 }
 
 double HeaderControl::getPreferredWidth()
@@ -362,6 +362,9 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.2.6.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

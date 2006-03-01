@@ -25,7 +25,7 @@ CheckBoxControl::~CheckBoxControl()
 
 double CheckBoxControl::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
+	return UIToolkit::getUIMetricValue( UIMetricsManager::mtCheckBoxHeight );
 }
 
 double CheckBoxControl::getPreferredWidth()
@@ -61,6 +61,9 @@ void CheckBoxControl::paint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.3.2.1  2005/08/05 01:11:37  ddiego
 *splitter fixes finished.
 *

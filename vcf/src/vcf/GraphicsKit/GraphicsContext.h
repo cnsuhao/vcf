@@ -581,6 +581,8 @@ public:
 	*/
 	void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
+	void drawThemeTabContent( Rect* rect, DrawUIState& state );
+
 	void drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, TabState& otherTabs, const std::vector<String>& tabNames, int selectedTabIndex );
 
 	/**
@@ -820,6 +822,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.3  2006/03/01 04:34:57  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.7.2.2  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

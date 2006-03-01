@@ -15,7 +15,6 @@ where you installed the VCF.
 
 
 // Win32Context.h: interface for the Win32Context class.
-#define WINTHEMES
 
 
 #include <deque>
@@ -350,6 +349,8 @@ public:
 	*/
 	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state );
 
+	virtual void drawThemeTabContent( Rect* rect, DrawUIState& state );
+
 	virtual void drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, TabState& otherTabs, const std::vector<String>& tabNames, int selectedTabIndex );
 
 	/**
@@ -442,26 +443,9 @@ protected:
 	                                   long yStart, COLORREF cTransparentColor );
 
 	
-#ifdef WINTHEMES
-	/**
-	* AutoPointer to a wrapper for the UxTheme.dll
-	*/
-	//static std::auto_ptr<Win32ThemeDLLWrapper> pThemeDLL_;
-#endif
 
 
 private:
-#ifdef WINTHEMES
-	/**
-	* Draw a themed button using the UxTheme.dll.
-	* Remarks: In case of an error parts of the button may have been
-	*          already drawn.
-	*          This will only happen if the DLL is present but not
-	*          fully implemented.
-	*@return bool, false if themed drawing was not possible.
-	*/
-	//bool drawThemeButtonRectDLL( Rect* rect, ButtonState& state, Rect* captionRect=NULL );
-#endif
 
 protected:
 	HRGN clipRGN_;
@@ -495,6 +479,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/01 04:34:57  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.5.2.4  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

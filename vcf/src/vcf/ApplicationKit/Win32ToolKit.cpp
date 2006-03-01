@@ -85,6 +85,7 @@ where you installed the VCF.
 
 #include "thirdparty/win32/Microsoft/htmlhelp.h"
 
+#include "vcf/GraphicsKit/Win32VisualStylesWrapper.h"
 
 
 typedef HWND  (WINAPI *HtmlHelpW_Func)(HWND hwndCaller, LPCWSTR pszFile, UINT uCommand, DWORD_PTR dwData );
@@ -1643,6 +1644,716 @@ public:
 
 	virtual Size getDefaultTabDimensions( const String& caption )  {
 		Size result;
+
+		return result;
+	}
+
+	virtual double getValue( const MetricType& type, const String& text ) {		
+		double result = 0;
+
+		switch ( type ) {
+			case mtLabelHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,8), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtComboBoxHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,14), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtListItemHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,10), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtButtonHeight : {			
+				
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"BUTTON" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					RECT r = {0};
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, BP_PUSHBUTTON, PBS_NORMAL, 
+																&r, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result = sz.cy;
+				}
+				else {
+					VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+					Point pt = DLUToPixel( Point(0,14), f );
+					result = pt.y_;
+				}
+			}
+			break;
+
+			case mtRadioBoxHeight : {			
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,10), f );
+				result = pt.y_;				
+			}
+			break;
+
+			case mtCheckBoxHeight : {				
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,10), f );
+				result = pt.y_;				
+			}
+			break;
+
+			case mtToolTipHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,10), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtSeparatorHeight : {
+				result = 2.0;
+			}
+			break;
+
+			case mtHeaderHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,10), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtTreeItemHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,9), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtTextControlHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,12), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtVerticalProgressWidth : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(14,14), f );
+				result = pt.x_;
+			}
+			break;
+
+			case mtHorizontalProgressHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,14), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtInformationalControlHeight : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,10), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtVerticalScrollbarThumbWidth : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"SCROLLBAR" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, SBP_THUMBBTNVERT, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+					
+					result = sz.cx;
+				}
+				else {
+					NONCLIENTMETRICS ncm;
+					memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+					ncm.cbSize = sizeof(NONCLIENTMETRICS);
+					
+					SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+					
+					result = ncm.iScrollWidth;
+				}
+			}
+			break;
+
+			case mtHorizontalScrollbarThumbHeight : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"SCROLLBAR" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, SBP_THUMBBTNHORZ, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+					
+					result = sz.cy;
+				}
+				else {
+					NONCLIENTMETRICS ncm;
+					memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+					ncm.cbSize = sizeof(NONCLIENTMETRICS);
+					
+					SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+					
+					result = ncm.iScrollHeight;
+				}
+			}
+			break;
+
+			case mtVerticalScrollbarWidth : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"SCROLLBAR" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, SBP_LOWERTRACKVERT, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+					
+					result = sz.cx;
+				}
+				else {
+					NONCLIENTMETRICS ncm;
+					memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+					ncm.cbSize = sizeof(NONCLIENTMETRICS);
+					
+					SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+					
+					result = ncm.iScrollWidth;
+				}
+			}
+			break;
+
+			case mtHorizontalScrollbarHeight : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"SCROLLBAR" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, SBP_LOWERTRACKHORZ, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+					
+					result = sz.cy;
+				}
+				else {
+					NONCLIENTMETRICS ncm;
+					memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+					ncm.cbSize = sizeof(NONCLIENTMETRICS);
+					
+					SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+					
+					result = ncm.iScrollHeight;
+				}
+			}
+			break;
+
+			case mtMenuIndent : {
+
+			}
+			break;
+
+			case mtWindowBorderDelta : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,7), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtContainerBorderDelta : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,7), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtControlVerticalSpacing : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,4), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtControlHorizontalSpacing : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(4,4), f );
+				result = pt.x_;
+			}
+			break;
+
+			case mtInformationControlTopSpacer : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,4), f );
+				result = pt.y_;
+			}
+			break;
+
+			case mtInformationControlBottomSpacer : {
+				VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+				Point pt = DLUToPixel( Point(0,4), f );
+				result = pt.y_;
+			}
+			break;
+
+			default : {
+				throw RuntimeException( MAKE_ERROR_MSG_2("Invalid metric type.") );
+			}
+			break;
+		}
+
+		return result;
+	}
+
+	virtual Size getSize( const MetricType& type, const String& text ) {
+		Size result;
+		
+		switch ( type ) {
+			case mtMenuSize : {
+				NONCLIENTMETRICSA ncInfo;
+				ncInfo.cbSize = sizeof(ncInfo);
+				::SystemParametersInfoA (SPI_GETNONCLIENTMETRICS, sizeof(ncInfo), &ncInfo, 0);
+				HFONT menuHFont = CreateFontIndirectA( &ncInfo.lfMenuFont );
+				if ( NULL != menuHFont ) {
+					HDC dc = ::CreateCompatibleDC( NULL );// screen DC--I won't actually draw on it
+					HFONT oldFont = (HFONT)SelectObject( dc, menuHFont );
+					RECT rcText = {0,0,0,0};
+					if ( System::isUnicodeEnabled() ) {
+						::DrawTextW( dc, text.c_str(), text.size(), &rcText, DT_SINGLELINE|DT_LEFT|DT_VCENTER|DT_CALCRECT);
+					}
+					else {
+						AnsiString tmp = text;
+						::DrawTextA( dc, tmp.c_str(), tmp.size(), &rcText, DT_SINGLELINE|DT_LEFT|DT_VCENTER|DT_CALCRECT);
+					}
+					
+					
+					SelectObject( dc, oldFont );
+					
+					// height of item is just height of a standard menu item
+					result.height_ = maxVal<double>( ::GetSystemMetrics(SM_CYMENU), abs(rcText.bottom - rcText.top) );
+					
+					const int CXGAP = 1;		// num pixels between button and text
+					const int CXTEXTMARGIN = 2;		// num pixels after hilite to start text
+					const int CXBUTTONMARGIN = 2;		// num pixels wider button is than bitmap
+					const int CYBUTTONMARGIN = 2;		// ditto for height
+					
+					// width is width of text plus a bunch of stuff
+					int cx = rcText.right - rcText.left;	// text width
+					cx += CXTEXTMARGIN << 1;		// L/R margin for readability
+					cx += CXGAP;					// space between button and menu text
+					
+					//cx += szButton_.cx<<1;		// button width (L=button; R=empty margin)
+					
+					// whatever value I return in lpms->itemWidth, Windows will add the
+					// width of a menu checkmark, so I must subtract to defeat Windows. Argh.
+					//
+					cx += GetSystemMetrics(SM_CXMENUCHECK)-1;
+					result.width_ = cx;		// done deal
+					
+					::DeleteObject( menuHFont );
+					::DeleteDC( dc );
+				}
+			}
+			break;
+
+			case mtVerticalSliderThumbSize : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"TRACKBAR" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, TKP_THUMBVERT, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result.width_ = sz.cx;
+					result.height_ = sz.cy;
+				}
+				else {
+					VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+					Point pt = DLUToPixel( Point(15,15), f );
+					
+					result.height_ = 11;
+					result.width_ = pt.x_;
+				}
+			}
+			break;
+
+			case mtHorizontalSliderThumbSize : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"TRACKBAR" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, TKP_THUMB, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result.width_ = sz.cx;
+					result.height_ = sz.cy;
+				}
+				else {
+					VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+					Point pt = DLUToPixel( Point(0,15), f );
+					
+					result.height_ = pt.y_;
+					result.width_ = 11;
+				}
+			}
+			break;
+
+			case mtTabSize : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"TAB" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					int dcs = SaveDC(dc);
+					VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+					HFONT font = NULL;	
+					SIZE textSz = {0};
+
+					if ( System::isUnicodeEnabled() ) {
+						LOGFONTW* lf = (LOGFONTW*) f.getFontPeer()->getFontHandleID();
+						font = ::CreateFontIndirectW( lf );
+						::SelectObject( dc, font );
+						
+						if ( text.empty() ) {
+							::GetTextExtentPoint32W( dc, L"EM", 2, &textSz );
+						}
+						else {
+							::GetTextExtentPoint32W( dc, text.c_str(), text.size(), &textSz );
+						}
+					}
+					else {
+						LOGFONTA* lf = (LOGFONTA*) f.getFontPeer()->getFontHandleID();
+						AnsiString s = text;
+						font = ::CreateFontIndirectA( lf );
+						::SelectObject( dc, font );
+						
+						if ( s.empty() ) {
+							::GetTextExtentPoint32A( dc, "EM", 2, &textSz );
+						}
+						else {
+							::GetTextExtentPoint32A( dc, s.c_str(), s.size(), &textSz );
+						}
+					}
+
+					RestoreDC(dc, dcs);
+					DeleteObject( font );
+
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, TABP_TABITEM, 0, 
+																NULL, TS_TRUE, &sz);					
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result.width_ = sz.cx + textSz.cx;
+					result.height_ = sz.cy;
+				}
+				else {
+					HDC dc = ::GetDC( ::GetDesktopWindow() );
+					int dcs = SaveDC(dc);
+					SIZE textSz = {0};
+					SIZE textSz2 = {0};
+					
+					VCF::Font f = getDefaultFontFor( UIMetricsManager::ftControlFont );
+					HFONT font = NULL;			
+					if ( System::isUnicodeEnabled() ) {
+						LOGFONTW* lf = (LOGFONTW*) f.getFontPeer()->getFontHandleID();
+						font = ::CreateFontIndirectW( lf );
+						::SelectObject( dc, font );
+						::GetTextExtentPoint32W( dc, L"EM", 2, &textSz );
+						if ( text.empty() ) {
+							textSz2 = textSz;
+						}
+						else {
+							::GetTextExtentPoint32W( dc, text.c_str(), text.size(), &textSz2 );
+						}
+					}
+					else {
+						LOGFONTA* lf = (LOGFONTA*) f.getFontPeer()->getFontHandleID();
+						AnsiString s = text;
+						font = ::CreateFontIndirectA( lf );
+						::SelectObject( dc, font );
+						::GetTextExtentPoint32A( dc, "EM", 2, &textSz );
+						if ( s.empty() ) {
+							textSz2 = textSz;
+						}
+						else {
+							::GetTextExtentPoint32A( dc, s.c_str(), s.size(), &textSz2 );
+						}
+					}
+					
+					result.height_ = maxVal<int>( textSz.cy, 21 );
+					result.width_ = textSz2.cx + result.height_ + 5.0;
+					
+					
+					
+					RestoreDC(dc, dcs);
+					DeleteObject( font );
+					::ReleaseDC( ::GetDesktopWindow(), dc );
+				}
+			}
+			break;
+
+			case mtRadioBoxBtnSize : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"BUTTON" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, BP_RADIOBUTTON, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result.width_ = sz.cx;
+					result.height_ = sz.cy;
+				}
+				else {
+					result.width_ = 13;
+					result.height_ = 13;
+				}
+			}
+			break;
+
+			case mtCheckBoxBtnSize : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"BUTTON" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, BP_CHECKBOX, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result.width_ = sz.cx;
+					result.height_ = sz.cy;
+				}
+				else {
+					result.width_ = 13;
+					result.height_ = 13;
+				}
+			}
+			break;
+
+			case mtComboBoxDropBtnSize : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"COMBOBOX" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, CP_DROPDOWNBUTTON, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result.width_ = sz.cx;
+					result.height_ = sz.cy;
+				}
+				else {
+					NONCLIENTMETRICS ncm;
+					memset( &ncm, 0, sizeof(NONCLIENTMETRICS) );
+					ncm.cbSize = sizeof(NONCLIENTMETRICS);
+					
+					SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
+					result.width_ = ncm.iScrollWidth;
+					result.height_ = ncm.iScrollHeight;
+				}
+			}
+			break;
+
+			case mtDisclosureButtonSize : {
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"TREEVIEW" );
+				}
+				
+				if ( theme ) {
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					SIZE sz;
+					
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, TVP_GLYPH, 0, 
+																NULL, TS_TRUE, &sz);
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result.width_ = sz.cx;
+					result.height_ = sz.cy;
+				}
+				else {
+
+				}
+			}
+			break;
+
+			default : {
+				throw RuntimeException( MAKE_ERROR_MSG_2("Invalid metric type.") );
+			}
+			break;
+		}
+
+		return result;
+	}
+
+	virtual Rect getRect( const MetricType& type, Rect* rect ) {
+		Rect result;
+
+		switch ( type ) {
+			case mtTabPaneContentRect : {
+				if ( NULL == rect ) {					
+					throw RuntimeException( MAKE_ERROR_MSG_2("mtTabPaneContentRect needs a valid rect instance - you passed in a NULL one!") );
+				}
+
+
+				HTHEME theme = NULL;
+				
+				if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+					theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"TAB" );
+				}
+				
+				if ( theme ) {					
+					HDC dc = GetDC( ::GetDesktopWindow() );
+					
+					
+					result = *rect;
+					
+					RECT r;
+					r.left = result.left_;
+					r.top = result.top_;
+					r.right = result.right_;
+					r.bottom = result.bottom_;
+					RECT paneContent = r;
+					RECT bodyContent = r;
+					
+					
+					Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc, 
+						TABP_PANE, 1, &r, &paneContent );
+					
+					Win32VisualStylesWrapper::GetThemeBackgroundContentRect(theme, dc, 
+						TABP_BODY, 1, &r, &bodyContent );
+
+					int dy = abs(bodyContent.top - paneContent.top);
+					
+					SIZE tabSz = {0};
+					Win32VisualStylesWrapper::GetThemePartSize(theme, dc, TABP_TABITEM, TIS_NORMAL, 
+																&r, TS_TRUE, &tabSz);
+
+										
+					paneContent.top += tabSz.cy + dy;
+					
+
+					Win32VisualStylesWrapper::CloseThemeData( theme );
+					ReleaseDC(::GetDesktopWindow(),dc);
+
+					result.left_ = paneContent.left;
+					result.top_ = paneContent.top;
+					result.right_ = paneContent.right;
+					result.bottom_ = paneContent.bottom;
+				}
+				else {
+					result = *rect;
+
+					result.inflate( -5, -5 );
+
+					Size sz = getSize(mtTabSize,"");
+					result.top_ += sz.height_;
+				}
+
+			}
+			break;
+
+			default : {
+				throw RuntimeException( MAKE_ERROR_MSG_2("Invalid metric type.") );
+			}
+			break;
+		}
 
 		return result;
 	}
@@ -3438,6 +4149,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.20  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.6.2.19  2006/02/23 05:54:23  ddiego
 *some html help integration fixes and new features. context sensitive help is finished now.
 *

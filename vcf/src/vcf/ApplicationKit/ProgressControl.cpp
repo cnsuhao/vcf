@@ -131,7 +131,7 @@ void ProgressControl::stepIt()
 double ProgressControl::getPreferredWidth()
 {
 	if ( paVertical == displayAlignment_ ) {
-		return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
+		return UIToolkit::getUIMetricValue( UIMetricsManager::mtVerticalProgressWidth );
 	}
 	else {
 		return 100;
@@ -146,7 +146,7 @@ double ProgressControl::getPreferredHeight()
 		return 100;
 	}
 	else {
-		return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
+		return UIToolkit::getUIMetricValue( UIMetricsManager::mtHorizontalProgressHeight );
 	}
 
 	return 0.0;
@@ -183,6 +183,9 @@ void ProgressControl::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.4.2.1  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

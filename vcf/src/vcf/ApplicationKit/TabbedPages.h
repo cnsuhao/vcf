@@ -37,9 +37,7 @@ where you installed the VCF.
 
 
 
-namespace VCF{
-
-
+namespace VCF  {
 
 #define TABBEDPAGES_CLASSID		"4A9D66D6-3B26-11d4-B54C-00C04F0196DA"
 
@@ -99,7 +97,7 @@ protected:
 	ScrollButton* scrollForward_;
 	ScrollButton* scrollBackward_;
 
-	void recalcScrollerButtonsPos();
+	//void recalcScrollerButtonsPos();
 
 	double getTabPageWidth( TabPage* page, GraphicsContext* ctx=NULL );
 
@@ -114,6 +112,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.3  2004/12/01 04:31:38  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

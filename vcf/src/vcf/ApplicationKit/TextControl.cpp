@@ -336,10 +336,10 @@ void TextControl::onFocusGained( FocusEvent* event )
 
 double TextControl::getPreferredHeight()
 {
-	double result = Control::getPreferredHeight();
+	double result = UIToolkit::getUIMetricValue( UIMetricsManager::mtTextControlHeight );
 
 	if ( NULL != getFont() ) {
-		result = getFont()->getPixelSize() * 1.85;
+		//result = getFont()->getPixelSize() * 1.85;
 	}
 
 	return result;
@@ -717,6 +717,9 @@ void TextControl::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.4  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.8.2.3  2006/02/22 05:00:40  ddiego
 *some minor text updates to support toggling word wrap.
 *

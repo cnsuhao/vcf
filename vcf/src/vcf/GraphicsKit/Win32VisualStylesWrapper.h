@@ -41,7 +41,7 @@ Changes made by Jim Crafton to make things fit in better with VCF existing code
 and to make it easier to read/understand what's going on.
 */
 
-class Win32VisualStylesWrapper {
+class GRAPHICSKIT_API Win32VisualStylesWrapper {
 private:
 	typedef HTHEME(__stdcall *PFNOPENTHEMEDATA)(HWND hwnd, LPCWSTR pszClassList);
 	typedef HRESULT(__stdcall *PFNCLOSETHEMEDATA)(HTHEME hTheme);

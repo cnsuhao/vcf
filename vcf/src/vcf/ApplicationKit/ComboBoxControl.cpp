@@ -1030,7 +1030,7 @@ void ComboBoxControl::setCurrentText( const String& text )
 
 double ComboBoxControl::getPreferredHeight()
 {
-	return UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htComboBoxHeight );
+	return UIToolkit::getUIMetricValue( UIMetricsManager::mtComboBoxHeight );
 }
 
 void ComboBoxControl::selectItems( const bool& select )
@@ -1050,6 +1050,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.5.2.3  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

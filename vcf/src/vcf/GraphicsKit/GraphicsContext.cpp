@@ -866,6 +866,11 @@ void GraphicsContext::drawThemeTabPage( Rect* rect, DrawUIState& state )
 	contextPeer_->drawThemeTabPage( rect, state );
 }
 
+void GraphicsContext::drawThemeTabContent( Rect* rect, DrawUIState& state )
+{
+	contextPeer_->drawThemeTabContent( rect, state );
+}
+
 void GraphicsContext::drawThemeTabs( Rect* rect, DrawUIState& paneState, TabState& selectedTabState, TabState& otherTabs, const std::vector<String>& tabNames, int selectedTabIndex )
 {
 	contextPeer_->drawThemeTabs( rect, paneState, selectedTabState, otherTabs, tabNames, selectedTabIndex );
@@ -1507,6 +1512,9 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.7  2006/03/01 04:34:57  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.6.2.6  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

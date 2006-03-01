@@ -168,7 +168,7 @@ double Label::getPreferredHeight()
 	if ( wordWrap_ ) {
 		GraphicsContext* ctx = this->getContext();
 
-		double maxHeight = UIToolkit::getUIMetricsManager()->getDefaultHeightFor( UIMetricsManager::htLabelHeight );
+		double maxHeight = UIToolkit::getUIMetricValue( UIMetricsManager::mtLabelHeight );
 
 		if ( NULL != getParent() ) {
 			double w = getWidth();
@@ -202,6 +202,9 @@ double Label::getPreferredHeight()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/01 04:34:56  ddiego
+*fixed tab display to use themes api.
+*
 *Revision 1.3  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

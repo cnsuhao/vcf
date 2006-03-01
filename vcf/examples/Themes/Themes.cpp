@@ -489,7 +489,7 @@ public:
 		tabsR.offset( 0, tabsR.getHeight() + 10 );
 		textR.offset( 0, textR.getHeight() + 10 );
 		
-		tabsR.bottom_ += 300;
+		tabsR.bottom_ += 100;
 		textR.bottom_ = tabsR.bottom_;
 
 		ctx->textBoundedBy( &textR, "Complete Tabs Rect", options );
@@ -729,6 +729,144 @@ public:
 	}
 };	
 
+
+
+class ThemeSizesPanel : public Panel {
+public:
+	ScrollbarManager* scrollBarMgr;
+	std::map<int,String> metricsToStringMap;
+	ThemeSizesPanel() {
+		setBorder( NULL );
+
+		scrollBarMgr = new ScrollbarManager(this);
+		scrollBarMgr->setTarget( this );
+		scrollBarMgr->setHasHorizontalScrollbar( true );
+		scrollBarMgr->setHasVerticalScrollbar( true );
+		scrollBarMgr->setKeepScrollbarsVisible( true, true );
+
+		metricsToStringMap[UIMetricsManager::mtLabelHeight] = "UIMetricsManager::mtLabelHeight";
+		metricsToStringMap[UIMetricsManager::mtComboBoxHeight] = "UIMetricsManager::mtComboBoxHeight";
+		metricsToStringMap[UIMetricsManager::mtListItemHeight] = "UIMetricsManager::mtListItemHeight";
+		metricsToStringMap[UIMetricsManager::mtButtonHeight] = "UIMetricsManager::mtButtonHeight";
+		metricsToStringMap[UIMetricsManager::mtRadioBoxHeight] = "UIMetricsManager::mtRadioBoxHeight";
+		metricsToStringMap[UIMetricsManager::mtCheckBoxHeight] = "UIMetricsManager::mtCheckBoxHeight";
+		metricsToStringMap[UIMetricsManager::mtToolTipHeight] = "UIMetricsManager::mtToolTipHeight";
+		metricsToStringMap[UIMetricsManager::mtSeparatorHeight] = "UIMetricsManager::mtSeparatorHeight";
+		metricsToStringMap[UIMetricsManager::mtHeaderHeight] = "UIMetricsManager::mtHeaderHeight";
+		metricsToStringMap[UIMetricsManager::mtTreeItemHeight] = "UIMetricsManager::mtTreeItemHeight";
+		metricsToStringMap[UIMetricsManager::mtTextControlHeight] = "UIMetricsManager::mtTextControlHeight";
+		metricsToStringMap[UIMetricsManager::mtVerticalProgressWidth] = "UIMetricsManager::mtVerticalProgressWidth";
+		metricsToStringMap[UIMetricsManager::mtHorizontalProgressHeight] = "UIMetricsManager::mtHorizontalProgressHeight";
+		metricsToStringMap[UIMetricsManager::mtInformationalControlHeight] = "UIMetricsManager::mtInformationalControlHeight";
+		metricsToStringMap[UIMetricsManager::mtVerticalScrollbarThumbWidth] = "UIMetricsManager::mtVerticalScrollbarThumbWidth";
+		metricsToStringMap[UIMetricsManager::mtHorizontalScrollbarThumbHeight] = "UIMetricsManager::mtHorizontalScrollbarThumbHeight";
+		metricsToStringMap[UIMetricsManager::mtVerticalScrollbarWidth] = "UIMetricsManager::mtVerticalScrollbarWidth";
+		metricsToStringMap[UIMetricsManager::mtHorizontalScrollbarHeight] = "UIMetricsManager::mtHorizontalScrollbarHeight";
+		metricsToStringMap[UIMetricsManager::mtMenuIndent] = "UIMetricsManager::mtMenuIndent";
+		metricsToStringMap[UIMetricsManager::mtWindowBorderDelta] = "UIMetricsManager::mtWindowBorderDelta";
+		metricsToStringMap[UIMetricsManager::mtContainerBorderDelta] = "UIMetricsManager::mtContainerBorderDelta";
+		metricsToStringMap[UIMetricsManager::mtControlVerticalSpacing] = "UIMetricsManager::mtControlVerticalSpacing";
+		metricsToStringMap[UIMetricsManager::mtControlHorizontalSpacing] = "UIMetricsManager::mtControlHorizontalSpacing";
+		metricsToStringMap[UIMetricsManager::mtInformationControlTopSpacer] = "UIMetricsManager::mtInformationControlTopSpacer";
+		metricsToStringMap[UIMetricsManager::mtInformationControlBottomSpacer] = "UIMetricsManager::mtInformationControlBottomSpacer";
+
+		metricsToStringMap[UIMetricsManager::mtMenuSize] = "UIMetricsManager::mtMenuSize";
+		metricsToStringMap[UIMetricsManager::mtVerticalSliderThumbSize] = "UIMetricsManager::mtVerticalSliderThumbSize";
+		metricsToStringMap[UIMetricsManager::mtHorizontalSliderThumbSize] = "UIMetricsManager::mtHorizontalSliderThumbSize";
+		metricsToStringMap[UIMetricsManager::mtTabSize] = "UIMetricsManager::mtTabSize";
+		metricsToStringMap[UIMetricsManager::mtRadioBoxBtnSize] = "UIMetricsManager::mtRadioBoxBtnSize";
+		metricsToStringMap[UIMetricsManager::mtCheckBoxBtnSize] = "UIMetricsManager::mtCheckBoxBtnSize";
+		metricsToStringMap[UIMetricsManager::mtComboBoxDropBtnSize] = "UIMetricsManager::mtComboBoxDropBtnSize";
+		metricsToStringMap[UIMetricsManager::mtDisclosureButtonSize] = "UIMetricsManager::mtDisclosureButtonSize";
+
+		
+	}
+	virtual void paint( GraphicsContext* ctx ) {
+		Panel::paint( ctx );
+
+		Rect r = getClientBounds();
+
+		r.inflate( -10, -10 );
+
+		
+		double height = 40;
+
+		Rect metricsR = r;
+		Rect textR = r;
+		metricsR.right_ = metricsR.left_ + metricsR.getWidth()/2;
+		metricsR.bottom_ = metricsR.top_ + height;
+
+		textR.left_ = metricsR.right_;
+		textR.bottom_ = metricsR.bottom_;
+
+		Rect valRect;
+
+		long options = GraphicsContext::tdoCenterHorzAlign | 
+							GraphicsContext::tdoCenterVertAlign;
+
+		double value = 0;
+		Size size;
+
+		double defWidth = minVal<>( metricsR.getWidth()-10.0, 100.0 );
+
+
+		double totalVirtHeight  = 0;
+		static bool setVirtHeight = true;
+
+		for ( int i=UIMetricsManager::mtLabelHeight;i<UIMetricsManager::mtMenuSize;i++ ) {
+			value = UIToolkit::getUIMetricValue( (UIMetricsManager::MetricType) i, "Test" );
+			
+			ctx->textBoundedBy( &textR, (Format("%s: %.2f pixels") % metricsToStringMap[i] % value), options );
+			
+			valRect.left_ = metricsR.left_ + (metricsR.getWidth()/2) - (defWidth/2);
+			valRect.right_ = valRect.left_ + defWidth;
+			valRect.top_ = metricsR.top_ + (metricsR.getHeight()/2) - (value/2);
+			valRect.bottom_ = valRect.top_ + value;
+			
+			ctx->setColor( Color::getColor("black") );
+			ctx->rectangle( &valRect );
+			ctx->strokePath();
+			
+			totalVirtHeight += metricsR.getHeight() + 10;
+			
+			metricsR.offset( 0, metricsR.getHeight() + 10 );
+			textR.offset( 0, textR.getHeight() + 10 );
+		}
+
+
+		for ( int ii=UIMetricsManager::mtMenuSize;ii<=UIMetricsManager::mtDisclosureButtonSize;ii++ ) {
+			size = UIToolkit::getUIMetricSize( (UIMetricsManager::MetricType) ii, "Test" );
+			
+			metricsR.bottom_ = metricsR.top_ + maxVal<>( size.height_ + 10, metricsR.getHeight() );
+			textR.bottom_  = metricsR.bottom_;
+
+			ctx->textBoundedBy( &textR, (Format("%s: %.2f X %.2f pixels") % metricsToStringMap[ii] % size.width_ % size.height_), options );
+			
+			
+
+			valRect.left_ = metricsR.left_ + (metricsR.getWidth()/2) - (size.width_/2);
+			valRect.right_ = valRect.left_ + size.width_;
+			valRect.top_ = metricsR.top_ + (metricsR.getHeight()/2) - (size.height_/2);
+			valRect.bottom_ = valRect.top_ + size.height_;
+			
+			ctx->setColor( Color::getColor("black") );
+			ctx->rectangle( &valRect );
+			ctx->strokePath();
+			
+			totalVirtHeight += metricsR.getHeight() + 10;
+			
+			metricsR.offset( 0, metricsR.getHeight() + 10 );
+			textR.offset( 0, textR.getHeight() + 10 );
+		}
+ 
+		if ( setVirtHeight ) {
+			scrollBarMgr->setVirtualViewSize(  r.getWidth(), totalVirtHeight ); 
+		}
+
+		setVirtHeight = false;
+	}
+};	
+
 class ThemesWindow : public Window {
 public:
 	ThemesWindow() {
@@ -749,7 +887,8 @@ public:
 		pages->addNewPage( "Sliders" )->getPageComponent()->getContainer()->add( new SlidersPanel(), AlignClient );
 
 		pages->addNewPage( "Progress Bars" )->getPageComponent()->getContainer()->add( new ProgressPanel(), AlignClient );		
-		
+
+		pages->addNewPage( "Theme Metrics" )->getPageComponent()->getContainer()->add( new ThemeSizesPanel(), AlignClient );
 	}
 
 	virtual ~ThemesWindow(){
