@@ -311,13 +311,13 @@ namespace comet {
 	#ifdef VCF_BCC
 	struct auto_handle_t : auto_handle_wrap_t< auto_handle_t<ERROR_POLICY>, HANDLE, 0, ERROR_POLICY >
   #else
-	struct auto_handle_t : auto_handle_wrap_t< auto_handle_t, HANDLE, 0, ERROR_POLICY > 
+	struct auto_handle_t : auto_handle_wrap_t< auto_handle_t<ERROR_POLICY>, HANDLE, 0, ERROR_POLICY > 
   #endif	  
 	{
 		#ifdef VCF_BCC
 		typedef auto_handle_wrap_t< auto_handle_t<ERROR_POLICY>, HANDLE, 0, ERROR_POLICY > handle_base;
     #else
-		typedef auto_handle_wrap_t< auto_handle_t, HANDLE, 0, ERROR_POLICY > handle_base;
+		typedef auto_handle_wrap_t< auto_handle_t<ERROR_POLICY>, HANDLE, 0, ERROR_POLICY > handle_base;
     #endif
     
 		/// Default constructor.

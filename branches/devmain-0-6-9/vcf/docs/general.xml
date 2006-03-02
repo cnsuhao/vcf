@@ -210,11 +210,17 @@ NB: This software will not save the world.
 							Microsoft Visual C++ 7.1.
 						</listitem>
 						<listitem>
+							Microsoft Visual C++ 8.0 (Including the Express edition).
+						</listitem>
+						<listitem>
 							Intels C/C++ compiler version 7 (using Visual Studio 6).
 						</listitem>
 						<listitem>
 							Borland C++ 6
 						</listitem>
+						<listitem>
+							MinGW-GCC compiler with the Code::Blocks IDE
+						</listitem>						
 					</itemizedlist>
 				</para>
 			</listitem>
@@ -222,14 +228,17 @@ NB: This software will not save the world.
 				<para>MacOSX</para>
 				<para>The MacOSX port currently uses the Apple Developer Tools that 
 				come with OSX. The supported OS versions are:
-				<itemizedlist>
-						<listitem>
-							Mac OSX 10.2, using Project Builder.
-						</listitem>
-						<listitem>
-							Mac OSX 10.3, using XCode.
-						</listitem>
-					</itemizedlist>
+				<itemizedlist>						
+					<listitem>
+						Mac OSX 10.3, using XCode 1.x.
+					</listitem>
+					<listitem>
+						Mac OSX 10.4, using XCode 2.x.
+					</listitem>
+				</itemizedlist>
+				Mac OSX 10.2 is currently not supported at the moment, and the Project
+				Builder files should be ignored, since Project Builder support has 
+				been dropped by Apple in favor of XCode.
 				</para>
 					
 			</listitem>
@@ -529,6 +538,93 @@ C:\openssl-0.9.8a>perl util\mkdef.pl 32 ssleay  1>ms\ssleay32.def
 				The red circle indicates the various new Application Wizards that you should see.
 				</para>
 			</section>
+			
+			<section><title>Microsoft Visual C++ 2005 8.0 (including Express edition)</title>				
+				<para>
+				Till Novemeber of 2006 Microsoft is giving away it's Express edition of 
+				Visual C++ 2005. This is a superb IDE for the Windows environment, and I'd 
+				urge anyone on a budget to look into it. While it does not come with either
+				ATL or MFC support this is OK, because the VCF gives you everything you'll
+				need for GUI development on Windows, and VC 2005 gives you a great IDE! 
+				The following section will address how to get it, and how to set it up
+				for Windows GUI development, as there are a few special files you need 
+				to adjust by hand.
+				</para>
+				<para>
+					You can currently download the Visual C++ Express edition from the 
+					<ulink url="http://msdn.microsoft.com/vstudio/express/visualc/download/">
+						Visual C++ Express Edition Download site
+					</ulink>.
+					Follow the instructions there to install the software. Once VC 2005 is 
+					installed you will need to install a recent version of the <ulink 
+						url="http://www.microsoft.com/downloads/details.aspx?FamilyId=A55B6B43-E24F-4EA3-A93E-40C0EC4F68E5&amp;displaylang=en"> 
+					Win32 Platform SDK</ulink>. Older versions as far back as the November 2001
+					SDK work just fine if you have an older copy and don't want or need the 
+					absolute latest and greatest from Microsoft.					
+				</para>
+				<para>
+					Once you've installed the SDK, you need to adjust your settings in VC 2005
+					to reflect this, so it knows to use the SDK files. You <emphasis>must</emphasis>
+					follow these instructions, or things will not work correctly. You can read them at
+					<ulink url="http://msdn.microsoft.com/vstudio/express/visualc/usingpsdk/">Using 
+					Visual C++ 2005 Express Edition with the Microsoft Platform SDK</ulink>. In case
+					this link ever goes away or changes I'll summarize below:
+					<itemizedlist>
+						<listitem>
+							Go to Tools > Options. Select the "VC++ Directories" section under
+							"Projects and Solutions". In the "Show Directories for" drop down,
+							select the following:
+							<itemizedlist>
+								<listitem>
+									For "Executable files", add the [Path to SDK]\Bin directory.
+								</listitem>
+								<listitem>
+									For "Include files", add the [Path to SDK]\Include directory.
+								</listitem>
+								<listitem>
+									For "Library files", add the [Path to SDK]\Lib directory.
+								</listitem>
+							</itemizedlist>	
+							These probably need to be the first items, but it seems to work OK if 
+							they are not. Older version of VC++ required the SDK files to be included
+							first, but VC2005 doesn't seem as picky.
+						</listitem>
+						<listitem>
+							Find the file "corewin_express.vsprops". This should be in a directory
+							like "C:\Program Files\Microsoft Visual Studio 8\VC\VCProjectDefaults",
+							or wherever you installed VC 2005 to. Edit this file so that
+							<programlisting>
+AdditionalDependencies="kernel32.lib"
+							</programlisting>
+							becomes 
+							<programlisting>
+AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib 
+comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib"
+							</programlisting>
+						</listitem>
+						<listitem>
+							Edit the "AppSettings.htm" file. You should be able to find this
+							in a directory like this "C:\Program Files\Microsoft Visual Studio 8\
+							VC\VCWizards\AppWiz\Generic\Application\html\1033\". Comment out lines 
+							441-444. 
+						</listitem>	
+					</itemizedlist>
+					I'd like to thank Brian Johnson for writing the original instructions explaining
+					how to do this.
+				</para>
+				<para>
+				Once Yo uhave VC 2005, the first thing you'll want to do is install the various 
+				wizards for it. To install them, navigate to the directory	vcf/build/vc80/add-ins 
+				and run (double click) Setup-vcexpress.js.  This will install the	various wizards 
+				for use in the Express IDE. To verify that these were installed correctly,	go to 
+				"File | New | Projects" and click on the "Visual C++ Projects" directory icon and 
+				you should see something like the following:
+				<screenshot>
+					<graphic fileref="gfx/addins_vc80_verify.png"></graphic>
+				</screenshot>
+				</para>
+			</section>
+			
 			<section><title>Apple XCode 1.x</title>
 				<para>
 				This will explain how to install the project templates that come 
@@ -542,65 +638,80 @@ C:\openssl-0.9.8a>perl util\mkdef.pl 32 ssleay  1>ms\ssleay32.def
 				vcf/build/xcode/Project Templates/ directory to the new VCF directory 
 				you created. Yous should end up with something like this:
 				<graphic fileref="gfx/vcf-xcode-templates.png"></graphic>
-				</para>
+				
 				Now when you select the "File > New Project..." menu item in XCode, 
 				you should see the new project templates in the New Project dialog:
 				<graphic fileref="gfx/vcf-xcode-proj-templates.png"></graphic>
+				</para>
+			</section>
+			<section>
+				<title>Apple XCode 2.x</title>
+				<para>
+					Use the same instructions for XCode 1.x.
+				</para>				
 			</section>
 		</section>		
 		<section><title>Building the VCF Libraries</title>
 			<section><title>Win32</title>
-				<formalpara><title>Microsoft Visual C++ 6</title>
-				The following section deals with building the VCF libraries using the Microsoft 
-				Visual C++ 6 IDE.
-				</formalpara>
-				<para>
-				To build the VCF open the vcf/build/vc60/vcfAllProjects.dsw workspace. 
-				This workspace has all the various framework projects, both as 
-				static .lib files and DLL projects. To build all the VCF libraries select 
-				the "vcfAllLibs" project and make it the active project. Building this 
-				project will automatically build the FoundationKit, GraphicsKit, 
-				ApplicationKit, NetworkKit, and RemoteObjectKit. The libraries
-				will be built as both static <emphasis>and</emphasis> DLL binaries. To build
-				just the static libraries, build the "vcfAllStaticLibs" project. To
-				build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.
-				</para>
-				<para>
-				There are several additional projects you can build as well for additional 
-				features.
-				</para>
-				<itemizedlist>
-					<listitem><para>
+				<section><title>Microsoft Visual C++ 6</title>
 					<para>
-					The ImageFormats project, which adds support for a wide variety of 
-					image formats by using the <ulink url="http://freeimage.sourceforge.net/">FreeImage 
-					library</ulink>. Build this if you would like to add this support to your 
-					project.
+						The following section deals with building the VCF libraries using the Microsoft
+						Visual C++ 6 IDE.
 					</para>
-					</para></listitem>
-					<listitem><para>
 					<para>
-					The Win32HTMLBrowser (and Win32HTMLBrowser_StaticLib) project, for an 
-					HTML browser peer (currently implemented using the Internet Explorer 
-					IWebBrowser COM interface, though experiments have been done 
-					using the Gecko component from mozilla).  
+						To build the VCF open the vcf/build/vc60/vcfAllProjects.dsw workspace.
+						This workspace has all the various framework projects, both as
+						static .lib files and DLL projects. To build all the VCF libraries select
+						the "vcfAllLibs" project and make it the active project. Building this
+						project will automatically build the FoundationKit, GraphicsKit,
+						ApplicationKit, NetworkKit, and RemoteObjectKit. The libraries
+						will be built as both static <emphasis>and</emphasis> DLL binaries. To build
+						just the static libraries, build the "vcfAllStaticLibs" project. To
+						build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.
 					</para>
-					</para></listitem>
-				</itemizedlist>
-				<para>
-				The build will take a bit, so now would be a good time for coffee, tea, or 
-				perhaps reading some Dostoevsky...
-				</para>
-				<para>
-				Once the build is finished you are ready to go ! All binaries will be put 
-				in the vcf/bin directory when built.
-				</para>
-	
-				<formalpara><title>Microsoft Visual C++ 7.0</title>
-				The following section deals with building the VCF libraries using the Microsoft 
-				Visual C++ 7.0 IDE.
-				</formalpara>
-				<para>
+					<para>
+						There are several additional projects you can build as well for additional
+						features.
+					</para>
+					<itemizedlist>
+						<listitem>
+							<para>
+								<para>
+									The ImageFormats project, which adds support for a wide variety of
+									image formats by using the <ulink url="http://freeimage.sourceforge.net/">
+										FreeImage
+										library
+									</ulink>. Build this if you would like to add this support to your
+									project.
+								</para>
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<para>
+									The Win32HTMLBrowser (and Win32HTMLBrowser_StaticLib) project, for an
+									HTML browser peer (currently implemented using the Internet Explorer
+									IWebBrowser COM interface, though experiments have been done
+									using the Gecko component from mozilla).
+								</para>
+							</para>
+						</listitem>
+					</itemizedlist>
+					<para>
+						The build will take a bit, so now would be a good time for coffee, tea, or
+						perhaps reading some Dostoevsky...
+					</para>
+					<para>
+						Once the build is finished you are ready to go ! All binaries will be put
+						in the vcf/bin directory when built.
+					</para>
+				</section>
+				<section><title>Microsoft Visual C++ 7.0</title>
+					<para>
+						The following section deals with building the VCF libraries using the Microsoft
+						Visual C++ 7.0 IDE.
+					</para>
+					<para>
 				To build the VCF open the vcf/build/vc70/vcfAllProjects_vc70.dsw workspace. 
 				This workspace has all the various framework projects, both as 
 				static .lib files and DLL projects. Visual Studio should prompt
@@ -613,14 +724,15 @@ C:\openssl-0.9.8a>perl util\mkdef.pl 32 ssleay  1>ms\ssleay32.def
 				will be built as both static <emphasis>and</emphasis> DLL binaries. 
 				To build just the static libraries, build the "vcfAllStaticLibs" 
 				project. To build all the libraries as DLL's, build the 
-				"vcfAllDynamicLibs" project.
-				
+				"vcfAllDynamicLibs" project.				
 				</para>
-				
-				<formalpara><title>Microsoft Visual C++ 7.1</title>
-				The following section deals with building the VCF libraries using the Microsoft 
-				Visual C++ 7.1 IDE.
-				</formalpara>
+				</section>
+
+				<section><title>Microsoft Visual C++ 7.1</title>
+					<para>
+						The following section deals with building the VCF libraries using the Microsoft
+						Visual C++ 7.1 IDE.
+					</para>			
 				<para>
 				To build the VCF open the vcf/build/vc71/vcfAllProjects_vc71.dsw workspace. 
 				This workspace has all the various framework projects, both as 
@@ -644,12 +756,40 @@ C:\openssl-0.9.8a>perl util\mkdef.pl 32 ssleay  1>ms\ssleay32.def
 				typically open the vcf/build/vc71/vcfAllProjects_vc71.sln solution file 
 				instead of the workspace file should you decide to rebuild any of the projects at 
 				a later time.			
-				</para>				
-				
-				<formalpara><title>Microsoft Visual C++ 6 using the Intel C/C++ compiler</title>
-				The following section deals with building the VCF libraries using the Microsoft 
-				Visual C++ 7.0 IDE with the Intel C/C++ compiler installed.
-				</formalpara>
+				</para>
+				</section>
+
+				<section><title>Microsoft Visual C++ 2005 8.0</title>
+					<para>
+						The following section deals with building the VCF libraries using the Microsoft
+						Visual C++ 2005 (including the Express Edition) IDE.
+					</para>				
+				<para>
+					To build the VCF open the vcf/build/vc80/vcfAllProjects_vc80.sln workspace.
+					This workspace has all the various framework projects, both as
+					static .lib files and DLL projects. Visual Studio should prompt
+					you to convert the Visual C++ 6 projects into the new Visual Studio 7.1
+					format. Click the "Yes to All" option, and all the projects should then
+					get converted.
+					<graphic fileref="gfx/vc80-open.png"></graphic>
+				</para>
+
+				<para>
+					To build all the VCF libraries open the vcf/build/vc80/vcfAllLibs.sln
+					solution file, select the "vcfAllLibs" project, and make it the active project.
+					<graphic fileref="gfx/vc80-build-all.png"></graphic>
+					Building this project will automatically build the FoundationKit, GraphicsKit,
+					ApplicationKit, NetworkKit, and RemoteObjectKit. The libraries
+					will be built as both static <emphasis>and</emphasis> DLL binaries. To build
+					just the static libraries, build the "vcfAllStaticLibs" project. To
+					build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.				
+				</para>
+				</section>
+				<section><title>Microsoft Visual C++ 6 using the Intel C/C++ compiler</title>
+					<para>
+						The following section deals with building the VCF libraries using the Microsoft
+						Visual C++ 7.0 IDE with the Intel C/C++ compiler installed.
+					</para>				
 				<para>
 				To build the VCF open the vcf/build/icl7/vcfAllProjects_icl7.dsw workspace. 
 				This workspace has all the various framework projects, both as 
@@ -661,20 +801,22 @@ C:\openssl-0.9.8a>perl util\mkdef.pl 32 ssleay  1>ms\ssleay32.def
 				just the static libraries, build the "vcfAllStaticLibs" project. To
 				build all the libraries as DLL's, build the "vcfAllDynamicLibs" project.
 				</para>
-				
-				
-				<formalpara><title>Borland C++ Compiler</title>
-				The following section deals with building the VCF libraries using Borland's 
-				C++ compiler/linker. This includes the free commandline version. 
-				<note>
-				Due to restrictions on the free commandline compiler, there is no support 
-				for the HTMLBrowser control due to dependencies on Microsoft's ATL 
-				library. This is being addressed so that in the near future this will
-				no longer be an issue.
-				</note>
-				For more information regarding the build instructions for Borland compilers,
-				see the notes in the readme.txt file in vcf/build/bcc/readme.txt.
-				</formalpara>
+				</section>
+
+				<section>
+					<title>Borland C++ Compiler</title>
+					<para>
+						The following section deals with building the VCF libraries using Borland's
+						C++ compiler/linker. This includes the free commandline version.
+						<note>
+							Due to restrictions on the free commandline compiler, there is no support
+							for the HTMLBrowser control due to dependencies on Microsoft's ATL
+							library. This is being addressed so that in the near future this will
+							no longer be an issue.
+						</note>
+						For more information regarding the build instructions for Borland compilers,
+						see the notes in the readme.txt file in vcf/build/bcc/readme.txt.
+					</para>				
 				<para>
 				There are some missing libs that did not get distributed with the Borland 
 				compiler install. These are found in the vcf/build/bcc/missing_libs directory.
@@ -932,16 +1074,21 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				project group files Examples_bcb5.bpg (release projects) and Examples_bcb5_debug.bpg 
 				(debug projects).
 				</para>
+				</section>
 				
-				<formalpara><title>MinGW-GCC compiler with the Code::Blocks IDE</title>
-				This section describes building the VCF + examples in the Code::Blocks IDE (
-				<ulink url="http://www.codeblocks.org/">codeblocks.org</ulink>). The VCF has only been tested with 
-				the more recent "Nightly Build" versions of the C::B IDE (download info at their forum page at 
-				<ulink url="http://forums.codeblocks.org/index.php">forums.codeblocks.org</ulink>). While version 1.0 
-				RC2 might work, we have had troubles with precompiled header support, and strongly recommend the current
-				Nightly Builds or newer.  See instruction at the C::B site for using their IDE. Further, the VCF codeblocks 
-				projects have only been tested with versions 3.4.4 and 3.4.5 of the MinGW-GCC compiler, as of the release date.
-				</formalpara>
+				<section><title>MinGW-GCC compiler with the Code::Blocks IDE</title>
+					<para>
+						This section describes building the VCF + examples in the Code::Blocks IDE (
+						<ulink url="http://www.codeblocks.org/">codeblocks.org</ulink>). The VCF has 
+						only been tested with the more recent "Nightly Build" versions of the C::B IDE 
+						(download info at their forum page at 
+						<ulink url="http://forums.codeblocks.org/index.php">forums.codeblocks.org</ulink>). 
+						While version 1.0 RC2 might work, we have had troubles with precompiled header 
+						support, and strongly recommend the current	Nightly Builds or newer.  See instruction 
+						at the C::B site for using their IDE. Further, the VCF codeblocks projects have 
+						only been tested with versions 3.4.4 and 3.4.5 of the MinGW-GCC compiler, as of 
+						the release date.
+					</para>				
 				<para>There are several different Code::Blocks (C::B) workspaces you can use to build the 
 				VCF, depending on whether you want to build dynamic libraries, static libraries, or both. 
 				Building example VCF apps is also covered. These workspaces are found in the 
@@ -982,15 +1129,18 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				to the project as desired. You can also save an example project using "Project->Save project as user-template" 
 				and then create new projects from that template. This works well, but in both of these cases you have to change 
 				the name of the output binary through Project->Properties to your application output name.
-				</para>	
+				</para>
+				</section>
 			</section>
 			
 			<section><title>MacOSX</title>
 				<para>
 				The VCF currently requires OSX 10.2 or better, preferably 10.3. 
-				There are projects supplied for both Project Builder, and XCode. 
-				You can download the VCF from SourceForge via cvs (see the 
-				instructions getting the VCF via CVS). 
+				There are projects supplied for XCode. The Project Builder projects
+				have been disconrtinued and are currently not supported as PB has 
+				been dropped by Apple, and will not run on newer versions of OS X 
+				later than 10.2. You can download the VCF from SourceForge via cvs 
+				(see the instructions getting the VCF via CVS). 
 				</para>
 				<para>
 				Once you have downloaded the code you need to make a few environment 
@@ -2099,6 +2249,12 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.7  2006/03/02 04:45:31  ddiego
+updated the docs for vc80. Updates the add-ins for vc80 support
+but currently only have the vcf app wizard working. Added a minor change
+to allow app kit to build due to a glitch in comet code. fixed a minor
+bug to allow remote object kit to build.
+
 Revision 1.6.2.6  2006/02/20 04:26:55  dougtinkham
 docs for building vcf libs with codeblocks+MinGW
 
