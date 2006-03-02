@@ -31,7 +31,7 @@ public:
 	}
 
 	virtual void paint( GraphicsContext* ctx ) {
-		Panel::paint( ctx );
+		CustomControl::paint( ctx );
 
 		Rect bounds = getClientBounds();
 
@@ -40,6 +40,8 @@ public:
 		state.setActive( isActive() );
 
 		ctx->drawThemeTabContent( &bounds, state );
+
+		paintChildren( ctx );
 	}
 };
 
@@ -589,6 +591,9 @@ void TabbedPages::ScrollButton::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/02 01:04:00  ddiego
+*fixed a mistake in tab sheet.
+*
 *Revision 1.4.2.2  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *
