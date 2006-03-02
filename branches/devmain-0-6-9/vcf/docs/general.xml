@@ -434,11 +434,11 @@ Configured for VC-WIN32.
 		  At this point you can choose to either build the ASM files or not. If you have MASM, then 
 		  type:
 		  <programlisting>
-		  ms\do_masm
+ms\do_masm
 		  </programlisting>
 		  If you don't have MASM, then simply type:
 		  <programlisting>
-		  ms\do_ms
+ms\do_ms
 		  </programlisting>
 		  The MASM version should generate something like this:
 		  <programlisting>
@@ -475,7 +475,7 @@ C:\openssl-0.9.8a>perl util\mkdef.pl 32 ssleay  1>ms\ssleay32.def
 		  <para>
 		  To begin a static lib build, type:
 		  <programlisting>
-		  nmake -f ms\nt.mak
+nmake -f ms\nt.mak
 		  </programlisting>
 		  You should see a whole bunch of output stream by. You'll find the final 
 		  binaries in .\out32\. Repeat the above step with the DLL Makefile for 
@@ -1151,10 +1151,10 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				you home directory. Create a file called "environment.plist" under the 
 				.MacOSX directory like so:
 				<programlisting>
-				cd ~
-				mkdir .MacOSX
-				touch .MacOSX/environment.plist
-				open .MacOSX/environment.plist
+cd ~
+mkdir .MacOSX
+touch .MacOSX/environment.plist
+open .MacOSX/environment.plist
 				</programlisting>
 				This will open the environment.plist in the Property List Editor. Add 
 				the variables VCF_INCLUDE, VCF_BIN, and VCF_LIB, with VCF_INCLUDE set 
@@ -1192,20 +1192,20 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				distributions include this by default, so you probably have it. An easy 
 				test would be to try the following:
 	<programlisting>
-	echo `pkg-config gtk+-2.0 --cflags`
+echo `pkg-config gtk+-2.0 --cflags`
 	</programlisting>
 				You should see some sort of GCC compiler flags - if you get back error messages 
 				like:
 	<programlisting>
-	pkg-config: command not found
+pkg-config: command not found
 	</programlisting>
 				Then you don't have the pkg-config system installed (and almost certainly not 
 				GTK which depends on pkg-config). If you see something like:
 	<programlisting>
-	Package gtk+-2.0 was not found in the pkg-config search path.
-	Perhaps you should add the directory containing `gtk+-2.0.pc'
-	to the PKG_CONFIG_PATH environment variable
-	No package 'gtk+-2.0' found
+Package gtk+-2.0 was not found in the pkg-config search path.
+Perhaps you should add the directory containing `gtk+-2.0.pc'
+to the PKG_CONFIG_PATH environment variable
+No package 'gtk+-2.0' found
 	</programlisting>
 				Then you have the pkg-config tool, but probably not gtk installed (or not 
 				installed correctly).
@@ -1217,12 +1217,16 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				<para>
 				Once you have confirmed you have (or installed) GTK, go to the 
 				vcf/build/make directory. Type 
-				<programlisting>make debug</programlisting>
+				<programlisting>
+make debug
+				</programlisting>
 				for a debug version of the libraries, or 
-				<programlisting>make release</programlisting>
+				<programlisting>
+make release</programlisting>
 				for an optimized, release version of the libraries. To build both release
 				and debug targets, type:
-				<programlisting>make all</programlisting>
+				<programlisting>
+make all</programlisting>
 				</para>
 				<para>
 				The .a library files will be output to the vcf/lib directory, while the 
@@ -2249,6 +2253,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.8  2006/03/02 22:13:01  ddiego
+docs update.
+
 Revision 1.6.2.7  2006/03/02 04:45:31  ddiego
 updated the docs for vc80. Updates the add-ins for vc80 support
 but currently only have the vcf app wizard working. Added a minor change

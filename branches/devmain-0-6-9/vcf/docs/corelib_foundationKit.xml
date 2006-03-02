@@ -2208,10 +2208,80 @@ catch (	BasicException& e ) {
 
 	<section><title>Dynamic Libraries</title>
 		<para>
+		Dynamic Link Libraries (DLLs) or Shared Objects (SOs),on some Unix systems, are
+		libraries that are linked to dynamically, at runtime, so that a 
+		single library's functionality can be easily shared amongst 
+		multiple applications. A DLL is loaded, and then the exported functions
+		of the library at "linked" with at runtime for the executable that uses them.
+		The VCF supports this through the Library class.
 		</para>
-		
+		<para>
+		You can easily load the DLL up using the Library class, and then access
+		the DLL's function pointers by calling the Library::getFunction() function.
+		This will return a function pointer to a named function that you pass in 
+		when you make the call. If the function pointer does not exist, then the 
+		return value is NULL.
+		</para>		
 		<section><title>Init and term functions</title>
 			<para>
+			When a DLL is loaded or unloaded you may want to have certain 
+			initialization or termination routines called. Different platforms
+			support this in different ways, so to simplify this, the VCF enforces the 
+			following policy that you can take advantage of.
+			</para>
+			<para>
+			When the DLL is first loaded by the VCF's Library class, it attempt to 
+			find an exported function named "_vpl_init" ("vpl" stands for "Visual
+			Package Library"). If this function is exported it should be function
+			protottype should look like this:
+			<programlisting>
+typedef void (*initFunc)(OSHandleID);			
+			</programlisting>			
+			If this function exists, then the VCF will call it, ensuring that you have
+			an initilization routine. The OSHandleID parameter is the Library
+			peer's library handle, which may be NULL, depending on your platform.
+			On Win32 platforms this is the HINSTANCE of the DLL.
+			</para>
+			<para>
+			The function you export for initialization <emphasis>must</emphasis>
+			be named "_vpl_init", so somewhere in your code you'll have something 
+			like this:
+			<programlisting>
+void _vpl_init( OSHandleID handle )
+{
+  //init code here...
+}
+			</programlisting>
+			</para>
+			<para>
+			To ensure a termination routine gets called, a similar process takes
+			place when the Library instance unloads the DLL. Just prior to actually 
+			unloading the DLL, the Library instance will look for a function exported
+			by the name "_vpl_terminate". If it finds one, it will then invoke it,
+			passing in the same peer handle that was passed into the initialization
+			routine. The funtion prototype loks like this:
+			<programlisting>
+typedef void (*terminateFunc)(OSHandleID);			
+			</programlisting>
+			Like the initialization routine, you must export with a specific
+			function name for this to work, so you need to have an exported 
+			function like this:
+			<programlisting>
+void _vpl_terminate( OSHandleID handle )
+{
+  //cleanup code here...
+}			
+			</programlisting>			
+			</para>
+			<para>
+			If the libraries do not support initialization and/or termination
+			routines, then nothing will happen. 
+			<note>
+			In order for this to work, you must load the DLL with the 
+			Library class, otherwise these specific routines will not get 
+			called (unless you write explicit code to check for their presence 
+			and invoke them yourself).
+			</note>
 			</para>
 		</section>
 	</section>
@@ -2227,14 +2297,41 @@ catch (	BasicException& e ) {
 
 	<section><title>XML Parsing</title>
 		<para>
-		</para>		
+		The VCF supports basic XML parseing through the XMLParser, XMLNode,
+		and XMLAttr classes. These handle all the basic XML tags including 
+		CDATA, attributes, the use of "&lt;![CDATA[" entity for arbitrary
+		text data, and basic character tags like "&lt;" (&amp;lt;). Fancier
+		features like XML Namespaces, and XSLT are not supported, nor is 
+		validating the XML to check that it's correct XML. 
+		</para>	
+		<para>
+		The parser is quite easy to use, and you can work with in either a 
+		SAX fashion, where you are notified via an event as the XML is parsed,
+		or DOM style, where you traverse the whole tree of xml nodes once the
+		xml data has been completely parsed. Of the two, the second, DOM styles
+		approach is easier to use.
+		</para>
 		<section><title>SAX style parsing</title>
 			<para>
+			The XMLParser will notify event handlers whenever a new tags is 
+			encountered, or whenever a new chunk of character data is
+			eoncountered.
+			</para>
+			<para>
+			To make use of this, simply add an event handler to either the
+			XMLParser's NodeFound delegate or the NodeCDATAFound delegate. 
+			The NodeFound is called when a new entity or node tag is encountered,
+			and the NodeCDATAFound is called whever text (or character data) is 
+			encountered between the start and end tag of a node.
 			</para>
 		</section>
 		
 		<section><title>DOM style parsing</title>
 			<para>
+			While the XMPParser class is parsing the XML data, it builds a tree of
+			XML nodes, represented by the XMLNode class. Once the parsing is done,
+			you can get an Enumerator of all the nodes that the parser created
+			and you can enumerate through them.
 			</para>
 		</section>
 	</section>	
@@ -2244,6 +2341,9 @@ catch (	BasicException& e ) {
 <!-- 
 CVS Log info
 $Log$
+Revision 1.8.2.1  2006/03/02 22:13:01  ddiego
+docs update.
+
 Revision 1.8  2005/07/18 03:54:19  ddiego
 documentation updates.
 

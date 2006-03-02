@@ -109,11 +109,6 @@ for ( ulong32 y=0;y<image->getHeight() ) {
 		</para>
 	</section>
 
-	<section><title>Borders</title>
-		<para>
-		</para>
-	</section>
-
 	<section><title>Fonts</title>
 		<para>
 		A Font object is a representation of a set of functions and data used to
@@ -379,6 +374,9 @@ ImageLoader* GraphicsToolkit::getImageLoaderForFileName( const String& fileName 
 <!--
 CVS Log info
 $Log$
+Revision 1.4.2.1  2006/03/02 22:13:01  ddiego
+docs update.
+
 Revision 1.4  2005/07/09 23:14:10  ddiego
 merging in changes from devmain-0-6-7 branch.
 
