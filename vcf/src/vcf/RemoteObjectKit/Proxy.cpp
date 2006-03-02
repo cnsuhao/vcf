@@ -58,7 +58,7 @@ void Proxy::marshallArguments( const VCF::uint32& argCount,
 
 			case pdUInt : {
 				marshallingStream->write( String("+i") );
-				marshallingStream->write( (uint32)(*arg) );
+				marshallingStream->write( (long)(*arg) );
 			}
 			break;
 
@@ -214,6 +214,12 @@ void Proxy::loadFromStream( VCF::InputStream * stream )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/02 04:45:35  ddiego
+*updated the docs for vc80. Updates the add-ins for vc80 support
+*but currently only have the vcf app wizard working. Added a minor change
+*to allow app kit to build due to a glitch in comet code. fixed a minor
+*bug to allow remote object kit to build.
+*
 *Revision 1.2.6.1  2006/02/23 01:41:58  ddiego
 *some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
 *
