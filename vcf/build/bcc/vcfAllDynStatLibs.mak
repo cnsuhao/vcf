@@ -75,7 +75,7 @@ clean::
 	-@$(MK) -fZLib_bcc.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) clean
 	-@cd $(VCFBUILDROOT)
 
-!if $(FREECOMP) == TRUE
+!if $d(FREECOMP) && $(FREECOMP) == TRUE
 ApplicationKit:: FoundationKit GraphicsKit
 	@cd $(VCFBUILDROOT)\ApplicationKit
 	@$(MK) -fApplicationKit.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=$(TARGET)
@@ -107,7 +107,7 @@ FoundationKit_stat::
 	@$(MK) -fFoundationKit.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=LIB
 	@cd $(VCFBUILDROOT)
 
-ImageFormats:: thirdparty FoundationKit GraphicsKit ApplicationKit_dll
+ImageFormats:: thirdparty FoundationKit GraphicsKit ApplicationKit
 	@cd $(VCFBUILDROOT)\GraphicsKit
 	@$(MK) -fImageFormats.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=$(TARGET)
 	@cd $(VCFBUILDROOT)
@@ -157,7 +157,7 @@ RemoteObjectKit:: FoundationKit NetworkKit
 	@$(MK) -fRemoteObjectKit.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=$(TARGET)
 	@cd $(VCFBUILDROOT)
 
-!if $(FREECOMP) != TRUE
+!if !$d(FREECOMP) || ($(FREECOMP) == FALSE)
 Win32HTMLBrowser:: FoundationKit GraphicsKit ApplicationKit
 	@cd $(VCFBUILDROOT)\Win32HTMLBrowser
 	@$(MK) -fWin32HTMLBrowser.mak -DFREECOMP=$(FREECOMP) -DBMODE=$(BMODE) -DTARGET=$(TARGET)

@@ -51,7 +51,7 @@ TDIR=DLL
 
 LIBNAME=Win32HTMLBrowser_bcc_s$(DBG).lib
 DLLNAME=Win32HTMLBrowser_bcc$(DBGDLL).dll
-INCDIR=..\..\..\src;$(MAKEDIR)\..\include\atl
+INCDIR=..\..\..\src;..\..\..\src\thirdparty\win32
 LIBDIR=..\..\..\lib
 SRC=..\..\..\src\vcf\ApplicationKit
 OBJ=.\$(OBJDIR)
