@@ -1585,7 +1585,7 @@ HTMLElement*HTMLElementCollection::operator[](const std::string& name)
 
 class WebBrowserCtrl : public IDispatchImpl, protected IDocHostUIHandlerImpl, 
 						protected IServiceProviderImpl,
-						protected IAuthenticateImpl {
+						public IAuthenticateImpl {
 public:
 	WebBrowserCtrl():connectionPointCookie_(0),uiStyle_(0) {
 		OleInitialize(NULL);
@@ -1608,7 +1608,7 @@ public:
 			com_ptr<IConnectionPointContainer> cpContainer = com_cast(oleObject_);
 			if ( cpContainer ) {
 				com_ptr<IConnectionPoint> cp;
-				hresult res = cpContainer->FindConnectionPoint( DIID_DWebBrowserEvents2, cp.out() ); 
+				VCF::hresult res = cpContainer->FindConnectionPoint( DIID_DWebBrowserEvents2, cp.out() ); 
 				if ( res.ok() && !cp.is_null() ) {
 					res = cp->Unadvise( connectionPointCookie_ );
 				}
@@ -1656,7 +1656,7 @@ public:
 
 		IOleObject* oleObject;
 		
-		hresult res = ::OleCreate( CLSID_WebBrowser, 
+		VCF::hresult res = ::OleCreate( CLSID_WebBrowser, 
 									IID_IOleObject, 
 									OLERENDER_DRAW, 
 									0, 
@@ -1848,7 +1848,7 @@ public:
 					DISPPARAMS* pDispParams, VARIANT* pVarResult, 
 					EXCEPINFO* pExcepInfo, UINT* puArgErr ) {
 		
-		hresult res = S_OK;
+		VCF::hresult res = S_OK;
 
 		//note that pDispParams arguments are in order from LAST to FIRST!!!		
 		switch ( dispIdMember ) {
