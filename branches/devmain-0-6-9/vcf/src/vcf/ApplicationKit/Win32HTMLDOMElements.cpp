@@ -543,7 +543,8 @@ VCF::HTMLDocument::~HTMLDocument()
 	delete peer_;
 }
 
-VCF::HTMLDocument& VCF::HTMLDocument::operator= ( const VCF::HTMLDocument& rhs ) {
+VCF::HTMLDocument& VCF::HTMLDocument::operator= ( const VCF::HTMLDocument& rhs ) 
+{
 	*peer_ = *rhs.peer_;
 	return *this;
 }
@@ -553,24 +554,28 @@ void VCF::HTMLDocument::setPeer( HTMLDocumentPeer* doc )
 	*peer_ = *doc;
 }
 
-bool VCF::HTMLDocument::null() const {
+bool VCF::HTMLDocument::null() const 
+{
 	return peer_->is_null();
 }
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getAll() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getAll() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_all( result.peer_->out() );		
 	return result;
 }
 
-VCF::HTMLElement VCF::HTMLDocument::getBody() const {
+VCF::HTMLElement VCF::HTMLDocument::getBody() const 
+{
 	VCF::HTMLElementPeer element;
 	(*peer_)->get_body( element.out() );
 	
 	return VCF::HTMLElement(&element);
 }
 
-VCF::HTMLElement VCF::HTMLDocument::getActiveElement() const {
+VCF::HTMLElement VCF::HTMLDocument::getActiveElement() const 
+{
 	VCF::HTMLElementPeer element;
 	(*peer_)->get_activeElement( element.out() );
 	
@@ -578,236 +583,318 @@ VCF::HTMLElement VCF::HTMLDocument::getActiveElement() const {
 }
 
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getImages() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getImages() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_images( result.peer_->out() );		
 	return result;
 }
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getApplets() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getApplets() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_applets( result.peer_->out() );		
 	return result;
 }
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getLinks() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getLinks() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_links( result.peer_->out() );		
 	return result;
 }
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getForms() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getForms() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_forms( result.peer_->out() );		
 	return result;
 }
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getAnchors() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getAnchors() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_anchors( result.peer_->out() );		
 	return result;
 }
 
-void VCF::HTMLDocument::setTitle( const VCF::String& title ) {
+void VCF::HTMLDocument::setTitle( const VCF::String& title ) 
+{
 	(*peer_)->put_title( bstr_t(title.c_str()).in() );		
 }
 
-VCF::String VCF::HTMLDocument::getTitle() const {
+VCF::String VCF::HTMLDocument::getTitle() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_title( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getScripts() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getScripts() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_scripts( result.peer_->out() );		
 	return result;
 }
 
 
-VCF::String VCF::HTMLDocument::getReadyState() const {
+VCF::String VCF::HTMLDocument::getReadyState() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_readyState( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getEmbeds() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getEmbeds() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_embeds( result.peer_->out() );		
 	return result;
 }
 
-VCF::HTMLElementCollection VCF::HTMLDocument::getPlugins() {
+VCF::HTMLElementCollection VCF::HTMLDocument::getPlugins() 
+{
 	VCF::HTMLElementCollection result;		
 	(*peer_)->get_plugins( result.peer_->out() );		
 	return result;
 }
 
-VCF::String VCF::HTMLDocument::getReferrer() const {
+VCF::String VCF::HTMLDocument::getReferrer() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_referrer( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::String VCF::HTMLDocument::getLastModified() const {
+VCF::String VCF::HTMLDocument::getLastModified() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_lastModified( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-void VCF::HTMLDocument::setURL( const VCF::String& url ) {
+void VCF::HTMLDocument::setURL( const VCF::String& url ) 
+{
 	(*peer_)->put_URL( bstr_t(url.c_str()).in() );		
 }
 
-VCF::String VCF::HTMLDocument::getURL() const {
+VCF::String VCF::HTMLDocument::getURL() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_URL( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-void VCF::HTMLDocument::setDomain( const VCF::String& domain ) {
+void VCF::HTMLDocument::setDomain( const VCF::String& domain ) 
+{
 	(*peer_)->put_domain( bstr_t(domain.c_str()).in() );		
 }
 
-VCF::String VCF::HTMLDocument::getDomain() const {
+VCF::String VCF::HTMLDocument::getDomain() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_domain( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-void VCF::HTMLDocument::setCookie( const VCF::String& cookie ) {
+void VCF::HTMLDocument::setCookie( const VCF::String& cookie ) 
+{
 	(*peer_)->put_cookie( bstr_t(cookie.c_str()).in() );		
 }
 
-VCF::String VCF::HTMLDocument::getCookie() const {
+VCF::String VCF::HTMLDocument::getCookie() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_cookie( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-bool VCF::HTMLDocument::getExpando() const {
+bool VCF::HTMLDocument::getExpando() const 
+{
 	VARIANT_BOOL result = FALSE;
 	(*peer_)->get_expando( &result );
 	return result ? true : false;
 }
 
-void VCF::HTMLDocument::setExpando( bool expando ) {
+void VCF::HTMLDocument::setExpando( bool expando ) 
+{
 	(*peer_)->put_expando( expando ? TRUE : FALSE );
 }
 
-void VCF::HTMLDocument::setCharset( const VCF::String& val ) {
+void VCF::HTMLDocument::setCharset( const VCF::String& val ) 
+{
 	(*peer_)->put_charset( bstr_t(val.c_str()).in() );		
 }
 
-VCF::String VCF::HTMLDocument::getCharset() const {
+VCF::String VCF::HTMLDocument::getCharset() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_charset( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-void VCF::HTMLDocument::setDefaultCharset( const VCF::String& val ) {
+void VCF::HTMLDocument::setDefaultCharset( const VCF::String& val ) 
+{
 	(*peer_)->put_defaultCharset( bstr_t(val.c_str()).in() );		
 }
 
-VCF::String VCF::HTMLDocument::getDefaultCharset() const {
+VCF::String VCF::HTMLDocument::getDefaultCharset() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_defaultCharset( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::String VCF::HTMLDocument::getMimeType() const {
+VCF::String VCF::HTMLDocument::getMimeType() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_mimeType( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::String VCF::HTMLDocument::getFileSize() const {
+VCF::String VCF::HTMLDocument::getFileSize() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_fileSize( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-int VCF::HTMLDocument::getIntFileSize() const {
+int VCF::HTMLDocument::getIntFileSize() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_fileSize( tmp.out() );
 	return atoi(tmp.s_str().c_str());
 }
 
-VCF::String VCF::HTMLDocument::getFileCreatedDate() const {
+VCF::String VCF::HTMLDocument::getFileCreatedDate() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_fileCreatedDate( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::String VCF::HTMLDocument::getFileModifiedDate() const {
+VCF::String VCF::HTMLDocument::getFileModifiedDate() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_fileModifiedDate( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::String VCF::HTMLDocument::getFileUpdatedDate() const {
+VCF::String VCF::HTMLDocument::getFileUpdatedDate() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_fileUpdatedDate( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::String VCF::HTMLDocument::getSecurity() const {
+VCF::String VCF::HTMLDocument::getSecurity() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_security( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::String VCF::HTMLDocument::getProtocol() const {
+VCF::String VCF::HTMLDocument::getProtocol() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_protocol( tmp.out() );
 	return VCF::String(tmp.c_str());
 }
 
-VCF::String VCF::HTMLDocument::getNameProp() const {
+VCF::String VCF::HTMLDocument::getNameProp() const 
+{
 	bstr_t tmp;
 	(*peer_)->get_nameProp( tmp.out() );
 	return VCF::String(tmp.c_str());
 } 
 
-VCF::String VCF::HTMLDocument::toString() const {
+
+VCF::String VCF::HTMLDocument::toString() const 
+{
 	bstr_t tmp;
 	(*peer_)->toString( tmp.out() );
 	return VCF::String(tmp.c_str());
 } 
 
-void VCF::HTMLDocument::write( const VCF::String& text ) {
+void VCF::HTMLDocument::write( const VCF::String& text ) 
+{
 	
+	SAFEARRAY *strArray = SafeArrayCreateVector(VT_VARIANT, 0, 1);
+
+	if ( NULL != strArray ) {
+		BSTR bstr = SysAllocStringLen(text.c_str(),text.size());
+		VARIANT *param;
+		hresult hr  = SafeArrayAccessData(strArray,(LPVOID*) & param);
+		if ( hr ) {
+			param->vt = VT_BSTR;
+			param->bstrVal = bstr;
+			hr = SafeArrayUnaccessData(strArray);
+
+			(*peer_)->write( strArray );			
+		}
+		SysFreeString(bstr);
+		SafeArrayDestroy(strArray);
+	}
+
+/*
+This is the code that we'd like to use, but, at the moment
+it's not supported by BCC
 	safearray_t<variant_t> sarr;
 	
 	variant_t v = text.c_str();
 	sarr.push_back(v);
 	
 	(*peer_)->write( sarr.in() );
+	*/
 }
 
-void VCF::HTMLDocument::writeln( const VCF::String& text ) {
+void VCF::HTMLDocument::writeln( const VCF::String& text ) 
+{
+	SAFEARRAY *strArray = SafeArrayCreateVector(VT_VARIANT, 0, 1);
+
+	if ( NULL != strArray ) {
+		BSTR bstr = SysAllocStringLen(text.c_str(),text.size());
+		VARIANT *param;
+		hresult hr  = SafeArrayAccessData(strArray,(LPVOID*) & param);
+		if ( hr ) {
+			param->vt = VT_BSTR;
+			param->bstrVal = bstr;
+			hr = SafeArrayUnaccessData(strArray);
+
+			(*peer_)->writeln( strArray );			
+		}
+		SysFreeString(bstr);
+		SafeArrayDestroy(strArray);
+	}
 	
+/*
+This is the code that we'd like to use, but, at the moment
+it's not supported by BCC
 	safearray_t<variant_t> sarr;
 	
 	variant_t v = text.c_str();
 	sarr.push_back(v);
 	
 	(*peer_)->writeln( sarr.in() );
+	*/
 }
 
-VCF::HTMLElement VCF::HTMLDocument::createElement( const VCF::String& elementTag ) const {
+VCF::HTMLElement VCF::HTMLDocument::createElement( const VCF::String& elementTag ) const 
+{
 	VCF::HTMLElementPeer element;
 	(*peer_)->createElement( bstr_t(elementTag.c_str()).in(), element.out() );
 	
 	return VCF::HTMLElement(&element);
 }
 
-void VCF::HTMLDocument::setDesignMode( bool val ) {
+void VCF::HTMLDocument::setDesignMode( bool val ) 
+{
 	bstr_t mode = val ? "on" : "off";
 	(*peer_)->put_designMode( mode.in() );
 }
 
-bool VCF::HTMLDocument::getDesignMode() const {
+bool VCF::HTMLDocument::getDesignMode() const 
+{
 	bool result = false;
 	bstr_t mode;
 	(*peer_)->get_designMode( mode.out() );
@@ -836,98 +923,112 @@ VCF::HTMLElement VCF::HTMLDocument::elementFromPoint( long x, long y )
 	return result;
 }
 
-void VCF::HTMLDocument::copy() {
+void VCF::HTMLDocument::copy() 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Copy";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::cut() {
+void VCF::HTMLDocument::cut() 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Cut";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::paste() {
+void VCF::HTMLDocument::paste() 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Paste";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::selectAll() {
+void VCF::HTMLDocument::selectAll() 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "SelectAll";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::underline() {
+void VCF::HTMLDocument::underline() 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Underline";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::bold() {
+void VCF::HTMLDocument::bold() 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Bold";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::italic () {
+void VCF::HTMLDocument::italic () 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Italic";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::justifyLeft () {
+void VCF::HTMLDocument::justifyLeft () 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "JustifyLeft";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::justifyRight () {
+void VCF::HTMLDocument::justifyRight () 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "JustifyRight";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::justifyCenter () {
+void VCF::HTMLDocument::justifyCenter () 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "JustifyCenter";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::justifyFull () {
+void VCF::HTMLDocument::justifyFull () 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "JustifyFull";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::outdent () {
+void VCF::HTMLDocument::outdent () 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Outdent ";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::indent () {
+void VCF::HTMLDocument::indent () 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Indent";
 	(*peer_)->execCommand( cmd.in(), TRUE, v.in(), &res );
 }
 
-void VCF::HTMLDocument::clearSelection () {
+void VCF::HTMLDocument::clearSelection () 
+{
 	variant_t v;
 	VARIANT_BOOL res;
 	bstr_t cmd = "Unselect";
