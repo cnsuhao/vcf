@@ -1200,7 +1200,7 @@ class datetime_t : private impl::datetime_base<DATE>
 		bool from_unixtime( time_t val)
 		{
 			FILETIME ft;
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(VCF_BCC8)
 			__int64 ll =(__int64(val) * 10000000L) + 116444736000000000L;
 #else
 			__int64 ll =((__int64)(val) * 10000000L) + 116444736000000000LL;
@@ -1220,7 +1220,7 @@ class datetime_t : private impl::datetime_base<DATE>
 		bool from_unixtime( time_t val, utc_convert_mode utcMode = ucm_utc_to_local, tz_bias_mode biasMode = tbm_use_local_date, const datetime_t &conversionTime = datetime_t())
 		{
 			FILETIME ft;
-#ifndef __MINGW32__			
+#if !defined(__MINGW32__) && !defined(VCF_BCC8)
 			__int64 ll =(__int64(val) * 10000000L) + 116444736000000000L;
 #else
 			__int64 ll =((__int64)(val) * 10000000L) + 116444736000000000LL;
@@ -1250,7 +1250,7 @@ class datetime_t : private impl::datetime_base<DATE>
 			FILETIME ft;
 			if( !dtval.to_filetime(&ft) )
 				return false;
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && !defined(VCF_BCC8)
 			*val = time_t(((__int64(ft.dwHighDateTime) << 32 | ft.dwLowDateTime) - 116444736000000000L)/10000000L);
 #else
 			*val = time_t((((__int64)(ft.dwHighDateTime) << 32 | ft.dwLowDateTime) - 116444736000000000LL)/10000000L);
