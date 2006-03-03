@@ -918,7 +918,13 @@ namespace comet {
 			This method is very fast, since it does not call AddRef or Release.
 		*/
 		void swap(com_ptr& x) throw()
-		{ std::swap(ptr_, x.ptr_); }
+		{ 
+			  #if defined(VCF_BCC6) && defined(__SGI_STL_PORT)
+			  _STL::swap(ptr_, x.ptr_);
+			  #else
+			  std::swap(ptr_, x.ptr_);
+			  #endif		    
+		}
 
 		//! Detaches ownership.
 		/*!
