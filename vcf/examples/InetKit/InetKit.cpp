@@ -46,7 +46,7 @@ int main( int argc, char** argv ){
 
 
 
-	URL url = "http://www.your-password-protected-site.com/your/precious/content.html";
+	URL url ("http://www.your-password-protected-site.com/your/precious/content.html");
 
 	url.DataReceived += &ev;
 	url.AuthenticationRequested += &ev2;
@@ -61,7 +61,7 @@ int main( int argc, char** argv ){
 
 
 
-	URL url2 = "http://www.cwi.nl:80/%7Eguido/Python.html";
+	URL url2 ("http://www.cwi.nl:80/%7Eguido/Python.html");
 
 	url2 = "foo:bar@www.cwi.nl:88/%7Eguido/Python.html";
 
@@ -73,7 +73,7 @@ int main( int argc, char** argv ){
 
 	url2.validate();
 
-	URL file = "file:///f:/code/vcfdev/dev/vcf/examples/InetKit/test.html";
+	URL file ("file:///f:/code/vcfdev/dev/vcf/examples/InetKit/test.html");
 
 	std::vector<String> parts = file.getParts();
 
