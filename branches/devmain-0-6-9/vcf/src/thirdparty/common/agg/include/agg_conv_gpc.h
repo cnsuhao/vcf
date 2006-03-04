@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.3
+// Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
@@ -62,8 +62,8 @@ namespace agg
             gpc_vertex* vertices;
         };
 
-        typedef pod_deque<gpc_vertex, 8>          vertex_array_type;
-        typedef pod_deque<contour_header_type, 6> contour_header_array_type;
+        typedef pod_bvector<gpc_vertex, 8>          vertex_array_type;
+        typedef pod_bvector<contour_header_type, 6> contour_header_array_type;
 
 
     public:
@@ -89,8 +89,8 @@ namespace agg
             memset(&m_result, 0, sizeof(m_result));
         }
 
-        void set_source1(VSA& source) { m_src_a = &source; }
-        void set_source2(VSB& source) { m_src_b = &source; }
+        void attach1(VSA& source) { m_src_a = &source; }
+        void attach2(VSB& source) { m_src_b = &source; }
 
         void operation(gpc_op_e v) { m_operation = v; }
 

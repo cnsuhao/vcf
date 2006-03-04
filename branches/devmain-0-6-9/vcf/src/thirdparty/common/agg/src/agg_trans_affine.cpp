@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.3
+// Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
@@ -170,11 +170,9 @@ namespace agg
     //------------------------------------------------------------------------
     void trans_affine::translation(double* dx, double* dy) const
     {
-        *dx = *dy = 0.0;
-        transform(dx, dy);
-        //trans_affine t(*this);
-        //t *= trans_affine_rotation(-rotation());
-        //t.transform(dx, dy);
+        trans_affine t(*this);
+        t *= trans_affine_rotation(-rotation());
+        t.transform(dx, dy);
     }
 
     //------------------------------------------------------------------------

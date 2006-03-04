@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.3
+// Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
@@ -26,8 +26,7 @@ namespace agg
     {
     public:
         conv_close_polygon(VertexSource& vs) : m_source(&vs) {}
-
-        void set_source(VertexSource& source) { m_source = &source; }
+        void attach(VertexSource& source) { m_source = &source; }
 
         void rewind(unsigned path_id);
         unsigned vertex(double* x, double* y);

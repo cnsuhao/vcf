@@ -124,14 +124,6 @@ SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_curves.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_path_storage.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_rasterizer_scanline_aa.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\thirdparty\common\agg\src\agg_sqrt_tables.cpp
 # End Source File
 # Begin Source File

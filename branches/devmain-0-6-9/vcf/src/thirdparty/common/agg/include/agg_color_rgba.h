@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.3
+// Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
@@ -228,8 +228,8 @@ namespace agg
         enum base_scale_e
         {
             base_shift = 8,
-            base_size  = 1 << base_shift,
-            base_mask  = base_size - 1
+            base_scale = 1 << base_shift,
+            base_mask  = base_scale - 1
         };
         typedef rgba8 self_type;
 
@@ -251,10 +251,10 @@ namespace agg
 
         //--------------------------------------------------------------------
         rgba8(const rgba& c, double a_) :
-            r(value_type(c.r * double(base_mask) + 0.5)), 
-            g(value_type(c.g * double(base_mask) + 0.5)), 
-            b(value_type(c.b * double(base_mask) + 0.5)), 
-            a(value_type(a_  * double(base_mask) + 0.5)) {}
+            r((value_type)uround(c.r * double(base_mask))), 
+            g((value_type)uround(c.g * double(base_mask))), 
+            b((value_type)uround(c.b * double(base_mask))), 
+            a((value_type)uround(a_  * double(base_mask))) {}
 
         //--------------------------------------------------------------------
         rgba8(const self_type& c, unsigned a_) :
@@ -262,10 +262,10 @@ namespace agg
 
         //--------------------------------------------------------------------
         rgba8(const rgba& c) :
-            r(value_type(c.r * double(base_mask) + 0.5)), 
-            g(value_type(c.g * double(base_mask) + 0.5)), 
-            b(value_type(c.b * double(base_mask) + 0.5)), 
-            a(value_type(c.a * double(base_mask) + 0.5)) {}
+            r((value_type)uround(c.r * double(base_mask))), 
+            g((value_type)uround(c.g * double(base_mask))), 
+            b((value_type)uround(c.b * double(base_mask))), 
+            a((value_type)uround(c.a * double(base_mask))) {}
 
         //--------------------------------------------------------------------
         void clear()
@@ -285,7 +285,7 @@ namespace agg
         {
             if(a_ < 0.0) a_ = 0.0;
             if(a_ > 1.0) a_ = 1.0;
-            a = value_type(a_ * double(base_mask) + 0.5);
+            a = (value_type)uround(a_ * double(base_mask));
             return *this;
         }
 
@@ -296,7 +296,7 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const self_type& premultiply()
+        AGG_INLINE const self_type& premultiply()
         {
             if(a == base_mask) return *this;
             if(a == 0)
@@ -311,7 +311,7 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const self_type& premultiply(unsigned a_)
+        AGG_INLINE const self_type& premultiply(unsigned a_)
         {
             if(a == base_mask && a_ >= base_mask) return *this;
             if(a == 0 || a_ == 0)
@@ -330,7 +330,7 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const self_type& demultiply()
+        AGG_INLINE const self_type& demultiply()
         {
             if(a == base_mask) return *this;
             if(a == 0)
@@ -341,22 +341,71 @@ namespace agg
             calc_type r_ = (calc_type(r) * base_mask) / a;
             calc_type g_ = (calc_type(g) * base_mask) / a;
             calc_type b_ = (calc_type(b) * base_mask) / a;
-            r = value_type((r_ > base_mask) ? base_mask : r_);
-            g = value_type((g_ > base_mask) ? base_mask : g_);
-            b = value_type((b_ > base_mask) ? base_mask : b_);
+            r = value_type((r_ > calc_type(base_mask)) ? calc_type(base_mask) : r_);
+            g = value_type((g_ > calc_type(base_mask)) ? calc_type(base_mask) : g_);
+            b = value_type((b_ > calc_type(base_mask)) ? calc_type(base_mask) : b_);
             return *this;
         }
 
         //--------------------------------------------------------------------
-        self_type gradient(const self_type& c, double k) const
+        AGG_INLINE self_type gradient(const self_type& c, double k) const
         {
             self_type ret;
-            calc_type ik = calc_type(k * base_size);
+            calc_type ik = uround(k * base_scale);
             ret.r = value_type(calc_type(r) + (((calc_type(c.r) - r) * ik) >> base_shift));
             ret.g = value_type(calc_type(g) + (((calc_type(c.g) - g) * ik) >> base_shift));
             ret.b = value_type(calc_type(b) + (((calc_type(c.b) - b) * ik) >> base_shift));
             ret.a = value_type(calc_type(a) + (((calc_type(c.a) - a) * ik) >> base_shift));
             return ret;
+        }
+
+        //--------------------------------------------------------------------
+        AGG_INLINE void add(const self_type& c, unsigned cover)
+        {
+            calc_type cr, cg, cb, ca;
+            if(cover == cover_mask)
+            {
+                if(c.a == base_mask) 
+                {
+                    *this = c;
+                }
+                else
+                {
+                    cr = r + c.r; r = (cr > calc_type(base_mask)) ? calc_type(base_mask) : cr;
+                    cg = g + c.g; g = (cg > calc_type(base_mask)) ? calc_type(base_mask) : cg;
+                    cb = b + c.b; b = (cb > calc_type(base_mask)) ? calc_type(base_mask) : cb;
+                    ca = a + c.a; a = (ca > calc_type(base_mask)) ? calc_type(base_mask) : ca;
+                }
+            }
+            else
+            {
+                cr = r + ((c.r * cover + cover_mask/2) >> cover_shift);
+                cg = g + ((c.g * cover + cover_mask/2) >> cover_shift);
+                cb = b + ((c.b * cover + cover_mask/2) >> cover_shift);
+                ca = a + ((c.a * cover + cover_mask/2) >> cover_shift);
+                r = (cr > calc_type(base_mask)) ? calc_type(base_mask) : cr;
+                g = (cg > calc_type(base_mask)) ? calc_type(base_mask) : cg;
+                b = (cb > calc_type(base_mask)) ? calc_type(base_mask) : cb;
+                a = (ca > calc_type(base_mask)) ? calc_type(base_mask) : ca;
+            }
+        }
+
+        //--------------------------------------------------------------------
+        template<class GammaLUT>
+        AGG_INLINE void apply_gamma_dir(const GammaLUT& gamma)
+        {
+            r = gamma.dir(r);
+            g = gamma.dir(g);
+            b = gamma.dir(b);
+        }
+
+        //--------------------------------------------------------------------
+        template<class GammaLUT>
+        AGG_INLINE void apply_gamma_inv(const GammaLUT& gamma)
+        {
+            r = gamma.inv(r);
+            g = gamma.inv(g);
+            b = gamma.inv(b);
         }
 
         //--------------------------------------------------------------------
@@ -428,8 +477,8 @@ namespace agg
         enum base_scale_e
         {
             base_shift = 16,
-            base_size  = 1 << base_shift,
-            base_mask  = base_size - 1
+            base_scale = 1 << base_shift,
+            base_mask  = base_scale - 1
         };
         typedef rgba16 self_type;
 
@@ -454,17 +503,17 @@ namespace agg
 
         //--------------------------------------------------------------------
         rgba16(const rgba& c) :
-            r(value_type(c.r * double(base_mask) + 0.5)), 
-            g(value_type(c.g * double(base_mask) + 0.5)), 
-            b(value_type(c.b * double(base_mask) + 0.5)), 
-            a(value_type(c.a * double(base_mask) + 0.5)) {}
+            r((value_type)uround(c.r * double(base_mask))), 
+            g((value_type)uround(c.g * double(base_mask))), 
+            b((value_type)uround(c.b * double(base_mask))), 
+            a((value_type)uround(c.a * double(base_mask))) {}
 
         //--------------------------------------------------------------------
         rgba16(const rgba& c, double a_) :
-            r(value_type(c.r * double(base_mask) + 0.5)), 
-            g(value_type(c.g * double(base_mask) + 0.5)), 
-            b(value_type(c.b * double(base_mask) + 0.5)), 
-            a(value_type(a_  * double(base_mask) + 0.5)) {}
+            r((value_type)uround(c.r * double(base_mask))), 
+            g((value_type)uround(c.g * double(base_mask))), 
+            b((value_type)uround(c.b * double(base_mask))), 
+            a((value_type)uround(a_  * double(base_mask))) {}
 
         //--------------------------------------------------------------------
         rgba16(const rgba8& c) :
@@ -494,11 +543,11 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const self_type& opacity(double a_)
+        AGG_INLINE const self_type& opacity(double a_)
         {
             if(a_ < 0.0) a_ = 0.0;
             if(a_ > 1.0) a_ = 1.0;
-            a = value_type(a_ * double(base_mask) + 0.5);
+            a = (value_type)uround(a_ * double(base_mask));
             return *this;
         }
 
@@ -509,7 +558,7 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const self_type& premultiply()
+        AGG_INLINE const self_type& premultiply()
         {
             if(a == base_mask) return *this;
             if(a == 0)
@@ -524,7 +573,7 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const self_type& premultiply(unsigned a_)
+        AGG_INLINE const self_type& premultiply(unsigned a_)
         {
             if(a == base_mask && a_ >= base_mask) return *this;
             if(a == 0 || a_ == 0)
@@ -543,7 +592,7 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const self_type& demultiply()
+        AGG_INLINE const self_type& demultiply()
         {
             if(a == base_mask) return *this;
             if(a == 0)
@@ -554,22 +603,71 @@ namespace agg
             calc_type r_ = (calc_type(r) * base_mask) / a;
             calc_type g_ = (calc_type(g) * base_mask) / a;
             calc_type b_ = (calc_type(b) * base_mask) / a;
-            r = value_type((r_ > base_mask) ? base_mask : r_);
-            g = value_type((g_ > base_mask) ? base_mask : g_);
-            b = value_type((b_ > base_mask) ? base_mask : b_);
+            r = value_type((r_ > calc_type(base_mask)) ? calc_type(base_mask) : r_);
+            g = value_type((g_ > calc_type(base_mask)) ? calc_type(base_mask) : g_);
+            b = value_type((b_ > calc_type(base_mask)) ? calc_type(base_mask) : b_);
             return *this;
         }
 
         //--------------------------------------------------------------------
-        self_type gradient(const self_type& c, double k) const
+        AGG_INLINE self_type gradient(const self_type& c, double k) const
         {
             self_type ret;
-            calc_type ik = calc_type(k * base_size);
+            calc_type ik = uround(k * base_scale);
             ret.r = value_type(calc_type(r) + (((calc_type(c.r) - r) * ik) >> base_shift));
             ret.g = value_type(calc_type(g) + (((calc_type(c.g) - g) * ik) >> base_shift));
             ret.b = value_type(calc_type(b) + (((calc_type(c.b) - b) * ik) >> base_shift));
             ret.a = value_type(calc_type(a) + (((calc_type(c.a) - a) * ik) >> base_shift));
             return ret;
+        }
+
+        //--------------------------------------------------------------------
+        AGG_INLINE void add(const self_type& c, unsigned cover)
+        {
+            calc_type cr, cg, cb, ca;
+            if(cover == cover_mask)
+            {
+                if(c.a == base_mask) 
+                {
+                    *this = c;
+                }
+                else
+                {
+                    cr = r + c.r; r = (cr > calc_type(base_mask)) ? calc_type(base_mask) : cr;
+                    cg = g + c.g; g = (cg > calc_type(base_mask)) ? calc_type(base_mask) : cg;
+                    cb = b + c.b; b = (cb > calc_type(base_mask)) ? calc_type(base_mask) : cb;
+                    ca = a + c.a; a = (ca > calc_type(base_mask)) ? calc_type(base_mask) : ca;
+                }
+            }
+            else
+            {
+                cr = r + ((c.r * cover + cover_mask) >> cover_shift);
+                cg = g + ((c.g * cover + cover_mask) >> cover_shift);
+                cb = b + ((c.b * cover + cover_mask) >> cover_shift);
+                ca = a + ((c.a * cover + cover_mask) >> cover_shift);
+                r = (cr > calc_type(base_mask)) ? calc_type(base_mask) : cr;
+                g = (cg > calc_type(base_mask)) ? calc_type(base_mask) : cg;
+                b = (cb > calc_type(base_mask)) ? calc_type(base_mask) : cb;
+                a = (ca > calc_type(base_mask)) ? calc_type(base_mask) : ca;
+            }
+        }
+
+        //--------------------------------------------------------------------
+        template<class GammaLUT>
+        AGG_INLINE void apply_gamma_dir(const GammaLUT& gamma)
+        {
+            r = gamma.dir(r);
+            g = gamma.dir(g);
+            b = gamma.dir(b);
+        }
+
+        //--------------------------------------------------------------------
+        template<class GammaLUT>
+        AGG_INLINE void apply_gamma_inv(const GammaLUT& gamma)
+        {
+            r = gamma.inv(r);
+            g = gamma.inv(g);
+            b = gamma.inv(b);
         }
 
         //--------------------------------------------------------------------

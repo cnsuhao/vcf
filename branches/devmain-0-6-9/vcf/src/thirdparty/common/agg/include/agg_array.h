@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.3
+// Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
@@ -22,8 +22,6 @@
 namespace agg
 {
 
-
-
     //-------------------------------------------------------pod_array_adaptor
     template<class T> class pod_array_adaptor
     {
@@ -43,7 +41,6 @@ namespace agg
         T*       m_array;
         unsigned m_size;
     };
-
 
 
     //---------------------------------------------------------pod_auto_array
@@ -77,26 +74,56 @@ namespace agg
     };
 
 
-
-    //---------------------------------------------------------pod_heap_array
-    template<class T> class pod_heap_array
+    //--------------------------------------------------------pod_auto_vector
+    template<class T, unsigned Size> class pod_auto_vector
     {
     public:
         typedef T value_type;
-        typedef pod_heap_array<T> self_type;
+        typedef pod_auto_vector<T, Size> self_type;
 
-        ~pod_heap_array() { delete [] m_array; }
-        pod_heap_array() : m_array(0), m_size(0) {}
-        pod_heap_array(unsigned size) : m_array(new T[size]), m_size(size) {}
-        pod_heap_array(const self_type& v) : 
+        pod_auto_vector() : m_size(0) {}
+
+        void remove_all()            { m_size = 0; }
+        void clear()                 { m_size = 0; }
+        void add(const T& v)         { m_array[m_size++] = v; }
+        void push_back(const T& v)   { m_array[m_size++] = v; }
+        void inc_size(unsigned size) { m_size += size; }
+        
+        unsigned size() const { return m_size; }
+        const T& operator [] (unsigned i) const { return m_array[i]; }
+              T& operator [] (unsigned i)       { return m_array[i]; }
+        const T& at(unsigned i) const           { return m_array[i]; }
+              T& at(unsigned i)                 { return m_array[i]; }
+        T  value_at(unsigned i) const           { return m_array[i]; }
+
+    private:
+        T m_array[Size];
+        unsigned m_size;
+    };
+
+
+    //---------------------------------------------------------------pod_array
+    template<class T> class pod_array
+    {
+    public:
+        typedef T value_type;
+        typedef pod_array<T> self_type;
+
+        ~pod_array() { delete [] m_array; }
+        pod_array() : m_array(0), m_size(0) {}
+        pod_array(unsigned size) : m_array(new T[size]), m_size(size) {}
+        pod_array(const self_type& v) : 
             m_array(new T[v.m_size]), m_size(v.m_size) 
         {
             memcpy(m_array, v.m_array, sizeof(T) * m_size);
         }
         void resize(unsigned size)
         {
-           delete [] m_array;
-           m_array = new T[m_size = size];
+            if(size != m_size)
+            {
+                delete [] m_array;
+                m_array = new T[m_size = size];
+            }
         }
         const self_type& operator = (const self_type& v)
         {
@@ -121,23 +148,22 @@ namespace agg
 
 
 
-
-    //---------------------------------------------------------------pod_array
+    //--------------------------------------------------------------pod_vector
     // A simple class template to store Plain Old Data, a vector
     // of a fixed size. The data is continous in memory
     //------------------------------------------------------------------------
-    template<class T> class pod_array
+    template<class T> class pod_vector
     {
     public:
         typedef T value_type;
 
-        ~pod_array() { delete [] m_array; }
-        pod_array() : m_size(0), m_capacity(0), m_array(0) {}
-        pod_array(unsigned cap, unsigned extra_tail=0);
+        ~pod_vector() { delete [] m_array; }
+        pod_vector() : m_size(0), m_capacity(0), m_array(0) {}
+        pod_vector(unsigned cap, unsigned extra_tail=0);
 
         // Copying
-        pod_array(const pod_array<T>&);
-        const pod_array<T>& operator = (const pod_array<T>&);
+        pod_vector(const pod_vector<T>&);
+        const pod_vector<T>& operator = (const pod_vector<T>&);
 
         // Set new capacity. All data is lost, size is set to zero.
         void capacity(unsigned cap, unsigned extra_tail=0);
@@ -155,10 +181,12 @@ namespace agg
             memset(m_array, 0, sizeof(T) * m_size);
         }
 
-        void add(const T& v)  { m_array[m_size++] = v; }
-        void inc_size(unsigned size) { m_size += size; } 
-        unsigned size()      const { return m_size; }
-        unsigned byte_size() const { return m_size * sizeof(T); }
+        void add(const T& v)         { m_array[m_size++] = v; }
+        void push_back(const T& v)   { m_array[m_size++] = v; }
+        void insert_at(unsigned pos, const T& val);
+        void inc_size(unsigned size) { m_size += size; }
+        unsigned size()      const   { return m_size; }
+        unsigned byte_size() const   { return m_size * sizeof(T); }
         void serialize(int8u* ptr) const;
         void deserialize(const int8u* data, unsigned byte_size);
         const T& operator [] (unsigned i) const { return m_array[i]; }
@@ -171,6 +199,7 @@ namespace agg
               T* data()       { return m_array; }
 
         void remove_all()         { m_size = 0; }
+        void clear()              { m_size = 0; }
         void cut_at(unsigned num) { if(num < m_size) m_size = num; }
 
     private:
@@ -181,7 +210,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T> 
-    void pod_array<T>::capacity(unsigned cap, unsigned extra_tail)
+    void pod_vector<T>::capacity(unsigned cap, unsigned extra_tail)
     {
         m_size = 0;
         if(cap > m_capacity)
@@ -194,7 +223,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T> 
-    void pod_array<T>::allocate(unsigned size, unsigned extra_tail)
+    void pod_vector<T>::allocate(unsigned size, unsigned extra_tail)
     {
         capacity(size, extra_tail);
         m_size = size;
@@ -203,7 +232,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T> 
-    void pod_array<T>::resize(unsigned new_size)
+    void pod_vector<T>::resize(unsigned new_size)
     {
         if(new_size > m_size)
         {
@@ -222,11 +251,11 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class T> pod_array<T>::pod_array(unsigned cap, unsigned extra_tail) :
+    template<class T> pod_vector<T>::pod_vector(unsigned cap, unsigned extra_tail) :
         m_size(0), m_capacity(cap + extra_tail), m_array(new T[m_capacity]) {}
 
     //------------------------------------------------------------------------
-    template<class T> pod_array<T>::pod_array(const pod_array<T>& v) :
+    template<class T> pod_vector<T>::pod_vector(const pod_vector<T>& v) :
         m_size(v.m_size),
         m_capacity(v.m_capacity),
         m_array(v.m_capacity ? new T [v.m_capacity] : 0)
@@ -235,8 +264,8 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class T> const pod_array<T>& 
-    pod_array<T>::operator = (const pod_array<T>&v)
+    template<class T> const pod_vector<T>& 
+    pod_vector<T>::operator = (const pod_vector<T>&v)
     {
         allocate(v.m_size);
         if(v.m_size) memcpy(m_array, v.m_array, sizeof(T) * v.m_size);
@@ -244,25 +273,37 @@ namespace agg
     }
 
     //------------------------------------------------------------------------
-    template<class T> void pod_array<T>::serialize(int8u* ptr) const
+    template<class T> void pod_vector<T>::serialize(int8u* ptr) const
     { 
         if(m_size) memcpy(ptr, m_array, m_size * sizeof(T)); 
     }
 
     //------------------------------------------------------------------------
     template<class T> 
-    void pod_array<T>::deserialize(const int8u* data, unsigned byte_size)
+    void pod_vector<T>::deserialize(const int8u* data, unsigned byte_size)
     {
         byte_size /= sizeof(T);
-        capacity(byte_size);
+        allocate(byte_size);
         if(byte_size) memcpy(m_array, data, byte_size * sizeof(T));
     }
 
+    //------------------------------------------------------------------------
+    template<class T> 
+    void pod_vector<T>::insert_at(unsigned pos, const T& val)
+    {
+        if(pos >= m_size) 
+        {
+            m_array[m_size] = val;
+        }
+        else
+        {
+            memmove(m_array + pos + 1, m_array + pos, (m_size - pos) * sizeof(T));
+            m_array[pos] = val;
+        }
+        ++m_size;
+    }
 
-
-
-
-    //---------------------------------------------------------------pod_deque
+    //---------------------------------------------------------------pod_bvector
     // A simple class template to store Plain Old Data, similar to std::deque
     // It doesn't reallocate memory but instead, uses blocks of data of size 
     // of (1 << S), that is, power of two. The data is NOT contiguous in memory, 
@@ -273,7 +314,7 @@ namespace agg
     // of increment to reallocate the pointer buffer. See the second constructor.
     // By default, the incremeent value equals (1 << S), i.e., the block size.
     //------------------------------------------------------------------------
-    template<class T, unsigned S=6> class pod_deque
+    template<class T, unsigned S=6> class pod_bvector
     {
     public:
         enum block_scale_e
@@ -285,18 +326,20 @@ namespace agg
 
         typedef T value_type;
 
-        ~pod_deque();
-        pod_deque();
-        pod_deque(unsigned block_ptr_inc);
+        ~pod_bvector();
+        pod_bvector();
+        pod_bvector(unsigned block_ptr_inc);
 
         // Copying
-        pod_deque(const pod_deque<T, S>& v);
-        const pod_deque<T, S>& operator = (const pod_deque<T, S>& v);
+        pod_bvector(const pod_bvector<T, S>& v);
+        const pod_bvector<T, S>& operator = (const pod_bvector<T, S>& v);
 
         void remove_all() { m_size = 0; }
-        void free_all() { free_tail(0); }
+        void clear()      { m_size = 0; }
+        void free_all()   { free_tail(0); }
         void free_tail(unsigned size);
         void add(const T& val);
+        void push_back(const T& val) { add(val); }
         void modify_last(const T& val);
         void remove_last();
 
@@ -459,7 +502,7 @@ namespace agg
 
 
     //------------------------------------------------------------------------
-    template<class T, unsigned S> pod_deque<T, S>::~pod_deque()
+    template<class T, unsigned S> pod_bvector<T, S>::~pod_bvector()
     {
         if(m_num_blocks)
         {
@@ -476,7 +519,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    void pod_deque<T, S>::free_tail(unsigned size)
+    void pod_bvector<T, S>::free_tail(unsigned size)
     {
         if(size < m_size)
         {
@@ -491,7 +534,7 @@ namespace agg
 
 
     //------------------------------------------------------------------------
-    template<class T, unsigned S> pod_deque<T, S>::pod_deque() :
+    template<class T, unsigned S> pod_bvector<T, S>::pod_bvector() :
         m_size(0),
         m_num_blocks(0),
         m_max_blocks(0),
@@ -503,7 +546,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    pod_deque<T, S>::pod_deque(unsigned block_ptr_inc) :
+    pod_bvector<T, S>::pod_bvector(unsigned block_ptr_inc) :
         m_size(0),
         m_num_blocks(0),
         m_max_blocks(0),
@@ -515,7 +558,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    pod_deque<T, S>::pod_deque(const pod_deque<T, S>& v) :
+    pod_bvector<T, S>::pod_bvector(const pod_bvector<T, S>& v) :
         m_size(v.m_size),
         m_num_blocks(v.m_num_blocks),
         m_max_blocks(v.m_max_blocks),
@@ -533,7 +576,8 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    const pod_deque<T, S>& pod_deque<T, S>::operator = (const pod_deque<T, S>& v)
+    const pod_bvector<T, S>& 
+    pod_bvector<T, S>::operator = (const pod_bvector<T, S>& v)
     {
         unsigned i;
         for(i = m_num_blocks; i < v.m_num_blocks; ++i)
@@ -551,7 +595,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S>
-    void pod_deque<T, S>::allocate_block(unsigned nb)
+    void pod_bvector<T, S>::allocate_block(unsigned nb)
     {
         if(nb >= m_max_blocks) 
         {
@@ -576,7 +620,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S>
-    inline T* pod_deque<T, S>::data_ptr()
+    inline T* pod_bvector<T, S>::data_ptr()
     {
         unsigned nb = m_size >> block_shift;
         if(nb >= m_num_blocks)
@@ -590,7 +634,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    inline void pod_deque<T, S>::add(const T& val)
+    inline void pod_bvector<T, S>::add(const T& val)
     {
         *data_ptr() = val;
         ++m_size;
@@ -599,7 +643,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    inline void pod_deque<T, S>::remove_last()
+    inline void pod_bvector<T, S>::remove_last()
     {
         if(m_size) --m_size;
     }
@@ -607,7 +651,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    void pod_deque<T, S>::modify_last(const T& val)
+    void pod_bvector<T, S>::modify_last(const T& val)
     {
         remove_last();
         add(val);
@@ -616,7 +660,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    int pod_deque<T, S>::allocate_continuous_block(unsigned num_elements)
+    int pod_bvector<T, S>::allocate_continuous_block(unsigned num_elements)
     {
         if(num_elements < block_size)
         {
@@ -646,7 +690,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    unsigned pod_deque<T, S>::byte_size() const
+    unsigned pod_bvector<T, S>::byte_size() const
     {
         return m_size * sizeof(T);
     }
@@ -654,7 +698,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    void pod_deque<T, S>::serialize(int8u* ptr) const
+    void pod_bvector<T, S>::serialize(int8u* ptr) const
     {
         unsigned i;
         for(i = 0; i < m_size; i++)
@@ -666,7 +710,7 @@ namespace agg
 
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    void pod_deque<T, S>::deserialize(const int8u* data, unsigned byte_size)
+    void pod_bvector<T, S>::deserialize(const int8u* data, unsigned byte_size)
     {
         remove_all();
         byte_size /= sizeof(T);
@@ -683,8 +727,8 @@ namespace agg
     // Replace or add a number of elements starting from "start" position
     //------------------------------------------------------------------------
     template<class T, unsigned S> 
-    void pod_deque<T, S>::deserialize(unsigned start, const T& empty_val, 
-                                      const int8u* data, unsigned byte_size)
+    void pod_bvector<T, S>::deserialize(unsigned start, const T& empty_val, 
+                                        const int8u* data, unsigned byte_size)
     {
         while(m_size < start)
         {
@@ -971,7 +1015,42 @@ namespace agg
     }
 
 
+    //--------------------------------------------------------invert_container
+    template<class Array> void invert_container(Array& arr)
+    {
+        int i = 0;
+        int j = arr.size() - 1;
+        while(i < j)
+        {
+            swap_elements(arr[i++], arr[j--]);
+        }
+    }
 
+
+    //------------------------------------------------------binary_search_pos
+    template<class Array, class Value, class Less>
+    unsigned binary_search_pos(const Array& arr, const Value& val, Less less)
+    {
+        if(arr.size() == 0) return 0;
+
+        unsigned beg = 0;
+        unsigned end = arr.size() - 1;
+
+        if(less(val, arr[0])) return 0;
+        if(less(arr[end], val)) return end + 1;
+
+        while(end - beg > 1)
+        {
+            unsigned mid = (end + beg) >> 1;
+            if(less(val, arr[mid])) end = mid; 
+            else                    beg = mid;
+        }
+
+        //if(beg <= 0 && less(val, arr[0])) return 0;
+        //if(end >= arr.size() - 1 && less(arr[end], val)) ++end;
+
+        return end;
+    }
 
 }
 

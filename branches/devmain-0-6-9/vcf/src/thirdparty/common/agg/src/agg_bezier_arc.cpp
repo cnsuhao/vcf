@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.3
+// Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
@@ -152,8 +152,6 @@ namespace agg
         double dx2 = (x0 - x2) / 2.0;
         double dy2 = (y0 - y2) / 2.0;
 
-        // Convert angle from degrees to radians
-        //------------------------
         double cos_a = cos(angle);
         double sin_a = sin(angle);
 

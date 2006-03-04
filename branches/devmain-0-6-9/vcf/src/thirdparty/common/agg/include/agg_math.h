@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.3
+// Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
@@ -25,12 +25,18 @@
 namespace agg
 {
 
+    //------------------------------------------------------vertex_dist_epsilon
+    // Coinciding points maximal distance (Epsilon)
+    const double vertex_dist_epsilon = 1e-14;
+
+    //-----------------------------------------------------intersection_epsilon
+    // See calc_intersection
     const double intersection_epsilon = 1.0e-30;
 
-    //------------------------------------------------------calc_point_location
-    AGG_INLINE double calc_point_location(double x1, double y1, 
-                                          double x2, double y2, 
-                                          double x,  double y)
+    //------------------------------------------------------------cross_product
+    AGG_INLINE double cross_product(double x1, double y1, 
+                                    double x2, double y2, 
+                                    double x,  double y)
     {
         return (x - x2) * (y2 - y1) - (y - y2) * (x2 - x1);
     }
@@ -42,9 +48,9 @@ namespace agg
                                       double x3, double y3, 
                                       double x,  double y)
     {
-        bool cp1 = calc_point_location(x1, y1, x2, y2, x, y) < 0.0;
-        bool cp2 = calc_point_location(x2, y2, x3, y3, x, y) < 0.0;
-        bool cp3 = calc_point_location(x3, y3, x1, y1, x, y) < 0.0;
+        bool cp1 = cross_product(x1, y1, x2, y2, x, y) < 0.0;
+        bool cp2 = cross_product(x2, y2, x3, y3, x, y) < 0.0;
+        bool cp3 = cross_product(x3, y3, x1, y1, x, y) < 0.0;
         return cp1 == cp2 && cp2 == cp3 && cp3 == cp1;
     }
 
@@ -66,7 +72,7 @@ namespace agg
         double dx = x2-x1;
         double dy = y2-y1;
         double d = sqrt(dx * dx + dy * dy);
-        if(d < intersection_epsilon)
+        if(d < vertex_dist_epsilon)
         {
             return calc_distance(x1, y1, x, y);
         }
@@ -144,10 +150,10 @@ namespace agg
         double dy2=0.0; 
         double dx3=0.0;
         double dy3=0.0; 
-        double loc = calc_point_location(x1, y1, x2, y2, x3, y3);
+        double loc = cross_product(x1, y1, x2, y2, x3, y3);
         if(fabs(loc) > intersection_epsilon)
         {
-            if(calc_point_location(x1, y1, x2, y2, x3, y3) > 0.0) 
+            if(cross_product(x1, y1, x2, y2, x3, y3) > 0.0) 
             {
                 d = -d;
             }

@@ -28,6 +28,7 @@ Panel::~Panel()
 void Panel::init()
 {
 	setBorder( new Basic3DBorder() );
+	setBorderSize( 0 );
 }
 
 void Panel::paint( GraphicsContext * context )
@@ -49,6 +50,9 @@ String Panel::getCaption()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/04 02:35:47  ddiego
+*upgraded agg from 2.2 to the latest 2.4 version.
+*
 *Revision 1.2  2004/08/07 02:49:09  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *
