@@ -100,12 +100,12 @@ To delete built libraries and object files you have these options:
    - All dynamic release libraries
      make -fvcfAllLibs.mak dynamic_libs_rel_clean
 
-6. Additional notes for Borland Free Compiler To build library using free 
-compiler issue the same commands stated above but add this : -DFREECOMP=TRUE 
-Example: make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs 
--DFREECOMP=TRUE .This way we avoid dependency on ATL and make complete library 
-available to user except WebBrowser control. If you just wan't to build everything there is a batch file 
-free_compiler.cmd Execute it and wait a bit :)
+6. Additional notes for Borland free compiler and BCB 6. Because of compiler limitations 
+   I had to exclude  HTML Browser control from default build. The only Borland compiler 
+   that can handle this is BDS 2006. If you have BDS and have desire to test HTML browser
+   control execute make -fvcfAllLibs.mak -DFREECOMP=FALSE <build target name> as explained above.
+   In general BDS can still be considered unsupported because currently it is possible to build
+   only static libs, not the dynamic ones. I'm investigating this issue.
 
 Building examples:
 

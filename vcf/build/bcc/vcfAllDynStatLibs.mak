@@ -12,7 +12,7 @@ VCFBUILDROOT=$(VCF_BIN)\..\build\bcc
 VCFBIN=$(VCF_BIN)
 
 !ifndef FREECOMP
-FREECOMP = FALSE
+FREECOMP = TRUE
 !endif
 
 !if $(FREECOMP) != TRUE && $(FREECOMP) != FALSE

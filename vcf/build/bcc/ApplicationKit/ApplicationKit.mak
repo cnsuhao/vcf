@@ -2,7 +2,7 @@
 # MAKEFILE for building ApplicationKit_bcc_s(d).lib   #
 #                   and ApplicationKit_bcc_(d).dll    #
 #                                                     #
-# (c) 2004 by Darko Miletic                           #
+# (c) 2004-2006 by Darko Miletic                      #
 # e-mail: kiklop@fibertel.com.ar                      # 
 #######################################################
 .autodepend
@@ -154,7 +154,6 @@ CPPFILES= AbstractApplication.cpp \
           Win32FileSaveDialog.cpp \
           Win32FolderBrowseDialog.cpp \
           Win32FontDialog.cpp \
-          Win32HTMLDOMElements.cpp \
           Win32Listview.cpp \
           Win32MenuBar.cpp \
           Win32MenuItem.cpp \
@@ -192,7 +191,6 @@ CPPFILES= AbstractApplication.cpp \
           ControlContainer.cpp \
           CustomControl.cpp \
           HeaderControl.cpp \
-          HTMLBrowserControl.cpp \
           ImageControl.cpp \
           Label.cpp \
           ListBoxControl.cpp \
@@ -217,16 +215,18 @@ CPPFILES= AbstractApplication.cpp \
           TreeControl.cpp \
           TreeListControl.cpp
 
+
 !if $(FREECOMP) == TRUE
 NONFREEFILES =
 !else
-NONFREEFILES = HTMLBrowserControl.cpp
+NONFREEFILES = HTMLBrowserControl.cpp \
+               Win32HTMLDOMElements.cpp
 !endif
 
 RESFILE=$(RESSRCFILE:.rc=.res^ )
 OBJFILES=$(CPPFILES:.cpp=.obj^ ) $(NONFREEFILES:.cpp=.obj^ )
 
-LIBFILES=comsupp.lib comctl32.lib
+LIBFILES=comctl32.lib shell32.lib oleaut32.lib
 DEFFILE=
 BCC32STARTUP=c0d32.obj
 ALLOBJS=$(BCC32STARTUP) $(OBJFILES)
