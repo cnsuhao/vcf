@@ -1293,7 +1293,7 @@ void GraphicsContext::buildArc( double centerX,  double centerY,
 						radiusWidth, radiusHeight,
 						Math::degreesToRadians(startAngle), Math::degreesToRadians(endAngle));
 
-	path.add_path( arcPath );
+	path.concat_path( arcPath );
 
 	for ( size_t i=0;i<path.total_vertices();i++ ) {
 		double vert_x,vert_y;
@@ -1330,7 +1330,7 @@ void GraphicsContext::buildRoundRect( double x1, double y1, double x2, double y2
 		cornerArcWidth/2.0, cornerArcHeight/2.0,
 		Math::degreesToRadians(270), Math::degreesToRadians(0));
 
-	path.add_path( arc1 );
+	path.concat_path( arc1 );
 
 	path.line_to( x2, y2 - cornerArcHeight/2.0 );
 
@@ -1339,7 +1339,7 @@ void GraphicsContext::buildRoundRect( double x1, double y1, double x2, double y2
 		cornerArcWidth/2.0, cornerArcHeight/2.0,
 		Math::degreesToRadians(0), Math::degreesToRadians(90));
 
-	path.add_path( arc2 );
+	path.concat_path( arc2 );
 
 	path.line_to( x1 + cornerArcWidth/2.0, y2 );
 
@@ -1348,7 +1348,7 @@ void GraphicsContext::buildRoundRect( double x1, double y1, double x2, double y2
 		cornerArcWidth/2.0, cornerArcHeight/2.0,
 		Math::degreesToRadians(90), Math::degreesToRadians(180));
 
-	path.add_path( arc3 );
+	path.concat_path( arc3 );
 
 	path.line_to( x1, y1 + cornerArcHeight/2.0 );
 
@@ -1357,7 +1357,7 @@ void GraphicsContext::buildRoundRect( double x1, double y1, double x2, double y2
 		cornerArcWidth/2.0, cornerArcHeight/2.0,
 		Math::degreesToRadians(180), Math::degreesToRadians(270));
 
-	path.add_path( arc4 );
+	path.concat_path( arc4 );
 
 
 	//agg::path_storage::const_iterator it = path.begin();
@@ -1385,7 +1385,7 @@ void GraphicsContext::buildEllipse( double x1, double y1, double x2, double y2,
 	agg::path_storage path;
 	agg::ellipse ellipseShape( x1 + ((x2-x1)/2.0), y1 + ((y2-y1)/2.0),
 								abs(static_cast<long>(x2-x1)), abs(static_cast<long>(y2-y1)), 100 );
-	path.add_path( ellipseShape );
+	path.concat_path( ellipseShape );
 
 	for (size_t i=0;i<path.total_vertices();i++ ) {
 		double vert_x, vert_y;
@@ -1512,6 +1512,9 @@ void GraphicsContext::setAntiAliasingOn( bool antiAliasingOn )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.8  2006/03/04 02:35:48  ddiego
+*upgraded agg from 2.2 to the latest 2.4 version.
+*
 *Revision 1.6.2.7  2006/03/01 04:34:57  ddiego
 *fixed tab display to use themes api.
 *

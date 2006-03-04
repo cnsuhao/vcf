@@ -132,8 +132,8 @@ typedef agg::renderer_base<pixfmt> RendererBase;
 typedef agg::renderer_scanline_aa_solid<RendererBase> SolidRenderer;
 typedef agg::span_allocator<agg::rgba8> SpanAllocator;
 typedef agg::span_interpolator_linear<> SpanInterpolator;
-typedef agg::span_image_filter_rgba_bilinear<color_type, component_order,SpanInterpolator> SpanGenerator;
-typedef agg::renderer_scanline_aa<RendererBase, SpanGenerator> RendererType;
+typedef agg::span_image_filter_rgba_bilinear_clip<pixfmt,SpanInterpolator> SpanGenerator;
+typedef agg::renderer_scanline_aa_solid<RendererBase> RendererType;
 
 
 void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* imageBounds, Image* image )
@@ -329,18 +329,20 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 									image->getHeight(),
 									image->getWidth() * image->getType() );
 
-			SpanGenerator spanGen(spanAllocator,
-							 tmpImgRenderBuf,
+			pixfmt tmpPixf(tmpImgRenderBuf);
+
+			SpanGenerator spanGen(//spanAllocator,
+							 tmpPixf,
 							 agg::rgba(0, 0, 0, 0.0),
 							 interpolator);
 
 
-			RendererType imageRenderer(rb, spanGen);
+			RendererType imageRenderer(rb);
 
 
 
 			rasterizer.add_path(xfrmedImgPath2);
-			agg::render_scanlines(rasterizer, scanLine, imageRenderer );
+			agg::render_scanlines_aa(rasterizer, scanLine, rb, spanAllocator, spanGen );
 		}
 	}
 	else {
@@ -379,14 +381,16 @@ void Win32Context::drawGrayScaleImage( const double& x, const double& y, Rect* i
 									image->getHeight(),
 									image->getWidth() * image->getType() );
 
+			pixfmt tmpPixf(tmpImgRenderBuf);
+
 
 			//image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
 
-			SpanGenerator spanGen(spanAllocator,
-							 tmpImgRenderBuf,
+			SpanGenerator spanGen(//spanAllocator,
+							 tmpPixf,
 							 agg::rgba(0, 0, 0, 0.0),
 							 interpolator);
-			RendererType imageRenderer(rb, spanGen);
+			RendererType imageRenderer(rb);
 
 
 
@@ -626,19 +630,20 @@ void Win32Context::drawImage( const double& x, const double& y, Rect* imageBound
 
 			image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
 
-			SpanGenerator spanGen(spanAllocator,
-							 *image->getImageBits()->renderBuffer_,
+			pixfmt imgPixf(*image->getImageBits()->renderBuffer_);
+			SpanGenerator spanGen(//spanAllocator,
+							 imgPixf,
 							 agg::rgba(0, 0, 0, 0.0),
 							 interpolator);
 
 
-			RendererType imageRenderer(rb, spanGen);
+			RendererType imageRenderer(rb);
 
 			agg::rasterizer_scanline_aa<> rasterizer;
 			agg::scanline_u8 scanLine;
 
 			rasterizer.add_path(xfrmedImgPath2);
-			agg::render_scanlines(rasterizer, scanLine, imageRenderer );
+			agg::render_scanlines_aa(rasterizer, scanLine, rb, spanAllocator, spanGen );
 
 
 			SetDIBitsToDevice( dc_,
@@ -959,18 +964,19 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 									image->getHeight(),
 									image->getWidth() * image->getType() );
 
-			SpanGenerator spanGen(spanAllocator,
-							 tmpImgRenderBuf,
+			pixfmt tmpPixf(tmpImgRenderBuf);
+			SpanGenerator spanGen(//spanAllocator,
+							 tmpPixf,
 							 agg::rgba(0, 0, 0, 0.0),
 							 interpolator);
 
 
-			RendererType imageRenderer(rb, spanGen);
+			RendererType imageRenderer(rb);
 
 
 
 			rasterizer.add_path(xfrmedImgPath2);
-			agg::render_scanlines(rasterizer, scanLine, imageRenderer);
+			agg::render_scanlines_aa(rasterizer, scanLine, rb, spanAllocator, spanGen );
 		}
 	}
 	else {
@@ -1012,19 +1018,20 @@ void Win32Context::drawImageAGG(  const double& x, const double& y, Rect* imageB
 									image->getHeight(),
 									image->getWidth() * image->getType() );
 
+			pixfmt tmpPixf(tmpImgRenderBuf);
 
 			//image->getImageBits()->attachRenderBuffer( image->getWidth(), image->getHeight() );
 
-			SpanGenerator spanGen(spanAllocator,
-							 tmpImgRenderBuf,
+			SpanGenerator spanGen(//spanAllocator,
+							 tmpPixf,
 							 agg::rgba(0, 234, 0, 0.0),
 							 interpolator);
-			RendererType imageRenderer(rb, spanGen);
+			RendererType imageRenderer(rb);
 
 
 
 			rasterizer.add_path(imagePath);
-			agg::render_scanlines(rasterizer, scanLine, imageRenderer);
+			agg::render_scanlines_aa(rasterizer, scanLine, rb, spanAllocator, spanGen );
 		}
 	}
 
@@ -4432,6 +4439,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.9  2006/03/04 02:35:48  ddiego
+*upgraded agg from 2.2 to the latest 2.4 version.
+*
 *Revision 1.7.2.8  2006/03/01 04:34:57  ddiego
 *fixed tab display to use themes api.
 *

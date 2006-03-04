@@ -120,7 +120,8 @@ protected:
 			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onElementClicked, "CustomHTMLUI::onElementClicked" ) ); 
 
 		browser->setElementClickedEventHandler( "DoItBtn", 
-			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onButtonClicked, "CustomHTMLUI::onButtonClicked" ) ); 
+			new GenericEventHandler<CustomHTMLUI>(this,&CustomHTMLUI::onButtonClicked, "CustomHTMLUI::onButtonClicked" ) ); 		
+
 	}
 
 	void onElementClicked( Event* e ) {
@@ -183,6 +184,8 @@ public:
 		browser->URLLoaded += 
 			new GenericEventHandler<BrowserApp>(this,&BrowserApp::onURLLoaded, "BrowserApp::onURLLoaded" );
 
+		browser->URLLoadingBegun += 
+			new GenericEventHandler<BrowserApp>(this,&BrowserApp::onURLLoadingBegun, "BrowserApp::onURLLoadingBegun" );
 
 
 
@@ -440,8 +443,14 @@ protected:
 			walkElements( *child, item );
 		}
 	}
+	
+	void onURLLoadingBegun( Event* e ) {
+		browser->setCursorID( Cursor::SCT_WAITING );
+	}
 
 	void onURLLoaded( Event* e ) {
+		browser->setCursorID( Cursor::SCT_DEFAULT );
+
 		HTMLEvent* htmlEvent = (HTMLEvent*)e;
 		urlBox->setCurrentText( htmlEvent->url );
 		getMainWindow()->setCaption( browser->getTitle() + " - Browser" );

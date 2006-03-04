@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Anti-Grain Geometry - Version 2.3
+// Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
 //
 // Permission to copy, use, modify, sell and distribute this software 
@@ -30,7 +30,6 @@ namespace agg
         typedef PixFmt pixfmt_type;
         typedef typename pixfmt_type::color_type color_type;
         typedef typename pixfmt_type::row_data row_data;
-        typedef typename pixfmt_type::span_data span_data;
         typedef AlphaMask amask_type;
         typedef typename amask_type::cover_type cover_type;
 
