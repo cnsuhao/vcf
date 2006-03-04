@@ -93,7 +93,8 @@ CPPFILES=GraphicsKit.cpp \
          PNGLoader.cpp
 
 OBJFILES=$(CPPFILES:.cpp=.obj^ )         
-LIBFILES=ODBC32.LIB UUID.LIB
+LIBFILES=ODBC32.LIB UUID.LIB 
+#libAGG_bcc_s.lib LibJPEG_bcc_s.lib LibPNG_bcc_s.lib ZLib_bcc_s.lib
 DEFFILE=
 BCC32STARTUP=c0d32.obj
 ALLOBJS=$(BCC32STARTUP) $(OBJFILES)
