@@ -1412,7 +1412,11 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				You can create an image using the 
+				You can create an image using the GraphicsToolkit::createImage() functions. You
+				can create an image either by specifying an width and height, or by passing in
+				the file name of a valid image. Currently the GraphicsToolkit supports at least
+				JPEG and PNG images, plus whatever platform specific image types. For Win32
+				this includes BMP image types.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1422,7 +1426,10 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call the GraphicsContext::drawImageXXX functions. You'll need to have a valid
+				GraphicsContext, and a valid image. If you pass in a rectangle it's usually some
+				sub section of the image itself, plus the cordinates where you want the image
+				bits rendered to.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1432,7 +1439,8 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				You can modify an image at either the pixel level or by getting the image's
+				GraphicsContext and make various graphics calls to that.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1442,7 +1450,10 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				The Stroke and Fill classes are interfaces used to describe a stroke, or
+				the rendering of a path, and a fill, or the filling in of a path. You 
+				don't create instance directly of a Stroke or Fill, rather you create
+				instance of derived classes, like BasicFill or BasicStroke. 
 				</para>
 			</answer>
 		</qandaentry>
@@ -1452,7 +1463,8 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call the GraphicsContext::textAt() functions or GraphicsContext::textBoundedBy()
+				methods.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1462,7 +1474,8 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call the GraphicsContext::getTextWidth() to measure the width of some text
+				and the GraphicsContext::getTextHeight() to measure the height of some text.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1472,7 +1485,19 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call GraphicsContext::setCurrentFont() and pass in a pointer to a font
+				instance. The data in your font instance is copied into the current 
+				font state of the GraphicsContext, so the font instance does not need 
+				to be valid once the call returns. For example:
+				<programlisting><![CDATA[
+GraphicsContext* ctx = //get a context from somewhere...
+Font f;
+f.setName( "Times New Roman" );
+f.setPointSize( 34 );
+ctx->setCurrentFont( &f );
+				]]></programlisting>				
+				Note that the font variable was created on the stack, because it's not needed
+				once the setCurrentFont() function returns.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1482,8 +1507,15 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Set the color of the current font.
+				<programlisting><![CDATA[
+GraphicsContext* ctx = //get a context from somewhere...
+ctx->getCurrentFont()->setColor( Color::getColor("red") );
+ctx->textAt( 20, 200, "Hello" );
+				]]></programlisting>
 				</para>
+				This changes the font's color to red, and when the text "Hello" is 
+				drawn, it will appear in red.
 			</answer>
 		</qandaentry>
 	</qandaset>
@@ -1497,7 +1529,11 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				A pretty wide variety. Most of the common, standard controls like edit boxs
+				(referred to as a TextControl in the VCF), tree controls, list 
+				controls, table controls, toolbars, tab controls, and so on. For 
+				a more comprehensive listing see <link linkend="ControlListing">
+				Controls listing</link> in the ApplicationKit section.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1507,7 +1543,23 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Create an instance of a time component, add an event handler to it's 
+				TimerPulse delegate. This will be fired for each timer event that occurs.
+				You can set the frequency of the timer event by passing in a millisecond
+				value to TimerComponent::setTimeoutInterval (). To activate the timer
+				you need to call the TimerComponent::setActivated() function and pass in 
+				true. For example:
+				<programlisting><![CDATA[		
+//if you don't pass in an owner here in the 
+//you need to add the timer as a component 
+somewhere else
+TimerComponent* timer = new TimerComponent( /*some component owner*/ ); 
+timer->TimerPulse += 
+	new GenericEventHandler<SomeClass>( this, &SomeClass::myTimerRoutine, "myTimerRoutine" );
+timer->setTimeoutInterval( 100 );
+timer->setActivated( true ); //timer will start - SomeClass::myTimerRoutine will get called every 100 ms
+
+				]]></programlisting>
 				</para>
 			</answer>
 		</qandaentry>
@@ -1517,7 +1569,14 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				You simply need to create a new instance, set it's bounds, and add it
+				to a parent. For example:
+				<programlisting><![CDATA[				
+Control* parent = //get some parent control or window
+TextControl* textCtrl = new TextControl();
+textCtrl->setBounds( 10, 20, 100, 25 );
+parent->getContainer()->add( textCtrl );
+				]]></programlisting>
 				</para>
 			</answer>
 		</qandaentry>
@@ -1527,17 +1586,32 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				The basic idea to understand is that a heavy weight control represents a full 
+				native windowing system control, and thus it has it's own set of resources (as 
+				specificed by the underlying windowing system). In Win32 terms, this means that 
+				each heavyweight control has an HWND and HDC associated with it (as would any
+				window that you create in Win32). In linux systems that use GTK, this mean that 
+				each heavyweight control has it's own GtkWidget (and it's associated GdkWindow handle). 
+				Thus heavyweight controls receive user interface events directly from the windowing 
+				systems, where they are caught by the VCF peer implementation(s), translated into 
+				VCF event's and then dispatched to the VCF control. In contrast, lightweight controls 
+				do NOT have their own windowing system control resources. Instead they share these 
+				resources with the first heavyweight parent that contains the lightweight control. 
+				The VCF takes care of simulating events to lightweight controls, so from the 
+				perspective of the developer, the difference is basically non-existant.
 				</para>
 			</answer>
 		</qandaentry>
-		<qandaentry>		
+		<qandaentry>
 			<question>
 				<para>How do I override events on my control ?</para>
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Depending on the event you can either override the virtual method, or 
+				add an event handler to the event's delegate. For example, if you want to
+				customize mouse handling on a control, you can override the Control::mouseDown()
+				or Control::mouseMove, etc functions.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1547,7 +1621,12 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				If you want to ensure that your control continues to receive events 
+				after the cursor has moved beyond it's bounds, then you need to call
+				Control::keepMouseEvents(). When you're ready to relinquish control
+				then you <emphasis>must</emphasis> call Control::releaseMouseEvents().
+				As a rule it's best to call the former during a mouse down event, and
+				the latter during a mouse up.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1557,7 +1636,8 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Override the control's paint() method. You will be passed in a GraphicsContext
+				that you can then paint on.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1567,7 +1647,8 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call Window::show() or Control::setVisible( true ). The former is the 
+				preferred way to do this.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1577,7 +1658,7 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call the Window::close() function.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1587,7 +1668,9 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				You don't. It's deleted for you automatically. If you create a Window on the heap
+				(which you should), do <emphasis>not</emphasis> delete it! You'll end up
+				with double delete errors and crash your program at runtime.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1597,7 +1680,9 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes. Simply create a new class and derive from the control you're interested in.
+				Alternately you can simply add event handler's to the delegates you're interested
+				in and acheive most of yoru customization this way.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1607,7 +1692,8 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Create a new menu item class and derive from DefaultMenuItem and 
+				add in custom paint methods.
 				</para>
 
 			</answer>
@@ -1619,7 +1705,11 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes. Create threads to do a chunk of work, and then communicate the
+				results back to the main UI thread through the UIToolkit's postEvent
+				function. See the vcf/examples/ThreadsInGUI example for more information
+				about this. Also see ApplicationKit's 
+				<link linkend="PostingEvents">Posting Events</link> section. 
 				</para>
 			</answer>
 		</qandaentry>
@@ -1629,7 +1719,9 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Yes. You can simply add the control to a new container,
+				and the control will be removed form it's old container
+				and parent, and added to it's new one.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1640,7 +1732,10 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call the control's Control::setBounds(). Alternately you can
+				set each of the individual value separately by calling 
+				Control::setLeft(), Control::setTop(), Control::setWidth()
+				or Control::setHeight().
 				</para>
 			</answer>
 		</qandaentry>
@@ -1650,7 +1745,19 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Create a PopupMenu instance, populate it, and then 
+				set the control's popup menu by calling Control::setPopupMenu().
+				For example:
+				<programlisting><![CDATA[				
+Control* someControl = //get a control
+PopupMenu* contextMenu = new PopupMenu(someControl); //sets the popup menu's owner
+MenuItem* root = contextMenu->getRootMenuItem();
+DefaultMenuItem* pmItem1 = new DefaultMenuItem( "Hello", root,contextMenu );
+DefaultMenuItem* pmItem2 = new DefaultMenuItem( "There!", root,contextMenu );
+someControl->setPopupMenu( contextMenu );
+				]]></programlisting>
+				When the control detects a context menu mouse event, it will
+				popup the popup menu you've assigned it.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1661,7 +1768,10 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Use the UIToolkit's postEvent() function. This is the VCF's equivalent
+				to Windows PostMessage(). See the ApplicationKit's 
+				<link linkend="PostingEvents">Posting Events</link> section for more
+				information about how to do this.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1712,7 +1822,7 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call the control's repaint() method.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1723,7 +1833,11 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				You can enable/disable the control by calling the control's 
+				Control::setEnabled() function and pass in true or false. Passing
+				in true will enable the control, passing false will disable it. You 
+				can determine if it's alread enabled or not by calling the control's 
+				Control::isEnabled() function.
 				</para>
 			</answer>
 		</qandaentry>
@@ -1734,7 +1848,11 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Set the frame's framestyle and whether or not it's the topmost frame. 
+				You do this by calling Frame::setFrameStyle() with a style of 
+				fstNoBorderFixed. See the ApplicationKit's <link linkend="FrameUsage">
+				Frame Usage</link> section for more on this. You then set the frame
+				as topmost by call the frame's Frame::setFrameTopmost( true );
 				</para>
 			</answer>
 		</qandaentry>
@@ -1745,7 +1863,8 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				Call the control's Control::setFocused(). You can determine the 
+				currently focused control by calling the static Control::getCurrentFocusedControl().
 				</para>
 			</answer>
 		</qandaentry>
@@ -2009,8 +2128,8 @@ gc->strokePath();
 CVS Log info
 
 $Log$
-Revision 1.4.4.2  2006/03/05 00:40:48  ddiego
-updated docs.
+Revision 1.4.4.3  2006/03/05 03:39:36  ddiego
+more docs updates.
 
 Revision 1.4.4.1  2005/08/30 03:39:36  ddiego
 more component authoring info.

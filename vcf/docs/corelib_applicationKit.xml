@@ -1825,7 +1825,7 @@ class MyAbout : public VCF::Dialog {
 		</itemizedlist>
 		</para>
 		<para>
-		Frequently a frame has a small image associated with it. For example, on Win32
+		Frequently a frame has a small image or icon associated with it. For example, on Win32
 		systems this is displayed on the border areas far left side. You can set this
 		image by creating a small image, and then calling the Frame's setIconImage() 
 		function. Note that at the moment the image <emphasis>must</emphasis> be 32 
@@ -2217,8 +2217,8 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
-Revision 1.6.2.4  2006/03/05 02:28:04  ddiego
-updated the Item interface and adjusted the other classes accordingly.
+Revision 1.6.2.5  2006/03/05 03:39:35  ddiego
+more docs updates.
 
 Revision 1.6.2.2  2006/03/02 22:13:01  ddiego
 docs update.
