@@ -1121,34 +1121,82 @@ public:
 	virtual void setPreferredHeight( const double& height ){};
 
 
+	/**
+	Returns the minimum size for this control. At the moment this is only
+	used for Frames, to control the minimum size a user can resize the
+	Frame to.
+	@return Size the minimum size. If the width_ field is set equal to 
+	Control::mmIgnoreMinWidth then the minimum width is ignored. If the 
+	height_ field is set equal to Control::mmIgnoreMinHeight then the 
+	minimum height is ignored. 
+	*/
 	Size getMinSize() {
 		return minSize_;
 	}
 
+	/**
+	Sets the minimum size of the control.
+	@param Size the minimum size. If the width_ field is set equal to 
+	Control::mmIgnoreMinWidth then the minimum width is ignored. If the 
+	height_ field is set equal to Control::mmIgnoreMinHeight then the 
+	minimum height is ignored.
+	*/
 	void setMinSize( const Size& val ) {
 		minSize_ = val;
 	}
 
+	/**
+	Returns the minimum width of the control.
+	@see getMinSize
+	*/
 	double getMinWidth() {
 		return minSize_.width_;
 	}
 
+	/**
+	Sets the minimum width of the control.
+	@see setMinSize
+	*/
 	void setMinWidth( const double& val ) {
 		minSize_.width_ = val;
 	}
 
+	/**
+	Returns the minimum height of the control.
+	@see getMinSize
+	*/
 	double getMinHeight() {
 		return minSize_.height_;
 	}
 
+	/**
+	Sets the minimum height of the control.
+	@see setMinSize
+	*/
 	void setMinHeight( const double& val ) {
 		minSize_.height_ = val;
 	}
 
+	/**
+	Returns the maximum size for this control. At the moment this is only
+	used for Frames, to control the maximum size a user can resize the
+	Frame to.
+	@return Size the maximum size. If the width_ field is set equal to 
+	Control::mmIgnoreMaxWidth then the maximum width is ignored. If the 
+	height_ field is set equal to Control::mmIgnoreMaxHeight then the 
+	maximum height is ignored. 
+	*/
 	Size getMaxSize() {
 		return maxSize_;
 	}
 
+	/**
+	Sets the maximum size of the control.
+	@param Size the maximum size. If the width_ field is set equal to 
+	Control::mmIgnoreMaxWidth then the maximum width is ignored. If the 
+	height_ field is set equal to Control::mmIgnoreMaxHeight then the 
+	maximum height is ignored.
+	*/
 	void setMaxSize( const Size& val ) {
 		maxSize_ = val;
 	}
@@ -1677,6 +1725,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.13  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.4.2.12  2006/02/23 05:54:23  ddiego
 *some html help integration fixes and new features. context sensitive help is finished now.
 *

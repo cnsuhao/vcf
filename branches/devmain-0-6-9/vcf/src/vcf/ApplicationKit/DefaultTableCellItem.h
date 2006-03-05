@@ -34,55 +34,6 @@ public:
 
 	virtual bool containsPoint( Point * pt );
 
-
-
-	DELEGATE(ItemPaint);
-	DELEGATE(ItemChanged);
-	DELEGATE(ItemSelected);
-	DELEGATE(ItemAdded);
-	DELEGATE(ItemDeleted);
-
-	virtual void addItemPaintHandler( EventHandler* handler ){
-		ItemPaint += handler;
-	}
-
-	virtual void addItemChangedHandler( EventHandler* handler ){
-		ItemChanged += handler;
-	}
-
-	virtual void addItemSelectedHandler( EventHandler* handler ){
-		ItemSelected += handler;
-	}
-
-	virtual void addItemAddedHandler( EventHandler* handler ){
-		ItemAdded += handler;
-	}
-
-	virtual void addItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted += handler;
-	}
-
-	virtual void removeItemPaintHandler( EventHandler* handler ){
-		ItemPaint -= handler;
-	}
-
-	virtual void removeItemChangedHandler( EventHandler* handler ){
-		ItemChanged -= handler;
-	}
-
-	virtual void removeItemSelectedHandler( EventHandler* handler ){
-		ItemSelected -= handler;
-	}
-
-	virtual void removeItemAddedHandler( EventHandler* handler ){
-		ItemAdded -= handler;
-	}
-
-	virtual void removeItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted -= handler;
-	}
-
-
     virtual unsigned long getIndex() {
 		return -1;
 	}
@@ -93,35 +44,28 @@ public:
 
 	virtual void setData( void* data );
 
-	virtual Model* getModel();
-
-	virtual void setModel( Model* model );
-
 	virtual void paint( GraphicsContext* context, Rect* paintRect );
-
-
 
 	virtual TableItemEditor* createItemEditor();
 
-
 	virtual bool isSelected() {
-		return (state_ & TableCellItem::tisSelected) ? true : false;
+		return (itemState_ & TableCellItem::tisSelected) ? true : false;
 	}
 
 	virtual bool isReadonly() {
-		return (state_ & TableCellItem::tisReadonly) ? true : false;
+		return (itemState_ & TableCellItem::tisReadonly) ? true : false;
 	}
 
 	virtual bool isFixed() {
-		return (state_ & TableCellItem::tcsFixed) ? true : false;
+		return (itemState_ & TableCellItem::tcsFixed) ? true : false;
 	}
 
 	virtual bool isFocused() {
-		return (state_ & TableCellItem::tcsFocused) ? true : false;
+		return (itemState_ & TableCellItem::tcsFocused) ? true : false;
 	}
 
 	virtual bool isDropHighlighted() {
-		return (state_ & TableCellItem::tcsDropHighlighted) ? true : false;
+		return (itemState_ & TableCellItem::tcsDropHighlighted) ? true : false;
 	}
 
 	virtual bool isEditable() {
@@ -147,15 +91,6 @@ public:
 		return &bounds_;
 	}
 
-	virtual Control* getControl() {
-		return owningControl_;
-	}
-
-
-	virtual void setControl( Control* control ) {
-		owningControl_ = control;
-	}
-
 	virtual long getImageIndex() {
 		return imageIndex_;
 	}
@@ -164,14 +99,6 @@ public:
 
 	virtual bool canPaint() {
 		return true;
-	}
-
-	virtual long getState(){
-		return state_;
-	}
-
-	virtual void setState( const long& state ) {
-		state_ = state;
 	}
 
 	virtual void setBounds( Rect* bounds );
@@ -201,11 +128,8 @@ public:
 	virtual void setFont( Font* font );
 private:
 	void init();
-	Control* owningControl_;
 	Rect bounds_;
 	void* data_;
-	Model* model_;
-	long state_;
 	String caption_;
 	long imageIndex_;
 
@@ -226,6 +150,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.4.2.1  2005/09/03 14:03:52  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

@@ -43,58 +43,6 @@ public:
 
     virtual bool containsPoint( Point * pt );
 
-	DELEGATE(ItemPaint);
-	DELEGATE(ItemChanged);
-	DELEGATE(ItemSelected);
-	DELEGATE(ItemAdded);
-	DELEGATE(ItemDeleted);
-
-	DELEGATE(SubItemChanged);
-	DELEGATE(SubItemAdded);
-	DELEGATE(SubItemDeleted);
-
-	virtual void addItemPaintHandler( EventHandler* handler ){
-		ItemPaint += handler;
-	}
-
-	virtual void addItemChangedHandler( EventHandler* handler ){
-		ItemChanged += handler;
-	}
-
-	virtual void addItemSelectedHandler( EventHandler* handler ){
-		ItemSelected += handler;
-	}
-
-	virtual void addItemAddedHandler( EventHandler* handler ){
-		ItemAdded += handler;
-	}
-
-	virtual void addItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted += handler;
-	}
-
-	virtual void removeItemPaintHandler( EventHandler* handler ){
-		ItemPaint -= handler;
-	}
-
-	virtual void removeItemChangedHandler( EventHandler* handler ){
-		ItemChanged -= handler;
-	}
-
-	virtual void removeItemSelectedHandler( EventHandler* handler ){
-		ItemSelected -= handler;
-	}
-
-	virtual void removeItemAddedHandler( EventHandler* handler ){
-		ItemAdded -= handler;
-	}
-
-	virtual void removeItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted -= handler;
-	}
-
-
-
     virtual unsigned long getIndex();
 
 	virtual void setIndex( const unsigned long& index );
@@ -106,10 +54,6 @@ public:
 	virtual String getCaption();
 
 	virtual void setCaption( const String& caption );
-
-	virtual Model* getModel();
-
-	virtual void setModel( Model* model );
 
 	virtual void paint( GraphicsContext* context, Rect* paintRect );
 
@@ -127,41 +71,8 @@ public:
 		return &bounds_;
 	}
 
-	virtual Control* getControl() {
-		return owningControl_;
-	}
-
-
-	virtual void setControl( Control* control ) {
-		owningControl_ = control;
-	}
-
 	virtual bool canPaint() {
 		return true;
-	}
-
-	virtual void addSubItemAddedHandler( EventHandler* handler ){
-		SubItemAdded += handler;
-	}
-
-	virtual void addSubItemDeletedHandler( EventHandler* handler ){
-		SubItemDeleted += handler;
-	}
-
-	virtual void addSubItemChangedHandler( EventHandler* handler ){
-		SubItemChanged += handler;
-	}
-
-	virtual void removeSubItemAddedHandler( EventHandler* handler ){
-		SubItemAdded -= handler;
-	}
-
-	virtual void removeSubItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted -= handler;
-	}
-
-	virtual void removeSubItemChangedHandler( EventHandler* handler ) {
-		SubItemChanged -= handler;
 	}
 
 	virtual void addSubItem( const String& caption, void* data );
@@ -178,14 +89,6 @@ public:
 
 	virtual void subItemChanged( ListItem::SubItem* item );
 
-	virtual long getState(){
-		return state_;
-	}
-
-	virtual void setState( const long& state ){
-		state_ = state;
-	}
-
 	virtual void setBounds( Rect* bounds );
 
 	/**
@@ -200,14 +103,11 @@ public:
 	*/
 	virtual void setStateImageIndex( const long& index ){}
 
-private:
-	long state_;
-	Control* owningControl_;
+private:	
 	String caption_;
 	void* data_;
 	unsigned long index_;
-	Rect bounds_;
-	Model* model_;
+	Rect bounds_;	
 	bool selected_;
 	long imageIndex_;
 	std::vector<SubItem*> subItems_;
@@ -220,6 +120,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

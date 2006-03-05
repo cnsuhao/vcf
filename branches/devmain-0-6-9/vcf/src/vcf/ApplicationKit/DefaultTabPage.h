@@ -28,52 +28,6 @@ public:
 
 	virtual ~DefaultTabPage();
 
-	DELEGATE(ItemPaint);
-	DELEGATE(ItemChanged);
-	DELEGATE(ItemSelected);
-	DELEGATE(ItemAdded);
-	DELEGATE(ItemDeleted);
-
-	virtual void addItemPaintHandler( EventHandler* handler ){
-		ItemPaint += handler;
-	}
-
-	virtual void addItemChangedHandler( EventHandler* handler ){
-		ItemChanged += handler;
-	}
-
-	virtual void addItemSelectedHandler( EventHandler* handler ){
-		ItemSelected += handler;
-	}
-
-	virtual void addItemAddedHandler( EventHandler* handler ){
-		ItemAdded += handler;
-	}
-
-	virtual void addItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted += handler;
-	}
-
-	virtual void removeItemPaintHandler( EventHandler* handler ){
-		ItemPaint -= handler;
-	}
-
-	virtual void removeItemChangedHandler( EventHandler* handler ){
-		ItemChanged -= handler;
-	}
-
-	virtual void removeItemSelectedHandler( EventHandler* handler ){
-		ItemSelected -= handler;
-	}
-
-	virtual void removeItemAddedHandler( EventHandler* handler ){
-		ItemAdded -= handler;
-	}
-
-	virtual void removeItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted -= handler;
-	}
-
 	virtual bool containsPoint( Point * pt );
 
     virtual unsigned long getIndex();
@@ -83,11 +37,7 @@ public:
     virtual void* getData();
 
 	virtual void setData( void* data );
-
-	virtual Model* getModel();
-
-	virtual void setModel( Model* model );
-
+	
 	virtual void setPageName( const String& name );
 
 	virtual String getPageName();
@@ -126,13 +76,7 @@ public:
 	virtual bool canPaint() {
 		return true;
 	}
-
-	virtual long getState(){
-		return 0;
-	}
-
-	virtual void setState( const long& state ){}
-
+	
 	virtual void setBounds( Rect* bounds );
 
 	/**
@@ -148,8 +92,6 @@ public:
 	virtual void setStateImageIndex( const long& index ){}
 
 private:
-	Model* model_;
-	Control* owningControl_;
 	ulong32 index_;
 	String pageName_;
 	Control* component_;
@@ -166,6 +108,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.1  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.3  2004/12/01 04:31:21  ddiego
 *merged over devmain-0-6-6 code. Marcello did a kick ass job
 *of fixing a nasty bug (1074768VCF application slows down modal dialogs.)

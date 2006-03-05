@@ -1198,7 +1198,7 @@ bdr.paint( &r, ctx );
 		<screenshot>
 			<graphic fileref="gfx/align1.png"></graphic>
 		</screenshot>
-		Here we a collection of controls aligned to different sides. If the frame is resized
+		Here we have a collection of controls aligned to different sides. If the frame is resized
 		then the controls are repositioned accordingly:
 		<screenshot>
 			<graphic fileref="gfx/align1a.png"></graphic>
@@ -2217,8 +2217,8 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
-Revision 1.6.2.3  2006/03/05 00:40:48  ddiego
-updated docs.
+Revision 1.6.2.4  2006/03/05 02:28:04  ddiego
+updated the Item interface and adjusted the other classes accordingly.
 
 Revision 1.6.2.2  2006/03/02 22:13:01  ddiego
 docs update.

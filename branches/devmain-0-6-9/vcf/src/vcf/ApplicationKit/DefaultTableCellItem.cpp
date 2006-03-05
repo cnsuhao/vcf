@@ -49,7 +49,7 @@ void DefaultTableCellItem::init()
 	data_ = NULL;
 	model_ = NULL;
 	owningControl_ = NULL;
-	state_ = 0;
+	itemState_ = 0;
 	color_ = NULL;
 	font_ = NULL;
 	//basicItemEditor_ = new BasicTableItemEditor( this );
@@ -69,16 +69,6 @@ void* DefaultTableCellItem::getData()
 void DefaultTableCellItem::setData( void* data )
 {
 	data_ = data;
-}
-
-Model* DefaultTableCellItem::getModel()
-{
-	return model_;
-}
-
-void DefaultTableCellItem::setModel( Model* model )
-{
-	model_ = model;
 }
 
 double DefaultTableCellItem::getTextCellWidth( GraphicsContext* context )
@@ -188,10 +178,10 @@ void DefaultTableCellItem::setSelected( const bool& val )
 	bool changed = (val != isSelected());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tisSelected );
+			setState( itemState_ | TableCellItem::tisSelected );
 		}
 		else {
-			setState( state_ & ~TableCellItem::tisSelected );
+			setState( itemState_ & ~TableCellItem::tisSelected );
 		}
 	}
 }
@@ -201,10 +191,10 @@ void DefaultTableCellItem::setFixed( const bool& val )
 	bool changed = (val != isFixed());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tcsFixed );
+			setState( itemState_ | TableCellItem::tcsFixed );
 		}
 		else {
-			setState( state_ & ~TableCellItem::tcsFixed );
+			setState( itemState_ & ~TableCellItem::tcsFixed );
 		}
 	}
 }
@@ -214,10 +204,10 @@ void DefaultTableCellItem::setReadonly( const bool& val )
 	bool changed = (val != isReadonly());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tisReadonly );
+			setState( itemState_ | TableCellItem::tisReadonly );
 		}
 		else {
-			setState( state_ & ~TableCellItem::tisReadonly );
+			setState( itemState_ & ~TableCellItem::tisReadonly );
 		}
 	}
 }
@@ -227,10 +217,10 @@ void DefaultTableCellItem::setFocused( const bool& val )
 	bool changed = (val != isFocused());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tcsFocused );
+			setState( itemState_ | TableCellItem::tcsFocused );
 		}
 		else {
-			setState( state_ & ~TableCellItem::tcsFocused );
+			setState( itemState_ & ~TableCellItem::tcsFocused );
 		}
 	}
 }
@@ -240,10 +230,10 @@ void DefaultTableCellItem::setDropHighlighted( const bool& val )
 	bool changed = (val != isFocused());
 	if ( changed ) {
 		if ( val ) {
-			setState( state_ | TableCellItem::tcsDropHighlighted );
+			setState( itemState_ | TableCellItem::tcsDropHighlighted );
 		}
 		else {
-			setState( state_ & ~TableCellItem::tcsDropHighlighted );
+			setState( itemState_ & ~TableCellItem::tcsDropHighlighted );
 		}
 	}
 }
@@ -282,6 +272,11 @@ bool DefaultTableCellItem::isItemEditable(){
 
 String DefaultTableCellItem::getCaption()
 {
+	Control* control = getControl();
+	if ( getUseLocaleStrings() && (NULL != control) && (control->getUseLocaleStrings()) ) {
+		return System::getCurrentThreadLocale()->translate( caption_ );
+	}
+
 	return caption_;
 }
 
@@ -458,6 +453,9 @@ void DefaultTableCellItem::onFontChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.3.2.1  2005/09/03 14:03:52  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

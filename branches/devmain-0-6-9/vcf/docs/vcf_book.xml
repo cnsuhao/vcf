@@ -28,12 +28,12 @@ NB: This software will not save the world.
 
 -->
 
-<title>The VCF Book 0.6.8</title>
-	<titleabbrev>VCF Documentation 0.6.8</titleabbrev>
+<title>The VCF Book VERSION-NUMBER</title>
+	<titleabbrev>VCF Documentation VERSION-NUMBER</titleabbrev>
 	<bookinfo>
 		<legalnotice>
 			<para>
-			Copyright (c) 2000-2005, Jim Crafton
+			Copyright (c) 2000-2006, Jim Crafton
 			</para>
 			<para>
 			All rights reserved.
@@ -140,6 +140,13 @@ NB: This software will not save the world.
 			<revision>
 			  <revnumber>0.6.8</revnumber>
 			  <date>June 23 2005</date>
+			  <authorinitials>JC</authorinitials>
+			  <revremark>Added further documentation</revremark>
+			</revision>
+
+			<revision>
+			  <revnumber>0.9.0</revnumber>
+			  <date>March 4 2006</date>
 			  <authorinitials>JC</authorinitials>
 			  <revremark>Added further documentation</revremark>
 			</revision>
@@ -292,6 +299,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.7.2.1  2006/03/05 02:28:04  ddiego
+updated the Item interface and adjusted the other classes accordingly.
+
 Revision 1.7  2005/07/09 23:14:10  ddiego
 merging in changes from devmain-0-6-7 branch.
 

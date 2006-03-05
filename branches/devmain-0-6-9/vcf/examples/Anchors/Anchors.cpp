@@ -101,7 +101,8 @@ public:
 
 		Window* mainWindow = new AnchorsWindow();
 		setMainWindow(mainWindow);
-		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->setBounds( 100.0, 100.0, 500.0, 500.0 );
+		mainWindow->show();
 
 		return result;
 	}
@@ -122,6 +123,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.6.1  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.4  2004/08/07 02:46:56  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

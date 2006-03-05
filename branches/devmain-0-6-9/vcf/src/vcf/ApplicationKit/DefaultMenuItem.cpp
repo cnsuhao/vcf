@@ -25,8 +25,7 @@ DefaultMenuItem::DefaultMenuItem():
 	menuOwner_(NULL),
 	parent_(NULL),
 	imageIndex_(-1),
-	currentAccelerator_(NULL),
-	state_(0)
+	currentAccelerator_(NULL)
 {
 	init();
 }
@@ -38,8 +37,7 @@ DefaultMenuItem::DefaultMenuItem( const String& caption, MenuItem* parent, Menu*
 	menuOwner_(NULL),
 	parent_(NULL),
 	imageIndex_(-1),
-	currentAccelerator_(NULL),
-	state_(0)
+	currentAccelerator_(NULL)
 {
 	init();
 
@@ -79,8 +77,8 @@ void DefaultMenuItem::init()
 
 	//peer_ = UIToolkit::createMenuItemPeer( this );
 
-	state_ |= MenuItem::mdsEnabled;
-	state_ |= MenuItem::mdsVisible;
+	itemState_ |= MenuItem::mdsEnabled;
+	itemState_ |= MenuItem::mdsVisible;
 
 	//if ( NULL == peer_ ){
 		//throw exception
@@ -126,16 +124,6 @@ void DefaultMenuItem::setData( void* data )
 	data_ = data;
 }
 
-Model* DefaultMenuItem::getModel()
-{
-	return NULL;
-}
-
-void DefaultMenuItem::setModel( Model* model )
-{
-
-}
-
 void DefaultMenuItem::paint( GraphicsContext* context, Rect* paintRect )
 {
 	//StringUtils::trace( "DefaultMenuItem::paint " + paintRect->toString() +"\n" );
@@ -151,7 +139,7 @@ void DefaultMenuItem::paint( GraphicsContext* context, Rect* paintRect )
 
 bool DefaultMenuItem::isSelected()
 {
-	return (state_ & MenuItem::mdsSelected) ? true : false;
+	return (itemState_ & MenuItem::mdsSelected) ? true : false;
 }
 
 void DefaultMenuItem::setSelected( const bool& selected )
@@ -161,7 +149,7 @@ void DefaultMenuItem::setSelected( const bool& selected )
 	}
 
 	if ( selected ) {
-		state_ |= MenuItem::mdsSelected;
+		itemState_ |= MenuItem::mdsSelected;
 
 		//ItemEvent event( this, ITEM_EVENT_SELECTED );
 		//ItemSelected.fireEvent( &event );
@@ -169,7 +157,7 @@ void DefaultMenuItem::setSelected( const bool& selected )
 		getMenuOwner()->itemChanged( MenuItem::miSelected, this );
 	}
 	else {
-		state_ &= ~MenuItem::mdsSelected;
+		itemState_ &= ~MenuItem::mdsSelected;
 	}	
 	
 	previousSelectedItem = this;
@@ -242,7 +230,7 @@ void DefaultMenuItem::deleteChild( MenuItem* child )
 	if ( found != menuItems_.end() ){
 		unsigned long index = found - menuItems_.begin();
 	
-		state_ &= ~MenuItem::mdsBoundToMenuPeer;
+		itemState_ &= ~MenuItem::mdsBoundToMenuPeer;
 
 		Menu* owner = getMenuOwner();
 		if ( NULL != owner ) {
@@ -264,7 +252,7 @@ void DefaultMenuItem::deleteChild( const unsigned long& index )
 	std::vector<MenuItem*>::iterator found = menuItems_.begin() + index;
 	if ( found != menuItems_.end() ){
 
-		state_ &= ~MenuItem::mdsBoundToMenuPeer;
+		itemState_ &= ~MenuItem::mdsBoundToMenuPeer;
 
 		Menu* owner = getMenuOwner();
 		if ( NULL != owner ) {
@@ -293,19 +281,19 @@ void DefaultMenuItem::clearChildren()
 
 bool DefaultMenuItem::isChecked()
 {
-	return ((state_ & MenuItem::mdsChecked) == MenuItem::mdsChecked) ? true : false;// peer_->isChecked();
+	return ((itemState_ & MenuItem::mdsChecked) == MenuItem::mdsChecked) ? true : false;// peer_->isChecked();
 }
 
 void DefaultMenuItem::setChecked( const bool& checked )
 {
 	//peer_->setChecked( checked );
 	if ( checked ) {
-		state_ &= ~MenuItem::mdsUnChecked;
-		state_ |= MenuItem::mdsChecked;
+		itemState_ &= ~MenuItem::mdsUnChecked;
+		itemState_ |= MenuItem::mdsChecked;
 	}
 	else {
-		state_ &= ~MenuItem::mdsChecked;
-		state_ |= MenuItem::mdsUnChecked;
+		itemState_ &= ~MenuItem::mdsChecked;
+		itemState_ |= MenuItem::mdsUnChecked;
 	}
 
 	Menu* owner = getMenuOwner();
@@ -340,7 +328,7 @@ MenuItem* DefaultMenuItem::getChildAt( const unsigned long& index )
 
 bool DefaultMenuItem::isEnabled()
 {
-	bool result = (state_ & MenuItem::mdsEnabled) ? true : false;
+	bool result = (itemState_ & MenuItem::mdsEnabled) ? true : false;
 
 	if ( result ) {
 		MenuBar* menuBar = dynamic_cast<MenuBar*>( menuOwner_ );
@@ -357,10 +345,10 @@ bool DefaultMenuItem::isEnabled()
 void DefaultMenuItem::setEnabled( const bool& enabled )
 {
 	if ( enabled ) {
-		state_ |= MenuItem::mdsEnabled;
+		itemState_ |= MenuItem::mdsEnabled;
 	}
 	else {
-		state_ &= ~MenuItem::mdsEnabled;
+		itemState_ &= ~MenuItem::mdsEnabled;
 	}
 
 	//peer_->setEnabled( enabled );
@@ -380,16 +368,16 @@ void DefaultMenuItem::setEnabled( const bool& enabled )
 
 bool DefaultMenuItem::isVisible()
 {
-	return (state_ & MenuItem::mdsVisible) ? true : false;
+	return (itemState_ & MenuItem::mdsVisible) ? true : false;
 }
 
 void DefaultMenuItem::setVisible( const bool& visible )
 {
 	if ( visible ) {
-		state_ |= MenuItem::mdsVisible;
+		itemState_ |= MenuItem::mdsVisible;
 	}
 	else {
-		state_ &= ~MenuItem::mdsVisible;
+		itemState_ &= ~MenuItem::mdsVisible;
 	}
 
 	//peer_->setVisible( visible );
@@ -404,16 +392,16 @@ void DefaultMenuItem::setVisible( const bool& visible )
 
 bool DefaultMenuItem::getRadioItem()
 {
-	return (state_ & MenuItem::mdsRadioItem) ? true : false;
+	return (itemState_ & MenuItem::mdsRadioItem) ? true : false;
 }
 
 void DefaultMenuItem::setRadioItem( const bool& value )
 {
 	if ( value ) {
-		state_ |= MenuItem::mdsRadioItem;
+		itemState_ |= MenuItem::mdsRadioItem;
 	}
 	else {
-		state_ &= ~MenuItem::mdsRadioItem;
+		itemState_ &= ~MenuItem::mdsRadioItem;
 	}
 	
 	//peer_->setRadioItem( value );
@@ -505,16 +493,16 @@ void DefaultMenuItem::setMenuOwner( Menu* menuOwner )
 
 bool DefaultMenuItem::isSeparator()
 {
-	return (state_ & MenuItem::mdsSeparator) ? true : false;;
+	return (itemState_ & MenuItem::mdsSeparator) ? true : false;;
 }
 
 void DefaultMenuItem::setSeparator( const bool& separator )
 {
 	if ( separator ) {
-		state_ |= MenuItem::mdsSeparator;
+		itemState_ |= MenuItem::mdsSeparator;
 	}
 	else {
-		state_ &= ~MenuItem::mdsSeparator;
+		itemState_ &= ~MenuItem::mdsSeparator;
 	}
 
 	//peer_->setAsSeparator( separator );
@@ -690,7 +678,7 @@ void DefaultMenuItem::handleEvent( Event* event )
 				Component* child = ev->getChildComponent();
 				MenuItem* item = dynamic_cast<MenuItem*>(child);
 				if ( NULL != item ) {
-					if ( state_ & MenuItem::mdsBoundToMenuPeer ) {
+					if ( itemState_ & MenuItem::mdsBoundToMenuPeer ) {
 						deleteChild( item );
 					}
 				}
@@ -766,6 +754,9 @@ uint32 DefaultMenuItem::getChildIndex( MenuItem* child )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.4.2.2  2005/11/17 06:38:38  obirsoy
 *. fixed an invalidated vector iterator bug.
 *

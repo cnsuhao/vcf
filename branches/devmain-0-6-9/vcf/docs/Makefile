@@ -5,7 +5,7 @@
 
 
 #This is the version number for the core VCF - make sure to modify this for new releases
-VERSION = 0.6.8
+VERSION = $(shell cat ../VERSION)
 
 
 #version number for the XMake program
@@ -494,6 +494,9 @@ clean :
 
 ###############################################################################
 #$Log$
+#Revision 1.19.2.1  2006/03/05 02:28:04  ddiego
+#updated the Item interface and adjusted the other classes accordingly.
+#
 #Revision 1.19  2005/07/19 03:05:01  ddiego
 #doc makefile changes.
 #

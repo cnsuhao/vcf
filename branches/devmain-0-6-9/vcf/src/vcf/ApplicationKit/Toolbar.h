@@ -70,56 +70,11 @@ public:
 		tisChecked = 0x200
 	};
 
-	DELEGATE(ItemPainted);
-	DELEGATE(ItemChanged);
-	DELEGATE(ItemSelected);
-	DELEGATE(ItemAdded);
-	DELEGATE(ItemDeleted);
-
+	
 	DELEGATE(ItemClicked);
 
 	DELEGATE(ItemUpdate);
-
-
-	virtual void addItemPaintHandler( EventHandler* handler ){
-		ItemPainted += handler;
-	}
-
-	virtual void addItemChangedHandler( EventHandler* handler ) {
-		ItemChanged += handler;
-	}
-
-	virtual void addItemSelectedHandler( EventHandler* handler ) {
-		ItemSelected += handler;
-	}
-
-	virtual void addItemAddedHandler( EventHandler* handler ) {
-		ItemAdded += handler;
-	}
-
-	virtual void addItemDeletedHandler( EventHandler* handler ) {
-		ItemDeleted += handler;
-	}
-
-	virtual void removeItemPaintHandler( EventHandler* handler ) {
-		ItemPainted -= handler;
-	}
-
-	virtual void removeItemChangedHandler( EventHandler* handler ) {
-		ItemChanged -= handler;
-	}
-
-	virtual void removeItemSelectedHandler( EventHandler* handler ) {
-		ItemSelected -= handler;
-	}
-
-	virtual void removeItemAddedHandler( EventHandler* handler ) {
-		ItemAdded -= handler;
-	}
-
-	virtual void removeItemDeletedHandler( EventHandler* handler ) {
-		ItemDeleted -= handler;
-	}
+	
 
 	virtual void addButtonClickHandler( EventHandler* handler ) {
 		ItemClicked += handler;
@@ -144,13 +99,7 @@ public:
 	}
 
 	virtual void setBounds( Rect* bounds );
-
-	virtual long getState() {
-		return state_;
-	}
-
-	virtual void setState( const long& state );
-
+	
 	virtual long getStateImageIndex() {
 		return imageStateIndex_;
 	}
@@ -174,14 +123,8 @@ public:
 	virtual void setData( void* data ) {
 		data_ = data;
 	}
-
-	virtual Model* getModel() {
-		return model_;
-	}
-
-	virtual void setModel( Model* model ) {
-		model_ = model;
-	}
+	
+	virtual void setState( const long& state );
 
 	virtual bool canPaint() {
 		return false;
@@ -192,16 +135,6 @@ public:
 	virtual bool isSelected() ;
 
 	virtual void setSelected( const bool& selected );
-
-	virtual Control* getControl() {
-		return control_;
-	}
-
-	virtual void setControl( Control* control ) {
-		control_ = control;
-	}
-
-
 
 	void setWidth( const double& val );
 
@@ -253,10 +186,7 @@ public:
 
 	
 protected:
-	Control* control_;
-	Control* itemControl_;
-	unsigned long state_;
-	Model* model_;
+	Control* itemControl_;	
 	void* data_;
 	long imageIndex_;
 	long imageStateIndex_;
@@ -415,6 +345,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.4.2.1  2006/02/10 04:24:11  ddiego
 *more updates.
 *
