@@ -858,9 +858,18 @@ public:
 		<para>
 		Components maintain a special state variable called component state, that indicates 
 		the current state of the component. This is useful, for example, in determining if 
-		the component is in design mode, or normal mode. Unless the component is being 
-		edited in a designer, the default state is normal mode. The state is an enumeration 
-		of type ComponentState.
+		the component is in design mode, or normal mode. The state is an enumeration 
+		of type ComponentState. In general the	component's state is csNormal indicating 
+		that it's been created. When a component is in the process of being read in from a 
+		stream, it's state is marked as csLoading, and	when the component is being written 
+		to a stream it's state is marked as csSaving. As a general rule most UI events are 
+		only fired if the component's state is csNormal. The other important state is the 
+		csDesigning state. This is set when the component is being edited through some 
+		visual editing tool (like the VCF Builder's Form Designer). A component in the 
+		csDesigning state can process some event, but ignores most others. This is 
+		particularly true if the component is a control. For example, if the component 
+		is a TextControl, then any keyboard events are ignored if it's state is set to 
+		csDesigning.
 		</para>
 		<para>
 		Components are intended to be reused by other applications. They can be part of a 
@@ -917,19 +926,6 @@ public:
 		Component's ComponentAdded or ComponentRemoved delegate. 
 		</para>
 		<para>
-		Component's also have state. This indicates the state of the component. In general 
-		the	component's state is csNormal indicating that it's been created. When a component 
-		is in the process of being read in from a stream, it's state is marked as csLoading, 
-		and	when the component is being written to a stream it's state is marked as csSaving. 
-		As a general rule most event's are only fired if the component's state is csNormal. 
-		The other important state is the csDesigning state. This is set when the component 
-		is being edited through some visual editing tool (like the VCF Builder's Form Designer). 
-		A component in the csDesigning state can process some event, but ignores most others. 
-		This is particularly true if the component is a control. For example, if the component 
-		is a TextControl, then any keyboard events are ignored if it's state is set to 
-		csDesigning.
-		</para>
-		<para>
 		</para>
 	</section>
 	
@@ -963,7 +959,7 @@ public:
 		control	can act as a parent for other child controls. You can dynamically specify 
 		or query the specific type of container by using the Control's setContainer()
 		and/or getContainer() methods. In either case you'll be working with an instance 
-		of the Container class. The following examle shows how to retreive the container 
+		of the Container class. The following example shows how to retreive the container 
 		instance of a control:
 		<programlisting>
 <![CDATA[
@@ -984,7 +980,36 @@ panel->setContainer( new HorizontalLayoutContainer () );
 		</programlisting>		
 		</para>
 
+		<formalpara><title>Heavyweight and Lightweight Controls</title>
+		A control in the VCF may be either a "heavyweight" or "lightweight" control. 
+		This describes how the control is implemented, and you can only specify this
+		at the time the control is created, it's not something that can be changed 
+		later on. Control's that wrap native controls, like the TextControl, or TreeControl
+		are always "heavyweight".
+		</formalpara>
 		<para>
+		A heavy weight control represents a full native windowing system control, and 
+		thus it has it's own set of resources (as specificed by the underlying windowing 
+		system). In Win32 terms, this means that each heavyweight control has it's own
+		HWND and HDC associated with it (just like any control/window that you created
+		through using Win32's CreateWindow() function). On linux systems that use GTK, 
+		this mean that each heavyweight control has it's own GtkWidget (and it's associated 
+		GdkWindow handle). On Mac OS X systems a heavyweight control is associated
+		with either a Carbon ControlRef or possibly with an NSControl instance if
+		we switch to using ObjectiveC for the OS X port.
+		</para>
+		<para>
+		Heavyweight controls receive user interface events directly from the windowing 
+		systems, where they are caught by the VCF peer implementation(s), translated 
+		into VCF events and then dispatched to the VCF control. In contrast, lightweight 
+		controls do <emphasis>not</emphasis> have their own windowing system control 
+		resources. Instead they share these resources with the first heavyweight parent 
+		that contains the lightweight control. The VCF takes care of simulating events 
+		to lightweight controls, so from the perspective of the developer, the difference 
+		is basically non-existant.
+		</para>		
+		
+		<formalpara><title>Containers</title>
 		A Container has methods for adding, inserting, and removing controls. A Container 
 		instance owns all the child controls it has, meaning that the control's addComponent()
 		method is called whenever a control is added to the container. The Container class 
@@ -994,7 +1019,7 @@ panel->setContainer( new HorizontalLayoutContainer () );
 		derive directly from VCF::Container, but instead can derive from VCF::StandardContainer 
 		which does some of the basic grunge work for you. VCF::StandardContainer uses 
 		a vector to maintain it's collection of child controls. 
-		</para>
+		</formalpara>
 		<para>
 		A Containers primary job is to manage a collection of child controls
 		and to respond to certain events, forwarding them along to other child controls. 
@@ -1073,6 +1098,12 @@ panel->setContainer( new HorizontalLayoutContainer () );
 		they are attached to.
 		</para>
 		<para>
+		Borders have two main areas of responsibility. The first is to paint themselves
+		on a given GraphicsContext. This is done by calling the Border's paint() funtion.
+		The second area is to provide a way to get the "client" area that results when
+		using the border. This is done by calling the Border's getClientRect() function.
+		</para>
+		<para>
 		A Border may be created without being associated with a control, if you need to
 		draw a border as part of your painting code. For example:
 		<programlisting>
@@ -1087,18 +1118,107 @@ bdr.paint( &r, ctx );
 		in GraphicsContext. Note that the Border can be created on the stack in this case.
 		This is one of the few classes derived from Component that can be used like this. 
 		</para>
+		<para>
+		When a Border is used with a Control, the control's client bounds will automatically
+		take into account the border, by calling the border instance's getClientRect(). The
+		Win32 implementation also takes advantage of this by using the border to paint the 
+		non client area for windows that are common controls, like the tree, list, and edit
+		windows. This means that these controls can use and have the same border look that vcf
+		only control's use. To demonstrate this, here are some screenshots featuring a 
+		text control with several different borders:
+		<screenshot>
+			<graphic fileref="gfx/bdr-with-control1.png"></graphic>
+		</screenshot>
+		This shows the TextControl and the use of Spy++ on Windows to show that this is 
+		just a wrapper for a RichEdit control. The next shot shows a text control with 
+		an etched border:
+		<screenshot>
+			<graphic fileref="gfx/bdr-with-control2.png"></graphic>
+		</screenshot>
+		The follow shot shows a text control with a titled border (see the TitledBorder
+		class). Notice how the title is put on the outside of the control - and the client 
+		area is still housing the normal text control:
+		<screenshot>
+			<graphic fileref="gfx/bdr-with-control3.png"></graphic>
+		</screenshot>
+		The next shot confirms this, the total height of the control is 40 pixels, while
+		the client area is only 25:
+		<screenshot>
+			<graphic fileref="gfx/bdr-with-control3a.png"></graphic>
+		</screenshot>
+		The final shot shows the text control with a Basic3DBorder, with inverted set to false.
+		<screenshot>
+			<graphic fileref="gfx/bdr-with-control4.png"></graphic>
+		</screenshot>
+		</para>
+		
 	</section>
 	
 	<section id="Layout"><title>Layout </title>
 		<para>
 		Layout in the VCF is accomplished by the use of the Container class. The container 
-		maintains a list of all the child controls it owns. Using this list of controls the
-		container decides how to layout the controls. The default layout algorithm uses the 
-		alignment value of it's child controls to determine how to lay them out within the 
-		parent control's client bounds. Layout is performed whenever the resizeChildren()
-		method is called.
+		maintains a list of all the child controls it owns. Using this list of controls, the
+		container decides how to layout and position the controls. The default layout algorithm 
+		uses the alignment value or anchor values of it's child controls to determine how to 
+		lay them out within the parent control's client bounds. Layout is performed whenever the 
+		resizeChildren() method is called.
 		</para>
 		<para>
+		Layout will occur whenever the control is resized and it's width or height changes. 
+		The basic implementation of a container, the AbstractContainer class, will 
+		automatically detect resize events, and call resizeChildren(), which simplifies the work
+		you need to do when implementing a custom container. 
+		</para>
+		<para>
+		The control class has methods to determine it's alignment or it's anchor sides. You
+		cannot set both of these, only one or the other with precendence given in the order
+		the set methods are called. If you set the Alignment of your control to AlignTop, 
+		and then set it's anchor value, the anchor value will take precedence over the alignment, 
+		which will be overriden and set to AlignNone. Likewise, if you set the anchor of your
+		control and then set it's alignment, the anchors will be turned off, and the alignment
+		will take precendence. It is important to note that while the standard container makes
+		use of these values, other custom containers may choose to ignore them.
+		</para>
+		<para>
+		Specifying a container for layout is trivial to do. You simply create a new container
+		instance, or use an existing one, and then call the control's setContainer() method.
+		Container's are components, so the same rules that apply to components for object
+		lifetime and ownership apply to containers as well.
+		</para>
+		<section><title>Standard Container layout </title>
+		<para>
+		The standard layout allows for alignment to the left (AlignLeft), right (AlignRight), 
+		top (AlignTop), bottom (AlignBottom) or	client area (AlignClient). It also allows for 
+		absolute positioning if the alignment value is AlignNone. Alternately you can 
+		specify that a control is "anchored" to one or more sides of it's parent's client
+		area by using the AnchorLeft, AnchorRight, AnchorTop, and/or AnchorBottom values.
+		</para>
+		<para>
+		We can see an example of the the various alignment values in this shot:
+		<screenshot>
+			<graphic fileref="gfx/align1.png"></graphic>
+		</screenshot>
+		Here we a collection of controls aligned to different sides. If the frame is resized
+		then the controls are repositioned accordingly:
+		<screenshot>
+			<graphic fileref="gfx/align1a.png"></graphic>
+		</screenshot>
+		</para>
+		<para>
+		To see the effect of resizing on anchored controls we can look at the following 
+		two shots. The first has a series of controls, a button that is anchored to the 
+		left and right (AnchorLeft | AnchorRight), a text control that is anchored 
+		only to the right, and a panel that is anchored on all sides (AnchorLeft | 
+		AnchorRight | AnchorTop | AnchorBottom). The first shot:
+		<screenshot>
+			<graphic fileref="gfx/align2.png"></graphic>
+		</screenshot>
+		The second shot after it has been resized:
+		<screenshot>
+			<graphic fileref="gfx/align2a.png"></graphic>
+		</screenshot>
+		</para>
+		<formalpara><title>Layout algorithm for Standard containers</title>		
 		The default layout algorithm, as implemented in the VCF::StandardContainer class,
 		does the following:
 		<itemizedlist>
@@ -1151,15 +1271,70 @@ bdr.paint( &r, ctx );
 		  say it is - no adjusting at all is performed.
 		  </listitem>
 		</itemizedlist>
-		</para>
+		</formalpara>
 		<para>
 		More advanced layouts can be achieved by writing a custom Container class and 
 		overriding the resizeChildren method. For examples of this see the 
 		HorizontalLayoutContainer and ColumnLayoutContainer classes.	
 		</para>
+		</section>
+		<section><title>Horizontal layout </title>
 		<para>
+		The HorizontalLayoutContainer class provides a simple way to layout controls 
+		horizontally, using multiple rows as well. The HorizontalLayoutContainer allows 
+		you to set the number of columns (it defaults to 2), set the specific column
+		widths, the spacing between the columns, the maximum row height, and the 
+		vertical spacing between rows. Once these are set (the class already comes
+		with defaults set that make sense), all you need to do is to add controls. As 
+		controls are added to the container, it will automatically calculate new positions
+		for all the controls based on the number of columns it has. So a HorizontalLayoutContainer
+		with 10 controls, and 2 columns, will have 5 rows of controls.
+		<screenshot>
+			<graphic fileref="gfx/horzlayout.png"></graphic>
+		</screenshot>
+		This shot shows a custom dialog with a container instance of HorizontalLayoutContainer
+		with 2 columns. The code to do so looks something like this:
+		<programlisting><![CDATA[
+class MyDialog : public Dialog {
+public:
+	MyDialog() {
+
+		setWidth( 350 );
+		setHeight( 150 );
+
+		Panel* pane1 = new Panel();
+		pane1->setBorder( NULL );
+
+		HorizontalLayoutContainer* container = new HorizontalLayoutContainer();		
+		pane1->setContainer( container );
+
 		
+
+		Label* lable1 = new Label();
+		lable1->setCaption( "Name:" );
+		pane1->add( lable1 );
+
+		TextControl* edit1 = new TextControl();
+		
+		pane1->add( edit1 );
+
+
+		Label* lable2 = new Label();
+		lable2->setCaption( "Are you Mergatroid?:" );
+		pane1->add( lable2 );
+
+		CheckBoxControl* checkBox = new CheckBoxControl();
+		checkBox->setCaption( "Yes I am!" );
+		pane1->add( checkBox );
+
+		add( pane1, AlignClient );
+
+		//rest of code omitted
+	}
+};		
+		]]> </programlisting>
 		</para>
+		</section>
 	</section>
 	
 	<section id="FramesDialogsWindows"><title>Frames, Dialogs, and Windows</title>
@@ -1331,9 +1506,28 @@ class MyWindow :public Window{
                     ]]>
 		</programlisting>
 		</para>
-		<para>
-		<TODO>Add pictures of dialogs.</TODO>
-		</para>
+		<formalpara><title>File Open and Save Dialogs</title>
+		File Save (Windows):
+		<screenshot>
+			<graphic fileref="gfx/save-win32.png"></graphic>
+		</screenshot>
+		
+		File Open (Windows):
+		<screenshot>
+			<graphic fileref="gfx/open-win32.png"></graphic>
+		</screenshot>
+		
+		File Save (Mac OS X):
+		<screenshot>
+			<graphic fileref="gfx/save-osx.png"></graphic>
+		</screenshot>		
+		
+		File Open (Mac OS X):
+		<screenshot>
+			<graphic fileref="gfx/open-osx.png"></graphic>
+		</screenshot>
+		</formalpara>
+		
 		<para>
 		 Other dialogs common to all platforms are the color
 		 picker and font chooser.  The VCF::CommonColor class
@@ -1386,9 +1580,42 @@ class UserPrefsExample: public Window{
 	...
 };
 ]]>
-</programlisting>
-		<TODO>Add pictures of font and color picker</TODO>
+</programlisting>		
 		</para>
+		<formalpara><title>Color and Font Dialogs</title>
+		Color (Windows):
+		<screenshot>
+			<graphic fileref="gfx/color-win32.png"></graphic>
+		</screenshot>
+		
+		Font (Windows):
+		<screenshot>
+			<graphic fileref="gfx/font-win32.png"></graphic>
+		</screenshot>
+		
+		Color Save (Mac OS X):
+		<screenshot>
+			<graphic fileref="gfx/color-osx.png"></graphic>
+		</screenshot>
+		</formalpara>
+		
+		<formalpara><title>Other Common Dialogs</title>
+		Browse for Folder (Windows):
+		<screenshot>
+			<graphic fileref="gfx/browse-for-folder-win32.png"></graphic>
+		</screenshot>
+		
+		Browse for Folder (Mac OS X):
+		<screenshot>
+			<graphic fileref="gfx/browse-for-folder-osx.png"></graphic>
+		</screenshot>
+		
+		Printer (Windows):
+		<screenshot>
+			<graphic fileref="gfx/printer-win32.png"></graphic>
+		</screenshot>
+		</formalpara>
+		
 		<para>
 		There is also a common dialog for showing a text
 		message to the user.  This is included in the VCF::Dialog
@@ -1432,9 +1659,47 @@ class UserPrefsExample: public Window{
 			<listitem>msError   - 	error message</listitem>
 			<listitem>msInfo    - 	information message</listitem>
 			<listitem>msWarning - 	warning message</listitem>
-		</itemizedlist>
-		<TODO>show pictures of all message styles</TODO>
+		</itemizedlist>		
 		</para>		
+		
+		<formalpara><title>Dialog Message Styles</title>
+		Dialog::msDefault (Windows):
+		<screenshot>
+			<graphic fileref="gfx/default-win32.png"></graphic>
+		</screenshot>
+		
+		Dialog::msError (Windows):
+		<screenshot>
+			<graphic fileref="gfx/error-win32.png"></graphic>
+		</screenshot>
+		
+		Dialog::msInfo (Windows):
+		<screenshot>
+			<graphic fileref="gfx/info-win32.png"></graphic>
+		</screenshot>
+		
+		Dialog::msWarning (Windows):
+		<screenshot>
+			<graphic fileref="gfx/warning-win32.png"></graphic>
+		</screenshot>
+		
+		Dialog::msError (Mac OS X):
+		<screenshot>
+			<graphic fileref="gfx/error-osx.png"></graphic>
+		</screenshot>
+		
+		Dialog::msInfo (Mac OS X):
+		<screenshot>
+			<graphic fileref="gfx/info-osx.png"></graphic>
+		</screenshot>
+		
+		Dialog::msWarning (Mac OS X):
+		<screenshot>
+			<graphic fileref="gfx/warning-osx.png"></graphic>
+		</screenshot>
+		
+		</formalpara>
+		
 	</section>
 
 	<section id="CustomDialogs"><title>Custom Dialogs</title>
@@ -1504,10 +1769,19 @@ class MyAbout : public VCF::Dialog {
 		myAbout.showModal();
 	}	
 ]]>
-		</programlisting>
-		
+		</programlisting>		
 		</section>
-
+		</section>
+		<section ide="FrameSizing"><title>Frame Sizing</title>
+		A frame can be resized either programmatically or by the user. You can
+		set the size of the frame by calling the setBounds() function, just like
+		you would for a control. If the user sizes the frame, the frames will
+		resize itself freely (or according to whatever platform specific window
+		manager rules there are for this), \em unless the frame's minimum or maximum
+		values are set. These are set by calling the Control::setMinSize() or 
+		Control::setMaxSize functions. If these values are set then the frames size
+		may be constrained accordingly. You can set both maximum and minimum constraints
+		or none at all.
 		</section>
 		<section id="FrameUsage"><title>Frame usage in the VFC</title>
 		<para>
@@ -1943,6 +2217,9 @@ control->setView( view );
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.3  2006/03/05 00:40:48  ddiego
+updated docs.
+
 Revision 1.6.2.2  2006/03/02 22:13:01  ddiego
 docs update.
 

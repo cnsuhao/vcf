@@ -153,11 +153,30 @@ about that? I just saw the installer telling me you own the copyright, is that s
 				<para>What would be required to port my MFC App to VCF?</para>
 			</question>
 			<answer>
-				<para>A miracle? Seriously porting an existing code in one framework to another
-				is not a 5 minute job. It would partially depend on what features of MFC you make use of
-				and how you built your app. Many of the function names are different or subtly different.
-				The basic core concepts are pretty much the same, but the fundamental design of the two
-				frameworks is quite different.
+				<formalpara><title>Short answer</title>A miracle? Seriously porting an 
+				existing code in one framework to another is not a 5 minute job. It would 
+				partially depend on what features of MFC you make use of and how you built 
+				your app. Many of the function names are different or subtly different.
+				The basic core concepts are pretty much the same, but the fundamental 
+				design of the two frameworks is quite different.
+				</formalpara>
+				<formalpara><title>Long answer</title>
+				The (rather glib) answer above assumes the questioner is talking about 
+				a 100% port from one codebase to another. Obviously this is a painful process 
+				no matter what framework we're talking about - even migrating an MFC app 
+				over to the .Net framework is just as painful, possibly worse because there 
+				are many concepts in MFC that have no direct equivalents in .Net. 
+				</formalpara>
+				<para>
+				However, it is possible to do this gradually. Thanks to the modular nature of 
+				the VCF, you can gradually migrate your application over. For example, if 
+				you wanted to just start with your IO code and basic objects, then you could 
+				just use the FoundationKit with your MFC code base. See the 
+				vcf/examples/MFCIntegration1 example for more information about this. Then 
+				you might decide to just migrate your drawing code over to the VCF's way 
+				of painting. Because we use standard Win32 primitives it's relatively easy 
+				to mix and match the two. See the vcf/examples/MFCIntegration2 for more on 
+				this.
 				</para>
 			</answer>
 		</qandaentry>
@@ -180,10 +199,19 @@ about that? I just saw the installer telling me you own the copyright, is that s
 					Microsoft Visual C++ 7
 					</para></listitem>
 					<listitem>	<para>
+					Microsoft Visual C++ 7.1
+					</para></listitem>
+					<listitem>	<para>
+					Microsoft Visual C++ 8.0
+					</para></listitem>
+					<listitem>	<para>
 					GCC 2.95
 					</para></listitem>
 					<listitem>	<para>
 					GCC 3.2
+					</para></listitem>
+					<listitem>	<para>
+					GCC 4.0 (OS X)
 					</para></listitem>
 				</itemizedlist>						
 				</para>
@@ -1384,7 +1412,7 @@ gc->strokePath();
 			</question>
 			<answer>
 				<para>
-				An answer.
+				You can create an image using the 
 				</para>
 			</answer>
 		</qandaentry>
@@ -1981,6 +2009,9 @@ gc->strokePath();
 CVS Log info
 
 $Log$
+Revision 1.4.4.2  2006/03/05 00:40:48  ddiego
+updated docs.
+
 Revision 1.4.4.1  2005/08/30 03:39:36  ddiego
 more component authoring info.
 
