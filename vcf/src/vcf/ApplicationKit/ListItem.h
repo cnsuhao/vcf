@@ -77,23 +77,65 @@ public:
 	};
 
 
+	DELEGATE(SubItemChanged);
+	DELEGATE(SubItemAdded);
+	DELEGATE(SubItemDeleted);
+
+
 	ListItem(){
 
 	};
 
 	virtual ~ListItem(){};
 
-    virtual void addSubItemAddedHandler( EventHandler* handler ) = 0;
+	/**
+	@deprecated - these are here for backwards compatibility
+	purposes only - they'll be going away in the next release.
+	*/
+    void addSubItemAddedHandler( EventHandler* handler ){
+		SubItemAdded += handler;
+	}
 
-	virtual void addSubItemDeletedHandler( EventHandler* handler ) = 0;
+	/**
+	@deprecated - these are here for backwards compatibility
+	purposes only - they'll be going away in the next release.
+	*/
+	void addSubItemDeletedHandler( EventHandler* handler ){
+		SubItemDeleted += handler;
+	}
 
-	virtual void addSubItemChangedHandler( EventHandler* handler ) = 0;
+	/**
+	@deprecated - these are here for backwards compatibility
+	purposes only - they'll be going away in the next release.
+	*/
+	void addSubItemChangedHandler( EventHandler* handler ){
+		SubItemChanged += handler;
+	}
 
-	virtual void removeSubItemAddedHandler( EventHandler* handler ) = 0;
+	/**
+	@deprecated - these are here for backwards compatibility
+	purposes only - they'll be going away in the next release.
+	*/
+	void removeSubItemAddedHandler( EventHandler* handler ){
+		SubItemAdded -= handler;
+	}
 
-	virtual void removeSubItemDeletedHandler( EventHandler* handler ) = 0;
+	/**
+	@deprecated - these are here for backwards compatibility
+	purposes only - they'll be going away in the next release.
+	*/
+	void removeSubItemDeletedHandler( EventHandler* handler ){
+		ItemDeleted -= handler;
+	}
 
-	virtual void removeSubItemChangedHandler( EventHandler* handler ) = 0;
+	/**
+	@deprecated - these are here for backwards compatibility
+	purposes only - they'll be going away in the next release.
+	*/
+	void removeSubItemChangedHandler( EventHandler* handler ) {
+		SubItemChanged -= handler;
+	}
+
 
 	virtual String getCaption() = 0;
 
@@ -120,6 +162,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

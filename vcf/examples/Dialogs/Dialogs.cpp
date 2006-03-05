@@ -60,16 +60,14 @@ public:
 		Panel* bottom = new Panel();
 		bottom->setBorder( NULL );
 
-		UIMetricsManager* metrics = UIToolkit::getUIMetricsManager();		
-
-		bottom->setHeight( okBtn->getPreferredHeight() + metrics->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta) * 2 );
+		bottom->setHeight( okBtn->getPreferredHeight() + UIToolkit::getUIMetricValue( UIMetricsManager::mtContainerBorderDelta) * 2 );
 		
 
 		HorizontalLayoutContainer* container2 = new HorizontalLayoutContainer();
 		container2->setLeftBorderWidth( getWidth() / 2.0 );	
 
 		double width = getWidth() / 2.0;
-		width -= metrics->getPreferredSpacingFor(UIMetricsManager::stContainerBorderDelta);
+		width -= UIToolkit::getUIMetricValue(UIMetricsManager::mtContainerBorderDelta);
 		width -= container2->getColumnTweenWidth( 0 );
 
 		container2->setColumnWidth( 0, width / 2.0 );

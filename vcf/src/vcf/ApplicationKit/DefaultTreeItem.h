@@ -42,53 +42,6 @@ public:
 
 	virtual ~DefaultTreeItem();
 
-	DELEGATE(ItemPaint);
-	DELEGATE(ItemChanged);
-	DELEGATE(ItemSelected);
-	DELEGATE(ItemAdded);
-	DELEGATE(ItemDeleted);
-
-	virtual void addItemPaintHandler( EventHandler* handler ){
-		ItemPaint += handler;
-	}
-
-	virtual void addItemChangedHandler( EventHandler* handler ){
-		ItemChanged += handler;
-	}
-
-	virtual void addItemSelectedHandler( EventHandler* handler ){
-		ItemSelected += handler;
-	}
-
-	virtual void addItemAddedHandler( EventHandler* handler ){
-		ItemAdded += handler;
-	}
-
-	virtual void addItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted += handler;
-	}
-
-	virtual void removeItemPaintHandler( EventHandler* handler ){
-		ItemPaint -= handler;
-	}
-
-	virtual void removeItemChangedHandler( EventHandler* handler ){
-		ItemChanged -= handler;
-	}
-
-	virtual void removeItemSelectedHandler( EventHandler* handler ){
-		ItemSelected -= handler;
-	}
-
-	virtual void removeItemAddedHandler( EventHandler* handler ){
-		ItemAdded -= handler;
-	}
-
-	virtual void removeItemDeletedHandler( EventHandler* handler ){
-		ItemDeleted -= handler;
-	}
-
-
 	virtual bool containsPoint( Point * pt );
 
 	virtual unsigned long getIndex();
@@ -149,10 +102,6 @@ public:
 
 	virtual void clearChildren();
 
-	virtual Model* getModel();
-
-	virtual void setModel( Model* model );
-
 	virtual void setIndex( const unsigned long& index );
 
 	virtual void paint( GraphicsContext* context, Rect* paintRect );
@@ -160,6 +109,10 @@ public:
 	virtual bool isSelected();
 
 	virtual void setSelected( const bool& selected );
+
+	virtual void setModel( Model* model );
+
+	virtual void setControl( Control* control );
 
 	virtual bool isExpanded() {
 		return isExpanded_;
@@ -175,17 +128,11 @@ public:
 		return &bounds_;
 	}
 
-	virtual Control* getControl() {
-		return owningControl_;
-	}
-
 	virtual long getImageIndex() {
 		return imageIndex_;
 	}
 
-	virtual void setImageIndex( const long& imageIndex );
-
-	virtual void setControl( Control* control );
+	virtual void setImageIndex( const long& imageIndex );	
 
 	virtual long getSelectedImageIndex() {
 		return selectedImageIndex_;
@@ -202,13 +149,7 @@ public:
 	virtual bool canPaint() {
 		return true;
 	}
-
-	virtual long getState(){
-		return state_;
-	}
-
-	virtual void setState( const long& state );
-
+	
 	virtual void setBounds( Rect* bounds );
 
 	/**
@@ -246,9 +187,7 @@ protected:
 	Color TextColor_;
 	String caption_;
 	TreeItem* parent_;
-	void* userData_;
-	Model* treeModel_;
-	long state_;
+	void* userData_;	
 	unsigned long index_;
 	EnumeratorContainer<std::vector<TreeItem*>,TreeItem*> enumContainer_;
 	std::vector<TreeItem*> childNodeItems_;
@@ -258,8 +197,7 @@ protected:
 
 	bool selected_;
 	bool isExpanded_;
-	Rect bounds_;
-	Control* owningControl_;
+	Rect bounds_;	
 	long imageIndex_;
 	long selectedImageIndex_;
 	long expandedImageIndex_;
@@ -273,6 +211,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/05 02:28:04  ddiego
+*updated the Item interface and adjusted the other classes accordingly.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
