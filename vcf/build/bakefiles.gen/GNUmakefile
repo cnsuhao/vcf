@@ -23,8 +23,6 @@ GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 NETWORKKIT_FILENAME = NetworkKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-WIN32HTMLBROWSER_FILENAME = \
-	Win32HTMLBrowser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 LIBAGG_LIB_CXXFLAGS = -I../../src\thirdparty/common/agg/include \
 	$(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE -pthread $(____OPTION_DEBUG) \
 	-DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar -D_UNICODE \
@@ -40,8 +38,6 @@ LIBAGG_LIB_OBJECTS =  \
 	$(OBJDIR)/libAGG_lib_agg_image_filters.o \
 	$(OBJDIR)/libAGG_lib_agg_line_aa_basics.o \
 	$(OBJDIR)/libAGG_lib_agg_line_profile_aa.o \
-	$(OBJDIR)/libAGG_lib_agg_path_storage.o \
-	$(OBJDIR)/libAGG_lib_agg_rasterizer_scanline_aa.o \
 	$(OBJDIR)/libAGG_lib_agg_rounded_rect.o \
 	$(OBJDIR)/libAGG_lib_agg_sqrt_tables.o \
 	$(OBJDIR)/libAGG_lib_agg_trans_affine.o \
@@ -415,14 +411,13 @@ GRAPHICSKIT_DLL_OBJECTS =  \
 	$(OBJDIR)/GraphicsKit_dll_GTKGraphicsToolkit.o \
 	$(OBJDIR)/GraphicsKit_dll_GTKImage.o \
 	$(OBJDIR)/GraphicsKit_dll_GTKPrintSession.o
-APPLICATIONKIT_LIB_CXXFLAGS = -DVCF_NO_ATL $(__FOUNDATIONKIT_DLL_p) \
+APPLICATIONKIT_LIB_CXXFLAGS = $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
 	$(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE -pthread $(____OPTION_DEBUG) \
 	-DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar -D_UNICODE \
-	-I../../src -DRUNTIME_LOADLIBRARY -DUSE_WIN32HTMLBROWSER_LIB $(CPPFLAGS) \
-	$(CXXFLAGS)
+	-I../../src $(CPPFLAGS) $(CXXFLAGS)
 APPLICATIONKIT_LIB_OBJECTS =  \
 	$(OBJDIR)/ApplicationKit_lib_AbstractApplication.o \
 	$(OBJDIR)/ApplicationKit_lib_AbstractCommand.o \
@@ -538,7 +533,7 @@ APPLICATIONKIT_LIB_OBJECTS =  \
 	$(OBJDIR)/ApplicationKit_lib_GTKToolbar.o \
 	$(OBJDIR)/ApplicationKit_lib_GTKUIToolkit.o \
 	$(OBJDIR)/ApplicationKit_lib_GTKWindow.o
-APPLICATIONKIT_DLL_CXXFLAGS = -DVCF_NO_ATL $(__FOUNDATIONKIT_DLL_p) \
+APPLICATIONKIT_DLL_CXXFLAGS = $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
@@ -661,14 +656,36 @@ APPLICATIONKIT_DLL_OBJECTS =  \
 	$(OBJDIR)/ApplicationKit_dll_GTKToolbar.o \
 	$(OBJDIR)/ApplicationKit_dll_GTKUIToolkit.o \
 	$(OBJDIR)/ApplicationKit_dll_GTKWindow.o
+HTMLKIT_LIB_CXXFLAGS = $(__FOUNDATIONKIT_DLL_p) \
+	-I../../src\thirdparty/common/agg/include \
+	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
+	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
+	$(__APPLICATIONKIT_DLL_p) $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE \
+	-pthread $(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
+	-Wno-multichar -D_UNICODE -I../../src $(CPPFLAGS) $(CXXFLAGS)
+HTMLKIT_LIB_OBJECTS =  \
+	$(OBJDIR)/HTMLKit_lib_HTMLBrowserControl.o \
+	$(OBJDIR)/HTMLKit_lib_HTMLKit.o \
+	$(OBJDIR)/HTMLKit_lib_HTMLToolkit.o
+HTMLKIT_DLL_CXXFLAGS = $(__FOUNDATIONKIT_DLL_p) \
+	-I../../src\thirdparty/common/agg/include \
+	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
+	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
+	$(__APPLICATIONKIT_DLL_p) $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE \
+	-pthread $(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
+	-Wno-multichar -D_UNICODE -I../../src -DHTMLKIT_DLL -DHTMLKIT_EXPORTS -fPIC \
+	-DPIC $(CPPFLAGS) $(CXXFLAGS)
+HTMLKIT_DLL_OBJECTS =  \
+	$(OBJDIR)/HTMLKit_dll_HTMLBrowserControl.o \
+	$(OBJDIR)/HTMLKit_dll_HTMLKit.o \
+	$(OBJDIR)/HTMLKit_dll_HTMLToolkit.o
 OPENGLKIT_LIB_CXXFLAGS = $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
-	$(__WIN32HTMLBROWSER_DLL_p) $(__APPLICATIONKIT_DLL_p) $(__DEBUG_INFO) \
-	$(__OPTIMIZE) -D_THREAD_SAFE -pthread $(____OPTION_DEBUG) \
-	-DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar -D_UNICODE \
-	-I../../src $(CPPFLAGS) $(CXXFLAGS)
+	$(__APPLICATIONKIT_DLL_p) $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE \
+	-pthread $(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
+	-Wno-multichar -D_UNICODE -I../../src $(CPPFLAGS) $(CXXFLAGS)
 OPENGLKIT_LIB_OBJECTS =  \
 	$(OBJDIR)/OpenGLKit_lib_OpenGLControl.o \
 	$(OBJDIR)/OpenGLKit_lib_OpenGLControlContext.o \
@@ -677,11 +694,10 @@ OPENGLKIT_DLL_CXXFLAGS = $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
-	$(__WIN32HTMLBROWSER_DLL_p) $(__APPLICATIONKIT_DLL_p) $(__DEBUG_INFO) \
-	$(__OPTIMIZE) -D_THREAD_SAFE -pthread $(____OPTION_DEBUG) \
-	-DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar -D_UNICODE \
-	-I../../src -DOPENGLKIT_DLL -DOPENGLKIT_EXPORTS -fPIC -DPIC $(CPPFLAGS) \
-	$(CXXFLAGS)
+	$(__APPLICATIONKIT_DLL_p) $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE \
+	-pthread $(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
+	-Wno-multichar -D_UNICODE -I../../src -DOPENGLKIT_DLL -DOPENGLKIT_EXPORTS \
+	-fPIC -DPIC $(CPPFLAGS) $(CXXFLAGS)
 OPENGLKIT_DLL_OBJECTS =  \
 	$(OBJDIR)/OpenGLKit_dll_OpenGLControl.o \
 	$(OBJDIR)/OpenGLKit_dll_OpenGLControlContext.o \
@@ -754,23 +770,23 @@ INTERNETKIT_DLL_CXXFLAGS = $(__FOUNDATIONKIT_DLL_p) $(__DEBUG_INFO) \
 INTERNETKIT_DLL_OBJECTS =  \
 	$(OBJDIR)/InternetKit_dll_InternetKit.o \
 	$(OBJDIR)/InternetKit_dll_InternetToolkit.o
-ALLIN1_LIB_CXXFLAGS = -DVCF_NO_ATL $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE \
-	-pthread $(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src -DRUNTIME_LOADLIBRARY \
-	-DUSE_WIN32HTMLBROWSER_LIB $(CPPFLAGS) $(CXXFLAGS)
+ALLIN1_LIB_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE -pthread \
+	$(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar \
+	-D_UNICODE -I../../src $(CPPFLAGS) $(CXXFLAGS)
 ALLIN1_LIB_OBJECTS =  \
 	$(____Allin1_lib_ALLIN1_FOUNDATIONKIT_SRC_OBJECTS) \
 	$(____Allin1_lib_ALLIN1_GRAPHICSKIT_SRC_OBJECTS) \
 	$(____Allin1_lib_ALLIN1_APPLICATIONKIT_SRC_OBJECTS) \
+	$(____Allin1_lib_ALLIN1_HTMLKIT_SRC_OBJECTS) \
 	$(____Allin1_lib_ALLIN1_OPENGLKIT_SRC_OBJECTS) \
 	$(____Allin1_lib_ALLIN1_NETWORKKIT_SRC_OBJECTS) \
 	$(____Allin1_lib_ALLIN1_REMOTEOBJECTKIT_SRC_OBJECTS) \
 	$(____Allin1_lib_ALLIN1_INTERNETKIT_SRC_OBJECTS)
-ALLIN1_DLL_CXXFLAGS = -DVCF_NO_ATL $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE \
-	-pthread $(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src -DFOUNDATIONKIT_DLL \
-	-DFOUNDATIONKIT_EXPORTS -DGRAPHICSKIT_DLL -DGRAPHICSKIT_EXPORTS \
-	-DAPPLICATIONKIT_DLL -DAPPLICATIONKIT_EXPORTS -DOPENGLKIT_DLL \
+ALLIN1_DLL_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE -pthread \
+	$(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar \
+	-D_UNICODE -I../../src -DFOUNDATIONKIT_DLL -DFOUNDATIONKIT_EXPORTS \
+	-DGRAPHICSKIT_DLL -DGRAPHICSKIT_EXPORTS -DAPPLICATIONKIT_DLL \
+	-DAPPLICATIONKIT_EXPORTS -DHTMLKIT_DLL -DHTMLKIT_EXPORTS -DOPENGLKIT_DLL \
 	-DOPENGLKIT_EXPORTS -DNETKIT_DLL -DNETKIT_EXPORTS -DREMOTEKIT_DLL \
 	-DREMOTEKIT_EXPORTS -DINTERNETKIT_DLL -DINTERNETKIT_EXPORTS -fPIC -DPIC \
 	$(CPPFLAGS) $(CXXFLAGS)
@@ -778,6 +794,7 @@ ALLIN1_DLL_OBJECTS =  \
 	$(____Allin1_dll_ALLIN1_FOUNDATIONKIT_SRC_OBJECTS) \
 	$(____Allin1_dll_ALLIN1_GRAPHICSKIT_SRC_OBJECTS) \
 	$(____Allin1_dll_ALLIN1_APPLICATIONKIT_SRC_OBJECTS) \
+	$(____Allin1_dll_ALLIN1_HTMLKIT_SRC_OBJECTS) \
 	$(____Allin1_dll_ALLIN1_OPENGLKIT_SRC_OBJECTS) \
 	$(____Allin1_dll_ALLIN1_NETWORKKIT_SRC_OBJECTS) \
 	$(____Allin1_dll_ALLIN1_REMOTEOBJECTKIT_SRC_OBJECTS) \
@@ -883,6 +900,22 @@ endif
 endif
 endif
 ifeq ($(OPTION_ALLIN1),0)
+ifeq ($(OPTION_HTMLKIT),1)
+ifeq ($(OPTION_SHARED),0)
+__HTMLKit_lib___depname = \
+	../../lib/libHTMLKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a
+endif
+endif
+endif
+ifeq ($(OPTION_ALLIN1),0)
+ifeq ($(OPTION_HTMLKIT),1)
+ifeq ($(OPTION_SHARED),1)
+__HTMLKit_dll___depname = \
+	../../lib/libHTMLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so
+endif
+endif
+endif
+ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_OPENGLKIT),1)
 ifeq ($(OPTION_SHARED),0)
 __OpenGLKit_lib___depname = \
@@ -897,12 +930,6 @@ __OpenGLKit_dll___depname = \
 	../../lib/libOpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so
 endif
 endif
-endif
-ifeq ($(OPTION_SHARED),0)
-____OpenGLKit_dll_WIN32HTMLBROWSER_p = -l$(WIN32HTMLBROWSER_FILENAME)
-endif
-ifeq ($(OPTION_ALLIN1),0)
-____OpenGLKit_dll_APPLICATIONKIT_p = -l$(APPLICATIONKIT_FILENAME)
 endif
 ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_NETWORKKIT),1)
@@ -1186,6 +1213,12 @@ ____Allin1_lib_ALLIN1_APPLICATIONKIT_SRC_OBJECTS =  \
 	$(OBJDIR)/Allin1_lib_GTKUIToolkit.o \
 	$(OBJDIR)/Allin1_lib_GTKWindow.o
 endif
+ifeq ($(OPTION_HTMLKIT),1)
+____Allin1_lib_ALLIN1_HTMLKIT_SRC_OBJECTS =  \
+	$(OBJDIR)/Allin1_lib_HTMLBrowserControl.o \
+	$(OBJDIR)/Allin1_lib_HTMLKit.o \
+	$(OBJDIR)/Allin1_lib_HTMLToolkit.o
+endif
 ifeq ($(OPTION_OPENGLKIT),1)
 ____Allin1_lib_ALLIN1_OPENGLKIT_SRC_OBJECTS =  \
 	$(OBJDIR)/Allin1_lib_OpenGLControl.o \
@@ -1437,6 +1470,12 @@ ____Allin1_dll_ALLIN1_APPLICATIONKIT_SRC_OBJECTS =  \
 	$(OBJDIR)/Allin1_dll_GTKUIToolkit.o \
 	$(OBJDIR)/Allin1_dll_GTKWindow.o
 endif
+ifeq ($(OPTION_HTMLKIT),1)
+____Allin1_dll_ALLIN1_HTMLKIT_SRC_OBJECTS =  \
+	$(OBJDIR)/Allin1_dll_HTMLBrowserControl.o \
+	$(OBJDIR)/Allin1_dll_HTMLKit.o \
+	$(OBJDIR)/Allin1_dll_HTMLToolkit.o
+endif
 ifeq ($(OPTION_OPENGLKIT),1)
 ____Allin1_dll_ALLIN1_OPENGLKIT_SRC_OBJECTS =  \
 	$(OBJDIR)/Allin1_dll_OpenGLControl.o \
@@ -1493,11 +1532,11 @@ endif
 ifeq ($(OPTION_ALLIN1),0)
 Kit_dll_GRAPHICSKIT_p = -l$(GRAPHICSKIT_FILENAME)
 endif
-ifeq ($(OPTION_SHARED),1)
-__GRAPHICSKIT_DLL_p = -DGRAPHICSKIT_DLL
+ifeq ($(OPTION_ALLIN1),0)
+LKit_dll_APPLICATIONKIT_p = -l$(APPLICATIONKIT_FILENAME)
 endif
 ifeq ($(OPTION_SHARED),1)
-__WIN32HTMLBROWSER_DLL_p = -DWIN32HTMLBROWSER_DLL
+__GRAPHICSKIT_DLL_p = -DGRAPHICSKIT_DLL
 endif
 ifeq ($(OPTION_SHARED),1)
 __APPLICATIONKIT_DLL_p = -DAPPLICATIONKIT_DLL
@@ -1567,7 +1606,7 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: ../../bin ../../lib $(VAR) $(VAR_0) $(VAR_1) $(VAR_2) $(VAR_3) $(VAR_4) $(VAR_5) $(__FoundationKit_lib___depname) $(__FoundationKit_dll___depname) $(__GraphicsKit_lib___depname) $(__GraphicsKit_dll___depname) $(__ApplicationKit_lib___depname) $(__ApplicationKit_dll___depname) $(__OpenGLKit_lib___depname) $(__OpenGLKit_dll___depname) $(__NetworkKit_lib___depname) $(__NetworkKit_dll___depname) $(__RemoteObjectKit_lib___depname) $(__RemoteObjectKit_dll___depname) $(__InternetKit_lib___depname) $(__InternetKit_dll___depname) $(__Allin1_lib___depname) $(__Allin1_dll___depname) $(VAR_6) createinfo_ CreateBundle_ xmake_
+all: ../../bin ../../lib $(VAR) $(VAR_0) $(VAR_1) $(VAR_2) $(VAR_3) $(VAR_4) $(VAR_5) $(__FoundationKit_lib___depname) $(__FoundationKit_dll___depname) $(__GraphicsKit_lib___depname) $(__GraphicsKit_dll___depname) $(__ApplicationKit_lib___depname) $(__ApplicationKit_dll___depname) $(__HTMLKit_lib___depname) $(__HTMLKit_dll___depname) $(__OpenGLKit_lib___depname) $(__OpenGLKit_dll___depname) $(__NetworkKit_lib___depname) $(__NetworkKit_dll___depname) $(__RemoteObjectKit_lib___depname) $(__RemoteObjectKit_dll___depname) $(__InternetKit_lib___depname) $(__InternetKit_dll___depname) $(__Allin1_lib___depname) $(__Allin1_dll___depname) $(VAR_6) createinfo_ CreateBundle_ xmake_
 
 install: all
 
@@ -1592,6 +1631,9 @@ clean:
 	rm -f ../../lib/libApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a
 	rm -f ../../lib/libApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so
 	rm -f ../../lib/libApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so
+	rm -f ../../lib/libHTMLKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a
+	rm -f ../../lib/libHTMLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so
+	rm -f ../../lib/libHTMLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so
 	rm -f ../../lib/libOpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a
 	rm -f ../../lib/libOpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so
 	rm -f ../../lib/libOpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so
@@ -1728,6 +1770,26 @@ endif
 endif
 
 ifeq ($(OPTION_ALLIN1),0)
+ifeq ($(OPTION_HTMLKIT),1)
+ifeq ($(OPTION_SHARED),0)
+../../lib/libHTMLKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a: $(HTMLKIT_LIB_OBJECTS) $(__ApplicationKit_lib___depname)
+	rm -f $@
+	$(AR) rcu $@ $(HTMLKIT_LIB_OBJECTS)
+	$(RANLIB) $@
+endif
+endif
+endif
+
+ifeq ($(OPTION_ALLIN1),0)
+ifeq ($(OPTION_HTMLKIT),1)
+ifeq ($(OPTION_SHARED),1)
+../../lib/libHTMLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so: $(HTMLKIT_DLL_OBJECTS) $(__ApplicationKit_dll___depname)
+	$(CXX) -shared -fPIC -o $@ $(HTMLKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib  $(Kit_dll_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(Kit_dll_GRAPHICSKIT_p) $(LKit_dll_APPLICATIONKIT_p) -ldl -luuid
+endif
+endif
+endif
+
+ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_OPENGLKIT),1)
 ifeq ($(OPTION_SHARED),0)
 ../../lib/libOpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a: $(OPENGLKIT_LIB_OBJECTS) $(__ApplicationKit_lib___depname)
@@ -1742,7 +1804,7 @@ ifeq ($(OPTION_ALLIN1),0)
 ifeq ($(OPTION_OPENGLKIT),1)
 ifeq ($(OPTION_SHARED),1)
 ../../lib/libOpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_DYNAMIC).so: $(OPENGLKIT_DLL_OBJECTS) $(__ApplicationKit_dll___depname)
-	$(CXX) -shared -fPIC -o $@ $(OPENGLKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib  $(Kit_dll_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(Kit_dll_GRAPHICSKIT_p) $(____OpenGLKit_dll_WIN32HTMLBROWSER_p) $(____OpenGLKit_dll_APPLICATIONKIT_p) -ldl -luuid
+	$(CXX) -shared -fPIC -o $@ $(OPENGLKIT_DLL_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib  $(Kit_dll_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(Kit_dll_GRAPHICSKIT_p) $(LKit_dll_APPLICATIONKIT_p) -ldl -luuid
 endif
 endif
 endif
@@ -1842,6 +1904,10 @@ ifeq ($(OPTION_APPLICATIONKIT),1)
 ApplicationKit: $(__ApplicationKit_lib___depname) $(__ApplicationKit_dll___depname)
 endif
 
+ifeq ($(OPTION_HTMLKIT),1)
+HTMLKit: $(__HTMLKit_lib___depname) $(__HTMLKit_dll___depname)
+endif
+
 ifeq ($(OPTION_OPENGLKIT),1)
 OpenGLKit: $(__OpenGLKit_lib___depname) $(__OpenGLKit_dll___depname)
 endif
@@ -1933,12 +1999,6 @@ $(OBJDIR)/libAGG_lib_agg_line_aa_basics.o: ../../src/thirdparty/common/agg/src/a
 	$(CXX) -c -o $@ $(LIBAGG_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 $(OBJDIR)/libAGG_lib_agg_line_profile_aa.o: ../../src/thirdparty/common/agg/src/agg_line_profile_aa.cpp
-	$(CXX) -c -o $@ $(LIBAGG_LIB_CXXFLAGS) $(CPPDEPS) $<
-
-$(OBJDIR)/libAGG_lib_agg_path_storage.o: ../../src/thirdparty/common/agg/src/agg_path_storage.cpp
-	$(CXX) -c -o $@ $(LIBAGG_LIB_CXXFLAGS) $(CPPDEPS) $<
-
-$(OBJDIR)/libAGG_lib_agg_rasterizer_scanline_aa.o: ../../src/thirdparty/common/agg/src/agg_rasterizer_scanline_aa.cpp
 	$(CXX) -c -o $@ $(LIBAGG_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 $(OBJDIR)/libAGG_lib_agg_rounded_rect.o: ../../src/thirdparty/common/agg/src/agg_rounded_rect.cpp
@@ -3612,6 +3672,24 @@ $(OBJDIR)/ApplicationKit_dll_GTKUIToolkit.o: ../../src/vcf/ApplicationKit/GTKUIT
 $(OBJDIR)/ApplicationKit_dll_GTKWindow.o: ../../src/vcf/ApplicationKit/GTKWindow.cpp
 	$(CXX) -c -o $@ $(APPLICATIONKIT_DLL_CXXFLAGS) $(CPPDEPS) $<
 
+$(OBJDIR)/HTMLKit_lib_HTMLBrowserControl.o: ../../src/vcf/HTMLKit/HTMLBrowserControl.cpp
+	$(CXX) -c -o $@ $(HTMLKIT_LIB_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/HTMLKit_lib_HTMLKit.o: ../../src/vcf/HTMLKit/HTMLKit.cpp
+	$(CXX) -c -o $@ $(HTMLKIT_LIB_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/HTMLKit_lib_HTMLToolkit.o: ../../src/vcf/HTMLKit/HTMLToolkit.cpp
+	$(CXX) -c -o $@ $(HTMLKIT_LIB_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/HTMLKit_dll_HTMLBrowserControl.o: ../../src/vcf/HTMLKit/HTMLBrowserControl.cpp
+	$(CXX) -c -o $@ $(HTMLKIT_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/HTMLKit_dll_HTMLKit.o: ../../src/vcf/HTMLKit/HTMLKit.cpp
+	$(CXX) -c -o $@ $(HTMLKIT_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/HTMLKit_dll_HTMLToolkit.o: ../../src/vcf/HTMLKit/HTMLToolkit.cpp
+	$(CXX) -c -o $@ $(HTMLKIT_DLL_CXXFLAGS) $(CPPDEPS) $<
+
 $(OBJDIR)/OpenGLKit_lib_OpenGLControl.o: ../../src/vcf/OpenGLKit/OpenGLControl.cpp
 	$(CXX) -c -o $@ $(OPENGLKIT_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -4344,6 +4422,15 @@ $(OBJDIR)/Allin1_lib_GTKUIToolkit.o: ../../src/vcf/ApplicationKit/GTKUIToolkit.c
 $(OBJDIR)/Allin1_lib_GTKWindow.o: ../../src/vcf/ApplicationKit/GTKWindow.cpp
 	$(CXX) -c -o $@ $(ALLIN1_LIB_CXXFLAGS) $(CPPDEPS) $<
 
+$(OBJDIR)/Allin1_lib_HTMLBrowserControl.o: ../../src/vcf/HTMLKit/HTMLBrowserControl.cpp
+	$(CXX) -c -o $@ $(ALLIN1_LIB_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/Allin1_lib_HTMLKit.o: ../../src/vcf/HTMLKit/HTMLKit.cpp
+	$(CXX) -c -o $@ $(ALLIN1_LIB_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/Allin1_lib_HTMLToolkit.o: ../../src/vcf/HTMLKit/HTMLToolkit.cpp
+	$(CXX) -c -o $@ $(ALLIN1_LIB_CXXFLAGS) $(CPPDEPS) $<
+
 $(OBJDIR)/Allin1_lib_OpenGLControl.o: ../../src/vcf/OpenGLKit/OpenGLControl.cpp
 	$(CXX) -c -o $@ $(ALLIN1_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -5016,6 +5103,15 @@ $(OBJDIR)/Allin1_dll_GTKUIToolkit.o: ../../src/vcf/ApplicationKit/GTKUIToolkit.c
 $(OBJDIR)/Allin1_dll_GTKWindow.o: ../../src/vcf/ApplicationKit/GTKWindow.cpp
 	$(CXX) -c -o $@ $(ALLIN1_DLL_CXXFLAGS) $(CPPDEPS) $<
 
+$(OBJDIR)/Allin1_dll_HTMLBrowserControl.o: ../../src/vcf/HTMLKit/HTMLBrowserControl.cpp
+	$(CXX) -c -o $@ $(ALLIN1_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/Allin1_dll_HTMLKit.o: ../../src/vcf/HTMLKit/HTMLKit.cpp
+	$(CXX) -c -o $@ $(ALLIN1_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/Allin1_dll_HTMLToolkit.o: ../../src/vcf/HTMLKit/HTMLToolkit.cpp
+	$(CXX) -c -o $@ $(ALLIN1_DLL_CXXFLAGS) $(CPPDEPS) $<
+
 $(OBJDIR)/Allin1_dll_OpenGLControl.o: ../../src/vcf/OpenGLKit/OpenGLControl.cpp
 	$(CXX) -c -o $@ $(ALLIN1_DLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -5157,7 +5253,7 @@ $(OBJDIR)/FreeImage_lib_PluginWBMP.o: ../../src/thirdparty/common/FreeImage/Sour
 $(OBJDIR)/FreeImage_lib_WuQuantizer.o: ../../src/thirdparty/common/FreeImage/Source/FreeImage/WuQuantizer.cpp
 	$(CXX) -c -o $@ $(FREEIMAGE_LIB_CXXFLAGS) $(CPPDEPS) $<
 
-.PHONY: all install uninstall clean FoundationKit GraphicsKit ApplicationKit OpenGLKit NetworkKit RemoteObjectKit InternetKit ZLib libAGG LibJPEG LibPNG LibMNG LibTIFF FreeImage RegExx createinfo createinfo_ CreateBundle CreateBundle_ xmake xmake_
+.PHONY: all install uninstall clean FoundationKit GraphicsKit ApplicationKit HTMLKit OpenGLKit NetworkKit RemoteObjectKit InternetKit ZLib libAGG LibJPEG LibPNG LibMNG LibTIFF FreeImage RegExx createinfo createinfo_ CreateBundle CreateBundle_ xmake xmake_
 
 
 # Dependencies tracking:

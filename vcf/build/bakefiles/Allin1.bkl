@@ -30,6 +30,14 @@
         </set>
 
         
+        <set var="ALLIN1_HTMLKIT_HDR" hints="files">
+            <if cond="OPTION_HTMLKIT=='1'">$(HTMLKIT_HDR)</if>
+        </set>
+        <set var="ALLIN1_HTMLKIT_SRC" hints="files">
+            <if cond="OPTION_HTMLKIT=='1'">$(HTMLKIT_SRC)</if>
+        </set>
+        
+
         <set var="ALLIN1_OPENGLKIT_HDR" hints="files">
             <if cond="OPTION_OPENGLKIT=='1'">$(OPENGLKIT_HDR)</if>
         </set>
@@ -66,6 +74,7 @@
             $(ALLIN1_FOUNDATIONKIT_HDR)
             $(ALLIN1_GRAPHICSKIT_HDR)
             $(ALLIN1_APPLICATIONKIT_HDR)
+            $(ALLIN1_HTMLKIT_HDR)
             $(ALLIN1_OPENGLKIT_HDR)
             $(ALLIN1_NETWORKKIT_HDR)
             $(ALLIN1_REMOTEOBJECTKIT_HDR)
@@ -75,6 +84,7 @@
             $(ALLIN1_FOUNDATIONKIT_SRC)
             $(ALLIN1_GRAPHICSKIT_SRC)
             $(ALLIN1_APPLICATIONKIT_SRC)
+            $(ALLIN1_HTMLKIT_SRC)
             $(ALLIN1_OPENGLKIT_SRC)
             $(ALLIN1_NETWORKKIT_SRC)
             $(ALLIN1_REMOTEOBJECTKIT_SRC)
@@ -128,14 +138,11 @@
         <library>$(ALLIN1_REGEXX_LIB)</library>
 
 
-        <define>$(VCF_NO_ATL)</define>
         <vcf-include-thirdparty/>
     </template>
 
     <lib id="Allin1_lib" template="Allin1_base,vcf_lib"
             cond="OPTION_SHARED=='0' and OPTION_ALLIN1=='1'">
-        <define>RUNTIME_LOADLIBRARY</define>
-        <define>USE_WIN32HTMLBROWSER_LIB</define>
     </lib>
 
     <dll id="Allin1_dll" template="Allin1_base,vcf_dll"
@@ -146,6 +153,8 @@
         <define>GRAPHICSKIT_EXPORTS</define>
         <define>APPLICATIONKIT_DLL</define>
         <define>APPLICATIONKIT_EXPORTS</define>
+        <define>HTMLKIT_DLL</define>
+        <define>HTMLKIT_EXPORTS</define>
         <define>OPENGLKIT_DLL</define>
         <define>OPENGLKIT_EXPORTS</define>
         <define>NETKIT_DLL</define>
@@ -155,9 +164,7 @@
         <define>INTERNETKIT_DLL</define>
         <define>INTERNETKIT_EXPORTS</define>
 
-        <define>$(WIN32HTMLBROWSER_DYNLIB_UNQUOTED)</define>
-
-        <res-include>../build/resources/win32</res-include>
+        <res-include>../../build/resources/win32</res-include>
         <win32-res>../build/resources/win32/ApplicationKit.rc</win32-res>
     </dll>
 

@@ -30,16 +30,13 @@ FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-WIN32HTMLBROWSER_FILENAME = \
-	Win32HTMLBrowser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 TEXLABEL_CXXFLAGS = $(__RUNTIME_LIBS_2) -I$(BCCDIR)\include $(__DEBUG_INFO) \
 	$(__OPTIMIZE_4) -tWM $(____OPTION_DEBUG_12_p) -DVCF_DISABLE_PRAGMA_LINKING \
 	-D_WINDOWS -D_WIN32 -DWIN32 -I..\..\src $(__FOUNDATIONKIT_DLL_p) \
 	-I..\..\src\thirdparty\common\agg\include \
 	-I..\..\src\thirdparty\common\ZLib -I..\..\src\thirdparty\common\LibJPEG \
 	-I..\..\src\thirdparty\common\LibPNG $(__GRAPHICSKIT_DLL_p) \
-	$(__WIN32HTMLBROWSER_DLL_p) $(__APPLICATIONKIT_DLL_p) $(CPPFLAGS) \
-	$(CXXFLAGS)
+	$(__APPLICATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
 TEXLABEL_OBJECTS =  \
 	$(OBJDIR)\TeXLabel_TeXLabel.obj \
 	$(OBJDIR)\TeXLabel_TeXLabel.scan.obj \
@@ -114,12 +111,6 @@ ____TeXLabel_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
 !if "$(OPTION_SHARED)" == "1"
 __GRAPHICSKIT_DLL_p = -DGRAPHICSKIT_DLL
 !endif
-!if "$(OPTION_SHARED)" == "0"
-____TeXLabel_WIN32HTMLBROWSER_p = $(WIN32HTMLBROWSER_FILENAME).lib
-!endif
-!if "$(OPTION_SHARED)" == "1"
-__WIN32HTMLBROWSER_DLL_p = -DWIN32HTMLBROWSER_DLL
-!endif
 !if "$(OPTION_ALLIN1)" == "0"
 ____TeXLabel_APPLICATIONKIT_p = $(APPLICATIONKIT_FILENAME).lib
 !endif
@@ -156,7 +147,7 @@ clean:
 !if "$(OPTION_APPLICATIONKIT)" == "1"
 .\TeXLabel$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(TEXLABEL_OBJECTS)
 	ilink32 -Tpe -q $(LDFLAGS) -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk $(__DEBUG_INFO)  -L..\..\build\bcc\missing_libs -L..\..\lib -aa @&&|
-	c0x32.obj $(TEXLABEL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____TeXLabel_FOUNDATIONKIT_p) $(LIBAGG_FILENAME).lib $(ZLIB_FILENAME).lib $(LIBJPEG_FILENAME).lib $(LIBPNG_FILENAME).lib $(____TeXLabel_GRAPHICSKIT_p) $(____TeXLabel_WIN32HTMLBROWSER_p) $(____TeXLabel_APPLICATIONKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
+	c0x32.obj $(TEXLABEL_OBJECTS),$@,, ole2w32.lib oleacc.lib glaux.lib urlmon.lib $(____TeXLabel_FOUNDATIONKIT_p) $(LIBAGG_FILENAME).lib $(ZLIB_FILENAME).lib $(LIBJPEG_FILENAME).lib $(LIBPNG_FILENAME).lib $(____TeXLabel_GRAPHICSKIT_p) $(____TeXLabel_APPLICATIONKIT_p) import32.lib cw32mt$(__RUNTIME_LIBS_3).lib,,
 |
 !endif
 

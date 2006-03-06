@@ -140,6 +140,21 @@ End Project Dependency
 
 ###############################################################################
 
+Project: "HTMLKit"=VCF_HTMLKit.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+Begin Project Dependency
+Project_Dep_Name ApplicationKit
+End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "OpenGLKit"=VCF_OpenGLKit.dsp - Package Owner=<4>
 
 Package=<5>
@@ -258,33 +273,6 @@ Project_Dep_Name LibTIFF_lib
 End Project Dependency
 Begin Project Dependency
 Project_Dep_Name FreeImage_lib
-End Project Dependency
-Begin Project Dependency
-Project_Dep_Name ApplicationKit
-End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "Win32HTMLBrowser"=VCF_Win32HTMLBrowser.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-Begin Project Dependency
-Project_Dep_Name libAGG_lib
-End Project Dependency
-Begin Project Dependency
-Project_Dep_Name ZLib_lib
-End Project Dependency
-Begin Project Dependency
-Project_Dep_Name LibJPEG_lib
-End Project Dependency
-Begin Project Dependency
-Project_Dep_Name LibPNG_lib
 End Project Dependency
 Begin Project Dependency
 Project_Dep_Name ApplicationKit

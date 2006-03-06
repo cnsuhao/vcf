@@ -32,6 +32,7 @@
     <include file="FoundationKit.bkl"/>
     <include file="GraphicsKit.bkl"/>
     <include file="ApplicationKit.bkl"/>
+    <include file="HTMLKit.bkl"/>
     <include file="OpenGLKit.bkl"/>
     <include file="NetworkKit.bkl"/>
     <include file="RemoteObjectKit.bkl"/>
@@ -41,7 +42,6 @@
 
     <include file="FreeImage.bkl"/>
     <include file="ImageFormats.bkl"/>
-    <include file="Win32HTMLBrowser.bkl"/>
 
     <include file="Actions.bkl"/>
 

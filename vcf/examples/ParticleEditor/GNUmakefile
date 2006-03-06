@@ -23,16 +23,13 @@ GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 OPENGLKIT_FILENAME = OpenGLKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-WIN32HTMLBROWSER_FILENAME = \
-	Win32HTMLBrowser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 PARTICLEEDITOR_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE \
 	-pthread $(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
 	-Wno-multichar -D_UNICODE -I../../src -I. $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
-	$(__WIN32HTMLBROWSER_DLL_p) $(__APPLICATIONKIT_DLL_p) $(__OPENGLKIT_DLL_p) \
-	$(CPPFLAGS) $(CXXFLAGS)
+	$(__APPLICATIONKIT_DLL_p) $(__OPENGLKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
 PARTICLEEDITOR_OBJECTS =  \
 	$(OBJDIR)/ParticleEditor_main.o \
 	$(OBJDIR)/ParticleEditor_ParticleEditor.o \
@@ -90,12 +87,6 @@ endif
 ifeq ($(OPTION_SHARED),1)
 __GRAPHICSKIT_DLL_p = -DGRAPHICSKIT_DLL
 endif
-ifeq ($(OPTION_SHARED),0)
-____ParticleEditor_WIN32HTMLBROWSER_p = -l$(WIN32HTMLBROWSER_FILENAME)
-endif
-ifeq ($(OPTION_SHARED),1)
-__WIN32HTMLBROWSER_DLL_p = -DWIN32HTMLBROWSER_DLL
-endif
 ifeq ($(OPTION_ALLIN1),0)
 ____ParticleEditor_APPLICATIONKIT_p = -l$(APPLICATIONKIT_FILENAME)
 endif
@@ -135,7 +126,7 @@ clean:
 
 ifeq ($(OPTION_OPENGLKIT),1)
 ./ParticleEditor$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(PARTICLEEDITOR_OBJECTS)
-	$(CXX) -o $@ $(PARTICLEEDITOR_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____ParticleEditor_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____ParticleEditor_GRAPHICSKIT_p) $(____ParticleEditor_WIN32HTMLBROWSER_p) $(____ParticleEditor_APPLICATIONKIT_p) $(____ParticleEditor_OPENGLKIT_p)
+	$(CXX) -o $@ $(PARTICLEEDITOR_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____ParticleEditor_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____ParticleEditor_GRAPHICSKIT_p) $(____ParticleEditor_APPLICATIONKIT_p) $(____ParticleEditor_OPENGLKIT_p)
 endif
 
 $(OBJDIR)/ParticleEditor_main.o: ./main.cpp

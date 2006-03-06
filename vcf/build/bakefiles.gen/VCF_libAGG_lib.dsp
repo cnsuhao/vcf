@@ -775,14 +775,6 @@ SOURCE=..\..\src\thirdparty\common\agg\src\agg_line_profile_aa.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\thirdparty\common\agg\src\agg_path_storage.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\thirdparty\common\agg\src\agg_rasterizer_scanline_aa.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\thirdparty\common\agg\src\agg_rounded_rect.cpp
 # End Source File
 # Begin Source File
@@ -1011,6 +1003,10 @@ SOURCE=..\..\src\thirdparty\common\agg\src\agg_gsv_text.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\thirdparty\common\agg\src\agg_image_accessors.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\thirdparty\common\agg\src\agg_image_filters.h
 # End Source File
 # Begin Source File
@@ -1020,6 +1016,10 @@ SOURCE=..\..\src\thirdparty\common\agg\src\agg_line_aa_basics.h
 # Begin Source File
 
 SOURCE=..\..\src\thirdparty\common\agg\src\agg_math.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\thirdparty\common\agg\src\agg_path_length.h
 # End Source File
 # Begin Source File
 
@@ -1075,6 +1075,14 @@ SOURCE=..\..\src\thirdparty\common\agg\src\agg_pixfmt_rgba32_pre.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\thirdparty\common\agg\src\agg_rasterizer_cells_aa.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\thirdparty\common\agg\src\agg_rasterizer_compound_aa.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\thirdparty\common\agg\src\agg_rasterizer_outline.h
 # End Source File
 # Begin Source File
@@ -1084,6 +1092,10 @@ SOURCE=..\..\src\thirdparty\common\agg\src\agg_rasterizer_outline_aa.h
 # Begin Source File
 
 SOURCE=..\..\src\thirdparty\common\agg\src\agg_rasterizer_scanline_aa.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\thirdparty\common\agg\src\agg_rasterizer_sl_clip.h
 # End Source File
 # Begin Source File
 
@@ -1220,6 +1232,10 @@ SOURCE=..\..\src\thirdparty\common\agg\src\agg_span_interpolator_trans.h
 # Begin Source File
 
 SOURCE=..\..\src\thirdparty\common\agg\src\agg_span_pattern.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\thirdparty\common\agg\src\agg_span_pattern_gray.h
 # End Source File
 # Begin Source File
 

@@ -3,9 +3,9 @@
 <makefile>
     <include file="../../build/bakefiles/VCFCommon.bkl"/>
 
-    <exe id="Browser" template="vcf_exe_gui" cond="OPTION_WIN32HTMLBROWSER=='1' and PLATFORM_WIN32=='1'">
+    <exe id="Browser" template="vcf_exe_gui" cond="OPTION_HTMLKIT=='1'">
         <dirname>.</dirname>
         <sources>Browser.cpp</sources>
-        <vcf-use-ApplicationKit/>
+        <vcf-use-HTMLKit/>
     </exe>
 </makefile>

@@ -62,41 +62,6 @@ OPTION_DEBUG = 1
 # Make the all-in-1 library: [0,1]
 OPTION_ALLIN1 = 0
 
-# Compile FoundationKit: [0,1]
-OPTION_FOUNDATIONKIT = 1
-
-# Depends on:
-#     OPTION_FOUNDATIONKIT
-#     OPTION_LIBAGG
-#     OPTION_ZLIB
-# Compile GraphicsKit: [0,1]
-OPTION_GRAPHICSKIT = 0
-
-# Depends on:
-#     OPTION_GRAPHICSKIT
-# Compile ApplicationKit: [0,1]
-OPTION_APPLICATIONKIT = 0
-
-# Depends on:
-#     OPTION_APPLICATIONKIT
-# Compile OpenGLKit: [0,1]
-OPTION_OPENGLKIT = 0
-
-# Depends on:
-#     OPTION_FOUNDATIONKIT
-# Compile NetworkKit: [0,1]
-OPTION_NETWORKKIT = 0
-
-# Depends on:
-#     OPTION_NETWORKKIT
-# Compile RemoteObjectKit: [0,1]
-OPTION_REMOTEOBJECTKIT = 0
-
-# Depends on:
-#     OPTION_FOUNDATIONKIT
-# Compile InternetKit: [0,1]
-OPTION_INTERNETKIT = 0
-
 # Compile the Zip library: [0,1]
 OPTION_ZLIB = 1
 
@@ -122,12 +87,52 @@ OPTION_LIBTIFF = 0
 # Compile the FreeImage library: [0,1]
 OPTION_FREEIMAGE = 0
 
+# Compile the RegExx library: [0,1]
+OPTION_REGEXX = 0
+
+# Compile FoundationKit: [0,1]
+OPTION_FOUNDATIONKIT = 1
+
+# Depends on:
+#     OPTION_FOUNDATIONKIT
+#     OPTION_LIBAGG
+#     OPTION_ZLIB
+# Compile GraphicsKit: [0,1]
+OPTION_GRAPHICSKIT = 0
+
+# Depends on:
+#     OPTION_GRAPHICSKIT
+# Compile ApplicationKit: [0,1]
+OPTION_APPLICATIONKIT = 0
+
+# Depends on:
+#     OPTION_APPLICATIONKIT
+# Compile HTMLKit: [0,1]
+OPTION_HTMLKIT = 0
+
+# Depends on:
+#     OPTION_APPLICATIONKIT
+# Compile OpenGLKit: [0,1]
+OPTION_OPENGLKIT = 0
+
+# Depends on:
+#     OPTION_FOUNDATIONKIT
+# Compile NetworkKit: [0,1]
+OPTION_NETWORKKIT = 0
+
+# Depends on:
+#     OPTION_NETWORKKIT
+# Compile RemoteObjectKit: [0,1]
+OPTION_REMOTEOBJECTKIT = 0
+
+# Depends on:
+#     OPTION_FOUNDATIONKIT
+# Compile InternetKit: [0,1]
+OPTION_INTERNETKIT = 0
+
 # Depends on:
 #     OPTION_FREEIMAGE
 #     OPTION_APPLICATIONKIT
 # Compile ImageFormats: [0,1]
 OPTION_IMAGEFORMATS = 0
-
-# Compile the RegExx library: [0,1]
-OPTION_REGEXX = 0
 
