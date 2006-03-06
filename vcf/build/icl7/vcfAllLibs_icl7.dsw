@@ -120,6 +120,36 @@ Package=<4>
 
 ###############################################################################
 
+Project: "HTMLKit"=".\HTMLKit\HTMLKit_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKit
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "HTMLKitDll"=".\HTMLKit\HTMLKitDll_icl7.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "ImageFormats"=".\GraphicsKit\ImageFormats_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -285,36 +315,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser"=".\Win32HTMLBrowser\Win32HTMLBrowser_icl7.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "Win32HTMLBrowser_StaticLib"=".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_icl7.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKit
-    End Project Dependency
-}}}
-
-###############################################################################
-
 Project: "ZLib"="..\..\src\thirdparty\common\ZLib\ZLib_icl7.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -352,9 +352,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name RemoteObjectKit
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Win32HTMLBrowser
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ImageFormats
@@ -397,9 +394,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name RemoteObjectKitStatic
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Win32HTMLBrowser_StaticLib
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name OpenGLKit

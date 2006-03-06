@@ -479,11 +479,6 @@ _class_rtti_end_
 _class_rtti_(Dialog, "VCF::Frame", DIALOG_CLASSID )
 _class_rtti_end_
 
-#ifndef VCF_NO_ATL
-_class_rtti_(HTMLBrowserControl, "VCF::Control", HTMLBROWSERCONTROL_CLASSID)
-_property_( String, "currentURL", getCurrentURL, setCurrentURL, "" );
-_class_rtti_end_
-#endif
 
 _class_rtti_(HeaderControl, "VCF::CustomControl", HEADERCONTROL_CLASSID)
 	_property_object_( ColumnModel, "columnModel", getColumnModel, setColumnModel, "" );
@@ -817,6 +812,9 @@ _class_rtti_end_
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.4.2.5  2005/11/27 23:55:44  ddiego
 *more osx updates.
 *

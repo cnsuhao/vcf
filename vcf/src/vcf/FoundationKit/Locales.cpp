@@ -1198,7 +1198,7 @@ UnicodeString Locale::translate( const UnicodeString& id )
 
 	UnicodeString result;
 
-	CommandLine cmdLine = FoundationKit::getCommandLine();
+	const CommandLine& cmdLine = FoundationKit::getCommandLine();
 
 	FilePath app = cmdLine.getArgument(0);
 
@@ -1213,12 +1213,6 @@ UnicodeString Locale::translate( const UnicodeString& id )
 
 		result = loader->getMessageFromID( id );
 	}
-
-
-
-	//MessageLoader::loadMessageFile
-
-
 
 	return result.empty() ? id : result;
 }
@@ -1266,6 +1260,9 @@ Locale::CountryCodes Locale::stringToCountryCode( const UnicodeString& code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.4  2005/07/09 23:15:03  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

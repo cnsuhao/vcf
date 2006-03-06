@@ -174,7 +174,7 @@ namespace VCF{
 		See the CommandLine class for examples of how to use this class. 
 		@see CommandLine
 		*/
-		static CommandLine getCommandLine();
+		static const CommandLine& getCommandLine();
 
 		/**
 		\par
@@ -495,6 +495,9 @@ that someone will be able to relate to your concern.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.6.2.2  2005/12/28 20:43:40  kiklop74
 *Fixed error - missing strcmp
 *

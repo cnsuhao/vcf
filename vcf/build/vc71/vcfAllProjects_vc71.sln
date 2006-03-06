@@ -508,14 +508,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VisualFormFiles", "..\..\ex
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser", ".\Win32HTMLBrowser\Win32HTMLBrowser_vc71.vcproj", "{6EAD6841-A775-49C9-A240-4CC9B342C434}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser_StaticLib", ".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc71.vcproj", "{7DDB60A0-4038-4AF6-9A7F-4A1865102C62}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorkingWithEnumerators", "..\..\examples\WorkingWithEnumerators\WorkingWithEnumerators_vc71.vcproj", "{BBC50700-9978-45D1-A60C-3B8D24175BFB}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -870,12 +862,6 @@ Global
 		{0E7EC3DE-E14E-4F71-A9BE-471FE0578493}.Debug.ActiveCfg = Debug|Win32
 		{0E7EC3DE-E14E-4F71-A9BE-471FE0578493}.GTK Debug.ActiveCfg = Debug|Win32
 		{0E7EC3DE-E14E-4F71-A9BE-471FE0578493}.Release.ActiveCfg = Release|Win32
-		{6EAD6841-A775-49C9-A240-4CC9B342C434}.Debug.ActiveCfg = Debug|Win32
-		{6EAD6841-A775-49C9-A240-4CC9B342C434}.GTK Debug.ActiveCfg = Debug|Win32
-		{6EAD6841-A775-49C9-A240-4CC9B342C434}.Release.ActiveCfg = Release|Win32
-		{7DDB60A0-4038-4AF6-9A7F-4A1865102C62}.Debug.ActiveCfg = Debug|Win32
-		{7DDB60A0-4038-4AF6-9A7F-4A1865102C62}.GTK Debug.ActiveCfg = Debug|Win32
-		{7DDB60A0-4038-4AF6-9A7F-4A1865102C62}.Release.ActiveCfg = Release|Win32
 		{BBC50700-9978-45D1-A60C-3B8D24175BFB}.Debug.ActiveCfg = Debug|Win32
 		{BBC50700-9978-45D1-A60C-3B8D24175BFB}.GTK Debug.ActiveCfg = Debug|Win32
 		{BBC50700-9978-45D1-A60C-3B8D24175BFB}.Release.ActiveCfg = Release|Win32

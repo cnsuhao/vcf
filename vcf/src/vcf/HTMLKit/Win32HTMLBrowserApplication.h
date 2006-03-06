@@ -32,6 +32,9 @@ void terminateWin32HTMLBrowserLib();
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2006/03/06 03:48:31  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.2.6.1  2006/02/09 04:54:02  ddiego
 *added missing lib tiff project for vc80. Also removed
 *ATL dependency and comdef.h dependency. We are now using comet for

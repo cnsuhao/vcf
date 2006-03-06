@@ -41,10 +41,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKit", ".\Remote
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKitStatic", ".\RemoteObjectKit\RemoteObjectKitStatic_vc70.vcproj", "{CF974D67-34B2-47AE-845C-EA31F10D7FE0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser", ".\Win32HTMLBrowser\Win32HTMLBrowser_vc70.vcproj", "{82951928-8804-47F3-BC27-9252F95BF8B2}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser_StaticLib", ".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc70.vcproj", "{1F773ECC-3766-407B-97A2-95A33FAC6E03}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "..\..\src\thirdparty\common\FreeImage\Source\ZLib\ZLib_vc70.vcproj", "{4EB69883-2479-4467-BB04-74647581BD37}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", ".\GraphicsKit\libAGG_vc70.vcproj", "{D0A3B7E8-C8B0-446A-B292-D0E1C072E7FD}"
@@ -157,12 +153,6 @@ Global
 		{CF974D67-34B2-47AE-845C-EA31F10D7FE0}.Debug.ActiveCfg = Debug|Win32
 		{CF974D67-34B2-47AE-845C-EA31F10D7FE0}.GTK Debug.ActiveCfg = Debug|Win32
 		{CF974D67-34B2-47AE-845C-EA31F10D7FE0}.Release.ActiveCfg = Release|Win32
-		{82951928-8804-47F3-BC27-9252F95BF8B2}.Debug.ActiveCfg = Debug|Win32
-		{82951928-8804-47F3-BC27-9252F95BF8B2}.GTK Debug.ActiveCfg = Debug|Win32
-		{82951928-8804-47F3-BC27-9252F95BF8B2}.Release.ActiveCfg = Release|Win32
-		{1F773ECC-3766-407B-97A2-95A33FAC6E03}.Debug.ActiveCfg = Debug|Win32
-		{1F773ECC-3766-407B-97A2-95A33FAC6E03}.GTK Debug.ActiveCfg = Debug|Win32
-		{1F773ECC-3766-407B-97A2-95A33FAC6E03}.Release.ActiveCfg = Release|Win32
 		{4EB69883-2479-4467-BB04-74647581BD37}.Debug.ActiveCfg = Debug|Win32
 		{4EB69883-2479-4467-BB04-74647581BD37}.GTK Debug.ActiveCfg = Debug|Win32
 		{4EB69883-2479-4467-BB04-74647581BD37}.Release.ActiveCfg = Release|Win32

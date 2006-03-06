@@ -8,14 +8,12 @@ where you installed the VCF.
 
 
 //Win32HTMLBrowser.h
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-
-
-
-#include "vcf/ApplicationKit/Win32HTMLBrowser.h"
-#include "vcf/ApplicationKit/HTMLBrowserControl.h"
-#include "vcf/ApplicationKit/Win32HTMLBrowser.h"
+#include "vcf/HTMLKit/HTMLKit.h"
+#include "vcf/HTMLKit/HTMLBrowserControl.h"
+#include "vcf/ApplicationKit/Win32Object.h"
+#include "vcf/ApplicationKit/AbstractWin32Component.h"
+#include "vcf/HTMLKit/Win32HTMLBrowser.h"
+#include "vcf/ApplicationKit/Win32Toolkit.h"
 
 
 
@@ -727,56 +725,14 @@ STDMETHODIMP Win32HTMLBrowser::Authenticate( HWND* phwnd, LPWSTR* pszUsername,
 using namespace VCF;
 
 
-void initWin32HTMLBrowserLib( HMODULE module )
-{
-	if ( module == NULL ) {
-		module = GetModuleHandle(NULL);
-	}
-
-	REGISTER_CLASSINFO( Win32HTMLBrowser );
-}
-
-void terminateWin32HTMLBrowserLib()
-{
-	
-}
-
-
-
-#ifdef _USRDLL
-
-BOOL APIENTRY DllMain( HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved )
-{
-    switch ( ul_reason_for_call ) {
-		case DLL_PROCESS_ATTACH:  {
-			initWin32HTMLBrowserLib((HINSTANCE) hModule);
-		}
-		break;
-
-		case DLL_THREAD_ATTACH: {
-
-		}
-		break;
-
-		case DLL_THREAD_DETACH:  {
-
-		}
-		break;
-
-		case DLL_PROCESS_DETACH:  {
-			terminateWin32HTMLBrowserLib();
-		}
-		break;
-    }
-    return TRUE;
-}
-
-#endif
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2006/03/06 03:48:31  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.4.2.8  2006/02/15 22:01:47  ddiego
 *more browser code.
 *

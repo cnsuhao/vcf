@@ -112,7 +112,7 @@ void FoundationKit::terminate()
 
 
 
-CommandLine FoundationKit::getCommandLine()
+const CommandLine& FoundationKit::getCommandLine()
 {
 	return foundationKitCommandLine;
 }
@@ -129,6 +129,9 @@ void FoundationKit::assertCondition( bool condition, const String& failureMessag
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.3.2.1  2005/09/03 14:03:53  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

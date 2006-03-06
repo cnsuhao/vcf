@@ -19,6 +19,8 @@ using namespace VCF;
 
 bool System::unicodeEnabled = false;
 
+static std::map<String,String> cachedResourceDirMap;
+
 
 System* System::create()
 {
@@ -68,7 +70,7 @@ String System::findResourceDirectory()
 {
 	String result;
 	
-	CommandLine cmdLine = FoundationKit::getCommandLine();
+	const CommandLine& cmdLine = FoundationKit::getCommandLine();
 
 	return System::findResourceDirectoryForExecutable( cmdLine.getArgument(0) );
 }
@@ -77,7 +79,7 @@ String System::findResourceDirectory( Locale* locale )
 {
 	VCF_ASSERT( NULL != locale );
 	
-	CommandLine cmdLine = FoundationKit::getCommandLine();
+	const CommandLine& cmdLine = FoundationKit::getCommandLine();
 
 	return System::findResourceDirectory( cmdLine.getArgument(0), locale );
 }
@@ -89,59 +91,67 @@ String System::findResourceDirectory( const String& fileName, Locale* locale )
 
 	String result;	
 
-	FilePath appPath = fileName;
-
-	UnicodeString appDir = appPath.getPathName(true);
-
-	//case A: or case B:
-	String tmp = appDir + "Resources";
-	if ( File::exists( tmp ) ) {
-		result = tmp;
+	std::map<String,String>::iterator found = cachedResourceDirMap.find( fileName );
+	if ( found != cachedResourceDirMap.end() ) {
+		result = found->second;
 	}
-	else {		
-		std::vector<String> pathComponents = appPath.getPathComponents();
-		std::vector<String>::reverse_iterator it = pathComponents.rbegin();
-		int depth = 1;
-		while ( it != pathComponents.rend() && (depth < 3) ) {
-			int length = (*it).length();// + FilePath::getDirectorySeparator().length();
+	else {
+		FilePath appPath = fileName;
 
-			//if depth == 1 then case C:
-			//if depth == 2 then case D:
-			appDir.erase( appDir.length()-length, length );
+		UnicodeString appDir = appPath.getPathName(true);
 
-			tmp = appDir + "Resources";
-			if ( File::exists( tmp ) ) {
-				result = tmp;
-				break;
+		//case A: or case B:
+		String tmp = appDir + "Resources";
+		if ( File::exists( tmp ) ) {
+			result = tmp;
+		}
+		else {		
+			std::vector<String> pathComponents = appPath.getPathComponents();
+			std::vector<String>::reverse_iterator it = pathComponents.rbegin();
+			int depth = 1;
+			while ( it != pathComponents.rend() && (depth < 3) ) {
+				int length = (*it).length();// + FilePath::getDirectorySeparator().length();
+
+				//if depth == 1 then case C:
+				//if depth == 2 then case D:
+				appDir.erase( appDir.length()-length, length );
+
+				tmp = appDir + "Resources";
+				if ( File::exists( tmp ) ) {
+					result = tmp;
+					break;
+				}
+
+
+				depth ++;
+				it ++;
 			}
-
-			
-			depth ++;
-			it ++;
 		}
-	}
-	
 
-	if ( !result.empty() ) {
-		//found the top level res dir
-		//now attempt to see if we can use a more locale specific dir
-		//if not, fall back on the default Resources dir		
-		if ( File::exists( result ) ) {
-			String localeName = locale->getName();
-			tmp = result + FilePath::getDirectorySeparator() + localeName;
-			if ( File::exists( tmp ) ) {
-				result = tmp;
+
+		if ( !result.empty() ) {
+			//found the top level res dir
+			//now attempt to see if we can use a more locale specific dir
+			//if not, fall back on the default Resources dir		
+			if ( File::exists( result ) ) {
+				String localeName = locale->getName();
+				tmp = result + FilePath::getDirectorySeparator() + localeName;
+				if ( File::exists( tmp ) ) {
+					result = tmp;
+				}
+				//add the dir sep at the end to be proper
+				result += FilePath::getDirectorySeparator();
 			}
-			//add the dir sep at the end to be proper
-			result += FilePath::getDirectorySeparator();
+			else {
+				//if we still don't have anything, then
+				//assume the path where the application lives.
+				//this works for app's that aren't using the 
+				//bundle dir layout.
+				result = appPath.getPathName(true);
+			}
 		}
-		else {
-			//if we still don't have anything, then
-			//assume the path where the application lives.
-			//this works for app's that aren't using the 
-			//bundle dir layout.
-			result = appPath.getPathName(true);
-		}
+
+		cachedResourceDirMap[fileName] = result;
 	}
 
 	return result;
@@ -737,6 +747,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.10  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.6.2.9  2006/02/19 06:50:31  ddiego
 *minor updates.
 *

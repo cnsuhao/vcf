@@ -205,10 +205,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Variants", "..\..\examples\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VisualFormFiles", "..\..\examples\VisualFormFiles\VisualFormFiles_vc70.vcproj", "{219FA8E0-84B3-4AE0-A4E4-AA425834CDDE}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser", ".\Win32HTMLBrowser\Win32HTMLBrowser_vc70.vcproj", "{871F08A9-BF42-4E50-8FF0-F447E6FA28A4}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser_StaticLib", ".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc70.vcproj", "{4A5B1D18-3DE0-4CE0-A6E6-94FB93CAC9C1}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorkingWithEnumerators", "..\..\examples\WorkingWithEnumerators\WorkingWithEnumerators_vc70.vcproj", "{F16D15FA-3DC1-4DD2-AA6D-EBE1561867DD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZLib", "..\..\src\thirdparty\common\FreeImage\Source\ZLib\ZLib_vc70.vcproj", "{4E0BB691-401B-4479-B3EC-8022793BE26F}"
@@ -717,14 +713,6 @@ Global
 		{219FA8E0-84B3-4AE0-A4E4-AA425834CDDE}.Generate YY and LL files.ActiveCfg = Debug|Win32
 		{219FA8E0-84B3-4AE0-A4E4-AA425834CDDE}.GTK Debug.ActiveCfg = Debug|Win32
 		{219FA8E0-84B3-4AE0-A4E4-AA425834CDDE}.Release.ActiveCfg = Release|Win32
-		{871F08A9-BF42-4E50-8FF0-F447E6FA28A4}.Debug.ActiveCfg = Debug|Win32
-		{871F08A9-BF42-4E50-8FF0-F447E6FA28A4}.Generate YY and LL files.ActiveCfg = Debug|Win32
-		{871F08A9-BF42-4E50-8FF0-F447E6FA28A4}.GTK Debug.ActiveCfg = Debug|Win32
-		{871F08A9-BF42-4E50-8FF0-F447E6FA28A4}.Release.ActiveCfg = Release|Win32
-		{4A5B1D18-3DE0-4CE0-A6E6-94FB93CAC9C1}.Debug.ActiveCfg = Debug|Win32
-		{4A5B1D18-3DE0-4CE0-A6E6-94FB93CAC9C1}.Generate YY and LL files.ActiveCfg = Release|Win32
-		{4A5B1D18-3DE0-4CE0-A6E6-94FB93CAC9C1}.GTK Debug.ActiveCfg = Debug|Win32
-		{4A5B1D18-3DE0-4CE0-A6E6-94FB93CAC9C1}.Release.ActiveCfg = Release|Win32
 		{F16D15FA-3DC1-4DD2-AA6D-EBE1561867DD}.Debug.ActiveCfg = Debug|Win32
 		{F16D15FA-3DC1-4DD2-AA6D-EBE1561867DD}.Generate YY and LL files.ActiveCfg = Debug|Win32
 		{F16D15FA-3DC1-4DD2-AA6D-EBE1561867DD}.GTK Debug.ActiveCfg = Debug|Win32

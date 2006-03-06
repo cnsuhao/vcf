@@ -143,9 +143,6 @@ void ApplicationKit::init( int argc, char** argv )
 		REGISTER_CLASSINFO_EXTERNAL( ComboBoxControl );
 		REGISTER_CLASSINFO_EXTERNAL( ImageControl );
 //		REGISTER_CLASSINFO_EXTERNAL( ImageFilenameString );
-#ifndef VCF_NO_ATL
-		REGISTER_CLASSINFO_EXTERNAL( HTMLBrowserControl );
-#endif		
 		REGISTER_CLASSINFO_EXTERNAL( TimerComponent );
 		REGISTER_CLASSINFO_EXTERNAL( ScrollbarManager );
 		REGISTER_CLASSINFO_EXTERNAL( SystemTray );
@@ -216,6 +213,9 @@ void ApplicationKit::terminate()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.4.2.3  2005/10/07 16:41:21  kiklop74
 *Added support for building ApplicationKit with Borland Free Compiler
 *
