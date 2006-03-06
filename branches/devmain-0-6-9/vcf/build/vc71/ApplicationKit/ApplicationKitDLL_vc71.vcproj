@@ -492,9 +492,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageList.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Item.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\LibraryApplication.cpp">
 			</File>
 			<File
@@ -749,9 +746,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Listview.cpp">
@@ -1044,6 +1038,9 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\DocumentManager.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\vcf\ApplicationKit\Item.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ListItem.h">
 			</File>
 			<File
@@ -1124,12 +1121,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\HeaderControl.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageControl.cpp">
@@ -1305,9 +1296,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\DropTargetPeer.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserPeer.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ListviewPeer.h">

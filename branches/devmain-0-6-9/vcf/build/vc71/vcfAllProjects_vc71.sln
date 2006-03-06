@@ -247,6 +247,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsKitDLL", ".\Graphic
 		{33E6788C-E2AC-4136-8367-B3F40A3CFA35} = {33E6788C-E2AC-4136-8367-B3F40A3CFA35}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTMLKit", ".\HTMLKit\HTMLKit_vc71.vcproj", "{7150b5ed-fa0f-40b1-9209-e376dd8eae36}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA0D4944-86FF-4B3A-9D4A-382801BF864D} = {FA0D4944-86FF-4B3A-9D4A-382801BF864D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTMLKitDll", ".\HTMLKit\HTMLKitDll_vc71.vcproj", "{91f9350c-4581-4024-b35d-bcb92e24fd2d}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BF4DB392-C813-410D-94AF-AB63488811D5} = {BF4DB392-C813-410D-94AF-AB63488811D5}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HeavyAndLight", "..\..\examples\HeavyAndLight\HeavyAndLight_vc71.vcproj", "{B6ECDC8E-FF94-4ED7-BE78-B24B2A181826}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -500,12 +510,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VisualFormFiles", "..\..\ex
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser", ".\Win32HTMLBrowser\Win32HTMLBrowser_vc71.vcproj", "{6EAD6841-A775-49C9-A240-4CC9B342C434}"
 	ProjectSection(ProjectDependencies) = postProject
-		{BF4DB392-C813-410D-94AF-AB63488811D5} = {BF4DB392-C813-410D-94AF-AB63488811D5}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32HTMLBrowser_StaticLib", ".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc71.vcproj", "{7DDB60A0-4038-4AF6-9A7F-4A1865102C62}"
 	ProjectSection(ProjectDependencies) = postProject
-		{FA0D4944-86FF-4B3A-9D4A-382801BF864D} = {FA0D4944-86FF-4B3A-9D4A-382801BF864D}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorkingWithEnumerators", "..\..\examples\WorkingWithEnumerators\WorkingWithEnumerators_vc71.vcproj", "{BBC50700-9978-45D1-A60C-3B8D24175BFB}"
@@ -528,11 +536,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libXmake", "..\..\src\xmake
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAll", ".\AllIn1\vcfAll_vc71.vcproj", "{08ccc88f-dcc3-4a51-9a11-70e97d9497d6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAllDynamicLibs", ".\vcfAllDynamicLibs_vc71.vcproj", "{FEAE7AFC-2B78-4767-B337-B824DA488D24}"
 	ProjectSection(ProjectDependencies) = postProject
 		{BF4DB392-C813-410D-94AF-AB63488811D5} = {BF4DB392-C813-410D-94AF-AB63488811D5}
 		{5A1E3302-5EB7-48FA-9EE8-765901DF1406} = {5A1E3302-5EB7-48FA-9EE8-765901DF1406}
-		{6EAD6841-A775-49C9-A240-4CC9B342C434} = {6EAD6841-A775-49C9-A240-4CC9B342C434}
 		{BAFBC928-24CB-41CE-BCE7-FB5BF034D1C3} = {BAFBC928-24CB-41CE-BCE7-FB5BF034D1C3}
 		{7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3} = {7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3}
 	EndProjectSection
@@ -547,7 +558,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vcfAllStaticLibs", ".\vcfAl
 	ProjectSection(ProjectDependencies) = postProject
 		{FA0D4944-86FF-4B3A-9D4A-382801BF864D} = {FA0D4944-86FF-4B3A-9D4A-382801BF864D}
 		{D97278B4-A89F-4681-B7BB-E075B581D7D6} = {D97278B4-A89F-4681-B7BB-E075B581D7D6}
-		{7DDB60A0-4038-4AF6-9A7F-4A1865102C62} = {7DDB60A0-4038-4AF6-9A7F-4A1865102C62}
 		{AFD23D9A-CF87-4FF4-AFC8-35CE2E72AF92} = {AFD23D9A-CF87-4FF4-AFC8-35CE2E72AF92}
 	EndProjectSection
 EndProject
@@ -682,6 +692,10 @@ Global
 		{A608B800-96D1-4692-8254-405EF8C2F482}.Debug.ActiveCfg = Debug|Win32
 		{A608B800-96D1-4692-8254-405EF8C2F482}.GTK Debug.ActiveCfg = Debug|Win32
 		{A608B800-96D1-4692-8254-405EF8C2F482}.Release.ActiveCfg = Release|Win32
+		{7150b5ed-fa0f-40b1-9209-e376dd8eae36}.Debug.ActiveCfg = Debug|Win32
+		{7150b5ed-fa0f-40b1-9209-e376dd8eae36}.Release.ActiveCfg = Release|Win32
+		{91f9350c-4581-4024-b35d-bcb92e24fd2d}.Debug.ActiveCfg = Debug|Win32
+		{91f9350c-4581-4024-b35d-bcb92e24fd2d}.Release.ActiveCfg = Release|Win32
 		{B6ECDC8E-FF94-4ED7-BE78-B24B2A181826}.Debug.ActiveCfg = Debug|Win32
 		{B6ECDC8E-FF94-4ED7-BE78-B24B2A181826}.GTK Debug.ActiveCfg = Debug|Win32
 		{B6ECDC8E-FF94-4ED7-BE78-B24B2A181826}.Release.ActiveCfg = Release|Win32
@@ -877,6 +891,8 @@ Global
 		{4EB0991E-4616-487A-832D-1A20F3CC0324}.Debug.ActiveCfg = Debug|Win32
 		{4EB0991E-4616-487A-832D-1A20F3CC0324}.GTK Debug.ActiveCfg = Debug|Win32
 		{4EB0991E-4616-487A-832D-1A20F3CC0324}.Release.ActiveCfg = Release|Win32
+		{08ccc88f-dcc3-4a51-9a11-70e97d9497d6}.Debug.ActiveCfg = Debug|Win32
+		{08ccc88f-dcc3-4a51-9a11-70e97d9497d6}.Release.ActiveCfg = Release|Win32
 		{FEAE7AFC-2B78-4767-B337-B824DA488D24}.Debug.ActiveCfg = Debug|Win32
 		{FEAE7AFC-2B78-4767-B337-B824DA488D24}.GTK Debug.ActiveCfg = Debug|Win32
 		{FEAE7AFC-2B78-4767-B337-B824DA488D24}.Release.ActiveCfg = Release|Win32
