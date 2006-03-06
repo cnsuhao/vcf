@@ -12,7 +12,8 @@ where you installed the VCF.
 #include "vcf/FoundationKit/ResourceBundlePeer.h"
 #include "vcf/FoundationKit/Win32ResourceBundle.h"
 
-#ifdef __BORLANDC__
+#if defined(VCF_BCC)
+  #include <cstring>
   using std::strcmp;
 #endif
 
@@ -680,6 +681,9 @@ ProgramInfo* Win32ResourceBundle::getProgramInfo()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2006/03/06 15:01:18  kiklop74
+*fix for borland compiler
+*
 *Revision 1.3.2.4  2005/12/28 20:43:40  kiklop74
 *Fixed error - missing strcmp
 *
