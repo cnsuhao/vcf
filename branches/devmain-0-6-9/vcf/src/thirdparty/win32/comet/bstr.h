@@ -47,7 +47,7 @@
 #pragma warning(push)
 #pragma warning(disable : 4522 4521)
 
-#pragma comment( lib, "oleaut32" )
+#pragma comment( lib, "oleaut32.lib" )
 
 namespace comet {
 
