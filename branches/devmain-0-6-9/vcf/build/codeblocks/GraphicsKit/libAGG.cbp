@@ -906,16 +906,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\thirdparty\common\agg\src\agg_path_storage.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\thirdparty\common\agg\src\agg_rasterizer_scanline_aa.cpp">
-			<Option compilerVar="CPP" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\thirdparty\common\agg\src\agg_sqrt_tables.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
