@@ -15,7 +15,7 @@ using namespace VCF;
 
 #define TOSTRING_FORMAT		"%#d %b %Y %H:%M:%S.%s"
 
-#ifdef VCF_GCC
+#if defined(VCF_GCC) || defined(VCF_BCC8)
 	#define BASIC_GREGORIAN_TIME_IN_MS	198647424000000LL
 #else
 	#define BASIC_GREGORIAN_TIME_IN_MS	198647424000000
@@ -1143,6 +1143,9 @@ ulong64 DateTimeSpan::getTotalMilliseconds() const
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.4  2006/03/06 14:42:55  kiklop74
+*BDS 2006 fix
+*
 *Revision 1.3.4.3  2005/12/28 21:02:21  kiklop74
 *Fixed ambiguity error when compiling with bcb6
 *
