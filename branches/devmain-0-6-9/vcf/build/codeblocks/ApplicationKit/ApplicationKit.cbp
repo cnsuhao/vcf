@@ -1106,23 +1106,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp">
-			<Option compilerVar="CPP" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\HTMLBrowserPeer.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\HeaderControl.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
@@ -2110,43 +2093,6 @@
 			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.cpp">
-			<Option compilerVar="CPP" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowser.h">
-			<Option compilerVar="" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowserApplication.cpp">
-			<Option compilerVar="CPP" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowserApplication.h">
-			<Option compilerVar="" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLBrowserSelectLib.h">
-			<Option compilerVar="" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp">
-			<Option compilerVar="CPP" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
