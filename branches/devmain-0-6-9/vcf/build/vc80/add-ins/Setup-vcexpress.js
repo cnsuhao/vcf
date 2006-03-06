@@ -124,7 +124,7 @@ function main()
 	//WScript.Echo("VCF Application Wizard successfully installed - enjoy!");
 
 
-/*
+
 // VCFConsoleWizard
 
 	var strValue = FileSys.GetAbsolutePathName(".");
@@ -141,18 +141,18 @@ function main()
 		return;
 	}
 
-	var strVC7Key = "HKLM\\Software\\Microsoft\\VisualStudio\\7.1\\Setup\\VC\\ProductDir";
+	var strVC7Key = "HKLM\\Software\\Microsoft\\VCExpress\\8.0\\Setup\\VC\\ProductDir";
 	try
 	{
 		strValue = WSShell.RegRead(strVC7Key);
 	}
 	catch(e)
 	{
-		WScript.Echo("ERROR: Cannot find where Visual Studio 7.1 is installed.");
+		WScript.Echo("ERROR: Cannot find where Visual Studio 8.0 is installed.");
 		return;
 	}
 
-	var strDestFolder = strValue + "\\vcprojects";
+	var strDestFolder = FileSys.BuildPath( strValue, "Express\\vcprojects" );
 	if(bDebug)
 		WScript.Echo("Destination: " + strDestFolder);
 	if(!FileSys.FolderExists(strDestFolder))
@@ -226,7 +226,7 @@ function main()
 	// WScript.Echo("VCF Console Application Wizard successfully installed - enjoy!");
 
 
-
+/*
 
 // VCFLibraryAppWizard
 
@@ -329,7 +329,7 @@ function main()
 	// WScript.Echo("VCF Library Application Wizard successfully installed - enjoy!");
 
 
-
+*/
 // MVCAppWizard
 
 	var strValue = FileSys.GetAbsolutePathName(".");
@@ -346,18 +346,18 @@ function main()
 		return;
 	}
 
-	var strVC7Key = "HKLM\\Software\\Microsoft\\VisualStudio\\7.1\\Setup\\VC\\ProductDir";
+	var strVC7Key = "HKLM\\Software\\Microsoft\\VCExpress\\8.0\\Setup\\VC\\ProductDir";
 	try
 	{
 		strValue = WSShell.RegRead(strVC7Key);
 	}
 	catch(e)
 	{
-		WScript.Echo("ERROR: Cannot find where Visual Studio 7.1 is installed.");
+		WScript.Echo("ERROR: Cannot find where Visual Studio 8.0 is installed.");
 		return;
 	}
 
-	var strDestFolder = strValue + "\\vcprojects";
+	var strDestFolder = FileSys.BuildPath( strValue, "Express\\vcprojects" );
 	if(bDebug)
 		WScript.Echo("Destination: " + strDestFolder);
 	if(!FileSys.FolderExists(strDestFolder))
@@ -431,7 +431,7 @@ function main()
 	// WScript.Echo("VCF MVC Application Wizard successfully installed - enjoy!");
 
 
-
+/*
 // VPLApplicationWizard
 
 	var strValue = FileSys.GetAbsolutePathName(".");

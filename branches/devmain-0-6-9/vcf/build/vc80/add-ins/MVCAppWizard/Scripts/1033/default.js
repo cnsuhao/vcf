@@ -22,7 +22,6 @@ function OnFinish(selProj, selObj)
 
 			selProj.Object.Save();
 		}
-		
 	}
 	catch(e)
 	{
@@ -95,162 +94,69 @@ function AddFilters(proj)
 	}
 }
 
-function AddSpecificConfig(proj, strProjectName, bEmptyProject)
+function AddSpecificConfig(proj, strProjectName,bEmptyProject)
 {
 	try
 	{
-		var bLibDynamic = wizard.FindSymbol('LIB_DYNAMIC');
-		var bLibStatic = wizard.FindSymbol('LIB_STATIC');
-		var bLibNet = wizard.FindSymbol('LIB_NET');
-		var bLibRemote = wizard.FindSymbol('LIB_REMOTE');
-
 //DEBUG//////////////////////////////////////////////////////////////
-		var config = proj.Object.Configurations('Debug|Win32');
-		
+		var config = proj.Object.Configurations('Debug');
 		config.IntermediateDirectory = '$(ConfigurationName)';
 		config.OutputDirectory = '$(ConfigurationName)';
 		config.CharacterSet = charSetMBCS;
 
-	var debugSettings = config.DebugSettings;
-	
-		debugSettings.WorkingDirectory = "$(ConfigurationName)";
-		debugSettings.Command = "$(ConfigurationName)\\$(ProjectName).exe";
-	
-	
 		var CLTool = config.Tools('VCCLCompilerTool');
 		CLTool.RuntimeLibrary = rtMultiThreadedDebugDLL;
 		CLTool.UsePrecompiledHeader = pchNone;
 		
-
 		CLTool.MinimalRebuild = false;
 		CLTool.DebugInformationFormat = debugEditAndContinue;
 		CLTool.BasicRuntimeChecks = runtimeBasicCheckAll;
-		
 		CLTool.Optimization = optimizeDisabled;
-		
 		CLTool.ExceptionHandling = cppExceptionHandlingYes;
 		CLTool.AdditionalIncludeDirectories = "$(VCF_INCLUDE)";
-		CLTool.WarningLevel = WarningLevel_3;
-		
-	
-		if(bLibDynamic)
-		{
-			if(bLibRemote)
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL;USE_NETKIT_DLL;USE_REMOTEKIT_DLL";
-			}
-			else if(bLibNet)
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL;USE_NETKIT_DLL";
-			}
-			else
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_APPLICATIONKIT_DLL";
-			}
-		}
-		else if(bLibStatic)
-		{
-			if(bLibRemote)
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB;USE_APPLICATIONKIT_LIB;USE_NETKIT_LIB;USE_REMOTEKIT_LIB";
-			}
-			else if(bLibNet)
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB;USE_APPLICATIONKIT_LIB;USE_NETKIT_LIB";
-			}
-			else
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_APPLICATIONKIT_LIB";
-			}
-		}
+		CLTool.WarningLevel = warningLevel_3;
+		CLTool.PreprocessorDefinitions = "WIN32;_DEBUG;USE_APPLICATIONKIT_DLL";
 		CLTool.RuntimeTypeInfo = true;
 		CLTool.SuppressStartupBanner = true;
 
 		var LinkTool = config.Tools('VCLinkerTool');
 		LinkTool.AdditionalLibraryDirectories = "$(VCF_LIB)";
-		
-		if(bLibDynamic)
-		{
-			LinkTool.AdditionalDependencies = "odbc32.lib odbccp32.lib rpcrt4.lib";
-		}
-		else if(bLibStatic)
-		{
-			LinkTool.AdditionalDependencies = "comctl32.lib odbc32.lib odbccp32.lib rpcrt4.lib";
-		}
-			
+		LinkTool.AdditionalDependencies = "odbc32.lib odbccp32.lib rpcrt4.lib";
 		LinkTool.EntryPointSymbol = 'mainCRTStartup';
 		LinkTool.SubSystem = subSystemWindows;
 		LinkTool.GenerateDebugInformation = true;
 		LinkTool.ProgramDatabaseFile = "$(OutDir)/" + strProjectName + ".pdb";
 		LinkTool.TargetMachine = machineX86;
-		
-
+		LinkTool.OutputFile  = "$(ProjectName).exe"
 
 //RELEASE////////////////////////////////////////////////////////////
-		config = proj.Object.Configurations('Release|Win32');
+		config = proj.Object.Configurations('Release');
 		config.IntermediateDirectory = '$(ConfigurationName)';
 		config.OutputDirectory = '$(ConfigurationName)';
 		config.CharacterSet = charSetMBCS;
 
 		var CLTool = config.Tools('VCCLCompilerTool');
-		CLTool.UsePrecompiledHeader = pchNone;
 		CLTool.RuntimeLibrary = rtMultiThreadedDLL;
+		CLTool.UsePrecompiledHeader = pchNone;
 		CLTool.ExceptionHandling = cppExceptionHandlingYes;
 		CLTool.BufferSecurityCheck = true
 		CLTool.DebugInformationFormat = debugDisabled;
 		CLTool.AdditionalIncludeDirectories = "$(VCF_INCLUDE)";
-		CLTool.WarningLevel = WarningLevel_3;
+		CLTool.WarningLevel = warningLevel_3;
 		CLTool.EnableFunctionLevelLinking = true;
 		CLTool.InlineFunctionExpansion = expandOnlyInline;
 		CLTool.Optimization = optimizeMinSpace;
 		CLTool.StringPooling = true;
-		if(bLibDynamic)
-		{
-			if(bLibRemote)
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL;USE_REMOTEKIT_DLL;USE_NETKIT_DLL";
-			}
-			else if(bLibNet)
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL;USE_NETKIT_DLL";
-			}
-			else
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_FOUNDATIONKIT_DLL;USE_GRAPHICSKIT_DLL;USE_APPLICATIONKIT_DLL";
-			}
-		}
-		else if(bLibStatic)
-		{
-			if(bLibRemote)
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB;USE_APPLICATIONKIT_LIB;USE_NETKIT_LIB;USE_REMOTEKIT_LIB";
-			}
-			else if(bLibNet)
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB;USE_APPLICATIONKIT_LIB;USE_NETKIT_LIB";
-			}
-			else
-			{
-				CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_FOUNDATIONKIT_LIB;USE_GRAPHICSKIT_LIB;USE_APPLICATIONKIT_LIB";
-			}
-		}
+		CLTool.PreprocessorDefinitions = "WIN32;NDEBUG;USE_APPLICATIONKIT_DLL";
 		CLTool.RuntimeTypeInfo = true;
 		CLTool.SuppressStartupBanner = true;
 
 		var LinkTool = config.Tools('VCLinkerTool');
 		LinkTool.AdditionalOptions = "/MACHINE:I386";
 		LinkTool.AdditionalLibraryDirectories = "$(VCF_LIB)";
-		if(bLibDynamic)
-		{
-			LinkTool.AdditionalDependencies = "odbc32.lib odbccp32.lib rpcrt4.lib";
-		}
-		else if(bLibStatic)
-		{
-			LinkTool.AdditionalDependencies = "comctl32.lib odbc32.lib odbccp32.lib rpcrt4.lib";
-		}
+		LinkTool.AdditionalDependencies = "odbc32.lib odbccp32.lib rpcrt4.lib";
 		LinkTool.EntryPointSymbol = 'mainCRTStartup';
 		LinkTool.SubSystem = subSystemWindows;
-
 	}
 	catch(e)
 	{
@@ -315,26 +221,29 @@ function GetTargetName(strName, strProjectName)
 		if (strName == 'readme.txt')
 			strTarget = 'ReadMe.txt';
 
-		if (strName == 'res\\app.rc')
-			strTarget = 'res\\' + strProjectName + '.rc'
+		if (strName == 'MyDocument.cpp')
+			strTarget = strProjectName + 'Document.cpp';
 
-		if (strName == 'UndoAppAbout.h')
-			strTarget = strProjectName + 'About.h'
+		if (strName == 'MyDocument.h')
+			strTarget = strProjectName + 'Document.h';
 
-		if (strName == 'UndoAppAbout.cpp')
-			strTarget = strProjectName + 'About.cpp'
+		if (strName == 'MyView.cpp')
+			strTarget = strProjectName + 'View.cpp';
 
-		if (strName == 'UndoApp.h')
-			strTarget = strProjectName + '.h'
+		if (strName == 'MyView.h')
+			strTarget = strProjectName + 'View.h';
 
-		if (strName == 'UndoApp.cpp')
-			strTarget = strProjectName + '.cpp'
+		if (strName == 'MyWindow.cpp')
+			strTarget = strProjectName + 'Window.cpp';
 
-		if (strName == 'UndoAppApplication.h')
-			strTarget = strProjectName + 'Application.h'
+		if (strName == 'MyWindow.h')
+			strTarget = strProjectName + 'Window.h';
 
-		if (strName == 'UndoAppApplication.cpp')
-			strTarget = strProjectName + 'Application.cpp'
+		if (strName == 'root.cpp')
+			strTarget = strProjectName + '.cpp';
+
+		if (strName == 'mvc.xml')
+			strTarget = strProjectName + '.xml';
 
 		return strTarget; 
 	}
