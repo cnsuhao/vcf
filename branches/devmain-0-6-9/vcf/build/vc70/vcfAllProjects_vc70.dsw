@@ -747,6 +747,36 @@ Package=<4>
 
 ###############################################################################
 
+Project: "HTMLKit"=".\HTMLKit\HTMLKit_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKit
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "HTMLKitDll"=".\HTMLKit\HTMLKitDll_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "HeavyAndLight"="..\..\examples\HeavyAndLight\HeavyAndLight_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1508,9 +1538,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1523,9 +1550,6 @@ Package=<5>
 
 Package=<4>
 {{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKit
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1590,6 +1614,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "vcfAll"=".\AllIn1\vcfAll_vc70.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "vcfAllDynamicLibs"=".\vcfAllDynamicLibs_vc70.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1603,9 +1639,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name RemoteObjectKit
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Win32HTMLBrowser
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name ImageFormats
@@ -1648,9 +1681,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name RemoteObjectKitStatic
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name Win32HTMLBrowser_StaticLib
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name OpenGLKit

@@ -501,10 +501,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ImageList.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Item.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\LibraryApplication.cpp
 # End Source File
 # Begin Source File
@@ -842,10 +838,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32FontDialog.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp
 # End Source File
 # Begin Source File
 
@@ -1233,6 +1225,10 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\DocumentManager.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\src\vcf\ApplicationKit\Item.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\src\vcf\ApplicationKit\ListItem.h
 # End Source File
 # Begin Source File
@@ -1338,14 +1334,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\HeaderControl.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\HeaderControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.h
 # End Source File
 # Begin Source File
 
@@ -1578,10 +1566,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\DragDropPeer.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\DropTargetPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserPeer.h
 # End Source File
 # Begin Source File
 
