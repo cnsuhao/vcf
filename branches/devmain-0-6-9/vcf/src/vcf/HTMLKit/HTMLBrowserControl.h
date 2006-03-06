@@ -37,7 +37,7 @@ namespace VCF  {
 		}		
 	};
 
-	class APPLICATIONKIT_API HTMLEvent : public Event {
+	class HTMLKIT_API HTMLEvent : public Event {
 	public:
 		HTMLEvent( Object* source, uint32 type ):Event(source,type), value(0),maxValue(0) {};
 
@@ -53,7 +53,7 @@ namespace VCF  {
 	};
 
 
-	class APPLICATIONKIT_API HTMLElementEvent : public Event {
+	class HTMLKIT_API HTMLElementEvent : public Event {
 	public:
 		HTMLElementEvent( Object* source, uint32 type ):Event(source,type) {};
 
@@ -67,7 +67,7 @@ namespace VCF  {
 /**
 *Class HTMLBrowserControl documentation
 */
-class APPLICATIONKIT_API HTMLBrowserControl : public Control {
+class HTMLKIT_API HTMLBrowserControl : public Control {
 public:
 	HTMLBrowserControl();
 	virtual ~HTMLBrowserControl();
@@ -271,6 +271,9 @@ HTMLAuthenticationEvent::HTMLAuthenticationEvent( Object* source, const String& 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2006/03/06 03:48:31  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.2.6.4  2006/02/15 05:14:33  ddiego
 *more browser code.
 *

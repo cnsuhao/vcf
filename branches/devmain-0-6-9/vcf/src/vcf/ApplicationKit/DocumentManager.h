@@ -1343,7 +1343,7 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFileAs( Document* doc
 				bool found = false;
 				while ( it != pathComponents.rend() ) {
 					String s = (*it);
-					int length = (*it).length();// + FilePath::getDirectorySeparator().length();
+					size_t length = (*it).length();// + FilePath::getDirectorySeparator().length();
 
 					appDir.erase( appDir.length()-length, length );
 					
@@ -1887,6 +1887,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.4.2.5  2006/01/22 23:52:21  ddiego
 *some minor changed to doc manager.
 *

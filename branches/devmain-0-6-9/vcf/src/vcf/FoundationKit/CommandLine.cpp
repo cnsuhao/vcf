@@ -180,7 +180,7 @@ int CommandLine::splitLine( const String& commandLine )
 }
 
 
-bool CommandLine::isSwitch(const String& aParam)
+bool CommandLine::isSwitch(const String& aParam) const
 {
    if (aParam.empty())
       return false;
@@ -204,15 +204,15 @@ bool CommandLine::isSwitch(const String& aParam)
 }
 
 
-bool CommandLine::hasSwitch(const String& aSwitch)
+bool CommandLine::hasSwitch(const String& aSwitch) const
 {
-	CommandLineMap::iterator theIterator;
+	CommandLineMap::const_iterator theIterator;
 	theIterator = commandLine_.find(aSwitch);
 	return (theIterator != commandLine_.end());
 }
 
 
-String CommandLine::getSafeArgument(const String& aSwitch, size_t index, const String& defaultVal)
+String CommandLine::getSafeArgument(const String& aSwitch, size_t index, const String& defaultVal) const
 {
    String result;
 
@@ -232,7 +232,7 @@ String CommandLine::getSafeArgument(const String& aSwitch, size_t index, const S
 }
 
 
-String CommandLine::getArgument( size_t index )
+String CommandLine::getArgument( size_t index ) const
 {
 	String result;
 	if ( (index >= 0) && (index < originalCommandLine_.size()) ) {
@@ -241,11 +241,11 @@ String CommandLine::getArgument( size_t index )
 	return result;
 }
 
-String CommandLine::getArgument( const String& aSwitch, size_t index )
+String CommandLine::getArgument( const String& aSwitch, size_t index )const 
 {
    if ( hasSwitch( aSwitch ) )
    {
-	   CommandLineMap::iterator theIterator = commandLine_.find(aSwitch);
+	   CommandLineMap::const_iterator theIterator = commandLine_.find(aSwitch);
 	   if (theIterator!=commandLine_.end())
       {
          if ((*theIterator).second.strings_.size() > index)
@@ -261,12 +261,12 @@ String CommandLine::getArgument( const String& aSwitch, size_t index )
 }
 
 
-int CommandLine::getArgumentCount(const String& aSwitch)
+int CommandLine::getArgumentCount(const String& aSwitch) const
 {
 	int result = -1;
 
 	if ( hasSwitch(aSwitch) )  {
-		CommandLineMap::iterator theIterator = commandLine_.find( aSwitch );
+		CommandLineMap::const_iterator theIterator = commandLine_.find( aSwitch );
 		if (theIterator!=commandLine_.end())      {
 			result = (*theIterator).second.strings_.size();
 		}
@@ -279,6 +279,9 @@ int CommandLine::getArgumentCount(const String& aSwitch)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.3.4.1  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

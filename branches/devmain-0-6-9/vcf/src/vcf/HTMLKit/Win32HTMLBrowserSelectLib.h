@@ -113,6 +113,9 @@ where you installed the VCF.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2006/03/06 03:48:31  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.4.2.3  2006/02/17 19:09:04  kdmix
 *Allows baked makefiles define WIN32HTMLBROWSER_DYNLIB with appropriate library name string.
 *

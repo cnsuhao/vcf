@@ -39,7 +39,7 @@ class HTMLDocumentPeer;
 /**
 This is a collection of 0 or more HTMLElement nodes
 */
-class APPLICATIONKIT_API HTMLElementCollection {
+class HTMLKIT_API HTMLElementCollection {
 public:
 
 	friend class HTMLElement;
@@ -87,7 +87,7 @@ private:
 /**
 This represents an individual node. 
 */
-class APPLICATIONKIT_API HTMLElement {
+class HTMLKIT_API HTMLElement {
 public:	
 	HTMLElement();
 
@@ -222,7 +222,7 @@ get_onfilterchange
 
 
 
-class APPLICATIONKIT_API HTMLDocument {
+class HTMLKIT_API HTMLDocument {
 public:
 
 	HTMLDocument();	

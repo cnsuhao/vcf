@@ -165,7 +165,7 @@ parse the command line into switches and arguments.
 	  \endcode
 	  @return bool true if it has the swith, otherwise false
 	*/
-	bool hasSwitch( const String& aSwitch );
+	bool hasSwitch( const String& aSwitch ) const ;
 
 	/**
 	fetch an argument associated with a switch . if the parameter at
@@ -185,7 +185,7 @@ parse the command line into switches and arguments.
 	  \endcode
 	*/
 
-	String getSafeArgument(const String& aSwitch, size_t iIdx, const String& aDefault);
+	String getSafeArgument(const String& aSwitch, size_t iIdx, const String& aDefault) const;
 
 	/**
 	fetch a argument associated with a switch. throws an exception
@@ -201,15 +201,15 @@ parse the command line into switches and arguments.
       cmdLine.getArgument("-b", 1)     throws (int)0, returns an empty string
 	  \endcode
 	*/
-	String getArgument( const String& aSwitch, size_t iIdx );
+	String getArgument( const String& aSwitch, size_t iIdx ) const;
 
-	String getArgument( size_t index );
+	String getArgument( size_t index ) const;
 
 	/**
 	@return the number of arguments found for a given switch. -1 if the
 	switch was not found
 	*/
-	int getArgumentCount(const String& aSwitch);
+	int getArgumentCount(const String& aSwitch) const;
 
 	Enumerator<String>* getOriginalCommands() {
 		return commandLineContainer_.getEnumerator();
@@ -217,7 +217,7 @@ parse the command line into switches and arguments.
 
 
 
-	size_t getArgCount() {
+	size_t getArgCount() const {
 		return originalCommandLine_.size();
 	}
 	
@@ -233,7 +233,7 @@ switches are of the form : -x
 where 'x' is one or more characters.
 the first character of a switch must be non-numeric!
 	*/
-	bool isSwitch(const String& param);
+	bool isSwitch(const String& param) const;
 	typedef std::map<String, CmdParam> CommandLineMap;
 	CommandLineMap commandLine_;
 	std::vector<String> originalCommandLine_;
@@ -248,6 +248,9 @@ the first character of a switch must be non-numeric!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.5.2.2  2006/02/19 06:50:31  ddiego
 *minor updates.
 *

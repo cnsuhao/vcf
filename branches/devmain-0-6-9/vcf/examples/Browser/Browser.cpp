@@ -4,7 +4,7 @@
 #include "vcf/ApplicationKit/ApplicationKit.h"
 #include "vcf/ApplicationKit/ControlsKit.h"
 #include "vcf/ApplicationKit/DefaultTreeItem.h"
-
+#include "vcf/HTMLKit/HTMLKit.h"
 
 
 namespace VCF {
@@ -163,13 +163,17 @@ class BrowserApp : public Application {
 public:
 
 	BrowserApp( int argc, char** argv ) : Application(argc, argv) {
-
+		HTMLKit::init( argc, argv );
 	}
 	
 
 	virtual bool initRunningApplication(){
 		bool result = Application::initRunningApplication();
 		
+		
+
+
+
 		Window* mainWindow = new Window();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( 100.0, 100.0, 500.0, 500.0 );
@@ -494,6 +498,8 @@ int main(int argc, char *argv[])
 
 	Application::main();
 	
+	HTMLKit::terminate();
+
 	return 0;
 }
 

@@ -151,9 +151,7 @@ void UIToolkit::init()
 	Component::registerComponent( "VCF::PushButton", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::OpenGLControl", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::ImageControl", ADDITIONAL_CATEGORY );
-#ifndef VCF_NO_ATL	  
-	Component::registerComponent( "VCF::HTMLBrowserControl", ADDITIONAL_CATEGORY );
-#endif	  
+
 	Component::registerComponent( "VCF::TableControl", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::Splitter", ADDITIONAL_CATEGORY );
 	Component::registerComponent( "VCF::TreeListControl", ADDITIONAL_CATEGORY );
@@ -262,12 +260,6 @@ TextEditPeer* UIToolkit::createTextEditPeer( TextControl* component, const bool&
 	return UIToolkit::toolKitInstance->internal_createTextEditPeer( component, isMultiLineControl );
 }
 
-#ifndef VCF_NO_ATL
-HTMLBrowserPeer* UIToolkit::createHTMLBrowserPeer( Control* control )
-{
-	return UIToolkit::toolKitInstance->internal_createHTMLBrowserPeer( control );
-}
-#endif
 
 ButtonPeer* UIToolkit::createButtonPeer( CommandButton* component)
 {
@@ -1404,6 +1396,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.12  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.5.2.11  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *

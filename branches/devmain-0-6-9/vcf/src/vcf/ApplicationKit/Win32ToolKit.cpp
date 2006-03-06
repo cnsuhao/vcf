@@ -15,9 +15,6 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Win32Tree.h"
 #include "vcf/ApplicationKit/ListViewControl.h"
 #include "vcf/ApplicationKit/Win32Listview.h"
-#ifndef VCF_NO_ATL
-#include "vcf/ApplicationKit/HTMLBrowserPeer.h"
-#endif
 #include "vcf/ApplicationKit/Win32Dialog.h"
 #include "vcf/ApplicationKit/Win32MenuItem.h"
 #include "vcf/ApplicationKit/Win32MenuBar.h"
@@ -63,23 +60,6 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/Win32MenuManagerPeer.h"
 
 
-#ifndef VCF_NO_ATL
-  #ifdef _LIB
-      /* a user not defining USE_WIN32HTMLBROWSER_LIB will not be able to
-         link the Win32HTMLBrowser_StaticLib, but also he will not have to
-         link to it either if is not using it in any of his projects */
-  #   ifdef USE_WIN32HTMLBROWSER_LIB
-  //     ApplicationKit statically linked in
-  #      include "vcf/ApplicationKit/Win32HTMLBrowserApplication.h"
-  #      pragma message ( "Win32HTMLBrowser is linked in statically" )
-  #   endif
-  #else
-      /* Win32HTMLBrowser will be loaded at runtime */
-  #   define RUNTIME_LOADLIBRARY
-  #   pragma message ( "Win32HTMLBrowser is linked dynamically" )
-  #endif
-  #include "vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h"
-#endif
 
 
 
@@ -2977,14 +2957,6 @@ Win32ToolKit::Win32ToolKit():
 {
 	runEventCount_ = 0;
 	dummyParentWnd_ = NULL;
-#if defined( _LIB ) && defined ( USE_WIN32HTMLBROWSER_LIB ) //statically linked in
-	browserLibAvailable_ = true;
-	Win32ToolKit_toolkitHInstance = ::GetModuleHandle( NULL );
-	initWin32HTMLBrowserLib( Win32ToolKit_toolkitHInstance );
-
-#else
-	browserLibAvailable_ = false;
-#endif
 
 
 	if ( System::isUnicodeEnabled() ) {
@@ -3092,9 +3064,6 @@ Win32ToolKit::~Win32ToolKit()
 		FreeLibrary( HtmlHelpLibHandle );
 	}
 
-#if defined( _LIB ) && defined ( USE_WIN32HTMLBROWSER_LIB )
-	terminateWin32HTMLBrowserLib();
-#endif
 
 	std::map<UINT,TimerRec*>::iterator it = timerMap_.begin();
 	while ( it != timerMap_.end() ) {
@@ -3139,40 +3108,6 @@ ListviewPeer* Win32ToolKit::internal_createListViewPeer( ListViewControl* compon
 	return new Win32Listview( component );
 }
 
-#ifndef VCF_NO_ATL
-HTMLBrowserPeer* Win32ToolKit::internal_createHTMLBrowserPeer( Control* control )
-{
-	HTMLBrowserPeer* result = NULL;
-	if ( false == browserLibAvailable_ ) {
-		try {
-			browserLib_.load( WIN32HTMLBROWSER_DYNLIB );
-			browserLibAvailable_ = true;
-		}
-		catch ( BasicException&  ) {
-			browserLibAvailable_ = false;
-		}
-	}
-	if ( true == browserLibAvailable_ ) {
-		Object* win32HTMLBrowser = ClassRegistry::createNewInstance( "VCF::Win32HTMLBrowser" );
-		if ( NULL != win32HTMLBrowser ) {
-			result = dynamic_cast<HTMLBrowserPeer*>( win32HTMLBrowser );
-			if ( NULL == result ) {
-				delete win32HTMLBrowser;
-			}
-			else {
-				ControlPeer* controlPeer = dynamic_cast<ControlPeer*>( win32HTMLBrowser );
-				if ( NULL != controlPeer ) {
-					controlPeer->setControl( control );
-				}
-			}
-		}
-		else {
-			throw RuntimeException( "initWin32HTMLBrowserLib was not called correctly, and/or the Win32HTMLBroswer Lib was not linked with" );
-		}
-	}
-	return result;
-}
-#endif
 
 DialogPeer* Win32ToolKit::internal_createDialogPeer( Control* owner, Dialog* component )
 {
@@ -4149,6 +4084,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.21  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.6.2.20  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *

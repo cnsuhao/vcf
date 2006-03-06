@@ -14,7 +14,7 @@ where you installed the VCF.
 #endif
 
 #ifndef _VCF_HTMLDOMELEMENTS_H__
-#include "vcf/ApplicationKit/HTMLDOMElements.h"
+#include "vcf/HTMLKit/HTMLDOMElements.h"
 #endif
 
 
@@ -26,7 +26,7 @@ namespace VCF  {
 *Since browsers have become so common, as well as useful,
 *it has been added to the set of peers for the ApplicationKit.
 */
-class APPLICATIONKIT_API HTMLBrowserPeer : public VCF::Interface {
+class HTMLKIT_API HTMLBrowserPeer : public VCF::Interface {
 public:
 	virtual ~HTMLBrowserPeer(){};
 
@@ -86,6 +86,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2006/03/06 03:48:31  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.2.6.3  2006/02/15 05:14:33  ddiego
 *more browser code.
 *

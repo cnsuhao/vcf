@@ -14,13 +14,11 @@ where you installed the VCF.
 #endif
 
 
-#include "vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h"
-
 #ifndef _VCF_HTMLBROWSERPEER_H__
-#	include "vcf/ApplicationKit/HTMLBrowserPeer.h"
+#	include "vcf/HTMLKit/HTMLBrowserPeer.h"
 #endif // _VCF_HTMLBROWSERPEER_H__
 
-#include "vcf/FoundationKit/RTTIMacros.h"
+
 
 
 #ifndef _WIN32_WINNT
@@ -28,7 +26,7 @@ where you installed the VCF.
 #endif
 
 
-#include "vcf/ApplicationKit/Win32WebBrowserHost.h"
+#include "vcf/HTMLKit/Win32WebBrowserHost.h"
 
 
 void initWin32HTMLBrowserLib( HMODULE module=NULL );
@@ -37,9 +35,6 @@ void terminateWin32HTMLBrowserLib();
 
 
 namespace VCF  {
-
-#define WIN32HTMLBROWSER_CLASSID "75794831-B24F-4f83-91B4-611952567DE6"
-
 
 
 class Win32HTMLBrowser;
@@ -70,12 +65,10 @@ public:
 /**
 *Class Win32HTMLBrowser documentation
 */
-class WIN32HTMLBROWSER_API Win32HTMLBrowser : 
+class HTMLKIT_API Win32HTMLBrowser : 
 		public AbstractWin32Component, public HTMLBrowserPeer,
 		public WebBrowserCtrl {
-public:
-	_class_rtti_(Win32HTMLBrowser, "VCF::AbstractWin32Component", WIN32HTMLBROWSER_CLASSID )
-	_class_rtti_end_
+public:	
 
 	Win32HTMLBrowser();
 
@@ -230,6 +223,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2006/03/06 03:48:31  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.4.2.5  2006/02/15 05:14:33  ddiego
 *more browser code.
 *

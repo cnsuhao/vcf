@@ -1530,30 +1530,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser"=".\Win32HTMLBrowser\Win32HTMLBrowser_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "Win32HTMLBrowser_StaticLib"=".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc70.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "WorkingWithEnumerators"="..\..\examples\WorkingWithEnumerators\WorkingWithEnumerators_vc70.dsp" - Package Owner=<4>
 
 Package=<5>

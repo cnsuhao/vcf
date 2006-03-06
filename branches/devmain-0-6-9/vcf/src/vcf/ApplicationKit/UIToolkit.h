@@ -81,7 +81,6 @@ class Desktop;
 
 class ComponentInfo;
 class ScrollPeer;
-class HTMLBrowserPeer;
 class AcceleratorKey;
 class Button;
 class Toolbar;
@@ -200,16 +199,6 @@ public:
     static TextPeer* createTextPeer( const bool& autoWordWrap, const bool& multiLined );
 
 	static TextEditPeer* createTextEditPeer( TextControl* component, const bool& isMultiLineControl);
-
-	
-
-	/**
-	This creates a peer that implements the HTMLBrowserPeer interface. The HTMLBrowserPeer
-	allows you to view HTML.
-	*/
-#ifndef VCF_NO_ATL
-	static HTMLBrowserPeer* createHTMLBrowserPeer( Control* control );
-#endif
 
 	/**
 	This creates a peer that implements the ButtonPeer interface. This ensures that you have a button
@@ -613,10 +602,6 @@ protected:
 
     virtual TextEditPeer* internal_createTextEditPeer( TextControl* component, const bool& isMultiLineControl ) = 0;
 
-#ifndef VCF_NO_ATL
-	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control ) = 0;
-#endif
-
     virtual ButtonPeer* internal_createButtonPeer( CommandButton* component) = 0;
 
     virtual DialogPeer* internal_createDialogPeer( Control* owner, Dialog* component) = 0;
@@ -798,6 +783,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.5.2.5  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *

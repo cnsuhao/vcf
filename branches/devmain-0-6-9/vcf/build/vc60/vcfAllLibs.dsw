@@ -315,30 +315,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "Win32HTMLBrowser"=".\Win32HTMLBrowser\Win32HTMLBrowser.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "Win32HTMLBrowser_StaticLib"=".\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "ZLib"="..\..\src\thirdparty\common\ZLib\ZLib.dsp" - Package Owner=<4>
 
 Package=<5>

@@ -1,11 +1,8 @@
 //Win32HTMLDOMElements.cpp
 
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/ApplicationKitPrivate.h"
-
-#include "vcf/ApplicationKit/HTMLBrowserControl.h"
-
-#include "vcf/ApplicationKit/Win32HTMLDOMElements.h"
+#include "vcf/HTMLKit/HTMLKit.h"
+#include "vcf/HTMLKit/HTMLBrowserControl.h"
+#include "vcf/HTMLKit/Win32HTMLDOMElements.h"
 
 
 

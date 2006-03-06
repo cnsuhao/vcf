@@ -19,7 +19,6 @@ CFG=libAGG - Win32 GTK Debug
 !MESSAGE 
 !MESSAGE "libAGG - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "libAGG - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE "libAGG - Win32 GTK Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -73,36 +72,12 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo /out:"../../../lib/libAGG_icl7_sd.lib"
 
-!ELSEIF  "$(CFG)" == "libAGG - Win32 GTK Debug"
-
-# PROP BASE Use_MFC 0
-# PROP BASE Use_Debug_Libraries 1
-# PROP BASE Output_Dir "libAGG___Win32_GTK_Debug"
-# PROP BASE Intermediate_Dir "libAGG___Win32_GTK_Debug"
-# PROP BASE Target_Dir ""
-# PROP Use_MFC 0
-# PROP Use_Debug_Libraries 1
-# PROP Output_Dir "icl7\libAGG___Win32_GTK_Debug\"
-# PROP Intermediate_Dir "icl7\libAGG___Win32_GTK_Debug\"
-# PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GR /GX /ZI /Od /I "$(VCF_INCLUDE)" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fd"..\..\..\lib\libAGG_icl7_sd.pdb" /YX /FD /GZ /c
-# ADD BASE RSC /l 0x409 /d "_DEBUG"
-# ADD RSC /l 0x409 /d "_DEBUG"
-BSC32=bscmake.exe
-# ADD BASE BSC32 /nologo
-# ADD BSC32 /nologo /o"../../../lib/libAGG_icl7_sd.bsc"
-LIB32=link.exe -lib
-# ADD BASE LIB32 /nologo /out:"../../../lib/libAGG_icl7_sd.lib"
-# ADD LIB32 /nologo /out:"../../../lib/libAGG_icl7_sd.lib"
-
 !ENDIF 
 
 # Begin Target
 
 # Name "libAGG - Win32 Release"
 # Name "libAGG - Win32 Debug"
-# Name "libAGG - Win32 GTK Debug"
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"

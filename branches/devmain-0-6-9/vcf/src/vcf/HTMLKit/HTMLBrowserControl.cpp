@@ -8,9 +8,9 @@ where you installed the VCF.
 
 
 //HTMLBrowserControl.h
-#include "vcf/ApplicationKit/ApplicationKit.h"
-#include "vcf/ApplicationKit/HTMLBrowserControl.h"
-#include "vcf/ApplicationKit/HTMLBrowserPeer.h"
+#include "vcf/HTMLKit/HTMLKit.h"
+#include "vcf/HTMLKit/HTMLBrowserControl.h"
+#include "vcf/HTMLKit/HTMLBrowserPeer.h"
 
 
 using namespace VCF;
@@ -20,7 +20,7 @@ HTMLBrowserControl::HTMLBrowserControl():
 	browserPeer_(NULL),
 	policyState_(0)
 {
-	browserPeer_ = UIToolkit::createHTMLBrowserPeer( this );
+	browserPeer_ = HTMLToolkit::createHTMLBrowserPeer( this );
 
 	if ( NULL == browserPeer_ ){
 		throw InvalidPeer( MAKE_ERROR_MSG(NO_PEER), __LINE__ );
@@ -207,6 +207,9 @@ HTMLDocument HTMLBrowserControl::getDocument()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.1  2006/03/06 03:48:31  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.3.2.3  2006/02/15 05:14:33  ddiego
 *more browser code.
 *

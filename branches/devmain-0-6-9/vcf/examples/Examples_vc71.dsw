@@ -684,6 +684,36 @@ Package=<4>
 
 ###############################################################################
 
+Project: "HTMLKit"="..\build\vc71\HTMLKit\HTMLKit_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKit
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "HTMLKitDll"="..\build\vc71\HTMLKit\HTMLKitDll_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "HeavyAndLight"=".\HeavyAndLight\HeavyAndLight_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -901,6 +931,36 @@ Package=<4>
 {{{
     Begin Project Dependency
     Project_Dep_Name FoundationKitDLL
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "OpenGLKit"="..\build\vc71\OpenGLKit\OpenGLKit_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKit
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "OpenGLKitDLL"="..\build\vc71\OpenGLKit\OpenGLKitDLL_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name ApplicationKitDLL
     End Project Dependency
 }}}
 
@@ -1292,36 +1352,6 @@ Package=<5>
 
 Package=<4>
 {{{
-}}}
-
-###############################################################################
-
-Project: "Win32HTMLBrowser"="..\build\vc71\Win32HTMLBrowser\Win32HTMLBrowser_vc71.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKitDLL
-    End Project Dependency
-}}}
-
-###############################################################################
-
-Project: "Win32HTMLBrowser_StaticLib"="..\build\vc71\Win32HTMLBrowser\Win32HTMLBrowser_StaticLib_vc71.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-    Begin Project Dependency
-    Project_Dep_Name ApplicationKit
-    End Project Dependency
 }}}
 
 ###############################################################################

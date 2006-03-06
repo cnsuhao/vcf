@@ -141,10 +141,6 @@ public:
 
 	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component);
 
-#ifndef VCF_NO_ATL
-	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control );
-#endif
-
 	virtual ContextPeer* internal_createContextPeer( Control* component );
 
 	virtual CommonFileDialogPeer* internal_createCommonFileOpenDialogPeer( Control* owner );
@@ -220,9 +216,7 @@ public:
 protected:
 
 	void createDummyParentWindow();
-	HWND dummyParentWnd_;
-	Library browserLib_;
-	bool browserLibAvailable_;
+	HWND dummyParentWnd_;		
 	int runEventCount_;
 
 	class TimerRec {
@@ -251,6 +245,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.5.2.5  2006/02/23 05:54:23  ddiego
 *some html help integration fixes and new features. context sensitive help is finished now.
 *

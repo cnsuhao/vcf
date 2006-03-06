@@ -162,7 +162,7 @@ public:
 	virtual void set( Object* source, const String& value ){
 
 		String tmp = value;
-		ulong32 pos = tmp.find( "," );
+		size_t pos = tmp.find( "," );
 
 		while ( pos != VCF::String::npos ) {
 			addAsString( tmp.substr( 0, pos ) );
@@ -3606,6 +3606,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.10  2006/03/06 03:48:30  ddiego
+*more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
+*
 *Revision 1.4.2.9  2006/02/23 01:41:57  ddiego
 *some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
 *
