@@ -3391,7 +3391,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 			thmbR.top = trackContent.top + ((trackContent.bottom-trackContent.top)/2 - (val.cy/2));
 			thmbR.bottom = thmbR.top + val.cy;
 			thmbR.left =  (thmbR.left - val.cx/2) +
-				((state.position_) / (state.max_ - state.min_)) * ((double)(r.right-r.left));
+				((state.position_- state.min_) / (state.max_ - state.min_)) * ((double)(r.right-r.left));
 			thmbR.right = thmbR.left + val.cx;
 		}
 
@@ -3433,7 +3433,7 @@ void Win32Context::drawThemeSlider( Rect* rect, SliderState& state )
 		else {
 			thumbRect.right_ = thumbRect.left_ + thumbSize.width_;
 
-			thumbRect.offset( (int)(((state.position_)/(state.max_-state.min_))*rect->getWidth()) - (int)(thumbSize.width_/2), 0 );
+			thumbRect.offset( (int)(((state.position_- state.min_)/(state.max_-state.min_))*rect->getWidth()) - (int)(thumbSize.width_/2), 0 );
 		}
 
 
@@ -4439,6 +4439,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.10  2006/03/06 04:16:38  ddiego
+*fix to draw slider calcs for horizontal sliders.
+*
 *Revision 1.7.2.9  2006/03/04 02:35:48  ddiego
 *upgraded agg from 2.2 to the latest 2.4 version.
 *
