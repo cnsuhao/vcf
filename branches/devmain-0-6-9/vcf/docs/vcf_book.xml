@@ -148,7 +148,7 @@ NB: This software will not save the world.
 			  <revnumber>0.9.0</revnumber>
 			  <date>March 4 2006</date>
 			  <authorinitials>JC</authorinitials>
-			  <revremark>Added further documentation</revremark>
+			  <revremark>Added further documentation, plus new sections for the HTMLKit, InternetKit and OpenGLKit</revremark>
 			</revision>
 			
 		</revhistory>
@@ -169,17 +169,18 @@ NB: This software will not save the world.
 		
 		&componentAuthoring;
 		
+		&coreLibHTMLKit;
+		
+		&coreLibInternetKit;
+		
+		&coreLibOpenGLKit;
+		
 		&coreLibNetworkKit;
 
 		&coreLibRemoteObjectKit;
 	</chapter>
 
 	<chapter><title>Additional Libraries (usage is optional) </title>
-		<section><title>HTML Browser</title>
-			<para>
-			</para>
-		</section>
-
 		<section><title>ImageFormats</title>
 			<para>
 			</para>
@@ -299,6 +300,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.7.2.2  2006/03/06 04:38:41  ddiego
+added new docs sections for the HTMLKit, OpenGLKit, and INternetKit.
+
 Revision 1.7.2.1  2006/03/05 02:28:04  ddiego
 updated the Item interface and adjusted the other classes accordingly.
 

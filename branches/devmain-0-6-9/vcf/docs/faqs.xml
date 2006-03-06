@@ -2094,6 +2094,49 @@ someControl->setPopupMenu( contextMenu );
 		</qandaentry>
 	</qandaset>
 	</section>	
+	<section><title>OpenGLKit</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>a question?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
+		</qandaentry>
+	</qandaset>
+	</section>
+	<section><title>HTMLKit</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>a question?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
+		</qandaentry>
+	</qandaset>
+	</section>
+	<section><title>InternetKit</title>
+	<qandaset>
+		<qandaentry>
+			<question>
+				<para>a question?</para>
+			</question>
+			<answer>
+				<para>
+				An answer.
+				</para>
+			</answer>			
+		</qandaentry>
+	</qandaset>
+	</section>
+	
 	<section><title>NetworkKit</title>
 	<qandaset>
 		<qandaentry>
@@ -2128,6 +2171,9 @@ someControl->setPopupMenu( contextMenu );
 CVS Log info
 
 $Log$
+Revision 1.4.4.4  2006/03/06 04:38:41  ddiego
+added new docs sections for the HTMLKit, OpenGLKit, and INternetKit.
+
 Revision 1.4.4.3  2006/03/05 03:39:36  ddiego
 more docs updates.
 
