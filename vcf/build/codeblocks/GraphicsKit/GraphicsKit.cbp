@@ -97,6 +97,7 @@
 			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
 			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\agg\include&quot;' />
 			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\ZLib&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\win32\Microsoft&quot;' />
 		</Compiler>
 		<Linker>
 			<Add directory='&quot;$(VCF_LIB)&quot;' />
