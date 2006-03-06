@@ -2299,14 +2299,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Listview.cpp"
 				>
 				<FileConfiguration
@@ -3468,32 +3460,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageControl.cpp"
 				>
 				<FileConfiguration
@@ -4138,10 +4104,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\DropTargetPeer.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserPeer.h"
 				>
 			</File>
 			<File
