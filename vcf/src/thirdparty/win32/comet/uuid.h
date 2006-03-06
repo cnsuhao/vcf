@@ -23,7 +23,7 @@
 #include <comet/uuid_fwd.h>
 #include <comet/bstr.h>
 
-#pragma comment( lib, "Rpcrt4" )
+#pragma comment( lib, "rpcrt4.lib" )
 
 namespace comet {
 
