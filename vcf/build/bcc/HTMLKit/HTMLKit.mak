@@ -76,7 +76,6 @@ CPPFILES= HTMLBrowserControl.cpp \
           HTMLKit.cpp \
           HTMLToolkit.cpp \
           Win32HTMLBrowser.cpp \
-          Win32HTMLBrowserApplication.cpp \
           Win32HTMLDOMElements.cpp \
           Win32HTMLToolkit.cpp 
  
