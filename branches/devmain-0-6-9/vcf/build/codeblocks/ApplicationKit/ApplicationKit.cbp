@@ -96,6 +96,7 @@
 			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
 			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\agg\include&quot;' />
 			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\win32&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\win32\Microsoft&quot;' />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="..\..\resources\win32" />
