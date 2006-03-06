@@ -8,7 +8,7 @@
         <set var="OPTION_FOUNDATIONKIT">1</set>
         <set var="OPTION_GRAPHICSKIT">1</set>
         <set var="OPTION_APPLICATIONKIT">1</set>
-        <set var="OPTION_WIN32HTMLBROWSER">1</set>
+        <set var="OPTION_HTMLKIT">1</set>
         <set var="OPTION_OPENGLKIT">1</set>
         <set var="OPTION_NETWORKKIT">1</set>
         <set var="OPTION_REMOTEOBJECTKIT">1</set>

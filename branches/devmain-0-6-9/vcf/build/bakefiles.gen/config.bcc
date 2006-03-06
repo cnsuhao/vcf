@@ -72,62 +72,6 @@ OPTION_DEBUG = 1
 OPTION_ALLIN1 = 0
 !endif
 
-# Compile FoundationKit: [0,1]
-!ifndef OPTION_FOUNDATIONKIT
-OPTION_FOUNDATIONKIT = 1
-!endif
-
-# Depends on:
-#     OPTION_FOUNDATIONKIT
-#     OPTION_LIBAGG
-#     OPTION_ZLIB
-# Compile GraphicsKit: [0,1]
-!ifndef OPTION_GRAPHICSKIT
-OPTION_GRAPHICSKIT = 1
-!endif
-
-# Depends on:
-#     OPTION_GRAPHICSKIT
-# Compile ApplicationKit: [0,1]
-!ifndef OPTION_APPLICATIONKIT
-OPTION_APPLICATIONKIT = 1
-!endif
-
-# Depends on:
-#     OPTION_APPLICATIONKIT
-# Compile the Win32HTMLBrowser control: [0,1]
-!ifndef OPTION_WIN32HTMLBROWSER
-OPTION_WIN32HTMLBROWSER = 0
-!endif
-
-# Depends on:
-#     OPTION_APPLICATIONKIT
-# Compile OpenGLKit: [0,1]
-!ifndef OPTION_OPENGLKIT
-OPTION_OPENGLKIT = 0
-!endif
-
-# Depends on:
-#     OPTION_FOUNDATIONKIT
-# Compile NetworkKit: [0,1]
-!ifndef OPTION_NETWORKKIT
-OPTION_NETWORKKIT = 0
-!endif
-
-# Depends on:
-#     OPTION_NETWORKKIT
-# Compile RemoteObjectKit: [0,1]
-!ifndef OPTION_REMOTEOBJECTKIT
-OPTION_REMOTEOBJECTKIT = 0
-!endif
-
-# Depends on:
-#     OPTION_FOUNDATIONKIT
-# Compile InternetKit: [0,1]
-!ifndef OPTION_INTERNETKIT
-OPTION_INTERNETKIT = 0
-!endif
-
 # Compile the Zip library: [0,1]
 !ifndef OPTION_ZLIB
 OPTION_ZLIB = 1
@@ -167,16 +111,72 @@ OPTION_LIBTIFF = 0
 OPTION_FREEIMAGE = 0
 !endif
 
+# Compile the RegExx library: [0,1]
+!ifndef OPTION_REGEXX
+OPTION_REGEXX = 0
+!endif
+
+# Compile FoundationKit: [0,1]
+!ifndef OPTION_FOUNDATIONKIT
+OPTION_FOUNDATIONKIT = 1
+!endif
+
+# Depends on:
+#     OPTION_FOUNDATIONKIT
+#     OPTION_LIBAGG
+#     OPTION_ZLIB
+# Compile GraphicsKit: [0,1]
+!ifndef OPTION_GRAPHICSKIT
+OPTION_GRAPHICSKIT = 1
+!endif
+
+# Depends on:
+#     OPTION_GRAPHICSKIT
+# Compile ApplicationKit: [0,1]
+!ifndef OPTION_APPLICATIONKIT
+OPTION_APPLICATIONKIT = 1
+!endif
+
+# Depends on:
+#     OPTION_APPLICATIONKIT
+# Compile HTMLKit: [0,1]
+!ifndef OPTION_HTMLKIT
+OPTION_HTMLKIT = 0
+!endif
+
+# Depends on:
+#     OPTION_APPLICATIONKIT
+# Compile OpenGLKit: [0,1]
+!ifndef OPTION_OPENGLKIT
+OPTION_OPENGLKIT = 0
+!endif
+
+# Depends on:
+#     OPTION_FOUNDATIONKIT
+# Compile NetworkKit: [0,1]
+!ifndef OPTION_NETWORKKIT
+OPTION_NETWORKKIT = 0
+!endif
+
+# Depends on:
+#     OPTION_NETWORKKIT
+# Compile RemoteObjectKit: [0,1]
+!ifndef OPTION_REMOTEOBJECTKIT
+OPTION_REMOTEOBJECTKIT = 0
+!endif
+
+# Depends on:
+#     OPTION_FOUNDATIONKIT
+# Compile InternetKit: [0,1]
+!ifndef OPTION_INTERNETKIT
+OPTION_INTERNETKIT = 0
+!endif
+
 # Depends on:
 #     OPTION_FREEIMAGE
 #     OPTION_APPLICATIONKIT
 # Compile ImageFormats: [0,1]
 !ifndef OPTION_IMAGEFORMATS
 OPTION_IMAGEFORMATS = 0
-!endif
-
-# Compile the RegExx library: [0,1]
-!ifndef OPTION_REGEXX
-OPTION_REGEXX = 0
 !endif
 

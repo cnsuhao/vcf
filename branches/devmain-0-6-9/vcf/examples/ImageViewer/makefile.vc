@@ -21,8 +21,6 @@ FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-WIN32HTMLBROWSER_FILENAME = \
-	Win32HTMLBrowser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 IMAGEVIEWER_CXXFLAGS = /M$(__RUNTIME_LIBS_8)$(__DEBUG_RUNTIME_LIBS_3) /DWIN32 \
 	$(__DEBUG_INFO_0) \
 	/Fd.\ImageViewer$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).pdb \
@@ -33,8 +31,7 @@ IMAGEVIEWER_CXXFLAGS = /M$(__RUNTIME_LIBS_8)$(__DEBUG_RUNTIME_LIBS_3) /DWIN32 \
 	$(__FOUNDATIONKIT_DLL_p) /I..\..\src\thirdparty\common\agg\include \
 	/I..\..\src\thirdparty\common\ZLib /I..\..\src\thirdparty\common\LibJPEG \
 	/I..\..\src\thirdparty\common\LibPNG $(__GRAPHICSKIT_DLL_p) \
-	$(__WIN32HTMLBROWSER_DLL_p) $(__APPLICATIONKIT_DLL_p) /GR /EHsc $(CPPFLAGS) \
-	$(CXXFLAGS)
+	$(__APPLICATIONKIT_DLL_p) /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
 IMAGEVIEWER_OBJECTS =  \
 	$(OBJDIR)\ImageViewer_ImageViewer.obj
 
@@ -122,12 +119,6 @@ ____ImageViewer_GRAPHICSKIT_p = $(GRAPHICSKIT_FILENAME).lib
 !if "$(OPTION_SHARED)" == "1"
 __GRAPHICSKIT_DLL_p = /DGRAPHICSKIT_DLL
 !endif
-!if "$(OPTION_SHARED)" == "0"
-____ImageViewer_WIN32HTMLBROWSER_p = $(WIN32HTMLBROWSER_FILENAME).lib
-!endif
-!if "$(OPTION_SHARED)" == "1"
-__WIN32HTMLBROWSER_DLL_p = /DWIN32HTMLBROWSER_DLL
-!endif
 !if "$(OPTION_ALLIN1)" == "0"
 ____ImageViewer_APPLICATIONKIT_p = $(APPLICATIONKIT_FILENAME).lib
 !endif
@@ -155,7 +146,7 @@ clean:
 !if "$(OPTION_APPLICATIONKIT)" == "1"
 .\ImageViewer$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(IMAGEVIEWER_OBJECTS)
 	link /NOLOGO /OUT:$@ $(LDFLAGS) $(__DEBUG_INFO_1)  /LIBPATH:..\..\lib /SUBSYSTEM:WINDOWS /ENTRY:"mainCRTStartup" @<<
-	$(IMAGEVIEWER_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib $(____ImageViewer_FOUNDATIONKIT_p) $(LIBAGG_FILENAME).lib $(ZLIB_FILENAME).lib $(LIBJPEG_FILENAME).lib $(LIBPNG_FILENAME).lib $(____ImageViewer_GRAPHICSKIT_p) $(____ImageViewer_WIN32HTMLBROWSER_p) $(____ImageViewer_APPLICATIONKIT_p)
+	$(IMAGEVIEWER_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib $(____ImageViewer_FOUNDATIONKIT_p) $(LIBAGG_FILENAME).lib $(ZLIB_FILENAME).lib $(LIBJPEG_FILENAME).lib $(LIBPNG_FILENAME).lib $(____ImageViewer_GRAPHICSKIT_p) $(____ImageViewer_APPLICATIONKIT_p)
 <<
 !endif
 

@@ -62,6 +62,11 @@
         $(vcf.getFilename( APPLICATIONKIT_NAME ))
     </set>
     
+    <set var="HTMLKIT_NAME">HTMLKit</set>
+    <set var="HTMLKIT_FILENAME" make_var="1">
+        $(vcf.getFilename( HTMLKIT_NAME ))
+    </set>
+
     <set var="OPENGLKIT_NAME">OpenGLKit</set>
     <set var="OPENGLKIT_FILENAME" make_var="1">
         $(vcf.getFilename( OPENGLKIT_NAME ))
@@ -87,11 +92,6 @@
         $(vcf.getFilename( ALLIN1_NAME ))
     </set>
     
-    <set var="WIN32HTMLBROWSER_NAME">Win32HTMLBrowser</set>
-    <set var="WIN32HTMLBROWSER_FILENAME" make_var="1">
-        $(vcf.getFilename( WIN32HTMLBROWSER_NAME ))
-    </set>
-
     <set var="IMAGEFORMATS_NAME">ImageFormats</set>
     <set var="IMAGEFORMATS_FILENAME" make_var="1">
         $(vcf.getFilename( IMAGEFORMATS_NAME ))

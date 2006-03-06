@@ -21,17 +21,15 @@ LIBPNG_FILENAME = LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
 FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
+HTMLKIT_FILENAME = HTMLKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-WIN32HTMLBROWSER_FILENAME = \
-	Win32HTMLBrowser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 BROWSER_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -mthreads \
 	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -D_WINDOWS -D_WIN32 \
 	-DWIN32 -DVCF_MINGW -Wno-multichar -D_UNICODE -I..\..\src \
 	$(__FOUNDATIONKIT_DLL_p) -I..\..\src\thirdparty\common\agg\include \
 	-I..\..\src\thirdparty\common\ZLib -I..\..\src\thirdparty\common\LibJPEG \
 	-I..\..\src\thirdparty\common\LibPNG $(__GRAPHICSKIT_DLL_p) \
-	$(__WIN32HTMLBROWSER_DLL_p) $(__APPLICATIONKIT_DLL_p) $(CPPFLAGS) \
-	$(CXXFLAGS)
+	$(__APPLICATIONKIT_DLL_p) $(__HTMLKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
 BROWSER_OBJECTS =  \
 	$(OBJDIR)\Browser_Browser.o
 
@@ -55,7 +53,7 @@ endif
 ifeq ($(OPTION_SHARED),1)
 SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
 endif
-ifeq ($(OPTION_WIN32HTMLBROWSER),1)
+ifeq ($(OPTION_HTMLKIT),1)
 __Browser___depname = .\Browser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 endif
 ifeq ($(OPTION_DEBUG),0)
@@ -85,17 +83,17 @@ endif
 ifeq ($(OPTION_SHARED),1)
 __GRAPHICSKIT_DLL_p = -DGRAPHICSKIT_DLL
 endif
-ifeq ($(OPTION_SHARED),0)
-____Browser_WIN32HTMLBROWSER_p = -l$(WIN32HTMLBROWSER_FILENAME)
-endif
-ifeq ($(OPTION_SHARED),1)
-__WIN32HTMLBROWSER_DLL_p = -DWIN32HTMLBROWSER_DLL
-endif
 ifeq ($(OPTION_ALLIN1),0)
 ____Browser_APPLICATIONKIT_p = -l$(APPLICATIONKIT_FILENAME)
 endif
 ifeq ($(OPTION_SHARED),1)
 __APPLICATIONKIT_DLL_p = -DAPPLICATIONKIT_DLL
+endif
+ifeq ($(OPTION_ALLIN1),0)
+____Browser_HTMLKIT_p = -l$(HTMLKIT_FILENAME)
+endif
+ifeq ($(OPTION_SHARED),1)
+__HTMLKIT_DLL_p = -DHTMLKIT_DLL
 endif
 ifeq ($(OPTION_DEBUG),0)
 __DEBUG_INFO = 
@@ -118,9 +116,9 @@ clean:
 	-if exist $(OBJDIR)\*.d del $(OBJDIR)\*.d
 	-if exist .\Browser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\Browser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 
-ifeq ($(OPTION_WIN32HTMLBROWSER),1)
+ifeq ($(OPTION_HTMLKIT),1)
 .\Browser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(BROWSER_OBJECTS)
-	$(CXX) -o $@ $(BROWSER_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--subsystem,windows -mwindows  -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32 $(____Browser_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____Browser_GRAPHICSKIT_p) $(____Browser_WIN32HTMLBROWSER_p) $(____Browser_APPLICATIONKIT_p)
+	$(CXX) -o $@ $(BROWSER_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -mthreads -Wl,--enable-runtime-pseudo-reloc -L..\..\lib -Wl,--subsystem,windows -mwindows  -lrpcrt4 -lodbc32 -lodbccp32 -lversion -lkernel32 -luser32 -lgdi32 -lwinspool -lcomdlg32 -ladvapi32 -lshell32 -lole32 -loleaut32 -luuid -lodbc32 -lodbccp32 -lcomctl32 -lws2_32 -lopengl32 -lglu32 $(____Browser_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____Browser_GRAPHICSKIT_p) $(____Browser_APPLICATIONKIT_p) $(____Browser_HTMLKIT_p)
 endif
 
 $(OBJDIR)\Browser_Browser.o: ./Browser.cpp

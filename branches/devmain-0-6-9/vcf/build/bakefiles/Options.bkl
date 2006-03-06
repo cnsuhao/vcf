@@ -105,125 +105,10 @@ The type of runtime libraries.
         </description>
     </option>
 
-    <option name="OPTION_FOUNDATIONKIT">
-        <values>0,1</values>
-        <default-value>
-            $(vcf.getOptionValue( 'OPTION_FOUNDATIONKIT', '1' ))
-        </default-value>
-        <description>
-            Compile FoundationKit:
-        </description>
-    </option>
 
-    <set var="OPTION_GRAPHICSKIT_DEFAULT">
-        <if cond="FORMAT=='gnu'">0</if>
-        <if cond="FORMAT!='gnu'">1</if>
-    </set>
-    <option name="OPTION_GRAPHICSKIT">
-        <values>0,1</values>
-        <default-value>
-            $(vcf.getOptionValue( 'OPTION_GRAPHICSKIT', OPTION_GRAPHICSKIT_DEFAULT ))
-        </default-value>
-        <description>
-Depends on:
-    OPTION_FOUNDATIONKIT
-    OPTION_LIBAGG
-    OPTION_ZLIB
-Compile GraphicsKit:
-        </description>
-    </option>
-
-    <set var="OPTION_APPLICATIONKIT_DEFAULT">
-        <if cond="FORMAT=='gnu'">0</if>
-        <if cond="FORMAT!='gnu'">1</if>
-    </set>
-    <option name="OPTION_APPLICATIONKIT">
-        <values>0,1</values>
-        <default-value>
-            $(vcf.getOptionValue( 'OPTION_APPLICATIONKIT', OPTION_APPLICATIONKIT_DEFAULT ))
-        </default-value>
-        <description>
-Depends on:
-    OPTION_GRAPHICSKIT
-Compile ApplicationKit:
-        </description>
-    </option>
-
-    <set var="OPTION_WIN32HTMLBROWSER_DEFAULT">
-        <if cond="FORMAT!='msvc'">0</if>
-        <if cond="FORMAT=='msvc'">1</if>
-    </set>
     <!--
-        1) Win32HTMLBrowser support is suitable, only if PLATFORM_WIN32=='1'.
-        2) Visual Studio includes ATL always.
+    Libraries.
     -->
-    <if cond="PLATFORM_WIN32=='1' and FORMAT!='msvc6prj'">
-        <option name="OPTION_WIN32HTMLBROWSER">
-            <values>0,1</values>
-            <default-value>
-                $(vcf.getOptionValue( 'OPTION_WIN32HTMLBROWSER', OPTION_WIN32HTMLBROWSER_DEFAULT ))
-            </default-value>
-            <description>
-Depends on:
-    OPTION_APPLICATIONKIT
-Compile the Win32HTMLBrowser control:
-            </description>
-        </option>
-    </if>
-    <if cond="not isoption('OPTION_WIN32HTMLBROWSER')">
-        <set var="OPTION_WIN32HTMLBROWSER">
-            <if cond="PLATFORM_WIN32=='0'">0</if>
-            <if cond="FORMAT=='msvc6prj'">1</if>
-        </set>
-    </if>
-
-    <option name="OPTION_OPENGLKIT">
-        <values>0,1</values>
-        <default-value>
-            $(vcf.getOptionValue( 'OPTION_OPENGLKIT', '0' ))
-        </default-value>
-        <description>
-Depends on:
-    OPTION_APPLICATIONKIT
-Compile OpenGLKit:
-        </description>
-    </option>
-
-    <option name="OPTION_NETWORKKIT">
-        <values>0,1</values>
-        <default-value>
-            $(vcf.getOptionValue( 'OPTION_NETWORKKIT', '0' ))
-        </default-value>
-        <description>
-Depends on:
-    OPTION_FOUNDATIONKIT
-Compile NetworkKit:
-        </description>
-    </option>
-
-    <option name="OPTION_REMOTEOBJECTKIT">
-        <values>0,1</values>
-        <default-value>
-            $(vcf.getOptionValue( 'OPTION_REMOTEOBJECTKIT', '0' ))
-        </default-value>
-        <description>
-Depends on:
-    OPTION_NETWORKKIT
-Compile RemoteObjectKit:
-        </description>
-    </option>
-
-    <option name="OPTION_INTERNETKIT">
-        <values>0,1</values>
-        <default-value>
-            $(vcf.getOptionValue( 'OPTION_INTERNETKIT', '0' ))
-        </default-value>
-        <description>
-Depends on:
-    OPTION_FOUNDATIONKIT
-Compile InternetKit:
-        </description>
-    </option>
 
     <option name="OPTION_ZLIB">
         <values>0,1</values>
@@ -299,6 +184,134 @@ Compile the FreeImage library:
         </description>
     </option>
 
+    <option name="OPTION_REGEXX">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_REGEXX', '0' ))
+        </default-value>
+        <description>
+            Compile the RegExx library:
+        </description>
+    </option>
+
+
+    <!--
+    Kits.
+    -->
+
+    <option name="OPTION_FOUNDATIONKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_FOUNDATIONKIT', '1' ))
+        </default-value>
+        <description>
+            Compile FoundationKit:
+        </description>
+    </option>
+
+    <set var="OPTION_GRAPHICSKIT_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
+    <option name="OPTION_GRAPHICSKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_GRAPHICSKIT', OPTION_GRAPHICSKIT_DEFAULT ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+    OPTION_LIBAGG
+    OPTION_ZLIB
+Compile GraphicsKit:
+        </description>
+    </option>
+
+    <set var="OPTION_APPLICATIONKIT_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
+    <option name="OPTION_APPLICATIONKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_APPLICATIONKIT', OPTION_APPLICATIONKIT_DEFAULT ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_GRAPHICSKIT
+Compile ApplicationKit:
+        </description>
+    </option>
+
+    <set var="OPTION_HTMLKIT_DEFAULT">
+        <if cond="FORMAT!='msvc'">0</if>
+        <if cond="FORMAT=='msvc'">1</if>
+    </set>
+    <option name="OPTION_HTMLKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_HTMLKIT', OPTION_HTMLKIT_DEFAULT ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_APPLICATIONKIT
+Compile HTMLKit:
+        </description>
+    </option>
+
+    <option name="OPTION_OPENGLKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_OPENGLKIT', '0' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_APPLICATIONKIT
+Compile OpenGLKit:
+        </description>
+    </option>
+
+    <option name="OPTION_NETWORKKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_NETWORKKIT', '0' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+Compile NetworkKit:
+        </description>
+    </option>
+
+    <option name="OPTION_REMOTEOBJECTKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_REMOTEOBJECTKIT', '0' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_NETWORKKIT
+Compile RemoteObjectKit:
+        </description>
+    </option>
+
+    <option name="OPTION_INTERNETKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_INTERNETKIT', '0' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+Compile InternetKit:
+        </description>
+    </option>
+
+
+    <!--
+    Miscellaneous.
+    -->
+
     <option name="OPTION_IMAGEFORMATS">
         <values>0,1</values>
         <default-value>
@@ -309,16 +322,6 @@ Depends on:
     OPTION_FREEIMAGE
     OPTION_APPLICATIONKIT
 Compile ImageFormats:
-        </description>
-    </option>
-
-    <option name="OPTION_REGEXX">
-        <values>0,1</values>
-        <default-value>
-            $(vcf.getOptionValue( 'OPTION_REGEXX', '0' ))
-        </default-value>
-        <description>
-            Compile the RegExx library:
         </description>
     </option>
 

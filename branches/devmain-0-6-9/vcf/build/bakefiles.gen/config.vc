@@ -53,6 +53,34 @@ OPTION_PRECOMPILED = 1
 # Make the all-in-1 library: [0,1]
 OPTION_ALLIN1 = 0
 
+# Compile the Zip library: [0,1]
+OPTION_ZLIB = 1
+
+# Compile the AGG library: [0,1]
+OPTION_LIBAGG = 1
+
+# Compile the JPEG library: [0,1]
+OPTION_LIBJPEG = 1
+
+# Compile the PNG library: [0,1]
+OPTION_LIBPNG = 1
+
+# Compile the MNG library: [0,1]
+OPTION_LIBMNG = 0
+
+# Compile the TIFF library: [0,1]
+OPTION_LIBTIFF = 0
+
+# Depends on:
+#     OPTION_ZLIB
+#     OPTION_LIBMNG
+#     OPTION_LIBTIFF
+# Compile the FreeImage library: [0,1]
+OPTION_FREEIMAGE = 0
+
+# Compile the RegExx library: [0,1]
+OPTION_REGEXX = 0
+
 # Compile FoundationKit: [0,1]
 OPTION_FOUNDATIONKIT = 1
 
@@ -70,18 +98,18 @@ OPTION_APPLICATIONKIT = 1
 
 # Depends on:
 #     OPTION_APPLICATIONKIT
-# Compile the Win32HTMLBrowser control: [0,1]
-OPTION_WIN32HTMLBROWSER = 1
+# Compile HTMLKit: [0,1]
+OPTION_HTMLKIT = 1
 
 # Depends on:
 #     OPTION_APPLICATIONKIT
 # Compile OpenGLKit: [0,1]
-OPTION_OPENGLKIT = 1
+OPTION_OPENGLKIT = 0
 
 # Depends on:
 #     OPTION_FOUNDATIONKIT
 # Compile NetworkKit: [0,1]
-OPTION_NETWORKKIT = 1
+OPTION_NETWORKKIT = 0
 
 # Depends on:
 #     OPTION_NETWORKKIT
@@ -91,39 +119,11 @@ OPTION_REMOTEOBJECTKIT = 0
 # Depends on:
 #     OPTION_FOUNDATIONKIT
 # Compile InternetKit: [0,1]
-OPTION_INTERNETKIT = 1
-
-# Compile the Zip library: [0,1]
-OPTION_ZLIB = 1
-
-# Compile the AGG library: [0,1]
-OPTION_LIBAGG = 1
-
-# Compile the JPEG library: [0,1]
-OPTION_LIBJPEG = 1
-
-# Compile the PNG library: [0,1]
-OPTION_LIBPNG = 1
-
-# Compile the MNG library: [0,1]
-OPTION_LIBMNG = 1
-
-# Compile the TIFF library: [0,1]
-OPTION_LIBTIFF = 1
-
-# Depends on:
-#     OPTION_ZLIB
-#     OPTION_LIBMNG
-#     OPTION_LIBTIFF
-# Compile the FreeImage library: [0,1]
-OPTION_FREEIMAGE = 1
+OPTION_INTERNETKIT = 0
 
 # Depends on:
 #     OPTION_FREEIMAGE
 #     OPTION_APPLICATIONKIT
 # Compile ImageFormats: [0,1]
-OPTION_IMAGEFORMATS = 1
-
-# Compile the RegExx library: [0,1]
-OPTION_REGEXX = 1
+OPTION_IMAGEFORMATS = 0
 

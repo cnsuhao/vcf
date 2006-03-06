@@ -145,31 +145,28 @@
         <define>$(GRAPHICSKIT_DLL)</define>
     </define-tag>
 
-    <!--
-    We need to set WIN32HTMLBROWSER outside of the vcf-use-ApplicationKit tag
-    definition, since it is a condvar (conditional variable) and depends on 
-    OPTION_SHARED, what breaks msvc6prj of the external user projects. 
-    We may set condvars inside of these tag definitions only if they depends 
-    on OPTION_ALLIN1, since it is 1 when FORMAT is msvc6prj.
-    -->
-    <set var="WIN32HTMLBROWSER">
-        <if cond="OPTION_SHARED=='0'">$(WIN32HTMLBROWSER_FILENAME)</if>
-    </set>
-    <set var="WIN32HTMLBROWSER_DLL">
-        <if cond="OPTION_SHARED=='1'">WIN32HTMLBROWSER_DLL</if>
-    </set>
     <set var="APPLICATIONKIT_DLL">
         <if cond="OPTION_SHARED=='1'">APPLICATIONKIT_DLL</if>
     </set>
     <define-tag name="vcf-use-ApplicationKit" rules="dll,lib,exe,module">
         <vcf-use-GraphicsKit/>
-        <sys-lib>$(WIN32HTMLBROWSER)</sys-lib>
-        <define>$(WIN32HTMLBROWSER_DLL)</define>
         <set var="APPLICATIONKIT">
             <if cond="OPTION_ALLIN1=='0'">$(APPLICATIONKIT_FILENAME)</if>
         </set>
         <sys-lib>$(APPLICATIONKIT)</sys-lib>
         <define>$(APPLICATIONKIT_DLL)</define>
+    </define-tag>
+
+    <set var="HTMLKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">HTMLKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-HTMLKit" rules="dll,lib,exe,module">
+        <vcf-use-ApplicationKit/>
+        <set var="HTMLKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(HTMLKIT_FILENAME)</if>
+        </set>
+        <sys-lib>$(HTMLKIT)</sys-lib>
+        <define>$(HTMLKIT_DLL)</define>
     </define-tag>
 
     <set var="OPENGLKIT_DLL">

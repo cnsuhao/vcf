@@ -338,7 +338,6 @@
         vcf/ApplicationKit/Win32FolderBrowseDialog.h
         vcf/ApplicationKit/Win32FontDialog.h
         vcf/ApplicationKit/Win32HResult.h
-        vcf/ApplicationKit/Win32HTMLDOMElements.h
         vcf/ApplicationKit/Win32ListBox.h
         vcf/ApplicationKit/Win32Listview.h
         vcf/ApplicationKit/Win32MenuBar.h
@@ -377,7 +376,6 @@
         vcf/ApplicationKit/Win32FileSaveDialog.cpp
         vcf/ApplicationKit/Win32FolderBrowseDialog.cpp
         vcf/ApplicationKit/Win32FontDialog.cpp
-        vcf/ApplicationKit/Win32HTMLDOMElements.cpp
         vcf/ApplicationKit/Win32Listview.cpp
         vcf/ApplicationKit/Win32MenuBar.cpp
         vcf/ApplicationKit/Win32MenuItem.cpp
@@ -505,27 +503,10 @@
         vcf/ApplicationKit/OSXWindow.cpp
     </set>
 
-    <set var="APPLICATIONKIT_ATL_HDR" hints="files">
-        <if cond="OPTION_WIN32HTMLBROWSER=='0'"></if>
-        <if cond="OPTION_WIN32HTMLBROWSER=='1'">
-            vcf/ApplicationKit/Win32HTMLBrowserSelectLib.h
-            vcf/ApplicationKit/HTMLBrowserControl.h
-            vcf/ApplicationKit/HTMLBrowserPeer.h
-        </if>
-    </set>
-
-    <set var="APPLICATIONKIT_ATL_SRC" hints="files">
-        <if cond="OPTION_WIN32HTMLBROWSER=='0'"></if>
-        <if cond="OPTION_WIN32HTMLBROWSER=='1'">
-            vcf/ApplicationKit/HTMLBrowserControl.cpp
-        </if>
-    </set>
-
     <set var="APPLICATIONKIT_HDR" append="1" hints="files">
         <if cond="PLATFORM_UNIX=='1'">$(APPLICATIONKIT_GTK_HDR)</if>
         <if cond="PLATFORM_WIN32=='1'">
             $(APPLICATIONKIT_WIN_HDR)
-            $(APPLICATIONKIT_ATL_HDR)
         </if>
         <if cond="PLATFORM_MACOSX=='1'">$(APPLICATIONKIT_OSX_HDR)</if>
     </set>
@@ -534,7 +515,6 @@
         <if cond="PLATFORM_UNIX=='1'">$(APPLICATIONKIT_GTK_SRC)</if>
         <if cond="PLATFORM_WIN32=='1'">
             $(APPLICATIONKIT_WIN_SRC)
-            $(APPLICATIONKIT_ATL_SRC)
         </if>
         <if cond="PLATFORM_MACOSX=='1'">$(APPLICATIONKIT_OSX_SRC)</if>
     </set>

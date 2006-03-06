@@ -22,10 +22,10 @@
             <depends>ApplicationKit_dll</depends>
         </action>
         
-        <action id="Win32HTMLBrowser" cond="OPTION_WIN32HTMLBROWSER=='1' and PLATFORM_WIN32=='1'">
+        <action id="HTMLKit" cond="OPTION_HTMLKIT=='1'">
             <is-phony>1</is-phony>
-            <depends>Win32HTMLBrowser_lib</depends>
-            <depends>Win32HTMLBrowser_dll</depends>
+            <depends>HTMLKit_lib</depends>
+            <depends>HTMLKit_dll</depends>
         </action>
 
         <action id="OpenGLKit" cond="OPTION_OPENGLKIT=='1'">

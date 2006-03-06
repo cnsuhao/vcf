@@ -45,9 +45,11 @@
         thirdparty/common/agg/src/agg_glyph_raster_bin.h
         thirdparty/common/agg/src/agg_gray8.h
         thirdparty/common/agg/src/agg_gsv_text.h
+        thirdparty/common/agg/src/agg_image_accessors.h
         thirdparty/common/agg/src/agg_image_filters.h
         thirdparty/common/agg/src/agg_line_aa_basics.h
         thirdparty/common/agg/src/agg_math.h
+        thirdparty/common/agg/src/agg_path_length.h
         thirdparty/common/agg/src/agg_path_storage.h
         thirdparty/common/agg/src/agg_path_storage_integer.h
         thirdparty/common/agg/src/agg_pattern_filters_rgba8.h
@@ -61,9 +63,12 @@
         thirdparty/common/agg/src/agg_pixfmt_rgba32.h
         thirdparty/common/agg/src/agg_pixfmt_rgba32_plain.h
         thirdparty/common/agg/src/agg_pixfmt_rgba32_pre.h
+        thirdparty/common/agg/src/agg_rasterizer_cells_aa.h
+        thirdparty/common/agg/src/agg_rasterizer_compound_aa.h
         thirdparty/common/agg/src/agg_rasterizer_outline.h
         thirdparty/common/agg/src/agg_rasterizer_outline_aa.h
         thirdparty/common/agg/src/agg_rasterizer_scanline_aa.h
+        thirdparty/common/agg/src/agg_rasterizer_sl_clip.h
         thirdparty/common/agg/src/agg_renderer_base.h
         thirdparty/common/agg/src/agg_renderer_markers.h
         thirdparty/common/agg/src/agg_renderer_mclip.h
@@ -98,6 +103,7 @@
         thirdparty/common/agg/src/agg_span_interpolator_linear.h
         thirdparty/common/agg/src/agg_span_interpolator_trans.h
         thirdparty/common/agg/src/agg_span_pattern.h
+        thirdparty/common/agg/src/agg_span_pattern_gray.h
         thirdparty/common/agg/src/agg_span_pattern_rgb24.h
         thirdparty/common/agg/src/agg_span_pattern_rgba32.h
         thirdparty/common/agg/src/agg_span_solid.h
@@ -132,8 +138,6 @@
         thirdparty/common/agg/src/agg_image_filters.cpp
         thirdparty/common/agg/src/agg_line_aa_basics.cpp
         thirdparty/common/agg/src/agg_line_profile_aa.cpp
-        thirdparty/common/agg/src/agg_path_storage.cpp
-        thirdparty/common/agg/src/agg_rasterizer_scanline_aa.cpp
         thirdparty/common/agg/src/agg_rounded_rect.cpp
         thirdparty/common/agg/src/agg_sqrt_tables.cpp
         thirdparty/common/agg/src/agg_trans_affine.cpp
