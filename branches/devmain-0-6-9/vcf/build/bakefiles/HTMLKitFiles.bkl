@@ -19,6 +19,7 @@
         vcf/HTMLKit/Win32HTMLBrowser.h
         vcf/HTMLKit/Win32HTMLDOMElements.h
         vcf/HTMLKit/Win32HTMLToolkit.h
+        vcf/HTMLKit/Win32WebBrowserHost.h
     </set>
 
     <set var="HTMLKIT_WIN_SRC" hints="files">

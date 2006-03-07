@@ -824,6 +824,10 @@ SOURCE=..\..\src\vcf\HTMLKit\Win32HTMLDOMElements.h
 
 SOURCE=..\..\src\vcf\HTMLKit\Win32HTMLToolkit.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\src\vcf\HTMLKit\Win32WebBrowserHost.h
+# End Source File
 # End Group
 # End Target
 # End Project
