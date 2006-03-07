@@ -28,35 +28,99 @@ NB: This software will not save the world.
 
 -->
 
-<section><title>GraphicsKit</title>
-	<para></para>
+<section id="GraphicsKit"><title>GraphicsKit</title>
+	<para>
+	The GraphicsKit is a library dedicated to graphics related classes and 
+	functionality. It contains classes for drawing vector shapes, rendering
+	images, drawing text, drawing to an external printer, support for images,
+	and a simple plug-in system for adding image file formats to support
+	additional image file formats. The default image support is for PNG 
+	and JPEG files.
+	</para>
+	<para>
+	The GraphicsKit needs to be initialized at your program's startup, and it 
+	needs to be closed down, or terminated, when your program exits. Because the
+	GraphicsKit builds on the FoundationKit, it automatically initializes the
+	FoudantionKit, and terminates the FoundationKit for you. Proper 
+	initialization/termination of the GraphicsKit looks something like this:
+	<programlisting><![CDATA[
+int main( int argc, char** argv ) 
+{
+	VCF::GraphicsKit::init( argc, argv ); //FoundationKit automatically initialized 
 	
-	<section><title>The GraphicsContext</title>
+	//your code here....
+	
+	VCF::GraphicsKit::terminate(); //FoundationKit automatically terminated 
+	return 0;
+}
+	]]></programlisting>
+	Improper usage would be:
+	<programlisting><![CDATA[
+int main( int argc, char** argv ) 
+{
+	VCF::FoundationKit::init( argc, argv );// BAD!!!!
+	VCF::GraphicsKit::init( argc, argv ); 
+	
+	//your code here....
+	
+	VCF::GraphicsKit::terminate(); 
+	VCF::FoundationKit::terminate();// BAD!!!!
+	return 0;
+}
+	]]></programlisting>
+	This will result in all sorts of problems - just don't go there.
+	</para>
+	
+	<section id="GraphicsContext"><title>The GraphicsContext</title>
 		<para>
+		The GraphicsContext is the basic class you will use in the GraphicsKit. It's 
+		where you do all your drawing, even if you're working with images (unless
+		you're manipulating the pixels directly).
 		</para>
 	</section>
 	
-	<section><title>The GraphicsToolkit</title>
+	<section id="GraphicsToolkit"><title>The GraphicsToolkit</title>
 		<para>
+		The GraphicsToolkit is used to create various instances of peer classes,
+		to create images, and several other utility functions, like getting 
+		the color from a system color constant.
+		</para>
+		<para>
+		The GraphicsToolkit is a singleton, and access to it is implemented as a 
+		series of static functions. Unless you are porting the VCF to a new platform
+		you do not need direct access to the GraphicsToolkit singleton itself.
+		</para>
+		
+		<para>
+		You can create images using the GraphicsToolkit by calling 
+		the GraphicsToolkit::createImage() functions. You can create a blank image
+		from a width and height, an image that copies it's data from an existing
+		GraphicsContext, or an image that is loaded from a file. For example:
+		<programlisting> <![CDATA[
+Image* image1 = GraphicsToolkit::createImage( 100, 400 ); //create an image 100 X 400 pixels in dimension
+Image* image2 = GraphicsToolkit::createImage( "C:\Stuff\More Stuff\Images\Whoops.jpg" ); //loads the image "Whoops.jpg" from disk
+		]]></programlisting>
+		The above example creates "image1" by specifying pixel dimensions, and "image2"
+		is created by specifying a file name. See 
 		</para>
 	</section>
 	
-	<section><title>Colors</title>
+	<section id="GK_Colors"><title>Colors</title>
 		<para>
 		</para>
 	</section>
 
-	<section><title>Strokes</title>
+	<section id="GK_Strokes"><title>Strokes</title>
 		<para>
 		</para>
 	</section>
 	
-	<section><title>Fills</title>
+	<section id="GK_Fills"><title>Fills</title>
 		<para>
 		</para>
 	</section>
 	
-	<section><title>Images</title>
+	<section id="GK_Images"><title>Images</title>
 		<para>
 		An Image represents the neccessary data to display a graphic on a 
 		GraphicsContext. You can draw an Image on a GraphicsContext by calling the 
@@ -109,7 +173,7 @@ for ( ulong32 y=0;y<image->getHeight() ) {
 		</para>
 	</section>
 
-	<section><title>Fonts</title>
+	<section id="GK_Fonts"><title>Fonts</title>
 		<para>
 		A Font object is a representation of a set of functions and data used to
 		render a string onto GraphicsContext. Fonts may be bitmap/raster based,
@@ -122,7 +186,7 @@ for ( ulong32 y=0;y<image->getHeight() ) {
 		to a user of the VCF.
 		<note>
 			<para>
-			In the future this may change, but for know it is handled by the peer
+			In the future this may change, but for now it is handled by the peer
 			implementation of either the FontPeer, ContextPeer or both working together,
 			depending on the system.
 			</para>
@@ -138,7 +202,7 @@ for ( ulong32 y=0;y<image->getHeight() ) {
 		different character sets, for example a chunk of text in English (flowing from 
 		left to right) mixed with some text in Hebrew (flowing from right to left),
 		there may be issues if this is not handled correctly by the low level 
-		graphics implementation. The public VCF API's do not currently address this
+		graphics implementation. The public VCF API's do not currently address this.
 		</para>
 		<para>
 		A Font can be changed at any time during the instances lifetime. You can change 
@@ -257,7 +321,7 @@ gc->textAt( 12, 375, "Hello2!" );
 		</programlisting>
 		</para>		
 	</section>
-	<section><title>Paths</title>
+	<section id=""><title>Paths</title>
 		<para>
 		Paths represent a series of 1 or more points. The points can form a closed shape 
 		or polygon, like a circle, or rectangle, or an open shape like a line. A Path is 
@@ -275,7 +339,7 @@ gc->textAt( 12, 375, "Hello2!" );
 		</para>
 		
 	</section>
-	<section><title>Image Loading</title>
+	<section id=""><title>Image Loading</title>
 		<para>
 		VFC supports loading of almost every image type.  Image loading is handled via 
 		mime types.  The available image types are: PNG, JPEF, TIFF, KOALA, LBM, MNG, PCD, 
@@ -355,17 +419,17 @@ ImageLoader* GraphicsToolkit::getImageLoaderForFileName( const String& fileName 
 		in this case.
 		</note>
 	</section>
-	<section><title>Transforms</title>
+	<section id=""><title>Transforms</title>
 		<para>
 		</para>
 	</section>
 	
-	<section><title>Exceptions</title>
+	<section id=""><title>Exceptions</title>
 		<para>
 		</para>
 	</section>
 
-	<section><title>Peer Classes</title>
+	<section id=""><title>Peer Classes</title>
 		<para>
 		</para>
 	</section>
@@ -374,6 +438,9 @@ ImageLoader* GraphicsToolkit::getImageLoaderForFileName( const String& fileName 
 <!--
 CVS Log info
 $Log$
+Revision 1.4.2.2  2006/03/07 04:33:34  ddiego
+more doc updates.
+
 Revision 1.4.2.1  2006/03/02 22:13:01  ddiego
 docs update.
 
