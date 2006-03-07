@@ -1242,8 +1242,171 @@ make all</programlisting>
 				</para>
 			</section>
 			
-		</section>		
-	</section>		
+		</section>
+		<section><title>Library Support by Compiler</title>
+			<para>
+				The libraries that constitute the VCF and support by various compilers 
+				are given in the table below. The VCF is modular by nature, and some 
+				parts of the framework are not supported by all compilers. The OSX and 
+				Linux ports are in progress, and we welcome support from new developers 
+				to help finish these ports (as well as on the Win32 side). 
+			</para>
+			<table frame="none" pgwide="1">
+				<tgroup cols="7" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>Library</entry>
+							<entry>MS VC 6,7,8</entry>	
+							<entry>BCB5 and free</entry>
+							<entry>BCB6 and BDS '06</entry>
+							<entry>MinGW(GCC)</entry>
+							<entry>OSX-GCC</entry>
+							<entry>Linux-GCC</entry>					
+						</row>							
+					</thead>
+					<tbody>
+						<row>
+							<entry>FoundationKit</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+						</row>
+						<row>
+							<entry>GraphicsKit</entry>	
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>ApplicationKit</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+	
+						<row>
+							<entry>OpenGLKit</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+	
+						<row>
+							<entry>RemoteObjectKit</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>No</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>NetworkKit</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>No</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>InternetKit</entry>	
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>No</entry>
+							<entry>No</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>HTMLKit</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+							<entry>Yes</entry>							
+							<entry>No</entry>
+							<entry>No</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>AGG</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>ZLib</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>LibPNG</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>LibMNG</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>LibJPEG</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+						<row>
+							<entry>LibTIFF</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>No</entry>
+						</row>
+						<row>						
+							<entry>FreeImageLib</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>
+							<entry>Yes</entry>							
+							<entry>No</entry>
+							<entry>No</entry>
+							<entry>No</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>				
+	</section>			
 	
 	<section><title>Contributing</title>
 		<section><title>Registering at SF</title>
@@ -2253,6 +2416,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.9  2006/03/07 01:34:36  dougtinkham
+table of compiler support added
+
 Revision 1.6.2.8  2006/03/02 22:13:01  ddiego
 docs update.
 
