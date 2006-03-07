@@ -179,14 +179,63 @@ l is a float type
 	
 	<section><title>Changing case</title>
 	<para>
-	You can change the case of a string by using the StringUtils::
-	</para>
+	You can change the case of a string by using the StringUtils::lowerCase() and 
+	StringUtils::upperCase(). Both functions take a string reference and 
+	<emphasis>modify</emphasis> this string. So if we had:
+	<programlisting><![CDATA[
+String s = "Some text to chAngE.";
+StringUtils::upperCase(s); 
+	]]></programlisting>
+	The variable "s" is now uppercased to "SOME TEXT TO CHANGE.", as opposed to 
+	returning a new string. If you don't want to have the original string modified
+	then you need to make a copy of it. For example:
+	<programlisting><![CDATA[
+String s = "Some text to chAngE.";
+String s2 = s;
+StringUtils::upperCase(s2); 
+	]]></programlisting>
+	The uppercase/lowercase conversion is not locale or culture sensitive. If you 
+	want an accurate case conversion that takes the locale into consideration,
+	then use the Locale class's Locale::toLowerCase() and Locale::toUpperCase().
+	</para>	
 	</section>
 	
 	<section><title>Converting types to a String</title>
+	<para>
+	You can convert an int, long, double, and so on, to a string by using the
+	StringUtils::toString() functions. For example:
+	<programlisting><![CDATA[
+String val = StringUtils::toString( 12 );
+System::println( Format("value: %s") % val );
+
+val = StringUtils::toString( 1234.009459034 );
+System::println( Format("value: %s") % val );
+
+val = StringUtils::toString( 53433.000034f );
+System::println( Format("value: %s") % val );
+
+val = StringUtils::toString( true );
+System::println( Format("value: %s") % val );
+
+val = StringUtils::toString( false );
+System::println( Format("value: %s") % val );
+	]]></programlisting>
+	This will output:
+	<screen>
+value: 12
+value: 1234.00946
+value: 53433.00000
+value: true
+value: false	
+	</screen>
+	</para>
 	</section>
 	
 	<section><title>Trimming a String</title>
+	Strings can be trimmed using the StringUtils::trim(), StringUtils::trimLeft(), 
+	and StringUtils::trimRight() functions. These all take a string source reference to 
+	operate on, and a string of characters to trim from the source.
+	
 	</section>	
 </section>
 
@@ -196,6 +245,9 @@ l is a float type
 <!--
 CVS Log info
 $Log$
+Revision 1.2.12.2  2006/03/07 04:33:34  ddiego
+more doc updates.
+
 Revision 1.2.12.1  2006/03/06 22:08:26  ddiego
 updated docs
 
