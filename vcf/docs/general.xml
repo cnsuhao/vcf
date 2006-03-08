@@ -625,6 +625,8 @@ comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib"
 				</para>
 			</section>
 			
+			
+			
 			<section><title>Apple XCode 1.x</title>
 				<para>
 				This will explain how to install the project templates that come 
@@ -1131,6 +1133,328 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				the name of the output binary through Project->Properties to your application output name.
 				</para>
 				</section>
+			</section>
+			
+			<section><title>Building with Bakefiles</title>				
+				<section><title>Environment Variables</title>
+				<para>
+				What you need to do at the beginning is to set up the VCF_DIR 
+				environment variable. It should point to the root of VCF.
+				</para>
+				</section>
+				<section><title>Baked Make Files</title>
+				<para>
+				The ready-to-use make files are located at the %VCF_DIR%\build\bakefiles.gen 
+				directory. The directory contains several make files for different compilers 
+				that can be used from a command line.
+				</para>
+				<para>
+				To build the whole VCF you need exactly one of the following make files:
+				<itemizedlist>
+					<listitem>
+					GNUmakefile - GNU make + GCC
+					</listitem>
+					<listitem>
+					makefile.bcc - Borland make + BCC
+					</listitem>					
+					<listitem>
+					makefile.gcc - MinGW mingw32-make + GCC
+					</listitem>
+					<listitem>
+					makefile.vc - MS nmake + MSVC
+					</listitem>
+				</itemizedlist>
+				</para>
+				<para>
+				So, to compile VCF you just need to make the %VCF_DIR%\build\bakefiles.gen 
+				directory current and run one of the following commands:
+				<itemizedlist>
+					<listitem>
+					GNU make
+					<screen>
+make -f GNUmakefile
+					</screen>
+					</listitem>
+					
+					<listitem>
+					Borland make
+					<screen>
+make -f makefile.bcc
+					</screen>
+					</listitem>
+					
+					<listitem>
+					MinGW make
+					<screen>
+mingw32-make -f makefile.gcc
+					</screen>
+					</listitem>
+					
+					<listitem>
+					MS nmake
+					<screen>
+nmake -f makefile.vc
+					</screen>
+
+					</listitem>
+				</itemizedlist>
+				</para>
+				<para>
+				Each make file has its own config file with the same extension. There 
+				is an exception: GNUmakefile's config file is config.gnu. The config 
+				files are located in the same directory.
+				</para>
+				<para>
+				You can tune your build by modifying options in an appropriate config 
+				file. There dependencies between some options are mentioned in a config 
+				file. Here are brief descriptions of the options. The most option 
+				values may be equal to 1 or 0 only that means on/yes/true or 
+				off/no/false.
+				<itemizedlist>
+					<listitem>
+					OPTION_SHARED - The result libraries will be static or dynamic. 
+					Default: 1.
+					</listitem>
+					
+					<listitem>
+					OPTION_DEBUG - The libraries will include debug info or will be 
+					optimized for speed. Default: 1.
+					</listitem>
+					
+					<listitem>
+					OPTION_PRECOMPILED - Precompiled header files will be created 
+					and used where it is possible.
+					</listitem>
+					
+					<listitem>
+					OPTION_ALLIN1 - All VCF as a single library, static or dynamic 
+					depends on OPTION_SHARED. Default: 0.
+					</listitem>					
+				</itemizedlist>
+				</para>
+				<para>
+				The following options show should the appropriate static or dynamic 
+				libraries be built. Note, if OPTION_ALLIN1 is 1, that is, all the 
+				enabled kits will be linked as a single library, and all the following 
+				options that are equal to 0 will not be included into the result 
+				library.
+				</para>
+				<para>
+				The following options are assigned to libraries that can be built 
+				as static ones only.
+				<itemizedlist>
+					<listitem>	
+					OPTION_ZLIB - Compile the zip? Default: 1.					
+					</listitem>
+					
+					<listitem>
+					OPTION_LIBAGG - Compile AGG? Default: 1.
+					</listitem>
+					
+					<listitem>
+					OPTION_LIBJPEG - Compile AGG? Default: 1.
+					</listitem>
+					
+					<listitem>
+					OPTION_LIBPNG - Compile PNG? Default: 1.
+					</listitem>
+					
+					<listitem>
+					OPTION_LIBMNG - Compile MNG? Default: 0.
+					</listitem>
+					
+					<listitem>
+					OPTION_LIBTIFF - Compile TIFF? Default: 0.
+					</listitem>
+					
+					<listitem>
+					OPTION_FREEIMAGE - Compile FreeImage? Default: 0.
+					</listitem>
+					
+					<listitem>
+					OPTION_REGEXX - Compile PCRE? Default: 0.
+					</listitem>
+				</itemizedlist>	
+				</para>
+				<para>
+				The following options are assigned to libraries that can be 
+				built as both static and dynamic ones.
+				<itemizedlist>	
+					<listitem>
+					OPTION_FOUNDATIONKIT - Default: 1.
+					</listitem>
+					
+					<listitem>
+					OPTION_GRAPHICSKIT - Default: 1.
+					</listitem>
+					
+					<listitem>
+					OPTION_APPLICATIONKIT - Default: 1.
+					</listitem>
+					
+					<listitem>
+					OPTION_HTMLKIT - Default: 1 if the compiler is MSVC. Otherwise 0.
+					</listitem>
+					
+					<listitem>
+					OPTION_OPENGLKIT - Default: 0.
+					</listitem>
+					
+					<listitem>
+					OPTION_NETWORKKIT - Default: 0.
+					</listitem>
+					
+					<listitem>
+					OPTION_REMOTEOBJECTKIT - Default: 0.
+					</listitem>
+					
+					<listitem>
+					OPTION_INTERNETKIT - Default: 0.
+					</listitem>
+					
+					<listitem>
+					OPTION_IMAGEFORMATS - Default: 0.
+					</listitem>
+					
+					<listitem>
+					</listitem>
+					
+					<listitem>
+					</listitem>
+				</itemizedlist>	
+				</para>
+				
+				<para>
+				The following option allows us to define a string that will be a 
+				part of the result libraries names.
+				<itemizedlist>	
+					<listitem>
+					OPTION_SELECTLIB
+					</listitem>
+				</itemizedlist>	
+				The value of this option might be some meaningful string that, 
+				once set, will be added to the names of the target files. Any 
+				string is possible. For example, if the value is _vc6, then 
+				the name of, say, the foundation kit debug DLL will be 
+				FoundationKit_vc6_d.dll.
+				</para>
+				<para>
+				You may use the following values to be compatible with the 
+				default MSVS projects, that are based on the in-code linking 
+				using the preprocessor pragma "comment":   _icl6, _icl7, _vc6, 
+				_vc70, _vc71, _vc80.
+				<note>
+				The default value is an empty string.
+				</note>
+				</para>
+				<para>
+				The other way to build VCF is to pass the option values in a 
+				command line like this:
+				<screen>
+nmake -f makefile.vc OPTION_SELECTLIB=_vc71 OPTION_DEBUG=0
+				</screen>
+				</para>
+				<para>
+				There are the following make targets that can be built independently:
+				<itemizedlist>	
+					<listitem>ZLib</listitem>					
+					<listitem>libAGG</listitem>					
+					<listitem>LibJPEG</listitem>					
+					<listitem>LibPNG</listitem>					
+					<listitem>LibMNG</listitem>					
+					<listitem>LibTIFF</listitem>					
+					<listitem>FreeImage</listitem>					
+					<listitem>RegExx</listitem>					
+					<listitem>FoundationKit</listitem>					
+					<listitem>GraphicsKit</listitem>					
+					<listitem>ApplicationKit</listitem>
+					<listitem>HTMLKit</listitem>
+					<listitem>OpenGLKit</listitem>
+					<listitem>NetworkKit</listitem>
+					<listitem>RemoteObjectKit</listitem>
+					<listitem>InternetKit</listitem>
+					<listitem>ImageFormats</listitem>
+				</itemizedlist>	
+				</para>
+				</section>				
+				
+				<section><title>Baked Project Files</title>
+				<para>
+				The ready-to-use VS6 project files are located at the 
+				%VCF_DIR%\build\bakefiles.gen directory. This project does not 
+				use the described above config file at all.				
+				</para>
+				<para>
+				Please note, the project contains several configurations that 
+				allow us to choose the name of the result libraries:
+				<itemizedlist>
+					<listitem>vc80 DLL Debug (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>vc80 DLL Release (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>vc80 Debug (based on "Win32 (x86) Static Library")</listitem>
+					<listitem>vc80 Release (based on "Win32 (x86) Static Library")</listitem>
+					
+					<listitem>vc71 DLL Debug (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>vc71 DLL Release (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>vc71 Debug (based on "Win32 (x86) Static Library")</listitem>
+					<listitem>vc71 Release (based on "Win32 (x86) Static Library")</listitem>
+					
+					<listitem>vc70 DLL Debug (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>vc70 DLL Release (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>vc70 Debug (based on "Win32 (x86) Static Library")</listitem>
+					<listitem>vc70 Release (based on "Win32 (x86) Static Library")</listitem>
+					
+					<listitem>vc60 DLL Debug (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>vc60 DLL Release (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>vc60 Debug (based on "Win32 (x86) Static Library")</listitem>
+					<listitem>vc60 Release (based on "Win32 (x86) Static Library")</listitem>
+					
+					<listitem>icl7 DLL Debug (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>icl7 DLL Release (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>icl7 Debug (based on "Win32 (x86) Static Library")</listitem>
+					<listitem>icl7 Release (based on "Win32 (x86) Static Library")</listitem>
+					
+					<listitem>icl6 DLL Debug (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>icl6 DLL Release (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>icl6 Debug (based on "Win32 (x86) Static Library")</listitem>
+					<listitem>icl6 Release (based on "Win32 (x86) Static Library")</listitem>
+					
+					<listitem>DLL Debug (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>DLL Release (based on "Win32 (x86) Dynamic-Link Library")</listitem>
+					<listitem>Debug (based on "Win32 (x86) Static Library")</listitem>
+					<listitem>Release (based on "Win32 (x86) Static Library")</listitem>
+				</itemizedlist>
+				You need to choose a preferred configuration before you start to 
+				build VCF.
+				</para>
+				<para>
+				If you want to build VCF under your VS7.0, VS7.1 or VS8.0 you just 
+				need to convert all files of this project into the actual format 
+				as your VS IDE will suggest.
+				</para>
+				<para>
+				There is no the ready-to-use all-in-one project. However, you are 
+				able to generate it if you really need it. How to do this you can 
+				find in the section that describes bakefiles.
+				</para>
+				</section>
+				
+				<section><title>Building Examples</title>
+				<para>
+				Each example has its own baked make file, a name of which is the 
+				same as the main make file name. A command to build an example 
+				has to be the same as to build VCF. Run a make utility in example's 
+				directory to build the example separately. Run a make utility in 
+				the "examples" directory to build all the examples.
+				</para>
+				<para>
+				Note, an example will be built only if a kit that this example uses 
+				enabled by setting an appropriate option.
+				</para>
+				<para>
+				The VS6 project files for examples are not generated, so use non-baked 
+				VS projects.				
+				</para>
+				</section>						
 			</section>
 			
 			<section><title>MacOSX</title>
@@ -2416,6 +2740,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.10  2006/03/08 22:07:18  ddiego
+update for bakefiles.
+
 Revision 1.6.2.9  2006/03/07 01:34:36  dougtinkham
 table of compiler support added
 
