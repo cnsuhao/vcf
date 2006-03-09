@@ -19,8 +19,6 @@
         <dependency-of>all</dependency-of>
     </mkdir>
 
-    <include file="Miscellaneous.bkl"/>
-
     <include file="libAGG.bkl"/>
     <include file="ZLib.bkl"/>
     <include file="LibJPEG.bkl"/>
