@@ -505,17 +505,13 @@
 
     <set var="APPLICATIONKIT_HDR" append="1" hints="files">
         <if cond="PLATFORM_UNIX=='1'">$(APPLICATIONKIT_GTK_HDR)</if>
-        <if cond="PLATFORM_WIN32=='1'">
-            $(APPLICATIONKIT_WIN_HDR)
-        </if>
+        <if cond="PLATFORM_WIN32=='1'">$(APPLICATIONKIT_WIN_HDR)</if>
         <if cond="PLATFORM_MACOSX=='1'">$(APPLICATIONKIT_OSX_HDR)</if>
     </set>
 
     <set var="APPLICATIONKIT_SRC" append="1" hints="files">
         <if cond="PLATFORM_UNIX=='1'">$(APPLICATIONKIT_GTK_SRC)</if>
-        <if cond="PLATFORM_WIN32=='1'">
-            $(APPLICATIONKIT_WIN_SRC)
-        </if>
+        <if cond="PLATFORM_WIN32=='1'">$(APPLICATIONKIT_WIN_SRC)</if>
         <if cond="PLATFORM_MACOSX=='1'">$(APPLICATIONKIT_OSX_SRC)</if>
     </set>
 

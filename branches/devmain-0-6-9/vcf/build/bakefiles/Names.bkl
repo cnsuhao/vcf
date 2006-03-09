@@ -2,11 +2,6 @@
 
 <makefile>
 
-    <set var="COMSUPP_NAME">comsupp</set>
-    <set var="COMSUPP_FILENAME" make_var="1">
-        $(vcf.getLibFilename( COMSUPP_NAME ))
-    </set>
-    
     <set var="LIBAGG_NAME">libAGG</set>
     <set var="LIBAGG_FILENAME" make_var="1">
         $(vcf.getLibFilename( LIBAGG_NAME ))
