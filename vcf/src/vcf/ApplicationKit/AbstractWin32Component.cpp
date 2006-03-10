@@ -672,7 +672,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			(message == WM_MOVE) ||
 			(message == WM_ERASEBKGND) ||
 			(message == WM_SETFOCUS) ||
-			(message == WM_KILLFOCUS) )  {
+			(message == WM_KILLFOCUS) /*|| (message == WM_DRAWITEM)*/ )  {
 			
 			MSG m = {0};
 			m.hwnd = hwnd_;
@@ -816,7 +816,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 		case WM_PAINT:{
 			if ( true == isCreated() ){
-				//StringUtils::trace( Format( "AbstractWin32Component::WM_PAINT: [%d] %s\n" ) % peerControl_->getRepaintOnSize() % peerControl_->getToolTipText() );
+				StringUtils::trace( "AbstractWin32Component::WM_PAINT\n" );
 				if ( !peerControl_->isDestroying() ) {					
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
 						wndProcResult = 0;
@@ -908,6 +908,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 
 		case WM_DRAWITEM : {
+			StringUtils::trace( "AbstractWin32Component::WM_DRAWITEM\n" );
 			UINT idCtl = (UINT) wParam;
 			DRAWITEMSTRUCT* drawItemStruct = (DRAWITEMSTRUCT*) lParam;
 
@@ -944,6 +945,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 					HWND hwndCtl = drawItemStruct->hwndItem;
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
 					if ( NULL != win32Obj ){
+						StringUtils::trace( "win32Obj->handleEventMessages( WM_DRAWITEM)\n" );
 						win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam, wndProcResult );
 						result = true;
 					}
@@ -1642,6 +1644,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.11  2006/03/10 05:35:57  ddiego
+*fixed repaint for win32window when first made visible.
+*
 *Revision 1.7.2.10  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *
