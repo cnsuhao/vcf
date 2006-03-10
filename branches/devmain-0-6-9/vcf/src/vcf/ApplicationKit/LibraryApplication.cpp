@@ -26,7 +26,7 @@ LibraryApplication::LibraryApplication():
 	applicationPeer_->setApplication( this );
 
 	applicationName_ = "";
-
+/*
 #if defined( WIN32 ) && defined ( _MSC_VER )
 	//load the BlacBox error trapper
 	try {
@@ -36,6 +36,7 @@ LibraryApplication::LibraryApplication():
 		StringUtils::trace( "Unable to load the BlackBox error detection library\n" );
 	}
 #endif
+	*/
 }
 
 LibraryApplication::~LibraryApplication()
@@ -133,6 +134,9 @@ void LibraryApplication::clearLibraryRegistrar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/10 21:49:32  ddiego
+*updates to color example and some documentation.
+*
 *Revision 1.5.2.1  2005/12/08 21:09:18  kiklop74
 *fixes for borland compiler
 *

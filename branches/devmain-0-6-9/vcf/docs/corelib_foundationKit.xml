@@ -973,7 +973,7 @@ int main( int argc, char** argv )
 		</section>
 	</section>
 	
-	<section><title>Strings</title>
+	<section id="FK_Strings"><title>Strings</title>
 		<para>
 		Strings in the VCF are represented by the VCF::UnicodeString
 		class, which is typedeffed as "String" to make it more convenient
@@ -2341,6 +2341,9 @@ void _vpl_terminate( OSHandleID handle )
 <!-- 
 CVS Log info
 $Log$
+Revision 1.8.2.2  2006/03/10 21:49:27  ddiego
+updates to color example and some documentation.
+
 Revision 1.8.2.1  2006/03/02 22:13:01  ddiego
 docs update.
 
