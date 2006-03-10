@@ -110,17 +110,15 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 	bool result = false;
 
 	switch ( message ) {
+		
 		case WM_PAINT:{
 			//check to see if the font needs updating
 			checkForFontChange();
-
-			//result = CallWindowProc( oldButtonWndProc_, hwnd_, message, wParam, lParam );
-			
 		}
 		break;
 
 		case WM_ERASEBKGND:{
-			wndProcResult = FALSE;
+			wndProcResult = TRUE;
 			result = true;
 		}
 		break;
@@ -264,6 +262,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/03/10 05:35:57  ddiego
+*fixed repaint for win32window when first made visible.
+*
 *Revision 1.5.2.3  2006/02/20 20:42:08  ddiego
 *comitting current state of theme code.
 *

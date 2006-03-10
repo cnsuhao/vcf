@@ -186,7 +186,7 @@ void Win32Window::setVisible( const bool& visible )
 		
 		if ( NULL != GetParent(hwnd_) ) {
 			if ( visible ){
-				::ShowWindow( hwnd_, SW_SHOWNOACTIVATE );
+				::ShowWindow( hwnd_, SW_SHOWNOACTIVATE );				
 			}
 			else{
 				::ShowWindow( hwnd_, SW_HIDE );
@@ -200,16 +200,21 @@ void Win32Window::setVisible( const bool& visible )
 			Frame* frame = (Frame*)peerControl_;
 			
 			switch ( frame->getFrameStyle() ){
-			case fstToolbarBorderFixed : case fstToolbarBorder : case fstSizeable : case fstFixed :{
-				::ShowWindow( hwnd_, SW_SHOW );//SW_SHOWNORMAL );
-				//not sure if we want this here...
-				::BringWindowToTop( hwnd_ );
-										 }
+				case fstToolbarBorderFixed : case fstToolbarBorder : case fstSizeable : case fstFixed :{
+					::ShowWindow( hwnd_, SW_SHOW );//SW_SHOWNORMAL );
+					//not sure if we want this here...
+					::BringWindowToTop( hwnd_ );
+
+					//we need this here to repaint the window contents???
+					//seems kind of funky, but it works
+					::RedrawWindow( hwnd_, NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_ALLCHILDREN);
+				}
 				break;
 				
-			case fstNoBorder : case fstNoBorderFixed : {
-				::ShowWindow( hwnd_, SW_SHOWNOACTIVATE );
-							   }
+				case fstNoBorder : case fstNoBorderFixed : {
+					::ShowWindow( hwnd_, SW_SHOWNOACTIVATE );
+					::RedrawWindow( hwnd_, NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_ALLCHILDREN);
+				}
 				break;
 			}
 		}
@@ -575,7 +580,7 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 				}
 			}
 
-			wndProcResult = 1;
+			wndProcResult = 0;
 			result = true;
 		}
 		break;
@@ -847,6 +852,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.12  2006/03/10 05:35:57  ddiego
+*fixed repaint for win32window when first made visible.
+*
 *Revision 1.5.2.11  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *
