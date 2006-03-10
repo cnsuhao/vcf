@@ -2501,7 +2501,7 @@ public:
 		//pt is in screen coordinates
 		Point tmpPt = *pt;
 		Point adjustedPtForCursor = *pt;
-		adjustedPtForCursor.y_ += (::GetSystemMetrics( SM_CYCURSOR )*0.66);
+		
 
 		control->translateFromScreenCoords( &tmpPt );
 
@@ -2531,8 +2531,10 @@ public:
 
 			tooltip = tooltipEvent.getToolTipString();
 
-			tooltipEvent.setType( 0 );
+			tooltipEvent.setType( 0 );			
 		}
+
+		tooltipEvent.getToolTipLocation()->y_ += (::GetSystemMetrics( SM_CYCURSOR )*0.66);
 
 		if ( !tooltip.empty() ) {
 
@@ -2731,7 +2733,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 					Point tmpPt( pt.x, pt.y );
 					HWND hwndCursorIsOver = WindowFromPoint( pt );
 					if ( NULL != hwndCursorIsOver ) {
-						ScreenToClient( hwndCursorIsOver, &pt );
+						ScreenToClient( hwndCursorIsOver, &pt );						 
 						HWND childWnd = ChildWindowFromPointEx( hwndCursorIsOver, pt, CWP_SKIPINVISIBLE );
 						if ( childWnd != NULL ) {
 							ClientToScreen( hwndCursorIsOver, &pt );
@@ -4084,6 +4086,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.22  2006/03/10 21:49:32  ddiego
+*updates to color example and some documentation.
+*
 *Revision 1.6.2.21  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

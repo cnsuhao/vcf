@@ -27,7 +27,7 @@ where you installed the VCF.
 #endif
 
 
-#include <iostream>
+//#include <iostream>
 
 #include <typeinfo>
 
@@ -495,6 +495,9 @@ that someone will be able to relate to your concern.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2006/03/10 21:49:33  ddiego
+*updates to color example and some documentation.
+*
 *Revision 1.6.2.3  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

@@ -75,14 +75,14 @@ ColorSpace interface
  \par
  Hue Luminosity management
 	\par
-	WebPage: <br>
-			http:www.acm.org/jgt/papers/SmithLyons96/  <br>
-			http:www.scottandmichelle.net/scott/code/index2.mv?codenum=045<br>
-			(google search advanced all words: hue saturation source code)<br>
+	WebPages: 
+	\li http://www.acm.org/jgt/papers/SmithLyons96/  
+	\li	http://www.scottandmichelle.net/scott/code/index2.mv?codenum=045
+	\note
+		(google search advanced all words: hue saturation source code)
 
 \par
-Author: <br>
-				Alvy Ray Smith <br>
+Author: Alvy Ray Smith <br>
 				Microsoft <br>
 				Redmond, Washington <br>
 				alvys@microsoft.com <br>
@@ -90,8 +90,7 @@ Author: <br>
 				Mill Valley, California <br>
 				lyons@nbn.com <br>
 
-\par
-Abstract:
+\par Abstract:
 	The two most common color selector models, other than RGB (Red-Green-Blue),
 	are the hue-based HSV (Hue-Saturation-Value) and HSL (Hue-Saturation-Lightness) color models.
 	It is shown that both of these models are flawed.
@@ -116,7 +115,11 @@ public:
 
 	#define HUECRITICALMAX	( 1.0 - 1.0 / 6.0 )	// max r/g/b value is 255 ?
 
-	static const double HueCriticalMax;	// = ( 1.0 - 1.0 / 6.0 )	- Hue > HueCriticalMax => rgb.R > 1;
+	/**
+	HueCriticalMax is assigned ( 1.0 - 1.0 / 6.0 )
+	Hue > HueCriticalMax => rgb.R > 1;
+	*/
+	static const double HueCriticalMax;	// = ( 1.0 - 1.0 / 6.0 )	
 
 	enum {
 		RGBMax   = 0xFF,      // 255  When the max r/g/b value is 255
@@ -263,16 +266,28 @@ public:
 
 	static double getChanged( const double& initialVal, const double& percent );
 
-	// suggested with colors: 0.0/ 0.0 / 0.71428571428571
-	// suggested with grays:  0.0/ 0.0 / 0.33333333333333
+	/**
+	\par
+	It is suggested to call this function with colors: 0.0/ 0.0 / 0.71428571428571
+	\par
+	It is suggested to call this function with grays:  0.0/ 0.0 / 0.33333333333333
+	*/
 	static void changeHSV ( HSVtype& hsv, const double& percentH, const double& percentS, const double& percentV );
 
-	// suggested with colors: 0.0/ 0.0 / -0.71428571428571
-	// suggested with grays:  0.0/ 0.0 / -0.33333333333333
+	/**
+	\par
+	It is suggested to call this function with colors: 0.0/ 0.0 / -0.71428571428571
+	\par
+	It is suggested to call this function with grays:  0.0/ 0.0 / -0.33333333333333
+	*/
 	static void changeHSL ( HSLtype& hsl, const double& percentH, const double& percentS, const double& percentL );
 
-	// suggested with colors: 0.0/ 0.0 / 0.71428571428571
-	// suggested with grays:  0.0/ 0.0 / 0.33333333333333
+	/**
+	\par
+	It is suggested to call this function with colors: 0.0/ 0.0 / 0.71428571428571
+	\par
+	It is suggested to call this function with grays:  0.0/ 0.0 / 0.33333333333333
+	*/
 	static void changeHWB ( HWBtype& hsl, const double& percentH, const double& percentW, const double& percentB );
 
 	static HSVtype changeHSV ( const HSVtype& hsv, const double& percentH, const double& percentS, const double& percentV );
@@ -2237,6 +2252,9 @@ inline ulong32 ColorSpace::changeHue( const ulong32& color, const double& deltaH
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/03/10 21:49:33  ddiego
+*updates to color example and some documentation.
+*
 *Revision 1.5  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

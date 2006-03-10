@@ -28,8 +28,8 @@ NB: This software will not save the world.
 
 -->
 
-<title>The VCF Book VERSION-NUMBER</title>
-	<titleabbrev>VCF Documentation VERSION-NUMBER</titleabbrev>
+<title>The VCF Book devmain-0.9.0</title>
+	<titleabbrev>VCF Documentation devmain-0.9.0</titleabbrev>
 	<bookinfo>
 		<legalnotice>
 			<para>
@@ -300,6 +300,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.7.2.3  2006/03/10 21:49:27  ddiego
+updates to color example and some documentation.
+
 Revision 1.7.2.2  2006/03/06 04:38:41  ddiego
 added new docs sections for the HTMLKit, OpenGLKit, and INternetKit.
 

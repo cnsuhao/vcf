@@ -1021,6 +1021,9 @@ Color* Control::getColor()
 void Control::setColor( Color* color )
 {
 	color_->copy( color );
+	if ( (isNormal() || isDesigning()) && (NULL != peer_) ) {
+		repaint();
+	}
 }
 
 
@@ -1645,6 +1648,9 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.15  2006/03/10 21:49:32  ddiego
+*updates to color example and some documentation.
+*
 *Revision 1.8.2.14  2006/02/23 05:54:23  ddiego
 *some html help integration fixes and new features. context sensitive help is finished now.
 *
