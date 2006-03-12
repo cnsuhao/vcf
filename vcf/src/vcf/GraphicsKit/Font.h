@@ -29,7 +29,9 @@ class Locale;
 class GraphicsContext;
 
 #define FONT_CLASSID	"C41B2C4C-C95F-4ba2-B844-185C3AFCEF35"
-
+/**
+\class Font Font.h "vcf/GraphicsKit/Font.h"
+*/
 class GRAPHICSKIT_API Font : public Object {
 
 public:
@@ -183,6 +185,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.4  2005/07/09 23:05:58  ddiego
 *added missing gtk files
 *

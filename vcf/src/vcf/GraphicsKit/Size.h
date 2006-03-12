@@ -16,6 +16,9 @@ where you installed the VCF.
 
 namespace VCF {
 
+/**
+\class Size Size.h "vcf/GraphicsKit/Size.h"
+*/
 class GRAPHICSKIT_API Size : public Object {
 public:
 
@@ -71,6 +74,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.2.6.1  2005/07/30 16:55:10  iamfraggle
 *Made init explicitly virtual
 *

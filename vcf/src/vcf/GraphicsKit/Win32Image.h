@@ -220,6 +220,9 @@ protected:
 	bool ownDC_;
 };
 
+/**
+\class BMPLoader Win32Image.h "vcf/GraphicsKit/Win32Image.h"
+*/
 class GRAPHICSKIT_API BMPLoader : public Object, public ImageLoader {
 public:
 	BMPLoader();
@@ -244,6 +247,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.4  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.3.4.3  2006/02/14 20:19:25  ddiego
 *some minor bugs
 *

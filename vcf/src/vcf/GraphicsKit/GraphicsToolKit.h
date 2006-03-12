@@ -30,6 +30,7 @@ class GraphicsResourceBundlePeer;
 
 
 /**
+\class FontInfo GraphicsToolKit.h "vcf/GraphicsKit/GraphicsToolKit.h"
 Use this class to retreive information about a loaded system
 font. This class is intended for read only purposes
 */
@@ -95,6 +96,7 @@ protected:
 
 
 /**
+\class GraphicsToolkit GraphicsToolKit.h "vcf/GraphicsKit/GraphicsToolKit.h"
 The GraphicsToolkit serves as a way to retreive basic system information
 and as a factory for creating various graphics peers, like the ContextPeer,
 FontPeer, and the system implementation the Image class
@@ -311,6 +313,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.6.2.2  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

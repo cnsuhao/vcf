@@ -27,8 +27,8 @@ class GraphicsContext;
 
 
 /**
-\par
-The image class is an abstract class that defines how you can work with and 
+\class Image Image.h "vcf/GraphicsKit/Image.h"
+The Image class is an abstract class that defines how you can work with and 
 manipulate an image.
 \par
 An image provides access to information such as the pixel layout, the number 
@@ -388,6 +388,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.4.2.1  2005/10/11 00:54:51  ddiego
 *added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
 *

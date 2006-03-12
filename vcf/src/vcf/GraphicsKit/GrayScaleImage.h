@@ -5,7 +5,9 @@
 
 
 namespace VCF {
-
+/**
+\class GrayScaleImage GrayScaleImage.h "vcf/GraphicsKit/GrayScaleImage.h"
+*/
 	class GrayScaleImage : public AbstractImage {
 	public:
 

@@ -19,7 +19,9 @@ where you installed the VCF.
 
 namespace VCF {
 
-
+/**
+\class PixelTraits Pixels.h "vcf/GraphicsKit/Pixels.h"
+*/
 template < typename SizeType, bool FloatingPoint=false, bool GrayScale=false >
 struct PixelTraits {
 	enum {
@@ -101,7 +103,9 @@ struct PixelTraits {
 	}
 };
 
-
+/**
+\class PixelAllocater Pixels.h "vcf/GraphicsKit/Pixels.h"
+*/
 template < typename PixTraits >
 class PixelAllocater {
 public:
@@ -119,6 +123,7 @@ public:
 
 
 /**
+\class BGRAPixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 Defines a channel layout order of b,g,r,a with
 BitSizeType bits per channel
 */
@@ -141,6 +146,7 @@ struct BGRAPixel {
 
 #ifndef __GNUC__
 /**
+\class BGRAPixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 floating point specialization
 */
 template <>
@@ -170,6 +176,7 @@ struct BGRAPixel<float, true > {
 
 
 /**
+\class RGBAPixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 Defines a channel layout order of r,g,b,a with
 BitSizeType bits per channel
 */
@@ -193,6 +200,7 @@ struct RGBAPixel {
 
 #ifndef __GNUC__
 /**
+\class RGBAPixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 floating point specialization
 */
 template <>
@@ -218,6 +226,7 @@ struct RGBAPixel<float, true > {
 #endif
 
 /**
+\class ARGBPixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 Defines a channel layout order of a,r,g,b with
 BitSizeType bits per channel
 */
@@ -241,6 +250,7 @@ struct ARGBPixel {
 
 #ifndef __GNUC__
 /**
+\class ARGBPixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 floating point specialization
 */
 template <  >
@@ -269,6 +279,7 @@ struct ARGBPixel<float, true > {
 
 
 /**
+\class ABGRPixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 Defines a channel layout order of a,b,g,r with
 BitSizeType bits per channel
 */
@@ -292,6 +303,7 @@ struct ABGRPixel {
 
 #ifndef __GNUC__
 /**
+\class ABGRPixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 floating point specialization
 */
 template <  >
@@ -320,6 +332,7 @@ struct ABGRPixel<float,true> {
 
 
 /**
+\class GrayscalePixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 Defines a channel layout order of a,b,g,r with
 BitSizeType bits per channel
 */
@@ -341,6 +354,7 @@ struct GrayscalePixel {
 
 #ifndef __GNUC__
 /**
+\class GrayscalePixel Pixels.h "vcf/GraphicsKit/Pixels.h"
 turned off for GCC until I figure out the right syntax!
 floating point specialization
 */
@@ -417,7 +431,9 @@ namespace VCF {
 #  define GrayPixelTypeTraits SysGrayscalePixelType::Traits
 #endif
 
-
+/**
+\class PixelException Pixels.h "vcf/GraphicsKit/Pixels.h"
+*/
 	class PixelException : public BasicException {
 	public:
 
@@ -427,7 +443,9 @@ namespace VCF {
 	};
 
 
-
+	/**
+	\class Pixels Pixels.h "vcf/GraphicsKit/Pixels.h"
+	*/
 	template <typename PixelType>
 	class Pixels {
 	public:

@@ -20,6 +20,7 @@ class ImageBits;
 class GraphicsContext;
 
 /**
+\class AbstractImage AbstractImage.h "vcf/GraphicsKit/AbstractImage.h"
 AbstractImage represents a base implementation of the Image interface. It implements
 common functions, such as getWidth, etc, but still requires actually image class to be
 derived from it. It also provides basic support for ImageSizeChangedHandlers, so derived classes
@@ -150,6 +151,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/12 22:42:07  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.4.2.2  2005/10/17 01:36:34  ddiego
 *some more under the hood image stuff. updated agg.
 *

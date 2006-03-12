@@ -46,7 +46,8 @@ class GraphicsState;
 
 
 /**
-A Graphics Context provides the lowest level graphics interface to the
+\class GraphicsContext GraphicsContext.h "vcf/GraphicsKit/GraphicsContext.h"
+A GraphicsContext provides the lowest level graphics interface to the
 native systems 2D drawing operations. Based loosely on PostScript,
 a Context takes a series of of drawing operations, or commands
 *(lineTo, moveTo, etc), and then executes them by either filling or
@@ -816,6 +817,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.5  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.7.2.4  2006/03/12 22:01:45  ddiego
 *doc updates.
 *

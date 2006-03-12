@@ -64,6 +64,7 @@ where you installed the VCF.
 
 
 /**
+\class GraphicsKit GraphicsKit.h "vcf/GraphicsKit/GraphicsKit.h"
 *initializes the graphics Kit runtime.
 *This includes registering the basic classes in the runtime system
 *This MUST be called first off, after the initFoundationKit, in the main() function of the app
@@ -90,6 +91,9 @@ namespace VCF
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.5.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

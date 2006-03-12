@@ -24,6 +24,7 @@ class Image;
 class GraphicsContext;
 
 /**
+\class ImageList ImageList.h "vcf/GraphicsKit/ImageList.h"
 An image list is a collection of images.
 The image list is used by controls like the TreeControl, ListViewControl, and
 others. The collection of images is implemented by storing them on one single
@@ -165,6 +166,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/12 22:42:07  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.3  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *
