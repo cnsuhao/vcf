@@ -2288,9 +2288,47 @@ void _vpl_terminate( OSHandleID handle )
 
 	<section><title>Processes</title>
 		<para>
+		The VCF supports executing external processes through the Process class.
+		You can start any process using this class and pass any number of arbirtrary
+		command line arguments to it. The only limits over what processes you can run 
+		are those imposed by the host OS. 		
+		</para>
+		<para>
+		Starting a process is easy:
+		<programlisting><![CDATA[
+Process p1;
+p1.createProcess( "XCOPY", "/?" );
+		]]></programlisting>
+		The createProcess() call will not block, so if you need to wait for the process to
+		complete, you can call the Process::wait() function, like this:
+		<programlisting><![CDATA[
+Process p1;
+p1.createProcess( "XCOPY", "/?" );
+p1.wait(); //blocks indefinitely till the "XCOPY" process ends.
+		]]></programlisting>		
 		</para>
 		<section><title>Process Output</title>
 			<para>
+			If you need to run a process that outputs content to stdout, but you want
+			to capture this output for your own use, such as displaying the progress
+			of a compiler process, you can use the ProcessWithRedirectedIO class to
+			help with this.
+			</para>
+			<para>
+			The  ProcessWithRedirectedIO class hooks into the stdout output stream and 
+			captures output data as it becomes available. Once a chunk of data is made 
+			available, the framework will send an event to the class's OutputReady
+			delegate. The current implementation assumes that the data in the stream
+			is text data. The OutputReadyEvent holds this data in the form of String,
+			which does allow arbitrary bytes to be assigned to it.
+			</para>
+			<para>
+			An important note: when your event handler is invoked, it will be
+			done in a different thread than the thread that created the ProcessWithRedirectedIO
+			instance and started the process running. You should plan for this accordingly
+			and make sure that if you need to make changes to UI classes that you post an 
+			event to the UIToolkit, instead of modifying the class directly. This is 
+			especially true for making modfications to Model based classes.
 			</para>
 		</section>
 	</section>
@@ -2341,6 +2379,9 @@ void _vpl_terminate( OSHandleID handle )
 <!-- 
 CVS Log info
 $Log$
+Revision 1.8.2.3  2006/03/12 22:01:33  ddiego
+doc updates.
+
 Revision 1.8.2.2  2006/03/10 21:49:27  ddiego
 updates to color example and some documentation.
 

@@ -24,12 +24,13 @@ namespace VCF
 */
 
 /**
-*The ClassInfo is used to simplify registering
-*classes with the FoundationKit's runtime ClassRegistry.
-*The class is derived from by using the macros below. It is
-*created on the stack, and the constructor will automatically
-*register the class, as well as any of the classes properties,
-*methods, and events that have been specified through the macros.
+\class ClassInfo ClassInfo.h "vcf/FoundationKit/ClassInfo.h"
+ClassInfo is used to simplify registering
+classes with the FoundationKit's runtime ClassRegistry.
+The class is derived from by using the macros below. It is
+created on the stack, and the constructor will automatically
+register the class, as well as any of the classes properties,
+methods, and events that have been specified through the macros.
 */
 template <class CLASS_TYPE> class ClassInfo : public Object {
 public:
@@ -50,6 +51,7 @@ private:
 
 
 /**
+\class AbstractClassInfo ClassInfo.h "vcf/FoundationKit/ClassInfo.h"
 *The AbstractClassInfo is used to simplify registering
 *classes with the FoundationKit's runtime ClassRegistry.
 *It is uses specifically with classes that are abstract,
@@ -80,10 +82,11 @@ private:
 
 
 /**
-*The InterfaceInfo class serves bascially
-*the same purpose as the ClassInfo class.
-*It is used to register interfaces and their
-*methods with the
+\class InterfaceInfo ClassInfo.h "vcf/FoundationKit/ClassInfo.h"
+The InterfaceInfo class serves bascially
+the same purpose as the ClassInfo class.
+It is used to register interfaces and their
+methods with the
 */
 template <class INTERFACE_TYPE> class InterfaceInfo : public Object
 {
@@ -715,6 +718,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.3  2005/07/09 23:15:02  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

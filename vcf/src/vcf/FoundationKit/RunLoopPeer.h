@@ -16,7 +16,9 @@ where you installed the VCF.
 
 namespace VCF {
 
-
+/**
+\class RunLoopPeer RunLoopPeer.h "vcf/FoundationKit/RunLoopPeer.h"
+*/
 class FOUNDATIONKIT_API RunLoopPeer {
 public:
 	virtual ~RunLoopPeer(){}

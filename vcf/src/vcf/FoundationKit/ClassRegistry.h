@@ -36,6 +36,7 @@ namespace VCF
 
 
 /**
+\class ClassRegistry ClassRegistry.h "vcf/FoundationKit/ClassRegistry.h"
 *ClassRegistry contains all Class's in the Framework Runtime.
 *The ClassRegistry is used by the Framework Runtime to register Classes
 *and properties for Classes. The ClassRegistry is also used to dynamically
@@ -286,6 +287,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.2.6.1  2005/08/24 05:03:22  ddiego
 *better component loading and creation functions.
 *

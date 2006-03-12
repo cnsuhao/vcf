@@ -17,9 +17,10 @@ where you installed the VCF.
 namespace VCF {
 
 /**
-*The LibraryPeer represents a generic wrapper
-*around using DLL/SOs on systems. Implemented
-*by a specific LibraryPeer derived OS class.
+\class LibraryPeer LibraryPeer.h "vcf/FoundationKit/LibraryPeer.h"
+The LibraryPeer represents a generic wrapper
+around using DLL/SOs on systems. Implemented
+by a specific LibraryPeer derived OS class.
 */
 class FOUNDATIONKIT_API LibraryPeer {
 public:
@@ -55,6 +56,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.2.6.1  2005/09/03 17:13:23  ddiego
 *added a new argument to _vpl_init and _vpl_terminate functions.
 *

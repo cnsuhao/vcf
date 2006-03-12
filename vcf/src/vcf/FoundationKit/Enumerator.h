@@ -19,6 +19,7 @@ where you installed the VCF.
 
 namespace VCF{
 /**
+\class Enumerator Enumerator.h "vcf/FoundationKit/Dictionary.h"
  This is a template class that provides an interface for
  iterating through a collection, and provides a standard set of methods.
  Either multiply inherited by classes that want to public expose a single set of children,
@@ -82,7 +83,8 @@ public:
 
 
 /**
-\par
+\class EnumeratorContainer Enumerator.h "vcf/FoundationKit/Enumerator.h"
+
 EnumeratorContainer is based on some COLLECTION class that represents a collection
 class of some sort, i.e. std::vector<>, std::list, et al.
 \par
@@ -188,7 +190,7 @@ private:
 };
 
 /**
-\par
+\class EnumeratorMapContainer Enumerator.h "vcf/FoundationKit/Enumerator.h"
 EnumeratorMapContainer is based on some COLLECTION class that represents
 an  associative collection of some sort, i.e. std::map<>
 \par
@@ -285,6 +287,9 @@ private:
 /**
 CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.3.2.2  2005/11/10 00:04:07  obirsoy
 *changes required for gcc under Linux.
 *

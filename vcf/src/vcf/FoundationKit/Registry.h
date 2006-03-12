@@ -29,7 +29,9 @@ enum RegistryDataType{
 	RDT_BINARY
 };
 
-
+/**
+\class RegistryValueInfo Registry.h "vcf/FoundationKit/Registry.h"
+*/
 class FOUNDATIONKIT_API RegistryException : public RuntimeException {
 public:
 	RegistryException( const VCF::String & message ):
@@ -45,6 +47,7 @@ public:
 };
 
 /**
+\class RegistryValueInfo Registry.h "vcf/FoundationKit/Registry.h"
 *a class that wraps up a specific registry value that may
 *be a string, integer, bool, or stream of binary data
 */
@@ -110,6 +113,7 @@ public:
 class RegistryPeer;
 
 /**
+\class Registry Registry.h "vcf/FoundationKit/Registry.h"
 *The registry represents an external data source that applications
 *may store application data in. This may be things like special file names,
 *UI positions, application state data etc. The external data may be anything
@@ -216,6 +220,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.4.2.2  2005/09/05 18:26:59  ddiego
 *adjusted reg class methods for reading data so that they now throw
 *exceptions for bad reads.

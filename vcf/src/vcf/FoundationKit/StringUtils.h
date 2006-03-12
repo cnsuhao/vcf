@@ -18,10 +18,6 @@ where you installed the VCF.
 
 
 
-/**
-The StringUtils class is a collection of static
-utility methods for operating on strings.
-*/
 // forward declaration needed for bcc32
 class type_info;
 
@@ -31,11 +27,16 @@ class DateTime;
 class VariantData;
 class Format;
 
+/**
+\class StringUtils StringUtils.h "vcf/FoundationKit/StringUtils.h"
+The StringUtils class is a collection of static
+utility methods for operating on strings.
+*/
 class FOUNDATIONKIT_API StringUtils  {
 public:
 
 	/**
-	outs the text to the debugger output
+	outputs the text to the debugger output
 	@param String the text to output
 	*/
 	static void trace( const VCF::String& text );
@@ -823,6 +824,9 @@ inline String& operator+= ( String& lhs, const VariantData& rhs )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.5.2.4  2006/01/22 17:19:38  ddiego
 *fixed some bugs in type_info handling for gcc.
 *

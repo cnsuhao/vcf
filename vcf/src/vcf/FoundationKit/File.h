@@ -22,9 +22,10 @@ class FileInputStream;
 class FileOutputStream;
 
 /**
-*	The File class represents a single file or directory.
-*
-*	File functions that fail throw FileIO exceptions.
+\class File File.h "vcf/FoundationKit/File.h"
+The File class represents a single file or directory.
+\par
+File functions that fail throw FileIO exceptions.
 */
 class FOUNDATIONKIT_API File : public Object{
 public:
@@ -482,6 +483,9 @@ inline void File::updateTime()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.4  2005/07/09 23:15:02  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -30,6 +30,7 @@ namespace VCF   {
 #ifdef VCF_RTTI
 
 /**
+\class EnumSetProperty VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 This is a special class for handing a enum mask value that is the combination
 of one or more other values.
 */
@@ -354,6 +355,7 @@ private:
 
 
 /**
+\class TypedEventProperty VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 Concrete template class for supporting event RTTI.
 */
 template <typename SourceType, typename EventType>
@@ -390,6 +392,7 @@ public:
 
 
 /**
+\class TypedProperty VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Typed properties are designed to only work with Object derived classes.
 *Many thanks go to Mario Motta (author VDK, mmotta@guest.net) for inspiring this from his
 *VDKReadWriteValueProp class.
@@ -552,6 +555,10 @@ protected:
 	SetFunction setFunction_;
 };
 
+
+/**
+\class TypeDefProperty VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
+*/
 template <class PROPERTY>
 class TypeDefProperty : public TypedProperty<PROPERTY> {
 public:
@@ -682,6 +689,9 @@ protected:
 	SetFunction setFunction_;
 };
 
+/**
+\class TypedObjectRefProperty VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
+*/
 template <class PROPERTY>
 class TypedObjectRefProperty : public Property {
 public:
@@ -765,6 +775,9 @@ protected:
 	SetFunction setFunction_;
 };
 
+/**
+\class TypedEnumProperty VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
+*/
 template <class ENUM_PROPERTY>
 class TypedEnumProperty : public Property {
 public:
@@ -893,6 +906,7 @@ protected:
 };
 
 /**
+\class TypedCollectionProperty VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *TypedCollectionProperty represents a type safe wrapper around properties that
 *are enumerations of items.
 */
@@ -1032,6 +1046,7 @@ private:
 };
 
 /**
+\class TypedObjectCollectionProperty VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *TypedCollectionProperty represents a type safe wrapper around properties that
 *are enumerations of Object* derived items.
 */
@@ -1203,6 +1218,7 @@ private:
 
 
 /**
+\class TypedMethod VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Base template class for methods that do NOT return values
 */
 template <typename SOURCE_TYPE>
@@ -1255,6 +1271,7 @@ protected:
 
 
 /**
+\class TypedMethodReturn VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Base template class for methodsthat DO return values
 */
 
@@ -1295,6 +1312,7 @@ protected:
 
 
 /**
+\class TypedMethodArg0 VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template class for methods have 0 arguments
 */
 template <class SOURCE_TYPE>
@@ -1354,6 +1372,7 @@ protected:
 };
 
 /**
+\class TypedMethodArg1 VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template class for methods have 1 argument
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE>
@@ -1416,6 +1435,7 @@ protected:
 
 
 /**
+\class TypedMethodArg2 VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Accepts methds with 2 arguments - no return value
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE >
@@ -1480,6 +1500,7 @@ protected:
 
 
 /**
+\class TypedMethodArg3 VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Accepts methds with 3 arguments - no return value
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE, typename ARG3_TYPE>
@@ -1548,6 +1569,7 @@ protected:
 
 
 /**
+\class TypedMethodArg4 VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Accepts methds with 4 arguments - no return value
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE, typename ARG3_TYPE, typename ARG4_TYPE>
@@ -1621,6 +1643,7 @@ protected:
 
 
 /**
+\class TypedMethodArg5 VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Accepts methds with 5 arguments - no return value
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
@@ -1696,6 +1719,7 @@ protected:
 
 
 /**
+\class TypedMethodArg6 VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Accepts methds with 6 arguments - no return value
 */
 template <typename SOURCE_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
@@ -1772,6 +1796,7 @@ protected:
 
 
 /**
+\class TypedMethodArg0Return VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template for methods with 0 argument and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE>
@@ -1834,6 +1859,7 @@ protected:
 
 
 /**
+\class TypedMethodArg1Return VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template for methods with 1 argument and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE>
@@ -1900,6 +1926,7 @@ protected:
 
 
 /**
+\class TypedMethodArg2Return VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template for methods with 2 arguments and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE>
@@ -1968,6 +1995,7 @@ protected:
 
 
 /**
+\class TypedMethodArg3Return VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template for methods with 3 arguments and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE, typename ARG3_TYPE>
@@ -2037,6 +2065,7 @@ protected:
 
 
 /**
+\class TypedMethodArg4Return VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template for methods with 4 arguments and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
@@ -2110,6 +2139,7 @@ protected:
 
 
 /**
+\class TypedMethodArg5Return VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template for methods with 5 arguments and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
@@ -2187,6 +2217,7 @@ protected:
 
 
 /**
+\class TypedMethodArg6Return VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *Method template for methods with 6 arguments and a return value
 */
 template <typename SOURCE_TYPE, typename RETURN_TYPE, typename ARG1_TYPE, typename ARG2_TYPE,
@@ -2327,7 +2358,9 @@ public:
 };
 
 
-
+/**
+\class TypedObjectField VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
+*/
 template <typename FieldType>
 class TypedObjectField : public Field {
 public:
@@ -2392,6 +2425,7 @@ public:
 
 
 /**
+\class TypedInterfaceClass VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *TypedInterfaceClass documentation
 */
 template<class INTERFACE_TYPE>
@@ -2420,6 +2454,7 @@ public:
 
 
 /**
+\class TypedImplementedInterfaceClass VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *TypedImplementedInterfaceClass documentation
 */
 template<class INTERFACE_TYPE, class IMPLEMENTER_TYPE>
@@ -2473,6 +2508,7 @@ public:
 
 
 /**
+\class TypedClass VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *TypedClass represents a specific instance of a Class. The CLASS_TYPE
 is used to specify the Object the Class represents. So TypedClass<Rect> is
 *used to represent the Class for a Rect instance.
@@ -2524,6 +2560,7 @@ public:
 };
 
 /**
+\class TypedAbstractClass VCFRTTIImpl.h "vcf/FoundationKit/VCFRTTIImpl.h"
 *TypedAbstractClass is used to represent abstract classes that cannot be instantiated
 *due to virtual pure methods, but must be represented in the class hierarchy because
 *they are derived from by other child classes.
@@ -3606,6 +3643,9 @@ void registerVoidMethodArg6( SOURCE_TYPE* fakeParam,
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.11  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.4.2.10  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

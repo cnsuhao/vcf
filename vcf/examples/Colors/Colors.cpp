@@ -391,6 +391,9 @@ public:
 	Label* hueVal;
 	Label* saturationVal;
 	Label* luminanceVal;
+	double hue;
+	double saturation;
+	double luminance;
 
 	HSLPanel() {
 		setBorder( NULL );
@@ -414,12 +417,11 @@ public:
 		label->setCaption( "Hue:" );
 		add( label );
 
-		double h,s,l;
 
-		colorWell->getColor()->getHSL( h,s,l );
+		colorWell->getColor()->getHSL( hue,saturation,luminance );
 
 		SliderControl* slider = new SliderControl();			
-		slider->setPosition( h * 100.0 );
+		slider->setPosition( hue * 100.0 );
 		slider->PositionChanged +=
 			new GenericEventHandler<HSLPanel>( this, &HSLPanel::onRedChanged, "HSLPanel::onRedChanged" );
 
@@ -436,7 +438,8 @@ public:
 		add( label );
 
 		slider = new SliderControl();	
-		slider->setPosition( s * 100.0 );
+		slider->setPosition( saturation * 100.0 );
+		slider->setTickFrequency(0);
 		slider->PositionChanged +=
 			new GenericEventHandler<HSLPanel>( this, &HSLPanel::onGreenChanged, "HSLPanel::onGreenChanged" );
 		add( slider );
@@ -451,7 +454,8 @@ public:
 		add( label );
 
 		slider = new SliderControl();	
-		slider->setPosition( l * 100.0 );
+		slider->setPosition( luminance * 100.0 );
+		slider->setTickFrequency(0);
 		slider->PositionChanged +=
 			new GenericEventHandler<HSLPanel>( this, &HSLPanel::onBlueChanged, "HSLPanel::onBlueChanged" );
 
@@ -467,54 +471,36 @@ public:
 	}
 
 	void onRedChanged( Event* e ) {
-		Color color = *colorWell->getColor();
-
-		double h,s,l;
-
-		color.getHSL( h,s,l );
-
 		SliderControl* slider = (SliderControl*)e->getSource();
-		h = (slider->getPosition() / 100.0) * 6.0;
+		hue = (slider->getPosition() / 100.0) * 6.0;
 
-		color.setHSL( h,s,l );
+		Color color( hue,saturation,luminance, Color::ctHSV );		
 
 		colorWell->setColor( &color );		
 
-		hueVal->setCaption( Format("%.3f") % h  );
+		hueVal->setCaption( Format("%.3f") % hue  );
 	}
 
 	void onGreenChanged( Event* e ) {
-		Color color = *colorWell->getColor();
-
-		double h,s,l;
-
-		color.getHSL( h,s,l );
-
 		SliderControl* slider = (SliderControl*)e->getSource();
-		s = slider->getPosition() / 100.0;
+		saturation = slider->getPosition() / 100.0;
 
-		color.setHSL( h,s,l );
+		Color color( hue,saturation,luminance, Color::ctHSV );		
 
 		colorWell->setColor( &color );		
 
-		saturationVal->setCaption( Format("%.3f") % s  );
+		saturationVal->setCaption( Format("%.3f") % saturation  );
 	}
 
-	void onBlueChanged( Event* e ) {
-		Color color = *colorWell->getColor();
-
-		double h,s,l;
-
-		color.getHSL( h,s,l );
-
+	void onBlueChanged( Event* e ) {		
 		SliderControl* slider = (SliderControl*)e->getSource();
-		l = slider->getPosition() / 100.0;
+		luminance = slider->getPosition() / 100.0;
 
-		color.setHSL( h,s,l );
+		Color color( hue,saturation,luminance, Color::ctHSV );		
 
 		colorWell->setColor( &color );		
 
-		luminanceVal->setCaption( Format("%.3f") % l  );
+		luminanceVal->setCaption( Format("%.3f") % luminance  );
 	}
 };
 
@@ -566,6 +552,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.2  2006/03/12 22:01:39  ddiego
+*doc updates.
+*
 *Revision 1.2.4.1  2006/03/10 21:49:31  ddiego
 *updates to color example and some documentation.
 *

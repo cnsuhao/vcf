@@ -52,7 +52,7 @@ struct CmdParam {
 };
 
 /**
-\par
+\class CommandLine CommandLine.h "vcf/FoundationKit/CommandLine.h"
 A utility for parsing command lines.
 \par
 This was originally written by Chris Losinger, changes were simply
@@ -248,6 +248,9 @@ the first character of a switch must be non-numeric!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.5.2.3  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

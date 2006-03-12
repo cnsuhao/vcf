@@ -21,7 +21,8 @@ class DateTime;
 class ResourceBundle;
 
 /**
-*Defines the SYstem Peer interface
+\class SystemPeer SystemPeer.h "vcf/FoundationKit/SystemPeer.h"
+*Defines the SystemPeer interface
 */
 class FOUNDATIONKIT_API SystemPeer {
 public:
@@ -81,6 +82,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.5.2.1  2006/02/19 06:50:31  ddiego
 *minor updates.
 *

@@ -20,7 +20,7 @@ class Delegate;
 
 
 /**
-\par
+\class EventHandler EventHandler.h "vcf/FoundationKit/EventHandler.h"
 EventHandler's form the back bone of the event
 model in the VCF. The EventHandler base class
 provides a clean way to invoke the class
@@ -93,10 +93,10 @@ protected:
 
 
 /**
-\par
-EventHandlerInstances are used to provide a
-typesafe wrapper around specific class members method pointers.
-In addition, when the are created, if the source passed in is
+\class EventHandlerInstance EventHandler.h "vcf/FoundationKit/EventHandler.h"
+The EventHandlerInstance class is used to provide a
+typesafe wrapper around a specific class's member function pointer.
+In addition, when the instance is created, if the source passed in is
 derived from VCF::ObjectWithEvents, then the handler will be
 maintained in a list by the source, and destroyed when the source
 is destroyed, freeing the creator of the handler from worrying about
@@ -220,6 +220,7 @@ protected:
 };
 
 /**
+\class StaticEventHandlerInstance EventHandler.h "vcf/FoundationKit/EventHandler.h"
 StaticEventHandlerInstance's are used to provide a
 typesafe wrapper around a specific class's <b>static</a> function pointers,
 as opposed to method pointers (which take the implicit this pointer).
@@ -259,6 +260,7 @@ protected:
 
 
 /**
+\class GenericEventHandler EventHandler.h "vcf/FoundationKit/EventHandler.h"
 The GenericEventHandler class is provided as a convenience class for use when dealing with a generic
 Event object.
 */
@@ -281,6 +283,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.7.2.1  2005/08/08 03:19:17  ddiego
 *minor updates
 *

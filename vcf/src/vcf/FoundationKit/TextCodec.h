@@ -18,6 +18,7 @@ namespace VCF {
 
 
 /**
+\class TextCodec TextCodec.h "vcf/FoundationKit/TextCodec.h"
 The TextCode class represents a way of transforming an ansi or unicode string
 into another form of unicode. It represents the logic required to make this
 transformation as specified in a code page, i.e. translating an ansi string
@@ -93,6 +94,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.2.6.1  2005/11/27 23:55:45  ddiego
 *more osx updates.
 *

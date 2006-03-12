@@ -18,6 +18,7 @@ namespace VCF {
 
 
 /**
+\class Method Method.h "vcf/FoundationKit/Method.h"
 Base class for dynamic method invocation
 Methods are dynamically invokable and can support
 querying for argument types
@@ -215,6 +216,9 @@ protected:
 /**
 CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.3.2.1  2006/02/23 01:41:57  ddiego
 *some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
 *

@@ -92,6 +92,18 @@ Handle the extension based on the compiler
 
 namespace VCF {
 
+	/**
+	\par
+	The InternetKit is a singleton class that initializes
+	the rest of the InternetKit and the InternetToolkit
+	class. The InternetKit provides a series of high level
+	classes useful in retrieving files/data from the internet
+	using various common protocols, like HTTP, or even FTP.
+	\par
+	You need to initialize it \em after the
+	FoundationKit, and terminate it \em before the
+	FoundationKit.
+	*/
 	class INTERNETKIT_API InternetKit {
 	public:
 		

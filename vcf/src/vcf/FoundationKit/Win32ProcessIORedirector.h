@@ -30,15 +30,7 @@ class Win32ProcessIORedirector  : public Object, public ProcessIORedirectionPeer
 public:
 	Win32ProcessIORedirector();
 
-	virtual ~Win32ProcessIORedirector();
-
-	virtual void addOutputReadyHandler( EventHandler* eventHandler ) {
-		outputReady_.addHandler( eventHandler );
-	}
-
-	virtual void removeOutputReadyHandler( EventHandler* eventHandler ) {
-		outputReady_.removeHandler( eventHandler );
-	}
+	virtual ~Win32ProcessIORedirector();	
 
 	virtual int getProcessID() {
 		return processID_;
@@ -91,7 +83,6 @@ protected:
 	int processThreadID_;
 	UINT readThreadID_;
 	String commandLine_;
-	Delegate outputReady_;
 	HANDLE readThread_;
 
 	HANDLE	childStdinRdHandle_;
@@ -119,6 +110,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/12 22:01:44  ddiego
+*doc updates.
+*
 *Revision 1.4.2.1  2005/11/28 21:01:06  ddiego
 *added wait function to process class. added stubs for linux.
 *

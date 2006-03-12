@@ -15,7 +15,9 @@ where you installed the VCF.
 
 
 namespace VCF {
-
+/**
+\class OutputReadyEvent OutputReadyEvent.h "vcf/FoundationKit/OutputReadyEvent.h"
+*/
 class FOUNDATIONKIT_API OutputReadyEvent : public Event {
 public:
 	OutputReadyEvent( Object* source, const String& outputData ):
@@ -62,6 +64,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.2  2004/08/07 02:49:14  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

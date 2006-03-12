@@ -33,6 +33,7 @@ namespace VCF {
 
 
 /**
+\class Delegate Delegate.h "vcf/FoundationKit/Delegate.h"
 The Delegate class is used to maintain a collection of event handlers
 and fire events to them.
 <p>
@@ -222,6 +223,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.6.2.1  2005/08/08 03:19:17  ddiego
 *minor updates
 *

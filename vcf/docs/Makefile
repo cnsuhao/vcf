@@ -13,7 +13,7 @@ XMAKE_VERSION = 1.0.5
 
 
 HTMLHELP_COMPILER = "c:/Program Files/HTML Help Workshop/hhc.exe"
-XSL_DOCBOOK_DIR = "c:/code/docbook-xsl-1.69.1"
+XSL_DOCBOOK_DIR = "f:/code/docbook-xsl-1.69.1"
 XSL_HTMLHELP_IMPORT = "$(XSL_DOCBOOK_DIR)/htmlhelp/htmlhelp.xsl"
 XSL_HTML_IMPORT = "$(XSL_DOCBOOK_DIR)/html/docbook.xsl"
 
@@ -392,6 +392,7 @@ online_doxy :
 	doxygen Doxyfile.online
 	mv Doxyfile.bak Doxyfile.online
 	cp -r gfx/ doxy_html/
+	cp vcf.css doxy_html/
 		
 
 
@@ -494,6 +495,9 @@ clean :
 
 ###############################################################################
 #$Log$
+#Revision 1.19.2.3  2006/03/12 22:01:33  ddiego
+#doc updates.
+#
 #Revision 1.19.2.2  2006/03/10 21:49:26  ddiego
 #updates to color example and some documentation.
 #

@@ -34,17 +34,17 @@ where you installed the VCF.
 namespace VCF {
 
 	/**
-	\p
+	\class Format Format.h "vcf/FoundationKit/Format.h"
 	The Format class is used to format a string, similar to the
 	sprintf/printf family of functions, only made typesafe for
 	C++, and less likely to encounter buffer overflow errors
 	that are so easy to do with sprintf and friends.
-	\p
+	\par
 	The inspiration for this class comes unashamedly from the
 	Boost Format library (http://www.boost.org/libs/format/doc/format.html).
 	Any mistakes in the "translation" are mine, not Boost's.
 
-	\p
+	\par
 	The basic idea is to pass in a string to the Format instance,
 	and then use the "%" operator to separate your arguments.
 	Currently the usage is \e exactly the same as you would use
@@ -58,7 +58,7 @@ namespace VCF {
 	\endcode
 	The "s" variable will now contain "Hello World, 10 times!".
 
-	\p
+	\par
 	The Format object will throw assert exceptions (in debug mode) if too
 	few arguments are passed in, or too many. For example:
 	\code
@@ -415,6 +415,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.9  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.2.2.8  2006/01/27 20:51:47  dougtinkham
 *remove MinGW warning
 *

@@ -24,6 +24,9 @@ namespace VCF {
 
 class ProcessPeer;
 
+/**
+\class Process VCFProcess.h "vcf/FoundationKit/VCFProcess.h"
+*/
 class FOUNDATIONKIT_API Process : public Object, public Waitable {
 
 public:
@@ -38,7 +41,8 @@ public:
 	/**
 	The default behaviour is to just start the process, assuming the processName is a
 	path to the executable. However, we are now going to get a tad fancier!
-	If the processName is a directory, then we will try and locate the 
+	\par
+	If the processName is a directory, we will try and locate the 
 	Info.plist/Info.xml file, read it, and, based on the info we get, 
 	attempt to use this to open the binary inside.
 	@param String the fully qualified file name of the process to
@@ -70,6 +74,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.3.4.1  2005/11/28 21:01:06  ddiego
 *added wait function to process class. added stubs for linux.
 *

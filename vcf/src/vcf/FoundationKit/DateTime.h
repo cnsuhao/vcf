@@ -31,6 +31,7 @@ class DateTimeSpan;
 // DateTime exception classes
 
 /**
+\class BadDateFormat DateTime.h "vcf/FoundationKit/DateTime.h"
 This exception is thrown when a bad date format is used. An example
 of an invalid date might be Jan 32, 2003.
 */
@@ -52,6 +53,7 @@ protected:
 
 
 /**
+\class BadTimeFormat DateTime.h "vcf/FoundationKit/DateTime.h"
 This exception is thrown when a bad time format is used. An example
 of an invalid time might be 26:65:03.
 */
@@ -77,7 +79,7 @@ protected:
 // DateTime class declaration
 
 /**
-\par
+\class DateTime DateTime.h "vcf/FoundationKit/DateTime.h"
 This class is used to represent a point in time. The internal structure is a
 64bit unsigned long that counts the number of milliseconds from ~ 4700BC. The
 calendar used is the Gregorian calendar. There is logic to support switching
@@ -760,43 +762,63 @@ protected:
 	};
 #endif
 
-
+/**
+\class ByMillisecond DateTime.h "vcf/FoundationKit/DateTime.h"
+*/
 class FOUNDATIONKIT_API ByMillisecond {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
+/**
+\class ByMillisecond DateTime.h "vcf/FoundationKit/DateTime.h"
+*/
 class FOUNDATIONKIT_API BySecond {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
+/**
+\class ByMillisecond DateTime.h "vcf/FoundationKit/DateTime.h"
+*/
 class FOUNDATIONKIT_API ByMinute {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
+/**
+\class ByMillisecond DateTime.h "vcf/FoundationKit/DateTime.h"
+*/
 class FOUNDATIONKIT_API ByHour {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
+/**
+\class ByMillisecond DateTime.h "vcf/FoundationKit/DateTime.h"
+*/
 class FOUNDATIONKIT_API ByDay {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
+/**
+\class ByMillisecond DateTime.h "vcf/FoundationKit/DateTime.h"
+*/
 class FOUNDATIONKIT_API ByMonth {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
 	static void decr( DateTime& dt, unsigned long offset );
 };
 
+/**
+\class ByMillisecond DateTime.h "vcf/FoundationKit/DateTime.h"
+*/
 class FOUNDATIONKIT_API ByYear {
 public :
 	static void incr( DateTime& dt, unsigned long offset );
@@ -805,10 +827,8 @@ public :
 
 
 
-///////////////////////////////////////////////////////////////////////////////
-// DateTimeSpan class declaration
-
 /**
+\class DateTimeSpan DateTime.h "vcf/FoundationKit/DateTime.h"
 The DateTimeSpan represents an absolute delta value between two date time
 values. You can get the individual components of the span by calling the various
 getYears(), getMonths(), etc methods, or you can get the total amount of time
@@ -972,6 +992,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.6.2.2  2005/11/10 00:03:48  obirsoy
 *changes required for gcc under Linux.
 *
