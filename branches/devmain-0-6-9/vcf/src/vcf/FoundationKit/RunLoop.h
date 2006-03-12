@@ -21,6 +21,9 @@ class RunLoopPeer;
 class RunLoopSource;
 class Thread;
 
+/**
+\class PostedEvent RunLoop.h "vcf/FoundationKit/RunLoop.h"
+*/
 class PostedEvent {
 public:
 	PostedEvent( Event* event, EventHandler* handler, bool deleteHandler ):
@@ -34,6 +37,9 @@ public:
 	bool deleteHandler_;
 };
 
+/**
+\class RunLoop RunLoop.h "vcf/FoundationKit/RunLoop.h"
+*/
 class FOUNDATIONKIT_API RunLoop {
 public:
 	enum TimerEvents {

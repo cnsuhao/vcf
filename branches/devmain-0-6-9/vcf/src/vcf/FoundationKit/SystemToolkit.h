@@ -33,7 +33,7 @@ class RunLoopPeer;
 class ThreadManagerPeer;
 
 /**
-\par
+\class SystemToolkit SystemToolkit.h "vcf/FoundationKit/SystemToolkit.h"
 The SystemToolkit is and abstract class used to create or 
 get access to basic system peer instances, like threads, processes, etc. 
 It is a singleton factory for the various platform specific 
@@ -208,6 +208,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.5  2005/07/09 23:15:05  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

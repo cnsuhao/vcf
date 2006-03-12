@@ -4,7 +4,7 @@
 
 namespace VCF {
 	/**
-	\par
+	\class ProgramInfo ProgramInfo.h "vcf/FoundationKit/ProgramInfo.h"
 	This class provides a platform neutral way to access additional
 	information about a program, most intended to displayed in a
 	human readable format. 

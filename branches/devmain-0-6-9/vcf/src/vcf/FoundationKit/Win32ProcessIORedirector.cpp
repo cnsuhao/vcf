@@ -121,7 +121,7 @@ void Win32ProcessIORedirector::readPipe()
 		//notify folks of an OutputReady event
 		String outputData = readBuffer;
 		OutputReadyEvent event( process_, outputData );
-		outputReady_.fireEvent( &event );
+		process_->OutputReady.fireEvent( &event );
 
 		Sleep(100);
 		int err = PeekNamedPipe( childStdoutRdHandle_, NULL, 0, NULL, &bytesLeftToRead, NULL);
@@ -152,7 +152,7 @@ void Win32ProcessIORedirector::readPipe()
 		//notify folks of an OutputReady event
 		String outputData = readBuffer;
 		OutputReadyEvent event( process_, outputData );
-		outputReady_.fireEvent( &event );
+		process_->OutputReady.fireEvent( &event );
 	}
 
 	if ( !CloseHandle(childStdinRdHandle_) ) {
@@ -462,6 +462,9 @@ Waitable::WaitResult Win32ProcessIORedirector::wait()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/12 22:01:44  ddiego
+*doc updates.
+*
 *Revision 1.3.2.2  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

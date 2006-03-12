@@ -21,8 +21,9 @@ namespace VCF{
 
 
 /**
-*A MemoryStream a stream for in memory data for both reading
-*and writing
+\class MemoryStream MemoryStream.h "vcf/FoundationKit/MemoryStream.h"
+A MemoryStream a stream for in memory data for both reading
+and writing
 */
 class FOUNDATIONKIT_API MemoryStream : public VCF::InputStream, public VCF::OutputStream, public VCF::Object {
 public:
@@ -83,6 +84,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

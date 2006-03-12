@@ -17,7 +17,9 @@ where you installed the VCF.
 namespace VCF {
 
 
-
+/**
+\class RegistryPeer RegistryPeer.h "vcf/FoundationKit/RegistryPeer.h"
+*/
 class FOUNDATIONKIT_API RegistryPeer {
 public:
 	virtual ~RegistryPeer(){};
@@ -57,6 +59,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.2.6.1  2005/09/05 18:17:17  ddiego
 *adjusted reg class methods for reading data so that they now throw
 *exceptions for bad reads.

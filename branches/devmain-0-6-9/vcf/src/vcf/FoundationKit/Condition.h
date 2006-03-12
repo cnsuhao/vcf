@@ -19,7 +19,7 @@ namespace VCF  {
 class ConditionPeer;
 
 /**
-\par
+\class Condition Condition.h "vcf/FoundationKit/Condition.h"
 The Condition object is used as a synchronization primitive, like the Mutex, and
 Semaphore. While the Mutex and Semaphore can cause multiple threads to block, waiting
 for the mutex or semaphore to become signaled, only one thread will every wake at
@@ -91,6 +91,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.3  2005/07/09 23:15:02  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

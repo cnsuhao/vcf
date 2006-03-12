@@ -13,18 +13,13 @@ where you installed the VCF.
 #   pragma once
 #endif
 
-/*
- Uncomment this to have a variant of 64 bits at least
- This enables the automatic conversion of DateTime objects too
- Please the 15th of July whne the DateTime class will be fully implemented.
-*/
-// #define VCF_VARIANT64
 
 
 namespace VCF {
 
 
 /**
+\class VariantData VariantData.h "vcf/FoundationKit/VariantData.h"
 VariantData represents an unknown type of variable - similiar to
 Visual Basic's Variant object.
 VariantData objects can store int, long, double, bool String, or Object*.
@@ -734,6 +729,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/12 22:01:44  ddiego
+*doc updates.
+*
 *Revision 1.5.2.2  2006/02/23 01:41:58  ddiego
 *some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
 *

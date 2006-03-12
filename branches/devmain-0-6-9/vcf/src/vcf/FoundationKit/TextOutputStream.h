@@ -19,8 +19,8 @@ namespace VCF
 
 
 /**
+\class TextOutputStream TextOutputStream.h "vcf/FoundationKit/TextOutputStream.h"
 *The TextOutputStream is used for writing data from another stream as text.
-
 */
 class FOUNDATIONKIT_API TextOutputStream : public OutputStream
 {
@@ -81,6 +81,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

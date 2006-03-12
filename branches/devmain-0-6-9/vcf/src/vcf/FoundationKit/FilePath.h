@@ -20,7 +20,7 @@ namespace VCF {
 
 
 /**
-\par
+\class FilePath FilePath.h "vcf/FoundationKit/FilePath.h"
 A FilePath represents a path to a file in the filesystem.
 
 \par
@@ -498,6 +498,9 @@ inline std::vector<String> FilePath::getPathComponents() const {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.6.2.1  2005/09/07 20:24:49  ddiego
 *added some more help support.
 *

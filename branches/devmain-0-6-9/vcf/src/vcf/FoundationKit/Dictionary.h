@@ -17,6 +17,7 @@ where you installed the VCF.
 namespace VCF {
 
 /**
+\class DictionaryEnumerator Dictionary.h "vcf/FoundationKit/Dictionary.h"
 The DictionaryEnumerator simply iterates through all of the items in a 
 Dictionary.
 @see Dictionary
@@ -102,7 +103,7 @@ private:
 
 
 /**
-\par
+\class Dictionary Dictionary.h "vcf/FoundationKit/Dictionary.h"
 The Dictionary class is a utility class useful storing a collection
 of key-value pairs. It is not a separate implementation, but instead
 uses the STL std::map as it's underlying data member. Usage of the
@@ -258,6 +259,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.4.2.1  2005/09/13 01:58:07  ddiego
 *minor changes to dictionary class.
 *

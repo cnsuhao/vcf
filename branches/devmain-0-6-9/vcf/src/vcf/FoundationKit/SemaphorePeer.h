@@ -21,6 +21,7 @@ where you installed the VCF.
 namespace VCF  {
 
 /**
+\class SemaphorePeer SemaphorePeer.h "vcf/FoundationKit/SemaphorePeer.h"
 *Class MutexPeer documentation
 */
 class FOUNDATIONKIT_API SemaphorePeer
@@ -43,6 +44,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.4  2005/07/09 23:15:05  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

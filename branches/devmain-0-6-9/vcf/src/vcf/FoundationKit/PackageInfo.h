@@ -15,7 +15,11 @@ where you installed the VCF.
 
 
 namespace VCF {
-
+/**
+\class PackageInfo PackageInfo.h "vcf/FoundationKit/PackageInfo.h"
+This class provides extra information specifically for 
+shared or static libraries.
+*/
 class FOUNDATIONKIT_API PackageInfo : public ProgramInfo {
 public:
 
@@ -148,6 +152,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.3.4.1  2005/09/03 14:03:53  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

@@ -82,10 +82,25 @@ defined to use the DLL or static libraries.
 
 namespace VCF {
 
+/**
+\par
+ The OpenGLKit is used to initialize (and terminate)
+the OpenGL system on the OS the vCF is being run on.
+\par
+At the moment it doesn't need to be called, but this 
+will change in upcoming releases.
+*/
 class  OPENGLKIT_API OpenGLKit {
 public:
+	/**
+	Initializes the OpenGLKit
+	*/
 	static void init( int argc, char** argv ){;}
 
+	/**
+	Terminates the OpenGLKit, and frees any resources that were 
+	allocated by the init() call.
+	*/
 	static void terminate(){;}
 };
 
@@ -95,6 +110,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/12 22:01:46  ddiego
+*doc updates.
+*
 *Revision 1.4.2.1  2005/11/02 04:38:23  obirsoy
 *changes required for vc80 support.
 *

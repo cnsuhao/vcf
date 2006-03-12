@@ -132,16 +132,6 @@ color.setLuminosity( 123 );
 		]]></programlisting>
 		</para>
 	</section>
-
-	<section id="GK_Strokes"><title>Strokes</title>
-		<para>
-		</para>
-	</section>
-	
-	<section id="GK_Fills"><title>Fills</title>
-		<para>
-		</para>
-	</section>
 	
 	<section id="GK_Images"><title>Images</title>
 		<para>
@@ -310,7 +300,7 @@ for ( ulong32 y=0;y<image->getHeight() ) {
 		</table>
 		<note>
 			<para>
-			Anything that is marked <emphasis>not</emphasis> read-only
+			Anything that is <emphasis>not</emphasis> marked read-only
 			can be changed.
 			</para>
 		</note>
@@ -321,8 +311,7 @@ for ( ulong32 y=0;y<image->getHeight() ) {
 		GraphicsContext::setCurrentFont() method. This will <emphasis>copy</emphasis>
 		hte font's information into the GraphicsContext's member font. All text functions
 		will then use that font for drawing text till the font is changed.
-		<programlisting>
-
+		<programlisting><![CDATA[
 GraphicsContext* gc = getSomeGraphicsContext();//some function to get a GraphicsContext
 
 Font myFont;
@@ -340,31 +329,236 @@ gc->setCurrentFont( myFont );
 myFont->free();//destroy our font - we don't need it anymore
 
 gc->textAt( 12, 375, "Hello2!" );
-
-		</programlisting>
+		]]></programlisting>
 		</para>		
 	</section>
-	<section id=""><title>Paths</title>
+	<section id="GK_Paths"><title>Paths</title>
 		<para>
 		Paths represent a series of 1 or more points. The points can form a closed shape 
 		or polygon, like a circle, or rectangle, or an open shape like a line. A Path is 
 		"closed" if it has more than one point and it's end point is equal to it's starting 
-		point.
+		point. The Path class represents an interface, and you cannot create instances of 
+		it directly. Instead you need to create instances of classes that implement the
+		Path interface.
 		</para>
 		<para>
 		A Path itself is not drawn. Instead you "stroke" or "fill" the path with an 
 		imaginary brush that paints on the GraphicsContext. The various sub classes of the 
-		Stroke and Fill classes are responsible for doing the actual painting.
+		Stroke and Fill classes are responsible for doing the actual painting, see the
+		<link linkend="GK_Strokes">Strokes</link> and <link linkend="GK_Fills">Fills</link> 
+		sections for more information.
 		</para>
 		<para>
 		A Path may be transformed, using matrix math and a 3X3 matrix. Basic transformations 
-		include scaling, rotating, shearing, and translation.
-		</para>
-		
-	</section>
-	<section id=""><title>Image Loading</title>
+		include scaling, rotating, shearing, and translation. Transforms are performed using the
+		Matrix2D class which holds the tranform matrix data. 
+		</para>		
 		<para>
-		VFC supports loading of almost every image type.  Image loading is handled via 
+		The basic Path implementation is the BezierCurve class. It allows you to create
+		lines, rectangles, curves, and so on. In the future more sophisticated classes may be added,
+		and developers are free to add their own implementations if they want. Here's an example
+		of using a path:
+		<programlisting><![CDATA[		
+BezierCurve shape;
+shape.moveTo( 100, 100 );
+shape.lineTo( 300, 300 );
+shape.lineTo( 500, 300 );
+		]]></programlisting>
+		The above draws 2 lines. You can render, or paint, the Path by calling the 
+		GraphicsContext::draw() function and passing in the path.
+		<programlisting><![CDATA[		
+GraphicsContext* ctx = ...
+ctx->draw( &shape ); //paints the path
+		]]></programlisting>
+		You can transform the path quite easily:
+		<programlisting><![CDATA[		
+Matrix2D translate;
+translate.translate( -125, -400 );
+Matrix2D rotate;
+rotate.rotate( 45 );
+
+Matrix2D mat;
+mat.multiply( &translate, &rotate );
+
+BezierCurve rect;
+rect.rectangle( Rect(75,350,175,450) );
+rect.applyTransform( translate );
+
+		]]></programlisting>
+		<note>
+		Each transform operation on a Matrix2D instance resets the matrix data.
+		If you first called Matrix2D::translate(), then called Matrix2D::rotate(), the 
+		previous data in the matrices for the translate call would be erased.
+		</note>
+		</para>
+	</section>	
+	
+	<section id="GK_Transforms"><title>Transforms</title>
+		<para>
+		Transforms in the VCF are implemented as affine transformations, using a 3 X 3 matrix
+		of doubles. These are stored in the Matrix2D class, which also provides a series of methods 
+		for altering the matrix. The matrix can be applied to any kind of drawing that is performed
+		on the GraphicsContext.
+		</para>
+		<para>
+		Tha Matrix2D class allows you specify translate, scale, shear (or skew), and 
+		rotate values. It also has the ability to invert itself, and to multiply matrices 
+		together. Any time the Matrix2D functions for translation, scaling, shearing, 
+		or rotation are called, the previous data in the matrix is lost, and replaced with 
+		an identity set. 
+		</para>		
+		<para>
+		The GraphicsContext maintains a tranform matrix in it's graphics state. This 
+		matrix is used to transform coordinates for any vector drawing and image
+		drawing that happen after the matrix is changed. The GraphicsContext transform
+		can be manipulated by calling the GraphicsContext::setCurrentTransform(),
+		GraphicsContext::setRotation(), GraphicsContext::setTranslation(), 
+		GraphicsContext::setShear(), or GraphicsContext::setScale(). While GraphicsContext::setCurrentTransform()
+		replaces the entire transform, the other functions set a specific value in the graphics
+		state, and then all the various transform values (rotation, scaling, shearing,
+		and translation) are then concatenated, or multiplied, together to form the 
+		current transform matrix. If you have a specific series of values that you want
+		multiplied together in a specific order, then you should do so using your own
+		Matrix2D instance, and then set the whole transform at once, and not call
+		the individual setXXX methods of the GraphicsContext.
+		</para>
+	</section>
+	
+	<section id="GK_Strokes"><title>Strokes</title>
+		<para>
+		The Stroke class is use to paint a "stroke" or outline along a 
+		<link linkend="GK_Paths">Path</link>. The GraphicsContext graphics state 
+		has a current stroke, which points to some instance of a Stroke class
+		or NULL, which is it's intial value . You don't create instance of the 
+		Stroke class directly, it's an interface. Instead you create an instance 
+		of classes that derive from and implement the Stroke interface. Strokes 
+		may or may not support anti-aliasing, though with the presence of the 
+		<ulink url="">AGG library</ulink> in the VCF, developers of Stroke 
+		classes are encouraged to use it to provide anti-aliased support.
+		</para>
+		<para>
+		A Stroke is used only when the GraphicsContext::draw() function is called
+		and passed a Path instance. This triggers the context to use the current 
+		Stroke. If the current Stroke is NULL, then no outline will be painted for 
+		the path. No other primitive functions, like GraphicsContext::moveTo(),
+		GraphicsContext::lineTo(), GraphicsContext::rectangle(), etc make use of 
+		the graphics states current Stroke (or Fill) instances. 
+		</para>
+		<section id="Stroke_Usage"><title>Usage</title>
+		<para>
+		The stroke can be changed on a GraphicsContext by calling the 
+		GraphicsContext::setCurrentStroke() function, and passing a pointer
+		to a Stroke instance. Keep in mind that the GraphicsContext does 
+		<emphasis>not</emphasis> retain the pointer, instead it's the caller's 
+		responsibility to free memory when they are through with the Stroke.
+		It's also a good idea to reset the GraphicsContext's stroke to 
+		NULL when you've deleted your Stroke instance. It's perfectably 
+		acceptable to have Stroke instances allocated on the stack instead
+		of using the heap. 
+		</para>
+		<para>
+		The default stroke implementation provided is the BasicStroke class. It 
+		supports anti-aliased rendering through AGG, and has several other
+		settings that can be modified, such as the opacity, dashing, color,
+		and width. 
+		<note>
+		Some settings only take effect if the drawing is taking place on a 
+		GraphicsContext	that has anti-aliasing turned on.
+		</note>
+		Here's a simple example:
+		<programlisting><![CDATA[
+GraphicsContext* ctx = ....
+BasicStroke bs;
+bs.setWidth( 3 );
+ctx->setCurrentStroke( &bs );
+BezierCurve shape;
+shape.moveTo( 100, 100 );
+shape.lineTo( 300, 300 );
+shape.lineTo( 500, 300 );
+ctx->draw( &shape );
+ctx->setCurrentStroke( NULL );
+		]]></programlisting>
+		
+		</para>
+		</section>
+		<section id="Stroke_Impl"><title>Implementation</title>
+		<para>
+		There are no set rules for how to implement the Stroke interface.
+		The primary function to implement is the Stroke::render() function
+		which will pass the stroke a Path instance. The Path will already 
+		have been transformed by the GraphicsContext's transform matrix.
+		</para>
+		</section>		
+	</section>
+	
+	<section id="GK_Fills"><title>Fills</title>
+		<para>
+		The Fill class is use to fill in the area in between a 
+		<link linkend="GK_Paths">Path</link>. The GraphicsContext graphics state 
+		has a current fill, which points to some instance of a Fill class
+		or NULL, which is it's intial value . You don't create instance of the 
+		Fill class directly, it's an interface. Instead you create an instance 
+		of classes that derive from and implement the Fill interface. Fills 
+		may or may not support anti-aliasing, though with the presence of the 
+		<ulink url="">AGG library</ulink> in the VCF, developers of Fill 
+		classes are encouraged to use it to provide anti-aliased support.
+		</para>
+		<para>
+		A Fill is used only when the GraphicsContext::draw() function is called
+		and passed a Path instance. This triggers the context to use the current 
+		fill. If the current fill is NULL, then the path will not be filled. No 
+		other primitive functions, like GraphicsContext::moveTo(), 
+		GraphicsContext::lineTo(), GraphicsContext::rectangle(), etc make use of 
+		the graphics states current Fill (or Stroke) instances. 
+		</para>
+		<section id="Fill_Usage"><title>Usage</title>
+		<para>
+		The fill can be changed on a GraphicsContext by calling the 
+		GraphicsContext::setCurrentFill() function, and passing a pointer
+		to a Fill instance. Keep in mind that the GraphicsContext does 
+		<emphasis>not</emphasis> retain the pointer, instead it's the caller's 
+		responsibility to free memory when they are through with the Fill.
+		It's also a good idea to reset the GraphicsContext's fill to 
+		NULL when you've deleted your Fill instance. It's perfectably 
+		acceptable to have Fill instances allocated on the stack instead
+		of using the heap. 
+		</para>
+		<para>
+		The default fill implementation provided is the BasicFill class. It 
+		supports anti-aliased rendering through AGG, and has several other
+		settings that can be modified, such as the opacity and color.
+		<note>
+		Some settings only take effect if the drawing is taking place on a 
+		GraphicsContext	that has anti-aliasing turned on.
+		</note>
+		Here's a simple example:
+		<programlisting><![CDATA[
+GraphicsContext* ctx = ....
+BasicFill bf;
+ctx->setCurrentFill( &bf );
+BezierCurve shape;
+shape.moveTo( 100, 100 );
+shape.lineTo( 300, 300 );
+shape.lineTo( 500, 300 );
+ctx->draw( &shape );
+ctx->setCurrentFill( NULL );
+		]]></programlisting>
+		
+		</para>
+		</section>
+		<section id="Fill_Impl"><title>Implementation</title>
+		<para>
+		There are no set rules for how to implement the Fill interface.
+		The primary function to implement is the Fill::render() function
+		which will pass the stroke a Path instance. The Path will already 
+		have been transformed by the GraphicsContext's transform matrix.
+		</para>
+		</section>	
+	</section>
+	
+	<section id="ImageLoading"><title>Image Loading</title>
+		<para>
+		The VFC GraphicsKit supports loading of almost every image type.  Image loading is handled via 
 		mime types.  The available image types are: PNG, JPEF, TIFF, KOALA, LBM, MNG, PCD, 
 		PCX, PNM, PSD, RAS, and TARGA. On Win32 systems BMP is also supported. Image types
 		other than BMP use the FreeImage library.
@@ -442,10 +636,7 @@ ImageLoader* GraphicsToolkit::getImageLoaderForFileName( const String& fileName 
 		in this case.
 		</note>
 	</section>
-	<section id=""><title>Transforms</title>
-		<para>
-		</para>
-	</section>
+	
 	
 	<section id=""><title>Exceptions</title>
 		<para>
@@ -461,6 +652,9 @@ ImageLoader* GraphicsToolkit::getImageLoaderForFileName( const String& fileName 
 <!--
 CVS Log info
 $Log$
+Revision 1.4.2.4  2006/03/12 22:01:34  ddiego
+doc updates.
+
 Revision 1.4.2.3  2006/03/10 21:49:27  ddiego
 updates to color example and some documentation.
 

@@ -103,7 +103,7 @@ where you installed the VCF.
 
 namespace VCF{
 	/**
-	\par
+	\class FoundationKit FoundationKit.h "vcf/FoundationKit/FoundationKit.h"
 	The FoundationKit class is used to initialize the Foundation Kit runtime.
 	This includes registering the basic classes in the runtime system, such as the 
 	correct SystemToolkit implementation, and the ClassRegistry.
@@ -495,6 +495,9 @@ that someone will be able to relate to your concern.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.6.2.4  2006/03/10 21:49:33  ddiego
 *updates to color example and some documentation.
 *

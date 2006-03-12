@@ -18,6 +18,7 @@ namespace VCF
 {
 
 /**
+\class FileStreamPeer FileStreamPeer.h "vcf/FoundationKit/FileStreamPeer.h"
 *FileStreamPeer is a basic file stream interface to wrap native file IO OS calls.
 *Under Win32 this will involve calls to ReadFile() and WriteFile,
 *among others.
@@ -77,6 +78,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

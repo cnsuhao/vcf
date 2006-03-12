@@ -22,7 +22,7 @@ namespace VCF  {
 class NotifyEvent;
 
 /**
-\par
+\class ObjectWithEvents ObjectWithEvents.h "vcf/FoundationKit/ObjectWithEvents.h"
 ObjectWithEvents is an object that may
 have 0 or more EventHandlers associated with it,
 and will automatically clean up these EventHandlers
@@ -122,6 +122,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.6.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.3.6.1  2005/08/08 03:19:17  ddiego
 *minor updates
 *

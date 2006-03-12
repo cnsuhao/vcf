@@ -17,6 +17,7 @@ where you installed the VCF.
 namespace VCF  {
 
 /**
+\class ConditionPeer ConditionPeer.h "vcf/FoundationKit/ConditionPeer.h"
 *Class ConditionPeer documentation
 */
 class FOUNDATIONKIT_API ConditionPeer {
@@ -41,6 +42,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.3  2005/01/02 03:04:22  ddiego
 *merged over some of the changes from the dev branch because they're important resoource loading bug fixes. Also fixes a few other bugs as well.
 *

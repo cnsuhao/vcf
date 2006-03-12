@@ -2332,12 +2332,37 @@ String s = f.commonBarRepository;
 			headers. Document your classes. More documentation is better that 
 			no documentation. Be as clear and concise as possible in explaining 
 			what something does. You can and should use html markup tags for further 
-			clarity, for example the &lt;B&gt; tag to emphasize some point or word. 
-			Also where applicable, feel free to put a sample piece of code that 
-			illustrates proper usage. Use the &lt;PRE&gt; tags for this. Note that you can 
+			clarity, for example the &lt;B&gt; tag to emphasize some point or word,
+			or use the "\em" doxy tag for this. Also where applicable, feel free to put 
+			a sample piece of code that illustrates proper usage. Use the &lt;PRE&gt; tags 
+			for this. Note that you can 
 			also use the doxygen <ulink url="http://www.stack.nl/~dimitri/doxygen/commands.html#cmdcode">
 			"\code"</ulink> and <ulink url="http://www.stack.nl/~dimitri/doxygen/commands.html#cmdendcode">
-			"\endcode"</ulink> tags as well.
+			"\endcode"</ulink> tags as well. 
+			</para>
+			<para>
+			The preferred format for documenting a class is to use the doxygen command
+			"\class" to specify the class name and it's proper include file, followed 
+			by the first paragraph with <emphasis>no</emphasis> "\par" command. Successive
+			paragraphs need to use the "\par" command. Doing so ensures that the doxygen
+			properly picks up you first sentence for use in it's "brief" comments section
+			for your class. For example:
+			<programlisting><![CDATA[
+/**
+\class FooBar FooBar.h "vcf/FoundationKit/FooBar.h"
+Initial paragraph explaining what this class does.
+\par
+Further paragraphs explaining what this does...
+*/
+class FooBar {
+//rest of code omitted...
+};
+			]]></programlisting>
+			The last part of the "\class" command specifies the directory path of the
+			include file. If you are adding a new class to on the VCF kits, then the 
+			proper format is "vcf/" plus the kit name, followed by the actual header
+			file name. So if you added a new CalendarControl to the ApplicationKit,
+			the path would be "vcf/ApplicationKit/CalendarControl.h".
 			</para>
 			<para>
 			Do not pollute the code, particularly the headers, with tons of "//" 
@@ -2740,6 +2765,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.11  2006/03/12 22:01:34  ddiego
+doc updates.
+
 Revision 1.6.2.10  2006/03/08 22:07:18  ddiego
 update for bakefiles.
 

@@ -17,6 +17,7 @@ where you installed the VCF.
 namespace VCF {
 
 /**
+\class VariantDataInputStream VariantDataStream.h "vcf/FoundationKit/VariantDataStream.h"
 *The VariantDataInputStream is used to read
 *a VariantData object from an InputStream source.
 */
@@ -158,6 +159,7 @@ private:
 };
 
 /**
+\class VariantDataOutputStream VariantDataStream.h "vcf/FoundationKit/VariantDataStream.h"
 *The VariantDataOutputStream is used to write a
 *VariantData object to an OutputStream source.
 */
@@ -304,6 +306,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/12 22:01:44  ddiego
+*doc updates.
+*
 *Revision 1.3.2.2  2006/02/23 01:41:58  ddiego
 *some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
 *

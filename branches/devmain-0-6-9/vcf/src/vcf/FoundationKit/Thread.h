@@ -22,7 +22,7 @@ class RunLoop;
 
 
 /**
-\par
+\class Thread Thread.h "vcf/FoundationKit/Thread.h"
 The Thread class represents a thread of execution in a process.
 A Thread object can automatically delete itself if neccessary.
 A Thread can either be derived from and the run() method overridden,
@@ -268,6 +268,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.5  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

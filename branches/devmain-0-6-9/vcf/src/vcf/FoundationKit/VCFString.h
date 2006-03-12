@@ -24,7 +24,7 @@ class TextCodec;
 
 
 /**
-\par
+\class UnicodeString VCFString.h "vcf/FoundationKit/VCFString.h"
 The UnicodeString class represents a thin wrapper around the
 std::basic_string class since std::basic_string cannot
 be derived from (it has no virtual destructor). The
@@ -1097,6 +1097,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/03/12 22:01:44  ddiego
+*doc updates.
+*
 *Revision 1.4.2.4  2005/11/30 05:31:36  ddiego
 *further osx drag-drop updates.
 *

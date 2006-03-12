@@ -16,6 +16,9 @@ where you installed the VCF.
 
 namespace VCF {
 
+/**
+\class ThreadEvent ThreadEvent.h "vcf/FoundationKit/ThreadEvent.h"
+*/
 class FOUNDATIONKIT_API ThreadEvent : public Event{
 public:
 	ThreadEvent( Object* source );
@@ -36,6 +39,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.2  2004/08/07 02:49:15  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

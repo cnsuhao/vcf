@@ -21,6 +21,7 @@ where you installed the VCF.
 namespace VCF {
 
 /**
+\class ProcessPeer ProcessPeer.h "vcf/FoundationKit/ProcessPeer.h"
 *a peer class that wraps working with processes
 *on OS's
 */
@@ -73,6 +74,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.4.2.1  2005/11/28 21:01:06  ddiego
 *added wait function to process class. added stubs for linux.
 *

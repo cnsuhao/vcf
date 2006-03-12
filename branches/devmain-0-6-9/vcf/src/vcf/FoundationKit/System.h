@@ -26,6 +26,7 @@ class ResourceBundle;
 class Format;
 
 /**
+\class System System.h "vcf/FoundationKit/System.h"
 The System object represents basic lower level OS functions. 
 The System instance is a singleton, and may not be created or 
 deleted directly. Instead the FunctionKit::init() and FoundationKit::terminate()
@@ -524,6 +525,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.4  2006/03/12 22:01:41  ddiego
+*doc updates.
+*
 *Revision 1.8.2.3  2006/02/19 06:50:31  ddiego
 *minor updates.
 *

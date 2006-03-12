@@ -431,12 +431,6 @@ public:
 
 
 
-	/**
-	returns current transform matrix for this GraphicsContext instance.
-	Before the matrix is returned, a new matrix is created and then multiplied
-	into the final transform matrix. These matrices represent the various trnasform
-	values (i.e. theta_, scaleX_, etc)
-	*/
 	void setCurrentTransform( const Matrix2D& transform );
 
 	Matrix2D* getCurrentTransform( );
@@ -822,6 +816,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.4  2006/03/12 22:01:45  ddiego
+*doc updates.
+*
 *Revision 1.7.2.3  2006/03/01 04:34:57  ddiego
 *fixed tab display to use themes api.
 *

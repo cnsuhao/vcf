@@ -41,7 +41,7 @@ class Field;
 #define CLASS_STRING		"string"
 
 /**
-\par
+\class Class Class.h "vcf/FoundationKit/Class.h"
 Class is the base class for all RTTI in the Framework. Class was written
 because C++ RTTI is shockingly primitive, and many of these features are
 found in other OO languages (i.e. ObjectPascal, ObjectiveC, SmallTalk, 
@@ -411,6 +411,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.3.2.1  2006/02/23 01:41:57  ddiego
 *some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
 *

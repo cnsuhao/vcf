@@ -22,7 +22,7 @@ class MessageLoader;
 
 
 /**
-\par
+\class Locale Locales.h "vcf/FoundationKit/Locales.h"
 A locale instance represents the cultural data used to convert data to string
 in manner appropriate to the language and country. Each locale is identified
 by a language and a country code, where the language code is one of the possible
@@ -823,6 +823,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.2  2004/08/07 02:49:13  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

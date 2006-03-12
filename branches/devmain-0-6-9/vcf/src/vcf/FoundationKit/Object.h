@@ -23,8 +23,8 @@ class Mutex;
 #define OBJECT_CLASSID		"ED88C099-26AB-11d4-B539-00C04F0196DA"
 
 /**
-\par
-Base class for entire Visual Component Framework.
+\class Object Object.h "vcf/FoundationKit/Object.h"
+Base class for the entire Visual Component Framework.
 New as of July 5,2001, Object will also support
 refcounting for those who need this kind of support.
 There are several places in the ApplicationKit that will need to make use
@@ -342,6 +342,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.4.2.2  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *

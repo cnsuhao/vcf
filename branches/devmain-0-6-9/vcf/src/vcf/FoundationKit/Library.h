@@ -19,7 +19,8 @@ namespace VCF {
 class LibraryPeer;
 
 /**
-A Library represnts a DLL (Dynamic Linked Library) or SO (Shared Object). 
+\class Library Library.h "vcf/FoundationKit/Library.h"
+A Library represents a DLL (Dynamic Linked Library) or SO (Shared Object). 
 It can be created by passing in a fully qualified file name to the constructor. 
 The specified DLL/SO will then be dynamically loaded (and unloaded when the
 Library obejct is destroyed if autoUnloadLib is true).
@@ -86,6 +87,9 @@ private:
 /**
 CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/03/12 22:01:40  ddiego
+*doc updates.
+*
 *Revision 1.5  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *
