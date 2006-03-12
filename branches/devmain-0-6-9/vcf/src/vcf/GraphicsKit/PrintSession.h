@@ -11,7 +11,7 @@ namespace VCF {
 
 
 	/**
-	\par
+	\class PrintSession PrintSession.h "vcf/GraphicsKit/PrintSession.h"
 	The PrintSession is the core printing class. You use it to 
 	set things up with default attributes, to start printing, to
 	end printing, to start a new page, and to end the page.

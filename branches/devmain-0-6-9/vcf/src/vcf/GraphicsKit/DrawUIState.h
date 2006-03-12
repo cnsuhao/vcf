@@ -17,6 +17,7 @@ where you installed the VCF.
 namespace VCF {
 
 /**
+\class DrawStates DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
 A set of values for different states. These are masked together to form a 
 single value that represents the actual state of a UI element such as a
 button.
@@ -175,7 +176,7 @@ public:
 };
 
 /**
-\par
+\class DrawUIState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
 The DrawUIState is a utility class to make it easy to indicate the user interface state of 
 a GUI element, such as a button. The base settings indicate whether the element is active,
 enabled, focused, or highlighted.
@@ -248,7 +249,9 @@ protected:
 	long state_;
 };
 
-
+/**
+\class BackgroundState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class BackgroundState : public DrawUIState {
 public:
 	
@@ -262,7 +265,9 @@ public:
 	
 };
 
-
+/**
+\class MenuState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class MenuState : public DrawUIState {
 public:
 	MenuState() : DrawUIState(), keyCode_(vkUndefined), modifierMask_(0){}
@@ -313,6 +318,9 @@ public:
 	String menuCaption_;
 };
 
+/**
+\class ButtonState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class ButtonState : public DrawUIState {
 public:
 	bool isPressed() const {
@@ -360,7 +368,9 @@ public:
 	String buttonCaption_;
 };
 
-
+/**
+\class DisclosureButtonState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class DisclosureButtonState : public DrawUIState {
 public:
 	bool isClosed() const {
@@ -407,7 +417,9 @@ public:
 };
 
 
-
+/**
+\class ProgressState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class ProgressState : public DrawUIState {
 public:
 	ProgressState():min_(0.0),max_(100.0),position_(0.0){};
@@ -462,7 +474,9 @@ public:
 };
 
 
-
+/**
+\class SliderState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class SliderState : public DrawUIState {
 public:
 	SliderState():min_(0.0),max_(100.0),position_(0.0),tickMarkFrequency_(10.0){};
@@ -531,7 +545,9 @@ public:
 
 
 
-
+/**
+\class ScrollBarState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class ScrollBarState : public DrawUIState {
 public:
 	ScrollBarState(): min_(0.0), max_(0.0), position_(0.0), viewSize_(0.0), buttonType_(sbNone){};
@@ -627,6 +643,9 @@ public:
 
 
 
+/**
+\class TabState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class TabState : public DrawUIState {
 public:
 	bool isPressed() const {
@@ -696,6 +715,9 @@ public:
 
 
 
+/**
+\class TextState DrawUIState.h "vcf/GraphicsKit/DrawUIState.h"
+*/
 class TextState : public DrawUIState {
 public:
 	TextState(): DrawUIState(), themeFontType_(0),wrapText_(false){}
@@ -727,6 +749,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/03/12 22:42:07  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.5.2.3  2006/02/21 04:32:51  ddiego
 *comitting moer changes to theme code, progress bars, sliders and tab pages.
 *

@@ -23,6 +23,7 @@ class Color;
 
 
 /**
+\class FontPeer FontPeer.h "vcf/GraphicsKit/FontPeer.h"
 *Represents the native windowing system's representation of a Font.
 */
 class GRAPHICSKIT_API FontPeer {
@@ -104,6 +105,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.4  2005/07/09 23:05:58  ddiego
 *added missing gtk files
 *

@@ -415,6 +415,7 @@ namespace VCF {
 #define IMAGEBITS_CLASSID		"ED88C098-26AB-11d4-B539-00C04F0196DA"
 
 /**
+\class ImageBits ImageBits.h "vcf/GraphicsKit/ImageBits.h"
 @deprecated - Don't use this class anymore - it will be removed 
 after the 0-7-0 release.
 */
@@ -473,6 +474,9 @@ public :
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.4.2.2  2005/11/02 04:38:23  obirsoy
 *changes required for vc80 support.
 *

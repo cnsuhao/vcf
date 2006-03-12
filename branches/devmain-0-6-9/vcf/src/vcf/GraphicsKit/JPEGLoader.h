@@ -15,7 +15,10 @@ where you installed the VCF.
 
 
 namespace VCF {
-
+/**
+\class JPEGLoader JPEGLoader.h "vcf/GraphicsKit/JPEGLoader.h"
+A class for built in support for reading and writing JPEG images.
+*/
 class GRAPHICSKIT_API JPEGLoader : public Object, public ImageLoader {
 public:
 	JPEGLoader();

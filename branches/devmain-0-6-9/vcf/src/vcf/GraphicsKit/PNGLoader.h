@@ -14,7 +14,10 @@ where you installed the VCF.
 
 
 namespace VCF {
-
+/**
+\class PNGLoader PNGLoader.h "vcf/GraphicsKit/PNGLoader.h"
+A class for built in support for reading and writing PNG images.
+*/
 class GRAPHICSKIT_API PNGLoader : public Object, public ImageLoader {
 public:
 	PNGLoader();

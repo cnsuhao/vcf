@@ -36,6 +36,7 @@ class BackgroundState;
 class TextState;
 
 /**
+\class ContextPeer ContextPeer.h "vcf/GraphicsKit/ContextPeer.h"
 *The ContextPeer serves as a platform neutral interface
 *for a set of standard drawing methods that should provide
 *the following functionality:
@@ -303,6 +304,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2006/03/12 22:42:07  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.6.2.2  2006/03/01 04:34:57  ddiego
 *fixed tab display to use themes api.
 *

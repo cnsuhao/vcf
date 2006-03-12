@@ -18,7 +18,7 @@ where you installed the VCF.
 
 
 /**
-\par
+\class PrintContext PrintContext.h "vcf/GraphicsKit/PrintContext.h"
 This represents the printing context, used for drawing when printing is being invoked.
 You can see this in action in the Printing and TextEdit examples in vcf/examples/Printing
 and vcf/examples/TextEdit respectively.
@@ -43,6 +43,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.5  2005/01/02 03:04:26  ddiego
 *merged over some of the changes from the dev branch because they're important resoource loading bug fixes. Also fixes a few other bugs as well.
 *

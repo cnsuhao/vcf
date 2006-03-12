@@ -67,8 +67,8 @@ namespace VCF {
 class Color;
 
 /**
-ColorSpace
-class managing all the color transformations between different color spaces
+\class ColorSpace Color.h "vcf/GraphicsKit/Color.h"
+A class for managing all the color transformations between different color spaces
 
 \par
 ColorSpace interface
@@ -326,6 +326,7 @@ public:
 #define COLOR_CLASSID	"AA34A97B-8294-4697-857D-398FB355EB2D"
 
 /**
+\class Color Color.h "vcf/GraphicsKit/Color.h"
 Color class documentation
 */
 class GRAPHICSKIT_API Color : public VCF::Object {
@@ -1306,6 +1307,7 @@ inline void Color::getInvertedRGB16( uint16& r, uint16& g, uint16& b ) const {
 
 
 /**
+\class ColorNames Color.h "vcf/GraphicsKit/Color.h"
 struct with all color names not included by VCF:
 they are essentially grays
 we need to instantiate it somewhere: unfortunately non-integer constant have no external
@@ -2252,6 +2254,9 @@ inline ulong32 ColorSpace::changeHue( const ulong32& color, const double& deltaH
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/12 22:42:07  ddiego
+*more doc updates - specific to graphicskit.
+*
 *Revision 1.5.2.1  2006/03/10 21:49:33  ddiego
 *updates to color example and some documentation.
 *
