@@ -404,6 +404,28 @@ doxy_hh : doxy_html/index.hhp
 	mv doxy_html/$(VERSIONED_SRC_CHI_FILENAME) ./
 	
 
+mshelp2_doxy_hh : 
+	cp Doxyfile_mshelp2 Doxyfile_mshelp2.bak
+	sed "s?VERSION-NUMBER?$(VERSION)?g" Doxyfile_mshelp2 > Doxyfile_mshelp2.tmp
+	mv Doxyfile_mshelp2.tmp Doxyfile_mshelp2
+	doxygen Doxyfile_mshelp2
+	mv Doxyfile_mshelp2.bak Doxyfile_mshelp2
+	cp -r gfx/ doxy_mshelp2_html/
+	cp vcf.css doxy_mshelp2_html/
+	cp vcf_tabs.css doxy_mshelp2_html/
+
+mshelp2_coredocs :  $(VCF_DOCS) test_tools
+	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
+	cp vcf_book.xml vcf_book.xml.bak
+	mv vcf_book.xml.tmp vcf_book.xml
+	xsltproc --nonet vcf.xsl vcf_docbook.xml
+	mv vcf_book.xml.bak vcf_book.xml
+
+mshelp2_coredocs_hh : mshelp2_coredocs vcf-docbook.hhp 
+	-$(HTMLHELP_COMPILER) vcf-docbook.hhp
+	mv $(RAW_CHM_FILENAME) $(VERSIONED_CHM_FILENAME)
+	mv $(RAW_CHI_FILENAME) $(VERSIONED_CHI_FILENAME)
+
 #dist : coredocs hh 
 #	find *.html > files.out
 #	find gfx/ -type f -name '*' > images.out
@@ -477,6 +499,8 @@ dist : dist_all_online alldocs_hh_with_source dist_all
 clean :
 	mv doxy_footer.html doxy_footer.html.bak
 	mv doxy_header.html doxy_header.html.bak
+	mv doxy_header.mshelp2.html doxy_header.mshelp2.html.bak
+	mv doxy_footer.mshelp2.html doxy_footer.mshelp2.html.bak
 	rm -f *.html
 	rm -f $(HTML_TAR_FILENAME).gz
 	rm -f $(HTML_ONLINE_TAR_FILENAME).gz
@@ -490,11 +514,16 @@ clean :
 	rm -f hrefmunger hrefmunger.o
 	mv doxy_footer.html.bak doxy_footer.html
 	mv doxy_header.html.bak doxy_header.html
+	mv doxy_header.mshelp2.html.bak doxy_header.mshelp2.html
+	mv doxy_footer.mshelp2.html.bak doxy_footer.mshelp2.html
 
 
 
 ###############################################################################
 #$Log$
+#Revision 1.19.2.4  2006/03/13 12:31:48  dougtinkham
+#added targets for MSHelp2
+#
 #Revision 1.19.2.3  2006/03/12 22:01:33  ddiego
 #doc updates.
 #
