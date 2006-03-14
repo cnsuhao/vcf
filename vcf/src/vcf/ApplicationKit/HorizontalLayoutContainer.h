@@ -23,6 +23,9 @@ namespace VCF {
 
 #define HORIZONTALLAYOUTCONTAINER_CLASSID		"11aab5e2-36d2-47c7-9391-c40b185d6b9e"
 
+/**
+\class HorizontalLayoutContainer HorizontalLayoutContainer.h "vcf/ApplicationKit/HorizontalLayoutContainer.h"
+*/
 class HorizontalLayoutContainer : public StandardContainer {
 public:
 
@@ -340,6 +343,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.1  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

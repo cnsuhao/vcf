@@ -21,6 +21,7 @@ class Control;
 class Scrollable;
 
 /**
+\class ScrollPeer ScrollPeer.h "vcf/ApplicationKit/ScrollPeer.h"
 *Class ScrollPeer documentation
 */
 class APPLICATIONKIT_API ScrollPeer : public Interface {
@@ -129,6 +130,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

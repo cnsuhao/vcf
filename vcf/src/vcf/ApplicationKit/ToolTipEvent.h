@@ -22,8 +22,12 @@ class GraphicsContext;
 
 
 
-//Class ToolTipEvent documentation
-
+/**
+\class ToolTipEvent ToolTipEvent.h "vcf/ApplicationKit/ToolTipEvent.h" 
+The tooltip event is fired when tooltip text is being requested and/or 
+just before the tooltip is ready to be shown, allowing the 
+handler to customize the tooltip's data or presentation.
+*/
 class APPLICATIONKIT_API ToolTipEvent : public Event {
 public:
 	ToolTipEvent( Object* source, const ulong32& type ):
@@ -164,6 +168,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

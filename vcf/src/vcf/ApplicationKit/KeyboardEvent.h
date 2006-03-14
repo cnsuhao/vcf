@@ -36,6 +36,9 @@ enum KeyboardMasks{
 
 
 
+/**
+\class KeyboardEvent KeyboardEvent.h "vcf/ApplicationKit/KeyboardEvent.h"
+*/
 class APPLICATIONKIT_API KeyboardEvent : public Event {
 public:
 
@@ -108,6 +111,7 @@ private:
 
 
 /**
+\class KeyboardEventHandler KeyboardEvent.h "vcf/ApplicationKit/KeyboardEvent.h"
 *KeyboardEventHandler
 *handles the following:
 *onKeyPressed
@@ -133,6 +137,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.2  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

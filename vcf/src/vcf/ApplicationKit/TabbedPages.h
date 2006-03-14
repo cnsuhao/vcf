@@ -41,6 +41,9 @@ namespace VCF  {
 
 #define TABBEDPAGES_CLASSID		"4A9D66D6-3B26-11d4-B54C-00C04F0196DA"
 
+/**
+\class TabbedPages TabbedPages.h "vcf/ApplicationKit/TabbedPages.h"
+*/
 class APPLICATIONKIT_API TabbedPages : public CustomControl, public DelegatedContainer<TabbedPages> {
 public:
 
@@ -112,6 +115,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.4.1  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *

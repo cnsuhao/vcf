@@ -32,7 +32,19 @@ class Dictionary;
 
 
 #define TEXTCONTROL_CLASSID			"ED88C09E-26AB-11d4-B539-00C04F0196DA"
-
+/**
+\class TextControl TextControl.h "vcf/ApplicationKit/TextControl.h"
+The base class for presenting text to the user. The text can be 
+plain text, or styled text, i.e. text with multiple styles.
+\par
+The TextControl is only for editing or presenting a single line of text.
+For editing multiple lines of text, please see the MultilineTextControl.
+\par
+All text controls contain a TextModel, that stores the actual text 
+data.
+@see MultilineTextControl
+@see TextModel
+*/
 class APPLICATIONKIT_API TextControl : public Control {
 public:
 
@@ -241,6 +253,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.1  2006/02/22 05:00:40  ddiego
 *some minor text updates to support toggling word wrap.
 *

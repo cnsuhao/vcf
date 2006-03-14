@@ -25,7 +25,9 @@ class TableItemEditor;
 
 #define TABLECELLITEM_CLASSID		"53EA0BA2-7068-11d4-8F12-00207811CFAB"
 
-/** @interface */
+/**
+\class TableCellItem TableCellItem.h "vcf/ApplicationKit/TableCellItem.h"
+*/
 class APPLICATIONKIT_API TableCellItem : public Item {
 public:
 
@@ -121,6 +123,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.2.1  2005/09/03 14:03:52  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

@@ -27,7 +27,9 @@ namespace VCF{
 class ListModel;
 
 #define DEFAULTLISTITEM_CLASSID		"ED88C0AC-26AB-11d4-B539-00C04F0196DA"
-
+/**
+\class DefaultListItem DefaultListItem.h "vcf/ApplicationKit/DefaultListItem.h"
+*/
 class APPLICATIONKIT_API DefaultListItem : public ListItem {
 public:
 
@@ -120,6 +122,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.1  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

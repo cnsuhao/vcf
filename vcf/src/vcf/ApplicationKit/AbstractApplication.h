@@ -27,6 +27,7 @@ class Dialog;
 class AcceleratorKey;
 
 /**
+\class AbstractApplication AbstractApplication.h "vcf/ApplicationKit/AbstractApplication.h"
 *An AbstractApplication is a base class for deriving new application types
 *Currently there are two main types, standard Application classes, which
 *represent the current process the application is associated with and of which there
@@ -178,6 +179,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.5.2.2  2005/10/11 00:54:51  ddiego
 *added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
 *

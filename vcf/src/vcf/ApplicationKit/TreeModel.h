@@ -21,7 +21,7 @@ class TreeItem;
 
 
 /**
-*
+\class TreeModel TreeModel.h "vcf/ApplicationKit/TreeModel.h" 
 */
 class APPLICATIONKIT_API TreeModel  {
 public:
@@ -71,6 +71,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.5  2005/07/09 23:14:56  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

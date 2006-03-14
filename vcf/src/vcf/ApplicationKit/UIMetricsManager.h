@@ -21,6 +21,7 @@ where you installed the VCF.
 
 namespace VCF {
 	/**
+	\class UIMetricsManager UIMetricsManager.h "vcf/ApplicationKit/UIMetricsManager.h"  
 	A utility class to retrieve standard ui element metrics. 
 	\par
 	The Win32 implementation takes XP theming into account, 
@@ -265,6 +266,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *

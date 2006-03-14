@@ -66,7 +66,9 @@ class ItemEvent;
 class TableItemEditor;
 
 
-
+/**
+\class TableCellClickEvent TableControl.h "vcf/ApplicationKit/TableControl.h"
+*/
 class APPLICATIONKIT_API TableCellClickEvent : public Event {
 public:
 	TableCellClickEvent( Object* source, const ulong32& type, const CellID& cell ):
@@ -80,7 +82,9 @@ public:
 	CellID cell_;
 };
 
-
+/**
+\class CellRange TableControl.h "vcf/ApplicationKit/TableControl.h"
+*/
 class APPLICATIONKIT_API CellRange {
 public:
 
@@ -192,19 +196,27 @@ protected:
 
 
 /**
+\class TableControl TableControl.h "vcf/ApplicationKit/TableControl.h"
+This class if for presenting data in a tabular format. You can 
+adjust the number of rows and columns, as well as various formatting 
+features. You can also have custom editors for editing individual
+cells.
+\par
 Originally started as a basic table control, I quickly realized what an ordeal
 this was going to turn into, and I began looking at Chris Maunder's excellent
 CGridCtrl class. At this point, much of the original code that I wrote has
 been completely dismantled, and in it's place I have ported over most of the
-basic design/layout/algorithms from the CGridCtrl. The original CGridCtrl was
-written for MFC, and has a number of very Win32-ish designs implicit in it.
-These have been heavily changed to fit within the VCF way of doing things.
-For example, the original TableControl made use of a TableModel with TableCellItem's
-to represent an individual cell. This is still the case and in migrating over
-to Chris's code, I had to make allowances for this, since his control doesn't
-separate the model/data from the control itself (though he does use a CGridCell
-class for the cell items). In addition most of the enumerations and all of the
-function names have been changed, again to fit in with the VCF's coding standards.
+basic design/layout/algorithms from the CGridCtrl. 
+\par
+The original CGridCtrl was written for MFC, and has a number of very 
+Win32-ish designs implicit in it. These have been heavily changed to fit 
+within the VCF way of doing things. For example, the original TableControl 
+made use of a TableModel with TableCellItem's to represent an individual cell. 
+This is still the case and in migrating over to Chris's code, I had to make 
+allowances for this, since his control doesn't separate the model/data from the 
+control itself (though he does use a CGridCell class for the cell items). In 
+addition most of the enumerations and all of the function names have been 
+changed, again to fit in with the VCF's coding standards.
 */
 class APPLICATIONKIT_API TableControl : public CustomControl, public DelegatedContainer<TableControl> {
 public:
@@ -616,6 +628,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.2.1  2005/09/03 14:03:52  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

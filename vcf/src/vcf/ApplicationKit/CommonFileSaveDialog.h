@@ -22,9 +22,19 @@ where you installed the VCF.
 namespace VCF {
 
 class Control;
-
+/**
+\class CommonFileSaveDialog CommonFileSaveDialog.h "vcf/ApplicationKit/CommonFileSaveDialog.h"
+This class is used to display a common or standard file save dialog. 
+*/
 class APPLICATIONKIT_API CommonFileSaveDialog : public VCF::CommonFileDialog {
 public:
+	/**
+	Creates a file save dialog. If the owner is NULL then the dialog is 
+	non modal. If the owner is \em not NULL then the dialog is modal
+	relative to the control that started it. For most cases you 
+	do \em not want to pass in a NULL owner. You can 
+	also specify the directory to start in.
+	*/
 	CommonFileSaveDialog( Control* owner=NULL, const String& startDir = "" );
 
 	virtual ~CommonFileSaveDialog();
@@ -41,6 +51,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.1.2.1  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *

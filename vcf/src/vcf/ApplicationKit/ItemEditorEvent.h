@@ -24,6 +24,9 @@ namespace VCF {
 class TableCellItem;
 
 
+/**
+\class ItemEditorEvent ItemItemEditorEvent.h "vcf/ApplicationKit/ItemEditorEvent.h"
+*/
 class ItemEditorEvent : public Event {
 public:
 	ItemEditorEvent( Object* source ) :
@@ -101,6 +104,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2  2004/08/07 02:49:08  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

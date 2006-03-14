@@ -27,6 +27,9 @@ class ListItem;
 #define LIST_MODEL_ITEM_DELETED			CUSTOM_EVENT_TYPES + LIST_MODEL_CONST + 4
 
 
+/**
+\class ListModelEvent ListModelEvent.h "vcf/ApplicationKit/ListModelEvent.h"
+*/
 class APPLICATIONKIT_API ListModelEvent : public Event
 {
 public:
@@ -100,6 +103,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.2  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

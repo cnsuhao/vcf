@@ -32,6 +32,7 @@ class Rect;
 #define ABSTRACTCONTAINER_CLASSID		"80cafd13-cd05-4b48-a1c3-6c4d9811361c"
 
 /**
+\class AbstractContainer AbstractContainer.h "vcf/ApplicationKit/AbstractContainer.h"
 AbstractContainer implements the basics of a
 container with the exception of actual layout rules,
 therefore resizeChildren is not implemented. It
@@ -114,6 +115,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4  2005/07/09 23:14:50  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

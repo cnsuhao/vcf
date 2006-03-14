@@ -19,9 +19,9 @@ namespace VCF {
 #define DOCUMENT_CLASSID		"4c5ca064-5a3e-4d0a-bbe9-f37d722af092"
 
 /**
-*class Document
-* a document is a model has many extra features like saving, loading, cutting 
-* and all that kind of stuff.
+\class Document Document.h "vcf/ApplicationKit/Document.h"
+A document is a model has many extra features like saving, loading, cutting 
+and all that kind of stuff.
 */
 class APPLICATIONKIT_API Document : public AbstractModel {
 
@@ -319,6 +319,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.5.2.1  2005/07/30 17:01:09  iamfraggle
 *get/setName made explicitly virtual
 *

@@ -47,6 +47,7 @@ static String ButtonCaptionAlignmentNames [] = { "bcaRight",
 
 
 /**
+\class PushButton PushButton.h "vcf/ApplicationKit/PushButton.h"
 *Class PushButton documentation
 */
 class APPLICATIONKIT_API PushButton : public CustomControl, public Button {
@@ -391,6 +392,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.5.2.1  2005/08/01 18:50:31  marcelloptr
 *minor changes
 *

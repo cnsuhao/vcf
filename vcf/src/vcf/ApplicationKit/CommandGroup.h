@@ -19,6 +19,7 @@ where you installed the VCF.
 namespace VCF  {
 
 /**
+\class CommandGroup CommandGroup.h "vcf/ApplicationKit/CommandGroup.h"
 *Class CommandGroup documentation
 */
 class APPLICATIONKIT_API CommandGroup : public AbstractCommand {
@@ -48,6 +49,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2  2004/08/07 02:49:06  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

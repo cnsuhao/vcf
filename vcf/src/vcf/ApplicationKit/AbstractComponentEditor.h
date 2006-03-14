@@ -22,6 +22,7 @@ where you installed the VCF.
 namespace VCF  {
 
 /**
+\class AbstractComponentEditor AbstractComponentEditor.h "vcf/ApplicationKit/AbstractComponentEditor.h"
 *Basic implementation of the ComponentEditor interface.
 *Useful when creating custom component editors.
 */
@@ -67,6 +68,7 @@ protected:
 };
 
 /**
+\class AbstractControlEditor AbstractComponentEditor.h "vcf/ApplicationKit/AbstractComponentEditor.h"
 *Class AbstractComponentEditor documentation
 */
 class APPLICATIONKIT_API AbstractControlEditor : public AbstractComponentEditor, public ControlEditor {
@@ -99,6 +101,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

@@ -20,7 +20,7 @@ namespace VCF
 class PropertyEditor;
 
 /**
-\par
+\class PropertyEditorManager PropertyEditorManager.h "vcf/ApplicationKit/PropertyEditorManager.h"
 This is the class for managing the current list of
 property editors available for use in editing a property.
 Some of the default editors are provided by the framework
@@ -124,6 +124,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.2.1  2005/09/03 16:26:41  ddiego
 *adjusted function in proeprty editor manager class.
 *

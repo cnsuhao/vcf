@@ -28,15 +28,16 @@ class Border;
 
 class GraphicsContext;
 
-/** The base Peer interface.
- *   In the Visual Control Framework Peers are the equivalent of Peers in Java.
- *   Peers can be either light weight or heavyweight.
- *  Heavyweight Peers are based on native widgets are consume a certain amount of resources.
- *   On Win32 heavweight Peers have their own window handle and graphics context.
- *
- * Lightweight Peers use the window handle and graphics context of the parents.
- * Frame Peers, such as WindowPeer and DialogPeer MUST be based on heavyweight controls.
- * @interface */
+/** 
+\class ControlPeer ControlPeer.h "vcf/ApplicationKit/ControlPeer.h"
+The base Peer interface. In the Visual Control Framework Peers are the equivalent 
+of Peers in Java. Peers can be either light weight or heavyweight. Heavyweight 
+Peers are based on native widgets are consume a certain amount of resources. On 
+Win32 heavweight Peers have their own window handle and graphics context. Lightweight 
+Peers use the window handle and graphics context of the parents.  Frame Peers, 
+such as WindowPeer and DialogPeer \em must be based on heavyweight controls.
+
+*/
 
 class APPLICATIONKIT_API ControlPeer : public VCF::Interface {
 public:
@@ -173,6 +174,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.2  2006/01/09 02:22:30  ddiego
 *more osx code
 *

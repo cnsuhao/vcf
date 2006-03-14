@@ -22,34 +22,47 @@ where you installed the VCF.
 namespace VCF{
 
 class Control;
-
+/**
+\class CommonFileOpenDialog CommonFileOpenDialog.h "vcf/ApplicationKit/CommonFileOpenDialog.h"
+This class is used to display a common or standard file open dialog. 
+*/
 class APPLICATIONKIT_API CommonFileOpenDialog : public VCF::CommonFileDialog {
 public:
+	/**
+	Creates a file open dialog. If the owner is NULL then the dialog is 
+	non modal. If the owner is \em not NULL then the dialog is modal
+	relative to the control that started it. For most cases you 
+	do \em not want to pass in a NULL owner. You can 
+	also specify the directory to start in.
+	*/
+
 	CommonFileOpenDialog( Control* owner=NULL, const String& startDir="" );
 
 	virtual ~CommonFileOpenDialog();
 
 	/**
-	* opens the dialog used to choose the filename(s) to be opened.
+	Opens the dialog used to choose the filename(s) to be opened.
+	@return bool returns true if the user selected a valid filename.
+	Otherwise it returns false.
 	*/
 	virtual bool execute();
 
 	/**
-	* The dialog will accept a filename only if it exists.
-	* The default implementation is empty as this is used only
-	* with a dialog opening a file.
-	*@param const bool& fileMustExist, true if the typed name must
-	* indicate an existing file.
+	The dialog will accept a filename only if it exists.
+	The default implementation is empty as this is used only
+	with a dialog opening a file.
+	@param const bool& fileMustExist, true if the typed name must
+	indicate an existing file.
 	*/
 	virtual void setFileMustExist( const bool& fileMustExist );
 
 	/**
-	* Returns a pointer to an enumerator listing
-	* all the files selected in the dialog.
-	* If the multiple selection is not allowed for the dialog, 
-	* then this list may be empty, but in the default implementation
-	* it contain the chosen filename anyway.
-	*@return Enumerator<String>*, the pointer to the enumerator.
+	Returns a pointer to an enumerator listing
+	all the files selected in the dialog.
+	If the multiple selection is not allowed for the dialog, 
+	then this list may be empty, but in the default implementation
+	it contain the chosen filename anyway.
+	@return Enumerator<String>*, the pointer to the enumerator.
 	*/
 	Enumerator<String>* getSelectedFiles();
 
@@ -64,6 +77,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.1.2.1  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *

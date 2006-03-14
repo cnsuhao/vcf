@@ -18,6 +18,7 @@ namespace VCF {
 
 
 /**
+\class FocusEvent FocusEvent.h "vcf/ApplicationKit/FocusEvent.h"
 * the event class for events specific of any change of focus.
 */
 class APPLICATIONKIT_API FocusEvent : public Event {
@@ -61,6 +62,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.4.1  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

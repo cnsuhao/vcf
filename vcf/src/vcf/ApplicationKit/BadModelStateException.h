@@ -18,6 +18,8 @@ namespace VCF
 {
 
 /**
+\class BadModelStateException BadModelStateException.h "vcf/ApplicationKit/BadModelStateException.h"
+
 *Throw when a model state has changed and it is determined that the change makes the
 *model corrupt or invalid. This error is probably recoverable.
 *
@@ -45,6 +47,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

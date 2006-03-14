@@ -18,7 +18,9 @@ namespace VCF {
 
 class InputStream;
 class Parser;
-
+/**
+\class VFFInputStream VFFInputStream.h "vcf/ApplicationKit/VFFInputStream.h"  
+*/
 class APPLICATIONKIT_API VFFInputStream : public Object, public InputStream {
 public:
 	public:
@@ -141,6 +143,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.6  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.5  2005/10/09 04:32:44  ddiego
 *added some minor fixes in component persistence for vcf builder.
 *

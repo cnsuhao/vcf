@@ -105,7 +105,9 @@ static String IconAlignTypeNames[] = { "iaNone",
 #define LISTVIEWCONTROL_CLASSID			"ED88C09D-26AB-11d4-B539-00C04F0196DA"
 
 
-
+/**
+\class ListViewControl ListViewControl.h "vcf/ApplicationKit/ListViewControl.h"
+*/
 class APPLICATIONKIT_API ListViewControl : public VCF::Control {
 public:
 
@@ -267,6 +269,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2005/11/21 04:00:51  ddiego
 *more osx updates.
 *

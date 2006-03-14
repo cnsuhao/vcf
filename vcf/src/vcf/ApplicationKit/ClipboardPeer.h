@@ -24,6 +24,7 @@ class DataObject;
 class DataType;
 
 /**
+\class ClipboardPeer ClipboardPeer.h "vcf/ApplicationKit/ClipboardPeer.h"
 *The ClipboardPeer is the interface for connecting to an OS specific clipboard.
 *The ClipboardPeer provides method for copying, pasting, and querying the existing data
 *in a clipboard.
@@ -47,6 +48,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

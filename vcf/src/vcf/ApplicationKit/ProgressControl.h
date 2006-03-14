@@ -24,6 +24,7 @@ static String ProgressAlignmentNames[] = { "ProgressControl::paVertical",
                                          "ProgressControl::paHorizontal" };
 
 /**
+\class ProgressControl ProgressControl.h "vcf/ApplicationKit/ProgressControl.h"
 The ProgressControl is a class that displays a vertical or horizontal
 progress bar showing the position of within a given range of a task.
 */
@@ -126,6 +127,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

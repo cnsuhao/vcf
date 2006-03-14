@@ -95,7 +95,7 @@ class MenuManagerPeer;
 
 
 /**
-\par
+\class UIToolkit UIToolkit.h "vcf/ApplicationKit/UIToolkit.h"  
 The UIToolkit is used to create instances of various peer's needed by the VCF,
 as well as providing certain low level services, such as modal and non-modal
 event loops, and getting at UI metrics. Each system the VCF is ported to has
@@ -783,6 +783,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.7  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.5.2.6  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

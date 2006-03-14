@@ -24,6 +24,7 @@ class WindowEvent;
 class Library;
 
 /**
+\class Application Application.h "vcf/ApplicationKit/Application.h"
 Represents the main process for a application.
 Each application contains a main window, pointed to by  mainWindow_.
 Application are started by some entry point of the executing process.
@@ -220,6 +221,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.2.1  2005/09/07 04:19:54  ddiego
 *filled in initial code for help support.
 *

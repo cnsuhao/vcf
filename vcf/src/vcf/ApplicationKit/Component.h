@@ -31,6 +31,7 @@ class Action;
 
 
 /**
+\class Component Component.h "vcf/ApplicationKit/Component.h"
 The base class for all objects within the Visual Component Framework
 that wish to manipulated dynamically within the an IDE. All UI controls
 are descended from this class.
@@ -553,6 +554,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.2  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *

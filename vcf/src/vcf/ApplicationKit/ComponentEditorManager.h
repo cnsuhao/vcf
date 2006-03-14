@@ -22,6 +22,7 @@ class ComponentEditor;
 #define REGISTER_FOR_ALL_COMPONENTS		"*"
 
 /**
+\class ComponentEditorManager ComponentEditorManager.h "vcf/ApplicationKit/ComponentEditorManager.h"
 *The ComponentEditorManager is used
 *to regulate the different component editors that are available
 */
@@ -68,6 +69,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2005/08/25 02:38:06  ddiego
 *minor update to component editor manager.
 *
