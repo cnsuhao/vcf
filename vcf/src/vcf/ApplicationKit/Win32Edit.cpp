@@ -196,7 +196,7 @@ void Win32Edit::create( Control* owningControl )
 									 0,
 									 0,
 									 1,
-									 CW_USEDEFAULT,
+									 1,
 									 parent,
 									 NULL,
 									 ::GetModuleHandleW(NULL),
@@ -210,7 +210,7 @@ void Win32Edit::create( Control* owningControl )
 									 0,
 									 0,
 									 1,
-									 CW_USEDEFAULT,
+									 1,
 									 parent,
 									 NULL,
 									 ::GetModuleHandleA(NULL),
@@ -254,7 +254,7 @@ Win32Object::CreateParams Win32Edit::createParams()
 	Win32Object::CreateParams result;
 
 
-	result.first = SIMPLE_VIEW;
+	result.first = WS_CHILD;// SIMPLE_VIEW;
 	result.first &= ~WS_BORDER;
 
 
@@ -262,12 +262,11 @@ Win32Object::CreateParams Win32Edit::createParams()
 	// this is a temporary solution: it would be better to implement
 	// a method giving the option to the user, and painting the selection
 	// in an unfocused control with a light gray on the background - MP.
+
 	result.first |= ES_AUTOHSCROLL | ES_SAVESEL /*| ES_NOHIDESEL*/;
 	if ( editState_ & esMultiLined ) {
 		result.first |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
 	}
-
-	result.second = 0;
 
 	return result;
 }
@@ -512,7 +511,7 @@ bool Win32Edit::stateAllowsModelChange()
 bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
 {
 	bool result = false;
-	wndProcResult = 0;
+	wndProcResult = 0;	
 
 	switch ( message ) {
 
@@ -1372,6 +1371,9 @@ void Win32Edit::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.7  2006/03/14 22:14:53  ddiego
+*Win32ToolKit.cpp
+*
 *Revision 1.5.2.6  2006/02/22 05:00:40  ddiego
 *some minor text updates to support toggling word wrap.
 *
