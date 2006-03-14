@@ -21,6 +21,7 @@ where you installed the VCF.
 namespace VCF  {
 
 /**
+\class HTMLBrowserPeer HTMLBrowserPeer.h "vcf/HTMLKit/HTMLBrowserPeer.h"
 *HTMLBrowserPeer describes
 *a generic interface for a browser control.
 *Since browsers have become so common, as well as useful,
@@ -86,6 +87,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2006/03/14 03:40:22  ddiego
+*updated htmlkit and internetkit source docs.
+*
 *Revision 1.1.2.1  2006/03/06 03:48:31  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

@@ -93,7 +93,7 @@ Handle the extension based on the compiler
 namespace VCF {
 
 	/**
-	\par
+	\class InternetKit InternetKit.h "vcf/InternetKit/InternetKit.h"
 	The InternetKit is a singleton class that initializes
 	the rest of the InternetKit and the InternetToolkit
 	class. The InternetKit provides a series of high level
@@ -107,8 +107,17 @@ namespace VCF {
 	class INTERNETKIT_API InternetKit {
 	public:
 		
+		/**
+		Initializes the Internet kit. Takes arguments
+		that were passed to the main() entry point 
+		function of your application. argc may be 0
+		and argv may be NULL.
+		*/
 		static void init( int argc, char** argv );
 
+		/**
+		Terminates the Internet kit.
+		*/
 		static void terminate();	
 	};
 

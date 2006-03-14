@@ -15,23 +15,107 @@ where you installed the VCF.
 
 namespace VCF {
 
+	/**
+	\class URL URL.h "vcf/InternetKit/URL.h"
+	The URL class wraps a string that points to 
+	some resource, either on the local filesystem
+	or over the internet. The URL also has delegates
+	that fire events as data is received, when status 
+	changes during the download, and when authentication
+	is requested in the form of a username and password.
+	\par
+	The URL can also break the string representation into
+	it's component parts. See http://www.faqs.org/rfcs/rfc1738.html
+	for more information about the exact parts of a 
+	URL string.
+	*/
 	class INTERNETKIT_API URL : public Object {
 	public:
 
+		/**
+		An enum compreising the various component
+		parts of the URL.
+		*/
 		enum UrlParts{
+			/**
+			The scheme of the URL. These can
+			include things like "http", "ftp",
+			and so on.
+			\par
+			Required
+			*/
 			upScheme = 0,
+
+			/**
+			The user name for the resource. Used for
+			authentication purposes. Unless you're using 
+			an SSL connection there's a good chance this is 
+			being sent in the clear.
+			\par
+			Optional
+			*/
 			upUser,
+
+			/**
+			The password for the resource. Used for
+			authentication purposes. Unless you're using 
+			an SSL connection there's a good chance this is 
+			being sent in the clear.
+			\par
+			Optional
+			*/
 			upPassword,
+
+			/**
+			The host name for the resource. This would be things like
+			"www.google.com", or "vcf-online.org", or even an 
+			IP address like "192.45.66.121".
+			\par
+			Required
+			*/
 			upHost,
+			/**
+			The port to use to make a connection to the
+			host.
+			\par
+			Optional
+			*/
 			upPort,
+			/**
+			The path to the resource.
+			\par
+			Required
+			*/
 			upUrlPath,
+			/**
+			The total number of possible URL components.
+			*/
 			upTotalCount
 		};
 
+		/**
+		The possible event types that can be fired 
+		by the URL when downloading a file.
+		*/
 		enum Events {
+			/**
+			The URL is about to receive some data. 
+			*/
 			evDataReceiving = 0x23123,
+			/**
+			The URL has received a chunk of data and written to 
+			a the output stream.
+			*/
 			evDataReceived,
+			/**
+			The status of the URL download has changed.
+			*/
 			evStatusChanged,
+
+			/**
+			The URL requires authentication. The handler will
+			need to supply a valid user name and password.
+			*/
 			evAuthenticationRequested
 		};
 
@@ -47,6 +131,9 @@ namespace VCF {
 			parse();
 		}
 
+		/**
+		Assign a string to the URL.
+		*/
 		URL& operator=( const String& rhs ) {
 			data_ = rhs;
 			
@@ -63,15 +150,34 @@ namespace VCF {
 			return data_;
 		}
 
+		/**
+		Start downloading the URL into the OutputStream. The InternetToolKit 
+		will extract the data and write it to the output stream. During this 
+		process various events may get fired.
+		\par
+		If the URL was not able to access the data, a URLException
+		may be thrown.
+		*/
 		void download( OutputStream& stream ) {
 			InternetToolkit::getDataFromURL( this, &stream );
 		}
 
+		/**
+		Download the URL to the specific filename. The InternetToolKit 
+		will extract the data and write it to the file. During this 
+		process various events may get fired.
+		\par
+		If the URL was not able to access the data, a URLException
+		may be thrown.
+		*/
 		void downloadToFile( const String& fileName ) {
 			FileOutputStream fos(fileName);
 			download( fos );
 		}
 
+		/**
+		Returns the scheme component of the URL
+		*/
 		String getScheme() const {
 			std::vector<String> parts;
 			parse( &parts );
@@ -79,6 +185,9 @@ namespace VCF {
 			return parts[URL::upScheme];
 		}
 
+		/**
+		Returns the user component of the URL
+		*/
 		String getUser() const {
 			std::vector<String> parts;
 			parse( &parts );
@@ -86,6 +195,9 @@ namespace VCF {
 			return parts[URL::upUser];
 		}
 
+		/**
+		Returns the password component of the URL
+		*/
 		String getPassword() const {
 			std::vector<String> parts;
 			parse( &parts );
@@ -93,6 +205,9 @@ namespace VCF {
 			return parts[URL::upPassword];
 		}
 
+		/**
+		Returns the host component of the URL
+		*/
 		String getHost() const {
 			std::vector<String> parts;
 			parse( &parts );
@@ -100,6 +215,9 @@ namespace VCF {
 			return parts[URL::upHost];
 		}
 
+		/**
+		Returns the port component of the URL
+		*/
 		String getPort() const {
 			std::vector<String> parts;
 			parse( &parts );
@@ -107,6 +225,9 @@ namespace VCF {
 			return parts[URL::upPort];
 		}
 
+		/**
+		Returns the url path component of the URL
+		*/
 		String getUrlPath() const {
 			std::vector<String> parts;
 			parse( &parts );
@@ -115,6 +236,9 @@ namespace VCF {
 		}
 
 
+		/**
+		Returns all the components of the URL in a vector.
+		*/
 		std::vector<String> getParts() const {
 			std::vector<String> result;
 			
@@ -123,6 +247,11 @@ namespace VCF {
 			return result;
 		}
 
+		/**
+		Verify the URL is actually valid. If the URL is 
+		invalid the function returns false, otherwise it 
+		returns true.
+		*/
 		bool validate() const {
 			bool result = true;
 

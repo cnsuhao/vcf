@@ -37,6 +37,7 @@ class HTMLElementPeer;
 class HTMLDocumentPeer;
 
 /**
+\class HTMLElementCollection HTMLDOMElements.h "vcf/HTMLKit/HTMLDOMElements.h"
 This is a collection of 0 or more HTMLElement nodes
 */
 class HTMLKIT_API HTMLElementCollection {
@@ -85,6 +86,7 @@ private:
 };
 
 /**
+\class HTMLElement HTMLDOMElements.h "vcf/HTMLKit/HTMLDOMElements.h"
 This represents an individual node. 
 */
 class HTMLKIT_API HTMLElement {
@@ -221,7 +223,9 @@ get_onfilterchange
 
 
 
-
+/**
+\class HTMLDocument HTMLDOMElements.h "vcf/HTMLKit/HTMLDOMElements.h"
+*/
 class HTMLKIT_API HTMLDocument {
 public:
 

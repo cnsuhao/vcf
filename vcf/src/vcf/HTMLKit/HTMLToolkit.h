@@ -19,6 +19,9 @@ namespace VCF {
 class Control;
 class HTMLBrowserPeer;
 
+/**
+\class HTMLToolkit HTMLToolkit.h "vcf/HTMLKit/HTMLToolkit.h"
+*/
 class HTMLKIT_API HTMLToolkit {
 public:	
 	virtual ~HTMLToolkit(){};

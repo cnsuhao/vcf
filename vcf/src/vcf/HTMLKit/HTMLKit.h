@@ -122,10 +122,33 @@ defined to use the DLL or static libraries.
 
 namespace VCF {
 
+/**
+\class HTMLKit HTMLKit.h "vcf/HTMLKit/HTMLKit.h"
+The HTMLKit is used to provide support for rendering 
+HTML in a control (as well as connecting to the HTML resource
+if it's not on the local machine), and for enumerating
+the various HTML DOM elements. 
+\par
+For Win32 this is a very thin wrapper around 
+Internet Explorer's IWebBrowser2 COM interface. The code 
+as written provide the ability for a number of advanced
+customizations for providing HTML support to your application.
+@see HTMLBrowserControl
+@see HTMLElement
+@see HTMLDocument
+@see HTMLElementCollection
+*/
 class  HTMLKIT_API HTMLKit {
 public:
+	/**
+	Initialize the HTML Kit. Argc and argv may both
+	be 0 and NULL respectively.
+	*/
 	static void init( int argc, char** argv );
 
+	/**
+	Terminate the HTML Kit.
+	*/
 	static void terminate();
 };
 
