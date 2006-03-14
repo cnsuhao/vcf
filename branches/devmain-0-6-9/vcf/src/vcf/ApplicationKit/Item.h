@@ -40,6 +40,9 @@ class Control;
 
 class Item;
 
+/**
+\class ItemSort ItemSort.h "vcf/ApplicationKit/ItemSort.h"
+*/
 class ItemSort {
 public:
 	virtual ~ItemSort(){};
@@ -51,7 +54,7 @@ public:
 #define ITEM_CLASSID		"ED88C0AA-26AB-11d4-B539-00C04F0196DA"
 
 /**
-\par
+\class Item Item.h "vcf/ApplicationKit/Item.h"
 The Item class can be used represent a single element in a model.
 It's useful because as a component it gets all the automatic 
 persistance abilities of a component and the ability
@@ -301,6 +304,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.2  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

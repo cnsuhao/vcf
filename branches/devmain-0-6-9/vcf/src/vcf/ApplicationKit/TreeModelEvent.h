@@ -19,7 +19,9 @@ namespace VCF
 
 class TreeItem;
 
-
+/**
+\class TreeModelEvent TreeModelEvent.h "vcf/ApplicationKit/TreeModelEvent.h" 
+*/
 class APPLICATIONKIT_API TreeModelEvent : public Event
 {
 public:
@@ -88,6 +90,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

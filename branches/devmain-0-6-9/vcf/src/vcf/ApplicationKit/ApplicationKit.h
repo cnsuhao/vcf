@@ -231,27 +231,10 @@ Action classes
 #include "vcf/ApplicationKit/CommonDialogPeer.h"
 #include "vcf/ApplicationKit/ControlPeer.h"
 
-/*
-You only need these if you are going to be directly working with a peer -
-which is not very often
-#include "vcf/ApplicationKit/LightweightComponent.h"
-#include "vcf/ApplicationKit/TextPeer.h"
-#include "vcf/ApplicationKit/TreePeer.h"
-#include "vcf/ApplicationKit/ListviewPeer.h"
-#include "vcf/ApplicationKit/WindowPeer.h"
-#include "vcf/ApplicationKit/DialogPeer.h"
-#include "vcf/ApplicationKit/HTMLBrowserPeer.h"
-#include "vcf/ApplicationKit/ButtonPeer.h"
-#include "vcf/ApplicationKit/MenuBarPeer.h"
-#include "vcf/ApplicationKit/PrintPeer.h"
-#include "vcf/ApplicationKit/PrintContextPeer.h"
-#include "vcf/ApplicationKit/DesktopPeer.h"
-#include "vcf/ApplicationKit/PopupMenuPeer.h"
 
-#include "vcf/ApplicationKit/ScrollPeer.h"
-#include "vcf/ApplicationKit/MenuItemPeer.h"
+/**
+\class ApplicationKit ApplicationKit.h "vcf/ApplicationKit/ApplicationKit.h"
 */
-
 namespace VCF {
 	class APPLICATIONKIT_API ApplicationKit {
 	public:
@@ -274,6 +257,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.4  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.4.3  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

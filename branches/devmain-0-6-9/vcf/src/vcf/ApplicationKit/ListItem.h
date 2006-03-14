@@ -29,6 +29,9 @@ namespace VCF{
 
 
 
+/**
+\class ListItem ListItem.h "vcf/ApplicationKit/ListItem.h"
+*/
 class APPLICATIONKIT_API ListItem : public Item {
 public:
 
@@ -162,6 +165,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

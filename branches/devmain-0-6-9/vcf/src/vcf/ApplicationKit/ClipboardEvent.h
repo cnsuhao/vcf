@@ -22,6 +22,7 @@ namespace VCF
 
 
 /**
+\class ClipboardEvent ClipboardEvent.h "vcf/ApplicationKit/ClipboardEvent.h"
 *A ClipboardEvent is fired during changes ot the system clipboard.
 *These chnages may include copying or pasting data to the clipboard.
 */
@@ -44,6 +45,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

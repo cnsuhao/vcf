@@ -27,6 +27,9 @@ class WindowPeer;
 #define DIALOG_CLASSID		"ED88C09A-26AB-11d4-B539-00C04F0196DA"
 
 
+/**
+\class DialogEvent DialogEvent.h "vcf/ApplicationKit/DialogEvent.h"
+*/
 class DialogEvent : public Event {
 public:
 	DialogEvent( Object* source, const ulong32& eventType ) : Event(source,eventType),
@@ -65,7 +68,7 @@ protected:
 };
 
 /**
-\par
+\class Dialog Dialog.h "vcf/ApplicationKit/Dialog.h"
 A Dialog is a popup frame that is generally used for user input. 
 
 \par
@@ -264,6 +267,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

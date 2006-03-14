@@ -18,7 +18,7 @@ namespace VCF {
 
 
 /**
-\par
+\class VFFOutputStream VFFOutputStream.h "vcf/ApplicationKit/VFFOutputStream.h"  
 The VFFOutputStream class is used to support writing a component (
 and it's child components) to a stream. The output is text data,
 and is human readable. It's loosely based on Borland's DFM file format
@@ -224,6 +224,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.7  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.6  2005/10/09 04:32:44  ddiego
 *added some minor fixes in component persistence for vcf builder.
 *

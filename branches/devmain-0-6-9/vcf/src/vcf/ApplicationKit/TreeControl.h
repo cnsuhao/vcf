@@ -49,6 +49,9 @@ class ModelEvent;
 #define TREEITEM_SELECTED	CUSTOM_EVENT_TYPES + ITEM_CONST + 20
 #define TREEITEM_EXPANDED	CUSTOM_EVENT_TYPES + ITEM_CONST + 21
 
+/**
+\class TreeControl TreeControl.h "vcf/ApplicationKit/TreeControl.h" 
+*/
 class APPLICATIONKIT_API TreeControl : public VCF::Control {
 public:
 
@@ -130,6 +133,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4  2005/07/09 23:14:56  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

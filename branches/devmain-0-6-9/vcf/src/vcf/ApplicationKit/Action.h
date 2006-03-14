@@ -20,15 +20,16 @@ namespace VCF {
 class AcceleratorKey;
 
 /**
-<p>
+\class Action Action.h "vcf/ApplicationKit/Action.h"
 The Action class is used to represent an "action" that gets performed because of
 some event from the UI, such as clicking a menu item or button. An Action also
 allows you to consolidate multiple event handlers for menu items, buttons, etc,
 and their associated code to update their UI state in relation to the application's
 state. An Action has one or more targets that get notified for update events. Any of
 these targets can also cause the action to be executed or "performed".
-<p>An example
-of how this might be useful:
+\par
+An example of how this might be useful:
+\par
 Consider an application that has three UI elements, a button, a toolbar item,
 and a menu item. Clicking the menu item, toolbar item, or button all cause
 some change of state in the application. Without using actions, you would have to
@@ -196,6 +197,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3  2005/07/09 23:14:51  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

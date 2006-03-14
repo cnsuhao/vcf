@@ -21,7 +21,9 @@ class ListItem;
 
 
 
-/** @interface */
+/**
+\class ListviewPeer ListviewPeer.h "vcf/ApplicationKit/ListviewPeer.h"
+*/
 
 class APPLICATIONKIT_API ListviewPeer : public VCF::Interface {
 public:
@@ -104,6 +106,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3  2005/07/09 23:14:53  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

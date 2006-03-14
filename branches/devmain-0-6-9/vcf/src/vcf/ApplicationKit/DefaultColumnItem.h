@@ -29,6 +29,7 @@ class Control;
 #define DEFAULTCOLUMNITEM_CLASSID		"5003340e-98c7-46ac-a27c-1d38dfdd8aa7"
 
 /**
+\class DefaultColumnItem DefaultColumnItem.h "vcf/ApplicationKit/DefaultColumnItem.h"
 Class DefaultColumnItem documentation
 
 */
@@ -121,6 +122,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.4.1  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

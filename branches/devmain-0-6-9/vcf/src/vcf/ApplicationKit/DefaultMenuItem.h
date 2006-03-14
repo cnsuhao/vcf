@@ -20,7 +20,9 @@ class MenuItemPeer;
 
 #define DEFAULTMENUITEM_CLASSID		"15307228-7207-44c8-8b22-4d5575648ae8"
 
-
+/**
+\class DefaultMenuItem DefaultMenuItem.h "vcf/ApplicationKit/DefaultMenuItem.h"
+*/
 class APPLICATIONKIT_API DefaultMenuItem : public MenuItem {
 
 public:
@@ -168,6 +170,7 @@ protected:
 
 
 /**
+\class SeparatorMenuItem DefaultMenuItem.h "vcf/ApplicationKit/DefaultMenuItem.h"
 * a class to help creating a separator menu item
 */
 class APPLICATIONKIT_API SeparatorMenuItem : public DefaultMenuItem {
@@ -185,6 +188,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.5.2.2  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

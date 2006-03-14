@@ -37,7 +37,9 @@ enum MouseButtomMasks{
 
 
 
-
+/**
+\class MouseEvent MouseEvent.h "vcf/ApplicationKit/MouseEvent.h"
+*/
 class APPLICATIONKIT_API MouseEvent : public Event {
 public:
 	MouseEvent( Object* source ) : Event(source),
@@ -129,6 +131,7 @@ private:
 
 
 /**
+\class MouseEventHandler MouseEvent.h "vcf/ApplicationKit/MouseEvent.h"
 *MouseEventHandler
 *handles the following
 *onMouseDoubleClicked
@@ -156,6 +159,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.2  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

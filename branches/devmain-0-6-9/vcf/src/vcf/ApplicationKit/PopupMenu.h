@@ -25,7 +25,12 @@ class PopupMenuPeer;
 class Control;
 
 #define POPUPMENU_CLASSID		"DDC5AE1F-89CD-4eca-98D4-9ECEFF7B7689"
-
+/**
+\class PopupMenu PopupMenu.h "vcf/ApplicationKit/PopupMenu.h"
+This class is for creating popup menus, sometimes 
+referred to as a context, or contextual menu. Generally
+it used when the user right clicks on a control. 
+*/
 class APPLICATIONKIT_API PopupMenu : public Menu {
 public:
 
@@ -67,6 +72,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.4  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.3  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

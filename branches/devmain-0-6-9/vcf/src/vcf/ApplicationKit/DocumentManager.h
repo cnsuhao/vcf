@@ -23,22 +23,19 @@ namespace VCF {
 
 
 /**
-*<p>
-* class DocumentInfo
-* 
-* contains the string infos characterizing a document class or a kind of document.
-*
-*	classID     is the uuid identifying the document. It lets the VCF RTTI to create our document,
-*                with no other informations or to get all the DocumentInfo associated to a document
-*                according to the map stored by the DocumentManager.
-*	className   is the name for this class of documents.
-*	view        is the uuid identifying the kind of view to be associated to this kind of document.
-*	window      is the uuid identifying the kind of window to be associated to this kind of document.
-*	fileTypes   is the list of allowed extension (separated by ';') for the files associated to this
-*                kind of document.
-*	mimetype    is the mime type for this kind of document.
-*	description is just a generic description for this class of documents.
-*</p>
+\class DocumentInfo DocumentManager.h "vcf/ApplicationKit/DocumentManager.h"
+Contains the string infos characterizing a document class or a kind of document.
+
+	\li classID     is the uuid identifying the document. It lets the VCF RTTI create our document,
+                with no other informations or to get all the DocumentInfo associated to a document
+                according to the map stored by the DocumentManager.
+	\li className   is the name for this class of documents.
+	\li view        is the uuid identifying the kind of view to be associated to this kind of document.
+	\li window      is the uuid identifying the kind of window to be associated to this kind of document.
+	\li fileTypes   is the list of allowed extension (separated by ';') for the files associated to this
+                kind of document.
+	\li mimetype    is the mime type for this kind of document.
+	\li description is just a generic description for this class of documents.
 */
 class APPLICATIONKIT_API DocumentInfo {
 public:
@@ -54,30 +51,30 @@ public:
 
 
 /**
-*<p>
-* class DocManagerEvent
-* 
-* while a normal event is appropriated to notify the user interface
-* that a file operation has been performed on a document,
-* a user will need this special kind of event if he needs to bypass
-* a standard operation on documents as normally execute by the DocumentManager.
-* Even if the DocumentManager is already very flexible, this let the user
-* to have a comlete control in some case he may need ( very unfrequent though ).
-*
-* This how this mechanism works:
-* this event class has two member functions that are normally supposed
-* to work togheter. Yet are normally *not* used.
-* Let's take the case of DocumentManager::saveFile() for example,
-* and imagine that the user needs to completely bypass the way saveFile works 
-* and adopt his personal implementation.
-* In order to do that he needs to add an handler to the manager, that is performing
-* the operation in hte way he needs. He will also have to setAllowFileOperation( false )
-* from inside this handler, and setFileOperationStatus( true ) whenever the saving 
-* operation has been completed successfuly.
-* The standard implementation of saveFile will then call the handler, collect that 
-* fileOperationStatus_ value and return it. See comment for setFileOperationStatus.
-*</p>
-*@see saveFile()
+\class DocManagerEvent DocumentManager.h "vcf/ApplicationKit/DocumentManager.h"
+class DocManagerEvent
+
+while a normal event is appropriated to notify the user interface
+that a file operation has been performed on a document,
+a user will need this special kind of event if he needs to bypass
+a standard operation on documents as normally execute by the DocumentManager.
+Even if the DocumentManager is already very flexible, this let the user
+to have a comlete control in some case he may need ( very unfrequent though ).
+
+This how this mechanism works:
+this event class has two member functions that are normally supposed
+to work togheter. Yet are normally *not* used.
+Let's take the case of DocumentManager::saveFile() for example,
+and imagine that the user needs to completely bypass the way saveFile works 
+and adopt his personal implementation.
+In order to do that he needs to add an handler to the manager, that is performing
+the operation in hte way he needs. He will also have to setAllowFileOperation( false )
+from inside this handler, and setFileOperationStatus( true ) whenever the saving 
+operation has been completed successfuly.
+The standard implementation of saveFile will then call the handler, collect that 
+fileOperationStatus_ value and return it. See comment for setFileOperationStatus.
+
+@see saveFile()
 */
 class APPLICATIONKIT_API DocManagerEvent : public Event {
 public:
@@ -134,7 +131,7 @@ protected:
 
 
 /**
-<p>
+\class DocumentManager DocumentManager.h "vcf/ApplicationKit/DocumentManager.h"
 The DocumentManager manages the interaction between the application (and any other
 UI classes) and a collection of one or more documents.
 A DocumentBasedApplication inherits from this class and from a DocInterfacePolicy
@@ -697,6 +694,7 @@ protected:
 
 
 /**
+\class DocumentManagerImpl DocumentManager.h "vcf/ApplicationKit/DocumentManager.h"
 * class DocumentManagerImpl
 * implementation of the DocumentManager for which also the DocInterfacePolicy
 * is specified.
@@ -1887,6 +1885,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.6  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

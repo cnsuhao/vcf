@@ -31,6 +31,7 @@ class Document;
 
 
 /**
+\class SDIPolicy DocManagerPolicy.h "vcf/ApplicationKit/DocManagerPolicy.h"
 * class SDIPolicy
 * policy class for Single Document Interface
 * This is the implementation of the regular SDI architecture,
@@ -186,6 +187,7 @@ public:
 
 
 /**
+\class MDIPolicy DocManagerPolicy.h "vcf/ApplicationKit/DocManagerPolicy.h"
 * class MDIPolicy
 * policy class for a Multiple Document Interface (MDI).
 * This is the implementation of the regular MDI architecture,
@@ -437,6 +439,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4  2005/07/09 23:14:52  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

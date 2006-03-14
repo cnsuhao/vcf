@@ -21,7 +21,7 @@ class Component;
 class Control;
 
 /**
-\par
+\class ComponentEditor ComponentEditor.h "vcf/ApplicationKit/ComponentEditor.h"
 A ComponentEditor is an interface used to edit
 an entire component at once, as opposed to a PropertyEditor
 which only edits a single property of a specific component or
@@ -118,7 +118,7 @@ public:
 
 
 /**
-\par
+\class ControlEditor ComponentEditor.h "vcf/ApplicationKit/ComponentEditor.h"
 A ControlEditor is an additional interface used to edit
 an entire \em Control instance at once, as opposed to a 
 PropertyEditor which only edits a single property of a 
@@ -184,6 +184,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2005/08/28 05:14:17  ddiego
 *small changes to component editor class.
 *

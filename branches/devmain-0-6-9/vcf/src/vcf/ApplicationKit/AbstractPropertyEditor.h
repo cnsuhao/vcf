@@ -19,7 +19,9 @@ where you installed the VCF.
 
 
 namespace VCF {
-
+/**
+\class AbstractPropertyEditor AbstractPropertyEditor.h "vcf/ApplicationKit/AbstractPropertyEditor.h"
+*/
 class APPLICATIONKIT_API AbstractPropertyEditor : public ObjectWithEvents, public PropertyEditor {
 public:
 	AbstractPropertyEditor() : property_(NULL), attributes_(0),rootDesignerComponent_(NULL) {
@@ -145,6 +147,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.2.4  2005/09/17 21:37:43  ddiego
 *minor update
 *

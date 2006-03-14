@@ -24,6 +24,7 @@ class DrawUIState;
 
 
 /**
+\class PropertyEditor PropertyEditor.h "vcf/ApplicationKit/PropertyEditor.h"
 This is the common base class for any editor that is specific
 of any property.
 @see VCF::Property
@@ -354,6 +355,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.2.2  2005/09/12 03:47:04  ddiego
 *more prop editor updates.
 *

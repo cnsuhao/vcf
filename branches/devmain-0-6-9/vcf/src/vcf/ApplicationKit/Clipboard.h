@@ -30,6 +30,7 @@ class ClipboardPeer;
 
 
 /**
+\class Clipboard Clipboard.h "vcf/ApplicationKit/Clipboard.h"
 The Clipboard represents a common place to put shared
 data between objects and/or between applications.
 The Clipboard maintains one or more ClipboardDataObjects
@@ -136,6 +137,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4  2005/07/18 03:54:19  ddiego
 *documentation updates.
 *

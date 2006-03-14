@@ -30,6 +30,9 @@ class GraphicsContext;
 #define ITEM_EVENT_UNSELECTED			CUSTOM_EVENT_TYPES + ITEM_CONST + 7
 
 
+/**
+\class ItemEvent ItemEvent.h "vcf/ApplicationKit/ItemEvent.h"
+*/
 class APPLICATIONKIT_API ItemEvent : public Event
 {
 public:
@@ -103,6 +106,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.2.1  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

@@ -17,6 +17,9 @@ where you installed the VCF.
 namespace VCF
 {
 
+/**
+\class LightweightComponent LightweightComponent.h "vcf/ApplicationKit/LightweightComponent.h"
+*/
 class APPLICATIONKIT_API LightweightComponent : public Object, public ControlPeer {
 public:
 	LightweightComponent( Control* component );
@@ -102,6 +105,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.5.2.1  2005/08/05 01:11:38  ddiego
 *splitter fixes finished.
 *

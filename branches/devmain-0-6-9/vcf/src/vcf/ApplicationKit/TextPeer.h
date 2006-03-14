@@ -126,6 +126,7 @@ API to deal with this.
 
 
 /**
+\class TextPeer TextPeer.h "vcf/ApplicationKit/TextPeer.h"
 This is the basic text peer interface for storing and displaying text on the screen.
 Printing and editing are left to the TextEditPeer interface. You can insert and remove
 text with this class, as well as set the various styles of the text. You can use
@@ -217,6 +218,7 @@ public:
 
 
 /**
+\class TextEditPeer TextPeer.h "vcf/ApplicationKit/TextPeer.h"
 *A interface for supporting text controls
 *This results in a native text control widget being
 *created, with all painting responsibilities being
@@ -341,6 +343,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.1  2006/02/22 05:00:40  ddiego
 *some minor text updates to support toggling word wrap.
 *

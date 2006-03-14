@@ -31,7 +31,9 @@ namespace VCF{
 #define	 IMAGE_DATA_TYPE			"image/x-vcf-image"
 #define	 COMPONENT_DATA_TYPE		"text/x-vcf-vff"
 
-
+/**
+\class BinaryPersistable DataObject.h "vcf/ApplicationKit/DataObject.h"
+*/
 class APPLICATIONKIT_API BinaryPersistable : public Object, public Persistable {
 public:
 	BinaryPersistable( const unsigned char* dataToInitWith, const unsigned long& dataSize ):
@@ -72,6 +74,7 @@ protected:
 };
 
 /**
+\class DataObject DataObject.h "vcf/ApplicationKit/DataObject.h"
 *A DataObject represents a data object in the clipboard.
 *Can be streamed out to a stream
 */
@@ -103,6 +106,9 @@ protected:
 };
 
 
+/**
+\class TextDataObject DataObject.h "vcf/ApplicationKit/DataObject.h"
+*/
 class APPLICATIONKIT_API TextDataObject : public DataObject {
 public:
 	TextDataObject( const String& text="" );
@@ -115,6 +121,9 @@ protected:
 };
 
 
+/**
+\class ImageDataObject DataObject.h "vcf/ApplicationKit/DataObject.h"
+*/
 class APPLICATIONKIT_API ImageDataObject : public DataObject {
 public:
 	ImageDataObject( Image* image=NULL );
@@ -134,6 +143,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2005/09/21 02:21:53  ddiego
 *started to integrate jpeg support directly into graphicskit.
 *

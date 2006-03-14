@@ -21,6 +21,7 @@ namespace VCF  {
 
 class ColumnItem;
 /**
+\class ColumnModel ColumnModel.h "vcf/ApplicationKit/ColumnModel.h"
 *The ColumnModel is a model that represent's 0 or more ColumnItems.
 *You can add, remove, and insert column items in the model. In addition
 *you can get an item by index, or retrieve an Enumerator of all of the
@@ -148,6 +149,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2  2004/08/07 02:49:05  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

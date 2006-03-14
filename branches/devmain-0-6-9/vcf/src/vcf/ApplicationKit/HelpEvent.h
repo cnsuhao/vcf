@@ -19,6 +19,9 @@ namespace VCF  {
 #define HELP_EVENT_TYPE		CUSTOM_EVENT_TYPES + 900
 
 
+/**
+\class HelpEvent HelpEvent.h "vcf/ApplicationKit/HelpEvent.h"
+*/
 class APPLICATIONKIT_API HelpEvent : public Event {
 public:
 	HelpEvent( Object* source ): Event(source,HELP_EVENT_TYPE){}
@@ -37,6 +40,7 @@ public:
 
 
 /**
+\class HelpEventHandler HelpEvent.h "vcf/ApplicationKit/HelpEvent.h"
 *class HelpEventHandler documentation
 */
 template <class SOURCE_TYPE> class HelpEventHandler : public EventHandlerInstance<SOURCE_TYPE,HelpEvent> {
@@ -61,6 +65,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.2  2006/02/23 05:54:23  ddiego
 *some html help integration fixes and new features. context sensitive help is finished now.
 *

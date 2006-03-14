@@ -28,6 +28,9 @@ class TreeModel;
 
 #define DEFAULTTREEITEM_CLASSID		"3126B224-2819-11d4-B53A-00C04F0196DA"
 
+/**
+\class DefaultTreeItem DefaultTreeItem.h "vcf/ApplicationKit/DefaultTreeItem.h"
+*/
 class APPLICATIONKIT_API DefaultTreeItem : public TreeItem {
 public:
 	enum TreeEvents {
@@ -211,6 +214,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.1  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

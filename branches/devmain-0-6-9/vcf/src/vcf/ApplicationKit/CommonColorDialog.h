@@ -26,17 +26,41 @@ class Color;
 
 class Control;
 
+/**
+\class CommonColorDialog CommonColorDialog.h "vcf/ApplicationKit/CommonColorDialog.h"
+The CommonColorDialog is used to present a standard dialog for selcting a color. 
+This uses the windowing platform's standard color dialog.
+*/
 class APPLICATIONKIT_API CommonColorDialog : public CommonDialog {
 public:
 
+	/**
+	Creates a color dialog. If the owner is NULL then the dialog is 
+	non modal. If the owner is \em not NULL then the dialog is modal
+	relative to the control that started it. For most cases you 
+	do \em not want to pass in a NULL owner.
+	*/
 	CommonColorDialog( Control* owner = NULL );
 
 	virtual ~CommonColorDialog();
 
+	/**
+	"executes" the dialog - this will cause the dialog to be displayed.
+	@return bool returns true if the user succesfully chose a color, 
+	otherwise false if no color was chosen, or the user canceled the 
+	dialog.
+	*/
 	virtual bool execute();
 
+	/**
+	Returns the color the user selected.
+	*/
 	Color* getSelectedColor();
 
+	/**
+	Sets the selected color. This is generally called \em before the dialog 
+	is displayed with the execute() function. 
+	*/
 	void setSelectedColor( Color* selectedColor );
 private:
 	CommonColorDialogPeer* peer_;
@@ -48,6 +72,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.1.2.1  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *

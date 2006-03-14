@@ -17,7 +17,9 @@ where you installed the VCF.
 
 
 namespace VCF {
-
+/**
+\class MenuManagerPeer MenuManagerPeer.h "vcf/ApplicationKit/MenuManagerPeer.h"
+*/
 	class APPLICATIONKIT_API MenuManagerPeer {
 	public:
 		virtual ~MenuManagerPeer(){}

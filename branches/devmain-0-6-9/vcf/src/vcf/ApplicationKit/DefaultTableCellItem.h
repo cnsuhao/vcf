@@ -25,6 +25,9 @@ class BasicTableItemEditor;
 
 #define DEFAULTTABLECELLITEM_CLASSID	"53EA0BA6-7068-11d4-8F12-00207811CFAB"
 
+/**
+\class DefaultTableCellItem DefaultTableCellItem.h "vcf/ApplicationKit/DefaultTableCellItem.h"
+*/
 class APPLICATIONKIT_API DefaultTableCellItem : public TableCellItem {
 public:
 
@@ -150,6 +153,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.2  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

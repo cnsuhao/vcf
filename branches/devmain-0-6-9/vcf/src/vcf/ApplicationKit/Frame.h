@@ -80,6 +80,7 @@ static String FrameStyleTypeNames[] = { "fstSizeable",
 										"fstToolbarBorderFixed"		 };
 
 /**
+\class Frame Frame.h "vcf/ApplicationKit/Frame.h"
 A frame is a component that houses other components,
 plus has special adornments used for interacting with it.
 These can include minimize, maximize, restore, system, and help buttons on the caption bar,
@@ -355,6 +356,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.3  2005/10/11 00:54:51  ddiego
 *added initial changes for grayscale image support. fixed some minor changes to form loading and creating.
 *

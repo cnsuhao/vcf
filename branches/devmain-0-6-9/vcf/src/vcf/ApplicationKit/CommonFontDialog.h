@@ -22,17 +22,38 @@ class Control;
 
 class Font;
 
-
+/**
+\class CommonFontDialog CommonFontDialog.h "vcf/ApplicationKit/CommonFontDialog.h"
+This class is used to display a common font dialog. 
+*/
 class APPLICATIONKIT_API CommonFontDialog : public CommonDialog{
 public:
+	/**
+	Creates a font dialog. If the owner is NULL then the dialog is 
+	non modal. If the owner is \em not NULL then the dialog is modal
+	relative to the control that started it. For most cases you 
+	do \em not want to pass in a NULL owner.
+	*/
 	CommonFontDialog( Control* owner );
 
 	virtual ~CommonFontDialog();
 
+	/**
+	Displays the dialog. If the user selects a font, then it 
+	returns true, otherwise false.
+	*/
 	virtual bool execute();
 
+	/**
+	Returns the font the user selected, or NULL.
+	*/
 	Font* getSelectedFont();
 
+	/**
+	Sets the initial font characteristics to show when the 
+	dialog is displayed. This is generally called \em before
+	the execute() function is called.
+	*/
 	void setSelectedFont( Font* selectedFont );
 private:
 	CommonFontDialogPeer* peer_;
@@ -44,6 +65,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.1.2.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.1.2.1  2005/09/02 01:01:20  ddiego
 *changed some of the common dialogs around, was using a less clear class name.
 *

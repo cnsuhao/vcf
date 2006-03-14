@@ -27,6 +27,7 @@ class TabPage;
 
 
 /**
+\class TabModelEvent TabModelEvent.h "vcf/ApplicationKit/TabModelEvent.h"
 * the event class for events specific of tabbed pages
 * It containes the pointer to the specific tab page 
 * associated to this event.
@@ -103,6 +104,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.4.1  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

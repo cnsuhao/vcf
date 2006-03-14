@@ -19,8 +19,9 @@ namespace VCF  {
 #define WHAT_THIS_EVENT_TYPE	CUSTOM_EVENT_TYPES + 12
 
 
-//Class WhatsThisHelpEvent documentation
-
+/**
+\class WhatsThisHelpEvent WhatsThisHelpEvent.h "vcf/ApplicationKit/WhatsThisHelpEvent.h"  
+*/
 class WhatsThisHelpEvent : public Event {
 public:
 	WhatsThisHelpEvent( Object* source ):
@@ -80,6 +81,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.2  2006/02/23 05:54:23  ddiego
 *some html help integration fixes and new features. context sensitive help is finished now.
 *

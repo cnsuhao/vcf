@@ -25,7 +25,7 @@ namespace VCF {
 
 
 	/**
-	\par
+	\class MenuManager MenuManager.h "vcf/ApplicationKit/MenuManager.h"
 	The MenuManager class is used by the internals of the framework
 	to make sure that menu are handled in a platform neutral way.
 	When run on a specific platform work the menu manager peer
@@ -112,6 +112,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.2.1  2005/08/27 04:49:35  ddiego
 *menu fixes.
 *

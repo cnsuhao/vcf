@@ -29,6 +29,7 @@ class WindowPeer;
 
 
 /**
+\class Window Window.h "vcf/ApplicationKit/Window.h"  
 A frame with min. max, restore, and system buttons.
 Has a caption of the standard height.
 
@@ -180,6 +181,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.1  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2  2004/08/07 02:49:11  ddiego
 *merged in the devmain-0-6-5 branch to stable
 *

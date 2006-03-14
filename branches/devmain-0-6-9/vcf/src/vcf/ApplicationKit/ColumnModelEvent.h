@@ -27,6 +27,7 @@ class ColumnItem;
 
 
 /**
+\class ColumnModelEvent ColumnModelEvent.h "vcf/ApplicationKit/ColumnModelEvent.h"
 *Class ColumnModelEvent documentation
 */
 class ColumnModelEvent : public Event {
@@ -76,6 +77,9 @@ protected:
 	ColumnItem* columnItem_;
 };
 
+/**
+\class ColumnModelEventHandler ColumnModelEvent.h "vcf/ApplicationKit/ColumnModelEvent.h"
+*/
 template <class SOURCE_TYPE> class ColumnModelEventHandler : public EventHandlerInstance<SOURCE_TYPE,ColumnModelEvent> {
 public:
 	ColumnModelEventHandler( SOURCE_TYPE* source,
@@ -94,6 +98,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.2.6.1  2006/02/17 05:23:05  ddiego
 *fixed some bugs, and added support for minmax in window resizing, as well as some fancier control over tooltips.
 *

@@ -35,7 +35,9 @@ class ToolbarDock;
 class ToolbarPeer;
 
 
-
+/**
+\class ToolbarItem Toolbar.h "vcf/ApplicationKit/Toolbar.h" 
+*/
 class APPLICATIONKIT_API ToolbarItem : public Item, public Button {
 public:
 
@@ -202,6 +204,9 @@ protected:
 
 class ToolbarModel;
 
+/**
+\class ToolbarModelEvent Toolbar.h "vcf/ApplicationKit/Toolbar.h" 
+*/
 class APPLICATIONKIT_API ToolbarModelEvent : public ModelEvent {
 public:
 
@@ -227,7 +232,9 @@ public:
 
 
 
-
+/**
+\class ToolbarItem Toolbar.h "vcf/ApplicationKit/Toolbar.h" 
+*/
 class APPLICATIONKIT_API ToolbarModel : public AbstractModel {
 public:
 	ToolbarModel();
@@ -268,8 +275,9 @@ protected:
 #define TOOLBAR_CLASSID		"D8B85915-BCE1-44e3-8FBB-3B43427F99F1"
 
 /**
- *a floating frame that remains top level, has a close button,
- *and a caption height that is shorter than normal.
+\class Toolbar Toolbar.h "vcf/ApplicationKit/Toolbar.h" 
+A class for adding toolbars to your window. A toolbar has a 
+series of buttons (each represented by a ToolbarItem). 
  */
 class APPLICATIONKIT_API Toolbar : public Control {
 public:
@@ -345,6 +353,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.4.2.2  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

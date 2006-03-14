@@ -21,6 +21,9 @@ namespace VCF {
 
 #define DEFAULTTABPAGE_CLASSID	"86F02173-3E7F-11d4-8EA7-00207811CFAB"
 
+/**
+\class DefaultTabPage DefaultTabPage.h "vcf/ApplicationKit/DefaultTabPage.h"
+*/
 class APPLICATIONKIT_API DefaultTabPage : public TabPage {
 public:
 
@@ -108,6 +111,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/14 02:25:46  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.4.1  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

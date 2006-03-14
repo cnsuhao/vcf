@@ -25,7 +25,7 @@ class TableCellItem;
 #define TABLEITEMEDITOR_CLASSID		"53EA0BA4-7068-11d4-8F12-00207811CFAB"
 
 /**
-\par
+\class TableItemEditor TableItemEditor.h "vcf/ApplicationKit/TableItemEditor.h"
 The TableItemEditor class is used to provide editing capabilities
 for individual cell items in a TableControl. When the TableControl
 detects that an event has occurred to start an edit, it calls the 
@@ -93,6 +93,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.1  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3  2005/07/09 23:14:55  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

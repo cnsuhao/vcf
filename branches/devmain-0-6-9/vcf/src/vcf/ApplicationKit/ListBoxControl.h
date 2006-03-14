@@ -39,7 +39,9 @@ class ImageList;
 
 
 #define LISTBOXCONTROL_CLASSID		"ED88C0A5-26AB-11d4-B539-00C04F0196DA"
-
+/**
+\class ListBoxControl ListBoxControl.h "vcf/ApplicationKit/ListBoxControl.h"
+*/
 class APPLICATIONKIT_API ListBoxControl : public CustomControl {
 
 public:
@@ -220,6 +222,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/14 02:25:47  ddiego
+*large amounts of source docs updated.
+*
 *Revision 1.3.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *
