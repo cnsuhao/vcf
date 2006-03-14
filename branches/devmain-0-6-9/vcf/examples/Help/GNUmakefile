@@ -12,25 +12,7 @@ include ../../build/bakefiles.gen/config.gnu
 
 ### Variables: ###
 
-CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD
 OBJDIR = gnu$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-LIBAGG_FILENAME = libAGG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
-ZLIB_FILENAME = ZLib$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
-LIBJPEG_FILENAME = LibJPEG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
-LIBPNG_FILENAME = LibPNG$(OPTION_SELECTLIB)$(SUFFIX_STATIC)
-FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-HELP_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
-	-I../../src\thirdparty/common/agg/include \
-	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
-	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
-	$(__APPLICATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
-HELP_OBJECTS =  \
-	$(OBJDIR)/Help_Help.o
 
 ### Conditionally set variables: ###
 
@@ -52,51 +34,6 @@ endif
 ifeq ($(OPTION_SHARED),1)
 SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
 endif
-ifeq ($(OPTION_APPLICATIONKIT),1)
-__Help___depname = ./Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-endif
-ifeq ($(OPTION_DEBUG),0)
-__OPTIMIZE_2 = -O2
-endif
-ifeq ($(OPTION_DEBUG),1)
-__OPTIMIZE_2 = -O0
-endif
-ifeq ($(OPTION_DEBUG),0)
-____OPTION_DEBUG_8_p = -DNDEBUG
-endif
-ifeq ($(OPTION_DEBUG),1)
-____OPTION_DEBUG_8_p = -D_DEBUG
-endif
-ifeq ($(OPTION_ALLIN1),0)
-____Help_FOUNDATIONKIT_p = -l$(FOUNDATIONKIT_FILENAME)
-endif
-ifeq ($(OPTION_ALLIN1),1)
-____Help_FOUNDATIONKIT_p = -l$(ALLIN1_FILENAME)
-endif
-ifeq ($(OPTION_SHARED),1)
-__FOUNDATIONKIT_DLL_p = -DFOUNDATIONKIT_DLL
-endif
-ifeq ($(OPTION_ALLIN1),0)
-____Help_GRAPHICSKIT_p = -l$(GRAPHICSKIT_FILENAME)
-endif
-ifeq ($(OPTION_SHARED),1)
-__GRAPHICSKIT_DLL_p = -DGRAPHICSKIT_DLL
-endif
-ifeq ($(OPTION_ALLIN1),0)
-____Help_APPLICATIONKIT_p = -l$(APPLICATIONKIT_FILENAME)
-endif
-ifeq ($(OPTION_SHARED),1)
-__APPLICATIONKIT_DLL_p = -DAPPLICATIONKIT_DLL
-endif
-ifeq ($(OPTION_APPLICATIONKIT),1)
-__hhc_Help___depname = hhc_Help
-endif
-ifeq ($(OPTION_DEBUG),0)
-__DEBUG_INFO = 
-endif
-ifeq ($(OPTION_DEBUG),1)
-__DEBUG_INFO = -g
-endif
 
 
 all: $(OBJDIR)
@@ -105,7 +42,7 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: $(__Help___depname) $(__hhc_Help___depname)
+all: 
 
 install: all
 
@@ -114,23 +51,8 @@ uninstall:
 clean: 
 	rm -f $(OBJDIR)/*.o
 	rm -f $(OBJDIR)/*.d
-	rm -f ./Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
-	rm -f "Help/Help App.chm"
 
-ifeq ($(OPTION_APPLICATIONKIT),1)
-./Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(HELP_OBJECTS)
-	$(CXX) -o $@ $(HELP_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____Help_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____Help_GRAPHICSKIT_p) $(____Help_APPLICATIONKIT_p)
-endif
-
-ifeq ($(OPTION_APPLICATIONKIT),1)
-hhc_Help: 
-	-hhc "Help App.hhp"
-endif
-
-$(OBJDIR)/Help_Help.o: ./Help.cpp
-	$(CXX) -c -o $@ $(HELP_CXXFLAGS) $(CPPDEPS) $<
-
-.PHONY: all install uninstall clean hhc_Help
+.PHONY: all install uninstall clean
 
 
 # Dependencies tracking:

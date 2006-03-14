@@ -53,6 +53,9 @@ ifeq ($(OPTION_SHARED),1)
 SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
 endif
 ifeq ($(OPTION_APPLICATIONKIT),1)
+__mkdir_help___depname = Help
+endif
+ifeq ($(OPTION_APPLICATIONKIT),1)
 __Help___depname = .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 endif
 ifeq ($(OPTION_DEBUG),0)
@@ -105,14 +108,18 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: $(__Help___depname) $(__hhc_Help___depname)
+all: $(__mkdir_help___depname) $(__Help___depname) $(__hhc_Help___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.o del $(OBJDIR)\*.o
 	-if exist $(OBJDIR)\*.d del $(OBJDIR)\*.d
 	-if exist .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe del .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
-	-if exist "Help\Help del "Help\Help
-	-if exist App.chm" del App.chm"
+	-if exist "Help\Help*.chm" del "Help\Help*.chm"
+
+ifeq ($(OPTION_APPLICATIONKIT),1)
+Help: 
+	if not exist Help mkdir Help
+endif
 
 ifeq ($(OPTION_APPLICATIONKIT),1)
 .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(HELP_OBJECTS)

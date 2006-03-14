@@ -61,6 +61,9 @@ SUFFIX_LIBRARY = $(SUFFIX_STATIC)
 SUFFIX_LIBRARY = $(SUFFIX_DYNAMIC)
 !endif
 !if "$(OPTION_APPLICATIONKIT)" == "1"
+__mkdir_help___depname = Help
+!endif
+!if "$(OPTION_APPLICATIONKIT)" == "1"
 __Help___depname = .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe
 !endif
 !if "$(OPTION_SHARED_RUNTIME)" == "0"
@@ -131,7 +134,7 @@ $(OBJDIR):
 
 ### Targets: ###
 
-all: $(__Help___depname) $(__hhc_Help___depname)
+all: $(__mkdir_help___depname) $(__Help___depname) $(__hhc_Help___depname)
 
 clean: 
 	-if exist $(OBJDIR)\*.obj del $(OBJDIR)\*.obj
@@ -143,8 +146,12 @@ clean:
 	-if exist .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild del .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ild
 	-if exist .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf del .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ilf
 	-if exist .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils del .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).ils
-	-if exist "Help\Help del "Help\Help
-	-if exist App.chm" del App.chm"
+	-if exist "Help\Help*.chm" del "Help\Help*.chm"
+
+!if "$(OPTION_APPLICATIONKIT)" == "1"
+Help: 
+	if not exist Help mkdir Help
+!endif
 
 !if "$(OPTION_APPLICATIONKIT)" == "1"
 .\Help$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(HELP_OBJECTS)
