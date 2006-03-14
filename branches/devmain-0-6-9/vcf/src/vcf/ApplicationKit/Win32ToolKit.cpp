@@ -2484,6 +2484,10 @@ public:
 
 	void showTooltip( Control* control, Point* pt ) {
 
+		if ( toolTip_->getVisible() ) {
+			return;
+		}
+		
 		if ( NULL != embeddedTooltipControl_ ) {
 			toolTip_->remove(embeddedTooltipControl_) ;
 			if ( autoDestroyEmbeddedTooltipControl_ ) {
@@ -2567,16 +2571,17 @@ public:
 			}
 
 			//embed control?
+			
 			if ( NULL != tooltipEvent.getEmbeddedControl() ) {
 				embeddedTooltipControl_ = tooltipEvent.getEmbeddedControl();
-				autoDestroyEmbeddedTooltipControl_ = tooltipEvent.getAutoDestroyEmbeddedControl();
-
-				
+				autoDestroyEmbeddedTooltipControl_ = tooltipEvent.getAutoDestroyEmbeddedControl();			
 				
 				toolTip_->add( embeddedTooltipControl_, AlignClient );
 			}
+			
 
 			toolTip_->setCaption( tooltip );
+			OutputDebugString( "toolTip_->show()\n" );
 			toolTip_->show();
 			//toolTip_->setFrameTopmost( true );
 			currentControlWithTooltip_ = actualToolTipControl;
@@ -2584,6 +2589,7 @@ public:
 	}
 
 	void hideToolTip() {
+		OutputDebugString( "hideToolTip()\n" );
 		toolTip_->hide();
 
 		if ( NULL != embeddedTooltipControl_ ) {
@@ -2600,6 +2606,7 @@ public:
 	}
 
 	void onToolTipLostFocus( WindowEvent* e ) {
+		OutputDebugString( "onToolTipLostFocus\n" );
 		Window* w = (Window*)e->getSource();
 		
 		if ( w == toolTip_ ) {
@@ -2607,6 +2614,7 @@ public:
 		}
 		else {			
 			if ( !w->isActive() ) {
+				OutputDebugString( "!w->isActive()\n" );
 				w->hide();
 			}
 		}
@@ -2697,7 +2705,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 				ToolTipTimerID = ::SetTimer( hWnd, TOOLTIP_TIMERID, 500, NULL );
 				Frame* activeFrame = Frame::getActiveFrame();
-
+				
 				if ( NULL != activeFrame ) {
 					/**
 					REMARK: if we break here with a crash of the application, we probably had the
@@ -2756,6 +2764,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 								
 
 								if ( (toolTipWatcher->checkPt_.x_ == tmpPt.x_) && (toolTipWatcher->checkPt_.y_ == tmpPt.y_) ) {
+									OutputDebugString( "toolTipWatcher->showTooltip\n" );
 									toolTipWatcher->showTooltip( win32Obj->getPeerControl(), &tmpPt );
 									ToolTipTimoutTimerID = ::SetTimer( hWnd, TOOLTIP_TIMEOUT_TIMERID, 5000, NULL );
 								}
@@ -4086,6 +4095,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.23  2006/03/14 22:14:53  ddiego
+*Win32ToolKit.cpp
+*
 *Revision 1.6.2.22  2006/03/10 21:49:32  ddiego
 *updates to color example and some documentation.
 *
