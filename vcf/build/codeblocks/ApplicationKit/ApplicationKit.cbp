@@ -1462,13 +1462,6 @@
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\ScrollBarControl.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ScrollEvent.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -1496,13 +1489,6 @@
 			<Option target="mingw_Debug" />
 		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\ScrollbarManager.h">
-			<Option compilerVar="CPP" />
-			<Option compile="0" />
-			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\..\src\vcf\ApplicationKit\Selectable.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
