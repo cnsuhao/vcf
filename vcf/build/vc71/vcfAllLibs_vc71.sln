@@ -53,6 +53,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageFormats", ".\GraphicsK
 		{BE31E1AF-5FD5-466A-AEE8-247CA6A01B31} = {BE31E1AF-5FD5-466A-AEE8-247CA6A01B31}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKit", ".\InternetKit\InternetKit_vc71.vcproj", "{14b66675-85ce-4163-8ac2-41f4b41b4d02}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKitDLL", ".\InternetKit\InternetKitDLL_vc71.vcproj", "{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibJPEG", "..\..\src\thirdparty\common\LibJPEG\LibJPEG_vc71.vcproj", "{ECA9E369-14DB-410D-9874-AF12CC824025}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -167,6 +175,10 @@ Global
 		{EB6E58EB-6A3E-45FF-A716-2EEA3B4A929B}.Debug.ActiveCfg = Debug|Win32
 		{EB6E58EB-6A3E-45FF-A716-2EEA3B4A929B}.GTK Debug.ActiveCfg = Debug|Win32
 		{EB6E58EB-6A3E-45FF-A716-2EEA3B4A929B}.Release.ActiveCfg = Release|Win32
+		{14b66675-85ce-4163-8ac2-41f4b41b4d02}.Debug.ActiveCfg = Debug|Win32
+		{14b66675-85ce-4163-8ac2-41f4b41b4d02}.Release.ActiveCfg = Release|Win32
+		{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}.Debug.ActiveCfg = Debug|Win32
+		{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}.Release.ActiveCfg = Release|Win32
 		{ECA9E369-14DB-410D-9874-AF12CC824025}.Debug.ActiveCfg = Debug|Win32
 		{ECA9E369-14DB-410D-9874-AF12CC824025}.GTK Debug.ActiveCfg = Debug|Win32
 		{ECA9E369-14DB-410D-9874-AF12CC824025}.Release.ActiveCfg = Release|Win32

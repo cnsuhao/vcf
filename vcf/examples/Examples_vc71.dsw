@@ -810,6 +810,30 @@ Package=<4>
 
 ###############################################################################
 
+Project: "InternetKit"="..\build\vc71\InternetKit\InternetKit_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "InternetKitDLL"="..\build\vc71\InternetKit\InternetKitDLL_vc71.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Labels"=".\Labels\Labels_vc71.dsp" - Package Owner=<4>
 
 Package=<5>

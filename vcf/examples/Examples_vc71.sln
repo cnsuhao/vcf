@@ -268,6 +268,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InetKit", ".\InetKit\InetKi
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKit", "..\build\vc71\InternetKit\InternetKit_vc71.vcproj", "{14b66675-85ce-4163-8ac2-41f4b41b4d02}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKitDLL", "..\build\vc71\InternetKit\InternetKitDLL_vc71.vcproj", "{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Labels", ".\Labels\Labels_vc71.vcproj", "{5C3C51C0-1FAA-4E30-8E80-A46BDD3A8048}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -646,6 +654,10 @@ Global
 		{7AB447ED-8F00-4FE5-BBD0-A41F555FCD4F}.Release.ActiveCfg = Release|Win32
 		{d48f57f2-3b3f-4dfe-881f-b972ad35efe0}.Debug.ActiveCfg = Debug|Win32
 		{d48f57f2-3b3f-4dfe-881f-b972ad35efe0}.Release.ActiveCfg = Release|Win32
+		{14b66675-85ce-4163-8ac2-41f4b41b4d02}.Debug.ActiveCfg = Debug|Win32
+		{14b66675-85ce-4163-8ac2-41f4b41b4d02}.Release.ActiveCfg = Release|Win32
+		{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}.Debug.ActiveCfg = Debug|Win32
+		{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}.Release.ActiveCfg = Release|Win32
 		{5C3C51C0-1FAA-4E30-8E80-A46BDD3A8048}.Debug.ActiveCfg = Debug|Win32
 		{5C3C51C0-1FAA-4E30-8E80-A46BDD3A8048}.Generate YY and LL files.ActiveCfg = Debug|Win32
 		{5C3C51C0-1FAA-4E30-8E80-A46BDD3A8048}.GTK Debug.ActiveCfg = Debug|Win32
