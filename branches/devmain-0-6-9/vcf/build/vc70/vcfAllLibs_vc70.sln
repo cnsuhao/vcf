@@ -19,6 +19,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTMLKitDll", ".\HTMLKit\HTM
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageFormats", ".\GraphicsKit\ImageFormats_vc70.vcproj", "{118692A7-4FD3-4258-B548-9D210B7E5D7E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKit", ".\InternetKit\InternetKit_vc70.vcproj", "{14b66675-85ce-4163-8ac2-41f4b41b4d02}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKitDLL", ".\InternetKit\InternetKitDLL_vc70.vcproj", "{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibJPEG", "..\..\src\thirdparty\common\FreeImage\Source\LibJPEG\LibJPEG_vc70.vcproj", "{F5F8C676-49D2-4D7A-B1DE-DA6134B7517C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibMNG", "..\..\src\thirdparty\common\FreeImage\Source\LibMNG\LibMNG_vc70.vcproj", "{6E103A1D-A14C-4A4B-B5C3-9A90D533186C}"
@@ -120,6 +124,10 @@ Global
 		{118692A7-4FD3-4258-B548-9D210B7E5D7E}.Debug.ActiveCfg = Debug|Win32
 		{118692A7-4FD3-4258-B548-9D210B7E5D7E}.GTK Debug.ActiveCfg = Debug|Win32
 		{118692A7-4FD3-4258-B548-9D210B7E5D7E}.Release.ActiveCfg = Release|Win32
+		{14b66675-85ce-4163-8ac2-41f4b41b4d02}.Debug.ActiveCfg = Debug|Win32
+		{14b66675-85ce-4163-8ac2-41f4b41b4d02}.Release.ActiveCfg = Release|Win32
+		{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}.Debug.ActiveCfg = Debug|Win32
+		{5b4cc51a-49bd-44dd-80b4-f2c5ad258dce}.Release.ActiveCfg = Release|Win32
 		{F5F8C676-49D2-4D7A-B1DE-DA6134B7517C}.Debug.ActiveCfg = Debug|Win32
 		{F5F8C676-49D2-4D7A-B1DE-DA6134B7517C}.GTK Debug.ActiveCfg = Debug|Win32
 		{F5F8C676-49D2-4D7A-B1DE-DA6134B7517C}.Release.ActiveCfg = Release|Win32

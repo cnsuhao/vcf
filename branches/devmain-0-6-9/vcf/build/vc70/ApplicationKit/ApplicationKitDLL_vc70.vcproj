@@ -538,9 +538,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Scrollable.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Selectable.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\TableItemEditor.h">
 			</File>
 			<File
@@ -1161,9 +1158,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\RadioButtonControl.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\ScrollBarControl.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ScrollbarManager.cpp">

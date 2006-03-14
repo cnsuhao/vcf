@@ -581,10 +581,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Scrollable.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Selectable.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\TableItemEditor.h
 # End Source File
 # Begin Source File
@@ -1406,10 +1402,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\RadioButtonControl.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\RadioButtonControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\ScrollBarControl.h
 # End Source File
 # Begin Source File
 
