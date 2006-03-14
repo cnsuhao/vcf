@@ -17,8 +17,18 @@ where you installed the VCF.
 namespace VCF {
 	class URL;
 
+	/**
+	\class InternetToolkit InternetToolkit.h "vcf/InternetKit/InternetToolkit.h"
+	The InternetToolkit is used to get data from the URL.
+	These methods then resolve to platform specific calls.
+	*/
 	class INTERNETKIT_API InternetToolkit {
 	public:
+		/**
+		Using the URL, the InternetToolkit gets the data 
+		and writes to the output stream. This is a blocking 
+		call.
+		*/
 		static void getDataFromURL( URL* url, OutputStream* stream ) {
 			InternetToolkit::inetKitInstance->internal_getDataFromURL( url, stream );
 		}
@@ -32,6 +42,11 @@ namespace VCF {
 
 		static InternetToolkit* inetKitInstance;
 
+		/**
+		This is an abstract method that get re-implemented in a 
+		concrete class derived from InternetToolkit that is 
+		specific to the platform the VCF is running on.
+		*/
 		virtual void internal_getDataFromURL( URL* url, OutputStream* stream ) = 0; 
 
 	private:		
