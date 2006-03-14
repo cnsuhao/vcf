@@ -298,7 +298,7 @@ Compile RemoteObjectKit:
     <option name="OPTION_INTERNETKIT">
         <values>0,1</values>
         <default-value>
-            $(vcf.getOptionValue( 'OPTION_INTERNETKIT', '0' ))
+            $(vcf.getOptionValue( 'OPTION_INTERNETKIT', '1' ))
         </default-value>
         <description>
 Depends on:
