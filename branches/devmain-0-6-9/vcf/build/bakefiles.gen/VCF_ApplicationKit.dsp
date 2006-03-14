@@ -2023,10 +2023,6 @@ SOURCE=..\..\src\vcf\ApplicationKit\RadioButtonControl.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\vcf\ApplicationKit\ScrollBarControl.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\src\vcf\ApplicationKit\ScrollEvent.h
 # End Source File
 # Begin Source File
@@ -2044,10 +2040,6 @@ SOURCE=..\..\src\vcf\ApplicationKit\ScrollbarManager.h
 # Begin Source File
 
 SOURCE=..\..\src\vcf\ApplicationKit\ScrollbarPeer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\src\vcf\ApplicationKit\Selectable.h
 # End Source File
 # Begin Source File
 

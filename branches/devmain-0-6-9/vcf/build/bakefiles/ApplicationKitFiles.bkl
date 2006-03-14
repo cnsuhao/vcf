@@ -153,12 +153,10 @@
         vcf/ApplicationKit/PushButton.h
         vcf/ApplicationKit/RadioButtonControl.h
         vcf/ApplicationKit/Scrollable.h
-        vcf/ApplicationKit/ScrollBarControl.h
         vcf/ApplicationKit/ScrollbarManager.h
         vcf/ApplicationKit/ScrollbarPeer.h
         vcf/ApplicationKit/ScrollEvent.h
         vcf/ApplicationKit/ScrollPeer.h
-        vcf/ApplicationKit/Selectable.h
         vcf/ApplicationKit/SelectionListener.h
         vcf/ApplicationKit/SliderControl.h
         vcf/ApplicationKit/Splitter.h
