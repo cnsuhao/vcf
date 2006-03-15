@@ -382,20 +382,22 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		break;
 
 		case WM_NCACTIVATE : {
-			BOOL active = (BOOL)wParam;
-
-			if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
-				wndProcResult = TRUE;
-				result = true;
-			}
-			else {
-				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+			if ( NULL != peerControl_ ) {
+				BOOL active = (BOOL)wParam;
 				
-				Frame* frame = (Frame*)peerControl_;
-				//StringUtils::trace( Format( "WM_NCACTIVATE, active: %d\n" ) % active );
-				
-				if ( active ) {
-					handleActivate();
+				if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
+					wndProcResult = TRUE;
+					result = true;
+				}
+				else {
+					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+					
+					Frame* frame = (Frame*)peerControl_;
+					//StringUtils::trace( Format( "WM_NCACTIVATE, active: %d\n" ) % active );
+					
+					if ( active ) {
+						handleActivate();
+					}
 				}
 			}
 		}
@@ -438,30 +440,32 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 
 		case WM_ACTIVATE : {
 
-			BOOL active = LOWORD(wParam);
-			
-			if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
-				wndProcResult = 0;
-				result = (WA_INACTIVE == active) ? false : true;
-
-				HWND hwndPrevious = (HWND) lParam; 
-
-				Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndPrevious );			
-
-				if ( (NULL != win32Obj) && active ) {
-					SetActiveWindow( hwndPrevious );
-				}
-			}
-			else {
-				result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+			if ( NULL != peerControl_ ) {
+				BOOL active = LOWORD(wParam);
 				
-				
-				
-				if ( active ) {
-					handleActivate();
+				if ( peerControl_->isDesigning() || peerControl_->isLoading() ) {
+					wndProcResult = 0;
+					result = (WA_INACTIVE == active) ? false : true;
 					
-					if ( !peerControl_->isDesigning() ) {
-						::BringWindowToTop( hwnd_ );
+					HWND hwndPrevious = (HWND) lParam; 
+					
+					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndPrevious );			
+					
+					if ( (NULL != win32Obj) && active ) {
+						SetActiveWindow( hwndPrevious );
+					}
+				}
+				else {
+					result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+					
+					
+					
+					if ( active ) {
+						handleActivate();
+						
+						if ( !peerControl_->isDesigning() ) {
+							::BringWindowToTop( hwnd_ );
+						}
 					}
 				}
 			}
@@ -852,6 +856,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.13  2006/03/15 04:18:21  ddiego
+*fixed text control desktop refresh bug 1449840.
+*
 *Revision 1.5.2.12  2006/03/10 05:35:57  ddiego
 *fixed repaint for win32window when first made visible.
 *

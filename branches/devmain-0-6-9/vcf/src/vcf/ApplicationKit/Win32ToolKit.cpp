@@ -2581,7 +2581,7 @@ public:
 			
 
 			toolTip_->setCaption( tooltip );
-			OutputDebugString( "toolTip_->show()\n" );
+			
 			toolTip_->show();
 			//toolTip_->setFrameTopmost( true );
 			currentControlWithTooltip_ = actualToolTipControl;
@@ -2589,7 +2589,7 @@ public:
 	}
 
 	void hideToolTip() {
-		OutputDebugString( "hideToolTip()\n" );
+		
 		toolTip_->hide();
 
 		if ( NULL != embeddedTooltipControl_ ) {
@@ -2606,15 +2606,13 @@ public:
 	}
 
 	void onToolTipLostFocus( WindowEvent* e ) {
-		OutputDebugString( "onToolTipLostFocus\n" );
-		Window* w = (Window*)e->getSource();
 		
+		Window* w = (Window*)e->getSource();		
 		if ( w == toolTip_ ) {
 			hideToolTip();
 		}
 		else {			
-			if ( !w->isActive() ) {
-				OutputDebugString( "!w->isActive()\n" );
+			if ( !w->isActive() ) {				
 				w->hide();
 			}
 		}
@@ -2667,8 +2665,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 		break;
 
 		case WM_SETTINGCHANGE : {
-			//settings change!
-
+			//settings change!			
 			UIToolkit::systemSettingsChanged();
 		}
 		break;
@@ -2719,7 +2716,6 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 			}
 			else {
 				::KillTimer( hWnd, TOOLTIP_TIMERID );
-
 			}
 		}
 		break;
@@ -2764,7 +2760,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 								
 
 								if ( (toolTipWatcher->checkPt_.x_ == tmpPt.x_) && (toolTipWatcher->checkPt_.y_ == tmpPt.y_) ) {
-									OutputDebugString( "toolTipWatcher->showTooltip\n" );
+									
 									toolTipWatcher->showTooltip( win32Obj->getPeerControl(), &tmpPt );
 									ToolTipTimoutTimerID = ::SetTimer( hWnd, TOOLTIP_TIMEOUT_TIMERID, 5000, NULL );
 								}
@@ -2925,14 +2921,14 @@ ATOM Win32ToolKit::RegisterWin32ToolKitClass(HINSTANCE hInstance)
 
 		wcex.cbSize = sizeof(wcex);
 
-		wcex.style			= CS_HREDRAW | CS_VREDRAW;
+		wcex.style			= 0;
 		wcex.lpfnWndProc	= (WNDPROC)Win32ToolKit::wndProc;
 		wcex.cbClsExtra		= 0;
 		wcex.cbWndExtra		= 0;
 		wcex.hInstance		= hInstance;
 		wcex.hIcon			= NULL;
 		wcex.hCursor		= NULL;
-		wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+		wcex.hbrBackground	= 0;
 		wcex.lpszMenuName	= NULL;
 		wcex.lpszClassName	= L"Win32ToolKit";
 		wcex.hIconSm		= NULL;
@@ -2944,14 +2940,14 @@ ATOM Win32ToolKit::RegisterWin32ToolKitClass(HINSTANCE hInstance)
 
 		wcex.cbSize = sizeof(wcex);
 
-		wcex.style			= CS_HREDRAW | CS_VREDRAW;
+		wcex.style			= 0;
 		wcex.lpfnWndProc	= (WNDPROC)Win32ToolKit::wndProc;
 		wcex.cbClsExtra		= 0;
 		wcex.cbWndExtra		= 0;
 		wcex.hInstance		= hInstance;
 		wcex.hIcon			= NULL;
 		wcex.hCursor		= NULL;
-		wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+		wcex.hbrBackground	= 0;
 		wcex.lpszMenuName	= NULL;
 		wcex.lpszClassName	= "Win32ToolKit";
 		wcex.hIconSm		= NULL;
@@ -4095,6 +4091,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.24  2006/03/15 04:18:21  ddiego
+*fixed text control desktop refresh bug 1449840.
+*
 *Revision 1.6.2.23  2006/03/14 22:14:53  ddiego
 *Win32ToolKit.cpp
 *

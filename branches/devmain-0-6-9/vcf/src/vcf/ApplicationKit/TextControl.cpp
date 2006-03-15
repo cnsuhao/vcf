@@ -29,12 +29,11 @@ TextControl::TextControl( const bool& multiLineControl ):
 
 	peer_ = dynamic_cast<ControlPeer*>(textPeer_ );
 
+	peer_->create( this );
 
 
 	setColor(  GraphicsToolkit::getSystemColor( SYSCOLOR_WINDOW ) );
-
-
-	peer_->create( this );
+	
 
 	setTextModel( new DefaultTextModel() );
 
@@ -63,6 +62,7 @@ TextControl::~TextControl()
 void TextControl::init()
 {
 	setVisible( true );
+	
 	setFocused();
 	setEnabled( true );
 	keepTabbingCharacters_ = false;
@@ -717,6 +717,9 @@ void TextControl::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.5  2006/03/15 04:18:21  ddiego
+*fixed text control desktop refresh bug 1449840.
+*
 *Revision 1.8.2.4  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *
