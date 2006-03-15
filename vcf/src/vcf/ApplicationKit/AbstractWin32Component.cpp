@@ -258,6 +258,7 @@ void AbstractWin32Component::setControl( VCF::Control* component )
 
 void AbstractWin32Component::setParent( VCF::Control* parent )
 {
+	VCF_ASSERT(NULL != hwnd_);
 	Win32ToolKit* toolkit = (Win32ToolKit*)UIToolkit::internal_getDefaultUIToolkit();
 	HWND dummyParent = toolkit->getDummyParent();
 
@@ -293,6 +294,7 @@ VCF::Control* AbstractWin32Component::getParent()
 
 bool AbstractWin32Component::isFocused()
 {
+	VCF_ASSERT(NULL != hwnd_);
 	HWND focusedHandle = ::GetFocus();
 	bool result = (NULL != focusedHandle) && (focusedHandle == hwnd_);
 	return result;
@@ -300,21 +302,25 @@ bool AbstractWin32Component::isFocused()
 
 void AbstractWin32Component::setFocused()
 {
+	VCF_ASSERT(NULL != hwnd_);
 	::SetFocus( hwnd_ );
 }
 
 bool AbstractWin32Component::isEnabled()
 {
+	VCF_ASSERT(NULL != hwnd_);
 	return (::IsWindowEnabled( hwnd_ ) != 0);
 }
 
 void AbstractWin32Component::setEnabled( const bool& enabled )
 {
+	VCF_ASSERT(NULL != hwnd_);
 	::EnableWindow( hwnd_, enabled );
 }
 
 void AbstractWin32Component::setFont( Font* font )
 {
+	VCF_ASSERT(NULL != hwnd_);
 	if ( NULL != font ){
 		Win32Font* win32FontPeer = NULL;
 		FontPeer* fontPeer = font->getFontPeer();
@@ -816,7 +822,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 		case WM_PAINT:{
 			if ( true == isCreated() ){
-				StringUtils::trace( "AbstractWin32Component::WM_PAINT\n" );
+				//StringUtils::trace( "AbstractWin32Component::WM_PAINT\n" );
 				if ( !peerControl_->isDestroying() ) {					
 					if( !GetUpdateRect( hwnd_, NULL, FALSE ) ){
 						wndProcResult = 0;
@@ -1467,6 +1473,8 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 void AbstractWin32Component::repaint( Rect* repaintRect, const bool& immediately )
 {	
+	VCF_ASSERT(NULL != hwnd_);
+
 	if ( NULL == repaintRect ){
 		::InvalidateRect( hwnd_, NULL, TRUE );
 	}
@@ -1486,11 +1494,13 @@ void AbstractWin32Component::repaint( Rect* repaintRect, const bool& immediately
 
 void AbstractWin32Component::keepMouseEvents()
 {
+	VCF_ASSERT(NULL != hwnd_);
 	::SetCapture( hwnd_ );
 }
 
 void AbstractWin32Component::releaseMouseEvents()
 {
+	VCF_ASSERT(NULL != hwnd_);
 	::ReleaseCapture();
 }
 
@@ -1514,6 +1524,7 @@ void AbstractWin32Component::setCursor( Cursor* cursor )
 
 void AbstractWin32Component::translateToScreenCoords( Point* pt )
 {
+	VCF_ASSERT(NULL != hwnd_);
 	POINT aPt = { (long)pt->x_, (long)pt->y_ };
 	ClientToScreen( hwnd_, &aPt );
 	pt->x_ = aPt.x;
@@ -1522,6 +1533,7 @@ void AbstractWin32Component::translateToScreenCoords( Point* pt )
 
 void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 {
+	VCF_ASSERT(NULL != hwnd_);
 	POINT aPt = { (long)pt->x_, (long)pt->y_ };
 	ScreenToClient( hwnd_, &aPt );
 	pt->x_ = aPt.x;
@@ -1530,11 +1542,13 @@ void AbstractWin32Component::translateFromScreenCoords( Point* pt )
 
 void AbstractWin32Component::setBorder( Border* border )
 {	
+	VCF_ASSERT(NULL != hwnd_);
 	SetWindowPos(hwnd_, NULL,0,0,0,0, SWP_FRAMECHANGED|SWP_NOMOVE|SWP_NOSIZE);
 }
 
 LRESULT AbstractWin32Component::handleNCPaint( WPARAM wParam, LPARAM lParam )
 {
+	VCF_ASSERT(NULL != hwnd_);
 	defaultWndProcedure( WM_NCPAINT, wParam, lParam );
 	
 	HDC hdc = GetWindowDC(hwnd_);
@@ -1598,6 +1612,7 @@ LRESULT AbstractWin32Component::handleNCPaint( WPARAM wParam, LPARAM lParam )
 
 LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 {
+	VCF_ASSERT(NULL != hwnd_);
 	RECT* rectToModify = NULL;
 
 	if ( !wParam ) {
@@ -1644,6 +1659,9 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.12  2006/03/15 04:18:21  ddiego
+*fixed text control desktop refresh bug 1449840.
+*
 *Revision 1.7.2.11  2006/03/10 05:35:57  ddiego
 *fixed repaint for win32window when first made visible.
 *

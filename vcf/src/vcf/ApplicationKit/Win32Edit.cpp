@@ -362,7 +362,7 @@ String Win32Edit::getText( unsigned int start, unsigned int length )
 }
 
 String Win32Edit::getText()
-{
+{	
 	String result;
 	ITextRange* range;
 	textDocument_->Range( 0, 0, &range );
@@ -1371,6 +1371,9 @@ void Win32Edit::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.8  2006/03/15 04:18:21  ddiego
+*fixed text control desktop refresh bug 1449840.
+*
 *Revision 1.5.2.7  2006/03/14 22:14:53  ddiego
 *Win32ToolKit.cpp
 *
