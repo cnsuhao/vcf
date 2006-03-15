@@ -53,6 +53,13 @@ NB: This software will not save the world.
 
 	<xsl:param name="htmlhelp.hhc.generate.source.chm.link" select="0"/>
 	<xsl:param name="htmlhelp.hhp" select="'vcf-docbook.hhp'"></xsl:param>
+	
+	<xsl:param name="htmlhelp.hhp.window" select="'VCFWindow'"></xsl:param>
+	<xsl:param name="htmlhelp.show.menu" select="1"></xsl:param>
+	<xsl:param name="htmlhelp.show.advanced.search" select="0"></xsl:param>
+	<xsl:param name="htmlhelp.show.favorities" select="1"></xsl:param>
+	<xsl:param name="htmlhelp.show.toolbar.text" select="1"></xsl:param>
+	<xsl:param name="htmlhelp.remember.window.position" select="1"></xsl:param>
 
 
 
@@ -96,7 +103,9 @@ VCF-SOURCE-CHM
   <xsl:call-template name="toHex">
     <xsl:with-param name="n" select="9504 + $htmlhelp.show.menu * 65536
                                           + $htmlhelp.show.advanced.search * 131072
-                                          + $htmlhelp.show.favorities * 4096"/>
+                                          + $htmlhelp.show.favorities * 4096
+                                          + (1 - $htmlhelp.show.toolbar.text) * 64
+                                          + $htmlhelp.remember.window.position * 262144"/>
   </xsl:call-template>
 </xsl:variable>
 <xsl:variable name="xbuttons">
@@ -477,6 +486,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.10.2.4  2006/03/15 06:47:33  dougtinkham
+changes to allow menu, allowing change in font size
+
 Revision 1.10.2.3  2006/03/12 22:01:36  ddiego
 doc updates.
 
