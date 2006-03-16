@@ -22,7 +22,6 @@ public:
 
 	PrintingWindow() {
 		setCaption( "Printing" );
-		setVisible( true );
 
 		MenuBar* menuBar = new MenuBar();
 		setMenuBar( menuBar );
@@ -188,6 +187,7 @@ public:
 		Window* mainWindow = new PrintingWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->show();
 
 		return result;
 	}

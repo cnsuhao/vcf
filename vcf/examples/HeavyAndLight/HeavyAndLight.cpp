@@ -127,7 +127,6 @@ class HeavyAndLightWindow : public Window {
 public:
 	HeavyAndLightWindow() {
 		setCaption( "HeavyAndLight" );
-		setVisible( true );
 
 
 		EventHandler* ev = new MouseEventHandler<HeavyAndLightWindow>(this,&HeavyAndLightWindow::onCtrlMouseDown, "onCtrlMouseDown" );
@@ -181,6 +180,7 @@ public:
 		Window* mainWindow = new HeavyAndLightWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->show();
 
 		return result;
 	}
@@ -201,6 +201,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/16 18:45:26  kdmix
+*setVisible(true) removed from constructor of the main window.
+*
 *Revision 1.5.2.1  2005/07/23 21:45:36  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

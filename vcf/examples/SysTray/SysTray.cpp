@@ -17,7 +17,6 @@ class SysTrayWindow : public Window {
 public:
 	SysTrayWindow() {
 		setCaption( "SysTray" );
-		setVisible( true );
 
 		/**
 		Create a new system tray. Passing a pointer to the
@@ -139,6 +138,7 @@ public:
 		Window* mainWindow = new SysTrayWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->show();
 		
 		return result;
 	}
