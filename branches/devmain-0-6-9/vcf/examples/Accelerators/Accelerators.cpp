@@ -135,7 +135,8 @@ public:
 		p1->setName( "Panel1" );
 		Label* l = new Label();
 		l->setCaption( "Click top panel to set it's focus, then click the Panels > Change Colors menu" );
-		l->setHeight( 30 );
+		l->setWordWrap( true );
+		l->setHeight( 60 );
 
 		tab->getPageComponent()->getContainer()->add( l, AlignTop );
 
@@ -309,7 +310,7 @@ public:
 		
 		Window* mainWindow = new AcceleratorsWindow();
 		setMainWindow(mainWindow);
-		mainWindow->setBounds( 100.0, 100.0, 500.0, 500.0 );
+		mainWindow->setBounds( 100.0, 100.0, 300.0, 300.0 );
 		mainWindow->show();
 		
 		return result;
@@ -331,6 +332,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2006/03/16 01:31:31  ddiego
+*fixed accelerators example per fraggles req.
+*
 *Revision 1.2.2.1  2006/01/29 18:18:10  dougtinkham
 *minor change for mingw
 *
