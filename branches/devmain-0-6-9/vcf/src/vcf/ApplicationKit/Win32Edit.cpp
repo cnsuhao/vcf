@@ -226,19 +226,16 @@ void Win32Edit::create( Control* owningControl )
 
 		subclassWindow();
 
+		registerForFontChanges();
+
 		//make sure that we get ALL richedit change notfications!
 		::SendMessage( hwnd_, EM_SETEVENTMASK, 0, ENM_CHANGE | ENM_SELCHANGE );
-
-
-		setFont( textControl_->getFont() );
+		
 
 		textControl_->ControlModelChanged +=
 			new GenericEventHandler<Win32Edit>( this, &Win32Edit::onControlModelChanged, "Win32Edit::onControlModelChanged" );
 
-		initFromRichEdit( hwnd_ );		
-
-		textControl_->getFont()->FontChanged += 
-			new GenericEventHandler<Win32Edit>( this, &Win32Edit::onTextControlFontChanged, "Win32Edit::onTextControlFontChanged" );
+		initFromRichEdit( hwnd_ );
 
 	}
 	else {
@@ -1350,13 +1347,6 @@ void Win32Edit::redo()
 	}
 }
 
-void Win32Edit::onTextControlFontChanged( Event* event )
-{
-	Font* font = (Font*) event->getSource();	
-
-	setFont( font );
-}
-
 void Win32Edit::setTextWrapping( const bool& val )
 {
 	if ( val ) {
@@ -1371,6 +1361,9 @@ void Win32Edit::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.9  2006/03/16 03:23:11  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.5.2.8  2006/03/15 04:18:21  ddiego
 *fixed text control desktop refresh bug 1449840.
 *

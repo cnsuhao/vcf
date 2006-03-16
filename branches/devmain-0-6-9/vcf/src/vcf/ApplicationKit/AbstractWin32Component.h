@@ -155,6 +155,9 @@ protected:
 
 	std::vector<MSG>* cachedMessages_;
 
+	void registerForFontChanges();
+	void onControlFontChanged( Event* event );
+
 };
 
 
@@ -164,6 +167,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/16 03:23:09  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.5.2.1  2005/08/05 01:11:37  ddiego
 *splitter fixes finished.
 *

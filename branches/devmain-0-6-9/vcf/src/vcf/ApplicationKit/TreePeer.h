@@ -57,6 +57,8 @@ public:
 
 	virtual Rect getItemImageRect( TreeItem* item ) = 0;
 
+	virtual Rect getItemRect( TreeItem* item ) = 0;
+
 	virtual bool getAllowLabelEditing() = 0;
 
 	virtual void setAllowLabelEditing( const bool& allowLabelEditing ) = 0;
@@ -68,6 +70,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/16 03:23:09  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.2.6.1  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

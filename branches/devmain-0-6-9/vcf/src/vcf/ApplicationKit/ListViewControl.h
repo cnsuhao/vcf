@@ -229,6 +229,8 @@ public:
 
 	void setDisplayOptions( const long& displayOptions );
 
+	Rect getItemRect( ListItem* item );
+
 	virtual void handleEvent( Event* event );
 protected:
 	//Events
@@ -269,6 +271,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/16 03:23:09  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.2.6.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

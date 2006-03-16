@@ -185,14 +185,14 @@ void Win32Tree::create( Control* owningControl )
 
 
 	if ( NULL != hwnd_ ){
-		Win32Object::registerWin32Object( this );
-
-		subclassWindow();
-
-		setFont( owningControl->getFont() );
-
 		treeControl_ = (TreeControl*)owningControl;
 		peerControl_ = owningControl;
+
+		Win32Object::registerWin32Object( this );
+
+		subclassWindow();		
+
+		registerForFontChanges();
 
 		peerControl_->ControlModelChanged +=
 			new GenericEventHandler<Win32Tree>( this, &Win32Tree::onControlModelChanged, "Win32Tree::onControlModelChanged" );
@@ -905,6 +905,9 @@ Do we need these? What advantage does processing these events have for us???
 											(HTREEITEM) treeViewDraw->nmcd.dwItemSpec,
 											&r, TRUE );
 
+						StringUtils::trace( Format("CDDS_ITEMPREPAINT rect: %d, %d, %d, %d\n") % r.left
+									 % r.top  % r.right  % r.bottom );
+
 						itemRect.left_ = r.left;
 						itemRect.top_ = r.top;
 						itemRect.right_ = r.right;
@@ -923,6 +926,13 @@ Do we need these? What advantage does processing these events have for us???
 							TreeItem* item = (TreeItem*)treeViewDraw->nmcd.lItemlParam;
 
 							if ( item->canPaint() ) {
+								RECT r;
+								TreeView_GetItemRect( hwnd_,
+											(HTREEITEM) treeViewDraw->nmcd.dwItemSpec,
+											&r, TRUE );
+								StringUtils::trace( Format("CDDS_ITEMPOSTPAINT rect: %d, %d, %d, %d\n") % r.left
+									 % r.top  % r.right  % r.bottom );
+
 								item->paint( peerControl_->getContext(), &itemRect );
 							}
 						}
@@ -1267,6 +1277,32 @@ Rect Win32Tree::getItemImageRect( TreeItem* item )
 {
 	Rect result;
 
+	
+	return result;
+}
+
+Rect Win32Tree::getItemRect( TreeItem* item )
+{
+	Rect result;
+
+	
+	if ( NULL != item ){
+		std::map<TreeItem*,HTREEITEM>::iterator it = treeItems_.find( item );
+		if ( it != treeItems_.end() ){
+			if ( item->isSelected() ) {
+				RECT r = {0};
+				TreeView_GetItemRect( hwnd_, it->second, &r, TRUE );
+				StringUtils::trace( Format("Win32Tree::getItemRect rect: %d, %d, %d, %d\n") % r.left
+									 % r.top  % r.right  % r.bottom );
+
+				result.left_ = r.left;
+				result.top_ = r.top;
+				result.right_ = r.right;
+				result.bottom_ = r.bottom;
+			}
+		}
+	}
+
 	return result;
 }
 
@@ -1386,6 +1422,9 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/16 03:23:11  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.5.2.2  2005/11/21 21:28:05  ddiego
 *updated win32 code a bit due to osx changes.
 *

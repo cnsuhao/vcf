@@ -201,7 +201,8 @@ Win32Listview::Win32Listview( ListViewControl* listviewControl ):
 	listviewControl_( listviewControl ),
 	oldHeaderWndProc_(NULL),
 	largeImageListCtrl_(NULL),
-	smallImageListCtrl_(NULL)
+	smallImageListCtrl_(NULL),
+	internalMessage_(false)
 {
 
 }
@@ -296,7 +297,7 @@ void Win32Listview::create( Control* owningControl )
 		Win32Object::registerWin32Object( this );
 
 		subclassWindow();
-		setFont( owningControl->getFont() );
+		registerForFontChanges();
 
 		COLORREF backColor = backColor_.getColorRef32();
 		ListView_SetBkColor( hwnd_, backColor );
@@ -1041,6 +1042,8 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 				ListItem* item = (ListItem*)lvNotificationHdr->lParam;
 				if ( NULL != item ){
 					if ( (lvNotificationHdr->uChanged & LVIF_STATE) != 0 ) {
+						internalMessage_ = true;
+
 						if ( (lvNotificationHdr->uNewState & LVIS_SELECTED) != 0 ){
 							item->setSelected( true );
 
@@ -1056,6 +1059,8 @@ bool Win32Listview::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPa
 						else {
 							item->setSelected( false );
 						}
+
+						internalMessage_ = false;
 					}
 				}
 			}
@@ -1327,6 +1332,8 @@ void Win32Listview::selectItem(ListItem * item)
 {
 	if ( NULL != item ){
 
+		internalMessage_ = true;
+
 		if ( System::isUnicodeEnabled() ) {
 			LVFINDINFOW findInfo;
 			memset( &findInfo, 0, sizeof(LVFINDINFOW) );
@@ -1361,6 +1368,8 @@ void Win32Listview::selectItem(ListItem * item)
 				SendMessage( hwnd_, LVM_SETITEMSTATE, index, (LPARAM)&lvItem );
 			}
 		}
+
+		internalMessage_ = false;
 	}
 }
 
@@ -1952,16 +1961,18 @@ void Win32Listview::onItemChanged( ItemEvent* event )
 
 void Win32Listview::onItemSelected( ItemEvent* event )
 {
-/*
-	Item* item = (Item*)event->getSource();
-	if ( true == item->isSelected() ) {
-		ListView_SetItemState( hwnd_, item->getIndex(),
-			                   LVIS_SELECTED, LVIS_SELECTED );
+
+	if ( !internalMessage_ ) {
+		Item* item = (Item*)event->getSource();
+		if ( true == item->isSelected() ) {
+			ListView_SetItemState( hwnd_, item->getIndex(),
+				LVIS_SELECTED, LVIS_SELECTED );
+		}
+		else {
+			ListView_SetItemState( hwnd_, item->getIndex(), 0, LVIS_SELECTED );
+		}
 	}
-	else {
-		ListView_SetItemState( hwnd_, item->getIndex(), 0, LVIS_SELECTED );
-	}
-*/
+
 }
 
 void Win32Listview::onItemAdded( ItemEvent* event )
@@ -2418,6 +2429,9 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2006/03/16 03:23:11  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.5.2.5  2006/02/08 02:06:31  ddiego
 *updated more vc80 projects.
 *

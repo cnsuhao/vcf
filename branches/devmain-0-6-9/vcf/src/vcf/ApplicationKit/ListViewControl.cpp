@@ -522,11 +522,17 @@ void ListViewControl::paint( GraphicsContext * context )
 	context->fillPath();
 }
 
-
+Rect ListViewControl::getItemRect( ListItem* item )
+{
+	return listviewPeer_->getItemRect( item );
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/16 03:23:09  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.4.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *
