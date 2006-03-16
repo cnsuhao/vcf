@@ -470,8 +470,6 @@ public:
 		btn5->setHeight( btn5->getPreferredHeight() );
 		btn5->setCaption( "MVC Basics Part 5" );
 		add( btn5, AlignTop );
-
-		show();
 	}
 
 	void example1( VCF::Event* ) {
@@ -578,6 +576,7 @@ public:
 		Window* mainWindow = new MVCBasicsWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->show();
 
 		return result;
 	}
@@ -598,6 +597,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/16 18:45:24  kdmix
+*setVisible(true) removed from constructor of the main window.
+*
 *Revision 1.4.2.2  2005/10/04 01:57:02  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

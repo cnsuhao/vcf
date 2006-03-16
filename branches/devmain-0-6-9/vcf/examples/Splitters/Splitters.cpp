@@ -43,7 +43,6 @@ public:
 		panelVisible_ = true;
 
 		setCaption( "Splitters" );
-		setVisible( true );
 
 		ControlSized += new ControlEventHandler<SplittersWindow>(this, &SplittersWindow::onResized, "SplittersWindow::onResized" );
 		ControlPositioned += new ControlEventHandler<SplittersWindow>(this, &SplittersWindow::onPosChanged, "SplittersWindow::onPosChanged" );
@@ -250,6 +249,7 @@ public:
 		Window* mainWindow = new SplittersWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 700.0, 700.0 ) );
+		mainWindow->show();
 
 		return result;
 	}
@@ -270,6 +270,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.2  2006/03/16 18:45:23  kdmix
+*setVisible(true) removed from constructor of the main window.
+*
 *Revision 1.7.2.1  2005/07/23 21:45:42  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

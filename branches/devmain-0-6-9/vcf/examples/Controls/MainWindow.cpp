@@ -76,8 +76,6 @@ MainWindow::MainWindow()
 
 	mainPagesModel_ = mainPages_->getModel();
 	mainPagesModel_->setSelectedPage( listBoxPage_ );
-
-	setVisible( true );
 }
 
 MainWindow::~MainWindow()
@@ -883,6 +881,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2006/03/16 18:45:24  kdmix
+*setVisible(true) removed from constructor of the main window.
+*
 *Revision 1.3.2.3  2006/02/22 05:00:40  ddiego
 *some minor text updates to support toggling word wrap.
 *

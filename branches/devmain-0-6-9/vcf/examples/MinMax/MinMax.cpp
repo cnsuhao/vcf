@@ -11,7 +11,6 @@ class MinMaxWindow : public Window {
 public:
 	MinMaxWindow() {
 		setCaption( "MinMax" );
-		setVisible( true );
 
 		setMinWidth( 300 );
 		setMinHeight( 200 );
@@ -39,6 +38,7 @@ public:
 		Window* mainWindow = new MinMaxWindow();
 		setMainWindow(mainWindow);
 		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->show();
 		
 		return result;
 	}
