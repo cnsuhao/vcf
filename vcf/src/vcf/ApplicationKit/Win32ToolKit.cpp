@@ -1040,9 +1040,35 @@ public:
 			result.right_ = result.left_ + dialog->getWidth();
 			result.bottom_ = result.top_ + dialog->getHeight();
 			if ( NULL != owner->getParent() ) {
-				owner->translateToScreenCoords( &result );
+				owner->translateToScreenCoords( &result );				
+			}
+
+			double w = result.getWidth();
+			double h = result.getHeight();
+			RECT r;
+			SystemParametersInfo( SPI_GETWORKAREA, 0, &r, 0 );
+			if ( r.left > result.left_ ) {
+				result.left_ = r.left;
+				result.right_ = result.left_ + w;
+			}
+
+			if ( r.top > result.top_ ) {
+				result.top_ = r.top;
+				result.bottom_ = result.top_ + h;
+			}
+
+			if ( r.right < result.right_ ) {
+				result.right_ = r.right;
+				result.left_ = result.right_ - w;
+			}
+
+			if ( r.bottom < result.bottom_ ) {
+				result.bottom_ = r.bottom;
+				result.top_ = result.bottom_ - h;
 			}
 		}
+
+		
 
 		return result;
 	}
@@ -4091,6 +4117,10 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.25  2006/03/16 01:30:43  ddiego
+*fixed a bug in the way dialog bounds were adjusted in the
+*win32 policy manager class.
+*
 *Revision 1.6.2.24  2006/03/15 04:18:21  ddiego
 *fixed text control desktop refresh bug 1449840.
 *
