@@ -94,6 +94,8 @@ static UINT ToolTipTimoutTimerID = 0;
 static UINT VCF_POST_EVENT = 0;
 
 HINSTANCE Win32ToolKit_toolkitHInstance = NULL;
+static HHOOK Win32ToolKit_mouseHook = NULL;
+static HHOOK Win32ToolKit_kbHook = NULL;
 
 #ifndef _LIB //DLL Linkage...
 
@@ -2742,6 +2744,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 			}
 			else {
 				::KillTimer( hWnd, TOOLTIP_TIMERID );
+				ToolTipTimerID = 0;
 			}
 		}
 		break;
@@ -2802,10 +2805,14 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 				}
 			}
 
-			else if ( ToolTipTimoutTimerID == wTimerID ) {
+			else if ( ToolTipTimoutTimerID == wTimerID ) {				
 				::KillTimer( hWnd, TOOLTIP_TIMEOUT_TIMERID );
+				::KillTimer( hWnd, TOOLTIP_TIMERID );
+				ToolTipTimerID = 0;
 
 				if ( NULL != toolTipWatcher->toolTip_ ) {
+					toolTipWatcher->checkPt_.x_ = -1;
+					toolTipWatcher->checkPt_.y_ = -1;
 					toolTipWatcher->hideToolTip();
 				}
 
@@ -2826,6 +2833,7 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 		case WM_DESTROY:	{
 			::KillTimer( hWnd, TOOLTIP_TIMERID );
+			ToolTipTimerID = 0;
 			delete toolTipWatcher;
 			if ( System::isUnicodeEnabled() ) {
 				result =  DefWindowProcW( hWnd, message, wParam, lParam );
@@ -2940,6 +2948,35 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 	return result;
 }
 
+LRESULT CALLBACK Win32ToolKit::mouseHookProc( int nCode, WPARAM wParam, LPARAM lParam )
+{
+	if ( NULL != toolTipWatcher ) {
+		if ( WM_MOUSEMOVE == wParam ) {
+			if ( 0 == ToolTipTimerID ) {
+				Win32ToolKit* toolkit = (Win32ToolKit*) UIToolkit::toolKitInstance;
+				
+				ToolTipTimerID = ::SetTimer( toolkit->getDummyParent(), TOOLTIP_TIMERID, 500, NULL );
+			}
+		}
+		else {
+			Win32ToolKit* toolkit = (Win32ToolKit*) UIToolkit::toolKitInstance;
+			
+			ToolTipTimoutTimerID = ::SetTimer( toolkit->getDummyParent(), TOOLTIP_TIMEOUT_TIMERID, 1, NULL );
+		}
+	}
+
+	return CallNextHookEx( Win32ToolKit_mouseHook, nCode, wParam, lParam );
+}
+
+LRESULT CALLBACK Win32ToolKit::keyboardHookProc( int nCode, WPARAM wParam, LPARAM lParam )
+{
+	if ( NULL != toolTipWatcher ) {
+		Win32ToolKit* toolkit = (Win32ToolKit*) UIToolkit::toolKitInstance;
+		ToolTipTimoutTimerID = ::SetTimer( toolkit->getDummyParent(), TOOLTIP_TIMEOUT_TIMERID, 1, NULL );
+	}
+	return CallNextHookEx( Win32ToolKit_kbHook, nCode, wParam, lParam );	
+}
+
 ATOM Win32ToolKit::RegisterWin32ToolKitClass(HINSTANCE hInstance)
 {
 	if ( System::isUnicodeEnabled() ) {
@@ -2986,12 +3023,11 @@ ATOM Win32ToolKit::RegisterWin32ToolKitClass(HINSTANCE hInstance)
 
 
 Win32ToolKit::Win32ToolKit():
-	UIToolkit()
+	UIToolkit(),
+	dummyParentWnd_(NULL),
+	runEventCount_(0)
+
 {
-	runEventCount_ = 0;
-	dummyParentWnd_ = NULL;
-
-
 	if ( System::isUnicodeEnabled() ) {
 		VCF_POST_EVENT = RegisterWindowMessageW( L"VCF_POST_EVENT" );
 	}
@@ -3052,7 +3088,9 @@ Win32ToolKit::Win32ToolKit():
 			questionImage_ = new Win32Image( bmp );
 		}
 	}
-	
+
+	Win32ToolKit_mouseHook = SetWindowsHookEx( WH_MOUSE, Win32ToolKit::mouseHookProc, NULL, GetCurrentThreadId() );
+	Win32ToolKit_kbHook = SetWindowsHookEx( WH_KEYBOARD, Win32ToolKit::keyboardHookProc, NULL, GetCurrentThreadId() );
 
 	createDummyParentWindow();
 
@@ -3114,6 +3152,9 @@ Win32ToolKit::~Win32ToolKit()
 			toolTipWatcher->free();
 		}
 	}
+
+	UnhookWindowsHookEx( Win32ToolKit_mouseHook );
+	UnhookWindowsHookEx( Win32ToolKit_kbHook );
 }
 
 ApplicationPeer* Win32ToolKit::internal_createApplicationPeer()
@@ -3564,7 +3605,8 @@ Event* Win32ToolKit::internal_createEventFromNativeOSEventData( void* eventData 
 		}
 		break;
 
-		case WM_CHAR: case WM_KEYDOWN: case WM_KEYUP: {
+		case WM_CHAR: case WM_KEYDOWN: case WM_KEYUP: {		
+
 			KeyboardData keyData = Win32UIUtils::translateKeyData( msg->msg_.hwnd, msg->msg_.lParam );
 			
 			unsigned long eventType = 0;
@@ -4117,6 +4159,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.26  2006/03/16 04:41:29  ddiego
+*fixed some tooltip issues.
+*
 *Revision 1.6.2.25  2006/03/16 01:30:43  ddiego
 *fixed a bug in the way dialog bounds were adjusted in the
 *win32 policy manager class.

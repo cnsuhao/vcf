@@ -237,6 +237,9 @@ protected:
 	static ATOM RegisterWin32ToolKitClass(HINSTANCE hInstance);
 
 	static LRESULT CALLBACK wndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+	static LRESULT CALLBACK mouseHookProc( int nCode, WPARAM wParam, LPARAM lParam );
+	static LRESULT CALLBACK keyboardHookProc( int nCode, WPARAM wParam, LPARAM lParam );
 };
 
 };
@@ -245,6 +248,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.7  2006/03/16 04:41:31  ddiego
+*fixed some tooltip issues.
+*
 *Revision 1.5.2.6  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *
