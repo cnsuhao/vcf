@@ -209,8 +209,10 @@ public:
 		label2->setCaption( "This is Label 2, Aligned to the Bottom!" );
 		label2->setVerticalAlignment( tvaTextBottom );
 		label2->setToolTipText( "clientControl/label2: AlignBottom, gray158" );
-		clientControl->add( label2, AlignBottom );		
+		clientControl->add( label2, AlignBottom );	
 		
+		setMinWidth( 400 );
+		setMinHeight( 500 );		
 	}
 
 	virtual ~AlignmentWindow(){};
@@ -254,6 +256,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/16 04:43:55  ddiego
+*fixed alignment example per fraggles req.
+*
 *Revision 1.5.2.2  2006/01/09 02:21:58  ddiego
 *more osx code
 *
