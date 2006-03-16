@@ -1341,6 +1341,10 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 		formatOptions |= DT_WORD_ELLIPSIS | DT_SINGLELINE;
 	}
 
+	formatOptions |= DT_EXPANDTABS;
+
+
+	
 
 
 	/* Not using for now
@@ -1358,11 +1362,35 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	//r.right = r.left + textSize.cx;
 	//r.bottom = r.top + textSize.cy;
 
-	formatOptions |= DT_EXPANDTABS;
+	
 	if ( System::isUnicodeEnabled() ) {
 		VCFChar* textToDraw = new VCFChar[text.size()+1];
 		memset( textToDraw, 0, (text.size()+1)*sizeof(VCFChar) );
 		text.copy( textToDraw, text.size() );
+
+		if ( drawOptions & GraphicsContext::tdoWordWrap ) {
+			if ( (drawOptions & GraphicsContext::tdoCenterVertAlign) || 
+				(drawOptions & GraphicsContext::tdoBottomAlign) ) {
+				RECT r2 = r;
+
+				int h = DrawTextExW( dc_, textToDraw, text.size(), &r, formatOptions | DT_CALCRECT, NULL );
+				
+				if ( drawOptions & GraphicsContext::tdoCenterVertAlign ) {
+					r.left = r2.left;	
+					r.right = r2.right;
+					r.top = r2.top + ((r2.bottom - r2.top)/2) - (h/2);
+					r.bottom = r.top + h;
+				}
+				else if ( drawOptions & GraphicsContext::tdoBottomAlign ) {
+					r.left = r2.left;	
+					r.right = r2.right;
+					r.top = r2.bottom  - h;
+					r.bottom = r.top + h;
+				}
+			}
+		}
+
+
 		DrawTextExW( dc_, textToDraw, text.size(), &r, formatOptions, NULL );
 
 		//clean up after ourselves
@@ -4441,6 +4469,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.12  2006/03/16 16:32:22  ddiego
+*fixed a glitch in how vertical text alignment was being handled.
+*
 *Revision 1.7.2.11  2006/03/16 04:50:48  ddiego
 *adjusted glitch in drawthemebuttonrect text rect calc.
 *
