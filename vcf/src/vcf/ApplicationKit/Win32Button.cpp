@@ -70,7 +70,7 @@ void Win32Button::create( Control* owningControl )
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
 		subclassWindow();
-		setFont( owningControl->getFont() );
+		registerForFontChanges();
 	}
 	else {
 		//throw exception
@@ -262,6 +262,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/16 03:23:09  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.5.2.4  2006/03/10 05:35:57  ddiego
 *fixed repaint for win32window when first made visible.
 *

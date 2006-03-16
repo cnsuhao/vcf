@@ -354,9 +354,17 @@ void TreeControl::setAllowLabelEditing( const bool& allowLabelEditing )
 	treePeer_->setAllowLabelEditing( allowLabelEditing );
 }
 
+Rect TreeControl::getItemRect( TreeItem* item )
+{
+	return treePeer_->getItemRect( item );
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/16 03:23:09  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.4.2.1  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *

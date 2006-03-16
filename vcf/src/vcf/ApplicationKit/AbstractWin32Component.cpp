@@ -604,6 +604,7 @@ void AbstractWin32Component::updatePaintDC( HDC paintDC, RECT paintRect, RECT* e
 
 void AbstractWin32Component::checkForFontChange()
 {	
+	/*
 	if ( NULL != currentFont_ ) {
 		Font* font = peerControl_->getFont();
 
@@ -655,6 +656,7 @@ void AbstractWin32Component::checkForFontChange()
 
 		}
 	}
+	*/
 }
 
 bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam, LRESULT& wndProcResult, WNDPROC defaultWndProc )
@@ -1656,9 +1658,29 @@ LRESULT AbstractWin32Component::handleNCCalcSize( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
+void AbstractWin32Component::registerForFontChanges()
+{
+	VCF_ASSERT( peerControl_ != NULL );
+
+	setFont( peerControl_->getFont() );
+
+	peerControl_->getFont()->FontChanged += 
+			new GenericEventHandler<AbstractWin32Component>( this, &AbstractWin32Component::onControlFontChanged, "AbstractWin32Component::onControlFontChanged" );
+}
+
+void AbstractWin32Component::onControlFontChanged( Event* event )
+{
+	Font* font = (Font*) event->getSource();	
+
+	setFont( font );
+}
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.13  2006/03/16 03:23:09  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.7.2.12  2006/03/15 04:18:21  ddiego
 *fixed text control desktop refresh bug 1449840.
 *

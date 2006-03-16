@@ -174,7 +174,6 @@ protected:
 
 	void onTextModelTextChanged( TextEvent* event );
 
-	void onTextControlFontChanged( Event* event );
 	/**
 	this is a fix from Marcello to work around an apparent bug in Win32's handling of
 	crlf's
@@ -194,6 +193,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/16 03:23:11  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.4.2.2  2006/02/22 05:00:40  ddiego
 *some minor text updates to support toggling word wrap.
 *

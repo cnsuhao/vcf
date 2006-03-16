@@ -99,7 +99,7 @@ void Win32Dialog::create( Control* owningControl )
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
 
-		setFont( owningControl->getFont() );
+		registerForFontChanges();
 
 		
 /*
@@ -437,6 +437,9 @@ DWORD Win32Dialog::generateStyleForSetParent(VCF::Control* parent)
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2006/03/16 03:23:11  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.6.2.1  2005/09/18 22:54:47  ddiego
 *fixed some minor bugs in vffinput stream and parser class.
 *

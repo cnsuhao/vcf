@@ -77,7 +77,7 @@ void Win32Toolbar::create( Control* control )
 
 		subclassWindow();
 
-		setFont( control->getFont() );
+		registerForFontChanges();
 
 		SendMessage(hwnd_, TB_BUTTONSTRUCTSIZE, (WPARAM) sizeof(TBBUTTON), 0);
 
@@ -1438,6 +1438,9 @@ void Win32Toolbar::setImageList( ImageList* imageList )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/16 03:23:11  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.4.2.2  2006/02/14 20:19:25  ddiego
 *some minor bugs
 *

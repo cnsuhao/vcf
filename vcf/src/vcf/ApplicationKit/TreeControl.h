@@ -38,7 +38,7 @@ namespace VCF {
 
 
 class TreePeer;
-
+class TreeItem;
 class ImageList;
 
 class ModelEvent;
@@ -101,6 +101,8 @@ public:
 
 	Rect getItemImageRect( TreeItem* item );
 
+	Rect getItemRect( TreeItem* item );
+
 	bool getAllowLabelEditing();
 
 	void setAllowLabelEditing( const bool& allowLabelEditing );
@@ -133,6 +135,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/16 03:23:09  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.4.2.1  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

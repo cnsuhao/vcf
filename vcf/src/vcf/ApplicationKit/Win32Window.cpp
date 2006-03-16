@@ -99,7 +99,7 @@ void Win32Window::create( Control* owningControl )
 	if ( NULL != hwnd_ ){
 		Win32Object::registerWin32Object( this );
 
-		setFont( owningControl->getFont() );
+		registerForFontChanges();
 
 		if ( NULL != icon ) {		
 			SendMessage( hwnd_, WM_SETICON, ICON_BIG, (LPARAM) icon );
@@ -856,6 +856,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.14  2006/03/16 03:23:11  ddiego
+*fixes some font change notification issues in win32 peers.
+*
 *Revision 1.5.2.13  2006/03/15 04:18:21  ddiego
 *fixed text control desktop refresh bug 1449840.
 *
