@@ -387,19 +387,14 @@ void StandardContainer::doAnchors( Control* initialControl, const bool& controlJ
 			float* anchorDeltas = child->getAnchorDeltas();
 
 			if ( (anchorType & AnchorRight) != 0 ) {
-				/**
-				JC - Added this to fix incorrect calculation of right and left coords
-				*/
 				if ( anchorBounds.left_ < tmpBounds.right_ ) {
-					anchorBounds.right_ = VCF::maxVal<double>( anchorBounds.left_+1,
-											tmpBounds.getWidth() - anchorDeltas[Control::ANCHOR_DRIGHT] );
+					anchorBounds.right_ = tmpBounds.getWidth() - anchorDeltas[Control::ANCHOR_DRIGHT];
 				}
 				else {
-					anchorBounds.right_ = VCF::minVal<double>( anchorBounds.left_+1,
-											tmpBounds.getWidth() - anchorDeltas[Control::ANCHOR_DRIGHT] );
+					anchorBounds.right_ = tmpBounds.getWidth() - anchorDeltas[Control::ANCHOR_DRIGHT];
 				}
 
-				anchorBounds.left_ = VCF::maxVal<double>( 0.0, anchorBounds.right_ - w );
+				anchorBounds.left_ = anchorBounds.right_ - w;
 			}
 
 			if ( (anchorType & AnchorLeft) != 0 ) {
@@ -407,23 +402,19 @@ void StandardContainer::doAnchors( Control* initialControl, const bool& controlJ
 			}
 
 			if ( (anchorType & AnchorBottom) != 0 ) {
-				/**
-				JC - Added this to fix incorrect calculation of top and bottom coords
-				*/
 				if ( anchorBounds.top_ < tmpBounds.bottom_ ) {
-					anchorBounds.bottom_ = VCF::maxVal<double>( anchorBounds.top_+1, tmpBounds.getHeight() - anchorDeltas[Control::ANCHOR_DBOTTOM] );
+					anchorBounds.bottom_ = tmpBounds.getHeight() - anchorDeltas[Control::ANCHOR_DBOTTOM];
 				}
 				else {
-					anchorBounds.bottom_ = VCF::minVal<double>( anchorBounds.top_+1, tmpBounds.getHeight() - anchorDeltas[Control::ANCHOR_DBOTTOM] );
+					anchorBounds.bottom_ = tmpBounds.getHeight() - anchorDeltas[Control::ANCHOR_DBOTTOM];
 				}
 
-				anchorBounds.top_ = VCF::maxVal<double>( 0.0, anchorBounds.bottom_ - h );
+				anchorBounds.top_ = anchorBounds.bottom_ - h;
 			}
 
 			if ( (anchorType & AnchorTop) != 0 ) {
 				anchorBounds.top_ = anchorDeltas[Control::ANCHOR_DTOP];
 			}
-
 
 			child->setBounds( &anchorBounds, false );
 		}
@@ -637,6 +628,9 @@ void DesignTimeContainer::resizeChildrenUsingBounds( Control* control, Rect* bou
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/16 05:51:53  ddiego
+*fixed glitch in achor sizing code, per fraggles req.
+*
 *Revision 1.3.2.2  2005/08/15 03:10:51  ddiego
 *minor updates to vff in out streaming.
 *
