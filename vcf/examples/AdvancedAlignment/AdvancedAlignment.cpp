@@ -396,7 +396,6 @@ class AdvancedAlignmentWindow : public Window {
 public:
 	AdvancedAlignmentWindow() {
 		setCaption( "AdvancedAlignment" );
-		setVisible( true );
 
 
 		CommandButton* btn1 = new CommandButton();
@@ -452,7 +451,8 @@ public:
 
 		Window* mainWindow = new AdvancedAlignmentWindow();
 		setMainWindow(mainWindow);
-		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->setBounds( 100.0, 100.0, 250.0, 150.0 );
+		mainWindow->show();
 
 		return result;
 	}
@@ -473,6 +473,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/03/16 01:32:18  ddiego
+*fixed AdvancedAlignment example per fraggles req.
+*
 *Revision 1.5.2.3  2005/10/14 13:00:58  kiklop74
 *Fix exception error with divide by zero
 *
