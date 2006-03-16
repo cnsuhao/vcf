@@ -1825,6 +1825,8 @@ void Win32Context::drawThemeButtonRect( Rect* rect, ButtonState& state, Rect* ca
 			::SelectObject( dc_, font );
 		}
 
+		btnRect.left += 5;
+		btnRect.right -= 5;
 
 		Win32VisualStylesWrapper::DrawThemeText(theme, dc_, BP_PUSHBUTTON, btnState,
 			state.buttonCaption_.c_str(),
@@ -4439,6 +4441,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.11  2006/03/16 04:50:48  ddiego
+*adjusted glitch in drawthemebuttonrect text rect calc.
+*
 *Revision 1.7.2.10  2006/03/06 04:16:38  ddiego
 *fix to draw slider calcs for horizontal sliders.
 *
