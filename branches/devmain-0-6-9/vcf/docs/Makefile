@@ -383,6 +383,7 @@ doxy :
 	mv Doxyfile.bak Doxyfile
 	cp -r gfx/ doxy_html/
 	cp vcf.css doxy_html/
+	cp vcf_tabs.css doxy_html/
 
 
 online_doxy :  
@@ -393,11 +394,16 @@ online_doxy :
 	mv Doxyfile.bak Doxyfile.online
 	cp -r gfx/ doxy_html/
 	cp vcf.css doxy_html/
+	cp vcf_tabs.css doxy_html/
 		
 
 
 
 doxy_hh : doxy_html/index.hhp
+	sed -i "s?tabs.css?vcf_tabs.css?g" doxy_html/index.hhp
+	sed -i "s?tab_b.gif?gfx/vcf_tab_b.gif?g" doxy_html/index.hhp
+	sed -i "s?tab_l.gif?gfx/vcf_tab_l.gif?g" doxy_html/index.hhp
+	sed -i "s?tab_r.gif?gfx/vcf_tab_r.gif?g" doxy_html/index.hhp
 	mv doxy_html/index.hhp doxy_html/$(VERSIONED_SRC_HHP_FILENAME)
 	-$(HTMLHELP_COMPILER) doxy_html/$(VERSIONED_SRC_HHP_FILENAME)	
 	mv doxy_html/$(VERSIONED_SRC_CHM_FILENAME) ./
@@ -521,6 +527,9 @@ clean :
 
 ###############################################################################
 #$Log$
+#Revision 1.19.2.5  2006/03/17 23:20:41  dougtinkham
+#update for doxy .chm building
+#
 #Revision 1.19.2.4  2006/03/13 12:31:48  dougtinkham
 #added targets for MSHelp2
 #
