@@ -7,10 +7,10 @@ body {
 	margin-right   : 0px; 
 	margin-top     : 0px; 
 	margin-bottom  : 0px;
-   padding-right  : 0px; 
-   padding-top    : 0px; 
-   padding-left   : 0px; 
-   padding-bottom : 0px; 
+	padding-right  : 0px; 
+	padding-top    : 0px; 
+	padding-left   : 0px; 
+	padding-bottom : 0px; 
 }
 
 p {
@@ -27,11 +27,20 @@ div.mainContent {
 	margin-left :  2.5%;
 }
 
-div.table {
+div.book, div.table, div.revhistory, div.toc {
 	width : 100%;
 }
-div.revhistory {
-	width : 100%;
+
+div.revhistory table {
+	border-left: 2px solid white;
+	border-right: 2px solid white;
+}
+
+div.revhistory td {
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
 }
 
 hr { color : #000000; }
