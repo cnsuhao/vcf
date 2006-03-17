@@ -561,7 +561,8 @@ public:
 		double result = 0.0;
 
 		//values largely derived from the Apple HIG at
-		//http://developer.apple.com/techpubs/macosx/Essentials/AquaHIGuidelines/AHIGLayout/index.html
+		//http://developer.apple.com/documentation/UserExperience/Conceptual/OSXHIGuidelines/index.html
+		//http://developer.apple.com/documentation/UserExperience/Conceptual/OSXHIGuidelines/XHIGLayout/chapter_19_section_2.html#//apple_ref/doc/uid/TP30000360-BEIBEAFJ
 		switch ( type ) {
 			case UIMetricsManager::stWindowBorderDelta : {
 				result = 20.0;
@@ -639,6 +640,238 @@ public:
 		Size result;
 
 		return result;
+	}
+	
+	virtual double getValue( const MetricType& type, const String& text ) {
+		double result = 0;
+
+		switch ( type ) {
+			case mtLabelHeight : {
+				result = 18;
+			}
+			break;
+
+			case mtComboBoxHeight : {
+				result = 20;
+			}
+			break;
+
+			case mtListItemHeight : {
+				result = 19.0;
+			}
+			break;
+
+			case mtButtonHeight : {			
+				SInt32 val = 0;
+				if ( noErr == GetThemeMetric( kThemeMetricPushButtonHeight, &val ) ) {
+					result = val;
+				}
+				else {
+					result = 20;
+				}
+			}
+			break;
+
+			case mtRadioBoxHeight : {			
+				result = 18;
+			}
+			break;
+
+			case mtCheckBoxHeight : {				
+				result = 18;
+			}
+			break;
+
+			case mtToolTipHeight : {
+				result = 18;
+			}
+			break;
+
+			case mtSeparatorHeight : {
+				result = 2.0;
+			}
+			break;
+
+			case mtHeaderHeight : {
+				SInt32 val = 0;
+				if ( noErr == GetThemeMetric( kThemeMetricListHeaderHeight, &val ) ) {
+					result = val;
+				}
+				else {
+					result = 20;
+				}
+			}
+			break;
+
+			case mtTreeItemHeight : {//???? is this even right?
+				result = 19.0;
+			}
+			break;
+
+			case mtTextControlHeight : {
+				result = 22.0;
+			}
+			break;
+
+			case mtVerticalProgressWidth : {
+				result = 16.0;
+			}
+			break;
+
+			case mtHorizontalProgressHeight : {
+				result = 16.0;
+			}
+			break;
+
+			case mtInformationalControlHeight : {
+				
+			}
+			break;
+
+			case mtVerticalScrollbarThumbWidth : {
+				SInt32 val = 0;
+				if ( noErr == GetThemeMetric( kThemeMetricScrollBarWidth, &val ) ) {
+					result = val;
+				}
+				else {
+					result = 20;
+				}
+			}
+			break;
+
+			case mtHorizontalScrollbarThumbHeight : {
+				SInt32 val = 0;
+				if ( noErr == GetThemeMetric( kThemeMetricScrollBarWidth, &val ) ) {
+					result = val;
+				}
+				else {
+					result = 20;
+				}
+			}
+			break;
+
+			case mtVerticalScrollbarWidth : {
+				SInt32 val = 0;
+				if ( noErr == GetThemeMetric( kThemeMetricScrollBarWidth, &val ) ) {
+					result = val;
+				}
+				else {
+					result = 20;
+				}
+			}
+			break;
+
+			case mtHorizontalScrollbarHeight : {
+				SInt32 val = 0;
+				if ( noErr == GetThemeMetric( kThemeMetricScrollBarWidth, &val ) ) {
+					result = val;
+				}
+				else {
+					result = 20;
+				}
+			}
+			break;
+
+			case mtMenuIndent : {
+
+			}
+			break;
+
+			case mtWindowBorderDelta : {
+				result = 20.0;
+			}
+			break;
+
+			case mtContainerBorderDelta : {
+				result = 22;
+			}
+			break;
+
+			case mtControlVerticalSpacing : {
+				result = 12;
+			}
+			break;
+
+			case mtControlHorizontalSpacing : {
+				result = 12;
+			}
+			break;
+
+			case mtInformationControlTopSpacer : {
+				result = 2.0;
+			}
+			break;
+
+			case mtInformationControlBottomSpacer : {
+				result = 8.0;
+			}
+			break;
+
+			default : {
+				throw RuntimeException( MAKE_ERROR_MSG_2("Invalid metric type.") );
+			}
+			break;
+		}
+		
+		return result;
+	}
+	
+	virtual VCF::Size getSize( const MetricType& type, const String& text ) {
+		Size result;
+		
+		switch ( type ) {
+			case mtMenuSize : {
+				
+			}
+			break;
+
+			case mtVerticalSliderThumbSize : {
+				
+			}
+			break;
+
+			case mtHorizontalSliderThumbSize : {
+				
+			}
+			break;
+
+			case mtTabSize : {
+				
+			}
+			break;
+
+			case mtRadioBoxBtnSize : {
+				
+			}
+			break;
+
+			case mtCheckBoxBtnSize : {
+				
+			}
+			break;
+
+			case mtComboBoxDropBtnSize : {
+			
+			}
+			break;
+
+			case mtDisclosureButtonSize : {
+				
+			}
+			break;
+
+			default : {
+				throw RuntimeException( MAKE_ERROR_MSG_2("Invalid metric type.") );
+			}
+			break;
+		}
+
+		return result;
+
+	}
+	
+	virtual VCF::Rect getRect( const MetricType& type, VCF::Rect* rect ) {
+		return VCF::Rect();
 	}
 };
 
@@ -957,11 +1190,6 @@ PopupMenuPeer* OSXUIToolkit::internal_createPopupMenuPeer( PopupMenu* popupMenu 
 ButtonPeer* OSXUIToolkit::internal_createButtonPeer( CommandButton* component )
 {
     return new OSXButton( component );
-}
-
-HTMLBrowserPeer* OSXUIToolkit::internal_createHTMLBrowserPeer( Control* control )
-{
-    return NULL;
 }
 
 ContextPeer* OSXUIToolkit::internal_createContextPeer( Control* control )
@@ -2397,6 +2625,9 @@ void OSXUIToolkit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.7  2006/03/17 03:08:11  ddiego
+*updated osx code to latest changes.
+*
 *Revision 1.6.2.6  2006/02/26 23:44:10  ddiego
 *minor updates to sync osx version with latest cvs. added xcode proj for Themes example.
 *

@@ -563,12 +563,12 @@ double UIToolkit::getUIMetricValue( const UIMetricsManager::MetricType& type, co
 	return UIToolkit::toolKitInstance->internal_getUIMetricsManager()->getValue( type, text );
 }
 
-Size UIToolkit::getUIMetricSize( const UIMetricsManager::MetricType& type, const String& text )
+VCF::Size UIToolkit::getUIMetricSize( const UIMetricsManager::MetricType& type, const String& text )
 {
 	return UIToolkit::toolKitInstance->internal_getUIMetricsManager()->getSize( type, text );
 }
 
-Rect UIToolkit::getUIMetricRect( const UIMetricsManager::MetricType& type, Rect* rect )
+VCF::Rect UIToolkit::getUIMetricRect( const UIMetricsManager::MetricType& type, VCF::Rect* rect )
 {
 	return UIToolkit::toolKitInstance->internal_getUIMetricsManager()->getRect( type, rect );
 }
@@ -1396,6 +1396,9 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.13  2006/03/17 03:08:11  ddiego
+*updated osx code to latest changes.
+*
 *Revision 1.5.2.12  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

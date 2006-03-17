@@ -1588,6 +1588,11 @@ void OSXContext::drawThemeTab( Rect* rect, TabState& state )
 	DrawThemeTab( r, tabStyle, dir, NULL, 0 );
 }
 
+void OSXContext::drawThemeTabContent( Rect* rect, DrawUIState& state )
+{
+
+}
+
 void OSXContext::drawThemeTabPage( Rect* rect, DrawUIState& state )
 {
 	Rect tmp = *rect;
@@ -2293,6 +2298,9 @@ void OSXContext::drawThemeText( Rect* rect, TextState& state )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2006/03/17 03:08:12  ddiego
+*updated osx code to latest changes.
+*
 *Revision 1.5.2.5  2006/02/26 23:44:10  ddiego
 *minor updates to sync osx version with latest cvs. added xcode proj for Themes example.
 *

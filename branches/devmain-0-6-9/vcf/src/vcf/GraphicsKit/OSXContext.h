@@ -131,6 +131,8 @@ public:
 	virtual void drawThemeTab( Rect* rect, TabState& state );
 
 	virtual void drawThemeTabPage( Rect* rect, DrawUIState& state );
+	
+	virtual void drawThemeTabContent( Rect* rect, DrawUIState& state );
 
 	virtual void drawThemeTickMarks( Rect* rect, SliderState& state );
 
@@ -204,6 +206,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/17 03:08:12  ddiego
+*updated osx code to latest changes.
+*
 *Revision 1.5.2.1  2006/02/22 01:26:22  ddiego
 *mac osx updates.
 *
