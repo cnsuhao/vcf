@@ -54,7 +54,7 @@ NB: This software will not save the world.
 	<xsl:param name="htmlhelp.hhc.generate.source.chm.link" select="0"/>
 	<xsl:param name="htmlhelp.hhp" select="'vcf-docbook.hhp'"></xsl:param>
 	
-	<xsl:param name="htmlhelp.hhp.window" select="'VCFWindow'"></xsl:param>
+	<xsl:param name="htmlhelp.hhp.window" select="'main'"></xsl:param>
 	<xsl:param name="htmlhelp.show.menu" select="1"></xsl:param>
 	<xsl:param name="htmlhelp.show.advanced.search" select="0"></xsl:param>
 	<xsl:param name="htmlhelp.show.favorities" select="1"></xsl:param>
@@ -486,6 +486,9 @@ will be replaced by a sed script in tyhe makefile
 <!--
 CVS Log info
 $Log$
+Revision 1.10.2.5  2006/03/17 02:57:33  dougtinkham
+mod to vcf.css for docbook div.table and div.revhistory
+
 Revision 1.10.2.4  2006/03/15 06:47:33  dougtinkham
 changes to allow menu, allowing change in font size
 
