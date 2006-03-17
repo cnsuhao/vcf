@@ -169,8 +169,6 @@ public:
 
 	virtual ButtonPeer* internal_createButtonPeer( CommandButton* component );
 
-	virtual HTMLBrowserPeer* internal_createHTMLBrowserPeer( Control* control );
-
 	virtual ContextPeer* internal_createContextPeer( Control* component );
 
 	virtual CommonFileDialogPeer* internal_createCommonFileOpenDialogPeer( Control* owner );
@@ -275,6 +273,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.6  2006/03/17 03:08:11  ddiego
+*updated osx code to latest changes.
+*
 *Revision 1.6.2.5  2006/02/26 23:44:10  ddiego
 *minor updates to sync osx version with latest cvs. added xcode proj for Themes example.
 *

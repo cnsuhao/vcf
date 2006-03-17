@@ -265,6 +265,13 @@ VCF::Rect OSXTree::getItemImageRect( TreeItem* item )
 	return result;
 }
 
+VCF::Rect OSXTree::getItemRect( TreeItem* item )
+{
+	VCF::Rect result;
+
+	return result;
+}
+
 void OSXTree::onStateImageListImageChanged( ImageListEvent* event )
 {
 	ImageList* imageList = (ImageList*)event->getSource();
@@ -393,6 +400,9 @@ OSStatus OSXTree::handleOSXEvent( EventHandlerCallRef nextHandler, EventRef theE
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2006/03/17 03:08:11  ddiego
+*updated osx code to latest changes.
+*
 *Revision 1.2.2.1  2005/11/27 23:55:45  ddiego
 *more osx updates.
 *

@@ -49,6 +49,8 @@ public:
 	virtual void clear();
 
 	virtual Rect getItemImageRect( TreeItem* item );
+	
+	virtual Rect getItemRect( TreeItem* item );
 
 	virtual bool getAllowLabelEditing();
 
@@ -81,6 +83,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2006/03/17 03:08:11  ddiego
+*updated osx code to latest changes.
+*
 *Revision 1.2.2.1  2005/11/27 23:55:45  ddiego
 *more osx updates.
 *
