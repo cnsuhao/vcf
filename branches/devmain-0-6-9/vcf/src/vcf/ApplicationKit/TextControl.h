@@ -36,10 +36,10 @@ class Dictionary;
 \class TextControl TextControl.h "vcf/ApplicationKit/TextControl.h"
 The base class for presenting text to the user. The text can be 
 plain text, or styled text, i.e. text with multiple styles.
-\par
+
 The TextControl is only for editing or presenting a single line of text.
 For editing multiple lines of text, please see the MultilineTextControl.
-\par
+
 All text controls contain a TextModel, that stores the actual text 
 data.
 @see MultilineTextControl
@@ -253,6 +253,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.4.2.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

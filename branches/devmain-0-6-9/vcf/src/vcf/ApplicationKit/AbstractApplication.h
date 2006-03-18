@@ -91,7 +91,6 @@ public:
 	
 
 	/**
-	\par
 	This returns the application's resource bundle. If the application in question
 	is the application instance that represents the running process/program (
 	in other words, the instance returned by Application::getRunningInstance() )
@@ -99,7 +98,7 @@ public:
 	System::getResourceBundle(). However, if the application instance is
 	a LibraryApplication, then the resource bundle is unique to that library, and
 	independant from that of the main application's resource bundle.
-	\par
+	
 	This is re-implemented in LibraryApplication class.
 	*/
 	virtual GraphicsResourceBundle* getResourceBundle();
@@ -179,6 +178,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.4  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.5.2.3  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

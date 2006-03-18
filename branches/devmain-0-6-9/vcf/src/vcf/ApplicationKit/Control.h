@@ -767,7 +767,7 @@ public:
 	void setEnabled( const bool& enabled );
 
 	/**
-	\par
+	
 	Paints the control. Called by the underlying windowing system whenever
 	the control needs to be painted. Note that in some cases the GraphicsContext
 	passed in to this method may not be the same pointer as the GraphicsContext
@@ -775,7 +775,7 @@ public:
 	use the context value for all your drawing and not the one returned in
 	getContext(). The value returned by getContext() should be used for drawing
 	that takes place outside of the paint() method.
-	\par
+	
 	If the control allows paint notification, then the framework will fire an 
 	event to the BeforeControlPainted delegate \em prior to calling the 
 	control's paint() method. After the paint() method has returned, if
@@ -783,7 +783,7 @@ public:
 	the AfterControlPainted delegate. This allows outside observers to take 
 	part in the paint cycle, \em but beware that this does come at a bit of a 
 	cost, so use this feature sparingly.
-	\par
+	
 	\em Note: This should \em NEVER be called
 	by programmers using the VCF, it will be called for you during the course 
 	of your applications native event loop, and is only here for providing 
@@ -1726,6 +1726,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.15  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.4.2.14  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

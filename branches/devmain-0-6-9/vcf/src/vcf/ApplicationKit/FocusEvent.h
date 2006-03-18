@@ -36,13 +36,13 @@ public:
 
 
 /**
-* The handler class for a FocusEvent.
-* \par
-* handles the following:
-* <ul>
-* 	<li>FocusGained
-* 	<li>FocusLost
-* </ul>
+ The handler class for a FocusEvent.
+ 
+ handles the following:
+ 
+ 	\li FocusGained
+ 	\li FocusLost
+ 
 */
 template <class SOURCE_TYPE> class FocusEventHandler : public EventHandlerInstance<SOURCE_TYPE,FocusEvent> {
 public:
@@ -62,6 +62,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.3.4.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

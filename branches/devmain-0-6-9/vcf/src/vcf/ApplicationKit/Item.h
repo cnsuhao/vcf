@@ -60,7 +60,7 @@ It's useful because as a component it gets all the automatic
 persistance abilities of a component and the ability
 to easily edit it at design time through a visual form
 editor (like the VCF Builder). 
-\par
+
 The Item class has a number of virtual methods that must be implemented,
 but the exact methods of implementation may vary widely. For example
 it possible that in order to calculate the item's index hte item
@@ -304,6 +304,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.4.2.3  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

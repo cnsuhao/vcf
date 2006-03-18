@@ -75,14 +75,13 @@ private:
 
 
 /**
-* The handler class for a TabModelEvent.
-* \par
-* handles the following:
-* <ul>
-* 	<li>onTabPageAdded
-* 	<li>onTabPageRemoved
-* 	<li>onTabPageSelected
-* </ul>
+The handler class for a TabModelEvent.
+ 
+handles the following:
+
+	\li onTabPageAdded
+	\li onTabPageRemoved
+	\li onTabPageSelected
 */
 template <class SOURCE_TYPE>
 class TabModelEventHandler : public EventHandlerInstance<SOURCE_TYPE,TabModelEvent> {
@@ -104,6 +103,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.3.4.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

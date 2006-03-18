@@ -201,13 +201,13 @@ This class if for presenting data in a tabular format. You can
 adjust the number of rows and columns, as well as various formatting 
 features. You can also have custom editors for editing individual
 cells.
-\par
+
 Originally started as a basic table control, I quickly realized what an ordeal
 this was going to turn into, and I began looking at Chris Maunder's excellent
 CGridCtrl class. At this point, much of the original code that I wrote has
 been completely dismantled, and in it's place I have ported over most of the
 basic design/layout/algorithms from the CGridCtrl. 
-\par
+
 The original CGridCtrl was written for MFC, and has a number of very 
 Win32-ish designs implicit in it. These have been heavily changed to fit 
 within the VCF way of doing things. For example, the original TableControl 
@@ -628,6 +628,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.3.2.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *
