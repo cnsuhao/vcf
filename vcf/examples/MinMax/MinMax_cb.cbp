@@ -36,6 +36,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="ApplicationKit_mgcc" />
 					<Add library="GraphicsKit_mgcc" />
 					<Add library="FoundationKit_mgcc" />
@@ -83,6 +84,7 @@
 					<Add option="-DUSE_APPLICATIONKIT_DLL" />
 				</Compiler>
 				<Linker>
+					<Add option="-Wl,--enable-runtime-pseudo-reloc" />
 					<Add library="ApplicationKit_mgcc_d" />
 					<Add library="GraphicsKit_mgcc_d" />
 					<Add library="FoundationKit_mgcc_d" />
@@ -103,11 +105,11 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add directory="$(VCF_INCLUDE)" />
-			<Add directory="$(VCF_INCLUDE)\thirdparty\common\agg\include" />
+			<Add directory='&quot;$(VCF_INCLUDE)&quot;' />
+			<Add directory='&quot;$(VCF_INCLUDE)\thirdparty\common\agg\include&quot;' />
 		</Compiler>
 		<Linker>
-			<Add directory="$(VCF_LIB)" />
+			<Add directory='&quot;$(VCF_LIB)&quot;' />
 		</Linker>
 		<Unit filename="MinMax.cpp">
 			<Option compilerVar="CPP" />
