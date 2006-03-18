@@ -128,15 +128,6 @@ protected:
 	*/
 	LRESULT handleNCCalcSize( WPARAM wParam, LPARAM lParam );
 
-	/**
-	let the peer to change its font 
-	when the font has been changed.
-	Actually this function is obsolete, as
-	now the peer listen to a font change notification.
-	@see Font::FontChanged delegate.
-	*/
-	void checkForFontChange();
-
 protected:
 	void init();
 	HDC memDC_;
@@ -167,6 +158,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/18 19:04:55  ddiego
+*minor update to remove dead code for checkFontUpdate function.
+*
 *Revision 1.5.2.2  2006/03/16 03:23:09  ddiego
 *fixes some font change notification issues in win32 peers.
 *
