@@ -119,8 +119,16 @@ public:
 		NumColorColumns = 10
 	};
 
+	ScrollbarManager* scrollBarMgr;
+
 	StandardColorsPanel() {
 		setBorder( NULL );
+
+		scrollBarMgr = new ScrollbarManager(this);
+		scrollBarMgr->setTarget( this );
+		scrollBarMgr->setHasHorizontalScrollbar( true );
+		scrollBarMgr->setHasVerticalScrollbar( true );
+		scrollBarMgr->setKeepScrollbarsVisible( true, true );
 		
 		ToolTipRequested += 
 			new ToolTipEventHandler<StandardColorsPanel>(this,&StandardColorsPanel::onToolTipRequested, "StandardColorsPanel::onToolTipRequested" );
@@ -161,12 +169,33 @@ public:
 		}
 	}
 
+	virtual void sizeChange( ControlEvent* event ) {
+		
+		Rect r = getBounds();
+
+		int cols = NumColorColumns;	
+		int width = r.getWidth();
+		Rect colorCell;
+		colorCell.setRect( r.left_, r.top_, 
+							r.left_ + (width/cols),
+							r.top_ + (width/cols) );
+
+		double totalVirtHeight  =  
+			((ColorNames::numUniqueColorNames+2) / cols) *  colorCell.getHeight();
+
+		scrollBarMgr->setVirtualViewSize(  colorCell.getWidth() * cols, totalVirtHeight ); 
+		
+	}
+
 	void onToolTipRequested( ToolTipEvent* e ) {
 		e->setToolTipString( "Unknown color" );
 		Point pt = Desktop::getDesktop()->getCurrentMousePosition();
 		
 		translateFromScreenCoords( &pt );
 
+
+		pt.x_ += scrollBarMgr->getHorizontalPosition();
+		pt.y_ += scrollBarMgr->getVerticalPosition();
 
 		Rect r = getClientBounds();
 
@@ -181,7 +210,14 @@ public:
 			
 
 			if ( colorCell.containsPt( &pt ) ) {
-				e->setToolTipString( "Color name: " + ColorNames::at( (ColorNames::ColorID) i ) );
+				String colorName = ColorNames::at( (ColorNames::ColorID) i );
+				Color* color = Color::getColor( colorName );
+				int r = color->getRed() * 255.0;
+				int g = color->getGreen() * 255.0;
+				int b = color->getBlue() * 255.0;
+
+				e->setToolTipString( Format("Color name: %s, #%02X%02X%02X") % 
+										colorName % r % g % b ) ;
 				break;
 			}
 
@@ -202,8 +238,15 @@ public:
 
 class SysColorsPanel : public Panel {
 public:
+	ScrollbarManager* scrollBarMgr;
 	SysColorsPanel() {
 		setBorder( NULL );
+		scrollBarMgr = new ScrollbarManager(this);
+		scrollBarMgr->setTarget( this );
+		scrollBarMgr->setHasHorizontalScrollbar( true );
+		scrollBarMgr->setHasVerticalScrollbar( true );
+		scrollBarMgr->setKeepScrollbarsVisible( true, true );
+
 	}
 	virtual void paint( GraphicsContext* ctx ) {
 		Panel::paint( ctx );
@@ -263,6 +306,24 @@ public:
 		}
 
 	}
+
+	virtual void sizeChange( ControlEvent* event ) {
+		
+		Rect r = getBounds();
+
+		int cols = 4;	
+		int width = r.getWidth();
+		Rect colorCell;
+		colorCell.setRect( r.left_, r.top_, 
+							r.left_ + (width/cols),
+							r.top_ + (width/cols) );
+
+		double totalVirtHeight  =  
+			(20 / cols) *  (colorCell.getHeight() + 5);
+
+		scrollBarMgr->setVirtualViewSize(  (colorCell.getWidth() + 5) * cols, totalVirtHeight ); 
+		
+	}
 };
 
 
@@ -301,6 +362,7 @@ public:
 		slider->PositionChanged +=
 			new GenericEventHandler<RGBPanel>( this, &RGBPanel::onRedChanged, "RGBPanel::onRedChanged" );
 
+		slider->setTickFrequency(0);
 		add( slider );
 
 		redVal = new Label();
@@ -316,6 +378,7 @@ public:
 		slider->setPosition( colorWell->getColor()->getGreen() * 100.0 );
 		slider->PositionChanged +=
 			new GenericEventHandler<RGBPanel>( this, &RGBPanel::onGreenChanged, "RGBPanel::onGreenChanged" );
+		slider->setTickFrequency(0);
 		add( slider );
 
 		greenVal = new Label();
@@ -332,6 +395,7 @@ public:
 		slider->PositionChanged +=
 			new GenericEventHandler<RGBPanel>( this, &RGBPanel::onBlueChanged, "RGBPanel::onBlueChanged" );
 
+		slider->setTickFrequency(0);
 		add( slider );
 
 		blueVal = new Label();
@@ -517,6 +581,7 @@ public:
 
 		Window* mainWindow = new Window();
 
+		mainWindow->setCaption( "Colors Example" );
 
 		TabbedPages* tabs = new TabbedPages();
 
@@ -552,6 +617,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.4.3  2006/03/18 23:04:41  ddiego
+*updated the colors example per fraggles request.
+*
 *Revision 1.2.4.2  2006/03/12 22:01:39  ddiego
 *doc updates.
 *
