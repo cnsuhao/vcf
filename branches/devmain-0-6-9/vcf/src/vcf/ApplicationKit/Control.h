@@ -31,6 +31,7 @@ class Model;
 class AcceleratorKey;
 class Container;
 class Frame;
+class ControlEvent;
 
 typedef unsigned long AnchorTypes;
 
@@ -872,6 +873,36 @@ public:
 	*called when the user releases the key
 	*/
 	virtual void keyUp( KeyboardEvent* event );
+
+	/**
+	called when the control's bounds change. Override this
+	for your own custom behaviour if you need to.
+	*/
+	virtual void sizeChange( ControlEvent* event );
+
+	/**
+	called when the control's coordinates change. Override this
+	for your own custom behaviour if you need to.
+	*/
+	virtual void positionChange( ControlEvent* event );
+
+	/**
+	Called when the parent of the control is changed. Override this
+	for your own custom behaviour if you need to.
+	*/
+	virtual void parentChange( ControlEvent* event );
+
+	/**
+	Called when the control gains keyboard focus. Override this
+	for your own custom behaviour if you need to.
+	*/
+	virtual void gotFocus( FocusEvent* event );
+
+	/**
+	Called when the control loses keyboard focus. Override this
+	for your own custom behaviour if you need to.
+	*/
+	virtual void lostFocus( FocusEvent* event );
 
 	/**
 	*translate the point from this controls coordinate system to
@@ -1726,6 +1757,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.16  2006/03/18 23:03:11  ddiego
+*added several new virtual methods to control class to make it
+*easier to write custom controls and respond to events.
+*
 *Revision 1.4.2.15  2006/03/18 22:17:42  ddiego
 *removed par tag for doxygen comments as its not needed and
 *screws up the doc formatting.

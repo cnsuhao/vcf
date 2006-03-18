@@ -516,6 +516,10 @@ void Control::handleEvent( Event* event )
 				//bounds_->bottom_ = bounds_->top_ + controlEvent->getNewSize().height_;
 				ControlSized.fireEvent( (ControlEvent*)event );
 
+				if (!event->isConsumed() && !isDesigning()) {
+					sizeChange( controlEvent );
+				}
+
 				if ( isUsingRenderBuffer() ) {
 					Rect bounds = getClientBounds(false);
 					context_->setDrawingArea( bounds );						
@@ -534,11 +538,19 @@ void Control::handleEvent( Event* event )
 				//bounds_->bottom_ = bounds_->top_ + h;
 
 				ControlPositioned.fireEvent( controlEvent );
+
+				if (!event->isConsumed() && !isDesigning()) {
+					positionChange( controlEvent );
+				}
 			}
 			break;
 
 			case CONTROL_PARENT_CHANGED:{
 				ControlParentChanged.fireEvent( (ControlEvent*)event );
+
+				if (!event->isConsumed() && !isDesigning()) {
+					parentChange( (ControlEvent*)event );
+				}
 			}
 			break;
 
@@ -706,6 +718,9 @@ void Control::handleEvent( Event* event )
 
 				FocusLost.fireEvent( focusEvent );
 
+				if (!event->isConsumed() && !isDesigning()) {
+					lostFocus( focusEvent );
+				}
 			}
 			break;
 
@@ -717,6 +732,9 @@ void Control::handleEvent( Event* event )
 
 				FocusGained.fireEvent( focusEvent );
 
+				if (!event->isConsumed() && !isDesigning()) {
+					gotFocus( focusEvent );
+				}
 			}
 			break;
 		}
@@ -958,6 +976,31 @@ void Control::keyPressed( KeyboardEvent* event )
 }
 
 void Control::keyUp( KeyboardEvent* event )
+{
+
+}
+
+void Control::sizeChange( ControlEvent* event )
+{
+
+}
+
+void Control::positionChange( ControlEvent* event )
+{
+
+}
+
+void Control::parentChange( ControlEvent* event )
+{
+
+}
+
+void Control::gotFocus( FocusEvent* event )
+{
+
+}
+
+void Control::lostFocus( FocusEvent* event )
 {
 
 }
@@ -1648,6 +1691,10 @@ void Control::internal_afterPaint( GraphicsContext* context )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.16  2006/03/18 23:03:11  ddiego
+*added several new virtual methods to control class to make it
+*easier to write custom controls and respond to events.
+*
 *Revision 1.8.2.15  2006/03/10 21:49:32  ddiego
 *updates to color example and some documentation.
 *
