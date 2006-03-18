@@ -570,9 +570,6 @@ bool Win32Window::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 						return result;
 					}
 
-					//check to see if the font needs updating
-					checkForFontChange();
-
 					PAINTSTRUCT ps;
 					HDC contextID = 0;
 					contextID = ::BeginPaint( hwnd_, &ps);
@@ -856,6 +853,9 @@ void Win32Window::setText( const VCF::String& text )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.15  2006/03/18 19:04:56  ddiego
+*minor update to remove dead code for checkFontUpdate function.
+*
 *Revision 1.5.2.14  2006/03/16 03:23:11  ddiego
 *fixes some font change notification issues in win32 peers.
 *

@@ -113,7 +113,6 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 		
 		case WM_PAINT:{
 			//check to see if the font needs updating
-			checkForFontChange();
 		}
 		break;
 
@@ -262,6 +261,9 @@ bool Win32Button::handleEventMessages( UINT message, WPARAM wParam, LPARAM lPara
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2006/03/18 19:04:56  ddiego
+*minor update to remove dead code for checkFontUpdate function.
+*
 *Revision 1.5.2.5  2006/03/16 03:23:09  ddiego
 *fixes some font change notification issues in win32 peers.
 *
