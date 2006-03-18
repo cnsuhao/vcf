@@ -33,7 +33,7 @@ the static function Application::appMain() is called to start
 the application initializing itself.
 While the Application instance is optional, if it is present
 there should only be one instance that is created on the stack.
- \par
+ 
  Typically the startup code looks like this:
  *\code
  int main( int argc, char** argv ) {
@@ -184,7 +184,7 @@ public:
 	@param Event this instance has in it's UserData a pointer to a wrapper struct. For Win32
 	systems please see the Win32Toolkit.h and look at the Win32MSG class. This will wrap
 	up a MSG struct that you can use.
-	\par
+	
 	Example (this is pertinent ONLY to Win32 systems):
 	\code
 		void MyApp::onOSNativeEvent( Event* e )
@@ -221,6 +221,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.3.2.2  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

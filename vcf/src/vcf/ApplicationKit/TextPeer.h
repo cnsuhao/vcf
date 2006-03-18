@@ -325,7 +325,7 @@ public:
 	/**
 	This attempts to print a single page and render in to the 
 	printer context that's passed in.
-	\par 
+	 
 	Note that some platforms may not support this, as printing 
 	support varies widely. It will work on Win32, and should work on
 	Mac OS X as well.
@@ -343,6 +343,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.4.2.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

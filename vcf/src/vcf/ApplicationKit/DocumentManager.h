@@ -830,9 +830,9 @@ public:
 	*		<li>it calls the user implementation of Document::initNew()
 	*		<li>it attaches a UI to the document if this getShouldCreateUI() is true.
 	* </ul>
-	*\par
+	*
 	* this is normally called before actually opening the file for the document.
-	*\par
+	*
 	* In a SDI policy saveBeforeNewDocument() returns true so,
 	* if we create a new document while the current document has been modified
 	* the user is asked what to do, and the operation is aborted if the he decides to.
@@ -1885,6 +1885,10 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.8  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.4.2.7  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

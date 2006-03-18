@@ -33,7 +33,7 @@ respective TableCellItem's createItemEditor() method. This will
 create a new instance of a TableItemEditor, as appropriate
 for that cell. A simple implementation of this interface can
 be found in the BasicTableItemEditor class. 
-\par
+
 The editor allows you to retrieve the item that is currently being edited.
 It also allows access to the control that is used to edit the item. This
 control is managed by the underlying TableControl, all you need to do is create
@@ -93,6 +93,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.3.2.1  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

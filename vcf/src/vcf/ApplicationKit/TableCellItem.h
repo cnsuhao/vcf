@@ -44,9 +44,9 @@ public:
 	virtual ~TableCellItem(){};
 
 	/**
-	\par
+
 	Calling this will create a new table item editor.
-	\par
+
 	The implementor is responsible for returning an
 	editor that is properly initialized with the data 
 	from the item.
@@ -123,6 +123,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.3.2.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

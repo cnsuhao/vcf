@@ -101,10 +101,10 @@ as well as providing certain low level services, such as modal and non-modal
 event loops, and getting at UI metrics. Each system the VCF is ported to has
 a concrete implementation of the UIToolkit. The UIToolkit is a singleton, and
 there should only be one instance for a given process running the VCF libraries.
-\par
+
 To work with the toolkit you just call it's static functions. These
 in turn forward the call to the toolkit instance. 
-\par
+
 The UIToolkit is a singleton, meaning there is only ever one single instance of it.
 Developers porting the VCF to another platform will have to create a derived class
 from UIToolkit and implement the various virtual functions.
@@ -271,7 +271,7 @@ public:
 	static void setCaretPos( Point* point );
 
 	/**
-	\par
+	
 	This method posts an event to the underlying platform's windowing system. 
 	The event handler instance that is passed in is called when the event is 
 	processed later on in the event queue. Once this happens the handler's 
@@ -303,7 +303,7 @@ public:
 	Note that in our example above we did \em not give the event handler a name.
 	This prevents the event handler from being added to it's source, and insures 
 	that it will not be owned, allowing the UIToolkit to safely delete it.
-	\par 
+	 
 	If we want to manage the event handler ourselves, then we might do the following:
 	\code
 	//assuming that we are in an object instance that derives from ObjectWithEvents.
@@ -417,9 +417,9 @@ public:
 	static UIPolicyManager* getUIPolicyManager();
 
 	/**
-	\par
+	
 	This attempts to to display the help contents for the application.
-	\par
+	
 	It first checks to see if there's a running Application instance.
 	If there is, then it calls the Application's virtual displayHelpContents()
 	which lets the application have first crack at this. If 
@@ -436,7 +436,7 @@ public:
 	applications name (Application::getName()) or the executables name (
 	without the extension), and the help directory is assumed to be "Help".
 
-	\par
+	
 	So if you do nothing all, provide no overridden functions, or 
 	resource bundle support for program info entries, then the default
 	help would be look something like this, assuming the 
@@ -450,9 +450,9 @@ public:
 	static void displayHelpContents();
 
 	/**
-	\par
+	
 	This attempts to to display the help index for the application.
-	\par
+	
 	It first checks to see if there's a running Application instance.
 	If there is, then it calls the Application's virtual displayHelpContents()
 	which lets the application have first crack at this. If 
@@ -469,7 +469,7 @@ public:
 	applications name (Application::getName()) or the executables name (
 	without the extension), and the help directory is assumed to be "Help".
 
-	\par
+	
 	So if you do nothing all, provide no overridden functions, or 
 	resource bundle support for program info entries, then the default
 	help would be look something like this, assuming the 
@@ -484,13 +484,13 @@ public:
 
 
 	/**
-	\par
+	
 	This attempts to to display a specific help section for a given
 	help book and help directory. The help section is normally assumed 
 	to be an anchor ref. This method allows you exact control over what 
 	gets loaded. The helpBookName and helpDirectory may be
 	be empty strings.
-	\par
+	
 	If the helpBookName or helpDirectory are empty the toolkit
 	first checks to see if there's a running Application instance.
 	It then attempts to determine the help book and help directory
@@ -520,7 +520,7 @@ public:
 	static void displayHelpSection( const String& helpSection, const String& helpBookName="", const String& helpDirectory="" );
 
 	/**
-	\par
+	
 	This attempts to display the context sensitive help for a control. It is 
 	triggered by the underlying windowing platform, usually as a result of 
 	the user hitting the F1 key.
@@ -532,7 +532,7 @@ public:
 	returns a non empty string, then the OS specific portion of the context help display
 	should take place and the internal_displayContextHelpForControl() will return true.
 	For Win32 systems this generally means the display of popup help.
-	\par
+	
 	However, if internal_displayContextHelpForControl() returns false, then the toolkit 
 	performs the following actions:
 	\li It first fires a HelpEvent on the control's HelpRequested delegate. When this returns
@@ -783,6 +783,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.8  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.5.2.7  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

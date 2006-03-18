@@ -65,7 +65,7 @@ public:
 	@param ulong32 index of the command to retrieve
 	@return Command* returns a \em NEW instance of the 
 	Command object to be associated with the given index. 
-	\par
+	
 	\em Note: It is the \em callers responsibility
 	to clean up memory and the caller owns the command 
 	after this call.
@@ -123,7 +123,7 @@ A ControlEditor is an additional interface used to edit
 an entire \em Control instance at once, as opposed to a 
 PropertyEditor which only edits a single property of a 
 specific component or object. 
-\par
+
 The ControlEditor interface provides several extra methods 
 specific to editing controls.
 */
@@ -184,6 +184,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.2.6.2  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

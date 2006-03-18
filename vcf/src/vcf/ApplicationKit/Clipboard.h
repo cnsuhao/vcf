@@ -35,12 +35,12 @@ The Clipboard represents a common place to put shared
 data between objects and/or between applications.
 The Clipboard maintains one or more ClipboardDataObjects
 that actually hold the data, according to their DataType.
-\par
+
 The clipboard is never created directly - this is taken care of
 by the UIToolkit. To access the clipboard you call the
 UIToolkit::getSystemClipboard() method which will return a
 reference to the Clipboard singleton.
-\par
+
 In Win32 the Clipboard is implemented with full support for
 COM's IDataObject for actual data transfer, so objects
 that put data into the Clipboard in the VCF can easily share
@@ -98,7 +98,7 @@ public:
 	passed in which must be created on the heap.
 	@param DataObject the data object to place in the
 	Clipboard
-	\par
+	
 	For example:
 	\code
 		Clipboard* clipboard = UIToolkit::getDefaultUIToolkit()->getSystemClipboard();
@@ -137,6 +137,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.4.2.1  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

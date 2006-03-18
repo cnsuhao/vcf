@@ -23,12 +23,12 @@ namespace VCF {
 	/**
 	\class UIMetricsManager UIMetricsManager.h "vcf/ApplicationKit/UIMetricsManager.h"  
 	A utility class to retrieve standard ui element metrics. 
-	\par
+	
 	The Win32 implementation takes XP theming into account, 
 	and derives at least some of it's information from :
 	http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnwue/html/ch14e.asp
 
-	\par
+	
 	The Mac OS X implementation is based on the Appearance Manager
 	http://developer.apple.com/documentation/Carbon/Reference/Appearance_Manager/index.html
 	*/
@@ -221,12 +221,12 @@ namespace VCF {
 
 
 		/**
-		\par
+		
 		Returns a double value for a UI metric, such as the standard height of the 
 		combox box control. The text is an optional parameter that may be taken
 		into consideration when calculating teh retrun value by certain 
 		metric types.
-		\par
+		
 		If the metric type is inappropriate then the function throws an exception.
 		For example, if the caller passed in mtRadioBoxBtnSize, then a
 		RuntimeException would be thrown.
@@ -234,12 +234,12 @@ namespace VCF {
 		virtual double getValue( const MetricType& type, const String& text="" ) = 0;
 
 		/**
-		\par
+		
 		Returns a Size instance for a UI metric, such as the standard dimensions of 
 		a tab button. The text is an optional parameter that may be taken
 		into consideration when calculating teh retrun value by certain 
 		metric types.
-		\par
+		
 		If the metric type is inappropriate then the function throws an exception.
 		For example, if the caller passed in mtMenuIndent, then a
 		RuntimeException would be thrown.
@@ -247,12 +247,12 @@ namespace VCF {
 		virtual Size getSize( const MetricType& type, const String& text="" ) = 0;
 
 		/**
-		\par
+		
 		Returns a Rect instance for a UI metric, such as the content bounds of 
 		a tab pane. The rect is an optional parameter that may be taken
 		into consideration when calculating the retrun value by certain 
 		metric types.
-		\par
+		
 		If the metric type is inappropriate then the function throws an exception.
 		For example, if the caller passed in mtMenuIndent, then a
 		RuntimeException would be thrown.
@@ -266,6 +266,10 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.2.6.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

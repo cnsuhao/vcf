@@ -71,7 +71,7 @@ protected:
 \class Dialog Dialog.h "vcf/ApplicationKit/Dialog.h"
 A Dialog is a popup frame that is generally used for user input. 
 
-\par
+
 A Dialog has a special state variable that tells what the "mode"
 of the dialog is. This mode is determined not by how the dialog is 
 \em created but rather by how the dialog is displayed which is 
@@ -89,11 +89,11 @@ a specific window, and while the dialog is visible the window that launched
 UI activity can still take place. When the sheet modal dialog is closed the
 owner window is enabled again for UI input. 
 
-\par
+
 Think of a sheet modal dialog
 as a middle ground between modeless and application modal.
 
-\par
+
 A dialog's UI is normally a frame with a close button, and optionally a help and system 
 button as well. The caption is the standard height.
 
@@ -267,6 +267,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.4.2.1  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

@@ -24,14 +24,14 @@ and it's child components) to a stream. The output is text data,
 and is human readable. It's loosely based on Borland's DFM file format
 that was used in Delphi 3.0 (I have no idea if Borland still
 uses this or not).
-\par
+
 The VFF (Visual Form File) output is a hierarchical set of "blocks",
 with each block representing an object (component). Each block 
 contains a set of properties, and an optional sub-block that lists the
 events of the component. Each child component is represented by 
 another block nested inside the main block. There is only one "root"
 block for a given output stream.
-\par
+
 A block starts with "object", and ends with "end". Each object has the
 name of the object followed by a colon (':'), the class name of the object
 followed by a comma (',') and the class UUID of the object (though this 
@@ -45,7 +45,7 @@ string "1234556777") and the instance is named "Foo1".
 This example assumes that the Foo class has been registered with the
 VCF's ClassRegistry.
 
-\par
+
 Each object block has a list of 0 or more properties that are written out
 as name/value pairs. The exact syntax is defined as the name of the property
 followed by an equals sign ('='), followed by the value of the property.
@@ -70,7 +70,7 @@ object Foo1 : Foo, '1234556777'
 	doubleBuffered = true
 end
 \endcode
-\par
+
 Some properties may themselves be complex object that are also written out
 using name/value pairs. For example, a Control component has a Font
 object that is it's "font" property. The Font class has several of it's 
@@ -85,7 +85,7 @@ object Foo1 : Foo, '1234556777'
 	font.color.blue = 0.02341
 end
 \endcode
-\par
+
 Some properties may point to another object that is itself a component
 (a component property) and part of the "graph" of objects being written 
 out. In this case the object is referred to by it's name, preceded by 
@@ -106,7 +106,7 @@ object Foo1 : Foo, '1234556777'
 end
 \endcode
 
-\par
+
 Some properties may actually be made of binary data. In this case the 
 data is prefixed with the open curly bracket ('{') and terminated with 
 the close curly bracket ('}'). Each byte of data is written out as a 
@@ -120,7 +120,7 @@ object Foo1 : Foo, '1234556777'
 end
 \endcode
 
-\par
+
 Properties that are enumeration values are written out using the name of the
 enumeration value as text. For example
 \code
@@ -129,7 +129,7 @@ object Foo1 : Foo, '1234556777'
 end
 \endcode
 
-\par
+
 A component may have event handlers attached to it's delegates. This 
 list of delegates and attached event handlers is a sub block inside the
 main object block and is optional. It startes with "delegates" and 
@@ -224,6 +224,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.8  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.2.6.7  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

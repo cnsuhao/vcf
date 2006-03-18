@@ -34,7 +34,7 @@ namespace VCF {
 	that on Win32 each window can have a menu (or not), and on Mac OS X
 	you just have the main system menu. The MenuManager insulates you
 	from having to care one way or the other. 
-	\par
+	
 	The menu manager is a singleton and cannot be created directly. 
 	Developers should never call the MenuManager::create() or 
 	MenuManager::terminate() functions - they will be called for you
@@ -112,6 +112,10 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.2.2.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

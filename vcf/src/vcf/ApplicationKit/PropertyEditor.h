@@ -28,7 +28,7 @@ class DrawUIState;
 This is the common base class for any editor that is specific
 of any property.
 @see VCF::Property
-\par
+
 Any property, and in general any kind of data, can be changed 
 through an appropriate GUI interface called editor. A text 
 editor is good for many kind of data, but some of them are
@@ -36,7 +36,7 @@ more easily chaged through more specific editors. For example
 a ComboBox control can be considered an appropriate editor for
 any boolean value, or for any enumerated value.
 The VCF library makes readily available some of them.
-\par
+
 the editor is used by the host in order to display the 
 property content, retrieve possible values, and to 
 provide a possible UI for performing the editing. The
@@ -186,7 +186,7 @@ public:
 	virtual void setRootDesignerComponent( Component* rootDesigner )  = 0;
 
 	/**
-	\par
+	
 	Returns a control instance that belongs to this editor. This control
 	instance is managed by the tool using this property editor so
 	you just need to create it. This may be called multiple times, it is the
@@ -203,13 +203,13 @@ public:
 
 
 	/**
-	\par
+	
 	This method is used to edit the property value. This is an optional method 
 	to implement, and only needs to be done if createEditingControl() returns
 	a non null value. If createEditingControl() is NULL then it's assumed that
 	the actual editing process will be completely handled by the host of the
 	property editor.
-	\par
+	
 	If the implementor does edit this method, then it's up to the implemementor 
 	to properly transfer the contents of the propert value to the control.
 	*/
@@ -355,6 +355,10 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.3.2.3  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

@@ -25,11 +25,11 @@ This is the class for managing the current list of
 property editors available for use in editing a property.
 Some of the default editors are provided by the framework
 itself, while other will be added by 3rd parties.
-\par
+
 This is a singleton class, and it's lifetime is managed by
 the UIToolkit, not by any other direct means or by developers
 using the framework. 
-\par
+
 The class allows the registration of property editor's at 
 run time. The usage is something like this:
 \code
@@ -124,6 +124,10 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/18 22:17:42  ddiego
+*removed par tag for doxygen comments as its not needed and
+*screws up the doc formatting.
+*
 *Revision 1.3.2.2  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *
