@@ -896,19 +896,7 @@ Do we need these? What advantage does processing these events have for us???
 					}
 					break;
 
-					case CDDS_ITEMPREPAINT : {
-						RECT r;
-						TreeView_GetItemRect( hwnd_,
-											(HTREEITEM) treeViewDraw->nmcd.dwItemSpec,
-											&r, TRUE );
-
-						StringUtils::trace( Format("CDDS_ITEMPREPAINT rect: %d, %d, %d, %d\n") % r.left
-									 % r.top  % r.right  % r.bottom );
-
-						itemRect.left_ = r.left;
-						itemRect.top_ = r.top;
-						itemRect.right_ = r.right;
-						itemRect.bottom_ = r.bottom;
+					case CDDS_ITEMPREPAINT : {						
 
 						wndProcResult = CDRF_NOTIFYPOSTPAINT;
 					}
@@ -923,12 +911,10 @@ Do we need these? What advantage does processing these events have for us???
 							TreeItem* item = (TreeItem*)treeViewDraw->nmcd.lItemlParam;
 
 							if ( item->canPaint() ) {
-								RECT r;
-								TreeView_GetItemRect( hwnd_,
-											(HTREEITEM) treeViewDraw->nmcd.dwItemSpec,
-											&r, TRUE );
-								StringUtils::trace( Format("CDDS_ITEMPOSTPAINT rect: %d, %d, %d, %d\n") % r.left
-									 % r.top  % r.right  % r.bottom );
+								itemRect.left_ = treeViewDraw->nmcd.rc.left;
+								itemRect.top_ = treeViewDraw->nmcd.rc.top;
+								itemRect.right_ = treeViewDraw->nmcd.rc.right;
+								itemRect.bottom_ = treeViewDraw->nmcd.rc.bottom;
 
 								item->paint( peerControl_->getContext(), &itemRect );
 							}
@@ -1088,7 +1074,7 @@ void Win32Tree::addItem( TreeItem* item )
 void Win32Tree::clear()
 {
 	treeItems_.clear();
-	StringUtils::trace( "tree items cleared\n" );
+	
 	TreeView_DeleteAllItems( hwnd_ );
 }
 
@@ -1288,9 +1274,7 @@ Rect Win32Tree::getItemRect( TreeItem* item )
 		if ( it != treeItems_.end() ){
 			if ( item->isSelected() ) {
 				RECT r = {0};
-				TreeView_GetItemRect( hwnd_, it->second, &r, TRUE );
-				StringUtils::trace( Format("Win32Tree::getItemRect rect: %d, %d, %d, %d\n") % r.left
-									 % r.top  % r.right  % r.bottom );
+				TreeView_GetItemRect( hwnd_, it->second, &r, TRUE );				
 
 				result.left_ = r.left;
 				result.top_ = r.top;
@@ -1419,6 +1403,10 @@ void Win32Tree::onTreeNodeDeleted( TreeModelEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/18 19:19:37  ddiego
+*fixed a paint bug in the win32tree ctrl becuase I was passing in
+*the wrong rect value. also got rid of various debugging trace statements.
+*
 *Revision 1.5.2.4  2006/03/18 19:04:56  ddiego
 *minor update to remove dead code for checkFontUpdate function.
 *
