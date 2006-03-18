@@ -440,8 +440,7 @@ LRESULT CALLBACK Win32Listview::Header_WndProc(HWND hWnd, UINT message, WPARAM w
 		}
 		break;
 
-		case WM_DRAWITEM : {
-			StringUtils::trace( "Draw item for header\n" );
+		case WM_DRAWITEM : {			
 			if ( System::isUnicodeEnabled() ) {
 				result = CallWindowProcW( win32ListView->oldHeaderWndProc_, hWnd, message, wParam, lParam );
 			}
@@ -483,8 +482,7 @@ void Win32Listview::postPaintItem( NMLVCUSTOMDRAW* drawItem )
 {
 	ListModel* model = listviewControl_->getListModel();
 	ListItem* item = (ListItem*)drawItem->nmcd.lItemlParam;
-	StringUtils::trace( Format("Painting item: %d\n") % drawItem->nmcd.dwItemSpec );
-		//model->getItemFromIndex( (ulong32 )drawItem->nmcd.dwItemSpec );
+	
 
 	if ( NULL != item ) {
 
@@ -2425,6 +2423,10 @@ void Win32Listview::setDisplayOptions( const long& displayOptions )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.8  2006/03/18 19:19:37  ddiego
+*fixed a paint bug in the win32tree ctrl becuase I was passing in
+*the wrong rect value. also got rid of various debugging trace statements.
+*
 *Revision 1.5.2.7  2006/03/18 19:04:56  ddiego
 *minor update to remove dead code for checkFontUpdate function.
 *
