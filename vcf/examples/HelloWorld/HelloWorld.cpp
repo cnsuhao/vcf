@@ -71,8 +71,6 @@ public:
 		*/
 		mainWindow->setCaption( "Hello World" );
 
-        mainWindow->setBounds( 100, 100, 500, 500 );
-
 		/**
 		*show the main window.
 		*By default the window is invisible until
@@ -119,6 +117,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/19 20:12:34  ddiego
+*removed positioning code in hello world example.
+*
 *Revision 1.5.2.1  2005/07/23 21:45:36  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *
