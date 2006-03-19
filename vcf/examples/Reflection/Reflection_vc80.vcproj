@@ -15,8 +15,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc71\Debug\"
-			IntermediateDirectory=".\vc71\Debug\"
+			OutputDirectory=".\vc80\Debug\"
+			IntermediateDirectory=".\vc80\Debug\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -40,7 +40,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc71\Debug\Reflection_vc80.tlb"
+				TypeLibraryName=".\vc80\Debug\Reflection_vc80.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -50,10 +50,10 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc71\Debug\Reflection_vc80.pch"
-				AssemblerListingLocation=".\vc71\Debug\"
-				ObjectFile=".\vc71\Debug\"
-				ProgramDataBaseFileName=".\vc71\Debug\"
+				PrecompiledHeaderFile=".\vc80\Debug\Reflection_vc80.pch"
+				AssemblerListingLocation=".\vc80\Debug\"
+				ObjectFile=".\vc80\Debug\"
+				ProgramDataBaseFileName=".\vc80\Debug\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -74,12 +74,12 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\vc71\Debug\Reflection_vc80.exe"
+				OutputFile=".\vc80\Debug\Reflection_vc80.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\vc71\Debug\Reflection_vc80.pdb"
+				ProgramDatabaseFile=".\vc80\Debug\Reflection_vc80.pdb"
 				SubSystem="1"
 			/>
 			<Tool
@@ -109,8 +109,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc71\Release\"
-			IntermediateDirectory=".\vc71\Release\"
+			OutputDirectory=".\vc80\Release\"
+			IntermediateDirectory=".\vc80\Release\"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
@@ -134,7 +134,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\vc71\Release\Reflection_vc80.tlb"
+				TypeLibraryName=".\vc80\Release\Reflection_vc80.tlb"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
@@ -146,10 +146,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc71\Release\Reflection_vc80.pch"
-				AssemblerListingLocation=".\vc71\Release\"
-				ObjectFile=".\vc71\Release\"
-				ProgramDataBaseFileName=".\vc71\Release\"
+				PrecompiledHeaderFile=".\vc80\Release\Reflection_vc80.pch"
+				AssemblerListingLocation=".\vc80\Release\"
+				ObjectFile=".\vc80\Release\"
+				ProgramDataBaseFileName=".\vc80\Release\"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				CompileAs="0"
@@ -169,11 +169,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile=".\vc71\Release\Reflection_vc80.exe"
+				OutputFile=".\vc80\Release\Reflection_vc80.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\vc71\Release\Reflection_vc80.pdb"
+				ProgramDatabaseFile=".\vc80\Release\Reflection_vc80.pdb"
 				SubSystem="1"
 			/>
 			<Tool

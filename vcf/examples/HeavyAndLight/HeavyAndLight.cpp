@@ -179,7 +179,7 @@ public:
 
 		Window* mainWindow = new HeavyAndLightWindow();
 		setMainWindow(mainWindow);
-		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->setBounds( 100.0, 100.0, 400.0, 500.0 );
 		mainWindow->show();
 
 		return result;
@@ -201,6 +201,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/19 21:59:42  ddiego
+*updated various settings in vc80 projects.
+*
 *Revision 1.5.2.2  2006/03/16 18:45:26  kdmix
 *setVisible(true) removed from constructor of the main window.
 *
