@@ -331,9 +331,10 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 {
 	UnicodeString::AnsiChar* result= NULL;
 	int size = 0;
-	//int strLength = str.data_.size();
+
 
 #ifdef VCF_WIN32
+    int strLength = str.data_.size();
 	if ( str.empty() ) {
 		strLength = 1;
 	}
@@ -936,6 +937,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.6  2006/03/19 00:14:47  obirsoy
+*. Fixed a problem introduced during last commit.
+*
 *Revision 1.5.2.5  2006/03/19 00:04:17  obirsoy
 *Linux FoundationKit improvements.
 *
