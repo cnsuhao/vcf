@@ -260,9 +260,9 @@ Win32Object::CreateParams Win32Edit::createParams()
 	// a method giving the option to the user, and painting the selection
 	// in an unfocused control with a light gray on the background - MP.
 
-	result.first |= ES_AUTOHSCROLL | ES_SAVESEL /*| ES_NOHIDESEL*/;
+	result.first |= ES_AUTOHSCROLL  /*ES_SAVESEL*/ /*| ES_NOHIDESEL*/;
 	if ( editState_ & esMultiLined ) {
-		result.first |= ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
+		result.first |= ES_SAVESEL | ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
 	}
 
 	return result;
@@ -550,10 +550,27 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 			}
 		}
 		break;
+/*
+		case WM_TIMER : {
+			StringUtils::trace( "WM_TIMER\n" );
+						}
+			break;
 
+			case EM_SETSEL : {
+			StringUtils::trace( "EM_SETSEL\n" );
+						}
+			break;
+
+			case EM_EXSETSEL : {
+				StringUtils::trace( "EM_EXSETSEL\n" );
+
+							   }
+				break;
+*/
 		case WM_RBUTTONUP : case WM_LBUTTONUP : {
 
-			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+			result = true;
+			AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			ulong32 start = 0;
 			ulong32 end = 0;
@@ -772,14 +789,21 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		}
 		break;
 
+		
 		case EN_SELCHANGE : {
 			wndProcResult = 0;
 			result = true;
 
+			
+
 			SELCHANGE* selChange = (SELCHANGE*)lParam;
+
+			StringUtils::trace( Format("EN_SELCHANGE selChange->seltyp:%d cpMax: %d,  cpMin: %d\n") %
+								 selChange->seltyp % selChange->chrg.cpMax % selChange->chrg.cpMin	);
 			if ( selChange->chrg.cpMax != selChange->chrg.cpMin ) {
 				//selection changed
 
+				StringUtils::trace( "Changing sel start and sel leng\n" );
 				currentSelLength_ = selChange->chrg.cpMax - selChange->chrg.cpMin;
 				currentSelStart_ = selChange->chrg.cpMin;
 
@@ -787,6 +811,8 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 				textControl_->SelectionChanged.fireEvent( &event );
 			}
+
+			
 		}
 		break;
 
@@ -897,8 +923,42 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		//	result = DLGC_WANTALLKEYS;
 		//}
 		//break;
+/*
+		case WM_SETFOCUS: {
+			AbstractWin32Component::defaultWndProcedure( message, wParam, lParam );
 
-		default: {
+			DWORD s, e;
+			SendMessage( hwnd_, EM_GETSEL, (WPARAM)&s, (LPARAM)&e );
+
+			StringUtils::trace( Format("WM_SETFOCUS s: %d, e: %d \n") %
+									s % e );
+
+			currentSelLength_ = e - s;
+			currentSelStart_ = s;
+
+			editState_ |= esGotFocus;
+			
+			result = true;
+			AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
+		}
+		break;
+
+		case WM_CAPTURECHANGED : {
+			HWND hwndNewCapture = (HWND) lParam;
+
+			editState_ |= esCaptureChanged;
+			DWORD s2, e2;
+			SendMessage( hwnd_, EM_GETSEL, (WPARAM)&s2, (LPARAM)&e2 );
+
+
+			StringUtils::trace( Format("WM_CAPTURECHANGED s2: %d, e2: %d hwnd_: 0x%08X hwndNewCapture: 0x%08X\n") %
+									s2 % e2 % hwnd_ % hwndNewCapture );
+
+								 }
+			break;
+*/
+
+		default: {	
 
 			result = AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
@@ -1091,6 +1151,8 @@ void Win32Edit::clearSelection()
 void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned long& count )
 {
 	unsigned long end = start + count;
+
+	StringUtils::trace( Format("Win32Edit::setSelectionMark s: %d, count: %d\n") % start % count );
 
 	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)start, (LPARAM)end );	
 }
@@ -1361,6 +1423,9 @@ void Win32Edit::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.10  2006/03/19 18:21:17  ddiego
+*diagnostic code commented out in win32edit - still have a selection bug not quite resolved.
+*
 *Revision 1.5.2.9  2006/03/16 03:23:11  ddiego
 *fixes some font change notification issues in win32 peers.
 *
