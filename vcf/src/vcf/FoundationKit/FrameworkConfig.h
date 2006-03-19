@@ -70,6 +70,9 @@ Setup VCF_ operating system
 	#define VCF_OSX
 #endif
 
+#ifdef __linux__
+    #define VCF_POSIX
+#endif
 
 /**
 Setup compiler names, and some compiler-specific warnings
@@ -728,6 +731,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.11  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.6.2.10  2006/02/28 14:39:55  kiklop74
 *Fixed version check for BDS 2006
 *

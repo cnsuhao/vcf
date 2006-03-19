@@ -15,7 +15,7 @@ class LinuxLocalePeer : public LocalePeer
 {
 public:
 	LinuxLocalePeer();
-
+    ~LinuxLocalePeer();
 
 	virtual void setLocale( const UnicodeString& language,
 	                        const UnicodeString& country,
@@ -68,10 +68,10 @@ public:
 	virtual UnicodeString translate( const UnicodeString& id );
 
 	virtual OSHandleID getHandleID() {
-		return (OSHandleID)0;
+		return (OSHandleID)locale_;
 	}
 protected:
-	UnicodeString crtLocaleStr_;
+    locale_t locale_;
 };
 
 }
@@ -80,6 +80,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.1  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.4  2005/07/09 23:15:03  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

@@ -6,7 +6,7 @@ using namespace VCF;
 
 void printVariant( VariantData& v )
 {
-	printf("As string: {%s},  type: %d\n", v.toString().ansi_c_str(), v.type);
+	System::print( Format("As string: {%s},  type: %d\n") % v.toString() % v.type);
 }
 
 void testConstructors()
@@ -35,7 +35,7 @@ void testConstructors()
 	VCF_ASSERT( v6.type == pdInt );
 	printVariant(v6);
 
-	VariantData v7 = (ushort)123;
+	VariantData v7 = (VCF::ushort)123;
 	VCF_ASSERT( v7.type == pdUShort );
 	printVariant(v7);
 
@@ -124,7 +124,7 @@ int main( int argc, char** argv ){
 		System::println( String("Error: \n") + e.what() );
 	}
 
-
+    System::println(System::createTempFileName(System::getCurrentWorkingDirectory()));
 	FoundationKit::terminate();
 	return 0;
 }

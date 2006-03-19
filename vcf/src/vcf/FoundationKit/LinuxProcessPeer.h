@@ -34,9 +34,10 @@ public:
 	virtual Waitable::WaitResult wait( uint32 milliseconds );
 
 	virtual Waitable::WaitResult wait();
+
 protected:
-	OSHandleID processHandle_;
-	VCF::String processFileName_;
+	pid_t  processHandle_;
+	String processFileName_;
 };
 
 } //end of namespace VCF
@@ -45,6 +46,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.4.2.1  2005/11/28 21:01:06  ddiego
 *added wait function to process class. added stubs for linux.
 *

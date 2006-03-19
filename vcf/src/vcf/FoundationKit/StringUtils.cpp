@@ -231,7 +231,7 @@ String StringUtils::lowerCase( const String& text )
 {
 	String result;
 
-#if defined(_MSC_VER) || defined(VCF_BCC)
+#if defined(VCF_MSC) || defined(VCF_BCC)
 	VCFChar* copyText = new VCFChar[text.size()+1];
 	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
 	text.copy( copyText, text.size() );
@@ -265,7 +265,7 @@ String StringUtils::lowerCase( const String& text )
 String StringUtils::upperCase( const VCF::String& text )
 {
 	String result;
-#if defined(_MSC_VER) || defined(VCF_BCC)
+#if defined(VCF_MSC) || defined(VCF_BCC)
 	VCFChar* copyText = new VCFChar[text.size()+1];
 	memset(copyText, 0, (text.size()+1)*sizeof(VCFChar) );
 	text.copy( copyText, text.size() );
@@ -764,7 +764,7 @@ VCF::String StringUtils::toString( const std::type_info& typeInfo )
 VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInfo  )
 {
 	VCF::String result = "";
-#if defined(WIN32) && !defined(VCF_MINGW) //don't know if we really need this here
+#if defined(VCF_WIN32) && !defined(VCF_MINGW) //don't know if we really need this here
 		std::string tmp = typeInfo.name();  //put back in when we find typeid
 		if ( tmp != "void *" ) {//void* is a special case!
 			//strip out the preceding "class" or "enum" or whatever
@@ -801,7 +801,7 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 
 	#endif
 
-#elif defined(VCF_OSX) || defined(VCF_MINGW)
+#elif defined(VCF_OSX) || defined(VCF_MINGW) || defined(VCF_POSIX)
 	int status = 0;
 	char* nameBuf;
 	const char* c_name = 0;
@@ -849,28 +849,6 @@ VCF::String StringUtils::getClassNameFromTypeInfo( const std::type_info& typeInf
 	
 	if ( NULL != nameBuf ) {
 		::free( nameBuf );
-	}
-	
-#elif VCF_POSIX
-	int status = 0;
-	char* nameBuf;
-	const char* c_name = 0;
-
-	nameBuf = abi::__cxa_demangle( typeInfo.name(), 0, 0, &status );
-	c_name = nameBuf;
-	
-	if ( NULL == c_name ) {
-		//try typeinfo.name() without the C++ de-mangler
-		c_name = typeInfo.name();
-	}
-	
-	
-	if ( NULL != c_name ) {
-		result = c_name;
-	}
-	
-	if ( NULL != nameBuf ) {
-		::free(nameBuf);
 	}
 #else
 	result = typeInfo.name();
@@ -960,7 +938,7 @@ int StringUtils::fromStringAsInt( const VCF::String& value )
 			throw BasicException( L"Overflow - Unable to convert: " + value );
 		}
 	#else
-		#ifdef _MSC_VER
+		#ifdef VCF_MSC
 			result = _wtoi( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_INT_CONVERSION, &result ) ) ) {
@@ -989,7 +967,7 @@ VCF::uint32 StringUtils::fromStringAsUInt( const VCF::String& value )
 			throw BasicException( L"StringUtils::fromStringAsUInt() Overflow - Unable to convert: " + value );
 		}
 	#else
-		#ifdef _MSC_VER
+		#ifdef VCF_MSC
 			/* unfortunately there is no _wtoui function provided so we use _wtoi64 to avoid overflow */
 			result = _wtoi64( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' ) &&
@@ -1048,7 +1026,7 @@ VCF::ulong32 StringUtils::fromStringAsULong( const VCF::String& value )
 			throw BasicException( L"StringUtils::fromStringAsULong() Overflow - Unable to convert: " + value );
 		}
 	#else
-		#ifdef _MSC_VER
+		#ifdef VCF_MSC
 			result = _wtoi64( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_ULONG_CONVERSION, &result ) ) ) {
@@ -1079,7 +1057,7 @@ VCF::long64 StringUtils::fromStringAsLong64( const VCF::String& value )
 			throw BasicException( L"StringUtils::fromStringAsLong64() Overflow - Unable to convert: " + value );
 		}
 	#else
-		#ifdef _MSC_VER
+		#ifdef VCF_MSC
 			result = _wtoi64( value.c_str() );
 			if ( (long64)0 == result && ( value[0] != '0' ) &&
 					( -1 != swscanf( value.c_str(), L"%I64d", &result ) ) ) {
@@ -1108,7 +1086,7 @@ VCF::ulong64 StringUtils::fromStringAsULong64( const VCF::String& value )
 			throw BasicException( L"StringUtils::fromStringAsULong64() Overflow - Unable to convert: " + value );
 		}
 	#else
-		#ifdef _MSC_VER
+		#ifdef VCF_MSC
 			#if ( _MSC_VER >= 1300 )
 				result = _wcstoui64( value.c_str(), NULL, 10 );
 			#else
@@ -1141,7 +1119,7 @@ float StringUtils::fromStringAsFloat( const VCF::String& value )
 			//check_true_error( tmp );
 		}
 	#else
-		#if ( defined _MSC_VER ) && ( _MSC_VER >= 1300 )
+		#if ( defined VCF_MSC ) && ( _MSC_VER >= 1300 )
 			result = _wtof( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' && value[0] != '.' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_FLOAT_CONVERSION, &result ) ) ) {
@@ -1168,7 +1146,7 @@ double StringUtils::fromStringAsDouble( const VCF::String& value )
 			//check_true_error( tmp );
 		}
 	#else
-		#if ( defined _MSC_VER ) && ( _MSC_VER >= 1300 )
+		#if ( defined VCF_MSC ) && ( _MSC_VER >= 1300 )
 			result = _wtof( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' && value[0] != '.' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_DOUBLE_CONVERSION, &result ) ) ) {
@@ -1207,7 +1185,7 @@ short StringUtils::fromStringAsShort( const VCF::String& value )
 		tmp = value;
 		result = CFStringGetIntValue( tmp );
 	#else
-		#ifdef _MSC_VER
+		#ifdef VCF_MSC
 			result = _wtoi( value.c_str() );
 			if ( 0 == result && ( value[0] != '0' && value[0] != '.' ) &&
 					( -1 != swscanf( value.c_str(), W_STR_SHORT_CONVERSION, &result ) ) ) {
@@ -2432,6 +2410,9 @@ VCF::String StringUtils::translateVKCodeToString( VirtualKeyCode code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.16  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.4.2.15  2006/01/22 17:19:37  ddiego
 *fixed some bugs in type_info handling for gcc.
 *

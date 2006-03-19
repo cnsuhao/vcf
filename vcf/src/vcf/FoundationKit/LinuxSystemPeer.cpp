@@ -8,18 +8,17 @@ where you installed the VCF.
 
 #include "vcf/FoundationKit/FoundationKit.h"
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
+#include "vcf/FoundationKit/LocalePeer.h"
+
 #include <cstdlib>
 #include <sys/utsname.h>
 #include <pwd.h>
 
 using namespace VCF;
 
-struct timezone LinuxSystemPeer::timeZone;
-struct timeval LinuxSystemPeer::time;
-
 LinuxSystemPeer::LinuxSystemPeer()
 {
-	::gettimeofday( &LinuxSystemPeer::time, &LinuxSystemPeer::timeZone );
+	::gettimeofday( &time_, &timeZone_ );
 }
 
 LinuxSystemPeer::~LinuxSystemPeer()
@@ -31,8 +30,8 @@ unsigned long LinuxSystemPeer::getTickCount()
 	struct timezone timeZone;
 	::gettimeofday( &now, &timeZone );
 
-	double t1 = double( LinuxSystemPeer::time.tv_sec * 1000 ) +
-	            double( LinuxSystemPeer::time.tv_usec / ( 1000 ) );
+	double t1 = double( LinuxSystemPeer::time_.tv_sec * 1000 ) +
+	            double( LinuxSystemPeer::time_.tv_usec / ( 1000 ) );
 
 	double t2 = double( now.tv_sec * 1000 ) +
 	            double( now.tv_usec / ( 1000 ) ); //convert to Milliseconds
@@ -47,7 +46,7 @@ void LinuxSystemPeer::sleep( const uint32& milliseconds )
 	}
 	struct timespec req, rem;
 	req.tv_sec = milliseconds / 1000;
-	req.tv_nsec = ( milliseconds % 1000 ) * 1000;
+	req.tv_nsec = ((milliseconds * 1000) % 1000000) * 1000;
 	::nanosleep( &req, &rem );
 }
 
@@ -148,12 +147,17 @@ String LinuxSystemPeer::getCommonDirectory( System::CommonDirectory directory )
         break;
 
         default:
-        // Unkown CommonDirectory type
-        assert(false);
+            // Unkown CommonDirectory type
+            VCF_ASSERT(false);
         break;
     }
 
 	return result;
+}
+
+String LinuxSystemPeer::createTempFileName( const String& directory )
+{
+    return tempnam(directory.ansi_c_str(), "vcftmp");;
 }
 
 void LinuxSystemPeer::setCurrentWorkingDirectory( const String& currentDirectory )
@@ -169,7 +173,6 @@ String LinuxSystemPeer::getOSName()
 	return "GNU/Linux";
 }
 
-
 String LinuxSystemPeer::getOSVersion()
 {
 	return "";
@@ -177,7 +180,7 @@ String LinuxSystemPeer::getOSVersion()
 
 ProgramInfo* LinuxSystemPeer::getProgramInfoFromFileName( const String& fileName )
 {
-	return 0; //LinuxResourceBundle::getProgramInfo( fileName );
+	return 0;
 }
 
 void LinuxSystemPeer::setDateToLocalTime( DateTime* date )
@@ -191,17 +194,19 @@ void LinuxSystemPeer::setDateToLocalTime( DateTime* date )
 }
 
 void LinuxSystemPeer::setCurrentThreadLocale( Locale* locale )
-{}
+{
+    uselocale( reinterpret_cast<locale_t>(locale->getPeer()->getHandleID()));
+}
 
 DateTime LinuxSystemPeer::convertUTCTimeToLocalTime( const DateTime& date )
 {
-	DateTime result;
+	DateTime result = date;
 	return result;
 }
 
 DateTime LinuxSystemPeer::convertLocalTimeToUTCTime( const DateTime& date )
 {
-	DateTime result;
+	DateTime result = date;
 	return result;
 }
 
@@ -232,6 +237,9 @@ String LinuxSystemPeer::getUserName()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.4.2.4  2005/12/01 01:13:00  obirsoy
 *More linux improvements.
 *

@@ -24,7 +24,9 @@ PosixMutex::~PosixMutex()
 
 bool PosixMutex::lock()
 {
-    if ( pthread_mutex_lock(&mutex_) == 0 ) return true;
+    if ( pthread_mutex_lock(&mutex_) == 0 ) {
+		return true;
+	}
     return false;
 }
 
@@ -33,14 +35,18 @@ bool PosixMutex::lock( uint32 timeoutInMilliseconds )
     timespec ts;
     ts.tv_sec = timeoutInMilliseconds / 1000;
     ts.tv_nsec = (timeoutInMilliseconds * 1000) - (ts.tv_sec*1000*1000)  ;
-    if ( pthread_mutex_timedlock(&mutex_, &ts) == 0 ) return true;
+    if ( pthread_mutex_timedlock(&mutex_, &ts) == 0 ) {
+		return true;
+	}
     return false;
 }
 
 
 bool PosixMutex::unlock()
 {
-    if ( pthread_mutex_unlock(&mutex_) == 0 ) return true;
+    if ( pthread_mutex_unlock(&mutex_) == 0 ) {
+		return true;
+	}
     return false;
 }
 
@@ -48,6 +54,9 @@ bool PosixMutex::unlock()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.2.6.1  2005/11/10 00:04:23  obirsoy
 *changes required for gcc under Linux.
 *

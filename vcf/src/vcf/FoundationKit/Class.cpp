@@ -334,6 +334,11 @@ String Class::getClassNameForProperty( Property* property )
 					//no-op
 				}
 				break;
+
+                default: {
+                    //no-op
+                }
+                break;
 			}
 		}
 	}
@@ -420,6 +425,9 @@ void Class::addInterface( InterfaceClass* newInterface )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.2  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.2.6.1  2006/02/23 01:41:57  ddiego
 *some minor changes to teh variantdata class, added support for specific char* and WideChar* cosntructor and for unsigned short types.
 *

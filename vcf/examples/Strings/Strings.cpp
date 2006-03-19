@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 			System::println( formattedString );
 		}
 		catch ( std::exception& e ) {
-			printf( "%s\n", e.what() );
+			System::print( Format("%s\n") % e.what() );
 		}
 
 
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 			System::println( formattedString );
 		}
 		catch ( std::exception& e ) {
-			printf( "%s\n", e.what() );
+			System::print( Format("%s\n") % e.what() );
 		}
 
 		//StringUtils::format is deprecated - don't use in new code
@@ -182,8 +182,6 @@ int main(int argc, char *argv[])
 		//same thing with a Format
 		formattedString = Format( "Number: %d, as hex: 0x%08X, a string: %s") % 12 % 12 % toFind;
 		System::println( formattedString );
-
-
 
 		/**
 		code added with only purpose of fulling testing the Format functionality
@@ -245,7 +243,7 @@ int main(int argc, char *argv[])
 			s = Format( "%%d" ) % 1;
 		}
 		catch ( std::exception& e ) {
-			printf( "%s\n", e.what() );
+			System::print( Format("%s\n") % e.what() );
 		}
 
 		s = Format( "%d" ) %1;
@@ -254,14 +252,14 @@ int main(int argc, char *argv[])
 			s = Format( "%d" );
 		}
 		catch ( std::exception& e ) {
-			printf( "%s\n", e.what() );
+			System::print( Format("%s\n") % e.what() );
 		}
 
 		try {
 			s = Format( "%d %d" ) % 1;
 		}
 		catch ( std::exception& e ) {
-			printf( "%s\n", e.what() );
+			System::print( Format("%s\n") % e.what() );
 		}
 
 
@@ -379,7 +377,7 @@ int main(int argc, char *argv[])
 		System::println( "all the tests and the example have completed successfully" );
 	}
 	catch ( std::exception& e ) {
-		printf( e.what() );
+		System::print( e.what() );
 	}
 
 
@@ -411,6 +409,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/19 00:03:41  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.4.2.3  2005/11/10 04:43:27  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

@@ -7,15 +7,16 @@ where you installed the VCF.
 */
 
 
-#include <stdio.h>
-#include "SimpleDLL.h"
+#include <cstdio>
+#include <cwchar>
 #include <typeinfo>
+#include "SimpleDLL.h"
 
 
 
 void HelloWorld::hello()
 {
-	printf( "Hello from class: %s, instance @ %p\n", typeid(*this).name(), this );
+	wprintf( L"Hello from class: %s, instance @ %p\n", typeid(*this).name(), this );
 }
 
 extern "C" {
@@ -31,12 +32,12 @@ int getAnInteger( int val1, double d )
 
 SIMPLEDLL_API void _vpl_init ( void* handle ) 
 {
-	printf( "Lib initialized! Handle: %p\n", handle );
+	wprintf( L"Lib initialized! Handle: %p\n", handle );
 }
 
 SIMPLEDLL_API void _vpl_terminate ( void* handle ) 
 {
-	printf( "Lib terminated! Handle: %p\n", handle );
+	wprintf( L"Lib terminated! Handle: %p\n", handle );
 }
 
 
@@ -47,6 +48,9 @@ SIMPLEDLL_API void _vpl_terminate ( void* handle )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/19 00:03:40  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.5.2.2  2005/09/03 17:13:23  ddiego
 *added a new argument to _vpl_init and _vpl_terminate functions.
 *
