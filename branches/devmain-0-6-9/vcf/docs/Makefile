@@ -404,6 +404,7 @@ doxy_hh : doxy_html/index.hhp
 	sed -i "s?tab_b.gif?gfx/vcf_tab_b.gif?g" doxy_html/index.hhp
 	sed -i "s?tab_l.gif?gfx/vcf_tab_l.gif?g" doxy_html/index.hhp
 	sed -i "s?tab_r.gif?gfx/vcf_tab_r.gif?g" doxy_html/index.hhp
+	sed -i "s?0x23520?0x53520?g" doxy_html/index.hhp
 	mv doxy_html/index.hhp doxy_html/$(VERSIONED_SRC_HHP_FILENAME)
 	-$(HTMLHELP_COMPILER) doxy_html/$(VERSIONED_SRC_HHP_FILENAME)	
 	mv doxy_html/$(VERSIONED_SRC_CHM_FILENAME) ./
@@ -419,6 +420,13 @@ mshelp2_doxy_hh :
 	cp -r gfx/ doxy_mshelp2_html/
 	cp vcf.css doxy_mshelp2_html/
 	cp vcf_tabs.css doxy_mshelp2_html/
+	sed -i "s?tabs.css?vcf_tabs.css?g" doxy_mshelp2_html/index.hhp
+	sed -i "s?tab_b.gif?gfx/vcf_tab_b.gif?g" doxy_mshelp2_html/index.hhp
+	sed -i "s?tab_l.gif?gfx/vcf_tab_l.gif?g" doxy_mshelp2_html/index.hhp
+	sed -i "s?tab_r.gif?gfx/vcf_tab_r.gif?g" doxy_mshelp2_html/index.hhp
+	sed -i "s?0x23520?0x53520?g" doxy_mshelp2_html/index.hhp
+	mv doxy_mshelp2_html/index.hhp doxy_mshelp2_html/$(VERSIONED_SRC_HHP_FILENAME)
+	-$(HTMLHELP_COMPILER) doxy_mshelp2_html/$(VERSIONED_SRC_HHP_FILENAME)
 
 mshelp2_coredocs :  $(VCF_DOCS) test_tools
 	sed "s?VERSION-NUMBER?$(VERSION)?g" vcf_book.xml > vcf_book.xml.tmp
@@ -527,6 +535,9 @@ clean :
 
 ###############################################################################
 #$Log$
+#Revision 1.19.2.6  2006/03/19 01:29:27  dougtinkham
+#more changes for help
+#
 #Revision 1.19.2.5  2006/03/17 23:20:41  dougtinkham
 #update for doxy .chm building
 #
