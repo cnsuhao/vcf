@@ -251,6 +251,7 @@
         vcf/FoundationKit/LinuxSemaphorePeer.h
         vcf/FoundationKit/LinuxSystemPeer.h
         vcf/FoundationKit/LinuxSystemToolkit.h
+	vcf/FoundationKit/LinuxRunLoopPeer.h
     </set>
 
     <set var="FOUNDATIONKIT_LINUX_SRC" hints="files">
@@ -267,6 +268,7 @@
         vcf/FoundationKit/LinuxSemaphorePeer.cpp
         vcf/FoundationKit/LinuxSystemPeer.cpp
         vcf/FoundationKit/LinuxSystemToolkit.cpp
+	vcf/FoundationKit/LinuxRunLoopPeer.cpp
     </set>
 
     <set var="FOUNDATIONKIT_OSX_HDR" hints="files">

@@ -295,10 +295,14 @@ Compile RemoteObjectKit:
         </description>
     </option>
 
+    <set var="OPTION_INTERNETKIT_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
     <option name="OPTION_INTERNETKIT">
         <values>0,1</values>
         <default-value>
-            $(vcf.getOptionValue( 'OPTION_INTERNETKIT', '1' ))
+            $(vcf.getOptionValue( 'OPTION_INTERNETKIT', OPTION_INTERNETKIT_DEFAULT ))
         </default-value>
         <description>
 Depends on:
