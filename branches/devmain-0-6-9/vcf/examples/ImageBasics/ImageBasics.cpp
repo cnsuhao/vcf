@@ -24,7 +24,7 @@ working with images
 class ImageBasicsWindow : public Window {
 public:
 	ImageBasicsWindow() {
-		setCaption( "ImageBasics" );
+		setCaption( "ImageBasics" );		
 	}
 
 	virtual ~ImageBasicsWindow(){};
@@ -32,75 +32,10 @@ public:
 	virtual void paint( GraphicsContext* ctx ) {
 		Window::paint( ctx );
 
-
-		/*
-		ignore this - this is justa test for 
-		dealing with pixels
-		const int w = 200;
-		const int h = 200;
-		SysPixelType* newPix = new SysPixelType[h*w];
-		memset(newPix,0,h*w);
-		int idx = 0;
-		for(int yy=0;yy<h;yy++ ) {
-			for(int x=0;x<w;x++ ) {
-				idx = yy*w+x;
-				newPix[idx].b = 255;
-				newPix[idx].g = 255;
-				newPix[idx].r = 0;
-				newPix[idx].a = 255;
-			}
-		}
-		BITMAPINFO bmpInfo;
-		memset( &bmpInfo, 0, sizeof(BITMAPINFO) );
-		bmpInfo.bmiHeader.biSize = sizeof (BITMAPINFOHEADER);
-		bmpInfo.bmiHeader.biWidth = w;
-		bmpInfo.bmiHeader.biHeight = -h;
-		bmpInfo.bmiHeader.biPlanes = 1;
-		bmpInfo.bmiHeader.biBitCount = 32;
-		bmpInfo.bmiHeader.biCompression = BI_RGB;
-		bmpInfo.bmiHeader.biSizeImage = (-bmpInfo.bmiHeader.biHeight) * bmpInfo.bmiHeader.biWidth * 4;
-
-
-		SetDIBitsToDevice( (HDC)ctx->getPeer()->getContextID(),
-								0,
-								0,
-								w,
-								h,
-								0,
-								0,
-								0,
-								h,
-								newPix,
-								&bmpInfo,
-								DIB_RGB_COLORS );
-
-		delete [] newPix;
-		*/
-
-
 		/**
 		This will create an image from a given file name
 		*/
 		Image* logoImage = GraphicsToolkit::createImage( "logo.bmp" );
-
-		{
-			ColorPixels pixels(logoImage);
-
-			SysPixelType* p = pixels;
-
-			SysPixelType p1 = pixels[1];
-
-
-			try {
-				GrayPixels pixels2(logoImage);
-			}
-			catch ( BasicException& e ) {
-				StringUtils::trace( "Error: " + e.getMessage() + "\n" );
-			}
-
-			pixels = logoImage;
-		}
-
 
 		/**
 		Simplest way to draw an image
@@ -246,8 +181,10 @@ public:
 
 		Window* mainWindow = new ImageBasicsWindow();
 		setMainWindow(mainWindow);
-		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+
+		mainWindow->setBounds( 100.0, 100.0, 400.0, 875.0 );
 		mainWindow->show();
+
 
 		return result;
 	}
@@ -268,6 +205,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.12  2006/03/19 18:54:45  ddiego
+*adjusted image basics window height.
+*
 *Revision 1.5.2.11  2006/03/16 18:45:24  kdmix
 *setVisible(true) removed from constructor of the main window.
 *
