@@ -39,6 +39,7 @@ public:
 		styles [ Text::fsItalic ] = true;
 		styles [ Text::fsColor ] = Color::getColor("red");
 		edit->setStyle( text.size()-25, 24, styles );
+		
 		add( edit, AlignClient );	
 	}
 

@@ -386,7 +386,9 @@ void MainWindow::makeButtonsPage()
 
 	btn1->setCaption(  "Button 1" );
 	container->add( btn1 );
-	btn1->ButtonClicked.addHandler( new ButtonEventHandler<MainWindow>( this, &MainWindow::onButtonClicked, "MainWindow::onButtonClicked" ) );
+
+	EventHandler* btnHandler = new ButtonEventHandler<MainWindow>( this, &MainWindow::onButtonClicked, "MainWindow::onButtonClicked" );
+	btn1->ButtonClicked.addHandler( btnHandler );
 
 
 
@@ -399,7 +401,7 @@ void MainWindow::makeButtonsPage()
 	btn2->setCaption(  "Button 2" );
 	btn2->setEnabled( false );
 	container->add( btn2 );
-	btn2->ButtonClicked.addHandler( new ButtonEventHandler<MainWindow>( this, &MainWindow::onButtonClicked, "MainWindow::onButtonClicked" ) );
+	btn2->ButtonClicked.addHandler( btnHandler );
 
 
 
@@ -881,6 +883,9 @@ void MainWindow::makeTreePage()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.5  2006/03/19 21:59:41  ddiego
+*updated various settings in vc80 projects.
+*
 *Revision 1.3.2.4  2006/03/16 18:45:24  kdmix
 *setVisible(true) removed from constructor of the main window.
 *
