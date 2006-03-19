@@ -2,10 +2,16 @@
 
 DIV.tabs
 {
-   float            : left;
-   width            : 94.5%;
+   /* Note doxy has float at left, we need it at right */
+   float            : right;
+   width            : 100%;
    background       : url("gfx/vcf_tab_b.gif") repeat-x bottom;
    margin-bottom    : 4px;
+   
+   /* needed for IE to work right */
+   margin-left : -2.5%;
+   /* needed for Firefox to work right with above fix for IE */
+   padding-left : 2.5%;
 }
 
 DIV.tabs UL
@@ -25,7 +31,8 @@ DIV.tabs LI, DIV.tabs FORM
 DIV.tabs FORM
 {
    float            : right;
-   margin-right     : 3%;
+   /* needed if search box included (may need 2.6%) */
+   margin-right     : 2.6%;
 }
 
 DIV.tabs A

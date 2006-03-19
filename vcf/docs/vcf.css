@@ -2,7 +2,7 @@ a, body, div, table, td { font-family : Verdana, Geneva, Arial, Helvetica, sans-
 code, input, select, textarea { font-family : "Courier New", Courier, monospace; font-size : small; }
 body { 
 	background-color : #FFFFFF; 
-	color : #000000; 
+	color            : #000000; 
 	margin-left    : 0px; 
 	margin-right   : 0px; 
 	margin-top     : 0px; 
@@ -22,9 +22,12 @@ p {
 
 div.mainContent {
 	margin-top   : 0px;
-	margin-right : 2.5%;
+	margin-right : 0%;
 	margin-bottom: 0px;
-	margin-left :  2.5%;
+	margin-left :  0%;
+
+	padding-right : 2.5%;
+	padding-left  : 2.5%;
 }
 
 div.book, div.table, div.revhistory, div.toc {
@@ -63,9 +66,28 @@ A.codeRef { color: #4444EE; }
 DL.el { margin-left: -1cm; }
 DIV.fragment { width: 100%; border: none; background-color: #EEEEEE; }
 DIV.ah { background-color: black; font-weight: bold; color: #FFFFFF; margin-bottom: 3px; margin-top: 3px; }
-TD.md { background-color: #CCCCCC; font-weight: bold; }
-TD.mdname1 { background-color: #CCCCCC; font-weight: bold; color: #4682B4; }
-TD.mdname { background-color: #CCCCCC; font-weight: bold; color: #4682B4; width: 600px; }
+
+
+div.mainContent table.mdTable {
+	border: 1px solid #868686;
+	background-color: #CCCCCC;
+}
+td.mdRow {
+	padding: 4px 5px;
+	width : 100%;
+}
+TD.md { 
+	background-color: #CCCCCC; 
+	font-weight: bold;
+}
+TD.mdname1 { 
+	background-color: #CCCCCC;
+	font-weight: bold;
+	color: #4682B4;
+}
+TD.mdname { background-color: #CCCCCC; font-weight: bold; color: #4682B4; width : 100%;}
+
+
 DIV.groupHeader { margin-left: 16px; margin-top: 12px; margin-bottom: 6px; font-weight: bold; }
 DIV.groupText { margin-left: 16px; font-style: italic; font-size: 93%; }
 span.keyword       { color: #008000; }
@@ -79,7 +101,7 @@ eprocessor  { color: #806020; }
 span.stringliteral { color: #002080; }
 span.charliteral   { color: #008080; }
 TD.indexkey { 
-   background-color: #EEEEFF; 
+   background-color: #f5f6f7; 
    font-weight: bold; 
    padding-right  : 10px; 
    padding-top    : 2px; 
@@ -89,9 +111,15 @@ TD.indexkey {
    margin-right   : 0px; 
    margin-top     : 2px; 
    margin-bottom  : 2px;  
+   
+   	border-style: solid;
+	border-width: 0px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-color: #4682B4;
 }
 TD.indexvalue { 
-   background-color: #EEEEFF; 
+   background-color: #f5f6f7; 
    font-style: italic; 
    padding-right  : 10px; 
    padding-top    : 2px; 
@@ -101,6 +129,12 @@ TD.indexvalue {
    margin-right   : 0px; 
    margin-top     : 2px; 
    margin-bottom  : 2px; 
+   
+	border-style: solid;
+	border-width: 0px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-color: #4682B4;
 }
 
 tr.question {
@@ -124,12 +158,25 @@ pre {
 	border-top-width: 1px;
 	border-bottom-width: 1px;
 	border-color: #4682B4;
-	
-  background: #f5f6f7;
-  margin-left   : 10px; 
+	background: #f5f6f7;
+	margin-left   : 10px; 
 	margin-top    : 0px; 
 	margin-right  : 10px; 
 	margin-bottom : 0px; 
+}
+
+
+pre.fragment {
+	font-family  : Fixed, monospace;
+	font-size    : 95%;
+	padding-left    : 8px;
+	padding-right   : 8px;
+	padding-top     : 4px;
+	padding-bottom  : 4px;
+}
+
+div.fragment {
+	background: #FFFFFF;
 }
 
 .note {
