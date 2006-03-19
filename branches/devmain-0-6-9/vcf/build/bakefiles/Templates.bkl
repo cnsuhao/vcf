@@ -40,10 +40,6 @@
             <lib-path>$(VCF_LIB_BCC)</lib-path>
         </if>
 
-        <if cond="FORMAT=='gnu'">
-           <define>VCF_POSIX</define>
-        </if>
-
         <if cond="FORMAT=='mingw'">
            <define>VCF_MINGW</define>
            <ldflags>-Wl,--enable-runtime-pseudo-reloc</ldflags>
@@ -92,8 +88,9 @@
         </if>
 
         <if cond="FORMAT=='gnu'">
-            <sys-lib>dl</sys-lib>
-			<sys-lib>uuid</sys-lib>
+        	<sys-lib>dl</sys-lib>
+		<sys-lib>uuid</sys-lib>
+		<sys-lib>rt</sys-lib>
         </if>
 
         <include>$(VCF_INCLUDE)</include>
