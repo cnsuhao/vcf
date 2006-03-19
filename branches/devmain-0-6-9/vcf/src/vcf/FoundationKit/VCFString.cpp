@@ -11,7 +11,7 @@ where you installed the VCF.
 #include "vcf/FoundationKit/FoundationKitPrivate.h"
 #include "vcf/FoundationKit/TextCodec.h"
 
-#include <cwchar>
+#include <errno.h>
 
 using namespace VCF;
 
@@ -193,7 +193,7 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
 
 		delete [] tmp;
 
-	#elif VCF_OSX
+	#elif defined(VCF_OSX)
 		CFStringRef cfStr =
 		CFStringCreateWithCString( NULL, str, CFStringGetSystemEncoding() );
 
@@ -210,7 +210,7 @@ void UnicodeString::transformAnsiToUnicode( const UnicodeString::AnsiChar* str, 
 		delete [] unicodeText;
 		CFRelease( cfStr );
 
-	#elif VCF_POSIX
+	#elif defined(VCF_POSIX)
 		int size = mbstowcs (NULL, str, 0 );
 		if ( size < 0) {
 			throw RuntimeException( L"size < 0 mbstowcs() failed in UnicodeString::transformAnsiToUnicode()" );
@@ -240,7 +240,7 @@ UnicodeString::UniChar UnicodeString::transformAnsiCharToUnicodeChar( UnicodeStr
 		throw RuntimeException( L"size > 0 MultiByteToWideChar() failed" );
 	}
 
-#elif VCF_OSX
+#elif defined(VCF_OSX)
 	char str[2] = {c,0};
 	CFStringRef cfStr =
 			CFStringCreateWithCString( NULL, str, CFStringGetSystemEncoding() );
@@ -256,11 +256,10 @@ UnicodeString::UniChar UnicodeString::transformAnsiCharToUnicodeChar( UnicodeStr
 	result = unicodeText[0];
 	CFRelease( cfStr );
 
-#elif VCF_POSIX
+#elif defined(VCF_POSIX)
 	UnicodeString::UniChar tmp[2] = {0,0};
-	int err = mbstowcs( tmp, &c, 1 );
+	mbstowcs( tmp, &c, 1 );
 	result = tmp[0];
-
 #endif
 
 	return result;
@@ -279,7 +278,7 @@ UnicodeString::AnsiChar UnicodeString::transformUnicodeCharToAnsiChar( UnicodeSt
 	}
 
 
-#elif VCF_OSX
+#elif defined(VCF_OSX)
 	String str;
 	str +=c;
 
@@ -304,7 +303,7 @@ UnicodeString::AnsiChar UnicodeString::transformUnicodeCharToAnsiChar( UnicodeSt
 		result = 0;
 	}
 	
-#elif VCF_POSIX
+#elif defined(VCF_POSIX)
 	int size = wctomb(NULL, c);
 
 
@@ -332,7 +331,7 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 {
 	UnicodeString::AnsiChar* result= NULL;
 	int size = 0;
-	int strLength = str.data_.size();
+	//int strLength = str.data_.size();
 
 #ifdef VCF_WIN32
 	if ( str.empty() ) {
@@ -358,7 +357,7 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 		result[size] = 0;
 	}
 
-#elif VCF_OSX
+#elif defined(VCF_OSX)
 	if ( str.length() > 0 ) {
 		CFTextString tmp;
 		tmp = str;
@@ -383,11 +382,37 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 		}
 	}
 
-#elif VCF_POSIX
+#elif defined(VCF_POSIX)
 	size = wcstombs( NULL, str.data_.c_str(), 0 );
 
 	if ( size < 0 ) {
-		throw RuntimeException( L"size < 0 wcstombs() failed" );
+        // It is not possible to convert the string at once.
+        mbstate_t mbs;
+        memset(&mbs, 0, sizeof(mbs));
+        char mbstr[64];
+        size_t mbslen;
+        const wchar_t *wcsPtr = str.data_.c_str();
+        std::string strRes;
+        while(wcsPtr != NULL) {
+            memset(mbstr, 0, sizeof(mbstr));
+            mbslen = wcsrtombs(mbstr, &wcsPtr, sizeof(mbstr)-1, &mbs);
+            if(mbslen == (size_t)-1) {
+                if(errno == EILSEQ) {
+                    // Conversion failed. Convert to ? instead.
+                    strRes += mbstr;
+                    strRes += "?";
+                    wcsPtr++;
+                }
+            }
+            else
+            {
+                strRes += mbstr;
+            }
+        }
+        result = new UnicodeString::AnsiChar[strRes.length()+1];
+        memset(result, 0, strRes.length()+1);
+        strncpy(result, strRes.c_str(), strRes.length());
+        return result;
 	}
 
 	result = new UnicodeString::AnsiChar[size+1];
@@ -408,8 +433,6 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 void UnicodeString::decode_ansi( TextCodec* codec, UnicodeString::AnsiChar* str, UnicodeString::size_type& strSize ) const 
 {
 	VCF_ASSERT ( str != NULL );
-
-	UnicodeString::AnsiChar* result = NULL;
 
 	ulong32 size = codec->convertToAnsiString( *this, str, strSize );	
 	
@@ -913,6 +936,9 @@ int UnicodeString::compare(UnicodeString::size_type p0, UnicodeString::size_type
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/19 00:04:17  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.5.2.4  2005/11/30 05:31:36  ddiego
 *further osx drag-drop updates.
 *

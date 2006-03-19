@@ -41,6 +41,8 @@ public:
 
 	virtual String getCommonDirectory( System::CommonDirectory directory );
 
+    virtual String createTempFileName( const String& directory );
+
 	virtual void setDateToSystemTime( DateTime* date );
 
 	virtual void setDateToLocalTime( DateTime* date );
@@ -63,10 +65,8 @@ public:
 	virtual String getUserName();
 
 protected:
-	//WEIRDNESS! These member variables need to be
-	//declared as static to work right...sigh...
-	static struct timezone timeZone;
-	static struct timeval time;
+	struct timezone timeZone_;
+	struct timeval time_;
 };
 
 };
@@ -75,6 +75,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.4.2.3  2005/11/18 16:02:53  obirsoy
 *changes required for gcc under Linux, and some warning clean up.
 *

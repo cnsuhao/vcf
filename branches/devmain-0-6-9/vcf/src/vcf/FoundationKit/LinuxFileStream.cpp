@@ -47,7 +47,6 @@ LinuxFileStream::LinuxFileStream( const String& filename,
 	}
 	
 	fileHandle_ = ::open( filename_.ansi_c_str(), oflags, mode );
-	int err = errno;
 	if ( fileHandle_ > 0 ) {
 		::lseek( fileHandle_, 0, SEEK_SET );
 	} else {
@@ -115,7 +114,7 @@ unsigned long LinuxFileStream::read( unsigned char* bytesToRead, unsigned long s
 		                       + LinuxUtils::getErrorString( errno ) ) );
 	}
 	//error if we are not reading/writing asynchronously !
-	if ( bytesRead != sizeOfBytes ) {
+	if ( bytesRead != static_cast<int>(sizeOfBytes) ) {
 		//throw exception ?
 	}
 
@@ -129,12 +128,13 @@ unsigned long LinuxFileStream::write( const unsigned char* bytesToWrite, unsigne
 	}	
 	int bytesWritten = ::write( fileHandle_, bytesToWrite, sizeOfBytes );
 	if ( bytesWritten < 0 ) {
+        wprintf(L"%i\n", errno);
 		throw FileIOError( MAKE_ERROR_MSG_2(
 		                       CANT_WRITE_TO_FILE + filename_ + "\n"
 		                       + LinuxUtils::getErrorString( errno ) ) );
 	}
 	//error if we are not reading/writing asynchronously !
-	if ( bytesWritten != sizeOfBytes ) {
+	if ( bytesWritten != static_cast<int>(sizeOfBytes) ) {
 		//throw exception ?
 		//throw FileIOError( CANT_WRITE_TO_FILE + filename_ );
 	}
@@ -175,6 +175,9 @@ int LinuxFileStream::translateSeekTypeToMoveType( const SeekType& offsetFrom )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.3.2.2  2005/12/01 01:13:00  obirsoy
 *More linux improvements.
 *

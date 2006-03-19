@@ -294,6 +294,10 @@ public:
 				}
 			}
 			break;
+
+            default: {
+            }
+            break;
 		}
 	}
 private:
@@ -306,6 +310,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2006/03/19 00:04:17  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.3.2.3  2006/03/12 22:01:44  ddiego
 *doc updates.
 *

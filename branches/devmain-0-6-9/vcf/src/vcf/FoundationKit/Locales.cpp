@@ -1063,7 +1063,7 @@ UnicodeString Locale::toString( const float& val )
 
 UnicodeString Locale::toStringFromCurrency( const double& val )
 {
-	return peer_->toString( val );
+	return peer_->toStringFromCurrency( val );
 }
 
 UnicodeString Locale::toStringFromDate( const DateTime& val, const UnicodeString& format )
@@ -1260,6 +1260,9 @@ Locale::CountryCodes Locale::stringToCountryCode( const UnicodeString& code )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.4.2.1  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

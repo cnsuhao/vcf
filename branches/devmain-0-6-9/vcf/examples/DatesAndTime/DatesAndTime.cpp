@@ -140,13 +140,13 @@ int main( int argc, char** argv ){
 	DateTimeSpan howLong = dt3 - dt4;
 
 
-	System::println( Format("Holy cow! I've been married for: \n\t%d years, %d months, %d days, %d hours, and %d minutes,\n or for a total of: \n\t %ls seconds!")
+	System::println( Format("Holy cow! I've been married for: \n\t%d years, %d months, %d days, %d hours, and %d minutes,\n or for a total of: \n\t %s seconds!")
 					%	howLong.getYears()
 					%	howLong.getMonths()
 					%	howLong.getDays()
 					%	howLong.getHours()
 					%	howLong.getMinutes()
-					%	System::getCurrentThreadLocale()->toString( howLong.getTotalSeconds() ).c_str() );
+                    %	System::getCurrentThreadLocale()->toString( howLong.getTotalSeconds() ) );
 
 
 	/**
@@ -186,6 +186,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/19 00:03:39  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.5.2.1  2005/07/23 21:45:34  ddiego
 *merged in marcellos changes from the 0-6-7 dev branch.
 *

@@ -43,5 +43,5 @@ Waitable::WaitResult PosixThreadManagerPeer::wait( std::vector<Waitable*>& waitO
 
 uint32 PosixThreadManagerPeer::getCurrentThreadID()
 {
-    return 0;
+    return pthread_self();
 }

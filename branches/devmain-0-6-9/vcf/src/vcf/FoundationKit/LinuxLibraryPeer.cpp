@@ -21,6 +21,7 @@ LinuxLibraryPeer::~LinuxLibraryPeer()
 
 void LinuxLibraryPeer::load( const String& libraryFilename )
 {
+	System::println("Opening "+libraryFilename);
 	//for now, till we find a better way, we are going
 	//do default to Lazy loading - the alternate is
 	//have all the symbols of libary resolved at once,
@@ -29,7 +30,7 @@ void LinuxLibraryPeer::load( const String& libraryFilename )
 	libHandle_ = ::dlopen( libraryFilename.ansi_c_str(), RTLD_LAZY );
 
 	StringUtils::traceWithArgs( Format("dlopen( %s ) returned %p\n") %
-				libraryFilename.c_str() %  libHandle_ );
+								 libraryFilename %  libHandle_ );
 
 	if ( ! libHandle_ ) {
 		throw RuntimeException( MAKE_ERROR_MSG_2( dlerror() ) );
@@ -46,7 +47,9 @@ void* LinuxLibraryPeer::getFunction( const String& functionName )
 		                                   "without a valid handle to a library" ) );
 	}
 	result = dlsym( libHandle_, functionName.ansi_c_str() );
-	StringUtils::traceWithArgs( Format( "error are: %s\n" ) % dlerror() );
+	if(result == NULL) {
+		StringUtils::traceWithArgs( Format( "error are: %s\n" ) % String(dlerror()) );
+	}
 	return result;
 }
 
@@ -66,6 +69,9 @@ void LinuxLibraryPeer::unload()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.4.2.3  2005/11/18 16:02:53  obirsoy
 *changes required for gcc under Linux, and some warning clean up.
 *

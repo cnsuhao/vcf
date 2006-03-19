@@ -113,17 +113,21 @@ Many thanks to Marcello for contributing this!!
 @see VCF_ASSERT2
 */
 	#define VCF_ASSERT(condition) VCF_ASSERT2( (condition), VCF_WIDEN( #condition ) )
-
+	#define VCF_VERIFY(condition) VCF_ASSERT(condition)
 
 #else
 	#define VCF_ASSERT2(condition,msg)
 	#define VCF_ASSERT(condition)
+	#define VCF_VERIFY(condition) condition
 #endif //_DEBUG
 
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.1  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.5  2005/07/09 23:15:02  ddiego
 *merging in changes from devmain-0-6-7 branch.
 *

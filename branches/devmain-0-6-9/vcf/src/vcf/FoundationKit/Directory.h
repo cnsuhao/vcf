@@ -334,10 +334,11 @@ public:
 		@param StatMask the mask
 		*/
 		inline void setStatMask( ulong32 statMask ) {
-			statMask_ = (StatMask)statMask;
+			statMask_ = statMask;
 			if ( recurse_ ) {
 				// we make sure we have directory informations
-				if ( (ulong32&)statMask_ |= File::smAttributes ) {
+				//if ( (ulong32&)statMask_ |= File::smAttributes ) {
+				if ( statMask_ |= File::smAttributes ) {
 				}
 			}
 		}
@@ -346,7 +347,7 @@ public:
 		Gets the mask for the informations we want to extract from a file
 		*@return the mask
 		*/
-		inline StatMask getStatMask() const {
+		inline uint32 getStatMask() const {
 			return statMask_;
 		}
 
@@ -357,7 +358,7 @@ public:
 		*/
 		inline void ignoreStat( ulong32 ignoreMask ) {
 			ulong32 statMask = File::smMaskAll & ~ignoreMask;
-			setStatMask( (File::StatMask&) statMask );
+			setStatMask( statMask );
 		}
 
 		/**
@@ -469,7 +470,7 @@ public:
 		FileSearchFilter* searchFilterFileObject_;
 		bool ownFilterFileObject_;
 		File::FileAttributes maskFilterFileAttribs_;
-		StatMask statMask_;
+		uint32 statMask_;
 		/**
 		The current element retrieved by the search
 		*/
@@ -709,6 +710,9 @@ inline void Directory::setName( const String& fileName ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.2  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.6.2.1  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

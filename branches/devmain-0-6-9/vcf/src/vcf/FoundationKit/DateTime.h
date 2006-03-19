@@ -729,7 +729,7 @@ protected:
 			return *this;
 		}
 
-		Iterator& operator++(int) { // postfix
+		Iterator operator++(int) { // postfix
 			Iterator before = (*this);
 			DateLogic::incr( dt_, 1 );
 			return before;
@@ -746,7 +746,7 @@ protected:
 			return *this;
 		}
 
-		Iterator& operator--(int) { // postfix
+		Iterator operator--(int) { // postfix
 			Iterator before = (*this);
 			DateLogic::decr( dt_, 1 );
 			return before;
@@ -992,6 +992,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.4  2006/03/19 00:04:16  obirsoy
+*Linux FoundationKit improvements.
+*
 *Revision 1.6.2.3  2006/03/12 22:01:40  ddiego
 *doc updates.
 *
