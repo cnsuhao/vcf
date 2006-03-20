@@ -48,7 +48,7 @@ MAKEARGS = -DCC="$(CC)" -DCXX="$(CXX)" -DCFLAGS="$(CFLAGS)" \
 
 ### Targets: ###
 
-all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
+all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling Scrolling2 SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
 
 clean: 
 	-if exist .\*.obj del .\*.obj
@@ -258,6 +258,10 @@ clean:
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>Scrolling.bat
 	call Scrolling.bat
 	@del Scrolling.bat
+	@echo cd Scrolling2 >Scrolling2.bat
+	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>Scrolling2.bat
+	call Scrolling2.bat
+	@del Scrolling2.bat
 	@echo cd SharedLibraries >SharedLibraries.bat
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' clean >>SharedLibraries.bat
 	call SharedLibraries.bat
@@ -648,6 +652,12 @@ Scrolling:
 	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>Scrolling.bat
 	call Scrolling.bat
 	@del Scrolling.bat
+
+Scrolling2: 
+	@echo cd Scrolling2 >Scrolling2.bat
+	@echo $(MAKE) -f makefile.bcc '$(MAKEARGS)' all >>Scrolling2.bat
+	call Scrolling2.bat
+	@del Scrolling2.bat
 
 SharedLibraries: 
 	@echo cd SharedLibraries >SharedLibraries.bat

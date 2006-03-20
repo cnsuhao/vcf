@@ -36,7 +36,7 @@ MAKEARGS = CC="$(CC)" CXX="$(CXX)" CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
 
 ### Targets: ###
 
-all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
+all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling Scrolling2 SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
 
 clean: 
 	-if exist .\*.o del .\*.o
@@ -92,6 +92,7 @@ clean:
 	$(MAKE) -C Resources -f makefile.gcc $(MAKEARGS) clean
 	$(MAKE) -C RunLoops -f makefile.gcc $(MAKEARGS) clean
 	$(MAKE) -C Scrolling -f makefile.gcc $(MAKEARGS) clean
+	$(MAKE) -C Scrolling2 -f makefile.gcc $(MAKEARGS) clean
 	$(MAKE) -C SharedLibraries -f makefile.gcc $(MAKEARGS) clean
 	$(MAKE) -C SketchIt -f makefile.gcc $(MAKEARGS) clean
 	$(MAKE) -C Sliders -f makefile.gcc $(MAKEARGS) clean
@@ -267,6 +268,9 @@ RunLoops:
 Scrolling: 
 	$(MAKE) -C Scrolling -f makefile.gcc $(MAKEARGS) all
 
+Scrolling2: 
+	$(MAKE) -C Scrolling2 -f makefile.gcc $(MAKEARGS) all
+
 SharedLibraries: 
 	$(MAKE) -C SharedLibraries -f makefile.gcc $(MAKEARGS) all
 
@@ -330,7 +334,7 @@ VisualFormFiles:
 WorkingWithEnumerators: 
 	$(MAKE) -C WorkingWithEnumerators -f makefile.gcc $(MAKEARGS) all
 
-.PHONY: all clean Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
+.PHONY: all clean Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling Scrolling2 SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
 
 
 # Dependencies tracking:

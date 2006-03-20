@@ -59,6 +59,7 @@
     <subproject id="Resources" template="example"/>
     <subproject id="RunLoops" template="example"/>
     <subproject id="Scrolling" template="example"/>
+    <subproject id="Scrolling2" template="example"/>
     <subproject id="SharedLibraries" template="example"/>
     <subproject id="SketchIt" template="example"/>
     <subproject id="Sliders" template="example"/>
