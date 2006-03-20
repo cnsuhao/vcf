@@ -17,9 +17,8 @@ OBJDIR = gnu$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 CREATEINFO_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) \
-	$(CXXFLAGS)
+	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar \
+	-D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
 CREATEINFO_OBJECTS =  \
 	$(OBJDIR)/createinfo_createinfo.o
 
@@ -90,7 +89,7 @@ clean:
 	rm -f ../../bin/createinfo
 
 ../../bin/createinfo: $(CREATEINFO_OBJECTS)
-	$(CXX) -o $@ $(CREATEINFO_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____createinfo_FOUNDATIONKIT_p)
+	$(CXX) -o $@ $(CREATEINFO_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____createinfo_FOUNDATIONKIT_p)
 
 $(OBJDIR)/createinfo_createinfo.o: ./createinfo.cpp
 	$(CXX) -c -o $@ $(CREATEINFO_CXXFLAGS) $(CPPDEPS) $<

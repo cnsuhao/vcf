@@ -17,8 +17,8 @@ OBJDIR = gnu$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 XMAKE_LIB_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar \
-	-D_UNICODE -I../../src -DGCC $(CPPFLAGS) $(CXXFLAGS)
+	$(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar -D_UNICODE \
+	-I../../src -DGCC $(CPPFLAGS) $(CXXFLAGS)
 XMAKE_LIB_OBJECTS =  \
 	$(OBJDIR)/xmake_lib_CmdLine.o \
 	$(OBJDIR)/xmake_lib_FilePath.o \
@@ -26,8 +26,8 @@ XMAKE_LIB_OBJECTS =  \
 	$(OBJDIR)/xmake_lib_xmakeUtils.o \
 	$(OBJDIR)/xmake_lib_XMLParser.o
 XMAKE_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar \
-	-D_UNICODE -I../../src -DGCC $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
+	$(____OPTION_DEBUG) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar -D_UNICODE \
+	-I../../src -DGCC $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
 XMAKE_OBJECTS =  \
 	$(OBJDIR)/xmake_main.o
 
@@ -104,7 +104,7 @@ clean:
 	$(RANLIB) $@
 
 ../../bin/xmake: $(XMAKE_OBJECTS) ../../lib/liblibXmake$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a
-	$(CXX) -o $@ $(XMAKE_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____xmake_FOUNDATIONKIT_p) ../../lib/liblibXmake$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a
+	$(CXX) -o $@ $(XMAKE_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____xmake_FOUNDATIONKIT_p) ../../lib/liblibXmake$(OPTION_SELECTLIB)$(SUFFIX_STATIC).a
 
 $(OBJDIR)/xmake_lib_CmdLine.o: ./CmdLine.cpp
 	$(CXX) -c -o $@ $(XMAKE_LIB_CXXFLAGS) $(CPPDEPS) $<

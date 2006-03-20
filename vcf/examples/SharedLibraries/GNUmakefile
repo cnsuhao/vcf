@@ -20,7 +20,7 @@ SIMPLEDLL_CXXFLAGS =   -fPIC -DPIC $(CPPFLAGS) $(CXXFLAGS)
 SIMPLEDLL_OBJECTS =  \
 	$(OBJDIR)/SimpleDLL_SimpleDLL.o
 SHAREDLIBRARIES_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_3) -D_THREAD_SAFE \
-	-pthread $(____OPTION_DEBUG_9_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
+	-pthread $(____OPTION_DEBUG_9_p) -DVCF_DISABLE_PRAGMA_LINKING \
 	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) \
 	$(CXXFLAGS)
 SHAREDLIBRARIES_OBJECTS =  \
@@ -108,7 +108,7 @@ endif
 
 ifeq ($(OPTION_FOUNDATIONKIT),1)
 ./SharedLibraries$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(SHAREDLIBRARIES_OBJECTS) $(__SimpleDLL___depname)
-	$(CXX) -o $@ $(SHAREDLIBRARIES_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____SharedLibraries_FOUNDATIONKIT_p)
+	$(CXX) -o $@ $(SHAREDLIBRARIES_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____SharedLibraries_FOUNDATIONKIT_p)
 endif
 
 $(OBJDIR)/SimpleDLL_SimpleDLL.o: ./SimpleDLL.cpp

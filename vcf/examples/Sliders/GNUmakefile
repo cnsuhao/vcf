@@ -23,8 +23,8 @@ GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 SLIDERS_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
+	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar \
+	-D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
@@ -115,7 +115,7 @@ clean:
 
 ifeq ($(OPTION_APPLICATIONKIT),1)
 ./Sliders$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(SLIDERS_OBJECTS)
-	$(CXX) -o $@ $(SLIDERS_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____Sliders_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____Sliders_GRAPHICSKIT_p) $(____Sliders_APPLICATIONKIT_p)
+	$(CXX) -o $@ $(SLIDERS_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____Sliders_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____Sliders_GRAPHICSKIT_p) $(____Sliders_APPLICATIONKIT_p)
 endif
 
 $(OBJDIR)/Sliders_Sliders.o: ./Sliders.cpp

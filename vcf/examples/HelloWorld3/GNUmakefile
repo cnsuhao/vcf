@@ -23,8 +23,8 @@ GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 HELLOWORLD3_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
+	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar \
+	-D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
@@ -115,7 +115,7 @@ clean:
 
 ifeq ($(OPTION_APPLICATIONKIT),1)
 ./HelloWorld3$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(HELLOWORLD3_OBJECTS)
-	$(CXX) -o $@ $(HELLOWORLD3_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____HelloWorld3_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____HelloWorld3_GRAPHICSKIT_p) $(____HelloWorld3_APPLICATIONKIT_p)
+	$(CXX) -o $@ $(HELLOWORLD3_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____HelloWorld3_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____HelloWorld3_GRAPHICSKIT_p) $(____HelloWorld3_APPLICATIONKIT_p)
 endif
 
 $(OBJDIR)/HelloWorld3_HelloWorld3.o: ./HelloWorld3.cpp

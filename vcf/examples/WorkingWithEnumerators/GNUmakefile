@@ -18,8 +18,8 @@ FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 WORKINGWITHENUMERATORS_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) \
 	-D_THREAD_SAFE -pthread $(____OPTION_DEBUG_8_p) \
-	-DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX -Wno-multichar -D_UNICODE \
-	-I../../src $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
+	-DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar -D_UNICODE -I../../src \
+	$(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
 WORKINGWITHENUMERATORS_OBJECTS =  \
 	$(OBJDIR)/WorkingWithEnumerators_WorkingWithEnumerators.o
 
@@ -95,7 +95,7 @@ clean:
 
 ifeq ($(OPTION_FOUNDATIONKIT),1)
 ./WorkingWithEnumerators$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(WORKINGWITHENUMERATORS_OBJECTS)
-	$(CXX) -o $@ $(WORKINGWITHENUMERATORS_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____WorkingWithEnumerators_FOUNDATIONKIT_p)
+	$(CXX) -o $@ $(WORKINGWITHENUMERATORS_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____WorkingWithEnumerators_FOUNDATIONKIT_p)
 endif
 
 $(OBJDIR)/WorkingWithEnumerators_WorkingWithEnumerators.o: ./WorkingWithEnumerators.cpp
