@@ -1034,9 +1034,9 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 						int pos = 0;
 						//StringUtils::trace( Format( "zDelta: %d\n" ) % zDelta );
 						
-						double actualViewHeight(0.0);
+						double actualViewHeight = clientBoundsRect.getHeight();
 						if ( scrollable->isHorizontalScrollbarVisible() ) {
-							actualViewHeight = clientBoundsRect.getHeight() - scrollable->getHorizontalScrollbarHeight();
+							actualViewHeight -= scrollable->getHorizontalScrollbarHeight();
 						}
 						
 						if ( zDelta < 0 ) {
@@ -1054,9 +1054,9 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 						int pos = 0;
 						//StringUtils::trace( Format( "zDelta: %d\n" ) % zDelta );
 						
-						double actualViewWidth(0.0);
+						double actualViewWidth = clientBoundsRect.getWidth();
 						if ( scrollable->isVerticalScrollbarVisible() ) {
-							actualViewWidth = clientBoundsRect.getWidth() - scrollable->getVerticalScrollbarWidth();
+							actualViewWidth -= scrollable->getVerticalScrollbarWidth();
 						}
 						
 						if ( zDelta < 0 ) {
@@ -1629,6 +1629,9 @@ void AbstractWin32Component::onControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.16  2006/03/20 04:47:24  dougtinkham
+*another change for scrolling in case WM_MOUSEWHEEL
+*
 *Revision 1.7.2.15  2006/03/20 00:58:35  dougtinkham
 *changes to case WM_MOUSEWHEEL to fix scrolling
 *
