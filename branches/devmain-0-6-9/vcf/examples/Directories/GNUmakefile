@@ -17,9 +17,8 @@ OBJDIR = gnu$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 DIRECTORIES_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) \
-	$(CXXFLAGS)
+	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar \
+	-D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
 DIRECTORIES_OBJECTS =  \
 	$(OBJDIR)/Directories_Directories.o
 
@@ -94,7 +93,7 @@ clean:
 
 ifeq ($(OPTION_FOUNDATIONKIT),1)
 ./Directories$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(DIRECTORIES_OBJECTS)
-	$(CXX) -o $@ $(DIRECTORIES_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____Directories_FOUNDATIONKIT_p)
+	$(CXX) -o $@ $(DIRECTORIES_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____Directories_FOUNDATIONKIT_p)
 endif
 
 $(OBJDIR)/Directories_Directories.o: ./Directories.cpp

@@ -17,9 +17,8 @@ OBJDIR = gnu$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 FOUNDATIONKIT_FILENAME = FoundationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 CREATEBUNDLE_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) \
-	$(CXXFLAGS)
+	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar \
+	-D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) $(CPPFLAGS) $(CXXFLAGS)
 CREATEBUNDLE_OBJECTS =  \
 	$(OBJDIR)/CreateBundle_CreateBundle.o
 
@@ -90,7 +89,7 @@ clean:
 	rm -f ../../bin/CreateBundle
 
 ../../bin/CreateBundle: $(CREATEBUNDLE_OBJECTS)
-	$(CXX) -o $@ $(CREATEBUNDLE_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____CreateBundle_FOUNDATIONKIT_p)
+	$(CXX) -o $@ $(CREATEBUNDLE_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____CreateBundle_FOUNDATIONKIT_p)
 
 $(OBJDIR)/CreateBundle_CreateBundle.o: ./CreateBundle.cpp
 	$(CXX) -c -o $@ $(CREATEBUNDLE_CXXFLAGS) $(CPPDEPS) $<

@@ -23,8 +23,8 @@ GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 SKETCHIT_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
+	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar \
+	-D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
@@ -119,7 +119,7 @@ clean:
 
 ifeq ($(OPTION_APPLICATIONKIT),1)
 ./SketchIt$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(SKETCHIT_OBJECTS)
-	$(CXX) -o $@ $(SKETCHIT_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____SketchIt_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____SketchIt_GRAPHICSKIT_p) $(____SketchIt_APPLICATIONKIT_p)
+	$(CXX) -o $@ $(SKETCHIT_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____SketchIt_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____SketchIt_GRAPHICSKIT_p) $(____SketchIt_APPLICATIONKIT_p)
 endif
 
 $(OBJDIR)/SketchIt_SketchDocument.o: ./SketchDocument.cpp

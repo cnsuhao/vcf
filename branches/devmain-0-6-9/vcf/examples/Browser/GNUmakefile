@@ -24,8 +24,8 @@ APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 HTMLKIT_FILENAME = HTMLKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 BROWSER_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE -pthread \
-	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
-	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
+	$(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -Wno-multichar \
+	-D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
 	-I../../src\thirdparty/common/LibPNG $(__GRAPHICSKIT_DLL_p) \
@@ -122,7 +122,7 @@ clean:
 
 ifeq ($(OPTION_HTMLKIT),1)
 ./Browser$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(BROWSER_OBJECTS)
-	$(CXX) -o $@ $(BROWSER_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____Browser_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____Browser_GRAPHICSKIT_p) $(____Browser_APPLICATIONKIT_p) $(____Browser_HTMLKIT_p)
+	$(CXX) -o $@ $(BROWSER_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____Browser_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____Browser_GRAPHICSKIT_p) $(____Browser_APPLICATIONKIT_p) $(____Browser_HTMLKIT_p)
 endif
 
 $(OBJDIR)/Browser_Browser.o: ./Browser.cpp

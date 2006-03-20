@@ -23,7 +23,7 @@ GRAPHICSKIT_FILENAME = GraphicsKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONKIT_FILENAME = ApplicationKit$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 ALLIN1_FILENAME = VCF$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY)
 APPLICATIONICONS_CXXFLAGS = $(__DEBUG_INFO) $(__OPTIMIZE_2) -D_THREAD_SAFE \
-	-pthread $(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING -DVCF_POSIX \
+	-pthread $(____OPTION_DEBUG_8_p) -DVCF_DISABLE_PRAGMA_LINKING \
 	-Wno-multichar -D_UNICODE -I../../src $(__FOUNDATIONKIT_DLL_p) \
 	-I../../src\thirdparty/common/agg/include \
 	-I../../src\thirdparty/common/ZLib -I../../src\thirdparty/common/LibJPEG \
@@ -116,7 +116,7 @@ clean:
 
 ifeq ($(OPTION_APPLICATIONKIT),1)
 ./ApplicationIcons$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY): $(APPLICATIONICONS_OBJECTS)
-	$(CXX) -o $@ $(APPLICATIONICONS_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid $(____ApplicationIcons_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____ApplicationIcons_GRAPHICSKIT_p) $(____ApplicationIcons_APPLICATIONKIT_p)
+	$(CXX) -o $@ $(APPLICATIONICONS_OBJECTS) $(LDFLAGS) $(__DEBUG_INFO) -pthread -L../../lib   -ldl -luuid -lrt $(____ApplicationIcons_FOUNDATIONKIT_p) -l$(LIBAGG_FILENAME) -l$(ZLIB_FILENAME) -l$(LIBJPEG_FILENAME) -l$(LIBPNG_FILENAME) $(____ApplicationIcons_GRAPHICSKIT_p) $(____ApplicationIcons_APPLICATIONKIT_p)
 endif
 
 $(OBJDIR)/ApplicationIcons_ApplicationIcons.o: ./ApplicationIcons.cpp
