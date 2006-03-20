@@ -136,7 +136,7 @@ public:
 		Label* l = new Label();
 		l->setCaption( "Click top panel to set it's focus, then click the Panels > Change Colors menu" );
 		l->setWordWrap( true );
-		l->setHeight( 60 );
+		l->setHeight( 40 );
 
 		tab->getPageComponent()->getContainer()->add( l, AlignTop );
 
@@ -332,6 +332,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.3  2006/03/20 01:21:56  dougtinkham
+*minor cosmetic change
+*
 *Revision 1.2.2.2  2006/03/16 01:31:31  ddiego
 *fixed accelerators example per fraggles req.
 *
