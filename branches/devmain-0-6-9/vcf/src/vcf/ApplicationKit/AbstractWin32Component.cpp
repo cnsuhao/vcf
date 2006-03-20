@@ -1029,26 +1029,39 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 					short xPos = (short) LOWORD(lParam);    // horizontal position of pointer
 					short yPos = (short) HIWORD(lParam);    // vertical position of pointer
 
-					if ( scrollable->hasVerticalScrollBar() && (scrollable->getVirtualViewHeight() > peerControl_->getHeight() ) ) {
+                    Rect clientBoundsRect = peerControl_->getClientBounds();
+                    if ( scrollable->hasVerticalScrollBar() && (scrollable->getVirtualViewHeight() > clientBoundsRect.getHeight() ) ) {
 						int pos = 0;
 						//StringUtils::trace( Format( "zDelta: %d\n" ) % zDelta );
+						
+						double actualViewHeight(0.0);
+						if ( scrollable->isHorizontalScrollbarVisible() ) {
+							actualViewHeight = clientBoundsRect.getHeight() - scrollable->getHorizontalScrollbarHeight();
+						}
+						
 						if ( zDelta < 0 ) {
-							pos = VCF::minVal<long>((scrollable->getVerticalPosition() + 10),
-												abs((long)(scrollable->getVirtualViewHeight() - peerControl_->getHeight())) );
+							pos = VCF::minVal<long>((scrollable->getVerticalPosition() + 10 ),
+												abs((long)(scrollable->getVirtualViewHeight() - actualViewHeight )) );
 						}
 						else if ( zDelta > 0 ) {
-							pos = VCF::maxVal<long>((scrollable->getVerticalPosition() - 10), 0 );
+							pos = VCF::maxVal<long>((scrollable->getVerticalPosition() - 10 ), 0 );
 						}
 
 						scrollable->setVerticalPosition( pos );
 
 					}
-					else if ( scrollable->hasHorizontalScrollBar() && (scrollable->getVirtualViewWidth() > peerControl_->getWidth() ) ) {
+					else if ( scrollable->hasHorizontalScrollBar() && (scrollable->getVirtualViewWidth() > clientBoundsRect.getWidth() ) ) {
 						int pos = 0;
 						//StringUtils::trace( Format( "zDelta: %d\n" ) % zDelta );
+						
+						double actualViewWidth(0.0);
+						if ( scrollable->isVerticalScrollbarVisible() ) {
+							actualViewWidth = clientBoundsRect.getWidth() - scrollable->getVerticalScrollbarWidth();
+						}
+						
 						if ( zDelta < 0 ) {
 							pos = VCF::minVal<long>((scrollable->getHorizontalPosition() + 10),
-												abs((long)(scrollable->getVirtualViewWidth() - peerControl_->getWidth())) );
+												abs((long)(scrollable->getVirtualViewWidth() - actualViewWidth )) );
 						}
 						else if ( zDelta > 0 ) {
 							pos = VCF::maxVal<long>((scrollable->getHorizontalPosition() - 10), 0 );
@@ -1056,6 +1069,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 
 						scrollable->setHorizontalPosition( pos );
 					}
+
 				}
 			}
 		}
@@ -1615,6 +1629,9 @@ void AbstractWin32Component::onControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.15  2006/03/20 00:58:35  dougtinkham
+*changes to case WM_MOUSEWHEEL to fix scrolling
+*
 *Revision 1.7.2.14  2006/03/18 19:04:55  ddiego
 *minor update to remove dead code for checkFontUpdate function.
 *
