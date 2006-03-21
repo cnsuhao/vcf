@@ -623,7 +623,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 			(message == WM_MOVE) ||
 			(message == WM_ERASEBKGND) ||
 			(message == WM_SETFOCUS) ||
-			(message == WM_KILLFOCUS) /*|| (message == WM_DRAWITEM)*/ )  {
+			(message == WM_KILLFOCUS) )  {
 			
 			MSG m = {0};
 			m.hwnd = hwnd_;
@@ -853,7 +853,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 		break;
 
 		case WM_DRAWITEM : {
-			StringUtils::trace( "AbstractWin32Component::WM_DRAWITEM\n" );
+			
 			UINT idCtl = (UINT) wParam;
 			DRAWITEMSTRUCT* drawItemStruct = (DRAWITEMSTRUCT*) lParam;
 
@@ -889,8 +889,7 @@ bool AbstractWin32Component::handleEventMessages( UINT message, WPARAM wParam, L
 				if ( (!peerControl_->isDestroying()) && (ODT_BUTTON == drawItemStruct->CtlType) ) {
 					HWND hwndCtl = drawItemStruct->hwndItem;
 					Win32Object* win32Obj = Win32Object::getWin32ObjectFromHWND( hwndCtl );
-					if ( NULL != win32Obj ){
-						StringUtils::trace( "win32Obj->handleEventMessages( WM_DRAWITEM)\n" );
+					if ( NULL != win32Obj ){						
 						win32Obj->handleEventMessages( WM_DRAWITEM, wParam, lParam, wndProcResult );
 						result = true;
 					}
@@ -1629,6 +1628,12 @@ void AbstractWin32Component::onControlFontChanged( Event* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.17  2006/03/21 00:57:35  ddiego
+*fixed bug in table control - problem was really with casting a
+*model to a table model, and having the pointer value not be right. Needed
+*to use dynamic_cast() to fix it. Curiously this problem was not flagegd in
+*debug at all.
+*
 *Revision 1.7.2.16  2006/03/20 04:47:24  dougtinkham
 *another change for scrolling in case WM_MOUSEWHEEL
 *

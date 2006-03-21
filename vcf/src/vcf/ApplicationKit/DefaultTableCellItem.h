@@ -22,6 +22,7 @@ where you installed the VCF.
 namespace VCF {
 
 class BasicTableItemEditor;
+class TableModel;
 
 #define DEFAULTTABLECELLITEM_CLASSID	"53EA0BA6-7068-11d4-8F12-00207811CFAB"
 
@@ -113,6 +114,8 @@ public:
 		return -1;
 	};
 
+	virtual void setModel( Model* model );
+
 	/**
 	*not supported
 	*/
@@ -136,6 +139,7 @@ private:
 	String caption_;
 	long imageIndex_;
 
+	TableModel* tableModel_;
 	Color* color_;
 	typedef std::map<uint32,Color> ColorMap;
 	static  ColorMap tableCellsColorMap;
@@ -153,6 +157,12 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/21 00:57:35  ddiego
+*fixed bug in table control - problem was really with casting a
+*model to a table model, and having the pointer value not be right. Needed
+*to use dynamic_cast() to fix it. Curiously this problem was not flagegd in
+*debug at all.
+*
 *Revision 1.4.2.3  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

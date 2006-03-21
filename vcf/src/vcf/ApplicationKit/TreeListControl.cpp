@@ -86,6 +86,9 @@ void TreeListControl::init()
 	columnHeight_ = header_->getHeight();
 	add( header_, AlignTop );
 
+
+	header_->setIgnoreForParentScrolling( true );
+
 	header_->ColumnWidthChanged.addHandler(
 							new ItemEventHandler<TreeListControl>( this,
 																	&TreeListControl::onColumnWidthChanged,
@@ -2145,6 +2148,12 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/03/21 00:57:35  ddiego
+*fixed bug in table control - problem was really with casting a
+*model to a table model, and having the pointer value not be right. Needed
+*to use dynamic_cast() to fix it. Curiously this problem was not flagegd in
+*debug at all.
+*
 *Revision 1.4.2.4  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *
