@@ -35,7 +35,7 @@ public:
 		esStyleChanging =			0x0010,
 		esPeerTextChanging =		0x0100,
 		esModelTextChanging =		0x0200,
-		esExternalTextChanging =	0x0400, /* means something like undo/redo/cut/paste */
+		esExternalTextChanging =	0x0400, /* means something like undo/redo/cut/paste */		
 		esKeyEvent =				0x1000
 	};
 
@@ -193,6 +193,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/21 00:57:35  ddiego
+*fixed bug in table control - problem was really with casting a
+*model to a table model, and having the pointer value not be right. Needed
+*to use dynamic_cast() to fix it. Curiously this problem was not flagegd in
+*debug at all.
+*
 *Revision 1.4.2.3  2006/03/16 03:23:11  ddiego
 *fixes some font change notification issues in win32 peers.
 *

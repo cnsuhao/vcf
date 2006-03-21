@@ -37,16 +37,7 @@ TextControl::TextControl( const bool& multiLineControl ):
 
 	setTextModel( new DefaultTextModel() );
 
-	addComponent( getViewModel() );
-
-	//if we are a single line control then add a
-	//handler for getting the focus so we can
-	//select all the text whenever we get the focus
-	if ( false == multiLineControl ) {
-		FocusGained.addHandler( new FocusEventHandler<TextControl>( this,
-																&TextControl::onFocusGained,
-																"TextControl::onFocusGained" ) );
-	}
+	addComponent( getViewModel() );	
 
 	init();
 }
@@ -325,7 +316,7 @@ void TextControl::replaceSelectedText( const String& text )
 	model_->replaceText( selectionStart, selectionCount, text );
 }
 
-void TextControl::onFocusGained( FocusEvent* event )
+void TextControl::gotFocus( FocusEvent* event )
 {
 	if ( NULL != model_ ) {
 		String text = model_->getText();
@@ -717,6 +708,12 @@ void TextControl::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.6  2006/03/21 00:57:35  ddiego
+*fixed bug in table control - problem was really with casting a
+*model to a table model, and having the pointer value not be right. Needed
+*to use dynamic_cast() to fix it. Curiously this problem was not flagegd in
+*debug at all.
+*
 *Revision 1.8.2.5  2006/03/15 04:18:21  ddiego
 *fixed text control desktop refresh bug 1449840.
 *

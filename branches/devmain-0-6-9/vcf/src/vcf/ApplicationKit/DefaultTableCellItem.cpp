@@ -23,6 +23,7 @@ static int defaultTableCellItemCount = 0;
 
 
 DefaultTableCellItem::DefaultTableCellItem():
+	tableModel_(NULL),
 	color_(NULL),
 	font_(NULL)
 {
@@ -94,6 +95,7 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 	double fontPixelSize = currentFont.getPixelSize();
 
 	if ( isFixed() ){
+		
 		Font fixedFont(currentFont);
 
 		fixedFont.setBold( true );
@@ -106,14 +108,14 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 
 		border.setInverted( false );
 
-		TableModel* tm = (TableModel*)model_;
-		if ( NULL != tm ) {
-			TableCellItem* focusedCell = tm->getFocusedCell();
+		//TableModel* tm = dynamic_cast<TableModel*>(model_);
+		if ( NULL != tableModel_ ) {
+			TableCellItem* focusedCell = tableModel_->getFocusedCell();
 
 			if ( NULL != focusedCell ) {
-				CellID thisCell = tm->getCellIDForItem( this );
+				CellID thisCell = tableModel_->getCellIDForItem( this );
 
-				CellID cell = tm->getCellIDForItem( focusedCell );
+				CellID cell = tableModel_->getCellIDForItem( focusedCell );
 
 				if ( (thisCell.column == cell.column) || (thisCell.row == cell.row) ) {
 					border.setInverted( true );
@@ -130,8 +132,10 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 		fontPixelSize = fixedFont.getPixelSize();
 
 		context->setCurrentFont( &fixedFont );
+		
 	}
 	else {
+		
 		Rect tmp(bounds_);
 
 		if ( isSelected() ){
@@ -151,7 +155,7 @@ void DefaultTableCellItem::paint( GraphicsContext* context, Rect* paintRect )
 			context->drawThemeSelectionRect( &tmp, state );
 		}
 
-		context->setCurrentFont( &currentFont );
+		context->setCurrentFont( &currentFont );		
 	}
 
 	double x = paintRect->left_ + 5;
@@ -297,6 +301,14 @@ void DefaultTableCellItem::setBounds( Rect* bounds )
 	bounds_ = *bounds;
 }
 
+void DefaultTableCellItem::setModel( Model* model )
+{
+	TableCellItem::setModel( model );
+	tableModel_ = dynamic_cast<TableModel*>(model);
+
+	VCF_ASSERT( NULL != tableModel_ );
+}
+
 const Color& DefaultTableCellItem::getColor()
 {
 	if ( DefaultTableCellItem::tableCellsColorMap.empty() ) {		
@@ -408,6 +420,11 @@ const Font& DefaultTableCellItem::getFont()
 	}
 
 	VCF_ASSERT( NULL != font_ );
+
+	if ( NULL == font_ ) {
+		Dialog::showMessage( "We're fucked" );
+	}
+
 	return *font_;
 }
 
@@ -453,6 +470,12 @@ void DefaultTableCellItem::onFontChanged( Event* e )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/21 00:57:35  ddiego
+*fixed bug in table control - problem was really with casting a
+*model to a table model, and having the pointer value not be right. Needed
+*to use dynamic_cast() to fix it. Curiously this problem was not flagegd in
+*debug at all.
+*
 *Revision 1.3.2.2  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *

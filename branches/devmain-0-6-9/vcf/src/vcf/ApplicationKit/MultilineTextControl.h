@@ -45,6 +45,8 @@ public:
 	virtual bool supportsMultiLinedText() {
 		return true;
 	}
+
+	virtual void gotFocus( FocusEvent* event );
 protected:
 
 private:
@@ -57,6 +59,12 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/21 00:57:35  ddiego
+*fixed bug in table control - problem was really with casting a
+*model to a table model, and having the pointer value not be right. Needed
+*to use dynamic_cast() to fix it. Curiously this problem was not flagegd in
+*debug at all.
+*
 *Revision 1.3.4.1  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *

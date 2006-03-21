@@ -236,7 +236,7 @@ protected:
 	By default it is added only to a single line control,
 	so we can select all the text whenever we get the focus.
 	*/
-	virtual void onFocusGained( FocusEvent* event );
+	virtual void gotFocus( FocusEvent* event );
 
 protected:
 	TextEditPeer * textPeer_;
@@ -253,6 +253,12 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/21 00:57:35  ddiego
+*fixed bug in table control - problem was really with casting a
+*model to a table model, and having the pointer value not be right. Needed
+*to use dynamic_cast() to fix it. Curiously this problem was not flagegd in
+*debug at all.
+*
 *Revision 1.4.2.3  2006/03/18 22:17:42  ddiego
 *removed par tag for doxygen comments as its not needed and
 *screws up the doc formatting.
