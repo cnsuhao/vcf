@@ -1670,7 +1670,7 @@ make all</programlisting>
 							<entry>Yes</entry>							
 							<entry>Yes</entry>
 							<entry>Yes</entry>
-							<entry>No</entry>
+							<entry>Yes</entry>
 						</row>
 						<row>
 							<entry>ZLib</entry>
@@ -1679,7 +1679,7 @@ make all</programlisting>
 							<entry>Yes</entry>							
 							<entry>Yes</entry>
 							<entry>Yes</entry>
-							<entry>No</entry>
+							<entry>Yes</entry>
 						</row>
 						<row>
 							<entry>LibPNG</entry>
@@ -1688,7 +1688,7 @@ make all</programlisting>
 							<entry>Yes</entry>							
 							<entry>Yes</entry>
 							<entry>Yes</entry>
-							<entry>No</entry>
+							<entry>Yes</entry>
 						</row>
 						<row>
 							<entry>LibMNG</entry>
@@ -1706,7 +1706,7 @@ make all</programlisting>
 							<entry>Yes</entry>							
 							<entry>Yes</entry>
 							<entry>Yes</entry>
-							<entry>No</entry>
+							<entry>Yes</entry>
 						</row>
 						<row>
 							<entry>LibTIFF</entry>
@@ -2765,6 +2765,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.12  2006/03/21 14:48:38  dougtinkham
+update lib build table for linux
+
 Revision 1.6.2.11  2006/03/12 22:01:34  ddiego
 doc updates.
 
