@@ -798,12 +798,12 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 			SELCHANGE* selChange = (SELCHANGE*)lParam;
 
-			StringUtils::trace( Format("EN_SELCHANGE selChange->seltyp:%d cpMax: %d,  cpMin: %d\n") %
-								 selChange->seltyp % selChange->chrg.cpMax % selChange->chrg.cpMin	);
+			//StringUtils::trace( Format("EN_SELCHANGE selChange->seltyp:%d cpMax: %d,  cpMin: %d\n") %
+			//					 selChange->seltyp % selChange->chrg.cpMax % selChange->chrg.cpMin	);
 			if ( selChange->chrg.cpMax != selChange->chrg.cpMin ) {
 				//selection changed
 
-				StringUtils::trace( "Changing sel start and sel leng\n" );
+				//StringUtils::trace( "Changing sel start and sel leng\n" );
 				currentSelLength_ = selChange->chrg.cpMax - selChange->chrg.cpMin;
 				currentSelStart_ = selChange->chrg.cpMin;
 
@@ -1151,9 +1151,7 @@ void Win32Edit::clearSelection()
 void Win32Edit::setSelectionMark( const unsigned long& start, const unsigned long& count )
 {
 	unsigned long end = start + count;
-
-	StringUtils::trace( Format("Win32Edit::setSelectionMark s: %d, count: %d\n") % start % count );
-
+	
 	::SendMessage( hwnd_, EM_SETSEL, (WPARAM)start, (LPARAM)end );	
 }
 
@@ -1423,6 +1421,9 @@ void Win32Edit::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.11  2006/03/21 01:29:22  ddiego
+*fixed table control double click bug.
+*
 *Revision 1.5.2.10  2006/03/19 18:21:17  ddiego
 *diagnostic code commented out in win32edit - still have a selection bug not quite resolved.
 *

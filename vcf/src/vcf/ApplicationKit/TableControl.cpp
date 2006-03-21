@@ -627,16 +627,7 @@ void TableControl::setRowCount( const uint32& rowCount )
 
 void TableControl::onFocusLost( FocusEvent* e )
 {
-	//if ( e->getType() == 0 ) {
-		finishEditing();
-	//	e->setConsumed( true );
-	//}
-	//else {
-	//	EventHandler* ev = getEventHandler( "TableControl::onFocusLost" );
-	//	FocusEvent* newEvent = new FocusEvent( e->getSource(), 0 );
-	//	StringUtils::traceWithArgs( "newEvent: %s\n", newEvent->toString().c_str() );
-	//	UIToolkit::postEvent( ev, newEvent, false );
-	//}
+	finishEditing();
 }
 
 void TableControl::mouseDown( MouseEvent* event ){
@@ -647,7 +638,7 @@ void TableControl::mouseDown( MouseEvent* event ){
 		event->getPoint()->x_ -= scrollable->getHorizontalPosition();
 		event->getPoint()->y_ -= scrollable->getVerticalPosition();
 	}
-
+	
 	finishEditing();
 
 	if ( event->hasLeftButton() ) {
@@ -1359,12 +1350,14 @@ void TableControl::editCell( const CellID& cell, const Point& pt )
 
 
 				add( editorControl );
-				currentEditingControl_ = editorControl;
-				currentEditingControl_->setVisible( true );
-				currentEditingControl_->setFocused();
+				
+				editorControl->setVisible( true );
+				editorControl->setFocused();
 
 				EventHandler* kl = getEventHandler( TABLECONTROL_KBRD_HANDLER );
-				currentEditingControl_->KeyDown.addHandler( kl );
+				editorControl->KeyDown.addHandler( kl );
+
+				currentEditingControl_ = editorControl;
 			}
 			else {
 				finishEditing();
@@ -1533,8 +1526,8 @@ void TableControl::onFinishEditing( Event* e )
 	Control* editingControl = (Control*)e->getSource();
 	TableItemEditor* editor = fe->editor_;
 	if ( NULL != editingControl ){
-		StringUtils::traceWithArgs( Format("TableControl::finishEditing(), editor[%s]@ %s\n") %
-									editor->getClassName().c_str() % editor->toString().c_str() );
+		//StringUtils::traceWithArgs( Format("TableControl::onFinishEditing(), editor[%s]@ %s\n") %
+		//							editor->getClassName() % editor->toString() );
 		remove( editingControl );
 		removeComponent( editingControl );
 		editingControl->free();
@@ -1562,6 +1555,8 @@ void TableControl::finishEditing()
 	if ( NULL == currentItemEditor_ ){
 		return;
 	}
+
+	//StringUtils::trace( "TableControl::finishEditing()\n" );
 
 	currentItemEditor_->updateItem();
 
@@ -2452,6 +2447,9 @@ void TableControl::setDefaultTableCellFont( Font* font )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/21 01:29:22  ddiego
+*fixed table control double click bug.
+*
 *Revision 1.4.2.2  2005/10/04 01:57:03  ddiego
 *fixed some miscellaneous issues, especially with model ownership.
 *
