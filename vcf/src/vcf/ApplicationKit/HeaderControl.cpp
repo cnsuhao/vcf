@@ -38,22 +38,12 @@ HeaderControl::HeaderControl():
 
 HeaderControl::~HeaderControl()
 {
-	if ( NULL != columnModel_ ) {
-		//columnModel_->release();
-	}
+	
 }
 
 void HeaderControl::setColumnModel( ColumnModel* model )
 {
-//	if ( NULL != columnModel_ ) {
-//		columnModel_->release();
-//	}
-
 	columnModel_ = model;
-
-//	if ( NULL != columnModel_ ) {
-//		columnModel_->addRef();
-//	}
 
 	setViewModel( columnModel_ );
 }
@@ -318,6 +308,11 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 	}
 	drawOptions |= GraphicsContext::tdoCenterVertAlign;
 
+	String itemText = item->getCaption();
+	if ( getUseLocaleStrings() ) {
+		itemText = System::getCurrentThreadLocale()->translate( itemText );
+	}
+
 	ButtonState state;
 	state.setPressed( pressedColumn_ == item );
 	state.setActive( true );
@@ -341,11 +336,9 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 		captionRect.left_ = imageRect.right_ + 10;
 	}
 
-	String itemText = item->getCaption();
-	if ( getUseLocaleStrings() ) {
-		itemText = System::getCurrentThreadLocale()->translate( itemText );
-	}
+	
 
+	captionRect.right_ -= 5;
 
 	context->textBoundedBy( &captionRect, itemText, drawOptions );
 
@@ -353,7 +346,7 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 
 
 	item->setBounds( paintRect );
-	if ( true == item->canPaint() ) {
+	if ( item->canPaint() ) {
 		item->paint( context, paintRect );
 	}
 }
@@ -362,6 +355,9 @@ void HeaderControl::paintColumn( GraphicsContext* context, Rect* paintRect, cons
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/22 03:18:20  ddiego
+*fixed a glitch in scroll vert and horz position values.
+*
 *Revision 1.2.6.2  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *
