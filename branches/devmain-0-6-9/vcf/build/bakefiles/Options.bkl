@@ -110,40 +110,56 @@ The type of runtime libraries.
     Libraries.
     -->
 
+    <set var="OPTION_ZLIB_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
     <option name="OPTION_ZLIB">
         <values>0,1</values>
         <default-value>
-            $(vcf.getOptionValue( 'OPTION_ZLIB', '1' ))
+            $(vcf.getOptionValue( 'OPTION_ZLIB', OPTION_ZLIB_DEFAULT ))
         </default-value>
         <description>
             Compile the Zip library:
         </description>
     </option>
 
+    <set var="OPTION_LIBAGG_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
     <option name="OPTION_LIBAGG">
         <values>0,1</values>
         <default-value>
-            $(vcf.getOptionValue( 'OPTION_LIBAGG', '1' ))
+            $(vcf.getOptionValue( 'OPTION_LIBAGG', OPTION_LIBAGG_DEFAULT ))
         </default-value>
         <description>
             Compile the AGG library:
         </description>
     </option>
 
+    <set var="OPTION_LIBJPEG_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
     <option name="OPTION_LIBJPEG">
         <values>0,1</values>
         <default-value>
-            $(vcf.getOptionValue( 'OPTION_LIBJPEG', '1' ))
+            $(vcf.getOptionValue( 'OPTION_LIBJPEG', OPTION_LIBJPEG_DEFAULT ))
         </default-value>
         <description>
             Compile the JPEG library:
         </description>
     </option>
 
+    <set var="OPTION_LIBPNG_DEFAULT">
+        <if cond="FORMAT=='gnu'">0</if>
+        <if cond="FORMAT!='gnu'">1</if>
+    </set>
     <option name="OPTION_LIBPNG">
         <values>0,1</values>
         <default-value>
-            $(vcf.getOptionValue( 'OPTION_LIBPNG', '1' ))
+            $(vcf.getOptionValue( 'OPTION_LIBPNG', OPTION_LIBPNG_DEFAULT ))
         </default-value>
         <description>
             Compile the PNG library:
