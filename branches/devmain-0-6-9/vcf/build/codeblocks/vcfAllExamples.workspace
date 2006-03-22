@@ -50,6 +50,7 @@
 		<Project filename="..\..\examples\Resources\Resources_cb.cbp" />
 		<Project filename="..\..\examples\RunLoops\RunLoops_cb.cbp" />
 		<Project filename="..\..\examples\Scrolling\Scrolling_cb.cbp" />
+		<Project filename="..\..\examples\Scrolling2\Scrolling2_cb.cbp" />
 		<Project filename="..\..\examples\SharedLibraries\SharedLibraries_cb.cbp" />
 		<Project filename="..\..\examples\SketchIt\SketchIt_cb.cbp" />
 		<Project filename="..\..\examples\Sliders\Sliders_cb.cbp" />
@@ -65,6 +66,7 @@
 		<Project filename="..\..\examples\ThreadBasics\ThreadBasics_cb.cbp" />
 		<Project filename="..\..\examples\ThreadsInGUI\ThreadsInGUI_cb.cbp" />
 		<Project filename="..\..\examples\Toolbars\Toolbars_cb.cbp" />
+		<Project filename="..\..\examples\Tooltips\Tooltips_cb.cbp" />
 		<Project filename="..\..\examples\Transformations\Transformations_cb.cbp" />
 		<Project filename="..\..\examples\TreeListControls\TreeListControls_cb.cbp" />
 		<Project filename="..\..\examples\Variants\Variants_cb.cbp" />
