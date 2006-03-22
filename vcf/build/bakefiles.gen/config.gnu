@@ -63,16 +63,16 @@ OPTION_DEBUG = 1
 OPTION_ALLIN1 = 0
 
 # Compile the Zip library: [0,1]
-OPTION_ZLIB = 1
+OPTION_ZLIB = 0
 
 # Compile the AGG library: [0,1]
-OPTION_LIBAGG = 1
+OPTION_LIBAGG = 0
 
 # Compile the JPEG library: [0,1]
-OPTION_LIBJPEG = 1
+OPTION_LIBJPEG = 0
 
 # Compile the PNG library: [0,1]
-OPTION_LIBPNG = 1
+OPTION_LIBPNG = 0
 
 # Compile the MNG library: [0,1]
 OPTION_LIBMNG = 0
