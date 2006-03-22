@@ -130,6 +130,8 @@ void Win32ScrollPeer::scrollTo( const double& xPosition, const double& yPosition
 	Scrollable* scrollable = scrollableControl_->getScrollable();
 	if ( NULL != scrollable ) {
 
+		double h = scrollableControl_->getHeight();
+
 		bool hasVertSB = (scrollable->hasVerticalScrollBar()) && (::IsWindowEnabled(vScrollHWnd_));
 		bool hasHorzSB = (scrollable->hasHorizontalScrollBar()) && (::IsWindowEnabled(hScrollHWnd_));
 
@@ -174,6 +176,7 @@ void Win32ScrollPeer::scrollTo( const double& xPosition, const double& yPosition
 				}
 			}
 		}
+
 	}
 }
 
@@ -210,6 +213,7 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	// initially set showVertSB and showHorzSB false, then check.
 	bool showVertSB = false;
 	bool showHorzSB = false;
+
 	
 	// if hasSB and keepSB then we show them anyway
 	if ( hasVertSB ) {
@@ -259,6 +263,8 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	if ( needHorzSB ) {
 		showHorzSB = true;
 	}
+
+
 	
 	// set isVertSBVisible_ and isHorzSBVisible_
 	isVertSBVisible_ = showVertSB;
@@ -269,7 +275,7 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	scrollInfoVert.cbSize = sizeof(SCROLLINFO);
 	scrollInfoVert.fMask = SIF_PAGE | SIF_POS | SIF_RANGE | SIF_DISABLENOSCROLL;
 	scrollInfoVert.nPage = (long)( needVertSB ? bounds.getHeight() : 0);	
-	scrollInfoVert.nPos = (long)scrollable->getVerticalPosition();
+	scrollInfoVert.nPos =  (long)scrollable->getVerticalPosition();
 	scrollInfoVert.nMin = 0;
 	scrollInfoVert.nMax = (long) ( showVertSB  ? virtViewHeight : scrollInfoVert.nMin );	
 	if ( showHorzSB && (scrollInfoVert.nMax > 0)) {
@@ -280,13 +286,13 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	scrollInfoHorz.cbSize = sizeof(SCROLLINFO);
 	scrollInfoHorz.fMask = SIF_PAGE | SIF_POS | SIF_RANGE | SIF_DISABLENOSCROLL;
 	scrollInfoHorz.nPage = (long)( needHorzSB ? bounds.getWidth() : 0 );
-	scrollInfoHorz.nPos = (long)scrollable->getHorizontalPosition();
+	scrollInfoHorz.nPos =  (long)scrollable->getHorizontalPosition();
 	scrollInfoHorz.nMin = 0;
 	scrollInfoHorz.nMax = (long)( showHorzSB ? virtViewWidth : scrollInfoHorz.nMin );
 	if ( showVertSB && (scrollInfoHorz.nMax > 0) ) {
 		scrollInfoHorz.nMax += (long)( vertSBWidth + 1 );
 	}
-
+	
 
 	// dimensions of the vertical scrollbar
 	int x1 = (long)( bounds.left_ + ( bounds.getWidth() - vertSBWidth ) );
@@ -359,7 +365,6 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	else {
 		scrollCorner_->setVisible( false );
 	}
-
 }
 
 double Win32ScrollPeer::getHorizontalScrollbarHeight()
@@ -497,6 +502,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/22 03:18:20  ddiego
+*fixed a glitch in scroll vert and horz position values.
+*
 *Revision 1.4.2.2  2005/11/04 17:56:17  ddiego
 *fixed bugs in some win32 code to better handle unicode - ansi functionality.
 *

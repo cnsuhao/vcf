@@ -192,7 +192,7 @@ void TreeListControl::recalcScrollable()
 
 		visibleItemsHeight_ = 0;
 		if ( header_->getVisible() ) {
-			visibleItemsHeight_ += header_->getHeight();
+			visibleItemsHeight_ -= header_->getHeight();
 		}
 
 		std::vector<TreeItem*> visibleItems;		
@@ -207,6 +207,8 @@ void TreeListControl::recalcScrollable()
 			it ++;
 		}
 
+		scrollable->setVirtualViewHeight( visibleItemsHeight_ );
+
 		if ( (getHeight() > visibleItemsHeight_) && (scrollable->getVerticalPosition() > 0.0) ) {
 			scrollable->setVerticalPosition( 0.0 );
 		}
@@ -216,8 +218,6 @@ void TreeListControl::recalcScrollable()
 			scrollable->setVerticalPosition( newPos );
 			
 		}
-		
-		scrollable->setVirtualViewHeight( visibleItemsHeight_ );
 	}
 }
 
@@ -369,6 +369,8 @@ void TreeListControl::paintItem( TreeItem* item, GraphicsContext* context, Rect*
 
 	context->getCurrentFont()->setBold( item->getTextBold() );
 
+	captionRect.right_ -= 5;
+
 	context->textBoundedBy( &captionRect, item->getCaption(), drawOptions );
 
 	context->getCurrentFont()->setColor( &oldColor );
@@ -435,6 +437,8 @@ void TreeListControl::paintSubItem( TreeItem* item, GraphicsContext* context, co
 			drawOptions |= GraphicsContext::tdoLeftAlign;
 			Rect captionRect = *paintRect;
 			captionRect.left_ += 5;
+			captionRect.right_ -= 5;
+			
 			double textH = context->getTextHeight( "EM" );
 			captionRect.top_ = captionRect.top_ + ((captionRect.getHeight() / 2.0) - textH/2.0);
 			captionRect.bottom_ = captionRect.top_ + textH;
@@ -657,7 +661,7 @@ void TreeListControl::paint( GraphicsContext * context )
 
 	visibleItemsHeight_ = 0;
 	if ( header_->getVisible() ) {
-		visibleItemsHeight_ += header_->getHeight();
+		//visibleItemsHeight_ += header_->getHeight();
 	}
 
 	hierarchyHeightMap_.clear();
@@ -695,11 +699,6 @@ void TreeListControl::paint( GraphicsContext * context )
 		if (intersection.getWidth() > 0 && intersection.getHeight() > 0)
 		{
 			paintItem( item, context, &itemRect );
-/*
-			if ( item->canPaint() ) {
-				item->paint( context, &tmp );
-			}
-			*/
 		}
 
 		prevTop += (itemRect.bottom_ - tmp.top_);
@@ -915,7 +914,7 @@ void TreeListControl::clearSelectedItems()
 
 void TreeListControl::mouseClick(  MouseEvent* event )
 {
-	CustomControl::mouseDblClick( event );
+	CustomControl::mouseClick( event );
 
 	
 }
@@ -982,7 +981,7 @@ bool TreeListControl::singleSelectionChange( MouseEvent* event )
 
 			//currentSelectedItem_ = foundItem;
 
-			if ( true == expanderRect.containsPt( event->getPoint() ) ) {
+			if ( expanderRect.containsPt( event->getPoint() ) ) {
 				foundItem->expand( !foundItem->isExpanded() );
 				ItemEvent event( this, ITEM_EVENT_CHANGED );
 				ItemExpanded.fireEvent( &event );
@@ -1000,7 +999,7 @@ bool TreeListControl::singleSelectionChange( MouseEvent* event )
 					}
 				}
 			}
-			else if ( true == stateHitTest( event->getPoint(), foundItem ) ) {
+			else if ( stateHitTest( event->getPoint(), foundItem ) ) {
 				long state = foundItem->getState();
 				//probably need to come up with better id's
 				//for enum values so that we can mask together
@@ -2126,21 +2125,23 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 	
 	Rect bounds = getBoundsForEdit( item, currentEditColumn_ );
 	
-	if ( currentEditColumn_ != -1 ) {		
-		currentEditingControl_ = createEditor( item, currentEditColumn_ );
+	if ( currentEditColumn_ != -1 ) {
+		Control* editor = createEditor( item, currentEditColumn_ );
 		
-		if ( NULL != currentEditingControl_ ) {			
-			currentEditingControl_->setBounds( &bounds );
+		if ( NULL != editor ) {			
+			editor->setBounds( &bounds );
 			EventHandler* ev = getEventHandler( "TreeListControl::onEditorFocusLost" );
-			currentEditingControl_->FocusLost += ev;
+			editor->FocusLost += ev;
 
 			ev = getEventHandler( "TreeListControl::onEditingControlKeyPressed" );
-			currentEditingControl_->KeyDown.addHandler( ev );
+			editor->KeyDown.addHandler( ev );
 			
-			add( currentEditingControl_ );
+			add( editor );
 
-			currentEditingControl_->setVisible( true );
-			currentEditingControl_->setFocused();			
+			editor->setVisible( true );
+			editor->setFocused();	
+			
+			currentEditingControl_ = editor;
 		}
 	}		
 }
@@ -2148,6 +2149,9 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2006/03/22 03:18:20  ddiego
+*fixed a glitch in scroll vert and horz position values.
+*
 *Revision 1.4.2.5  2006/03/21 00:57:35  ddiego
 *fixed bug in table control - problem was really with casting a
 *model to a table model, and having the pointer value not be right. Needed
