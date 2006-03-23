@@ -849,10 +849,19 @@ ulong32 OSXLocalePeer::getCountryCode()
 	return Locale::stringToCountryCode( id.substr(pos+1,id.size()-(pos+1)) );
 }
 
+String OSXLocalePeer::getLanguage()
+{
+	String result;
+	return result;
+}
+
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/23 05:23:14  ddiego
+*added missing stub for OSX to locale peer.
+*
 *Revision 1.3.2.2  2005/11/27 23:55:45  ddiego
 *more osx updates.
 *

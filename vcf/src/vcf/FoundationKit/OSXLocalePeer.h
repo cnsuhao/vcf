@@ -25,6 +25,8 @@ public:
 	virtual ulong32 getLanguageCode();
 	virtual ulong32 getCountryCode();
 
+	virtual String getLanguage();
+
 	virtual int collate( const UnicodeString& s1, const UnicodeString& s2 );
 	virtual int collateCaseInsensitive( const UnicodeString& s1, const UnicodeString& s2 );
 
@@ -89,6 +91,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/23 05:23:14  ddiego
+*added missing stub for OSX to locale peer.
+*
 *Revision 1.4.2.1  2005/11/13 16:02:46  ddiego
 *more sox updates.
 *
