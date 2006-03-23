@@ -90,12 +90,16 @@ String System::findResourceDirectory( const String& fileName, Locale* locale )
 	VCF_ASSERT( !fileName.empty() );
 
 	String result;	
+	bool foundDir = false;
 
 	std::map<String,String>::iterator found = cachedResourceDirMap.find( fileName );
 	if ( found != cachedResourceDirMap.end() ) {
 		result = found->second;
+		String localeName = locale->getName();
+		foundDir = result.find( localeName ) != String::npos;
 	}
-	else {
+
+	if ( !foundDir ) {
 		FilePath appPath = fileName;
 
 		UnicodeString appDir = appPath.getPathName(true);
@@ -747,6 +751,9 @@ String System::getExecutableNameFromBundlePath( const String& fileName )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.11  2006/03/23 00:56:09  ddiego
+*added a fix to algo for determing resource directory name.
+*
 *Revision 1.6.2.10  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

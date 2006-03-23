@@ -835,7 +835,7 @@ UnicodeString Win32LocalePeer::toStringFromCurrency( const double& val )
 		int size = ::GetCurrencyFormatW( lcid_, 0, tmp, NULL, NULL, 0 );
 		VCFChar* numStr = new VCFChar[size+1];
 		memset(numStr,0,(size+1)*sizeof(VCFChar));
-		::GetNumberFormatW( lcid_, 0, tmp, NULL, numStr, size );
+		::GetCurrencyFormatW( lcid_, 0, tmp, NULL, numStr, size );
 
 		result = numStr;
 
@@ -849,7 +849,7 @@ UnicodeString Win32LocalePeer::toStringFromCurrency( const double& val )
 		int size = ::GetCurrencyFormatA( lcid_, 0, tmp, NULL, NULL, 0 );
 		char* numStr = new char[size+1];
 		memset(numStr,0,(size+1)*sizeof(char));
-		::GetNumberFormatA( lcid_, 0, tmp, NULL, numStr, size );
+		::GetCurrencyFormatA( lcid_, 0, tmp, NULL, numStr, size );
 
 
 		result = numStr;
@@ -2798,6 +2798,9 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/23 00:56:09  ddiego
+*added a fix to algo for determing resource directory name.
+*
 *Revision 1.4.2.1  2006/01/22 14:24:12  ddiego
 *updated to add case insens str compare.
 *
