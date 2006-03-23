@@ -767,6 +767,7 @@ UnicodeString Win32LocalePeer::toString( const double& val )
 	return result;
 }
 
+
 UnicodeString Win32LocalePeer::toString( const float& val )
 {
 	UnicodeString result;
@@ -1972,7 +1973,29 @@ ulong32 Win32LocalePeer::getLanguageCode()
 
 }
 
+String Win32LocalePeer::getLanguage()
+{
+	String result;
 
+	if ( System::isUnicodeEnabled() ) {
+		int size = ::GetLocaleInfoW( lcid_, LOCALE_SLANGUAGE, NULL, 0 );
+		VCFChar* tmp = new VCFChar[size+1];
+		memset( tmp, 0, (size+1)*sizeof(VCFChar) );
+		::GetLocaleInfoW( lcid_, LOCALE_SLANGUAGE, tmp, size );
+		result = tmp;
+		delete [] tmp;
+	}
+	else {
+		int size = ::GetLocaleInfoA( lcid_, LOCALE_SLANGUAGE, NULL, 0 );
+		char* tmp = new char[size+1];
+		memset( tmp, 0, (size+1) );
+		::GetLocaleInfoA( lcid_, LOCALE_SLANGUAGE, tmp, size );
+		result = tmp;
+		delete [] tmp;
+	}	
+
+	return result;
+}
 
 ulong32 Win32LocalePeer::getCountryCode()
 {
@@ -2798,6 +2821,9 @@ Swahili is also used in Rwanda, in Burundi (for commercial purposes), and by a s
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/23 05:15:39  ddiego
+*fix to localize the locale language name.
+*
 *Revision 1.4.2.2  2006/03/23 00:56:09  ddiego
 *added a fix to algo for determing resource directory name.
 *
