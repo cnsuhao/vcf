@@ -1257,9 +1257,13 @@ Locale::CountryCodes Locale::stringToCountryCode( const UnicodeString& code )
 }
 
 
+
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/23 00:58:04  ddiego
+*added a fix to algo for determing resource directory name.
+*
 *Revision 1.4.2.2  2006/03/19 00:04:16  obirsoy
 *Linux FoundationKit improvements.
 *
