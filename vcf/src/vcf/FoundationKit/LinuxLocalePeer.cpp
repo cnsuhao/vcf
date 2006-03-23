@@ -456,10 +456,22 @@ ulong32 LinuxLocalePeer::getCountryCode()
     return Locale::stringToCountryCode(GetCountryName(locale_));
 }
 
+String LinuxLocalePeer::getLanguage()
+{
+	//JC - I added this, it's blank for now - 
+	//the Locale class will simply return an english
+	//version of the name. Ideally we'd like to see the 
+	//localized version of the language name here
+	String result;
+	return result;
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/23 05:20:23  ddiego
+*added missing stub for linux to locale peer.
+*
 *Revision 1.3.2.1  2006/03/19 00:04:16  obirsoy
 *Linux FoundationKit improvements.
 *
