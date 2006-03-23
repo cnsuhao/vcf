@@ -348,7 +348,7 @@ public:
 
 		Window* mainWindow = new DragAndDropWindow();
 		setMainWindow(mainWindow);
-		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->setBounds( &Rect( 100.0, 100.0, 436.0, 580.0 ) );
 		mainWindow->show();
 
 		return result;
@@ -370,6 +370,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.6.2  2006/03/23 01:07:10  dougtinkham
+*update window height
+*
 *Revision 1.4.6.1  2006/03/16 18:45:23  kdmix
 *setVisible(true) removed from constructor of the main window.
 *
