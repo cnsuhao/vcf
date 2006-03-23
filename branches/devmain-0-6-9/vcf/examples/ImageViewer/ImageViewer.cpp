@@ -65,8 +65,6 @@ public:
 
 		Rect r = getClientBounds();
 
-		r.inflate( -5, -5 );
-
 		if ( NULL != currentImage_ ) {
 			/**
 			if we have an image, draw it centered within the available client
@@ -162,6 +160,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.4  2006/03/23 01:25:37  dougtinkham
+*modified centering of image
+*
 *Revision 1.7.2.3  2006/03/16 18:45:26  kdmix
 *setVisible(true) removed from constructor of the main window.
 *
