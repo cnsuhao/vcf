@@ -1,31 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="3" />
+	<FileVersion major="1" minor="4" />
 	<Project>
 		<Option title="SharedLibraries" />
 		<Option default_target="1" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="mingwdll_Release">
-				<Option output="mgcc\Release\SimpleDll.so" />
-				<Option type="3" />
-				<Option compiler="gcc" />
-				<Option includeInTargetAll="1" />
-				<Option createDefFile="1" />
-				<Option createStaticLib="1" />
-				<Option projectIncludeDirsRelation="1" />
-				<Option projectResourceIncludeDirsRelation="2" />
-				<Option projectLibDirsRelation="1" />
-				<Compiler>
-					<Add option="-O2" />
-					<Add option="-W" />
-					<Add option="-pipe" />
-					<Add option="-frtti" />
-					<Add option="-fexceptions" />
-					<Add option="-mthreads" />
-					<Add option="-Wno-multichar" />
-				</Compiler>
-			</Target>
 			<Target title="mingw_Release">
 				<Option output="mgcc\Release\SharedLibraries_mgcc.exe" />
 				<Option object_output="mgcc\Release\" />
@@ -72,26 +52,12 @@
 					<Add library="ws2_32" />
 					<Add directory="mgcc\Release" />
 				</Linker>
-			</Target>
-			<Target title="mingwdll_Debug">
-				<Option output="mgcc\Debug\SimpleDll.so" />
-				<Option type="3" />
-				<Option compiler="gcc" />
-				<Option includeInTargetAll="1" />
-				<Option createDefFile="1" />
-				<Option createStaticLib="1" />
-				<Option projectIncludeDirsRelation="1" />
-				<Option projectResourceIncludeDirsRelation="2" />
-				<Option projectLibDirsRelation="1" />
-				<Compiler>
-					<Add option="-W" />
-					<Add option="-g" />
-					<Add option="-pipe" />
-					<Add option="-frtti" />
-					<Add option="-fexceptions" />
-					<Add option="-mthreads" />
-					<Add option="-Wno-multichar" />
-				</Compiler>
+				<ExtraCommands>
+					<Add before="cmd /c IF NOT EXIST mgcc\Release MKDIR mgcc\Release" />
+					<Add before="cmd /c mingw32-g++.exe -O2 -W -pipe -frtti -fexceptions -mthreads -Wno-multichar  -I- -I. -c SimpleDLL.cpp -o mgcc\Release\SimpleDLL.o" />
+					<Add before="cmd /c mingw32-g++.exe -shared -Wl,--output-def=mgcc\Release\libSimpleDll.def -Wl,--out-implib=mgcc\Release\libSimpleDll.a -Wl,--dll  mgcc\Release\SimpleDLL.o   -o mgcc\Release\SimpleDll.so" />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 			<Target title="mingw_Debug">
 				<Option output="mgcc\Debug\SharedLibraries_mgcc_d.exe" />
@@ -139,6 +105,12 @@
 					<Add library="ws2_32" />
 					<Add directory="mgcc\Debug" />
 				</Linker>
+				<ExtraCommands>
+					<Add before="cmd /c IF NOT EXIST mgcc\Debug MKDIR mgcc\Debug" />
+					<Add before="cmd /c mingw32-g++.exe -O2 -W -pipe -frtti -fexceptions -mthreads -Wno-multichar  -I- -I. -c SimpleDLL.cpp -o mgcc\Debug\SimpleDLL.o" />
+					<Add before="cmd /c mingw32-g++.exe -shared -Wl,--output-def=mgcc\Debug\libSimpleDll.def -Wl,--out-implib=mgcc\Debug\libSimpleDll.a -Wl,--dll  mgcc\Debug\SimpleDLL.o   -o mgcc\Debug\SimpleDll.so" />
+					<Mode after="always" />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
@@ -155,15 +127,11 @@
 		</Unit>
 		<Unit filename="SimpleDLL.cpp">
 			<Option compilerVar="CPP" />
-			<Option target="mingwdll_Release" />
-			<Option target="mingwdll_Debug" />
 		</Unit>
 		<Unit filename="SimpleDLL.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingwdll_Release" />
-			<Option target="mingwdll_Debug" />
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>
