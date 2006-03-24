@@ -224,8 +224,12 @@ Setup compiler names, and some compiler-specific warnings
 	#ifdef VCF_VC80
 		#pragma message ( "VC8 compiler detected - deprecation warnings turned off for now." )
 		#pragma warning (disable : 4996)
-		#define _CRT_SECURE_NO_DEPRECATE 1
-		#define _CRT_NONSTDC_NO_DEPRECATE 1
+        #ifndef _CRT_SECURE_NO_DEPRECATE
+		    #define _CRT_SECURE_NO_DEPRECATE 1
+        #endif
+        #ifndef _CRT_NONSTDC_NO_DEPRECATE
+            #define _CRT_NONSTDC_NO_DEPRECATE 1
+        #endif
 		#pragma message ( "_CRT_SECURE_NO_DEPRECATE turned on for now." )
 	#endif 
 #endif
@@ -731,6 +735,9 @@ The same is with BCC.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.12  2006/03/24 14:43:22  obirsoy
+*better handling of _CRT_SECURE_NO_DEPRECATE and _CRT_NONSTDC_NO_DEPRECATE macors
+*
 *Revision 1.6.2.11  2006/03/19 00:04:16  obirsoy
 *Linux FoundationKit improvements.
 *
