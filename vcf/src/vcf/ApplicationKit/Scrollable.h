@@ -21,7 +21,7 @@ namespace VCF  {
 This class is used to add scrolling support to a control.
 @see ScrollbarManager
 */
-class Scrollable : public Interface {
+class APPLICATIONKIT_API Scrollable : public Interface {
 public:
 	Scrollable(){
 	};
@@ -308,6 +308,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/03/24 14:40:03  obirsoy
+*needs to be exported.
+*
 *Revision 1.4.2.1  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *
