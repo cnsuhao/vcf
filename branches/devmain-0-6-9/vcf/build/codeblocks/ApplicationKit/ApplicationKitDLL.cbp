@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="3" />
+	<FileVersion major="1" minor="4" />
 	<Project>
 		<Option title="ApplicationKitDLL" />
 		<Option default_target="-1" />
@@ -165,6 +165,12 @@
 		<Linker>
 			<Add directory='&quot;$(VCF_LIB)&quot;' />
 		</Linker>
+		<Unit filename="..\..\resources\win32\ApplicationKit.rc">
+			<Option compilerVar="WINDRES" />
+			<Option objectName="build\resources\win32\ApplicationKit.res" />
+			<Option target="mingw_Release" />
+			<Option target="mingw_Debug" />
+		</Unit>
 		<Unit filename="..\..\..\src\vcf\ApplicationKit\AbstractApplication.cpp">
 			<Option compilerVar="CPP" />
 			<Option target="mingw_Release" />
@@ -2456,12 +2462,6 @@
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
-			<Option target="mingw_Release" />
-			<Option target="mingw_Debug" />
-		</Unit>
-		<Unit filename="..\..\resources\win32\ApplicationKit.rc">
-			<Option compilerVar="WINDRES" />
-			<Option objectName="build\resources\win32\ApplicationKit.res" />
 			<Option target="mingw_Release" />
 			<Option target="mingw_Debug" />
 		</Unit>
