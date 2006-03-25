@@ -126,8 +126,6 @@ Win32Edit::Win32Edit( TextControl* component, const bool& isMultiLineControl ):
 	AbstractWin32Component( component ),
 	Win32TextPeer(),
 	textControl_(component),
-	//enabledSetTextOnControl_(true),
-	//updateTextModelNeeded_(false),
 	backgroundBrush_(NULL),
 	editState_(0),
 	currentSelLength_(0),
@@ -260,7 +258,7 @@ Win32Object::CreateParams Win32Edit::createParams()
 	// a method giving the option to the user, and painting the selection
 	// in an unfocused control with a light gray on the background - MP.
 
-	result.first |= ES_AUTOHSCROLL  /*ES_SAVESEL*/ /*| ES_NOHIDESEL*/;
+	result.first |= ES_AUTOHSCROLL | ES_SAVESEL /*| ES_NOHIDESEL*/;
 	if ( editState_ & esMultiLined ) {
 		result.first |= ES_SAVESEL | ES_MULTILINE | WS_HSCROLL | WS_VSCROLL;// | ES_WANTRETURN;
 	}
@@ -1421,6 +1419,9 @@ void Win32Edit::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.12  2006/03/25 02:25:41  ddiego
+*attempt to fix small glitch in win32 text edit for numpad handling.
+*
 *Revision 1.5.2.11  2006/03/21 01:29:22  ddiego
 *fixed table control double click bug.
 *
