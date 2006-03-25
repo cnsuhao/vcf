@@ -568,6 +568,9 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 		case WM_RBUTTONUP : case WM_LBUTTONUP : {
 
 			result = true;
+			wndProcResult = defaultWndProcedure( message, wParam, lParam ); //this causes weird double selection
+
+
 			AbstractWin32Component::handleEventMessages( message, wParam, lParam, wndProcResult );
 
 			ulong32 start = 0;
@@ -584,7 +587,6 @@ bool Win32Edit::handleEventMessages( UINT message, WPARAM wParam, LPARAM lParam,
 
 			currentSelLength_ = end - start;
 			currentSelStart_ = start;
-
 		}
 		break;
 
@@ -1419,6 +1421,9 @@ void Win32Edit::setTextWrapping( const bool& val )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.13  2006/03/25 03:01:15  ddiego
+*attempt to fix small glitch in win32 text edit for numpad handling.
+*
 *Revision 1.5.2.12  2006/03/25 02:25:41  ddiego
 *attempt to fix small glitch in win32 text edit for numpad handling.
 *
