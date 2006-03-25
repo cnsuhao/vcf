@@ -17,7 +17,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc8\DebugS"
+			IntermediateDirectory=".\vc80\DebugS"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -48,10 +48,10 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc8\DebugS/InternetKit.pch"
-				AssemblerListingLocation=".\vc8\DebugS/"
-				ObjectFile=".\vc8\DebugS/"
-				ProgramDataBaseFileName="..\..\..\lib\InternetKit_vc8_sd.pdb"
+				PrecompiledHeaderFile=".\vc80\DebugS/InternetKit.pch"
+				AssemblerListingLocation=".\vc80\DebugS/"
+				ObjectFile=".\vc80\DebugS/"
+				ProgramDataBaseFileName="..\..\..\lib\InternetKit_vc80_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -69,7 +69,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../lib/InternetKit_vc8_sd.lib"
+				OutputFile="../../../lib/InternetKit_vc80_sd.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -93,7 +93,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc6\ReleaseS"
+			IntermediateDirectory=".\vc80\ReleaseS"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -125,10 +125,10 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc8\ReleaseS/InternetKit.pch"
-				AssemblerListingLocation=".\vc8\ReleaseS/"
-				ObjectFile=".\vc8\ReleaseS/"
-				ProgramDataBaseFileName=".\vc8\ReleaseS/"
+				PrecompiledHeaderFile=".\vc80\ReleaseS/InternetKit.pch"
+				AssemblerListingLocation=".\vc80\ReleaseS/"
+				ObjectFile=".\vc80\ReleaseS/"
+				ProgramDataBaseFileName=".\vc80\ReleaseS/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -145,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="../../../lib/InternetKit_vc8_s.lib"
+				OutputFile="../../../lib/InternetKit_vc80_s.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
