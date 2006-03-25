@@ -76,11 +76,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="Release\InetKit_vc6.exe"
+				OutputFile="Release\InetKit_vc80.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
-				ProgramDatabaseFile=".\Release/InetKit_vc6.pdb"
+				ProgramDatabaseFile=".\Release/InetKit_vc80.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
@@ -173,12 +173,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="odbc32.lib odbccp32.lib rpcrt4.lib"
-				OutputFile="Debug\InetKit_vc6.exe"
+				OutputFile="Debug\InetKit_vc80.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="$(VCF_LIB)"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/InetKit_vc6.pdb"
+				ProgramDatabaseFile=".\Debug/InetKit_vc80.pdb"
 				SubSystem="1"
 				TargetMachine="1"
 			/>
