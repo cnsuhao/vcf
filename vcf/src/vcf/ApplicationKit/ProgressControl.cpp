@@ -25,10 +25,6 @@ ProgressControl::ProgressControl():
 	useProgressFormatString_(false),
 	stepItIncrement_(1.0)
 {
-	EtchedBorder* border = new EtchedBorder();
-	border->setEdgeStyle( GraphicsContext::etSunken );
-	setBorder( border );
-
 	progressBarColor_ = new Color();
 
 	*progressBarColor_ = *GraphicsToolkit::getSystemColor(SYSCOLOR_SELECTION);
@@ -183,6 +179,9 @@ void ProgressControl::paint( GraphicsContext* ctx )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/26 15:07:48  ddiego
+*removed unneccessary border from constructor of progress control.
+*
 *Revision 1.4.2.2  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *
