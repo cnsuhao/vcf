@@ -188,7 +188,7 @@ public:
 	\endcode				
 
 	D): with contents, platform, and compiler - OSX compatible		
-	\endcode
+	\code
 	Bundle/
 		/Contents
 			/<OS-Name>
@@ -218,8 +218,7 @@ public:
 	static String findResourceDirectoryForExecutable( const String& fileName );
 
 
-	/**
-	\par
+	/**	
 	Returns the name of the operating system that the VCF is currently running on.
 	@return String the operating system name. Can be:
 		\li "MacOS" for Mac OS
@@ -289,46 +288,43 @@ public:
 	static void setErrorLog( ErrorLog* errorLog );
 
 	/**
-	\par
+	
 	Prints out the text to stdout. Allows for formatted text, just like printf() does.
 	Please see printf documentation for the various formatting flags.
-	\par
+	
 	When using this to print out strings, there are some special rules to fullow
 	due to the fact that the VCF uses all unicode strings internally. For
 	example:
 	\code
 	String aName = "Bob Jones";
-	System::print( "User Name: %s", aName.c_str() );
+	System::print( Format("User Name: %s") % aName.c_str() );
 	\endcode
 	On Win32 platforms the use of %s will work fine, but on others it may 
 	not. To ensure that strings get printed out correctly, consider using the 
 	%ls formatter, like so:
 	\code
 	String aName = "Bob Jones";
-	System::print( "User Name: %ls", aName.c_str() );
+	System::print( Format("User Name: %ls") % aName.c_str() );
 	\endcode
+	or
+
+	\code
+	String aName = "Bob Jones";
+	System::print( Format("User Name: %s") % aName );
+	\endcode
+
 	This will ensure that on all platforms the unicode string gets properly
 	handled and output.
-
-	\deprecated 
-	This is now a deprecated function and should not be used at all. Existing
-	code should be changed to make use of the print( const Format& ) function 
-	instead. It will be removed entirely in an upcoming release.
+	@see Format
 	*/
 	static void print( const String& text );
 
-	//static void print( const Format& formatter );
-
 	/**
+	This function does what System::print() does, except that it adds a trailing
+	cr/lf.
 	@see System::print
-	\deprecated 
-	This is now a deprecated function and should not be used at all. Existing
-	code should be changed to make use of the println( const Format& ) function 
-	instead. It will be removed entirely in an upcoming release.
 	*/
 	static void println( const String& text );
-
-	//static void println( const Format& formatter );
 
 	/**
 	This will print the contents of the exception to stdout and the 
@@ -344,7 +340,7 @@ public:
 	\code
 	String val = System::getEnvironmentVariable( "PATH" );	
 	\endcode
-	val would equal "C:\WINNT\system32;C:\WINNT;C:\WINNT\System32\Wbem;d:\Program Files\doxygen\bin;E:\dm\bin;E:\code\vcfdev\dev\vcf\bin;D:\Program Files\HTML Help Workshop;D:\cygwin\bin;D:\Program Files\Microsoft Visual Studio\Common\Tools\WinNT;D:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin;D:\Program Files\Microsoft Visual Studio\Common\Tools;D:\Program Files\Microsoft Visual Studio\VC98\bin;D:\Program Files\Microsoft Visual Studio\Common\MSDev98\Bin\IDE".
+	val would equal "C:\WINNT\system32;C:\WINNT;C:\WINNT\System32\Wbem;...".
 	*/
 	static String getEnvironmentVariable( const String& variableName );
 
@@ -525,6 +521,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.8.2.5  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.8.2.4  2006/03/12 22:01:41  ddiego
 *doc updates.
 *

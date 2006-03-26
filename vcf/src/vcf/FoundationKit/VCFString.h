@@ -30,7 +30,7 @@ std::basic_string class since std::basic_string cannot
 be derived from (it has no virtual destructor). The
 type of std::basic_string is a std::basic_string<wchar_t>
 meaning that the string class maintains unicode data internally.
-\par
+
 The main purpose of the String class is to provide a
 drop in replacement for std::basic_string<wchar_t>, with an
 interface that is 100% compatible. In addition we add a few
@@ -46,13 +46,12 @@ extra functions of our own:
 	ordinarily take a wchar_t* also have a matching method that
 	takes a char*, with automatic conversion taking place from
 	ansi to unicode.
-\par
+
 These extra functions make it seamless to use with existing code that uses
 either old C style strings and/or std::string/std::wstring instances.
 For complete documentation of the std::basic_string, please see
 <a href="http://www.sgi.com/tech/stl/basic_string.html">SGI's documentation</a>.
 
-\par
 Another set of functions is used to encode or decode text using a
 particular text codec isntance as specified by the TextCodec class.
 These encoding/decoding methods are:
@@ -63,7 +62,6 @@ These encoding/decoding methods are:
 	content of this string as a result
 	\li encoding the data from another string intance into this string
 
-\par
 In addition there are also a whole series of typedefs, again solely to make the
 class compatible with the std::basic_string class.
 */
@@ -189,7 +187,7 @@ public:
 	/**
 	Returns a const char* pointer. Equivalent to the c_str() method,
 	only this translates the internal unicode data to an ansi string.
-	\par
+	
 	Please note that the pointer returned from this function is only
 	valid for the lifetime of the string that it was returned from.
 	Calling this function requires that a new char buffer be allocated. As
@@ -231,7 +229,7 @@ public:
 	Returns a const char* pointer s a result of translating the
 	unicode data to an ansi string. In Win32, the default
 	behaviour is to convert this using the UTF8 code page.
-	\par
+	
 	This pointer is "garbage collected" and is only valid for the lifetime of
 	the string instance that it was retreived from. Once that
 	instance is destroyed, the pointer is invalid. For example:
@@ -1097,6 +1095,9 @@ typedef UnicodeString String;
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.6  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.4.2.5  2006/03/12 22:01:44  ddiego
 *doc updates.
 *

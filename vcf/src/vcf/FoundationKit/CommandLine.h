@@ -54,12 +54,12 @@ struct CmdParam {
 /**
 \class CommandLine CommandLine.h "vcf/FoundationKit/CommandLine.h"
 A utility for parsing command lines.
-\par
+
 This was originally written by Chris Losinger, changes were simply
 removing the inheritance from std::map<>, and adding a map as a member
 variable instead. Also made some cosmetic name changes to conform better with
 VCF naming standards.
-\par
+
 Example :
 
    Our example application uses a command line that has two
@@ -171,7 +171,7 @@ parse the command line into switches and arguments.
 	fetch an argument associated with a switch . if the parameter at
 	index iIdx is not found, this will return the default that you
     provide.
-	\par
+	
 	example :
 	\code
 	command line is : app.exe -a p1 p2 p3 -b p4 -c -d p5
@@ -190,7 +190,7 @@ parse the command line into switches and arguments.
 	/**
 	fetch a argument associated with a switch. throws an exception
 	of (int)0, if the parameter at index iIdx is not found.
-	\par
+	
 	example :
 	\code
 	command line is : app.exe -a p1 p2 p3 -b p4 -c -d p5
@@ -248,6 +248,9 @@ the first character of a switch must be non-numeric!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.5.2.4  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

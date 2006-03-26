@@ -310,7 +310,6 @@ namespace VCF {
 		void endPage( PrintContext* context );
 
 		/**
-		\par
 		This is a high level function that can attempt to run a print loop through all
 		the pages of the printing document, starting with the first page, and ending with
 		the last page.
@@ -323,7 +322,6 @@ namespace VCF {
 		session.runDefaultPrintLoop(); //this will print 10 pages. 
 		\endcode
 
-		\par
 		This will call beginPrintingDocument(), endPrintingDocument(), beginPage(), and
 		endPage(), as appropriate. You can handle the actual drawing by add an event handler
 		to the PageBegun delegate, which will get fired for each page. See the example in 

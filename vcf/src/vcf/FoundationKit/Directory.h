@@ -22,14 +22,14 @@ class FileSearchFilter;
 \class Directory Directory.h "vcf/FoundationKit/Directory.h"
 A Directory represents a directory in a filesystem.
   and therefore it is a File object with all its features.
-\par
+
 In addition they can instantiate a Directory::Finder object
 in the moment the user wants them to perform a search into
 its files and subdirectories based on a search filter.
-\par
+
 The Directory::Finder class has been written to be very performant
 even when recursing.
-\par
+
 The way to use this class is:
   \code
       String filepath = L"./";
@@ -53,11 +53,11 @@ The way to use this class is:
       }
       finder->free();
   \endcode
-\par
+
 The user is also able to create more than one finder
 from the same directory instance. But in order to achieve
 that we made the user responsible of freeing the finder.
-\par
+
 The statements:
 \code
   finder->setMaskFilterFileAttribs( File::faArchive );
@@ -65,7 +65,7 @@ The statements:
 \endcode
 can be used to speed up the search.
 
-\par
+
 It is possible to easily recurse into subdirectories.
 The following code will let you to recurse up to 10 levels
 while applying a personalized filter.
@@ -121,13 +121,12 @@ class FOUNDATIONKIT_API Directory : public File {
 public:
 
 
-	/**
-	\par
+	/**	
 	A Finder object is used to iterate a
 	set of files contained in a Directory object
 	that represents the directory.
 	Only Directory objects may create a Finder object.
-	\par
+	
 	A Finder is similar to an Enumerator but it doesn't 
 	follow the exact same pattern. Specifically it doesn't 
 	allow you to go "backwards" - you can only reset the
@@ -136,7 +135,7 @@ public:
 	a Finder isntance is the nextElement() function which 
 	returns a pointer to an internal File object which is updated
 	for each file element.
-	\par
+	
 	All the other methods are used to narrow or speed up the search.
 	Custom filtering can be done the simple way by specifying
 	filter strings, or in a fully flexible way through any
@@ -710,6 +709,9 @@ inline void Directory::setName( const String& fileName ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.3  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.6.2.2  2006/03/19 00:04:16  obirsoy
 *Linux FoundationKit improvements.
 *

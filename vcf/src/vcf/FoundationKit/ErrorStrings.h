@@ -100,7 +100,7 @@ int doCalc( int p1, int p2 )
 }
 \endcode
 
-\par
+
 If the assert fails (i.e. in this if p1 equals 0) the message will look something like 
 \code
 	p1 > 0
@@ -108,7 +108,7 @@ If the assert fails (i.e. in this if p1 equals 0) the message will look somethin
 
 \endcode
 
-\par
+
 Many thanks to Marcello for contributing this!!
 @see VCF_ASSERT2
 */
@@ -125,6 +125,9 @@ Many thanks to Marcello for contributing this!!
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.5.2.1  2006/03/19 00:04:16  obirsoy
 *Linux FoundationKit improvements.
 *

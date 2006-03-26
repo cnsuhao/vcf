@@ -105,6 +105,17 @@ double CommandButton::getPreferredHeight()
 	return UIToolkit::getUIMetricValue( UIMetricsManager::mtButtonHeight );
 }
 
+double CommandButton::getPreferredWidth()
+{
+	String s = getCaption();
+	GraphicsContext* ctx = this->getContext();
+	if ( !s.empty() ) {
+		return ctx->getTextWidth( s ) + 20;
+	}
+
+	return Control::getPreferredWidth();
+}
+
 void CommandButton::mnemonicActivate()
 {
 	Control::mnemonicActivate();
@@ -222,6 +233,9 @@ void CommandButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.4.2.2  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *

@@ -52,6 +52,12 @@ public:
 
 
 
+		/*******************************************
+		---------------------------------------------
+		|	Hey there!!!! Yes you! The following line 
+		|	turns *OFF* row selection!! :)		
+		---------------------------------------------
+		********************************************/
 		table->setAllowFixedRowSelection( false );
 
 	}
@@ -99,6 +105,9 @@ int main(int argc, char *argv[])
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.5.2.2  2005/09/03 14:03:52  ddiego
 *added a package manager to support package info instances, and
 *fixed feature request 1278069 - Background color of the TableControl cells.

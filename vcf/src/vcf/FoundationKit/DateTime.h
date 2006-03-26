@@ -86,7 +86,7 @@ calendar used is the Gregorian calendar. There is logic to support switching
 to the Julian calendar for days before the Gregorian switch. At the moment
 there is no time zone support. This will be coming next.
 
-\par
+
 There are a wide number of functions for retrieving all sorts of handy date/time
 info, such as :
 
@@ -113,12 +113,12 @@ templatized iterator logic and lets you:
 Since the iterator template type is customizable, you can create your own iteration logic classes
 to perform custom iteration logic.
 
-\par
+
 You can modify the date time object in a variety of ways, by specifying the year, month, day, or
 set the time specifying hour, minute, second, or have more control by setting all fields
 (year, month, day, hour, minute, second, millisecond).
 
-\par
+
 Most of the algorithms that this class uses come from: 
 http://www.tondering.dk/claus/cal/
 
@@ -992,6 +992,9 @@ inline void DateTime::get( unsigned long* year, unsigned long* month, unsigned l
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.5  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.6.2.4  2006/03/19 00:04:16  obirsoy
 *Linux FoundationKit improvements.
 *

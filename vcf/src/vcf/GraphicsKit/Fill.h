@@ -49,7 +49,7 @@ delete path;
 See the StrokesAndFills example (in vcf/examples/StrokesAndFills ) for a more
 complete example of this.
 
-\par
+
 The interface is quite simple, and more concrete details are completely up to the 
 implement of the interface.
 @see BasicFill
@@ -81,6 +81,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.2  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.3.4.1  2006/03/12 22:42:08  ddiego
 *more doc updates - specific to graphicskit.
 *

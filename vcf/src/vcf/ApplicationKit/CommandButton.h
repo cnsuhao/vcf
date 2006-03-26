@@ -120,6 +120,8 @@ public:
 	virtual void mnemonicActivate();
 
 	virtual double getPreferredHeight();
+
+	virtual double getPreferredWidth();
 protected:
     bool isPressed_;
     ButtonPeer * buttonPeer_;
@@ -138,6 +140,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.3.2.1  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

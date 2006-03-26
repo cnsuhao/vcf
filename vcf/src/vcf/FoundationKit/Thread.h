@@ -29,7 +29,7 @@ A Thread can either be derived from and the run() method overridden,
 or a separate class that derives from Runnable may be passed into the
 Thread's constructor and this class's run() method will get called.
 
-\par
+
 For example:
 \li Method 1) deriving a new thread class and over riding the run() method
 \code
@@ -268,6 +268,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.5.2.1  2006/03/12 22:01:41  ddiego
 *doc updates.
 *

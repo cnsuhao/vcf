@@ -97,107 +97,12 @@ ProgramInfo* ResourceBundle::getProgramInfo()
 			}	
 
 			if ( found ) {
-				//String name;
 				String programFileName;
-				//String author;
-				//String copyright;
-			//	String company;
-			//	String description;
-			//	String programVersion;
-			//	String fileVersion;
-
+				
 				CommandLine cmdLine = FoundationKit::getCommandLine();
 				programFileName = cmdLine.getArgument(0);
 
 				result = System::getProgramInfoFromInfoFile(infoFilename, programFileName);
-/*
-				XMLParser xmlParser;
-				FileInputStream fs(infoFilename);
-				xmlParser.parse( &fs );
-				fs.close();
-
-				XMLNode* dictNode = NULL;
-				Enumerator<XMLNode*>* nodes = xmlParser.getParsedNodes();
-				while ( nodes->hasMoreElements() ) {
-					XMLNode* node = nodes->nextElement();
-					if ( node->getName() == L"plist" ) {
-						dictNode = node->getNodeByName( L"dict" );
-						break;
-					}
-				}
-
-				if ( NULL != dictNode ) {
-					nodes = dictNode->getChildNodes();
-					while ( nodes->hasMoreElements() ) {
-						XMLNode* node = nodes->nextElement();
-						XMLNode* val = NULL;
-
-						if ( nodes->hasMoreElements() ) {
-							val = nodes->nextElement();
-						}
-
-						if ( (NULL != val) && (node->getName() == "key") ) {
-							String cdata = node->getCDATA();
-							StringUtils::trimWhiteSpaces( cdata );
-
-							if ( cdata == "CFBundleName" ) {
-								name = val->getCDATA();
-								StringUtils::trimWhiteSpaces( name );
-							}
-							else if ( cdata == "CFBundleDisplayName" ) {
-								name = val->getCDATA();
-								StringUtils::trimWhiteSpaces( name );
-							}
-							else if ( cdata == "CFBundleVersion" ) {
-								fileVersion = programVersion = val->getCDATA();
-								StringUtils::trimWhiteSpaces( fileVersion );
-							}
-							else if ( cdata == "CFBundleGetInfoString" ) {
-								copyright = programVersion = val->getCDATA();
-								StringUtils::trimWhiteSpaces( copyright );
-							}
-							else if ( cdata == "NSHumanReadableCopyright" ) {
-								copyright = programVersion = val->getCDATA();							
-								StringUtils::trimWhiteSpaces( copyright );
-							}
-
-							
-							//VCF cross platform keys
-							else if ( cdata == "ProgramVersion" ) {
-								programVersion = val->getCDATA();
-								StringUtils::trimWhiteSpaces( programVersion );
-							}
-							else if ( cdata == "FileVersion" ) {
-								programVersion = val->getCDATA();
-								StringUtils::trimWhiteSpaces( programVersion );
-							}
-							else if ( cdata == "ProductName" ) {
-								name = val->getCDATA();
-								StringUtils::trimWhiteSpaces( name );
-							}
-							else if ( cdata == "Copyright" ) {
-								copyright = val->getCDATA();
-								StringUtils::trimWhiteSpaces( copyright );
-							}
-							else if ( cdata == "Author" ) {
-								author = val->getCDATA();
-								StringUtils::trimWhiteSpaces( author );
-							}
-							else if ( cdata == "Company" ) {
-								company = val->getCDATA();
-								StringUtils::trimWhiteSpaces( company );
-							}
-							else if ( cdata == "Description" ) {
-								description = val->getCDATA();
-								StringUtils::trimWhiteSpaces( description );
-							}
-						}
-					}
-
-					result = new ProgramInfo( name, programFileName, author, copyright, company, description, programVersion, fileVersion );
-					
-				}
-				*/
 			}
 		}
 	}
@@ -215,6 +120,9 @@ String ResourceBundle::getResourcesDirectory()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.4.2.4  2005/11/10 02:02:38  ddiego
 *updated the osx build so that it
 *compiles again on xcode 1.5. this applies to the foundationkit and graphicskit.

@@ -27,7 +27,7 @@ and will only work if the argTypes_ string has bee set appropriately.
 This string consists of a series of characters each of which
 are interpreted as a special code for the primitive type.
 The code table is as follows:
-\par
+
 \code
 	  code	|	primitive type
 	----------------------------
@@ -44,7 +44,7 @@ The code table is as follows:
 	  "e"	|		Enum*
 
 \endcode
-\par
+
 To create an instance of a Method object use one of the template
 based classes described below.
 */
@@ -216,6 +216,9 @@ protected:
 /**
 CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.3.2.2  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

@@ -31,21 +31,19 @@ public:
 	*/
 	static void terminate();
 
-	/**
-	\par
+	/**	
 	Returns the current Thread object associated with the calling thread.
 	Depending on the platform, this gets the calling thread's ID and
 	looks up the associated Thread object that is registered with the
 	ThreadManager.
-	\par
+	
 	For Win32  - see GetCurrentThreadId()
 	For Unix/Posix systems - see pthread_self
 	For Mac OSX - see MPCurrentTaskID
 	*/
 	static Thread* getCurrentThread();
 
-	/**
-	\par
+	/**	
 	Convenience function for retrieving the current thread's run loop.
 	Equivalent to calling
 	\code
@@ -57,11 +55,10 @@ public:
 	*/
 	static RunLoop* getCurrentRunLoop();
 
-	/**
-	\par
+	/**	
 	Allows you to wait on 1 or more wait objects till one of them
 	becomes signaled. The duration of the wait is specified in milliseconds.
-	\par
+	
 	When the function returns, the signaledObjects will contain a
 	list of signaled objects
 

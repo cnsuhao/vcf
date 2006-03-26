@@ -46,7 +46,7 @@ Class is the base class for all RTTI in the Framework. Class was written
 because C++ RTTI is shockingly primitive, and many of these features are
 found in other OO languages (i.e. ObjectPascal, ObjectiveC, SmallTalk, 
 Java, et. al) and are immensely useful and powerful.
-\par
+
 Class is an abstract base class that template class's derive from. Classes 
 provide the following information:
 	\li
@@ -77,12 +77,12 @@ provide the following information:
 	the ability to create a new instance of the class the Class object represents.
 	This of course assumes a default constructor is available.
 	
-\par
+
 In order for the RTTI to work in the Framework developers of derived classes 
 must do three things for their classes to participate in the Framework. Failure 
 to implement these steps will mean their classes will not have correct RTTI. A 
 series of macros (defined in ClassInfo.h) have been written to make this easier.
-\par
+
 The first step is (obviously) making sure that your class is derived from a Framework object.
 For example:
 \code
@@ -95,7 +95,7 @@ For example:
 	};
 \endcode
 
-\par
+
 Next you should define a class id (as a string) for your class. If you are on winblows use
 guidgen.exe to create UUID's for you. The define should look something like this:
 \code
@@ -411,6 +411,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.3  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.3.2.2  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

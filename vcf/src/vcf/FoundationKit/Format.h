@@ -39,12 +39,11 @@ namespace VCF {
 	sprintf/printf family of functions, only made typesafe for
 	C++, and less likely to encounter buffer overflow errors
 	that are so easy to do with sprintf and friends.
-	\par
+	
 	The inspiration for this class comes unashamedly from the
 	Boost Format library (http://www.boost.org/libs/format/doc/format.html).
 	Any mistakes in the "translation" are mine, not Boost's.
 
-	\par
 	The basic idea is to pass in a string to the Format instance,
 	and then use the "%" operator to separate your arguments.
 	Currently the usage is \e exactly the same as you would use
@@ -58,7 +57,6 @@ namespace VCF {
 	\endcode
 	The "s" variable will now contain "Hello World, 10 times!".
 
-	\par
 	The Format object will throw assert exceptions (in debug mode) if too
 	few arguments are passed in, or too many. For example:
 	\code
@@ -415,6 +413,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.10  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.2.2.9  2006/03/12 22:01:40  ddiego
 *doc updates.
 *
