@@ -192,7 +192,7 @@ void TreeListControl::recalcScrollable()
 
 		visibleItemsHeight_ = 0;
 		if ( header_->getVisible() ) {
-			visibleItemsHeight_ -= header_->getHeight();
+			visibleItemsHeight_ += header_->getHeight();
 		}
 
 		std::vector<TreeItem*> visibleItems;		
@@ -656,13 +656,7 @@ void TreeListControl::paint( GraphicsContext * context )
 
 	paintChildren( context );
 	
-
-	double oldVisibleHeight = visibleItemsHeight_;
-
 	visibleItemsHeight_ = 0;
-	if ( header_->getVisible() ) {
-		//visibleItemsHeight_ += header_->getHeight();
-	}
 
 	hierarchyHeightMap_.clear();
 
@@ -2149,6 +2143,10 @@ void TreeListControl::editItem( TreeItem* item, Point* point ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2006/03/26 16:52:10  ddiego
+*fixed a bug in the treelist control that was incorrectly
+*calculating the virtual height for the control.
+*
 *Revision 1.4.2.6  2006/03/22 03:18:20  ddiego
 *fixed a glitch in scroll vert and horz position values.
 *
