@@ -17,7 +17,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc8\ReleaseS"
+			IntermediateDirectory=".\vc80\ReleaseS"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -52,9 +52,9 @@
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="vcf/ApplicationKit/ApplicationKit.h"
-				PrecompiledHeaderFile=".\vc8\ReleaseS/ApplicationKit.pch"
-				AssemblerListingLocation=".\vc8\ReleaseS/"
-				ObjectFile=".\vc8\ReleaseS/"
+				PrecompiledHeaderFile=".\vc80\ReleaseS/ApplicationKit.pch"
+				AssemblerListingLocation=".\vc80\ReleaseS/"
+				ObjectFile=".\vc80\ReleaseS/"
 				ProgramDataBaseFileName="..\..\..\Lib\ApplicationKit_vc80_s.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -84,7 +84,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="../../../Lib/ApplicationKit_vc6_s.bsc"
+				OutputFile="../../../Lib/ApplicationKit_vc80_s.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -96,7 +96,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc8\DebugS"
+			IntermediateDirectory=".\vc80\DebugS"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -130,9 +130,9 @@
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="vcf/ApplicationKit/ApplicationKit.h"
-				PrecompiledHeaderFile=".\vc8\DebugS/ApplicationKit.pch"
-				AssemblerListingLocation=".\vc8\DebugS/"
-				ObjectFile=".\vc8\DebugS/"
+				PrecompiledHeaderFile=".\vc80\DebugS/ApplicationKit.pch"
+				AssemblerListingLocation=".\vc80\DebugS/"
+				ObjectFile=".\vc80\DebugS/"
 				ProgramDataBaseFileName="..\..\..\Lib\ApplicationKit_vc80_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -163,7 +163,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="../../../Lib/ApplicationKit_vc6_sd.bsc"
+				OutputFile="../../../Lib/ApplicationKit_vc80_sd.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
