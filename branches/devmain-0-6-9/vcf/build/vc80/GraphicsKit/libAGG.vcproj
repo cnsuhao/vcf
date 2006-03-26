@@ -16,8 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\vc8\Debug"
-			IntermediateDirectory=".\vc8\Debug"
+			OutputDirectory=".\vc80\Debug"
+			IntermediateDirectory=".\vc80\Debug"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -48,9 +48,9 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc8\Debug/libAGG.pch"
-				AssemblerListingLocation=".\vc8\Debug/"
-				ObjectFile=".\vc8\Debug/"
+				PrecompiledHeaderFile=".\vc80\Debug/libAGG.pch"
+				AssemblerListingLocation=".\vc80\Debug/"
+				ObjectFile=".\vc80\Debug/"
 				ProgramDataBaseFileName="..\..\..\lib\libAGG_vc80_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -168,8 +168,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\vc8\Release"
-			IntermediateDirectory=".\vc8\Release"
+			OutputDirectory=".\vc80\Release"
+			IntermediateDirectory=".\vc80\Release"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -201,9 +201,9 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc8\Release/libAGG.pch"
-				AssemblerListingLocation=".\vc8\Release/"
-				ObjectFile=".\vc8\Release/"
+				PrecompiledHeaderFile=".\vc80\Release/libAGG.pch"
+				AssemblerListingLocation=".\vc80\Release/"
+				ObjectFile=".\vc80\Release/"
 				ProgramDataBaseFileName="..\..\..\lib\libAGG_vc80_s.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -233,7 +233,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="../../../lib/libAGG_vc6_s.bsc"
+				OutputFile="../../../lib/libAGG_vc80_s.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

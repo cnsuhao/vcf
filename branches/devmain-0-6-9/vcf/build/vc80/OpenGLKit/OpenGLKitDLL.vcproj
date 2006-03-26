@@ -17,7 +17,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc8\ReleaseDLL"
+			IntermediateDirectory=".\vc80\ReleaseDLL"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -55,9 +55,9 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc8\ReleaseDLL/OpenGLKitDLL.pch"
-				AssemblerListingLocation=".\vc8\ReleaseDLL/"
-				ObjectFile=".\vc8\ReleaseDLL/"
+				PrecompiledHeaderFile=".\vc80\ReleaseDLL/OpenGLKitDLL.pch"
+				AssemblerListingLocation=".\vc80\ReleaseDLL/"
+				ObjectFile=".\vc80\ReleaseDLL/"
 				ProgramDataBaseFileName="..\..\..\bin\OpenGLKit_vc80.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -96,7 +96,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="..\..\..\bin\OpenGL_vc6.bsc"
+				OutputFile="..\..\..\bin\OpenGL_vc80.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -114,7 +114,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc6\DebugDLL"
+			IntermediateDirectory=".\vc80\DebugDLL"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -151,9 +151,9 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc8\DebugDLL/OpenGLKitDLL.pch"
-				AssemblerListingLocation=".\vc8\DebugDLL/"
-				ObjectFile=".\vc8\DebugDLL/"
+				PrecompiledHeaderFile=".\vc80\DebugDLL/OpenGLKitDLL.pch"
+				AssemblerListingLocation=".\vc80\DebugDLL/"
+				ObjectFile=".\vc80\DebugDLL/"
 				ProgramDataBaseFileName="..\..\..\bin\OpenGLKit_vc80_d.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -194,7 +194,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="..\..\..\bin\OpenGLKit_vc6_d.bsc"
+				OutputFile="..\..\..\bin\OpenGLKit_vc80_d.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

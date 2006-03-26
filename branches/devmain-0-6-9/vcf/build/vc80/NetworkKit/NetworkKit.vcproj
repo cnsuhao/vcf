@@ -17,7 +17,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc6\DebugS"
+			IntermediateDirectory=".\vc80\DebugS"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -50,9 +50,9 @@
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="vcf/NetworkKit/NetworkKit.h"
-				PrecompiledHeaderFile=".\vc8\DebugS/NetworkKit.pch"
-				AssemblerListingLocation=".\vc8\DebugS/"
-				ObjectFile=".\vc8\DebugS/"
+				PrecompiledHeaderFile=".\vc80\DebugS/NetworkKit.pch"
+				AssemblerListingLocation=".\vc80\DebugS/"
+				ObjectFile=".\vc80\DebugS/"
 				ProgramDataBaseFileName="..\..\..\lib\NetworkKit_vc80_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -83,7 +83,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="../../../lib/NetworkKit_vc6_sd.bsc"
+				OutputFile="../../../lib/NetworkKit_vc80_sd.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -95,7 +95,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc8\ReleaseS"
+			IntermediateDirectory=".\vc80\ReleaseS"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -129,9 +129,9 @@
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="vcf/NetworkKit/NetworkKit.h"
-				PrecompiledHeaderFile=".\vc8\ReleaseS/NetworkKit.pch"
-				AssemblerListingLocation=".\vc8\ReleaseS/"
-				ObjectFile=".\vc8\ReleaseS/"
+				PrecompiledHeaderFile=".\vc80\ReleaseS/NetworkKit.pch"
+				AssemblerListingLocation=".\vc80\ReleaseS/"
+				ObjectFile=".\vc80\ReleaseS/"
 				ProgramDataBaseFileName="..\..\..\lib\NetworkKit_vc80_s.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -161,7 +161,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="../../../lib/NetworkKit_vc6_s.bsc"
+				OutputFile="../../../lib/NetworkKit_vc80_s.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

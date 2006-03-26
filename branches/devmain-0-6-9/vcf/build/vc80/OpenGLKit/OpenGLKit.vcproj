@@ -17,7 +17,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc8\ReleaseS"
+			IntermediateDirectory=".\vc80\ReleaseS"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -49,9 +49,9 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc8\ReleaseS/OpenGLKit.pch"
-				AssemblerListingLocation=".\vc8\ReleaseS/"
-				ObjectFile=".\vc8\ReleaseS/"
+				PrecompiledHeaderFile=".\vc80\ReleaseS/OpenGLKit.pch"
+				AssemblerListingLocation=".\vc80\ReleaseS/"
+				ObjectFile=".\vc80\ReleaseS/"
 				ProgramDataBaseFileName="..\..\..\lib\OpenGLKit_vc80_s.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile="..\..\..\lib\OpenGLKit_vc6_s.bsc"
+				OutputFile="..\..\..\lib\OpenGLKit_vc80_s.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -93,7 +93,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\..\..\..\lib"
-			IntermediateDirectory=".\vc8\DebugS"
+			IntermediateDirectory=".\vc80\DebugS"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
@@ -124,9 +124,9 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\vc8\DebugS/OpenGLKit.pch"
-				AssemblerListingLocation=".\vc8\DebugS/"
-				ObjectFile=".\vc8\DebugS/"
+				PrecompiledHeaderFile=".\vc80\DebugS/OpenGLKit.pch"
+				AssemblerListingLocation=".\vc80\DebugS/"
+				ObjectFile=".\vc80\DebugS/"
 				ProgramDataBaseFileName="..\..\..\lib\OpenGLKit_vc80_sd.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
