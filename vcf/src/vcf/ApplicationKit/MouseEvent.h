@@ -31,7 +31,10 @@ enum MouseButtomMasks{
 	mbmUndefined = 0,
 	mbmLeftButton = 1,
 	mbmMiddleButton = 2,
-	mbmRightButton = 4
+	mbmRightButton = 4,
+	mbmPrimaryButton = mbmLeftButton,
+	mbmSecondaryButton = mbmRightButton,
+	mbmTertiaryButton = mbmMiddleButton
 };
 
 
@@ -92,19 +95,79 @@ public:
 		return buttonMask_;
 	}
 	
-	
+	/**
+	indicates whether the mouse event has occurred while the 
+	user has the left button down. 
+	@see hasPrimaryButton()
+	*/
 	bool hasLeftButton(){
 		return ( mbmLeftButton & buttonMask_ ) != 0;
 	}
 
+	/**
+	indicates whether the mouse event has occurred while the 
+	user has the middle button down. 
+	@see hasTertiaryButton()
+	*/
 	bool hasMiddleButton(){
 		return ( mbmMiddleButton & buttonMask_ ) != 0;
 	}
 
+	/**
+	indicates whether the mouse event has occurred while the 
+	user has the right button down. 
+	@see hasSecondaryButton()
+	*/
 	bool hasRightButton(){
 		return ( mbmRightButton & buttonMask_ ) != 0;
 	}
-	
+
+	/**
+	A more general call to determine which button is pressed
+	down. This is the preferred call to make as it does
+	not indicate a preference for a right-hand configured
+	mouse.
+
+	Indicates whether the mouse event has occurred while the 
+	user has the primary button down. The primary button,
+	on a mouse configured for right-handed users, is the 
+	left button. For a mouse configured for left-handed 
+	users it would be the right button.
+	*/	
+	bool hasPrimaryButton(){
+		return ( mbmPrimaryButton & buttonMask_ ) != 0;
+	}
+
+	/**
+	A more general call to determine which button is pressed
+	down. This is the preferred call to make as it does
+	not indicate a preference for a right-hand configured
+	mouse.
+
+	Indicates whether the mouse event has occurred while the 
+	user has the secondary button down. The secondary button,
+	on a mouse configured for right-handed users, is the 
+	right button. For a mouse configured for left-handed 
+	users it would be the left button.
+	*/	
+	bool hasSecondaryButton(){
+		return ( mbmSecondaryButton & buttonMask_ ) != 0;
+	}
+
+	/**
+	A more general call to determine which button is pressed
+	down. This is the preferred call to make as it does
+	not indicate a preference for a right-hand configured
+	mouse.
+
+	Indicates whether the mouse event has occurred while the 
+	user has the tertiary button down. The tertiary button,
+	on a mouse configured for right-handed or left-handed
+	users, is the middle button.
+	*/	
+	bool hasTertiaryButton(){
+		return ( mbmTertiaryButton & buttonMask_ ) != 0;
+	}
 
 	bool hasShiftKey(){
 		return ( kmShift & keyMask_ ) != 0;
@@ -159,6 +222,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.4  2006/03/26 15:30:55  ddiego
+*added more general fucntions to mouse event to determine which button is pressed.
+*
 *Revision 1.2.6.3  2006/03/14 02:25:47  ddiego
 *large amounts of source docs updated.
 *
