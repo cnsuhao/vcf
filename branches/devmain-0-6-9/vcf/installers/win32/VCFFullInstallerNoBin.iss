@@ -9,7 +9,7 @@ Name: VC6_Wizards; Description: VCF Visual Studio 6 Application wizards; Types: 
 Name: Help_Files; Description: VCF Help files; Types: full custom compact
 Name: Help_Files/CHM_Help_Files; Description: Compiled HTML Help files; Types: custom compact full
 Name: Help_Files/VC6_Help_Files; Description: Visual Studio 6/MSDN Help integration files (requires Compiled HTML Help files); Types: custom full; Flags: dontinheritcheck
-Name: Help_Files/VC7_Help_Files; Description: Visual Studio 7/MSDN Help integration files; Types: custom full; Flags: dontinheritcheck
+Name: Help_Files/MSHelp2_Files; Description: MSHelp2 Help integration files for Visual Studio 7/8/2005 Express; Types: custom full; Flags: dontinheritcheck
 
 [Dirs]
 Name: {app}\bin
@@ -45,16 +45,17 @@ Source: ..\..\quickbuild.html; DestDir: {app}
 
 Source: ..\..\src\thirdparty\win32\MSDNIntegrator\MSDNIntegrator.exe; DestDir: {app}; Components: Help_Files/VC6_Help_Files
 
-Source: ..\..\docs\VS7\H2Reg.exe; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\H2Reg.ini; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\H2Reg_cmd.ini; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\vcf-docbook.0.6.8.HxS; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFSrcDocs.0.6.8.HxS; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFDocs.HxA; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFDocs.HxC; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFDocs_K.HxK; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFDocs.HxT; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
-Source: ..\..\docs\VS7\VCFDocs_NamedUrlIndex.HxK; DestDir: {app}\docs; Components: Help_Files/VC7_Help_Files
+Source: ..\..\docs\VS7\H2Reg.exe; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\H2Reg.ini; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\H2Reg_cmd.ini; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\H2Reg_cmd_090.ini; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\VCFBook.0.9.0.HxS; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\VCFSrcDocs.0.9.0.HxS; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\VCFDocs.0.9.0.HxA; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\VCFDocs.0.9.0.HxC; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\VCFDocs.0.9.0_K.HxK; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\VCFDocs.0.9.0.HxT; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
+Source: ..\..\docs\VS7\VCFDocs.0.9.0_NamedUrlIndex.HxK; DestDir: {app}\docs; Components: Help_Files/MSHelp2_Files
 
 
 Source: psvince.dll; Flags: dontcopy
@@ -104,7 +105,7 @@ Name: addenvpaths; Description: Add VCF environment variables, and update your P
 Name: addvc6dirs; Description: Add VCF Include and Library path to Microsoft's Visual C++ 6
 
 Name: msdnintegrate; Description: Visual Studio 6; GroupDescription: Integrate VCF Help with Visual Studio/MSDN Help; Flags: unchecked; Components: Help_Files/VC6_Help_Files  Help_Files/CHM_Help_Files
-Name: VC7_msdnintegrate; Description: Visual Studio 7.0/7.1; GroupDescription: Integrate VCF Help with Visual Studio/MSDN Help; Flags: unchecked; Components: Help_Files/VC7_Help_Files
+Name: MSHelp2_msdnintegrate; Description: Visual Studio 7/8; GroupDescription: Integrate VCF Help with Visual Studio/MSDN Help; Flags: unchecked; Components: Help_Files/MSHelp2_Files
 
 Name: installwizards; Description: Visual Studio 6; GroupDescription: Install Visual Studio Addins/Wizards; Flags: unchecked
 ;we are not supporting VC70 for wizards at the moment
@@ -122,7 +123,7 @@ Filename: {app}\RegEnVar.exe; Parameters: "--add-user-var VCF_LIB ""{app}\lib"""
 Filename: {app}\RegEnVar.exe; Parameters: "--add-user-var VCF_INCLUDE ""{app}\src"""; Components: Src; Tasks: addenvpaths; Flags: runhidden
 Filename: {app}\RegEnVar.exe; Parameters: --add-to-user-path %VCF_BIN%; Components: Src; Tasks: addenvpaths; Flags: runhidden
 
-Filename: {app}\docs\H2Reg.exe; Parameters: "-R ""cmdfile=H2Reg_cmd.ini"""; Tasks: VC7_msdnintegrate; Components: Help_Files/VC7_Help_Files
+Filename: {app}\docs\H2Reg.exe; Parameters: "-R ""cmdfile=H2Reg_cmd_090.ini"""; Tasks: MSHelp2_msdnintegrate; Components: Help_Files/MSHelp2_Files
 
 ;run the quick build instructions!
 Filename: {app}\quickbuild.html; Description: Read Quick build Instructions; Flags: shellexec nowait postinstall skipifsilent
@@ -141,7 +142,7 @@ Filename: {app}\RegEnVar.exe; Parameters: --del-user-var VCF_LIB; Tasks: addenvp
 Filename: {app}\RegEnVar.exe; Parameters: --del-user-var VCF_INCLUDE; Tasks: addenvpaths; Components: Src; Flags: runhidden
 
 
-Filename: {app}\docs\H2Reg.exe; Parameters: "-U ""cmdfile=H2Reg_cmd.ini"""; Tasks: VC7_msdnintegrate; Components: Help_Files/VC7_Help_Files
+Filename: {app}\docs\H2Reg.exe; Parameters: "-U ""cmdfile=H2Reg_cmd_090.ini"""; Tasks: MSHelp2_msdnintegrate; Components: Help_Files/MSHelp2_Files
 ; Must uninstall VS addins/wizards through IDE, I guess.
 
 
