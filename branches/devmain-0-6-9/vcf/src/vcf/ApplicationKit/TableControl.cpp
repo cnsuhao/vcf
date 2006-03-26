@@ -1031,21 +1031,16 @@ void TableControl::mouseMove( MouseEvent* event ){
 				mouseState_ = msPrepareColResize;
 				setCursorID( Cursor::SCT_SIZE_HORZ );
 			}
-			else {
-				setCursorID( Cursor::SCT_DEFAULT );
-			}
 		}
 		else if ( allowRowResizing_ && rowResizeAreaHitTest( *event->getPoint() ) ) {
 			if ( msPrepareRowResize != mouseState_ ) {
 				mouseState_ = msPrepareRowResize;
 				setCursorID( Cursor::SCT_SIZE_VERT );
 			}
-			else {
-				setCursorID( Cursor::SCT_DEFAULT );
-			}
 		}
 		else if ( msNone != mouseState_ ) {
 			mouseState_ = msNone;
+			setCursorID( Cursor::SCT_DEFAULT );
 		}
 
 		if ( msNone == mouseState_ ) {
@@ -1212,6 +1207,7 @@ void TableControl::mouseUp( MouseEvent* event ){
 		TableSelectionChanged.fireEvent( &event );
 	}
 
+	setCursorID( Cursor::SCT_DEFAULT );
 
 	mouseState_ = msNone;
 }
@@ -1762,10 +1758,6 @@ CellID TableControl::setFocusedCell( const CellID& cell )
 
 bool TableControl::columnResizeAreaHitTest( const Point& pt )
 {
-	if ( pt.y_ > getFixedRowHeight() ) {
-		//return false;
-	}
-
 	CellID cell = getCellIDFromPoint( pt );
 
 	Point start;
@@ -1778,8 +1770,8 @@ bool TableControl::columnResizeAreaHitTest( const Point& pt )
 
 	bool result = false;
 
-	if ( ((abs((long)(pt.x_ - start.x_)) < resizeCaptureRange_) && (cell.column != 0)) ||
-        (abs((long)(endx - pt.x_)) < resizeCaptureRange_) )  {
+	if ( (((pt.x_ - start.x_) < resizeCaptureRange_) && (cell.column != 0)) ||
+        ((endx - pt.x_) < resizeCaptureRange_) )  {
         result = true;
     }
     else {
@@ -1791,10 +1783,6 @@ bool TableControl::columnResizeAreaHitTest( const Point& pt )
 
 bool TableControl::rowResizeAreaHitTest( const Point& pt )
 {
-	if ( pt.x_ > getFixedColumnWidth() ) {
-		return false;
-	}
-
 	CellID cell = getCellIDFromPoint( pt );
 
 	Point start;
@@ -1807,8 +1795,8 @@ bool TableControl::rowResizeAreaHitTest( const Point& pt )
 
 	bool result = false;
 
-	if ( ((abs((long)(pt.y_ - start.y_)) < resizeCaptureRange_) && (cell.row != 0)) ||
-        (abs((long)(endy - pt.y_)) < resizeCaptureRange_) )  {
+	if ( (((pt.y_ - start.y_) < resizeCaptureRange_) && (cell.row != 0)) ||
+        ((endy - pt.y_) < resizeCaptureRange_) )  {
         result = true;
     }
     else {
@@ -2447,6 +2435,10 @@ void TableControl::setDefaultTableCellFont( Font* font )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/26 16:18:13  ddiego
+*fixed a glitch in the table control that was not properly
+*displaying the resize cursor for columns or rows.
+*
 *Revision 1.4.2.3  2006/03/21 01:29:22  ddiego
 *fixed table control double click bug.
 *
