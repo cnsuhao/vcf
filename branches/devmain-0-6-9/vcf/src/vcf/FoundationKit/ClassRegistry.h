@@ -14,7 +14,7 @@ where you installed the VCF.
 #endif
 
 /**
-\par
+
 This macro is used in a way similar to the C++ typeid operator.
 Where typeid() returns a const type_info reference, the classid()
 "operator" returns a Class pointer or NULL if no class can be found
@@ -287,6 +287,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.6.3  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.2.6.2  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

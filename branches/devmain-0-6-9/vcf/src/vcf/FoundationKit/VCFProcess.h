@@ -41,7 +41,7 @@ public:
 	/**
 	The default behaviour is to just start the process, assuming the processName is a
 	path to the executable. However, we are now going to get a tad fancier!
-	\par
+	
 	If the processName is a directory, we will try and locate the 
 	Info.plist/Info.xml file, read it, and, based on the info we get, 
 	attempt to use this to open the binary inside.
@@ -74,6 +74,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.4.3  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.3.4.2  2006/03/12 22:01:41  ddiego
 *doc updates.
 *

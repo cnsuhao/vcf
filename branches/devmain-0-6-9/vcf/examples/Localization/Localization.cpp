@@ -359,8 +359,6 @@ void testTime( const String& testName, const HiResClock& clock )
 
 void testLocale( Locale& loc )
 {
-
-
 	System::println( "*******************************************************************************" );
 
 	UnicodeString name = loc.getName();
@@ -384,6 +382,7 @@ void testLocale( Locale& loc )
 
 
 	System::println( "loc.toStringFromCurrency(2343239685.4554): " + loc.toStringFromCurrency(2343239685.4554) );
+		//loc.toStringFromCurrency(2343239685.4554) );
 
 	System::println( "loc.toString(2340545.4554): " + loc.toString(2340545.4554) );
 	System::println( "loc.toString(23993023): " + loc.toString(23993023) );
@@ -408,6 +407,7 @@ void testLocale( Locale& loc )
 	DateTime now = DateTime::now();
 
 	System::println( "loc.toStringFromDate(): " + loc.toStringFromDate(now,"") );
+	System::println( "loc.toStringFromDate(\"dddd, MMM d yyyy\"): " + loc.toStringFromDate(now,"dddd, MMM d yyyy") );
 	System::println( "loc.toStringFromTime(): " + loc.toStringFromTime(now,"") );
 
 	System::println( "\n*******************************************************************************\n\n\n" );
@@ -773,6 +773,9 @@ int main( int argc, char** argv ){
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.4.3  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.4.4.2  2005/11/13 16:02:46  ddiego
 *more sox updates.
 *

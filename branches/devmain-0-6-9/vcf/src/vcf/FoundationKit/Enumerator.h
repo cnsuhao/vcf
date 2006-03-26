@@ -87,15 +87,15 @@ public:
 
 EnumeratorContainer is based on some COLLECTION class that represents a collection
 class of some sort, i.e. std::vector<>, std::list, et al.
-\par
+
 The internal implementation counts on the collection having a common interface to
 STL's collection classes.
-\par
+
 The collection must support forward and reverse iterators
-\par
+
 The COLLECTION type specifies the full collection associated with
 the enumerator. 
-\par
+
 For example, an enumerator container of Object* using
 a std::vector as it's collection type would look like this:
 \code
@@ -193,15 +193,15 @@ private:
 \class EnumeratorMapContainer Enumerator.h "vcf/FoundationKit/Enumerator.h"
 EnumeratorMapContainer is based on some COLLECTION class that represents
 an  associative collection of some sort, i.e. std::map<>
-\par
+
 The internal implementation counts on the collection having a common interface to
 STL's collection classes.
-\par
+
 The collection must support forward and reverse iterators
-\par
+
 The COLLECTION type specifies the full collection associated with
 the enumerator. 
-\par
+
 For example, an enumerator container of Object* using
 a std::map as it's collection type would look like this:
 \code
@@ -287,6 +287,9 @@ private:
 /**
 CVS Log info
 *$Log$
+*Revision 1.3.2.4  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.3.2.3  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

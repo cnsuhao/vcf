@@ -30,6 +30,10 @@ int main( int argc, char** argv ){
 
 	System::println( "HELLO_STR: " + val );
 
+	val = resBundle->getString( "TEST" );
+
+	System::println( "TEST: " + val );
+
 	val = resBundle->getString( "goodbye_str" );
 
 	System::println( "goodbye_str: " + val );

@@ -29,7 +29,7 @@ New as of July 5,2001, Object will also support
 refcounting for those who need this kind of support.
 There are several places in the ApplicationKit that will need to make use
 of this fairly soon.
-\par
+
 Also Object supports a new technique for destroying Object derived instances.
 In general, in C++, when creating a destroying an object instance on the heap (free-store)
 you would use the operator delete() function. This is being phased out in the VCF
@@ -43,26 +43,24 @@ on the object.
 By default if an object is created on the heap via new, and no one addref()'s it, then a
 single call to the release() method will free up it's memory.
 
-\par
 Object::destroy() is a virtual method, where common shared cleanup may take place. Because this
 is called before the delete() method, it is still safe to call virtual methods and have them
 execute correctly (in C++ virtual calls inside of a constructor or destructor are not allowed
 and if made then the behaviour is undefined).
-\par
+
 Classes which are heap based (such as all of the UI classes that derive from Component) should
 define their destructor as having protected access. In addition the majority of the cleanup code
 should be placed in the overridden Object::destroy() method as opposed to the class destructor.
 Anything that requires method calls to other object or the class itself (particularly if the method
 is a virtual one) should be moved to the
 
-\par
 Semantics of the addRef/release usage are as follows:
 An object's refcount indicates "ownership " of the object. In other words, the "owner" of the
 object is responsible for releasing it's hold on the object, thus decrementing the objects
 refcount, which, when reduced to 0, causes the object to be deleted. This is also known as
 a strong reference to an object, as opposed to a weak reference where the "owner" doesn't
 claim any responsibility over the object.
-\par
+
 Note that this whole scheme is aimed at heap based objects. Many objects that are created on the stack
 do not need this. For example, common utility objects like Rect or Point do not need this - they
 can be created on the stack.
@@ -342,6 +340,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.4.2.3  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

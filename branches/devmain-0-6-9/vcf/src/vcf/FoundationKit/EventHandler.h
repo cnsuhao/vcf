@@ -26,7 +26,7 @@ model in the VCF. The EventHandler base class
 provides a clean way to invoke the class
 specific member function pointers in the
 derived EventHandlerInstance template class.
-\par
+
 The EventHandler is an abstract class an cannot be created.
 Instead you need to derive your own custom class from it
 and implement the invoke() method. Typically you can 
@@ -45,7 +45,7 @@ public:
 	virtual ~EventHandler();
 
 	/**
-	\par
+	
 	Called during the events dispatch cycle.
 	The implementation will end up calling the
 	appropriate call back method.
@@ -67,13 +67,13 @@ public:
 
 
 	/**
-	\par
+	
 	Adds the EventHandler to it's source object.
 	For this to work the source must be derived
 	from ObjectWithEvents. By adding the event handler
 	to the source, the handler's memory will be cleaned
 	up by the source when the source is destroyed.
-	\par
+	
 	The EventHandler may be retreived at any time
 	by calling the getEventHandler() method on the
 	source (once again, assuming the source is derived
@@ -101,7 +101,7 @@ derived from VCF::ObjectWithEvents, then the handler will be
 maintained in a list by the source, and destroyed when the source
 is destroyed, freeing the creator of the handler from worrying about
 memory leaks.
-\par 
+ 
 The SOURCE template parameter specified the source class that 
 the event handler method is a member of. The EVENT template
 parameter is the event class type. The event class type
@@ -283,6 +283,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.3  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.7.2.2  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

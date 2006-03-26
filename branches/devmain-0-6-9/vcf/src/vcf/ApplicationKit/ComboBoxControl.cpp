@@ -789,9 +789,13 @@ Rect ComboBoxControl::getEditBounds()
 	Rect result;
 	result = getClientBounds();
 
-	Size sz = UIToolkit::getUIMetricsManager()->getDefaultVerticalScrollButtonDimensions();
+	//Size sz = 
+		//getUIMetricsManager()->getDefaultVerticalScrollButtonDimensions();
 
-	result.right_ -= sz.width_;	
+	result.right_ -= UIToolkit::getUIMetricValue( UIMetricsManager::mtVerticalScrollbarThumbWidth );	
+
+	result.right_ -= 3;
+	result.inflate( -2, -1 );
 
 	return result;
 }
@@ -1050,6 +1054,9 @@ void ComboBoxControl::selectItems( const bool& select )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.5.2.4  2006/03/01 04:34:56  ddiego
 *fixed tab display to use themes api.
 *

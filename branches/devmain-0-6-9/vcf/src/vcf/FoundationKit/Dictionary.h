@@ -120,7 +120,7 @@ dict["Name"] = "Bob";
 \endcode
 We now have two entries, one name "Name" and one named "size".
 
-\par
+
 The other primary difference from a std::map<String,VariantData> is
 the support for persistence. The Dictionary class implements
 the Persistable interface, and can be written to, or read from, an
@@ -135,7 +135,7 @@ FileInputStream fs("test.dict.txt");
 fs &gt;&gt; &amp;dict;
 \endcode
 
-\par
+
 The reason for deriving the Dictionary class from the Object root class
 is so that a Dictionary instance may itself be a value in a "parent"
 dictionary. For example:
@@ -152,7 +152,7 @@ stuff["junk"] = &moreStuff;
 
 \endcode
 
-\par
+
 If you'd like a fancier persistence scheme, in the Dictionaries
 example there's a simple implementation of reading and writing the
 dictionary to an xml based stream. The format for the xml tags is
@@ -259,6 +259,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.4.2.2  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

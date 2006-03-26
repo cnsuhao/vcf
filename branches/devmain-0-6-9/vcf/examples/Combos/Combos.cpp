@@ -59,7 +59,9 @@ MainWindow::MainWindow(CombosApplication* app)
 	discreteScroll_ = true; // for a combo and any listbox it should be true by default 
 
 	cb_ = new ComboBoxControl();
-	cb_->setBounds( &Rect(250, 20, 350, 42) );
+	cb_->setBounds( &Rect(250, 50, 350, cb_->getPreferredHeight()) );
+	//cb->addItem( "Item 1" );
+	cb_->setVisible( true );
 	cb_->setComboBoxStyle( cbsDropDownWithEdit );
 	cb_->setDropDownCount( 200 );
 	add( cb_ );
@@ -68,42 +70,46 @@ MainWindow::MainWindow(CombosApplication* app)
 	ButtonEventHandler<MainWindow>* bh;
 
 	eddc_ = new TextControl();
-	eddc_->setBounds( &Rect(25, 20, 60, 42) );
+	eddc_->setBounds( 25, 20, 45, eddc_->getPreferredHeight() );
 	eddc_->setVisible( true );
 	eddc_->setToolTipText( "dropdown count for the combo" );
 	add( eddc_ );
 
 	btn = new CommandButton();
-	btn->setBounds ( &Rect(70, 20, 200, 42) );
+
 	btn->setCaption( "Set DropDown Count" );
+	btn->setBounds ( 100, 20, btn->getPreferredWidth(), btn->getPreferredHeight() );	
 	bh = new ButtonEventHandler<MainWindow>( this, &MainWindow::onSetDropDownCount, "MainWindow::onSetDropDownCount" );
 	btn->addButtonClickHandler( bh );
 	add( btn );
 
 
 	edic_ = new TextControl();
-	edic_->setBounds( &Rect(25, 70, 60, 92) );
+	edic_->setBounds( 25, 75, 45, edic_->getPreferredHeight() );
 	edic_->setVisible( true );
 	edic_->setToolTipText( "number of items in the combo" );
 	add( edic_ );
 
 	btn = new CommandButton();
-	btn->setBounds ( &Rect(70, 70, 200, 92) );
+
 	btn->setCaption( "Set Items count" );
+	btn->setBounds ( 100, 75, btn->getPreferredWidth(), btn->getPreferredHeight() );	
 	bh = new ButtonEventHandler<MainWindow>( this, &MainWindow::onSetComboItemCount, "MainWindow::onSetComboItemCount" );
 	btn->addButtonClickHandler( bh );
 	add( btn );
 
 
 	eddw_ = new TextControl();
-	eddw_->setBounds( &Rect(25, 120, 60, 142) );
+	eddw_->setBounds( 25, 125, 45, eddw_->getPreferredHeight() );
 	eddw_->setVisible( true );
 	eddw_->setToolTipText( "dropdown width for the combo" );
 	add( eddw_ );
 
 	btn = new CommandButton();
-	btn->setBounds ( &Rect(70, 120, 200, 142) );
+
 	btn->setCaption( "Set DropDown Width" );
+	btn->setBounds ( 100, 125, btn->getPreferredWidth(), btn->getPreferredHeight() );
+	
 	bh = new ButtonEventHandler<MainWindow>( this, &MainWindow::onSetDropDownWidth, "MainWindow::onSetDropDownWidth" );
 	btn->addButtonClickHandler( bh );
 	add( btn );

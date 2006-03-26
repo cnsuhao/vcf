@@ -176,11 +176,11 @@ public:
 	current open key. If no such value name exists, or there 
 	is some other problem reading the value, the function throws 
 	a RegistryException exception.
-	\par
+	
 	Note that the function allocates a data buffer for the caller,
 	however it is the caller's responsibility to delete the 
 	data buffer when the caller is finished with it.
-	\par example usage
+	Example usage
 	\code
 	Registry reg; 
 	//reg already opened to some key...
@@ -220,6 +220,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.4.2.3  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

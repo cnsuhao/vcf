@@ -1308,9 +1308,27 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 	r.right = (long)bounds.right_;
 	r.top = (long)bounds.top_;
 	r.bottom = (long)bounds.bottom_;
+
+
+	if ( r.left > r.right ) {
+		r.left = r.right;
+	}
+
+	if ( (r.right == r.left) || (r.bottom == r.top) ) {
+		//no-op! no height or no width
+		return;
+	}
+
+
+
+
 	UINT formatOptions = 0;
 
-	formatOptions = DT_NOCLIP; //this was put here to make rotated text look better JC
+	Matrix2D& currentXFrm = *context_->getCurrentTransform();
+
+	if ( !context_->isDefaultTransform() ) {
+		formatOptions = DT_NOCLIP; //this was put here to make rotated text look better JC
+	}
 
 
 
@@ -1401,6 +1419,29 @@ void Win32Context::textAt( const Rect& bounds, const String& text, const long& d
 		char* textToDraw = new char[tmpText.size()+1];
 		memset( textToDraw, 0, (tmpText.size()+1)*sizeof(char) );
 		text.copy( textToDraw, tmpText.size() );
+		
+		if ( drawOptions & GraphicsContext::tdoWordWrap ) {
+			if ( (drawOptions & GraphicsContext::tdoCenterVertAlign) || 
+				(drawOptions & GraphicsContext::tdoBottomAlign) ) {
+				RECT r2 = r;
+
+				int h = DrawTextExA( dc_, textToDraw, tmpText.size(), &r, formatOptions | DT_CALCRECT, NULL );
+				
+				if ( drawOptions & GraphicsContext::tdoCenterVertAlign ) {
+					r.left = r2.left;	
+					r.right = r2.right;
+					r.top = r2.top + ((r2.bottom - r2.top)/2) - (h/2);
+					r.bottom = r.top + h;
+				}
+				else if ( drawOptions & GraphicsContext::tdoBottomAlign ) {
+					r.left = r2.left;	
+					r.right = r2.right;
+					r.top = r2.bottom  - h;
+					r.bottom = r.top + h;
+				}
+			}
+		}
+
 		DrawTextExA( dc_, textToDraw, tmpText.size(), &r, formatOptions, NULL );
 
 		//clean up after ourselves
@@ -3934,9 +3975,68 @@ void Win32Context::drawThemeHeader( Rect* rect, ButtonState& state )
 	r.top = (long)rect->top_;
 	r.right = (long)rect->right_;
 	r.bottom = (long)rect->bottom_;
-	UINT hdrState =  DFCS_BUTTONPUSH;
 
-	int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, hdrState );
+	HTHEME theme = NULL;
+
+	if ( Win32VisualStylesWrapper::IsThemeActive() ) {
+		theme = Win32VisualStylesWrapper::OpenThemeData( NULL, L"HEADER" );
+	}
+
+	if ( theme ) {
+		int dcs = ::SaveDC( dc_ );
+		SetBkMode(dc_, TRANSPARENT);
+		VCF::Font hdrFont = *context_->getCurrentFont();
+		HFONT font = NULL;
+		if ( System::isUnicodeEnabled() ) {
+			LOGFONTW* lf = (LOGFONTW*) hdrFont.getFontPeer()->getFontHandleID();
+			font = ::CreateFontIndirectW( lf );
+			::SelectObject( dc_, font );
+		}
+		else {
+			LOGFONTA* lf = (LOGFONTA*) hdrFont.getFontPeer()->getFontHandleID();
+			font = ::CreateFontIndirectA( lf );
+			::SelectObject( dc_, font );
+		}
+
+
+		RECT textRect = r;
+
+		textRect.left += 1;
+		textRect.top += 1;
+		textRect.right -= 5;
+		textRect.bottom -= 1;
+
+		int headerPart = HP_HEADERITEM;
+		int headerState = 0;
+
+		if ( state.isEnabled() ) {
+			headerState = HIS_NORMAL;
+			if ( state.isPressed() ) {
+				headerState = HIS_PRESSED;
+			}
+		}
+
+
+		Win32VisualStylesWrapper::DrawThemeBackground(theme, dc_, headerPart, headerState, &r, 0);
+		Win32VisualStylesWrapper::DrawThemeText(theme, dc_, headerPart, 0,
+													state.buttonCaption_.c_str(),
+													state.buttonCaption_.length(),
+													DT_SINGLELINE | DT_CENTER | DT_VCENTER | DT_EXPANDTABS,
+													NULL,
+													&textRect);
+
+		RestoreDC( dc_, dcs );
+
+		DeleteObject( font );
+
+		Win32VisualStylesWrapper::CloseThemeData( theme );
+
+	}
+	else {
+		UINT hdrState =  DFCS_BUTTONPUSH;
+		
+		int err = ::DrawFrameControl( dc_, &r, DFC_BUTTON, hdrState );
+	}
 
 	releaseHandle();
 }
@@ -4469,6 +4569,9 @@ void Win32Context::finishedDrawing( long drawingOperation )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.13  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.7.2.12  2006/03/16 16:32:22  ddiego
 *fixed a glitch in how vertical text alignment was being handled.
 *

@@ -70,18 +70,18 @@ class Color;
 \class ColorSpace Color.h "vcf/GraphicsKit/Color.h"
 A class for managing all the color transformations between different color spaces
 
-\par
+
 ColorSpace interface
- \par
+ 
  Hue Luminosity management
-	\par
+	
 	WebPages: 
 	\li http://www.acm.org/jgt/papers/SmithLyons96/  
 	\li	http://www.scottandmichelle.net/scott/code/index2.mv?codenum=045
 	\note
 		(google search advanced all words: hue saturation source code)
 
-\par
+
 Author: Alvy Ray Smith <br>
 				Microsoft <br>
 				Redmond, Washington <br>
@@ -90,7 +90,7 @@ Author: Alvy Ray Smith <br>
 				Mill Valley, California <br>
 				lyons@nbn.com <br>
 
-\par Abstract:
+Abstract:
 	The two most common color selector models, other than RGB (Red-Green-Blue),
 	are the hue-based HSV (Hue-Saturation-Value) and HSL (Hue-Saturation-Lightness) color models.
 	It is shown that both of these models are flawed.
@@ -99,9 +99,9 @@ Author: Alvy Ray Smith <br>
 	Choose a hue. Lighten it with white. Darken it with black.
 	We explain that lightening is not the opposite of darkening.
 
-\par
+
 Modified, with some fixes to the algorithms, by Marcello Pietrobon
-\par
+
 Modified, by Jim Crafton, fixed some errors due to inclusion of Win32 types
 */
 class GRAPHICSKIT_API ColorSpace {
@@ -266,26 +266,23 @@ public:
 
 	static double getChanged( const double& initialVal, const double& percent );
 
-	/**
-	\par
+	/**	
 	It is suggested to call this function with colors: 0.0/ 0.0 / 0.71428571428571
-	\par
+	
 	It is suggested to call this function with grays:  0.0/ 0.0 / 0.33333333333333
 	*/
 	static void changeHSV ( HSVtype& hsv, const double& percentH, const double& percentS, const double& percentV );
 
-	/**
-	\par
+	/**	
 	It is suggested to call this function with colors: 0.0/ 0.0 / -0.71428571428571
-	\par
+	
 	It is suggested to call this function with grays:  0.0/ 0.0 / -0.33333333333333
 	*/
 	static void changeHSL ( HSLtype& hsl, const double& percentH, const double& percentS, const double& percentL );
 
-	/**
-	\par
+	/**	
 	It is suggested to call this function with colors: 0.0/ 0.0 / 0.71428571428571
-	\par
+	
 	It is suggested to call this function with grays:  0.0/ 0.0 / 0.33333333333333
 	*/
 	static void changeHWB ( HWBtype& hsl, const double& percentH, const double& percentW, const double& percentB );
@@ -784,27 +781,22 @@ private:
 
 	Some notes for the future programmer.
 
-	\par
 	Note: The choice of using the const  qualifier for s_ makes difficult to add a new color
 	( it is not a const pointer though ).
-	
-	\par
+		
 	To check if a color has a name you need to use some constructor.
 	
-	\par
 	Example:
 	\code
 	Color( (VCF::uchar)r, (VCF::uchar)g, (VCF::uchar)b) )
 	\endcode
 	
 
-	\par
 	We have some difficulties only if we have to add a new color. And the only way to
 	avoid these difficulties is to declare s_ without the 'const' qualifier,
 	which would cause worse problems though.
 	
-	\par
-	Usage : <br>
+	Usage : 
 	To add a new color, check if the color already exists with a name:
 
 	\code
@@ -2254,6 +2246,9 @@ inline ulong32 ColorSpace::changeHue( const ulong32& color, const double& deltaH
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.3  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.5.2.2  2006/03/12 22:42:07  ddiego
 *more doc updates - specific to graphicskit.
 *

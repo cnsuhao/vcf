@@ -22,7 +22,6 @@ namespace VCF {
 \class StringTokenizer StringTokenizer.h "vcf/FoundationKit/StringTokenizer.h"
 Class for breaking a string into a series of one or more tokens
 
-\par
 Usage:
 \code
 
@@ -207,6 +206,9 @@ protected:
 /**
 CVS Log info
 $Log$
+Revision 1.3.2.3  2006/03/26 22:37:35  ddiego
+minor update to source docs.
+
 Revision 1.3.2.2  2006/03/12 22:01:41  ddiego
 doc updates.
 

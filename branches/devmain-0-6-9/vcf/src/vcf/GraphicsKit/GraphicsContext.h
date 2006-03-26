@@ -60,7 +60,7 @@ a test should be made as to whether the buffer should be cleared.
 The buffer should be cleared only after the stroke of fill methods
 have been  called. For example:
 
-\par
+
 \code
 	ellipse(23,23,45,67) //added to buffer
 	moveTo(89,100) //add to buffer
@@ -241,28 +241,28 @@ public:
 	}
 
 	/**
-	*	saves the state of a Graphics context after the
-	*	paint operations are done.
-	*	The save/restore idea idea is the same as for Win32 SaveDC and RestoreDC.
-	*	It allows you to save the state of the DC (device context) at a given point in time,
-	*	and then make a whole bunch of changes to it, and when you're all done
-	*	just call RestoreDC() and everything is set back.
-	*	\par
-	*	This prevents all sorts of extra SelectObject() calls and is more efficent.
-	*	\par
-	*	Similarly this makes it easy to guarantee that the
-	*	state of the GraphicsContext is reset correctly.
+	saves the state of a Graphics context after the
+	paint operations are done.
+	The save/restore idea idea is the same as for Win32 SaveDC and RestoreDC.
+	It allows you to save the state of the DC (device context) at a given point in time,
+	and then make a whole bunch of changes to it, and when you're all done
+	just call RestoreDC() and everything is set back.
+		
+	This prevents all sorts of extra SelectObject() calls and is more efficent.
+	
+	Similarly this makes it easy to guarantee that the
+	state of the GraphicsContext is reset correctly.
 	@return int, the index of the newly saved graphics state.
 	@see GraphicsContext::restoreState()
 	*/
 	int saveState( );
 
 	/**
-	* restores the state of a Graphics context after the
-	* paint operations are done.
+	Restores the state of a Graphics context after the
+	paint operations are done.
 	@param int state, the index of the graphics state we want to restore. All
-	* the graphics states saved after this index are lost as they have lost meaning,
-	* and the current graphics state index is set to the state just restored.
+	the graphics states saved after this index are lost as they have lost meaning,
+	and the current graphics state index is set to the state just restored.
 	@see GraphicsContext::saveState()
 	*/
 	void restoreState( int state );
@@ -817,6 +817,9 @@ inline void GraphicsContext::setOrigin( const Point & pt ) {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.7.2.6  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.7.2.5  2006/03/12 22:42:08  ddiego
 *more doc updates - specific to graphicskit.
 *

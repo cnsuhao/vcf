@@ -22,7 +22,7 @@ where you installed the VCF.
 This represents the printing context, used for drawing when printing is being invoked.
 You can see this in action in the Printing and TextEdit examples in vcf/examples/Printing
 and vcf/examples/TextEdit respectively.
-\par
+
 You cannot create a PrintContext directly. The only way to get access to one is to 
 call the PrintSession::beginPrintingDocument() method.
 
@@ -43,6 +43,9 @@ namespace VCF{
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.2  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.5.2.1  2006/03/12 22:42:08  ddiego
 *more doc updates - specific to graphicskit.
 *

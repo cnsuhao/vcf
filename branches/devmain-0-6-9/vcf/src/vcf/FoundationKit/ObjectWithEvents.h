@@ -29,7 +29,7 @@ and will automatically clean up these EventHandlers
 when it is destroyed. This simplifies handling
 who has to clean up EventHandlers that have been
 allocated on the heap (which they always will be).
-\par
+
 Because the collection is a map, an event handler may be
 retreived for future use - that is it may be reused by 
 another delegate. For example:
@@ -68,7 +68,7 @@ void someFunction( Stuff* stuff )
 }
 \endcode
 
-\par
+
 Note that the ObjectWithEvents should not be created directly. Instead derive a 
 new custom class using this as a base class.
 
@@ -122,6 +122,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.6.3  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.3.6.2  2006/03/12 22:01:40  ddiego
 *doc updates.
 *

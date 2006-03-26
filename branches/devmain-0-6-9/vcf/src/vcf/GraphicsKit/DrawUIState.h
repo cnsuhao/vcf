@@ -180,7 +180,7 @@ public:
 The DrawUIState is a utility class to make it easy to indicate the user interface state of 
 a GUI element, such as a button. The base settings indicate whether the element is active,
 enabled, focused, or highlighted.
-\par
+
 The various sub classes of DrawUIState simply make it easier to identify the state of the
 element, as well as adding a few more states, and optionally storing additional state information
 like the text or caption of the control.
@@ -749,6 +749,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.5  2006/03/26 22:37:35  ddiego
+*minor update to source docs.
+*
 *Revision 1.5.2.4  2006/03/12 22:42:07  ddiego
 *more doc updates - specific to graphicskit.
 *

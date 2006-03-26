@@ -25,7 +25,8 @@ Semaphore. While the Mutex and Semaphore can cause multiple threads to block, wa
 for the mutex or semaphore to become signaled, only one thread will every wake at
 any given moment. In contrast, a Condition can be used to wake up a series of threads
 all waiting on the condition.
-\par The Condition class follows the same pattern that the Pthreads condition variable
+
+The Condition class follows the same pattern that the Pthreads condition variable
 uses, or the <a href="http://boost.org/libs/thread/doc/condition.html">
 Boost condition class</a>. In fact, the Win32 implementation is written largely
 based of off the excellent code in the Boost condition class that was written by
@@ -91,6 +92,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.2  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
 *Revision 1.3.2.1  2006/03/12 22:01:40  ddiego
 *doc updates.
 *
