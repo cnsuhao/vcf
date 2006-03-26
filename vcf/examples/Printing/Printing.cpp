@@ -58,19 +58,13 @@ public:
 		Rect page8dot5X11dot0;
 		page8dot5X11dot0.right_ = 8.5 * dpi;
 		page8dot5X11dot0.bottom_ = 11.0 * dpi;
+		double ar = page8dot5X11dot0.getWidth() / page8dot5X11dot0.getHeight();
 
-		if ( r.getWidth() > r.getHeight() ) {
-			double ar = page8dot5X11dot0.getWidth() / page8dot5X11dot0.getHeight();
-
-			page8dot5X11dot0.bottom_ = r.getHeight();
-			page8dot5X11dot0.right_ = r.getHeight() * ar;
-
-		}
-		else{
-			double ar = page8dot5X11dot0.getHeight() / page8dot5X11dot0.getWidth();
-
+		page8dot5X11dot0.bottom_ = r.getHeight();
+		page8dot5X11dot0.right_ = page8dot5X11dot0.getHeight() * ar;
+		if ( page8dot5X11dot0.getWidth() > r.getWidth() ) {
 			page8dot5X11dot0.right_ = r.getWidth();
-			page8dot5X11dot0.bottom_ = r.getWidth() * ar;
+			page8dot5X11dot0.bottom_ = r.getWidth() / ar;
 		}
 
 
