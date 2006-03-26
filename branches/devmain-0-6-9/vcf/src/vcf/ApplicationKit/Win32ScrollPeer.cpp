@@ -315,6 +315,8 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	if ( showVertSB ) {
 		::ShowWindow( vScrollHWnd_, SW_NORMAL );
 		MoveWindow( vScrollHWnd_, x1, y1, w1, h1, TRUE );
+		::InvalidateRect( vScrollHWnd_, NULL, TRUE );
+		UpdateWindow( vScrollHWnd_ );
 		if ( !needVertSB ) {
 			::EnableWindow( vScrollHWnd_, FALSE );
 			scrollInfoVert.nPage = 0;
@@ -335,6 +337,8 @@ void Win32ScrollPeer::recalcScrollPositions( Scrollable* scrollable )
 	if ( showHorzSB ) {
 		::ShowWindow( hScrollHWnd_, SW_NORMAL );
 		MoveWindow( hScrollHWnd_, x2, y2, w2, h2, TRUE );
+		::InvalidateRect( hScrollHWnd_, NULL, TRUE );
+		UpdateWindow( hScrollHWnd_ );
 		if ( !needHorzSB ) {
 			::EnableWindow( hScrollHWnd_, FALSE );
 			scrollInfoHorz.nPage = 0;
@@ -502,6 +506,9 @@ void Win32ScrollPeer::getAdjustedPositions( double& xPosition, double& yPosition
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/26 16:34:31  ddiego
+*repositioning scrollbars is more or less flicker free now.
+*
 *Revision 1.4.2.3  2006/03/22 03:18:20  ddiego
 *fixed a glitch in scroll vert and horz position values.
 *
