@@ -77,8 +77,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_vc80_d.lib FoundationKit_vc80_d.lib NetworkKit_vc80_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc80_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc80_d.lib" /debug
-# ADD LINK32 FoundationKit_vc80_d.lib FoundationKit_vc80_d.lib NetworkKit_vc80_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc80_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc80_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_vc80_d.lib FoundationKit_vc80_d.lib NetworkKit_vc80_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc80_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc80_d.lib" /debug
+# ADD LINK32 FoundationKit_vc80_d.lib FoundationKit_vc80_d.lib NetworkKit_vc80_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc80_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc80_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 vc80 DLL Release"
 
@@ -102,8 +102,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_vc80.lib FoundationKit_vc80.lib NetworkKit_vc80.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc80.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc80.lib"
-# ADD LINK32 FoundationKit_vc80.lib FoundationKit_vc80.lib NetworkKit_vc80.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc80.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc80.lib"
+# ADD BASE LINK32 FoundationKit_vc80.lib FoundationKit_vc80.lib NetworkKit_vc80.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc80.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc80.lib"
+# ADD LINK32 FoundationKit_vc80.lib FoundationKit_vc80.lib NetworkKit_vc80.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc80.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc80.lib"
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 vc80 Debug"
 
@@ -173,8 +173,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_vc71_d.lib FoundationKit_vc71_d.lib NetworkKit_vc71_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc71_d.lib" /debug
-# ADD LINK32 FoundationKit_vc71_d.lib FoundationKit_vc71_d.lib NetworkKit_vc71_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc71_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_vc71_d.lib FoundationKit_vc71_d.lib NetworkKit_vc71_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc71_d.lib" /debug
+# ADD LINK32 FoundationKit_vc71_d.lib FoundationKit_vc71_d.lib NetworkKit_vc71_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc71_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc71_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 vc71 DLL Release"
 
@@ -198,8 +198,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_vc71.lib FoundationKit_vc71.lib NetworkKit_vc71.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc71.lib"
-# ADD LINK32 FoundationKit_vc71.lib FoundationKit_vc71.lib NetworkKit_vc71.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc71.lib"
+# ADD BASE LINK32 FoundationKit_vc71.lib FoundationKit_vc71.lib NetworkKit_vc71.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc71.lib"
+# ADD LINK32 FoundationKit_vc71.lib FoundationKit_vc71.lib NetworkKit_vc71.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc71.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc71.lib"
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 vc71 Debug"
 
@@ -269,8 +269,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_vc70_d.lib FoundationKit_vc70_d.lib NetworkKit_vc70_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc70_d.lib" /debug
-# ADD LINK32 FoundationKit_vc70_d.lib FoundationKit_vc70_d.lib NetworkKit_vc70_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc70_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_vc70_d.lib FoundationKit_vc70_d.lib NetworkKit_vc70_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc70_d.lib" /debug
+# ADD LINK32 FoundationKit_vc70_d.lib FoundationKit_vc70_d.lib NetworkKit_vc70_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc70_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc70_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 vc70 DLL Release"
 
@@ -294,8 +294,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_vc70.lib FoundationKit_vc70.lib NetworkKit_vc70.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc70.lib"
-# ADD LINK32 FoundationKit_vc70.lib FoundationKit_vc70.lib NetworkKit_vc70.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc70.lib"
+# ADD BASE LINK32 FoundationKit_vc70.lib FoundationKit_vc70.lib NetworkKit_vc70.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc70.lib"
+# ADD LINK32 FoundationKit_vc70.lib FoundationKit_vc70.lib NetworkKit_vc70.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc70.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc70.lib"
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 vc70 Debug"
 
@@ -365,8 +365,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_vc6_d.lib FoundationKit_vc6_d.lib NetworkKit_vc6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc6_d.lib" /debug
-# ADD LINK32 FoundationKit_vc6_d.lib FoundationKit_vc6_d.lib NetworkKit_vc6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc6_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_vc6_d.lib FoundationKit_vc6_d.lib NetworkKit_vc6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc6_d.lib" /debug
+# ADD LINK32 FoundationKit_vc6_d.lib FoundationKit_vc6_d.lib NetworkKit_vc6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc6_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 vc6 DLL Release"
 
@@ -390,8 +390,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_vc6.lib FoundationKit_vc6.lib NetworkKit_vc6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc6.lib"
-# ADD LINK32 FoundationKit_vc6.lib FoundationKit_vc6.lib NetworkKit_vc6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc6.lib"
+# ADD BASE LINK32 FoundationKit_vc6.lib FoundationKit_vc6.lib NetworkKit_vc6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc6.lib"
+# ADD LINK32 FoundationKit_vc6.lib FoundationKit_vc6.lib NetworkKit_vc6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_vc6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_vc6.lib"
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 vc6 Debug"
 
@@ -461,8 +461,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_icl7_d.lib FoundationKit_icl7_d.lib NetworkKit_icl7_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl7_d.lib" /debug
-# ADD LINK32 FoundationKit_icl7_d.lib FoundationKit_icl7_d.lib NetworkKit_icl7_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl7_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_icl7_d.lib FoundationKit_icl7_d.lib NetworkKit_icl7_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl7_d.lib" /debug
+# ADD LINK32 FoundationKit_icl7_d.lib FoundationKit_icl7_d.lib NetworkKit_icl7_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl7_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl7_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 icl7 DLL Release"
 
@@ -486,8 +486,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_icl7.lib FoundationKit_icl7.lib NetworkKit_icl7.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl7.lib"
-# ADD LINK32 FoundationKit_icl7.lib FoundationKit_icl7.lib NetworkKit_icl7.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl7.lib"
+# ADD BASE LINK32 FoundationKit_icl7.lib FoundationKit_icl7.lib NetworkKit_icl7.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl7.lib"
+# ADD LINK32 FoundationKit_icl7.lib FoundationKit_icl7.lib NetworkKit_icl7.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl7.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl7.lib"
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 icl7 Debug"
 
@@ -557,8 +557,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_icl6_d.lib FoundationKit_icl6_d.lib NetworkKit_icl6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl6_d.lib" /debug
-# ADD LINK32 FoundationKit_icl6_d.lib FoundationKit_icl6_d.lib NetworkKit_icl6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl6_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_icl6_d.lib FoundationKit_icl6_d.lib NetworkKit_icl6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl6_d.lib" /debug
+# ADD LINK32 FoundationKit_icl6_d.lib FoundationKit_icl6_d.lib NetworkKit_icl6_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl6_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl6_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 icl6 DLL Release"
 
@@ -582,8 +582,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_icl6.lib FoundationKit_icl6.lib NetworkKit_icl6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl6.lib"
-# ADD LINK32 FoundationKit_icl6.lib FoundationKit_icl6.lib NetworkKit_icl6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl6.lib"
+# ADD BASE LINK32 FoundationKit_icl6.lib FoundationKit_icl6.lib NetworkKit_icl6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl6.lib"
+# ADD LINK32 FoundationKit_icl6.lib FoundationKit_icl6.lib NetworkKit_icl6.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_icl6.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_icl6.lib"
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 icl6 Debug"
 
@@ -653,8 +653,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit_d.lib FoundationKit_d.lib NetworkKit_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_d.lib" /debug
-# ADD LINK32 FoundationKit_d.lib FoundationKit_d.lib NetworkKit_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_d.lib" /debug
+# ADD BASE LINK32 FoundationKit_d.lib FoundationKit_d.lib NetworkKit_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_d.lib" /debug
+# ADD LINK32 FoundationKit_d.lib FoundationKit_d.lib NetworkKit_d.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit_d.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit_d.lib" /debug
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 DLL Release"
 
@@ -678,8 +678,8 @@ BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
-# ADD BASE LINK32 FoundationKit.lib FoundationKit.lib NetworkKit.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit.lib"
-# ADD LINK32 FoundationKit.lib FoundationKit.lib NetworkKit.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit.lib"
+# ADD BASE LINK32 FoundationKit.lib FoundationKit.lib NetworkKit.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit.lib"
+# ADD LINK32 FoundationKit.lib FoundationKit.lib NetworkKit.lib rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib /nologo /dll /machine:i386 /out:"..\..\lib\..\bin\RemoteObjectKit.dll" /libpath:"..\..\lib" /implib:"..\..\lib\RemoteObjectKit.lib"
 
 !ELSEIF  "$(CFG)" == "RemoteObjectKit - Win32 Debug"
 

@@ -82,7 +82,6 @@
 
             <if cond="FORMAT in ['msvc','msvc6prj','borland']">
                 <sys-lib>oleacc</sys-lib>
-                <sys-lib>glaux</sys-lib>
                 <sys-lib>urlmon</sys-lib>
             </if>
         </if>
