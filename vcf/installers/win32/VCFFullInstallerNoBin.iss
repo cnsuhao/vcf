@@ -105,7 +105,7 @@ Name: addenvpaths; Description: Add VCF environment variables, and update your P
 Name: addvc6dirs; Description: Add VCF Include and Library path to Microsoft's Visual C++ 6
 
 Name: msdnintegrate; Description: Visual Studio 6; GroupDescription: Integrate VCF Help with Visual Studio/MSDN Help; Flags: unchecked; Components: Help_Files/VC6_Help_Files  Help_Files/CHM_Help_Files
-Name: MSHelp2_msdnintegrate; Description: Visual Studio 7/8; GroupDescription: Integrate VCF Help with Visual Studio/MSDN Help; Flags: unchecked; Components: Help_Files/MSHelp2_Files
+Name: MSHelp2_msdnintegrate; Description: Visual Studio 7, 8, 2005 Express; GroupDescription: Integrate VCF Help with Visual Studio/MSDN Help; Flags: unchecked; Components: Help_Files/MSHelp2_Files
 
 Name: installwizards; Description: Visual Studio 6; GroupDescription: Install Visual Studio Addins/Wizards; Flags: unchecked
 ;we are not supporting VC70 for wizards at the moment
@@ -114,7 +114,6 @@ Name: installwizards; Description: Visual Studio 6; GroupDescription: Install Vi
 Name: VC71_installwizards; Description: Visual Studio 7.1 (.NET 2003); GroupDescription: Install Visual Studio Addins/Wizards; Components: Src; Flags: unchecked
 Name: VC80_installwizards; Description: Visual C++ 8.0 (Express 2005); GroupDescription: Install Visual Studio Addins/Wizards; Components: Src; Flags: unchecked
 
-Name: MSHelp2_msdnintegrate; Description: Visual Studio 7, 8, 2005 Express; GroupDescription: Integrate VCF Help with Visual Studio/MSDN Help; Flags: unchecked; Components: Help_Files/MSHelp2_Files
 
 [Run]
 Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.VCF-VERSION.chi""    -chm ""{app}\docs\VCFDocs.VCF-VERSION.chm""    -add -title ""VCF Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files/VC6_Help_Files
