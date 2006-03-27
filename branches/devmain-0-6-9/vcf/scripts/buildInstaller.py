@@ -69,11 +69,11 @@ def main():
 	
 	extensions = [".h", '.hpp', '.c', '.dsw', '.dsp', '.bmp', '.rgs', '.rc', '.xml', '.idl',
 			'.def', '.vcfdir', '.vcp', '.ico', '.rc2', '.odl', '.inl',
-			'.vff', '.inf', '.vcproj', '.sln', '.cpp', '.CPP', '.HPP', '.cxx', '.CXX',
+			'.vff', '.inf', '.vcproj', '.sln', '.cpp', '.CPP', '.HPP', '.cxx', '.CXX', '.cbp', '.workspace',
 			'.cur', '.CUR', '.mak', '.inc', '.txt', '.vsdir', '.vsz', '.js', '.gif', '.htm', '.css' ]
 	
 	
-	exampleExtensions = [ '.h', '.cpp', '.CPP', '.dsw', '.dsp', '.bmp', '.rgs', '.rc', '.idl',
+	exampleExtensions = [ '.h', '.cpp', '.CPP', '.dsw', '.dsp', '.bmp', '.rgs', '.rc', '.idl', '.cbp', '.workspace',
 			   '.def', '.ico', '.rc2', '.odl', '.vff', '.html', '.xml', '.vcproj', '.sln' ]
 	
 	srcFiles = []
