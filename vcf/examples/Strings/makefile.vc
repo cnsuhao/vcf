@@ -123,7 +123,7 @@ clean:
 !if "$(OPTION_FOUNDATIONKIT)" == "1"
 .\Strings$(OPTION_SELECTLIB)$(SUFFIX_LIBRARY).exe: $(STRINGS_OBJECTS)
 	link /NOLOGO /OUT:$@ $(LDFLAGS) $(__DEBUG_INFO_1)  /LIBPATH:..\..\lib /SUBSYSTEM:CONSOLE @<<
-	$(STRINGS_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib glaux.lib urlmon.lib $(____Strings_FOUNDATIONKIT_p)
+	$(STRINGS_OBJECTS)  rpcrt4.lib odbc32.lib odbccp32.lib version.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib comctl32.lib ws2_32.lib opengl32.lib glu32.lib oleacc.lib urlmon.lib $(____Strings_FOUNDATIONKIT_p)
 <<
 !endif
 
