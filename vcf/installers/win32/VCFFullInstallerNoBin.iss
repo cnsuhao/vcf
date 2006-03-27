@@ -114,6 +114,8 @@ Name: installwizards; Description: Visual Studio 6; GroupDescription: Install Vi
 Name: VC71_installwizards; Description: Visual Studio 7.1 (.NET 2003); GroupDescription: Install Visual Studio Addins/Wizards; Components: Src; Flags: unchecked
 Name: VC80_installwizards; Description: Visual C++ 8.0 (Express 2005); GroupDescription: Install Visual Studio Addins/Wizards; Components: Src; Flags: unchecked
 
+Name: MSHelp2_msdnintegrate; Description: Visual Studio 7, 8, 2005 Express; GroupDescription: Integrate VCF Help with Visual Studio/MSDN Help; Flags: unchecked; Components: Help_Files/MSHelp2_Files
+
 [Run]
 Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{858cf701-5e04-48ba-968e-46569c787d5f}"" -chi ""{app}\docs\VCFDocs.VCF-VERSION.chi""    -chm ""{app}\docs\VCFDocs.VCF-VERSION.chm""    -add -title ""VCF Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files/VC6_Help_Files
 Filename: {app}\MSDNIntegrator.exe; Parameters: "-guid ""{{cf54ec6b-a508-4b05-b04d-794bf0cb2757}"" -chi ""{app}\docs\VCFSrcDocs.VCF-VERSION.chi"" -chm ""{app}\docs\VCFSrcDocs.VCF-VERSION.chm"" -add -title ""VCF Source Documentation"""; StatusMsg: Registering VCF Documentation with MSDN...; Tasks: msdnintegrate; Components: Help_Files/VC6_Help_Files
@@ -196,8 +198,8 @@ begin
 			end
 		end
 
-		msg := 'Setup has detected that Microsoft''s Visual Studio document '#13#10 +
-			'explorer is running (dexplore.exe). You should shut it down first before continuing.'#13#10 +
+		msg := 'Setup has detected that Microsoft''s Visual Studio Document '#13#10 +
+			'Explorer is running (dexplore.exe). You should shut it down first before continuing.'#13#10 +
 			'To continue with the installation anyways, click "Yes".'#13#10 +
 			'To wait and retry again (Setup will attempt to verify that Visual Studio is not running), click "No".';
 
