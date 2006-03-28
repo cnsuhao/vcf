@@ -214,6 +214,7 @@ NB: This software will not save the world.
 			<simplelist>
 				<member>Marcello Pietrobon</member>
 				<member>Doug Tinkham</member>
+				<member>Orhun Birsoy</member>				
 				<member>Scott Pearson</member>	
 				<member>Ian Wallis</member>	
 				<member>Fraggle</member>	
@@ -300,6 +301,9 @@ NB: This software will not save the world.
 <!--
 CVS Log info
 $Log$
+Revision 1.7.2.4  2006/03/28 02:25:48  ddiego
+updated credits.
+
 Revision 1.7.2.3  2006/03/10 21:49:27  ddiego
 updates to color example and some documentation.
 
