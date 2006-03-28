@@ -421,17 +421,18 @@ public:
 	virtual bool updateAction();
 
 	/**
-	Adds the component to the framework's update time. This timer
-	will be fired off periodically and will create a COMPONENT_NEEDS_UPDATING
+	Adds the component to the framework's update list. This list
+	will be traversed periodically, during idle time, and the 
+	framework will create a COMPONENT_NEEDS_UPDATING
 	event and pass it to the component. The component can specialize this
 	functionality by customizing the behaviour of the handleEvent() method.
 	*/
-	void addToUpdateTimer();
+	void addToUpdateList();
 
 	/**
-	Removes the component from the framework update timer.
+	Removes the component from the framework's update list.
 	*/
-	void removeFromUpdateTimer();
+	void removeFromUpdateList();
 
 	/**
 	Allows the user to control whether or not the component should 
@@ -554,6 +555,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/28 04:10:17  ddiego
+*tweaked some function names for the update process.
+*
 *Revision 1.4.2.3  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

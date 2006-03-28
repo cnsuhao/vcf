@@ -1336,14 +1336,14 @@ void UIToolkit::internal_removeAcceleratorKeysForObject( Object* src )
 }
 
 
-void UIToolkit::addToUpdateTimer( Component* component )
+void UIToolkit::addToUpdateList( Component* component )
 {
-	UIToolkit::toolKitInstance->internal_addToUpdateTimer( component );
+	UIToolkit::toolKitInstance->internal_addToUpdateList( component );
 }
 
-void UIToolkit::removeFromUpdateTimer( Component* component )
+void UIToolkit::removeFromUpdateList( Component* component )
 {
-	UIToolkit::toolKitInstance->internal_removeFromUpdateTimer( component );
+	UIToolkit::toolKitInstance->internal_removeFromUpdateList( component );
 }
 
 void UIToolkit::setUpdateTimerSpeed( const unsigned long& milliseconds )
@@ -1351,7 +1351,7 @@ void UIToolkit::setUpdateTimerSpeed( const unsigned long& milliseconds )
 	UIToolkit::toolKitInstance->internal_setUpdateTimerSpeed( milliseconds );
 }
 
-void UIToolkit::internal_addToUpdateTimer( Component* component )
+void UIToolkit::internal_addToUpdateList( Component* component )
 {
 	std::vector<Component*>::iterator found = std::find( componentsToUpdate_.begin(), componentsToUpdate_.end(), component );
 	if ( found == componentsToUpdate_.end() ) {
@@ -1359,7 +1359,7 @@ void UIToolkit::internal_addToUpdateTimer( Component* component )
 	}
 }
 
-void UIToolkit::internal_removeFromUpdateTimer( Component* component )
+void UIToolkit::internal_removeFromUpdateList( Component* component )
 {
 	std::vector<Component*>::iterator found = std::find( componentsToUpdate_.begin(), componentsToUpdate_.end(), component );
 	if ( found != componentsToUpdate_.end() ) {
@@ -1411,6 +1411,9 @@ void UIToolkit::internal_idleTime()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.15  2006/03/28 04:10:17  ddiego
+*tweaked some function names for the update process.
+*
 *Revision 1.5.2.14  2006/03/28 04:04:36  ddiego
 *added a slight adjustment to idle message handling. Component
 *updating is now handled there instead of a timer.

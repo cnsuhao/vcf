@@ -550,8 +550,8 @@ public:
 	*/
 	static UIToolkit* internal_getDefaultUIToolkit();
 
-	static void addToUpdateTimer( Component* component );
-	static void removeFromUpdateTimer( Component* component );
+	static void addToUpdateList( Component* component );
+	static void removeFromUpdateList( Component* component );
 	static void setUpdateTimerSpeed( const unsigned long& milliseconds );
 
 	static void systemSettingsChanged();
@@ -769,8 +769,8 @@ protected:
 		return policyMgr_;
 	}
 
-	void internal_addToUpdateTimer( Component* component );
-	void internal_removeFromUpdateTimer( Component* component );
+	void internal_addToUpdateList( Component* component );
+	void internal_removeFromUpdateList( Component* component );
 	void internal_setUpdateTimerSpeed( const unsigned long& milliseconds );
 
 	void onUpdateComponentsTimer( TimerEvent* e );
@@ -784,6 +784,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.10  2006/03/28 04:10:17  ddiego
+*tweaked some function names for the update process.
+*
 *Revision 1.5.2.9  2006/03/28 04:04:36  ddiego
 *added a slight adjustment to idle message handling. Component
 *updating is now handled there instead of a timer.
