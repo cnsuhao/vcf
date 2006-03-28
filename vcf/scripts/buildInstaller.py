@@ -71,13 +71,13 @@ def main():
 			'.def', '.vcfdir', '.vcp', '.ico', '.rc2', '.odl', '.inl',
 			'.vff', '.inf', '.vcproj', '.sln', '.cpp', '.CPP', '.HPP', '.cxx', '.CXX',
 			'.cur', '.CUR', '.mak', '.inc', '.txt', '.vsdir', '.vsz', '.js', '.gif', '.htm', '.css',
-			'.bkl', '.inc', '.bcc', '.bpf', '.bpr', '.cbp', '.vc', '.gcc']
+			'.bkl', '.inc', '.bcc', '.bpf', '.bpr', '.cbp', '.workspace', '.vc', '.gcc']
 
 	
 	
 	exampleExtensions = [ '.h', '.cpp', '.CPP', '.dsw', '.dsp', '.bmp', '.rgs', '.rc', '.idl',
 			   '.def', '.ico', '.rc2', '.odl', '.vff', '.html', '.xml', '.vcproj', '.sln',
-				'.bkl', '.inc', '.bcc', '.bpf', '.bpr', '.cbp', '.vc', '.gcc' ]
+				'.bkl', '.inc', '.bcc', '.bpf', '.bpr', '.cbp', '.workspace', '.vc', '.gcc' ]
 
 	
 	srcFiles = []
