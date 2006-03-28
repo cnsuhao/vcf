@@ -19,7 +19,7 @@ include ../build/bakefiles.gen/config.gnu
 
 ### Targets: ###
 
-all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling Scrolling2 SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
+all: Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox LocaleUI Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling Scrolling2 SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
 
 install: all
 
@@ -67,6 +67,7 @@ clean:
 	(cd InetKit && $(MAKE) clean)
 	(cd Labels && $(MAKE) clean)
 	(cd ListBox && $(MAKE) clean)
+	(cd LocaleUI && $(MAKE) clean)
 	(cd Localization && $(MAKE) clean)
 	(cd MinMax && $(MAKE) clean)
 	(cd MVCBasics && $(MAKE) clean)
@@ -219,6 +220,9 @@ Labels:
 ListBox: 
 	(cd ListBox && $(MAKE) all)
 
+LocaleUI: 
+	(cd LocaleUI && $(MAKE) all)
+
 Localization: 
 	(cd Localization && $(MAKE) all)
 
@@ -321,7 +325,7 @@ VisualFormFiles:
 WorkingWithEnumerators: 
 	(cd WorkingWithEnumerators && $(MAKE) all)
 
-.PHONY: all install uninstall clean Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling Scrolling2 SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
+.PHONY: all install uninstall clean Accelerators Actions AdvancedAlignment AdvancedUI Alignment Anchors ApplicationIcons AppResources Browser Cards Colors Combos CommonDirectories Conditions Controls CopyAndPaste DatesAndTime DateTimeUI Dialogs Dictionaries Directories DocViewAdvanced DocViewBasics DragAndDrop EventBasics FilesAndDirectories FrameStyles GraphicsAndMouseMoves GraphicsBasics HeavyAndLight HelloWorld HelloWorld2 HelloWorld3 Help ImageBasics ImageViewer InetKit Labels ListBox LocaleUI Localization MinMax MVCBasics OpenGLShapes ParticleEditor Printing Processes ProgressBars Reflection Resources RunLoops Scrolling Scrolling2 SharedLibraries SketchIt Sliders Splitters Strings StrokesAndFills SysTray Tables TeXLabel TextEdit TextLayout Themes ThreadBasics ThreadsInGUI Toolbars Tooltips Transformations TreeListControls Variants VisualFormFiles WorkingWithEnumerators
 
 
 # Dependencies tracking:
