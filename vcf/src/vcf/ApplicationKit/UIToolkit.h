@@ -754,6 +754,7 @@ protected:
 
 	bool internal_findMatchingAccelerators( AcceleratorKey* key, std::vector<AcceleratorKey*>& matchingAccelerators );
 
+	virtual void internal_idleTime();
 
 
 	ComponentInfo* internal_getComponentInfo( const String& componentUUID );
@@ -783,6 +784,10 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.9  2006/03/28 04:04:36  ddiego
+*added a slight adjustment to idle message handling. Component
+*updating is now handled there instead of a timer.
+*
 *Revision 1.5.2.8  2006/03/18 22:17:42  ddiego
 *removed par tag for doxygen comments as its not needed and
 *screws up the doc formatting.

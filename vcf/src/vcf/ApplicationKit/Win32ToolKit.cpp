@@ -3677,9 +3677,12 @@ void Win32ToolKit::internal_runEventLoop()
 	bool isIdle = true;
 	while (true) {
 		// phase1: check to see if we can do idle work
-		while ((true == isIdle) && (!::PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE)) ) {
+		while ( isIdle && (!::PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE)) ) {
+
+			internal_idleTime();
 
 			if ( NULL != runningApp ) {
+				StringUtils::trace( "runningApp->idleTime()\n" );
 				runningApp->idleTime();
 			}
 
@@ -3839,13 +3842,13 @@ void Win32ToolKit::internal_runEventLoop()
 
 			// WM_PAINT and WM_SYSTIMER (caret blink)
 			bool isIdleMessage = ( (msg.message != WM_PAINT) && (msg.message != 0x0118) );
-			if ( true == isIdleMessage ) {
+			if ( isIdleMessage ) {
 				if ( (msg.message == WM_MOUSEMOVE) || (msg.message == WM_NCMOUSEMOVE) ) {
 					//check the prev mouse pt;
 				}
 			}
 
-			if ( true == isIdleMessage ) {
+			if ( isIdleMessage ) {
 				isIdle = true;
 			}
 
@@ -4159,6 +4162,10 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.27  2006/03/28 04:04:36  ddiego
+*added a slight adjustment to idle message handling. Component
+*updating is now handled there instead of a timer.
+*
 *Revision 1.6.2.26  2006/03/16 04:41:29  ddiego
 *fixed some tooltip issues.
 *
