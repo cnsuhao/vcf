@@ -47,6 +47,7 @@
     <subproject id="InetKit" template="example"/>
     <subproject id="Labels" template="example"/>
     <subproject id="ListBox" template="example"/>
+    <subproject id="LocaleUI" template="example"/>
     <subproject id="Localization" template="example"/>
     <subproject id="MinMax" template="example"/>
     <subproject id="MVCBasics" template="example"/>
