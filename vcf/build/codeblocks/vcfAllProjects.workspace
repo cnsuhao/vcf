@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="vcfAllProjects workspace">
-		<Project filename="FoundationKit\FoundationKitDLL.cbp" active="1" />
+		<Project filename="FoundationKit\FoundationKitDLL.cbp" active="1">
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
+		</Project>
 		<Project filename="GraphicsKit\GraphicsKitDLL.cbp">
 			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
 			<Depends filename="GraphicsKit\libAGG.cbp" />
@@ -41,9 +43,14 @@
 		<Project filename="RemoteObjectKit\RemoteObjectKitStatic.cbp">
 			<Depends filename="NetworkKit\NetworkKit.cbp" />
 		</Project>
-		<Project filename="GraphicsKit\libAGG.cbp" />
-		<Project filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
+		<Project filename="GraphicsKit\libAGG.cbp">
+			<Depends filename="..\..\examples\Labels\Labels_cb.cbp" />
+		</Project>
+		<Project filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp">
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
+		</Project>
 		<Project filename="..\..\src\thirdparty\common\LibJPEG\LibJPEG.cbp">
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
 			<Depends filename="..\..\src\thirdparty\common\ZLib\ZLib.cbp" />
 		</Project>
 		<Project filename="..\..\src\thirdparty\common\LibPNG\LibPNG.cbp">
@@ -52,9 +59,11 @@
 		<Project filename="..\..\src\thirdparty\common\FreeImage\Source\LibMNG\LibMNG.cbp" />
 		<Project filename="..\..\src\thirdparty\common\FreeImage\Source\LibTIFF\LibTIFF.cbp" />
 		<Project filename="..\..\examples\Accelerators\Accelerators_cb.cbp">
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Actions\Actions_cb.cbp">
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\AdvancedAlignment\AdvancedAlignment_cb.cbp">
@@ -64,6 +73,7 @@
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Alignment\Alignment_cb.cbp">
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Anchors\Anchors_cb.cbp">
@@ -76,9 +86,11 @@
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Cards\Cards_cb.cbp">
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Colors\Colors_cb.cbp">
+			<Depends filename="..\..\examples\Labels\Labels_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Combos\Combos_cb.cbp">
@@ -118,30 +130,36 @@
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\DragAndDrop\DragAndDrop_cb.cbp">
+			<Depends filename="..\..\examples\FilesAndDirectories\FilesAndDirectories_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\EventBasics\EventBasics_cb.cbp">
+			<Depends filename="..\..\examples\FilesAndDirectories\FilesAndDirectories_cb.cbp" />
 			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\FilesAndDirectories\FilesAndDirectories_cb.cbp">
 			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
 		</Project>
-		<Project filename="..\..\examples\FrameStyles\FrameStyles_cb.cbp">
-			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
-		</Project>
+		<Project filename="..\..\examples\FrameStyles\FrameStyles_cb.cbp" />
 		<Project filename="..\..\examples\GraphicsAndMouseMoves\GraphicsAndMouseMoves_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\GraphicsBasics\GraphicsBasics_cb.cbp">
+			<Depends filename="..\..\examples\HelloWorld3\HelloWorld3_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\HeavyAndLight\HeavyAndLight_cb.cbp">
+			<Depends filename="..\..\examples\HelloWorld\HelloWorld_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\HelloWorld\HelloWorld_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\HelloWorld2\HelloWorld2_cb.cbp">
+			<Depends filename="..\..\examples\HelloWorld3\HelloWorld3_cb.cbp" />
+			<Depends filename="..\..\examples\FrameStyles\FrameStyles_cb.cbp" />
+			<Depends filename="..\..\examples\FilesAndDirectories\FilesAndDirectories_cb.cbp" />
+			<Depends filename="..\..\examples\DragAndDrop\DragAndDrop_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\HelloWorld3\HelloWorld3_cb.cbp">
@@ -151,20 +169,21 @@
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\ImageBasics\ImageBasics_cb.cbp">
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\ImageViewer\ImageViewer_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Labels\Labels_cb.cbp">
-			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
+			<Depends filename="..\..\examples\ListBox\ListBox_cb.cbp" />
 		</Project>
 		<Project filename="..\..\examples\ListBox\ListBox_cb.cbp">
-			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
+			<Depends filename="..\..\examples\Localization\Localization_cb.cbp" />
+			<Depends filename="..\..\examples\FrameStyles\FrameStyles_cb.cbp" />
+			<Depends filename="..\..\examples\FilesAndDirectories\FilesAndDirectories_cb.cbp" />
 		</Project>
-		<Project filename="..\..\examples\Localization\Localization_cb.cbp">
-			<Depends filename="FoundationKit\FoundationKitDLL.cbp" />
-		</Project>
+		<Project filename="..\..\examples\Localization\Localization_cb.cbp" />
 		<Project filename="..\..\examples\MinMax\MinMax_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
@@ -196,6 +215,9 @@
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Scrolling\Scrolling_cb.cbp">
+			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
+		</Project>
+		<Project filename="..\..\examples\Scrolling2\Scrolling2_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\SharedLibraries\SharedLibraries_cb.cbp">
@@ -241,6 +263,9 @@
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Toolbars\Toolbars_cb.cbp">
+			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
+		</Project>
+		<Project filename="..\..\examples\Tooltips\Tooltips_cb.cbp">
 			<Depends filename="ApplicationKit\ApplicationKitDLL.cbp" />
 		</Project>
 		<Project filename="..\..\examples\Transformations\Transformations_cb.cbp">
