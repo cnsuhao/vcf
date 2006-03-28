@@ -92,7 +92,7 @@ void Component::destroy()
 	if ( NULL != action ) {
 		action->removeTarget( this );
 	
-		removeFromUpdateTimer();	
+		removeFromUpdateList();	
 	}
 
 	std::vector<Component*>::iterator componentIter = components_.begin();
@@ -413,10 +413,10 @@ void Component::setAction( Action* action )
 	action_ = action;
 
 	if ( NULL == action_ ) {
-		removeFromUpdateTimer();
+		removeFromUpdateList();
 	}
 	else {
-		addToUpdateTimer();
+		addToUpdateList();
 	}
 }
 
@@ -433,12 +433,12 @@ bool Component::updateAction()
 
 void Component::addToUpdateList()
 {
-	UIToolkit::addToUpdateTimer( this );
+	UIToolkit::addToUpdateList( this );
 }
 
 void Component::removeFromUpdateList()
 {
-	UIToolkit::removeFromUpdateTimer( this );
+	UIToolkit::removeFromUpdateList( this );
 }
 
 void Component::loading()
@@ -595,6 +595,9 @@ Component* Component::createComponentFromResources( Class* clazz, Class* rootCla
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/03/28 04:12:48  ddiego
+*tweaked some function names for the update process.
+*
 *Revision 1.4.2.4  2006/03/28 04:10:17  ddiego
 *tweaked some function names for the update process.
 *
