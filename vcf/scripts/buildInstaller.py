@@ -69,12 +69,16 @@ def main():
 	
 	extensions = [".h", '.hpp', '.c', '.dsw', '.dsp', '.bmp', '.rgs', '.rc', '.xml', '.idl',
 			'.def', '.vcfdir', '.vcp', '.ico', '.rc2', '.odl', '.inl',
-			'.vff', '.inf', '.vcproj', '.sln', '.cpp', '.CPP', '.HPP', '.cxx', '.CXX', '.cbp', '.workspace',
-			'.cur', '.CUR', '.mak', '.inc', '.txt', '.vsdir', '.vsz', '.js', '.gif', '.htm', '.css' ]
+			'.vff', '.inf', '.vcproj', '.sln', '.cpp', '.CPP', '.HPP', '.cxx', '.CXX',
+			'.cur', '.CUR', '.mak', '.inc', '.txt', '.vsdir', '.vsz', '.js', '.gif', '.htm', '.css',
+			'.bkl', '.inc', '.bcc', '.bpf', '.bpr', '.cbp', '.vc', '.gcc']
+
 	
 	
-	exampleExtensions = [ '.h', '.cpp', '.CPP', '.dsw', '.dsp', '.bmp', '.rgs', '.rc', '.idl', '.cbp', '.workspace',
-			   '.def', '.ico', '.rc2', '.odl', '.vff', '.html', '.xml', '.vcproj', '.sln' ]
+	exampleExtensions = [ '.h', '.cpp', '.CPP', '.dsw', '.dsp', '.bmp', '.rgs', '.rc', '.idl',
+			   '.def', '.ico', '.rc2', '.odl', '.vff', '.html', '.xml', '.vcproj', '.sln',
+				'.bkl', '.inc', '.bcc', '.bpf', '.bpr', '.cbp', '.vc', '.gcc' ]
+
 	
 	srcFiles = []
 	
@@ -110,6 +114,9 @@ def main():
 			reStr = '(.*\\' + ext + '$)'
 		else :
 			reStr = reStr + '|(.*\\' + ext + "$)"
+
+	reStr = reStr + '|(.*\\GNUmakefile' + "$)"
+
 	fileTest = re.compile( reStr, re.IGNORECASE )
 	exampleFiles = []
 	

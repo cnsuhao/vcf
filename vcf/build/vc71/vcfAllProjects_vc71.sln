@@ -163,6 +163,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{d48f57f2-3b3f-4dfe-881f-b972ad35efe0} = {d48f57f2-3b3f-4dfe-881f-b972ad35efe0}
 		{29C0CF04-772C-4916-B892-59A09BE4B76F} = {29C0CF04-772C-4916-B892-59A09BE4B76F}
 		{4989D737-40CE-48A0-A5E2-F68DB96E3E83} = {4989D737-40CE-48A0-A5E2-F68DB96E3E83}
+		{a980d8d4-567e-4f52-bf65-89b23394547b} = {a980d8d4-567e-4f52-bf65-89b23394547b}
 		{A243128E-9AB5-4D05-97EB-52AA07B08EC4} = {A243128E-9AB5-4D05-97EB-52AA07B08EC4}
 		{A433CD87-69CE-4B20-96B0-1C31F7B267D9} = {A433CD87-69CE-4B20-96B0-1C31F7B267D9}
 		{8F210783-4CE8-40EE-8658-F5429122DC40} = {8F210783-4CE8-40EE-8658-F5429122DC40}
@@ -179,6 +180,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", "..\..\examples\
 		{F3DA05F8-CC0B-460B-96FF-F4C7EE84E2A7} = {F3DA05F8-CC0B-460B-96FF-F4C7EE84E2A7}
 		{7B2A9E0E-BD5F-46A4-83F7-1E5146A6FF84} = {7B2A9E0E-BD5F-46A4-83F7-1E5146A6FF84}
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736} = {9246E861-549F-4D1A-BEBA-C114CF2C7736}
+		{406fb96c-d8a5-4bae-9921-c40d31aac74a} = {406fb96c-d8a5-4bae-9921-c40d31aac74a}
 		{B6FB23B0-B928-4473-86F4-077A7472E889} = {B6FB23B0-B928-4473-86F4-077A7472E889}
 		{2F65E795-3F71-4B02-996B-35787026F3BC} = {2F65E795-3F71-4B02-996B-35787026F3BC}
 		{9741FC91-C03E-4EED-B47E-64B0989DF488} = {9741FC91-C03E-4EED-B47E-64B0989DF488}
@@ -326,6 +328,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ListBox", "..\..\examples\L
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LocaleUI", "..\..\examples\LocaleUI\LocaleUI_vc71.vcproj", "{a980d8d4-567e-4f52-bf65-89b23394547b}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Localization", "..\..\examples\Localization\Localization_vc71.vcproj", "{A243128E-9AB5-4D05-97EB-52AA07B08EC4}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -425,6 +431,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RunLoops", "..\..\examples\
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scrolling", "..\..\examples\Scrolling\Scrolling_vc71.vcproj", "{9246E861-549F-4D1A-BEBA-C114CF2C7736}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scrolling2", "..\..\examples\Scrolling2\Scrolling2_vc71.vcproj", "{406fb96c-d8a5-4bae-9921-c40d31aac74a}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -735,6 +745,8 @@ Global
 		{4989D737-40CE-48A0-A5E2-F68DB96E3E83}.Debug.ActiveCfg = Debug|Win32
 		{4989D737-40CE-48A0-A5E2-F68DB96E3E83}.GTK Debug.ActiveCfg = Debug|Win32
 		{4989D737-40CE-48A0-A5E2-F68DB96E3E83}.Release.ActiveCfg = Release|Win32
+		{a980d8d4-567e-4f52-bf65-89b23394547b}.Debug.ActiveCfg = Debug|Win32
+		{a980d8d4-567e-4f52-bf65-89b23394547b}.Release.ActiveCfg = Release|Win32
 		{A243128E-9AB5-4D05-97EB-52AA07B08EC4}.Debug.ActiveCfg = Debug|Win32
 		{A243128E-9AB5-4D05-97EB-52AA07B08EC4}.GTK Debug.ActiveCfg = Debug|Win32
 		{A243128E-9AB5-4D05-97EB-52AA07B08EC4}.Release.ActiveCfg = Release|Win32
@@ -805,6 +817,8 @@ Global
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.GTK Debug.ActiveCfg = Debug|Win32
 		{9246E861-549F-4D1A-BEBA-C114CF2C7736}.Release.ActiveCfg = Release|Win32
+		{406fb96c-d8a5-4bae-9921-c40d31aac74a}.Debug.ActiveCfg = Debug|Win32
+		{406fb96c-d8a5-4bae-9921-c40d31aac74a}.Release.ActiveCfg = Release|Win32
 		{B6FB23B0-B928-4473-86F4-077A7472E889}.Debug.ActiveCfg = Debug|Win32
 		{B6FB23B0-B928-4473-86F4-077A7472E889}.GTK Debug.ActiveCfg = Debug|Win32
 		{B6FB23B0-B928-4473-86F4-077A7472E889}.Release.ActiveCfg = Release|Win32

@@ -1135,11 +1135,41 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 				</section>
 			</section>
 			
-			<section><title>Building with Bakefiles</title>				
+			<section><title>Building with Bakefiles</title>
+				<section><title>The Bakefile utility</title>
+				<para>
+				Bakefile is a command line tool, so you should feel comfortable
+				using a command line to use this tool. Please download and install 
+				the latest version of the Bakefile from its site 
+				<ulink url="http://bakefile.sf.net">bakefile.sf.net</ulink>.
+				</para>
+				</section>
+				<section><title>Patching of the Bakefile utility</title>
+				<para>
+				There are some issues with Bakefiles that were not resolved
+				by authors of Bakefile till now for some reason. So you may
+				need to fix your local Bakefile executable yourself with a patch 
+				that can be downloaded separately.
+				</para>
+				</section>
 				<section><title>Environment Variables</title>
 				<para>
 				What you need to do at the beginning is to set up the VCF_DIR 
 				environment variable. It should point to the root of VCF.
+				</para>
+				<para>
+				If you are going to use MS VS IDE and prefer to generate VS6
+				projects then you need to update the IDE's LIB, INCLUDE and PATH
+				variables (executable directories) with directories appropriate to 
+				the VCF.
+				</para>
+
+				<para>
+				We will use a Windows specific syntax of the command line in
+				examples below. This does not prevent you from using a Unix
+				specific syntax. For example, we will use %VCF_DIR%, but you can
+				use $VCF_DIR instead, if you're attempting this from a unix like
+				command line.
 				</para>
 				</section>
 				<section><title>Baked Make Files</title>
@@ -1454,7 +1484,407 @@ nmake -f makefile.vc OPTION_SELECTLIB=_vc71 OPTION_DEBUG=0
 				The VS6 project files for examples are not generated, so use non-baked 
 				VS projects.				
 				</para>
-				</section>						
+				</section>
+
+				<section><title>Using bakefiles in your own project</title>
+					<para>
+					The easiest approach to create a make file or a VS6 project for 
+					your own project using the VCF offers is to use bakefiles. Lets look 
+					at the simplest way to start your own VCF project from scratch using 
+					your favorite editor.
+					</para>
+
+					<para>
+					Say, you created your own helloworld.cpp:
+					<programlisting>
+#include "vcf/FoundationKit/FoundationKit.h"
+
+using namespace VCF;
+
+int main( int argc, char** argv )
+{
+	FoundationKit::init( argc, argv );
+
+	System::println( "Hello world!" );
+
+	FoundationKit::terminate();
+	return 0;
+}
+					</programlisting>
+					</para>
+
+					<para>
+					You would like to test it and want to create a make file as easy
+					and as quickly as possible. Create a text file helloworld.bkl as
+					follows:
+					<programlisting>
+			<![CDATA[
+<?xml version="1.0" ?>
+
+<makefile>
+	<include file="VCFHelper.bkl"/>
+
+	<exe id="helloworld" template="vcf_exe_console">
+		<sources>helloworld.cpp</sources>
+		<vcf-use-FoundationKit/>
+	</exe>
+</makefile>
+			]]>
+					</programlisting>
+					</para>
+
+					<para>
+					That is all. You are ready to generate a make file or a VS6
+					project. Suppose you want to generate a VS6 project. You just
+					need to run the following command from a command line:
+					<screen>
+bakefile -I"%VCF_DIR%\build\bakefiles" -f msvc6prj helloworld.bkl
+					</screen>
+					This command will generate helloworld.dsp and helloworld.dsw.
+					</para>
+
+					<para>
+					If you prefer to generate a make file just run one of the
+					following commands. Which of them is yours depends on what the
+					compiler you prefer.
+					</para>
+
+					<para>
+					This command will generate makefile.vc.
+					<screen>
+bakefile -I"%VCF_DIR%\build\bakefiles" -f msvc helloworld.bkl
+					</screen>
+					</para>
+
+					<para>
+					This command will generate makefile.gcc.
+					<screen>
+bakefile -I"%VCF_DIR%\build\bakefiles" -f mingw helloworld.bkl
+					</screen>
+					</para>
+
+					<para>
+					This command will generate makefile.bcc.
+					<screen>
+bakefile -I"%VCF_DIR%\build\bakefiles" -f borland helloworld.bkl
+					</screen>
+					</para>
+
+					<para>
+					This command will generate GNUmakefile.
+					<screen>
+bakefile -I"%VCF_DIR%\build\bakefiles" -f gnu helloworld.bkl
+					</screen>
+					</para>
+
+					<para>
+					As you can see there are different formats (-f parameter) only.
+					There are the following assignments between formats and
+					compilers.
+					<itemizedlist>
+						<listitem>
+						msvc - MS VC
+						</listitem>
+						<listitem>
+						mingw - MinGW/GCC
+						</listitem>
+						<listitem>
+						borland - Borland C++ compiler
+						</listitem>
+						<listitem>
+						gnu - GCC
+						</listitem>
+					</itemizedlist>
+					The first three are Windows specific. The last one means a
+					unix-style make file that can be used on Linux, Cygwin and Mac OS
+					X.
+					</para>
+
+					<para>
+					Once you execute the bakefile utility as it is described above
+					you will get a make file. Or you will get several make files, if
+					you generate them for different formats. Anyway, one of the
+					following command will build an executable for you:
+					<itemizedlist>
+						<listitem>
+						GNU make
+						<screen>
+make -f GNUmakefile
+						</screen>
+						</listitem>
+						
+						<listitem>
+						Borland make
+						<screen>
+make -f makefile.bcc
+						</screen>
+						</listitem>
+						
+						<listitem>
+						MinGW make
+						<screen>
+mingw32-make -f makefile.gcc
+						</screen>
+						</listitem>
+						
+						<listitem>
+						MS nmake
+						<screen>
+nmake -f makefile.vc
+						</screen>
+						</listitem>
+					</itemizedlist>
+					</para>
+
+					<para>
+					Let us look at the helloworld.bkl closer. It is an XML file.
+					There are two tags &lt;include&gt; and &lt;exe&gt;. The first one includes
+					the VCFHelper.bkl file that has to be included by any user
+					project:
+					<programlisting>
+			<![CDATA[
+<include file="VCFHelper.bkl"/>
+			]]>
+					</programlisting>
+					</para>
+
+					<para>
+					The &lt;exe&gt; tag defines an executable. It is a console VCF
+					application that has the only source file helloworld.cpp and uses
+					the FoundationKit:
+					<programlisting>
+			<![CDATA[
+<exe id="helloworld" template="vcf_exe_console">
+	<sources>helloworld.cpp</sources>
+	<vcf-use-FoundationKit/>
+</exe>
+			]]>
+					</programlisting>
+					</para>
+
+					<para>
+					Suppose you created a GUI application that uses the ApplicationKit like this.
+					<programlisting>
+#include "vcf/ApplicationKit/ApplicationKit.h"
+
+using namespace VCF;
+
+int main( int argc, char** argv )
+{
+	Application* app = new Application(argc,argv);
+
+	Window* mainWindow = new Window();
+	app->setMainWindow( mainWindow );
+	mainWindow->setCaption( "Hello World" );
+	mainWindow->show();
+
+	Application::main();
+
+	return 0;
+}
+					</programlisting>
+					</para>
+
+					<para>
+					Of course, you need to modify your bakefile as follows.
+					<programlisting>
+			<![CDATA[
+<?xml version="1.0" ?>
+
+<makefile>
+	<include file="VCFHelper.bkl"/>
+
+	<exe id="helloworld" template="vcf_exe_gui">
+		<sources>helloworld.cpp</sources>
+		<vcf-use-ApplicationKit/>
+	</exe>
+</makefile>
+			]]>
+					</programlisting>
+					</para>
+
+					<para>
+					Please refer to the VCF examples to see how you can prepare a
+					bakefile appropriate to your project. Each example directory
+					contains a bakefile which can be used to learn the bakefiles
+					features that are VCF specific. Please note, all the VCF examples
+					include VCFCommon.bkl instead of VCFHelper.bkl. VCFCommon.bkl and
+					VCFHelper.bkl are similar to each other. However, there is one
+					difference. VCFCommon.bkl defines the bakefile variables that use
+					the relative paths and can be used inside the VCF source tree
+					only. VCFHelper.bkl defines the bakefile variables that use the
+					system environment variable VCF_DIR and can be used outside of
+					the VCF source tree. In other words, these are two different
+					entry points: VCFCommon.bkl is for the internal use only;
+					VCFHelper.bkl is to use in external custom projects.
+					</para>
+
+					<para>
+					As you can see the first bakefile has the &lt;vcf-use-FoundationKit&gt;
+					tag. The second bakefile has the &lt;vcf-use-ApplicationKit&gt; tag.
+					For every kit there is a certain tag.
+					<itemizedlist>
+						<listitem>
+						&lt;vcf-use-FoundationKit&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-use-GraphicsKit&gt;
+						</listitem>
+						
+						<listitem>
+						&lt;vcf-use-ApplicationKit&gt;
+						</listitem>
+						
+						<listitem>
+						&lt;vcf-use-HTMLKit&gt;
+						</listitem>
+						
+						<listitem>
+						&lt;vcf-use-OpenGLKit&gt;
+						</listitem>
+						
+						<listitem>
+						&lt;vcf-use-NetworkKit&gt;
+						</listitem>
+						
+						<listitem>
+						&lt;vcf-use-RemoteObjectKit&gt;
+						</listitem>
+						
+						<listitem>
+						&lt;vcf-use-InternetKit&gt;
+						</listitem>
+					</itemizedlist>
+					</para>
+
+					<para>
+					The VCF contains some thirdparty libraries. You can use them in your
+					project, so you might want to include an appropriate tag in your bakefile.
+					For every library there is a certain tag.
+					<itemizedlist>
+						<listitem>
+						&lt;vcf-use-libAGG&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-use-ZLib&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-use-LibJPEG&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-use-LibPNG&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-use-LibMNG&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-use-LibTIFF&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-use-FreeImage&gt;
+						</listitem>
+					</itemizedlist>
+					</para>
+
+					<para>
+					You can just add an include path of a thirdparty library in your project.
+					Here is a list of the appropriate tags.
+					<itemizedlist>
+						<listitem>
+						&lt;vcf-include-thirdparty&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-include-boost&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-include-libAGG&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-include-ZLib&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-include-LibJPEG&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-include-LibPNG&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-include-LibMNG&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-include-LibTIFF&gt;
+						</listitem>
+
+						<listitem>
+						&lt;vcf-include-FreeImage&gt;
+						</listitem>
+					</itemizedlist>
+					</para>
+				</section>
+
+				<section><title>Regenerating makefiles and VS6 project files</title>
+					<note>
+					Please note, you can only run the bakefile_gen executable from 
+					the %VCF_DIR%\build\bakefiles directory.
+					</note>
+
+					<para>
+					If you want to regenerate the baked makefiles you need to use 
+					the bakefile_gen executable of the Bakefile utility.
+					The following command will regenerate all the baked makefiles
+					of the VCF.
+					<screen>
+			bakefile_gen -f msvc,borland,msvc6prj,mingw,gnu
+					</screen>
+					There are several formats of the result makefiles that are separated 
+					by comma. Note, this command executes long time for the first time.
+					</para>
+
+					<para>
+					You can regenerate makefiles of a certain format only like this.
+					<screen>
+			bakefile_gen -f msvc
+					</screen>
+					</para>
+				</section>
+	
+				<section><title>All-in-1 VS6 project</title>
+					<note>
+					Please note, you can only run the bakefile_gen executable from 
+					the %VCF_DIR%\build\bakefiles directory.
+					</note>
+
+					<para>
+					There is no all-in-1 VS6 project by default. However, you can
+					generate it yourself. Before you begin you need to delete existing
+					*.dsw and *.dsp files. You can do this by hand file by file; or you 
+					can execute the following command that does this job for you. 
+					<screen>
+bakefile_gen -f msvc6prj -c
+					</screen>
+					</para>
+
+					<para>
+					Run the following command to generate the all-in-1 VS6 project.
+					<screen>
+bakefile_gen -f msvc6prj -DOPTION_ALLIN1=1
+					</screen>
+					</para>
+				</section>
 			</section>
 			
 			<section><title>MacOSX</title>
@@ -2765,6 +3195,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.13  2006/03/28 02:20:09  ddiego
+updated projects.
+
 Revision 1.6.2.12  2006/03/21 14:48:38  dougtinkham
 update lib build table for linux
 
