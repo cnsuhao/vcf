@@ -498,6 +498,9 @@ Package=<4>
     Project_Dep_Name ListBox
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name LocaleUI
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Localization
     End Project Dependency
     Begin Project Dependency
@@ -544,6 +547,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Scrolling
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Scrolling2
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name SharedLibraries
@@ -984,6 +990,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "LocaleUI"="..\..\examples\LocaleUI\LocaleUI.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Localization"="..\..\examples\Localization\Localization.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1279,6 +1297,18 @@ Package=<4>
 ###############################################################################
 
 Project: "Scrolling"="..\..\examples\Scrolling\Scrolling.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "Scrolling2"="..\..\examples\Scrolling2\Scrolling2.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

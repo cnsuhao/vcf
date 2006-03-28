@@ -462,6 +462,9 @@ Package=<4>
     Project_Dep_Name ListBox
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name LocaleUI
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name Localization
     End Project Dependency
     Begin Project Dependency
@@ -475,6 +478,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name MinMax
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name MoreImages
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name OpenGLShapes
@@ -505,6 +511,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Scrolling
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Scrolling2
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name SharedLibraries
@@ -677,15 +686,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name libAGG
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name LibJPEG
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name LibPNG
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name ZLib
-    End Project Dependency
 }}}
 
 ###############################################################################
@@ -852,30 +852,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "LibJPEG"=..\src\thirdparty\common\LibJPEG\LibJPEG.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "LibPNG"=..\src\thirdparty\common\LibPNG\LibPNG.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "ListBox"=.\ListBox\ListBox.dsp - Package Owner=<4>
 
 Package=<5>
@@ -949,6 +925,18 @@ Package=<4>
 ###############################################################################
 
 Project: "MinMax"=.\MinMax\MinMax.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "MoreImages"=.\MoreImages\MoreImages.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -1423,18 +1411,6 @@ Package=<4>
 ###############################################################################
 
 Project: "WorkingWithEnumerators"=.\WorkingWithEnumerators\WorkingWithEnumerators.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "ZLib"=..\src\thirdparty\common\ZLib\ZLib.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
