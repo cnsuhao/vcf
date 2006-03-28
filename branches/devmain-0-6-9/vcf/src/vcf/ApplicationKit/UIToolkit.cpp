@@ -169,7 +169,7 @@ void UIToolkit::init()
 	Component::registerComponent( "VCF::HorizontalLayoutContainer", CONTAINER_CATEGORY );
 
 
-	internal_setUpdateTimerSpeed( UIToolkit::defaultUpdateSpeed );
+	//internal_setUpdateTimerSpeed( UIToolkit::defaultUpdateSpeed );
 
 	MenuManager::create();
 	//Desktop::getDesktop()->init();
@@ -1392,10 +1392,29 @@ void UIToolkit::onUpdateComponentsTimer( TimerEvent* e )
 	}
 }
 
+void UIToolkit::internal_idleTime()
+{
+	Frame* frm = Frame::getActiveFrame();
+	if ( NULL != frm ) {
+		if ( frm->getVisible() ) {
+			std::vector<Component*>::iterator it = componentsToUpdate_.begin();
+			while ( it != componentsToUpdate_.end() ) {
+				Component* component = *it;
+				Event updateEvent( this, Component::COMPONENT_NEEDS_UPDATING );
+				component->handleEvent( &updateEvent );
+				it ++;
+			}
+		}
+	}
+}
 
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.14  2006/03/28 04:04:36  ddiego
+*added a slight adjustment to idle message handling. Component
+*updating is now handled there instead of a timer.
+*
 *Revision 1.5.2.13  2006/03/17 03:08:11  ddiego
 *updated osx code to latest changes.
 *
