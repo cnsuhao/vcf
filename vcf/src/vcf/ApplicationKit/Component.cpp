@@ -431,12 +431,12 @@ bool Component::updateAction()
 	return false;
 }
 
-void Component::addToUpdateTimer()
+void Component::addToUpdateList()
 {
 	UIToolkit::addToUpdateTimer( this );
 }
 
-void Component::removeFromUpdateTimer()
+void Component::removeFromUpdateList()
 {
 	UIToolkit::removeFromUpdateTimer( this );
 }
@@ -595,6 +595,9 @@ Component* Component::createComponentFromResources( Class* clazz, Class* rootCla
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/03/28 04:10:17  ddiego
+*tweaked some function names for the update process.
+*
 *Revision 1.4.2.3  2005/09/16 01:12:01  ddiego
 *fixed bug in component loaded function.
 *

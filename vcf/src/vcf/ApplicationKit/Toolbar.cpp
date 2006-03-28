@@ -415,7 +415,7 @@ Toolbar::Toolbar():
 
 Toolbar::~Toolbar()
 {
-	this->removeFromUpdateTimer();
+	this->removeFromUpdateList();
 }
 
 
@@ -533,6 +533,9 @@ Toolbar::FloatingToolbar::~FloatingToolbar()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.3  2006/03/28 04:12:48  ddiego
+*tweaked some function names for the update process.
+*
 *Revision 1.4.2.2  2006/03/05 02:28:04  ddiego
 *updated the Item interface and adjusted the other classes accordingly.
 *
