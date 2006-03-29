@@ -157,7 +157,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", ".\Examples\Exam
 		{8F210783-4CE8-40EE-8658-F5429122DC40} = {8F210783-4CE8-40EE-8658-F5429122DC40}
 		{4066EA9C-81BF-4A8E-9EDC-D0E939B900F3} = {4066EA9C-81BF-4A8E-9EDC-D0E939B900F3}
 		{544d42a8-511d-4162-9753-11fd9d5ce725} = {544d42a8-511d-4162-9753-11fd9d5ce725}
-		{a0da2f86-3733-44b6-a00b-8474588b27eb} = {a0da2f86-3733-44b6-a00b-8474588b27eb}
 		{51A16E16-B776-4530-AFD8-D0CC9C17D582} = {51A16E16-B776-4530-AFD8-D0CC9C17D582}
 		{67261F12-BF09-49A0-8E90-A25C440B17C5} = {67261F12-BF09-49A0-8E90-A25C440B17C5}
 		{72F2E988-BA54-4B65-B48C-C09E6836173D} = {72F2E988-BA54-4B65-B48C-C09E6836173D}
@@ -313,10 +312,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MVCBasics", ".\MVCBasics\MV
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinMax", ".\MinMax\MinMax_vc71.vcproj", "{544d42a8-511d-4162-9753-11fd9d5ce725}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MoreImages", ".\MoreImages\MoreImages_vc71.vcproj", "{a0da2f86-3733-44b6-a00b-8474588b27eb}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -702,8 +697,6 @@ Global
 		{4066EA9C-81BF-4A8E-9EDC-D0E939B900F3}.Release.ActiveCfg = Release|Win32
 		{544d42a8-511d-4162-9753-11fd9d5ce725}.Debug.ActiveCfg = Debug|Win32
 		{544d42a8-511d-4162-9753-11fd9d5ce725}.Release.ActiveCfg = Release|Win32
-		{a0da2f86-3733-44b6-a00b-8474588b27eb}.Debug.ActiveCfg = Debug|Win32
-		{a0da2f86-3733-44b6-a00b-8474588b27eb}.Release.ActiveCfg = Release|Win32
 		{E9994AF2-1059-4346-A653-27A6C2CCF40D}.Debug.ActiveCfg = Debug|Win32
 		{E9994AF2-1059-4346-A653-27A6C2CCF40D}.Generate YY and LL files.ActiveCfg = Release|Win32
 		{E9994AF2-1059-4346-A653-27A6C2CCF40D}.GTK Debug.ActiveCfg = Debug|Win32
