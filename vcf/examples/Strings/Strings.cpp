@@ -18,7 +18,7 @@ Object base class.
 class Foo : public VCF::Object {
 public:
 	virtual VCF::String toString() {
-		return VCF::String("Foo here!\n\t") + Object::toString();
+		return VCF::String("Foo here!\n\t") + VCF::Object::toString();
 	}
 };
 
@@ -409,6 +409,9 @@ namespace VCF {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.5  2006/03/29 19:45:59  kdmix
+*A bcc issue fixed.
+*
 *Revision 1.4.2.4  2006/03/19 00:03:41  obirsoy
 *Linux FoundationKit improvements.
 *
