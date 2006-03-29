@@ -71,8 +71,7 @@ def main():
 			'.def', '.vcfdir', '.vcp', '.ico', '.rc2', '.odl', '.inl',
 			'.vff', '.inf', '.vcproj', '.sln', '.cpp', '.CPP', '.HPP', '.cxx', '.CXX',
 			'.cur', '.CUR', '.mak', '.inc', '.txt', '.vsdir', '.vsz', '.js', '.gif', '.htm', '.css',
-			'.bkl', '.inc', '.bcc', '.bpf', '.bpr', '.cbp', '.workspace', '.vc', '.gcc']
-
+			'.bkl', '.inc', '.bcc', '.bpf', '.bpr', '.cbp', '.workspace', '.vc', '.gcc', '.gnu', '.bkgen', '.py']
 	
 	
 	exampleExtensions = [ '.h', '.cpp', '.CPP', '.dsw', '.dsp', '.bmp', '.rgs', '.rc', '.idl',
@@ -89,7 +88,8 @@ def main():
 		else :
 			reStr = reStr + '|(.*\\' + ext + "$)"
 	
-	
+	reStr = reStr + '|(.*\\GNUmakefile' + "$)"
+
 	fileTest = re.compile( reStr, re.IGNORECASE )
 	
 	cvsTest = re.compile( ".*\/CVS" )
