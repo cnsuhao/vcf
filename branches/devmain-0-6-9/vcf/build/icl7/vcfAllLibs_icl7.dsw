@@ -98,6 +98,15 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name libAGG
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibJPEG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibPNG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZLib
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -115,6 +124,15 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name libAGG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibJPEG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name LibPNG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ZLib
     End Project Dependency
 }}}
 
