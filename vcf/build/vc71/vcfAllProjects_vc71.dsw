@@ -516,9 +516,6 @@ Package=<4>
     Project_Dep_Name MinMax
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name MoreImages
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name OpenGLShapes
     End Project Dependency
     Begin Project Dependency
@@ -1069,18 +1066,6 @@ Package=<4>
 ###############################################################################
 
 Project: "MinMax"="..\..\examples\MinMax\MinMax_vc71.dsp" - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "MoreImages"="..\..\examples\MoreImages\MoreImages_vc71.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
