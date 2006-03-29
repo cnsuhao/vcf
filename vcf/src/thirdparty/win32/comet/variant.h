@@ -916,7 +916,7 @@ namespace comet {
 		VARIANT* get_var() throw()
 		{
 #ifdef __BORLANDC__
-#if __BORLANDC__ >= 0x0551
+#if __BORLANDC__ >= 0x0550
 			return reinterpret_cast<VARIANT*>(this);
 #else
 			return static_cast<VARIANT*>(this);
