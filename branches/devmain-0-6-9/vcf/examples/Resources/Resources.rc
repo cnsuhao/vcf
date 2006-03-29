@@ -58,7 +58,7 @@ END
 // 2110
 //
 
-logo.png                2110    DISCARDABLE     "logo.png"
+logo_png                2110    DISCARDABLE     "logo.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //

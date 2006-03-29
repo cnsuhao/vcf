@@ -60,7 +60,7 @@ int main( int argc, char** argv ){
 	/**
 	This will extract a resource from the exe
 	*/
-	res = resBundle->getResource( "logo.png" );
+	res = resBundle->getResource( "logo_png" );
 	if ( NULL == res ) {
 		System::println( "Failed to find resource!" );
 	}
