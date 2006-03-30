@@ -1,4 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllIn1", ".\AllIn1\AllIn1_vc71.vcproj", "{9D3B86B8-BDDC-425A-8741-26B15A73DEA6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllIn1DLL", ".\AllIn1\AllIn1DLL_vc71.vcproj", "{CBFABE9F-56BA-43ED-8FA4-284B8B3F7FE7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationKit", ".\ApplicationKit\ApplicationKit_vc71.vcproj", "{DA1E19F3-F48F-4402-9024-190633E9F4A5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7F1F2CAA-C9C1-46C1-BB14-1DBDCAFE8EED} = {7F1F2CAA-C9C1-46C1-BB14-1DBDCAFE8EED}
@@ -103,10 +111,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLKitDLL", ".\OpenGLKit
 		{9DFBD97B-1C30-4434-9B64-0748F33662B9} = {9DFBD97B-1C30-4434-9B64-0748F33662B9}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegExx", ".\FoundationKit\RegExx_vc71.vcproj", "{4890F5E2-CAE6-4812-A79A-69724DEEFC32}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKit", ".\RemoteObjectKit\RemoteObjectKit_vc71.vcproj", "{EEF707B1-1C2D-49B8-9B43-9441FB705F90}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0DD4DFF0-9EAC-49D5-9641-AE77F94C2CE7} = {0DD4DFF0-9EAC-49D5-9641-AE77F94C2CE7}
@@ -153,6 +157,12 @@ Global
 		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
+		{9D3B86B8-BDDC-425A-8741-26B15A73DEA6}.Debug.ActiveCfg = Debug|Win32
+		{9D3B86B8-BDDC-425A-8741-26B15A73DEA6}.GTK Debug.ActiveCfg = Debug|Win32
+		{9D3B86B8-BDDC-425A-8741-26B15A73DEA6}.Release.ActiveCfg = Release|Win32
+		{CBFABE9F-56BA-43ED-8FA4-284B8B3F7FE7}.Debug.ActiveCfg = Debug|Win32
+		{CBFABE9F-56BA-43ED-8FA4-284B8B3F7FE7}.GTK Debug.ActiveCfg = Debug|Win32
+		{CBFABE9F-56BA-43ED-8FA4-284B8B3F7FE7}.Release.ActiveCfg = Release|Win32
 		{DA1E19F3-F48F-4402-9024-190633E9F4A5}.Debug.ActiveCfg = Debug|Win32
 		{DA1E19F3-F48F-4402-9024-190633E9F4A5}.GTK Debug.ActiveCfg = Debug|Win32
 		{DA1E19F3-F48F-4402-9024-190633E9F4A5}.Release.ActiveCfg = Release|Win32
@@ -209,9 +219,6 @@ Global
 		{7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3}.Debug.ActiveCfg = Debug|Win32
 		{7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3}.GTK Debug.ActiveCfg = Debug|Win32
 		{7BEB9CD6-C422-40AE-8D71-8B6FA3BC2AC3}.Release.ActiveCfg = Release|Win32
-		{4890F5E2-CAE6-4812-A79A-69724DEEFC32}.Debug.ActiveCfg = Debug|Win32
-		{4890F5E2-CAE6-4812-A79A-69724DEEFC32}.GTK Debug.ActiveCfg = Debug|Win32
-		{4890F5E2-CAE6-4812-A79A-69724DEEFC32}.Release.ActiveCfg = Release|Win32
 		{EEF707B1-1C2D-49B8-9B43-9441FB705F90}.Debug.ActiveCfg = Debug|Win32
 		{EEF707B1-1C2D-49B8-9B43-9441FB705F90}.GTK Debug.ActiveCfg = Debug|Win32
 		{EEF707B1-1C2D-49B8-9B43-9441FB705F90}.Release.ActiveCfg = Release|Win32

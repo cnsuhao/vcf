@@ -1233,7 +1233,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RegExx"=".\FoundationKit\RegExx.dsp" - Package Owner=<4>
+Project: "RegExx"="..\vc80\FoundationKit\RegExx.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

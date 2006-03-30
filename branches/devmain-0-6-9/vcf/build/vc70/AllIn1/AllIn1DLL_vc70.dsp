@@ -231,6 +231,7 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationException.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\ApplicationKit.cpp
+# ADD CPP /Yc"vcf/ApplicationKit/ApplicationKit.h"
 # End Source File
 # Begin Source File
 
@@ -791,18 +792,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\HelpEvent.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserPeer.h
 # End Source File
 # Begin Source File
 
@@ -1470,14 +1459,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32Listview.cpp
 # End Source File
 # Begin Source File
@@ -1774,15 +1755,7 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\ImageLoaderException.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\JPEGLoader.cpp
-
-!IF  "$(CFG)" == "AllIn1DLL - Win32 Debug"
-
 # SUBTRACT CPP /YX /Yc /Yu
-
-!ELSEIF  "$(CFG)" == "AllIn1DLL - Win32 Release"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 
@@ -1812,15 +1785,7 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\PixelFormats.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\PNGLoader.cpp
-
-!IF  "$(CFG)" == "AllIn1DLL - Win32 Debug"
-
 # SUBTRACT CPP /YX /Yc /Yu
-
-!ELSEIF  "$(CFG)" == "AllIn1DLL - Win32 Release"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 

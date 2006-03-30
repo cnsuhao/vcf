@@ -1127,6 +1127,7 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\ImageLoaderException.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\JPEGLoader.cpp
+# SUBTRACT CPP /YX /Yc /Yu
 # End Source File
 # Begin Source File
 
@@ -1152,6 +1153,7 @@ SOURCE=..\..\..\src\vcf\GraphicsKit\PixelFormats.h
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\GraphicsKit\PNGLoader.cpp
+# SUBTRACT CPP /YX /Yc /Yu
 # End Source File
 # Begin Source File
 
@@ -1974,18 +1976,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\HTMLBrowserPeer.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\src\vcf\ApplicationKit\ImageControl.cpp
 # End Source File
 # Begin Source File
@@ -2647,14 +2637,6 @@ SOURCE=..\..\..\src\vcf\ApplicationKit\Win32FontDialog.cpp
 # Begin Source File
 
 SOURCE=..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h
 # End Source File
 # Begin Source File
 
