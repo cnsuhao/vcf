@@ -1733,32 +1733,6 @@
 				RelativePath="..\..\..\src\vcf\ApplicationKit\HorizontalLayoutContainer.h">
 			</File>
 			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;VCF_ALLIN1_DLL;VCF_ALLIN1_EXPORTS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_NDEBUG;_WINDOWS;_MBCS;_USRDLL;VCF_ALLIN1_DLL;VCF_ALLIN1_EXPORTS;$(NoInherit)"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserControl.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\HTMLBrowserPeer.h">
-			</File>
-			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\ImageControl.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -3241,29 +3215,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32FontDialog.h">
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;VCF_ALLIN1_DLL;VCF_ALLIN1_EXPORTS;$(NoInherit)"
-						BasicRuntimeChecks="3"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="1"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions="WIN32;_NDEBUG;_WINDOWS;_MBCS;_USRDLL;VCF_ALLIN1_DLL;VCF_ALLIN1_EXPORTS;$(NoInherit)"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32HTMLDOMElements.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\vcf\ApplicationKit\Win32Listview.cpp">
