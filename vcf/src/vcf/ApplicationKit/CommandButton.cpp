@@ -110,7 +110,7 @@ double CommandButton::getPreferredWidth()
 	String s = getCaption();
 	GraphicsContext* ctx = this->getContext();
 	if ( !s.empty() ) {
-		return ctx->getTextWidth( s ) + 20;
+		return maxVal<>( Control::getPreferredWidth(), ctx->getTextWidth( s ) + 20 );
 	}
 
 	return Control::getPreferredWidth();
@@ -233,6 +233,9 @@ void CommandButton::onFocusLost( FocusEvent* event )
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.4  2006/04/05 03:35:58  ddiego
+*post cvs crash updates.
+*
 *Revision 1.4.2.3  2006/03/26 22:37:34  ddiego
 *minor update to source docs.
 *

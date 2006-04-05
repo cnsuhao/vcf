@@ -62,6 +62,16 @@ public:
 	* has been created
 	*/
 	void afterNewDocument( Document* newDocument ) {
+
+		//destroy the old document if neccessary
+		if ( NULL != currentDocument_ ) {
+			Component* owner = currentDocument_->getOwner();
+			if ( NULL != owner ) {
+				owner->removeComponent( currentDocument_ );
+				currentDocument_->free();
+			}
+		}
+
 		currentDocument_ = newDocument;
 
 		newDocument->getWindow()->setCaption( getDocumentWindowCaption(newDocument) );
@@ -439,6 +449,9 @@ public:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.2  2006/04/05 03:35:58  ddiego
+*post cvs crash updates.
+*
 *Revision 1.4.2.1  2006/03/14 02:25:46  ddiego
 *large amounts of source docs updated.
 *

@@ -133,9 +133,13 @@ _event_( "VCF::ListModelEventHandler", AbstractListModel, VCF::ListModelEvent, I
 _class_rtti_end_
 */
 
-_class_abstract_rtti_(AbstractModel, "VCF::Model", ABSTRACTMODEL_CLASSID)
+_class_abstract_rtti_(Model, "VCF::Component", MODEL_CLASSID)
 _event_( "VCF::ModelEventHandler", VCF::ModelEvent, ModelChanged )
 _event_( "VCF::ModelValidationEventHandler", VCF::ValidationEvent, ModelValidate )
+_class_rtti_end_
+
+_class_abstract_rtti_(AbstractModel, "VCF::Model", ABSTRACTMODEL_CLASSID)
+
 _class_rtti_end_
 
 /*
@@ -268,10 +272,7 @@ _property_( String, "caption", getCaption, setCaption, "" )
 _class_rtti_end_
 
 
-_class_abstract_rtti_(Model, "VCF::Object", MODEL_CLASSID)
-_abstract_event_( "VCF::ModelEventHandler", VCF::ModelEvent, ModelEmptied )
-_abstract_event_( "VCF::ModelValidationEventHandler", VCF::ValidationEvent, ModelValidate )
-_class_rtti_end_
+
 
 /* 
 JC - Note that we should change this to RTTI as an interface!!!
@@ -812,6 +813,9 @@ _class_rtti_end_
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.7  2006/04/05 03:35:58  ddiego
+*post cvs crash updates.
+*
 *Revision 1.4.2.6  2006/03/06 03:48:30  ddiego
 *more docs, plus update add-ins, plus migrated HTML browser code to a new kit called HTMLKit.
 *

@@ -3682,7 +3682,7 @@ void Win32ToolKit::internal_runEventLoop()
 			internal_idleTime();
 
 			if ( NULL != runningApp ) {
-				StringUtils::trace( "runningApp->idleTime()\n" );
+				//StringUtils::trace( "runningApp->idleTime()\n" );
 				runningApp->idleTime();
 			}
 
@@ -4162,6 +4162,9 @@ void Win32ToolKit::internal_systemSettingsChanged()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.6.2.28  2006/04/05 03:35:58  ddiego
+*post cvs crash updates.
+*
 *Revision 1.6.2.27  2006/03/28 04:04:36  ddiego
 *added a slight adjustment to idle message handling. Component
 *updating is now handled there instead of a timer.

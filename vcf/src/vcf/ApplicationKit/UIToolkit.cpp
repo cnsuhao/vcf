@@ -597,8 +597,12 @@ void getHelpInfo( String& helpBookName, String& helpDirectory )
 	if ( helpBookName.empty() || helpDirectory.empty() ) {
 		ProgramInfo* info = System::getResourceBundle()->getProgramInfo();
 		if ( NULL != info ) {
-			helpDirectory = info->getHelpDirectory();
-			helpBookName = info->getHelpName();
+			if ( helpDirectory.empty() ) {
+				helpDirectory = info->getHelpDirectory();
+			}
+			if ( helpBookName.empty() ) {
+				helpBookName = info->getHelpName();
+			}
 			delete info;
 		}
 	}
@@ -1411,6 +1415,9 @@ void UIToolkit::internal_idleTime()
 /**
 *CVS Log info
 *$Log$
+*Revision 1.5.2.16  2006/04/05 03:35:58  ddiego
+*post cvs crash updates.
+*
 *Revision 1.5.2.15  2006/03/28 04:10:17  ddiego
 *tweaked some function names for the update process.
 *

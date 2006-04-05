@@ -349,8 +349,8 @@ public:
 };
 
 #define FOO_CLASSID		"99c0754b-c18f-49b0-999f-81384c65fd18"
-BEGIN_CLASSINFO( Foo, "Foo", "VCF::Object", FOO_CLASSID )
-END_CLASSINFO( Foo )
+_class_rtti_( Foo, "VCF::Object", FOO_CLASSID )
+_class_rtti_end_
 
 int main( int argc, char** argv ) 
 {
@@ -2379,6 +2379,9 @@ p1.wait(); //blocks indefinitely till the "XCOPY" process ends.
 <!-- 
 CVS Log info
 $Log$
+Revision 1.8.2.4  2006/04/05 03:35:57  ddiego
+post cvs crash updates.
+
 Revision 1.8.2.3  2006/03/12 22:01:33  ddiego
 doc updates.
 

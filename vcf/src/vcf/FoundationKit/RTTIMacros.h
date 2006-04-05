@@ -26,7 +26,22 @@ in ClassInfo.h any more.
 #ifdef VCF_RTTI
 
 
-
+/**
+When defining your classes RTTI info in the VCF you will always start
+with either this macro or the _class_abstract_rtti_ macro.
+This will begin the declaration of a nested class derived from
+ClassInfo.
+@param  classType the class type to use. If you class is called Foo,
+then you will pass in Foo here.
+@param superClassName the name of the super class for this class. This 
+must be a fully qualified classname (see above). If your class
+was called Foo and derived from VCF::Object, then you would pass
+in "VCF::Object" here.
+@param classID a string that represents a unique id. Preferably a UUID
+that has been converted into a string representation.
+This macro must be paired with the _class_rtti_end_ macro once
+you are finished defining your RTTI.
+*/
 #define _class_rtti_(classType,superClassName,classID) \
 	class classType##_rtti_ClassInfo : public VCF::ClassInfo<classType> { \
 	public: \
@@ -44,6 +59,22 @@ in ClassInfo.h any more.
 	\
 
 
+/**
+When defining your classes RTTI info in the VCF you will always start
+with either this macro or the _class_rtti_ macro.
+This will begin the declaration of a nested class derived from
+AbstractClassInfo.
+@param  ClassType the class type to use. If you class is called Foo,
+then you will pass in Foo here.
+@param superClassName the name of the super class for this class. This 
+must be a fully qualified classname (see above). If your class
+was called Foo and derived from VCF::Object, then you would pass
+in "VCF::Object" here.
+@param classID a string that represents a unique id. Preferably a UUID
+that has been converted into a string representation.
+This macro must be paired with the _class_rtti_end_ macro once
+you are finished defining your RTTI.
+*/
 #define _class_abstract_rtti_(classType,superClassName,classID) \
 	class classType##_rtti_ClassInfo : public VCF::AbstractClassInfo<classType> { \
 	public: \
@@ -56,7 +87,21 @@ in ClassInfo.h any more.
 
 
 
-
+/**
+When defining your interfaces RTTI info in the VCF you will always start
+with this macro. This will begin the declaration of a nested class
+derived from InterfaceInfo.
+@param  InterfaceType the class type to use for your interface. If your
+interface is called FooInterface, then you will pass in FooInterface here.
+@param SuperInterfaceName the name of the interface that this interface derives
+from. This must be a fully qualified classname. If your class
+was called FooInterface and derived from VCF::Interface, then you would pass
+in "VCF::Interface" here (this will be the case most of the time).
+@param InterfaceID a string that represents a unique id. Preferably a UUID
+that has been converted into a string representation.
+This macro must be paired with the _interface_rtti_end_ macro once
+you are finished defining your RTTI.
+*/
 #define _interface_rtti_(InterfaceType,SuperInterfaceName,InterfaceID)\
 	class InterfaceType##_rtti_InterfaceInfo : public VCF::InterfaceInfo<InterfaceType> {\
 	public:\
@@ -341,9 +386,6 @@ in ClassInfo.h any more.
 
 
 
-
-
-
 #else
 
 //No RTTI defined!
@@ -436,6 +478,9 @@ in ClassInfo.h any more.
 /**
 *CVS Log info
 *$Log$
+*Revision 1.2.2.2  2006/04/05 03:35:59  ddiego
+*post cvs crash updates.
+*
 *Revision 1.2.2.1  2005/09/12 03:47:05  ddiego
 *more prop editor updates.
 *
