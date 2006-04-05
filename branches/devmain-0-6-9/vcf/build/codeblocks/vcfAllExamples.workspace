@@ -39,6 +39,7 @@
 		<Project filename="..\..\examples\Labels\Labels_cb.cbp" />
 		<Project filename="..\..\examples\ListBox\ListBox_cb.cbp" />
 		<Project filename="..\..\examples\Localization\Localization_cb.cbp" />
+		<Project filename="..\..\examples\LocaleUI\LocaleUI_cb.cbp" />
 		<Project filename="..\..\examples\MinMax\MinMax_cb.cbp" />
 		<Project filename="..\..\examples\MVCBasics\MVCBasics_cb.cbp" />
 		<Project filename="..\..\examples\OpenGLShapes\OpenGLShapes_cb.cbp" />
