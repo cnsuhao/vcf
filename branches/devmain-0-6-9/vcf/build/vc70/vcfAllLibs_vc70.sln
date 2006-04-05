@@ -1,8 +1,4 @@
 Microsoft Visual Studio Solution File, Format Version 7.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllIn1", ".\AllIn1\AllIn1_vc70.vcproj", "{9D3B86B8-BDDC-425A-8741-26B15A73DEA6}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AllIn1DLL", ".\AllIn1\AllIn1DLL_vc70.vcproj", "{CBFABE9F-56BA-43ED-8FA4-284B8B3F7FE7}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationKit", ".\ApplicationKit\ApplicationKit_vc70.vcproj", "{CFD6EAE2-10C6-466D-8BDE-A7E905B842C2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationKitDLL", ".\ApplicationKit\ApplicationKitDLL_vc70.vcproj", "{DDB9C753-8C64-4F67-A967-F141C27D6C5A}"
@@ -104,12 +100,6 @@ Global
 		{B17A7B12-0BD1-4DFA-B65B-70AAB5985298}.2 = {AFD23D9A-CF87-4FF4-AFC8-35CE2E72AF92}
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{9D3B86B8-BDDC-425A-8741-26B15A73DEA6}.Debug.ActiveCfg = Debug|Win32
-		{9D3B86B8-BDDC-425A-8741-26B15A73DEA6}.GTK Debug.ActiveCfg = Debug|Win32
-		{9D3B86B8-BDDC-425A-8741-26B15A73DEA6}.Release.ActiveCfg = Release|Win32
-		{CBFABE9F-56BA-43ED-8FA4-284B8B3F7FE7}.Debug.ActiveCfg = Debug|Win32
-		{CBFABE9F-56BA-43ED-8FA4-284B8B3F7FE7}.GTK Debug.ActiveCfg = Debug|Win32
-		{CBFABE9F-56BA-43ED-8FA4-284B8B3F7FE7}.Release.ActiveCfg = Release|Win32
 		{CFD6EAE2-10C6-466D-8BDE-A7E905B842C2}.Debug.ActiveCfg = Debug|Win32
 		{CFD6EAE2-10C6-466D-8BDE-A7E905B842C2}.GTK Debug.ActiveCfg = Debug|Win32
 		{CFD6EAE2-10C6-466D-8BDE-A7E905B842C2}.Release.ActiveCfg = Release|Win32

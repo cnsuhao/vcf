@@ -153,8 +153,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reflection", "..\..\example
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegEnVar", "..\..\src\thirdparty\win32\RegEnVar\RegEnVar_vc70.vcproj", "{21E550DC-98D6-4C8F-8D50-486915BF25E1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RegExx", ".\FoundationKit\RegExx_vc70.vcproj", "{7FBADD18-E1EA-40E7-9C36-135AE4FB6289}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKit", ".\RemoteObjectKit\RemoteObjectKit_vc70.vcproj", "{95B65D06-FDFC-4412-93BB-2EC6525C1F79}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKitStatic", ".\RemoteObjectKit\RemoteObjectKitStatic_vc70.vcproj", "{24CCE6E8-C33A-4670-AA46-72B34049A4E1}"
@@ -626,10 +624,6 @@ Global
 		{21E550DC-98D6-4C8F-8D50-486915BF25E1}.Generate YY and LL files.ActiveCfg = Release|Win32
 		{21E550DC-98D6-4C8F-8D50-486915BF25E1}.GTK Debug.ActiveCfg = Debug|Win32
 		{21E550DC-98D6-4C8F-8D50-486915BF25E1}.Release.ActiveCfg = Release|Win32
-		{7FBADD18-E1EA-40E7-9C36-135AE4FB6289}.Debug.ActiveCfg = Debug|Win32
-		{7FBADD18-E1EA-40E7-9C36-135AE4FB6289}.Generate YY and LL files.ActiveCfg = Release|Win32
-		{7FBADD18-E1EA-40E7-9C36-135AE4FB6289}.GTK Debug.ActiveCfg = Debug|Win32
-		{7FBADD18-E1EA-40E7-9C36-135AE4FB6289}.Release.ActiveCfg = Release|Win32
 		{95B65D06-FDFC-4412-93BB-2EC6525C1F79}.Debug.ActiveCfg = Debug|Win32
 		{95B65D06-FDFC-4412-93BB-2EC6525C1F79}.Generate YY and LL files.ActiveCfg = Debug|Win32
 		{95B65D06-FDFC-4412-93BB-2EC6525C1F79}.GTK Debug.ActiveCfg = Debug|Win32
