@@ -1087,9 +1087,8 @@ make -fvcfAllLibs.mak -DFREECOMP=TRUE make -fvcfAllLibs.mak static_libs
 						<ulink url="http://forums.codeblocks.org/index.php">forums.codeblocks.org</ulink>). 
 						While version 1.0 RC2 might work, we have had troubles with precompiled header 
 						support, and strongly recommend the current	Nightly Builds or newer.  See instruction 
-						at the C::B site for using their IDE. Further, the VCF codeblocks projects have 
-						only been tested with versions 3.4.4 and 3.4.5 of the MinGW-GCC compiler, as of 
-						the release date.
+						at the C::B site for using their IDE. The VCF codeblocks projects are known to work 
+						versions 3.4.4 and 3.4.5 of the MinGW-GCC compiler. The VCF projects will not work with 3.4.2 or older.
 					</para>				
 				<para>There are several different Code::Blocks (C::B) workspaces you can use to build the 
 				VCF, depending on whether you want to build dynamic libraries, static libraries, or both. 
@@ -3195,6 +3194,9 @@ make tutorials
 <!--
 CVS Log info
 $Log$
+Revision 1.6.2.14  2006/04/05 01:55:40  dougtinkham
+added note for gcc 3.4.2 under codeblocks build section
+
 Revision 1.6.2.13  2006/03/28 02:20:09  ddiego
 updated projects.
 
