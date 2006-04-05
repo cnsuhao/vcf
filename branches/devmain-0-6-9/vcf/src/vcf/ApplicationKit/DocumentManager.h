@@ -1614,14 +1614,14 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::attachUI( const DocumentI
 	}
 
 	//need to provide a common place to
-	//init everything once all the "connections" are in place
-
-	// let the policy to update its data to the new document
-	DocInterfacePolicy::afterNewDocument( document );
+	//init everything once all the "connections" are in place	
 
 	DocManagerEvent event( document, DocumentManager::dmDocumentInitialized );
 
 	DocumentInitialized.fireEvent( &event );
+
+	// let the policy to update its data to the new document
+	DocInterfacePolicy::afterNewDocument( document );
 
 	// makes sure the Frame has an handler to 
 	// to catch if the document's window is to be closing
@@ -1885,6 +1885,9 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.9  2006/04/05 03:35:58  ddiego
+*post cvs crash updates.
+*
 *Revision 1.4.2.8  2006/03/18 22:17:42  ddiego
 *removed par tag for doxygen comments as its not needed and
 *screws up the doc formatting.

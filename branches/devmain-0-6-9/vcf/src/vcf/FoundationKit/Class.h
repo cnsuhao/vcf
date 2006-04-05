@@ -106,8 +106,8 @@ for the basic RTTI info (class-super class relation ships) and to make sure you'
 any properties of your super class. For example:
 \code
 	class Foo : public VCF::Object {
-		BEGIN_CLASSINFO(Foo, "Foo", "VCF::Object", FOO_CLASSID)
-		END_CLASSINFO(Foo)
+		_class_rtti_(Foo, "VCF::Object", FOO_CLASSID)
+		_class_rtti_end_
 	...
 	};
 \endcode
@@ -115,17 +115,19 @@ The macros create a public nested class used to register your class that you're 
 The above macros generate the following inline code for the developer of the Foo class.
 \code
 	class Foo : public VCF::Object {
-		class FooInfo : public ClassInfo&ltFoo&gt {
-		public:
-			FooInfo( Foo* source ):
- 				ClassInfo&ltFoo&gt( source, "Foo", "VCF::Object", "1E8CBE21-2915-11d4-8E88-00207811CFAB" ){
-				if ( true == isClassRegistered()  ){
+		class Foo_rtti_ClassInfo : public VCF::ClassInfo<Foo> { 
+		public: 
+			typedef Foo RttiClassType;
+			Foo_rtti_ClassInfo (): 
+			VCF::ClassInfo<RttiClassType>( VCF::StringUtils::getClassNameFromTypeInfo(typeid(Foo)), 
+											"VCF::Object", 
+											"1E8CBE21-2915-11d4-8E88-00207811CFAB" ){ 
 
+				VCF::String tmpClassName = VCF::StringUtils::getClassNameFromTypeInfo(typeid(Foo)); 
+				if ( isClassRegistered()  ){ 
+				
 				}
-			};
-
-			virtual ~FooInfo(){};
-
+			}
 		};//end of FooInfo
 		...
 	};
@@ -136,9 +138,9 @@ the you want to expose the properties of the class you're writing. Adding proper
 done through macros and looks like this:
 \code
 	class Foo : public VCF::Object {
-		BEGIN_CLASSINFO(Foo, "Foo", "VCF::Object", FOO_CLASSID)
-		PROPERTY( double, "fooVal", Foo::getFooVal, Foo::setFooVal, PROP_DOUBLE )
-		END_CLASSINFO(Foo)
+		_class_rtti_(Foo, "VCF::Object", FOO_CLASSID)
+		_property_( double, "fooVal", getFooVal, setFooVal, "The foo value property" )
+		_class_rtti_end_
 	...
 	double getFooVal();
 	void setFooVal( const double& val );
@@ -148,9 +150,9 @@ done through macros and looks like this:
 If the properties are Object derived properties then the following can be done:
 \code
 	class Foo : public VCF::Object {
-		BEGIN_CLASSINFO(Foo, "Foo", "VCF::Object", FOO_CLASSID)
-		OBJECT_PROPERTY( Foo, "fooObj", Foo::getFoo, Foo::setFoo )
-		END_CLASSINFO(Foo)
+		_class_rtti_(Foo, "VCF::Object", FOO_CLASSID)
+		_property_object_( Foo, "fooObj", getFoo, setFoo, "The Foo object property" )
+		_class_rtti_end_(Foo)
 	...
 	Foo* getFoo();
 	void setFoo( Foo* val );
@@ -411,6 +413,9 @@ private:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.3.2.4  2006/04/05 03:35:59  ddiego
+*post cvs crash updates.
+*
 *Revision 1.3.2.3  2006/03/26 22:37:34  ddiego
 *minor update to source docs.
 *

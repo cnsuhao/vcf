@@ -46,7 +46,7 @@ object Form1 : Window, 'ED88C0A1-26AB-11d4-B539-00C04F0196DA'
 
 	height = 537.00000
 
-	left = 24.00000
+	left = 234.00000
 
 	leftBorderWidth = 0.00000
 
@@ -66,7 +66,7 @@ object Form1 : Window, 'ED88C0A1-26AB-11d4-B539-00C04F0196DA'
 
 	toolTipText = ''
 
-	top = 18.00000
+	top = 70.00000
 
 	topBorderHeight = 0.00000
 

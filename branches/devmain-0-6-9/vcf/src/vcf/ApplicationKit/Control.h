@@ -171,12 +171,17 @@ The base class for all visual components in the Visual Component Framework.
 In addition it implements the View interface. This means that the
 Control is itself a specialized form of a View, though it may not have
 have a model, and can hold an external view, separate from itself.
-In addition a control receives a wide variety of events from the user
-such as paint events, mouse events, keyboard events, help events, etc.
-Controls can have parents, thus form a hierarchy of parent-child relationships.
-Controls can also have children if they implement the Container interface.
+
+A control receives a wide variety of events from the user such as paint 
+events, mouse events, keyboard events, help events, etc.
+
+Controls can have parents, and can form a hierarchy of parent-child 
+controls. Controls can have children if they have a valid Container 
+instance set.
+
 Controls can also be aligned or anchored, which can aid in laying out the
 presentation of a UI.
+
 Finally a Control may also be lightweight or heavyweight, which determines
 how many  window system resources the control consumes. A heavyweight control
 has a native window/widget and takes up resources accordingly. In addition a
@@ -184,8 +189,9 @@ heavyweight control also has a native graphics context associated with it that
 also takes up resources. In contrast, a lightweight control shares the underlying
 native window and graphics context resources with it's parent, and greatly
 reduces the number of resources the application will consume. This is especially
-useful when making complex custom controls that have many moving parts like a tree-list
-control, complete with a header and movable icons, etc.
+useful when making complex custom controls that have many moving parts like 
+a tree-list control, complete with a header and movable icons, etc.
+
 To aid in the drawing of a control, all controls are double buffered by default
 to prevent flicker, though this can be turned off and on at will.
  @delegates
@@ -1757,6 +1763,9 @@ protected:
 /**
 *CVS Log info
 *$Log$
+*Revision 1.4.2.17  2006/04/05 03:35:58  ddiego
+*post cvs crash updates.
+*
 *Revision 1.4.2.16  2006/03/18 23:03:11  ddiego
 *added several new virtual methods to control class to make it
 *easier to write custom controls and respond to events.
