@@ -78,9 +78,10 @@ AppUpdatesURL=http://vcf.sf.net
 AppVersion=VCF-VERSION
 UninstallDisplayIcon={app}\vcf.ico
 UninstallDisplayName=Visual Component Framework VCF-VERSION
-WizardImageFile=F:\code\vcfdev\dev\vcf\installers\win32\wizimage.bmp
+WizardImageFile=wizimage.bmp
 WizardImageBackColor=clBlack
-WizardSmallImageFile=F:\code\vcfdev\dev\vcf\installers\win32\wizsmall.bmp
+WizardSmallImageFile=wizsmall.bmp
+WizardImageStretch=false
 
 [Registry]
 ;Root: HKCU; Subkey: Environment; ValueType: string; ValueName: VCF_INCLUDE; ValueData: {app}\include; Flags: uninsdeletevalue dontcreatekey; Components: Src Binaries
