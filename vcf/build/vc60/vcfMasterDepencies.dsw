@@ -753,18 +753,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "RegExx"=.\FoundationKit\RegExx.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "RemoteObjectKit"=.\RemoteObjectKit\RemoteObjectKit.dsp - Package Owner=<4>
 
 Package=<5>
