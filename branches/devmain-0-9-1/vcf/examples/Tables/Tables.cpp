@@ -1,0 +1,148 @@
+//Tables.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/ControlsKit.h"
+
+
+using namespace VCF;
+
+
+
+class TablesWindow : public Window {
+public:
+	TablesWindow() {
+		setCaption( "Tables" );
+		
+
+		TableControl* table = new TableControl();
+
+		add( table, AlignClient );
+
+		TableModel* model = table->getTableModel();
+
+		model->empty();
+
+		table->setDefaultTableCellFont( &Font("Tahoma") );
+
+		model->addColumns( 12 );
+		model->addRows(300);
+		model->setFixedRowsCount( 1 );
+		model->setFixedColumnsCount( 1 );		
+
+		for (int y=0;y<model->getRowCount();y++ ){
+			for ( int x=0;x<model->getColumnCount();x++ ) {
+				model->getItem( y, x )->setCaption( Format( "Cell [%d,%d]" ) % y % x );
+				if ( y == 10 && x == 5 ) {
+					Font font = model->getItem( y, x )->getFont();
+					font.setName( "Times New Roman" );
+					font.setPointSize( 12.6 );
+					font.setBold( true );
+					model->getItem( y, x )->setFont( &font );
+					model->getItem( y, x )->setColor( Color::getColor("yellow") );
+				}
+			}
+		}
+
+
+
+		/*******************************************
+		---------------------------------------------
+		|	Hey there!!!! Yes you! The following line 
+		|	turns *OFF* row selection!! :)		
+		---------------------------------------------
+		********************************************/
+		table->setAllowFixedRowSelection( false );
+
+	}
+
+	virtual ~TablesWindow(){};
+
+};
+
+
+
+
+class TablesApplication : public Application {
+public:
+
+	TablesApplication( int argc, char** argv ) : Application(argc, argv) {
+
+	}
+
+	virtual bool initRunningApplication(){
+		bool result = Application::initRunningApplication();
+
+		Window* mainWindow = new TablesWindow();
+		setMainWindow(mainWindow);
+		mainWindow->setBounds( &Rect( 100.0, 100.0, 500.0, 500.0 ) );
+		mainWindow->show();
+
+		return result;
+	}
+
+};
+
+
+
+int main(int argc, char *argv[])
+{
+	Application* app = new TablesApplication( argc, argv );
+
+	Application::main();
+
+
+	return 0;
+}
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.6  2006/04/07 02:34:46  ddiego
+*initial checkin of merge from 0.6.9 dev branch.
+*
+*Revision 1.5.2.3  2006/03/26 22:37:34  ddiego
+*minor update to source docs.
+*
+*Revision 1.5.2.2  2005/09/03 14:03:52  ddiego
+*added a package manager to support package info instances, and
+*fixed feature request 1278069 - Background color of the TableControl cells.
+*
+*Revision 1.5.2.1  2005/07/23 21:45:43  ddiego
+*merged in marcellos changes from the 0-6-7 dev branch.
+*
+*Revision 1.4.2.3  2005/04/26 04:03:47  ddiego
+*the first half of [ 1184432 ] Tables cell edit box follows scroll movement, is fixed. Still need to get the scrollbars to update.
+*
+*Revision 1.4.2.2  2005/04/17 17:19:10  iamfraggle
+*Small fixes
+*
+*Revision 1.4.2.1  2005/04/17 15:11:48  iamfraggle
+*Replaced old-style var arg calls with new Format calls.
+*
+*Revision 1.4  2004/12/01 04:15:15  ddiego
+*merged over devmain-0-6-6 code. Marcello did a kick ass job
+*of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
+*that he found. Many, many thanks for this Marcello.
+*
+*Revision 1.3.2.1  2004/08/31 04:12:11  ddiego
+*cleaned up the GraphicsContext class - made more pervasive use
+*of transformation matrix. Added common print dialog class. Fleshed out
+*printing example more.
+*
+*Revision 1.3  2004/08/07 02:47:39  ddiego
+*merged in the devmain-0-6-5 branch to stable
+*
+*Revision 1.2.2.4  2004/04/29 03:40:57  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*/
+
+
