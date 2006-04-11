@@ -47,7 +47,6 @@
 
         <if cond="FORMAT in ['mingw','gnu']">
            <cppflags>-Wno-multichar</cppflags>
-           <define>_UNICODE</define>
         </if>
 
         <if cond="FORMAT in ['msvc','msvc6prj']">
@@ -88,8 +87,8 @@
 
         <if cond="FORMAT=='gnu'">
         	<sys-lib>dl</sys-lib>
-		<sys-lib>uuid</sys-lib>
-		<sys-lib>rt</sys-lib>
+            <sys-lib>uuid</sys-lib>
+            <sys-lib>rt</sys-lib>
         </if>
 
         <include>$(VCF_INCLUDE)</include>
