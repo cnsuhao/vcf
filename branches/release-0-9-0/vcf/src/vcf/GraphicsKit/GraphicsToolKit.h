@@ -1,0 +1,520 @@
+#ifndef _VCF_GRAPHICSTOOLKIT_H__
+#define _VCF_GRAPHICSTOOLKIT_H__
+//GraphicsToolKit.h
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#if _MSC_VER > 1000
+#   pragma once
+#endif
+
+
+namespace VCF{
+
+class Rect;
+class Color;
+class Image;
+class ImageLoader;
+class ContextPeer;
+class GraphicsContext;
+class Font;
+class FontPeer;
+class GraphicsResourceBundle;
+class PrintSessionPeer; 
+class GraphicsResourceBundlePeer;
+
+
+/**
+\class FontInfo GraphicsToolKit.h "vcf/GraphicsKit/GraphicsToolKit.h"
+Use this class to retreive information about a loaded system
+font. This class is intended for read only purposes
+*/
+class GRAPHICSKIT_API FontInfo {
+public:
+	FontInfo(){}
+
+	FontInfo( const String& aName, const String& aFileName ):
+		name_(aName),
+		fileName_( aFileName ){}
+
+	FontInfo( const FontInfo& fi ) {
+		*this = fi;
+	}
+
+	FontInfo& operator=( const FontInfo& rhs ) {
+		name_ = rhs.name_;
+		fileName_ = rhs.fileName_;
+		return *this;
+	}
+
+	bool operator == ( const FontInfo& rhs ) const {
+		return (name_ == rhs.name_) && (fileName_ == rhs.fileName_);
+	}
+
+	bool operator > ( const FontInfo& rhs ) const {
+		return (name_ > rhs.name_) && (fileName_ > rhs.fileName_);
+	}
+
+	bool operator < ( const FontInfo& rhs ) const {
+		return (name_ < rhs.name_) && (fileName_ < rhs.fileName_);
+	}
+
+	bool operator != ( const FontInfo& rhs ) const {
+		return (name_ != rhs.name_) && (fileName_ != rhs.fileName_);
+	}
+
+	/**
+	returns the human readable name of the font, such as "Arial", or
+	"Century Schoolbook L". This is the name that should be used by the
+	Font::setName() and will match when calling the Font::getName()
+	*/
+	String name() const {
+		return name_;
+	}
+
+
+	/**
+	This returns the fully qualified file name for the font. This will differ
+	greatly from the name returned by FontInfo;;name() or Font::getName().
+	For example the name of the font might be "Century Schoolbook L", while the file
+	name might be /usr/share/fonts/default/Type1/c0590131.pfb
+	*/
+	String fileName() const {
+		return fileName_;
+	}
+
+protected:
+	String name_;
+	String fileName_;
+};
+
+
+
+/**
+\class GraphicsToolkit GraphicsToolKit.h "vcf/GraphicsKit/GraphicsToolKit.h"
+The GraphicsToolkit serves as a way to retreive basic system information
+and as a factory for creating various graphics peers, like the ContextPeer,
+FontPeer, and the system implementation the Image class
+*/
+class GRAPHICSKIT_API GraphicsToolkit : public Object{
+public:
+
+	typedef std::map<String,Color*> MapStringColor;
+	typedef std::map<Color, VCF::String> MapStringColorName;
+
+
+
+	GraphicsToolkit();
+
+	virtual ~GraphicsToolkit();
+
+	static ContextPeer* createContextPeer( const unsigned long& width, const unsigned long& height ) ;
+
+	static ContextPeer* createContextPeer( OSHandleID contextID );
+
+	static FontPeer* createFontPeer( const String& fontName );
+
+	static FontPeer* createFontPeer( const String& fontName, const double& pointSize );
+
+	static Image* createImage( const unsigned long& width, const unsigned long& height, const Image::ImageType& imageType = Image::itColor );
+
+	static Image* createImage( GraphicsContext* context, Rect* rect, const Image::ImageType& imageType = Image::itColor );
+
+	static PrintSessionPeer* createPrintSessionPeer();
+
+	static GraphicsResourceBundlePeer* createGraphicsResourceBundlePeer();
+
+	static GraphicsResourceBundle* getResourceBundle();
+
+
+	/**
+	*Create a image from a filename. The file is loaded into a Bitmap instance.
+	*The toolkit looks up the file extension and matches the type to
+	*an ImageLoader instance. The ImageLoader does the work of actually decoding the image
+	*/
+	static Image* createImage( const String& fileName );
+
+	static void saveImage( const String& fileName, Image* image );
+
+	static void registerImageLoader( const String& name, ImageLoader* imageLoader );
+
+	static ImageLoader* getImageLoader( const String& contentType );
+
+	static ImageLoader* getImageLoaderForFileName( const String& fileName );
+
+	static Color* getSystemColor( const unsigned long& systemColor );
+
+	static String getSystemColorNameFromMap( Color& color ) ;
+
+	static String getColorNameFromMap( const Color& color ) ;
+
+	static Color* getColorFromColormap( const int& gray );
+
+	static Color* getColorFromColormap( const String& colorName );
+
+	/**
+	finds the named color closest to another given one.
+	@param const Color& color, the given color.
+	@return Color*, the closest color found. The color itself if it is 
+	in the map.
+	*/
+	static Color* getColorMatchFromColormap( const Color& color );
+
+	static void printColorNameMap( ) ;
+
+	static Enumerator<FontInfo>* getAvailableSystemFonts();
+
+	static Font* getDefaultSystemFont() ;
+
+	/**
+	Returns the crurent DPI for the screen if the context
+	parameter is NULL, otherwise returns the dpi that 
+	is used by the graphics context.
+	*/
+	static double getDPI( GraphicsContext* context = NULL );
+
+	static void initGraphicsToolkit();
+
+	static void terminate();
+
+	static bool getAvailableImageTypes( std::vector< std::pair<String,String> >& contentTypes );
+
+	static GraphicsToolkit* internal_getDefaultGraphicsToolkit();
+
+	/**
+	Call this function if you need to reload various toolkit 
+	resoruces due to a systems settings changes, for example
+	teh user enabling or disabling themes.
+	*/
+	static void systemSettingsChanged();
+protected:
+	virtual ContextPeer* internal_createContextPeer( const unsigned long& width, const unsigned long& height ) = 0;
+
+	virtual ContextPeer* internal_createContextPeer( OSHandleID contextID ) = 0;
+
+	virtual FontPeer* internal_createFontPeer( const String& fontName )  = 0;
+
+	virtual FontPeer* internal_createFontPeer( const String& fontName, const double& pointSize )  = 0;
+
+	virtual Image* internal_createImage( const unsigned long& width, const unsigned long& height, const Image::ImageType& imageType ) = 0;
+
+	virtual Image* internal_createImage( GraphicsContext* context, Rect* rect, const Image::ImageType& imageType ) = 0;
+
+	virtual PrintSessionPeer* internal_createPrintSessionPeer() = 0;
+
+	virtual GraphicsResourceBundlePeer* internal_createGraphicsResourceBundlePeer() = 0;
+
+	virtual double internal_getDPI( GraphicsContext* context ) = 0;
+
+
+	virtual void internal_systemSettingsChanged() = 0;
+
+	/**
+	*Create a image from a filename. The file is loaded into a Bitmap instance.
+	*The toolkit looks up the file extension and matches the type to
+	*an ImageLoader instance. The ImageLoader does the work of actually decoding the image
+	*/
+	virtual Image* internal_createImage( const String& fileName );
+
+	virtual void internal_saveImage( const String& fileName, Image* image );
+
+	void internal_registerImageLoader( const String& name, ImageLoader* imageLoader );
+
+	virtual Color* internal_getSystemColor( const unsigned long& systemColor );
+
+	virtual String internal_getSystemColorNameFromMap( Color& color ) const ;
+
+	virtual String internal_getColorNameFromMap( const Color& color ) const ;
+
+	virtual Font* internal_getDefaultSystemFont() {
+		return NULL;
+	}
+
+
+
+
+
+
+	ImageLoader* internal_getImageLoader( const String& contentType );
+
+	ImageLoader* internal_getImageLoaderForFileName( const String& fileName );
+
+	Color* internal_getColorFromColormap( const int& gray );
+
+	Color* internal_getColorFromColormap( const String& colorName );
+
+	/**
+	* finds the named color closest to a color with a given RGB value
+	*/
+	Color* internal_getColorMatchFromColormap( const Color& color );
+
+	/**
+	* helper function to print the color map. Used for debugging purposes.
+	*/
+	void internal_printColorNameMap( ) const ;
+
+	Enumerator<FontInfo>* internal_getAvailableSystemFonts() {
+		return fontInfoContainer_.getEnumerator();
+	}
+
+
+
+
+
+	/**
+	maps for colors
+	*/
+	MapStringColor colorMap_;
+	MapStringColorName* colorNameMap_;
+
+	void initColorMap();
+	void initColorNameMapItem( const VCF::String& colorName, const uint8& r, const uint8& g, const uint8& b );
+	void destroyColorMaps();
+
+	std::map<unsigned long,Color*> systemColors_;
+	MapStringColorName* systemColorNameMap_;
+	void destroySystemColorNameMap();
+
+	std::vector<FontInfo> availableSystemFonts_;
+	EnumeratorContainer<std::vector<FontInfo>,FontInfo> fontInfoContainer_;
+
+
+	std::map<String,String> contentTypes_;
+
+
+	/**
+	this method should be overridden by implementers of the graphics toolkit
+	and should initialize the availableSystemFonts_ vector with a series of
+	FontInfo instances.
+	*/
+	virtual void initSystemFontNames() {};
+
+	void initContentTypes();
+
+	static GraphicsToolkit* graphicsToolkitInstance;
+	/**
+	ImageLoaders are stored in a map, keyed by the MIME content type
+	Thus JPEG loaders are stored under the key:
+	\code
+		"image/jpeg"
+	\endcode
+	*/
+	std::map<String, ImageLoader*> imageLoaders_;
+};
+
+};	// namespace VCF
+
+
+/**
+*CVS Log info
+*$Log$
+*Revision 1.7  2006/04/07 02:35:41  ddiego
+*initial checkin of merge from 0.6.9 dev branch.
+*
+*Revision 1.6.2.3  2006/03/12 22:42:08  ddiego
+*more doc updates - specific to graphicskit.
+*
+*Revision 1.6.2.2  2006/02/21 04:32:51  ddiego
+*comitting moer changes to theme code, progress bars, sliders and tab pages.
+*
+*Revision 1.6.2.1  2005/10/04 01:57:03  ddiego
+*fixed some miscellaneous issues, especially with model ownership.
+*
+*Revision 1.6  2005/07/18 03:54:19  ddiego
+*documentation updates.
+*
+*Revision 1.5  2005/07/09 23:06:00  ddiego
+*added missing gtk files
+*
+*Revision 1.4  2005/01/02 03:04:26  ddiego
+*merged over some of the changes from the dev branch because they're important resoource loading bug fixes. Also fixes a few other bugs as well.
+*
+*Revision 1.3.2.3  2005/06/11 00:50:50  marcelloptr
+*moved uint8/uint16 to VCF namespace
+*
+*Revision 1.3.2.2  2005/06/09 06:13:10  marcelloptr
+*simpler and more useful use of Color class with ctor and getters/setters
+*
+*Revision 1.3.2.1  2004/12/19 04:05:03  ddiego
+*made modifications to methods that return a handle type. Introduced
+*a new typedef for handles, that is a pointer, as opposed to a 32bit int,
+*which was causing a problem for 64bit compiles.
+*
+*Revision 1.3  2004/12/01 04:31:43  ddiego
+*merged over devmain-0-6-6 code. Marcello did a kick ass job
+*of fixing a nasty bug (1074768VCF application slows down modal dialogs.)
+*that he found. Many, many thanks for this Marcello.
+*
+*Revision 1.2.2.4  2004/11/10 19:09:53  marcelloptr
+*fixed documentation for doxygen
+*
+*Revision 1.2.2.3  2004/08/27 03:50:47  ddiego
+*finished off therest of the resource refactoring code. We
+*can now load in resoruces either from the burned in data in the .exe
+*or from resource file following the Apple bundle layout scheme.
+*
+*Revision 1.2.2.2  2004/08/25 04:43:33  ddiego
+*migrated the core printing changes into the graphics kit
+*
+*Revision 1.2.2.1  2004/08/21 21:07:10  ddiego
+*migrated over the Resource code to the FoudationKit.
+*Added support for a GraphicsResourceBundle that can get images.
+*Changed the AbstractApplication class to call the System::getResourceBundle.
+*Updated the various example code accordingly.
+*
+*Revision 1.2  2004/08/07 02:49:17  ddiego
+*merged in the devmain-0-6-5 branch to stable
+*
+*Revision 1.1.2.6  2004/06/29 03:58:47  marcelloptr
+*Improvements on Color class - changes so to have Color::getColor inlined
+*
+*Revision 1.1.2.5  2004/06/25 19:52:48  marcelloptr
+*adjusted macros and other changes for better performance
+*
+*Revision 1.1.2.4  2004/06/06 07:05:34  marcelloptr
+*changed macros, text reformatting, copyright sections
+*
+*Revision 1.1.2.3  2004/04/29 21:13:58  ddiego
+*made a few changes to the new OpenGLKit files, adjusting where the
+*CVS log was put, and changed a few cases for the export-import definition
+*was used. Also added the two projects to the vcfAllProject workspace
+*and added the script generated VC7 and VC71 projects as well.
+*
+*Revision 1.1.2.2  2004/04/29 04:10:27  marcelloptr
+*reformatting of source files: macros and csvlog and copyright sections
+*
+*Revision 1.1.2.1  2004/04/28 03:40:31  ddiego
+*migration towards new directory structure
+*
+*Revision 1.11.4.1  2004/04/26 21:58:48  marcelloptr
+*changes for dir reorganization: _VCF_MACRO_H__
+*
+*Revision 1.11  2003/12/18 05:15:59  ddiego
+*merge from devmain-0-6-2 branch into the stable branch
+*
+*Revision 1.10.2.3  2003/10/28 04:06:12  ddiego
+*updated the GraphicsContext and ContextPeer classes to support
+*slider control drawing. adjusted the Slider control accordingly.
+*Also changed some of the GraphicsKit headers to conform to the
+*current header style.
+*
+*Revision 1.10.2.2  2003/09/24 00:38:47  ddiego
+*added a way to get all the registered image loader types
+*
+*Revision 1.10.2.1  2003/08/14 20:29:51  marcelloptr
+*bug [788927] TextControl::getSelectedText() return all text if no text selected
+*
+*Revision 1.10  2003/08/09 02:56:44  ddiego
+*merge over from the devmain-0-6-1 branch
+*Changes
+*Features:
+*-Added additional implementation to better support the MVC architecture in
+*the VCF
+*
+*-Added a Document/View architecure that is similar to MFC's or NextSteps's
+*Doc/View architectures
+*
+*-Integrated the Anti Grain Graphics library into the GraphicsKit. There is
+*now basic support for it in terms of drawing vector shapes
+*(fills and strokes). Image support will come in the next release
+*
+*-Added several documented graphics tutorials
+*
+*Bugfixes:
+*
+*[ 775744 ] wrong buttons on a dialog
+*[ 585239 ] Painting weirdness in a modal dialog ?
+*[ 585238 ] Modal dialog which makes a modal Dialog
+*[ 509004 ] Opening a modal Dialog causes flicker
+*[ 524878 ] onDropped not called for MLTcontrol
+*
+*Plus an issue with some focus and getting the right popup window to activate
+*has also been fixed
+*
+*Revision 1.9.2.2  2003/08/02 00:41:12  marcelloptr
+*fixes for vc6;  improved dependencies
+*
+*Revision 1.9.2.1  2003/07/24 04:10:43  ddiego
+*added fixes for the following tasks:
+*Task #82279 ApplicationKit: add static methods to singleton objects
+*Task #82277 FoundationKit: add static methods to singleton objects
+*this required a bunch of changes in terms of getting rid of older style code
+*
+*Revision 1.9  2003/05/17 20:37:16  ddiego
+*this is the checkin for the 0.6.1 release - represents the merge over from
+*the devmain-0-6-0 branch plus a few minor bug fixes
+*
+*Revision 1.8.2.3  2003/04/17 04:29:49  ddiego
+*updated scintilla, added gtk support for the application kit, with stubs
+*for the basic peers.
+*
+*Revision 1.8.2.2  2003/03/23 03:23:53  marcelloptr
+*3 empty lines at the end of the files
+*
+*Revision 1.8.2.1  2003/03/12 03:11:50  ddiego
+*switched all member variable that used the "m_"<name> prefix to
+* <name>"_" suffix nameing standard.
+*Also changed all vcf builder files to accomadate this.
+*Changes were made to the Stream classes to NOT multiple inheritance and to
+*be a little more correct. Changes include breaking the FileStream into two
+*distinct classes, one for input and one for output.
+*
+*Revision 1.8  2003/02/26 04:30:43  ddiego
+*merge of code in the devmain-0-5-9 branch into the current tree.
+*most additions are in the area of the current linux port, but the major
+*addition to this release is the addition of a Condition class (currently
+*still under development) and the change over to using the Delegate class
+*exclusively from the older event handler macros.
+*
+*Revision 1.7.2.5  2003/02/20 02:46:02  ddiego
+*added in the base files for supporting a GTK peer implementation. Core parts
+*of the GTKContext work (basic line primitives), and working on the GTKImage
+*class.
+*
+*Revision 1.7.2.4  2003/01/08 04:25:56  marcelloptr
+*ColorNames static map and Color::s_ now use String instead than String* - VCF_LARGE_COLOR_LIST introduced
+*
+*Revision 1.7.2.3  2002/12/30 21:48:07  ddiego
+*miscellaneous fixes to the ColorNames class. Adjusted the way it looks up colors
+*and got rid of some of the extern variables, also removed the pragma lib in the
+*color.cpp file
+*
+*: ----------------------------------------------------------------------
+*
+*Revision 1.7.2.2  2002/12/28 22:51:32  marcelloptr
+*Color Spaces transformations and Color Names
+*
+*Revision 1.7.2.1  2002/12/27 23:04:44  marcelloptr
+*Improved macros for automatic import/export of libraries. - Warning fixes. - Other Minor Changes.
+*
+*Revision 1.7  2002/11/18 00:46:08  ddiego
+*this is the merge over of all the bug fixes and features (mostly
+*VCF Builder stuff) from the devmain-0-5-8 branch
+*
+*Revision 1.6.4.1  2002/09/28 22:22:46  ddiego
+*added some support for font info and determinging the names on the system
+*
+*Revision 1.6  2002/09/12 03:26:05  ddiego
+*merged over the changes from the devmain-0-5-5b branch
+*
+*Revision 1.5.12.1  2002/08/06 02:57:36  ddiego
+*added base X11 files for GraphicsKit and made sure that the GraphicsKit compiles
+*under linux (GCC). There is now a new dir under build/xmake called GraphicsKit
+*where the xmake build script lives. This checkin also includes the base X11
+*include (as part of GraphicsKitPrivate.h), as well as linking to the X11 libs
+*
+*Revision 1.5  2002/01/24 01:46:49  ddiego
+*added a cvs "log" comment to the top of all files in vcf/src and vcf/include
+*to facilitate change tracking
+*
+*/
+
+
+#endif // _VCF_GRAPHICSTOOLKIT_H__
+
+
