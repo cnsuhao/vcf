@@ -2951,19 +2951,21 @@ LRESULT CALLBACK Win32ToolKit::wndProc(HWND hWnd, UINT message, WPARAM wParam, L
 
 LRESULT CALLBACK Win32ToolKit::mouseHookProc( int nCode, WPARAM wParam, LPARAM lParam )
 {
+	Win32ToolKit* toolkit = (Win32ToolKit*) UIToolkit::internal_getDefaultUIToolkit();
+
 	if ( NULL != toolTipWatcher ) {
 		if ( WM_MOUSEMOVE == wParam ) {
 			if ( 0 == ToolTipTimerID ) {
-				Win32ToolKit* toolkit = (Win32ToolKit*) UIToolkit::toolKitInstance;
-				
 				ToolTipTimerID = ::SetTimer( toolkit->getDummyParent(), TOOLTIP_TIMERID, 500, NULL );
-			}
+			}			
 		}
 		else {
-			Win32ToolKit* toolkit = (Win32ToolKit*) UIToolkit::toolKitInstance;
-			
 			ToolTipTimoutTimerID = ::SetTimer( toolkit->getDummyParent(), TOOLTIP_TIMEOUT_TIMERID, 1, NULL );
 		}
+	}
+
+	if ( WM_LBUTTONDOWN == wParam ) {
+		toolkit->setWhatsThisHelpActive(false);
 	}
 
 	return CallNextHookEx( Win32ToolKit_mouseHook, nCode, wParam, lParam );
@@ -3026,7 +3028,8 @@ ATOM Win32ToolKit::RegisterWin32ToolKitClass(HINSTANCE hInstance)
 Win32ToolKit::Win32ToolKit():
 	UIToolkit(),
 	dummyParentWnd_(NULL),
-	runEventCount_(0)
+	runEventCount_(0),
+	whatsThisHelpActive_(false)
 
 {
 	if ( System::isUnicodeEnabled() ) {
