@@ -28,7 +28,9 @@ public:
 		pane1->add( lable1 );
 
 		TextControl* edit1 = new TextControl();
+		//set your what's this help description here.
 		edit1->setWhatThisHelpString( "Type in your name here." );
+
 		pane1->add( edit1 );
 
 
@@ -38,6 +40,10 @@ public:
 
 		CheckBoxControl* checkBox = new CheckBoxControl();
 		checkBox->setCaption( "Yes I am!" );
+		
+		//set your what's this help description here.
+		checkBox->setWhatThisHelpString( "This indicates whether or not you're a Mergatroid. \nThink carefully before answering." );
+
 		pane1->add( checkBox );
 
 		add( pane1, AlignClient );
@@ -63,6 +69,7 @@ public:
 
 
 		
+		
 		bottom->add( okBtn );
 
 		CommandButton* cancelBtn = new CommandButton();
@@ -71,9 +78,11 @@ public:
 		okBtn->setCaption( "OK" );
 		okBtn->setCommandType ( BC_OK );
 		okBtn->setDefault(true);
+		okBtn->setWhatThisHelpString( "Click this to accept the changes and close the dialog!" );
 
 		cancelBtn->setCaption( "Cancel" );
 		cancelBtn->setCommandType ( BC_CANCEL );
+		cancelBtn->setWhatThisHelpString( "Click this close the dialog without relaying any information to the SSDC*!\n\n\n\t*Super Secret Decoder Club" );
 
 		add( bottom, AlignBottom );
 
