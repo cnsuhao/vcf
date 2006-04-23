@@ -61,11 +61,10 @@ where you installed the VCF.
 
 
 
-
-
 #include "thirdparty/win32/Microsoft/htmlhelp.h"
 
 #include "vcf/GraphicsKit/Win32VisualStylesWrapper.h"
+
 
 
 typedef HWND  (WINAPI *HtmlHelpW_Func)(HWND hwndCaller, LPCWSTR pszFile, UINT uCommand, DWORD_PTR dwData );
@@ -73,9 +72,11 @@ typedef HWND (WINAPI *HtmlHelpA_Func)(HWND hwndCaller, LPCSTR pszFile, UINT uCom
 
 
 
+
 static HtmlHelpW_Func HtmlHelp_W = NULL;
 static HtmlHelpA_Func HtmlHelp_A = NULL;
 static HMODULE HtmlHelpLibHandle = NULL;
+
 
 
 
