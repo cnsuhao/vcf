@@ -14,6 +14,8 @@ where you installed the VCF.
 #include "vcf/ApplicationKit/VFFOutputStream.h"
 
 
+
+
 using namespace VCF;
 
 AbstractApplication::AbstractApplication():
