@@ -182,7 +182,7 @@ _property_( bool, "useParentFont", useParentFont, setUseParentFont, "" );
 _property_( bool, "autoStartDragDrop", getAutoStartDragDrop, setAutoStartDragDrop, "" );
 _property_( bool, "tabStop", getTabStop, setTabStop, "" );
 _property_( long, "tabOrder", getTabOrder, setTabOrder, "" );
-_property_( String, "whatThisHelpString", getWhatThisHelpString, setWhatThisHelpString, "" );
+_property_( String, "whatsThisHelpString", getWhatsThisHelpString, setWhatsThisHelpString, "" );
 _property_( String, "toolTipText", getToolTipText, setToolTipText, "" );
 _property_object_( Border, "border", getBorder, setBorder, "" );
 _property_object_( Color, "color", getColor, setColor, "" );
