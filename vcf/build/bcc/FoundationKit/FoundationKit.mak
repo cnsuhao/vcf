@@ -33,7 +33,7 @@ SYSDEFINES=_LIB
 OUTDIR=..\..\..\lib
 TDIR=S
 !else
-PROJECT=$(PROJECT2)
+PROJECT=$(PROJECT2)         
 SYSDEFINES=_WINDOWS;_USRDLL;FOUNDATIONKIT_DLL;FOUNDATIONKIT_EXPORTS
 OUTDIR=..\..\..\bin
 TDIR=DLL
@@ -182,7 +182,7 @@ $(PROJECT1): $(OBJFILES)
 $(PROJECT2):: $(OBJFILES)
     @echo Linking $(<F) dynamic library
     @$(ILINK32) @&&|
-    $(LINKFLAGS) $(ALLOBJS) 
+    $(LINKFLAGS) $(BCC32STARTUP) $(?: = ^)  
     $<,$*
     $(ALLLIBS2)
     $(DEFFILE)
