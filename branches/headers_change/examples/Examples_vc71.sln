@@ -1,0 +1,705 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Accelerators", ".\Accelerators\Accelerators_vc71.vcproj", "{b562b243-de36-4af0-98a1-c834f2460c30}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Actions", ".\Actions\Actions_vc71.vcproj", "{5fde7645-18ab-4b91-a5a6-709e73b3d293}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedAlignment", ".\AdvancedAlignment\AdvancedAlignment_vc71.vcproj", "{b37ff77e-b3cc-43d4-ae50-febd3865d8f2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AdvancedUI", ".\AdvancedUI\AdvancedUI_vc71.vcproj", "{e88b35e8-8f56-4b04-821e-551e06f796f8}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alignment", ".\Alignment\Alignment_vc71.vcproj", "{394527ad-1107-4e30-938f-4eda937a208a}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Anchors", ".\Anchors\Anchors_vc71.vcproj", "{bc21e3c9-58be-41d9-8dfb-165d95232b05}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppResources", ".\AppResources\AppResources_vc71.vcproj", "{caa78287-6015-4ed0-9dc3-a3bbdbba1cd0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationIcons", ".\ApplicationIcons\ApplicationIcons_vc71.vcproj", "{2cba1118-6d5e-4405-9ea5-4d49129ac169}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationKit", "..\build\vc71\ApplicationKit\ApplicationKit_vc71.vcproj", "{fb6ee931-23d6-4a12-8a22-3bc354267563}"
+	ProjectSection(ProjectDependencies) = postProject
+		{505e7ae6-3414-4d22-9be7-87ec093fed53} = {505e7ae6-3414-4d22-9be7-87ec093fed53}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ApplicationKitDLL", "..\build\vc71\ApplicationKit\ApplicationKitDLL_vc71.vcproj", "{ae86332f-2e64-460b-8363-c502de1bbfb3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{b68a433e-59b4-41a2-9243-af448a3f7bad} = {b68a433e-59b4-41a2-9243-af448a3f7bad}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Browser", ".\Browser\Browser_vc71.vcproj", "{d5dd97a8-79ca-4521-a493-f77a1552891d}"
+	ProjectSection(ProjectDependencies) = postProject
+		{a0cb95d9-cdf6-4d02-bba0-eec6631fe44f} = {a0cb95d9-cdf6-4d02-bba0-eec6631fe44f}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cards", ".\Cards\Cards_vc71.vcproj", "{a0fff5f4-47e4-46fd-8cad-c4f22e0ce545}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Colors", ".\Colors\Colors_vc71.vcproj", "{649358fa-164a-42ca-8e2f-9054b28b5a9e}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Combos", ".\Combos\Combos_vc71.vcproj", "{ad289448-96c5-481e-ae5e-1dac66593fcc}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonDirectories", ".\CommonDirectories\CommonDirectories_vc71.vcproj", "{11f87a5e-1c98-4279-adef-5f4e4eafa657}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Conditions", ".\Conditions\Conditions_vc71.vcproj", "{108bbe68-391c-4026-931d-e964b2a6d5f0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controls", ".\Controls\Controls_vc71.vcproj", "{6b9fa509-dfae-4fe1-897a-14a8c21c100d}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CopyAndPaste", ".\CopyAndPaste\CopyAndPaste_vc71.vcproj", "{d6a7a039-a854-468e-a3a1-4d9349e02c8d}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DateTimeUI", ".\DateTimeUI\DateTimeUI_vc71.vcproj", "{9c994545-14fb-4a54-b5bd-9f3ec6b74ddc}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DatesAndTime", ".\DatesAndTime\DatesAndTime_vc71.vcproj", "{042d2725-eb72-45b0-96c0-901e97b46e2a}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dialogs", ".\Dialogs\Dialogs_vc71.vcproj", "{74b5d7f3-5ca6-4dba-86be-74e2ab6d16b5}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dictionaries", ".\Dictionaries\Dictionaries_vc71.vcproj", "{8125dc70-d816-44bd-866a-3a8a32487b8c}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Directories", ".\Directories\Directories_vc71.vcproj", "{1aa0114c-624b-4b68-b468-21450e3bc575}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocViewAdvanced", ".\DocViewAdvanced\DocViewAdvanced_vc71.vcproj", "{5a5d1418-7276-4b48-a075-d745546899b9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocViewBasics", ".\DocViewBasics\DocViewBasics_vc71.vcproj", "{1222a5b4-4fcb-4829-b371-3a79f7c1f60b}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DragAndDrop", ".\DragAndDrop\DragAndDrop_vc71.vcproj", "{c4327fce-220f-44ce-913f-94976f67d54c}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EventBasics", ".\EventBasics\EventBasics_vc71.vcproj", "{6526562b-25c4-4fbc-be95-78b698db3df2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Examples", ".\Examples\Examples_vc71.vcproj", "{d4175fea-2eab-410f-9b1f-d59f400930ce}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ae86332f-2e64-460b-8363-c502de1bbfb3} = {ae86332f-2e64-460b-8363-c502de1bbfb3}
+		{b562b243-de36-4af0-98a1-c834f2460c30} = {b562b243-de36-4af0-98a1-c834f2460c30}
+		{5fde7645-18ab-4b91-a5a6-709e73b3d293} = {5fde7645-18ab-4b91-a5a6-709e73b3d293}
+		{b37ff77e-b3cc-43d4-ae50-febd3865d8f2} = {b37ff77e-b3cc-43d4-ae50-febd3865d8f2}
+		{e88b35e8-8f56-4b04-821e-551e06f796f8} = {e88b35e8-8f56-4b04-821e-551e06f796f8}
+		{394527ad-1107-4e30-938f-4eda937a208a} = {394527ad-1107-4e30-938f-4eda937a208a}
+		{bc21e3c9-58be-41d9-8dfb-165d95232b05} = {bc21e3c9-58be-41d9-8dfb-165d95232b05}
+		{caa78287-6015-4ed0-9dc3-a3bbdbba1cd0} = {caa78287-6015-4ed0-9dc3-a3bbdbba1cd0}
+		{2cba1118-6d5e-4405-9ea5-4d49129ac169} = {2cba1118-6d5e-4405-9ea5-4d49129ac169}
+		{d5dd97a8-79ca-4521-a493-f77a1552891d} = {d5dd97a8-79ca-4521-a493-f77a1552891d}
+		{a0fff5f4-47e4-46fd-8cad-c4f22e0ce545} = {a0fff5f4-47e4-46fd-8cad-c4f22e0ce545}
+		{649358fa-164a-42ca-8e2f-9054b28b5a9e} = {649358fa-164a-42ca-8e2f-9054b28b5a9e}
+		{ad289448-96c5-481e-ae5e-1dac66593fcc} = {ad289448-96c5-481e-ae5e-1dac66593fcc}
+		{11f87a5e-1c98-4279-adef-5f4e4eafa657} = {11f87a5e-1c98-4279-adef-5f4e4eafa657}
+		{108bbe68-391c-4026-931d-e964b2a6d5f0} = {108bbe68-391c-4026-931d-e964b2a6d5f0}
+		{6b9fa509-dfae-4fe1-897a-14a8c21c100d} = {6b9fa509-dfae-4fe1-897a-14a8c21c100d}
+		{d6a7a039-a854-468e-a3a1-4d9349e02c8d} = {d6a7a039-a854-468e-a3a1-4d9349e02c8d}
+		{9c994545-14fb-4a54-b5bd-9f3ec6b74ddc} = {9c994545-14fb-4a54-b5bd-9f3ec6b74ddc}
+		{042d2725-eb72-45b0-96c0-901e97b46e2a} = {042d2725-eb72-45b0-96c0-901e97b46e2a}
+		{74b5d7f3-5ca6-4dba-86be-74e2ab6d16b5} = {74b5d7f3-5ca6-4dba-86be-74e2ab6d16b5}
+		{8125dc70-d816-44bd-866a-3a8a32487b8c} = {8125dc70-d816-44bd-866a-3a8a32487b8c}
+		{1aa0114c-624b-4b68-b468-21450e3bc575} = {1aa0114c-624b-4b68-b468-21450e3bc575}
+		{5a5d1418-7276-4b48-a075-d745546899b9} = {5a5d1418-7276-4b48-a075-d745546899b9}
+		{1222a5b4-4fcb-4829-b371-3a79f7c1f60b} = {1222a5b4-4fcb-4829-b371-3a79f7c1f60b}
+		{c4327fce-220f-44ce-913f-94976f67d54c} = {c4327fce-220f-44ce-913f-94976f67d54c}
+		{6526562b-25c4-4fbc-be95-78b698db3df2} = {6526562b-25c4-4fbc-be95-78b698db3df2}
+		{952c1ec3-a1a8-4f5c-a191-07db4011fa2d} = {952c1ec3-a1a8-4f5c-a191-07db4011fa2d}
+		{adc0fb26-2c44-4d96-ab5b-80709e603666} = {adc0fb26-2c44-4d96-ab5b-80709e603666}
+		{56983bcd-aebe-4144-add5-461eb3222b1c} = {56983bcd-aebe-4144-add5-461eb3222b1c}
+		{fc6f4770-9489-42e5-a96c-e04cd475a850} = {fc6f4770-9489-42e5-a96c-e04cd475a850}
+		{7bd28d37-9a7b-49bc-ad35-745f9eafd02d} = {7bd28d37-9a7b-49bc-ad35-745f9eafd02d}
+		{ef7e0952-7cf1-4e45-8f58-0327560dc634} = {ef7e0952-7cf1-4e45-8f58-0327560dc634}
+		{d51a53fe-81c0-4615-aca2-afba2687e651} = {d51a53fe-81c0-4615-aca2-afba2687e651}
+		{90bc32f8-321b-4e39-aa9b-5e6eb2600242} = {90bc32f8-321b-4e39-aa9b-5e6eb2600242}
+		{69adc0fe-ef6f-4064-b64a-a90e661585cb} = {69adc0fe-ef6f-4064-b64a-a90e661585cb}
+		{1209f0d2-b233-4e65-8af7-2c181c9b843b} = {1209f0d2-b233-4e65-8af7-2c181c9b843b}
+		{e749c8d5-1783-48dd-97a5-16fffc694855} = {e749c8d5-1783-48dd-97a5-16fffc694855}
+		{2e3fb6d7-f10e-4b17-a11c-6fc6378d1c97} = {2e3fb6d7-f10e-4b17-a11c-6fc6378d1c97}
+		{ddd77842-b01b-4154-9209-8f8432332466} = {ddd77842-b01b-4154-9209-8f8432332466}
+		{5629470c-bb30-4d55-bba7-62ea2eb1191d} = {5629470c-bb30-4d55-bba7-62ea2eb1191d}
+		{f7805a0e-d8f4-4b76-8569-70383cc6f85c} = {f7805a0e-d8f4-4b76-8569-70383cc6f85c}
+		{98c21396-fbc9-40ba-a847-e26bcbe79994} = {98c21396-fbc9-40ba-a847-e26bcbe79994}
+		{2db85331-c153-41d1-a653-275b0e2a0b4c} = {2db85331-c153-41d1-a653-275b0e2a0b4c}
+		{ffeac7ab-e3c6-479b-b679-bdabad3f3aa2} = {ffeac7ab-e3c6-479b-b679-bdabad3f3aa2}
+		{be9000b0-02e5-4768-8add-4b2177cc7988} = {be9000b0-02e5-4768-8add-4b2177cc7988}
+		{24c5456b-f4f0-4b58-b8c2-f6dacbdcb489} = {24c5456b-f4f0-4b58-b8c2-f6dacbdcb489}
+		{8f6cf3db-fc3a-4936-8e6b-a7c6ab78423d} = {8f6cf3db-fc3a-4936-8e6b-a7c6ab78423d}
+		{9884820a-2e0a-4266-a6cc-a13f83bb0256} = {9884820a-2e0a-4266-a6cc-a13f83bb0256}
+		{0162e66e-b8a0-4024-a6a2-f7557de4f3ef} = {0162e66e-b8a0-4024-a6a2-f7557de4f3ef}
+		{b804d67a-a0aa-4d4b-b2ad-ca17272f42a3} = {b804d67a-a0aa-4d4b-b2ad-ca17272f42a3}
+		{1b4e9cd1-3f83-48be-834c-f198b268cc0e} = {1b4e9cd1-3f83-48be-834c-f198b268cc0e}
+		{7e757b5c-4ec5-4a33-8278-29eb0fa5035c} = {7e757b5c-4ec5-4a33-8278-29eb0fa5035c}
+		{189e3581-6c65-4f92-a529-acb38c354fb1} = {189e3581-6c65-4f92-a529-acb38c354fb1}
+		{10e89c30-9ca8-4af2-a8ea-a49c40b989e2} = {10e89c30-9ca8-4af2-a8ea-a49c40b989e2}
+		{332fc043-62d6-42d0-8ab9-bfc087dd9e39} = {332fc043-62d6-42d0-8ab9-bfc087dd9e39}
+		{77578375-d531-4488-ab2a-6a56e0de965d} = {77578375-d531-4488-ab2a-6a56e0de965d}
+		{355e743b-e4b1-4530-99d3-e93ab85060d9} = {355e743b-e4b1-4530-99d3-e93ab85060d9}
+		{70f48013-0d78-4752-b312-070ef2bb95bb} = {70f48013-0d78-4752-b312-070ef2bb95bb}
+		{2a82503b-20fa-47e4-8567-7bf68158a077} = {2a82503b-20fa-47e4-8567-7bf68158a077}
+		{11afb61e-3780-4cbf-92d0-1054f42405f5} = {11afb61e-3780-4cbf-92d0-1054f42405f5}
+		{9de96ab4-297f-4aa9-8ca6-a10cfddfc440} = {9de96ab4-297f-4aa9-8ca6-a10cfddfc440}
+		{4348087d-8c97-460d-b8d4-db563ae00877} = {4348087d-8c97-460d-b8d4-db563ae00877}
+		{8460c7f0-c8c2-4ba2-b0bb-1b8aa29de6dc} = {8460c7f0-c8c2-4ba2-b0bb-1b8aa29de6dc}
+		{5982ee7a-8ecb-47bc-8fec-6389b9313fef} = {5982ee7a-8ecb-47bc-8fec-6389b9313fef}
+		{9ea10687-408d-4fc3-ac77-0e20ef806ae6} = {9ea10687-408d-4fc3-ac77-0e20ef806ae6}
+		{0581bafe-499e-4e70-84dd-1573faa756eb} = {0581bafe-499e-4e70-84dd-1573faa756eb}
+		{8b27425f-6d24-47b4-8ca5-d0e24536c413} = {8b27425f-6d24-47b4-8ca5-d0e24536c413}
+		{e3fe41e9-50ec-48bc-a0b2-be87d923889c} = {e3fe41e9-50ec-48bc-a0b2-be87d923889c}
+		{45eeec3e-9566-4ef7-a043-fad88b9b5567} = {45eeec3e-9566-4ef7-a043-fad88b9b5567}
+		{007d9b8e-1887-4f39-bd61-2a50893161e1} = {007d9b8e-1887-4f39-bd61-2a50893161e1}
+		{0ef644a1-d579-4185-8e04-b3f95af29dc7} = {0ef644a1-d579-4185-8e04-b3f95af29dc7}
+		{be4cce5b-e864-400c-996c-cc8d3cf3a33e} = {be4cce5b-e864-400c-996c-cc8d3cf3a33e}
+		{87cb044d-9c4d-48a1-a754-63c31eb8bef8} = {87cb044d-9c4d-48a1-a754-63c31eb8bef8}
+		{d59f5b99-8160-4344-8dfa-9c4a1de1d4f0} = {d59f5b99-8160-4344-8dfa-9c4a1de1d4f0}
+		{7b69d174-3429-4f18-99a8-35e238c68feb} = {7b69d174-3429-4f18-99a8-35e238c68feb}
+		{def80c5b-5492-4cda-8265-d649172880f3} = {def80c5b-5492-4cda-8265-d649172880f3}
+		{471607b1-ecd2-4048-8dbc-678bf124a603} = {471607b1-ecd2-4048-8dbc-678bf124a603}
+		{74eea0fc-e720-4aee-8627-92cd81a35ff1} = {74eea0fc-e720-4aee-8627-92cd81a35ff1}
+		{e8722e55-93d2-4ed1-a5c4-c045e59a2609} = {e8722e55-93d2-4ed1-a5c4-c045e59a2609}
+		{182151c8-6a51-499b-b604-56918a9e18ad} = {182151c8-6a51-499b-b604-56918a9e18ad}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FilesAndDirectories", ".\FilesAndDirectories\FilesAndDirectories_vc71.vcproj", "{952c1ec3-a1a8-4f5c-a191-07db4011fa2d}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKit", "..\build\vc71\FoundationKit\FoundationKit_vc71.vcproj", "{18f07694-fc61-4c07-9650-189e329972b2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FoundationKitDLL", "..\build\vc71\FoundationKit\FoundationKitDLL_vc71.vcproj", "{49eccc34-695d-472f-be5f-1e2fc4fdcecd}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FrameStyles", ".\FrameStyles\FrameStyles_vc71.vcproj", "{adc0fb26-2c44-4d96-ab5b-80709e603666}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsAndMouseMoves", ".\GraphicsAndMouseMoves\GraphicsAndMouseMoves_vc71.vcproj", "{56983bcd-aebe-4144-add5-461eb3222b1c}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsBasics", ".\GraphicsBasics\GraphicsBasics_vc71.vcproj", "{fc6f4770-9489-42e5-a96c-e04cd475a850}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsKit", "..\build\vc71\GraphicsKit\GraphicsKit_vc71.vcproj", "{505e7ae6-3414-4d22-9be7-87ec093fed53}"
+	ProjectSection(ProjectDependencies) = postProject
+		{18f07694-fc61-4c07-9650-189e329972b2} = {18f07694-fc61-4c07-9650-189e329972b2}
+		{9c900d7c-dde4-4e0f-b5de-a326c39607dc} = {9c900d7c-dde4-4e0f-b5de-a326c39607dc}
+		{6eee04e1-e1f4-4b72-b480-fefeda2e9017} = {6eee04e1-e1f4-4b72-b480-fefeda2e9017}
+		{772555b9-bb1b-4d8f-8f95-e4abe93f8300} = {772555b9-bb1b-4d8f-8f95-e4abe93f8300}
+		{5ddc0f07-9887-46ed-b030-6df67daf619e} = {5ddc0f07-9887-46ed-b030-6df67daf619e}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsKitDLL", "..\build\vc71\GraphicsKit\GraphicsKitDLL_vc71.vcproj", "{b68a433e-59b4-41a2-9243-af448a3f7bad}"
+	ProjectSection(ProjectDependencies) = postProject
+		{49eccc34-695d-472f-be5f-1e2fc4fdcecd} = {49eccc34-695d-472f-be5f-1e2fc4fdcecd}
+		{9c900d7c-dde4-4e0f-b5de-a326c39607dc} = {9c900d7c-dde4-4e0f-b5de-a326c39607dc}
+		{6eee04e1-e1f4-4b72-b480-fefeda2e9017} = {6eee04e1-e1f4-4b72-b480-fefeda2e9017}
+		{772555b9-bb1b-4d8f-8f95-e4abe93f8300} = {772555b9-bb1b-4d8f-8f95-e4abe93f8300}
+		{5ddc0f07-9887-46ed-b030-6df67daf619e} = {5ddc0f07-9887-46ed-b030-6df67daf619e}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTMLKit", "..\build\vc71\HTMLKit\HTMLKit_vc71.vcproj", "{37828cfc-766c-4eb6-aa88-438f963055f1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{fb6ee931-23d6-4a12-8a22-3bc354267563} = {fb6ee931-23d6-4a12-8a22-3bc354267563}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTMLKitDll", "..\build\vc71\HTMLKit\HTMLKitDll_vc71.vcproj", "{a0cb95d9-cdf6-4d02-bba0-eec6631fe44f}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ae86332f-2e64-460b-8363-c502de1bbfb3} = {ae86332f-2e64-460b-8363-c502de1bbfb3}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HeavyAndLight", ".\HeavyAndLight\HeavyAndLight_vc71.vcproj", "{7bd28d37-9a7b-49bc-ad35-745f9eafd02d}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld", ".\HelloWorld\HelloWorld_vc71.vcproj", "{ef7e0952-7cf1-4e45-8f58-0327560dc634}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld2", ".\HelloWorld2\HelloWorld2_vc71.vcproj", "{d51a53fe-81c0-4615-aca2-afba2687e651}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloWorld3", ".\HelloWorld3\HelloWorld3_vc71.vcproj", "{90bc32f8-321b-4e39-aa9b-5e6eb2600242}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Help", ".\Help\Help_vc71.vcproj", "{69adc0fe-ef6f-4064-b64a-a90e661585cb}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageBasics", ".\ImageBasics\ImageBasics_vc71.vcproj", "{1209f0d2-b233-4e65-8af7-2c181c9b843b}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageViewer", ".\ImageViewer\ImageViewer_vc71.vcproj", "{e749c8d5-1783-48dd-97a5-16fffc694855}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InetKit", ".\InetKit\InetKit_vc71.vcproj", "{2e3fb6d7-f10e-4b17-a11c-6fc6378d1c97}"
+	ProjectSection(ProjectDependencies) = postProject
+		{298c4e5d-293b-43fc-a61f-bf33596b5637} = {298c4e5d-293b-43fc-a61f-bf33596b5637}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKit", "..\build\vc71\InternetKit\InternetKit_vc71.vcproj", "{177137b4-88bc-4398-acc0-91dc097aa54d}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InternetKitDLL", "..\build\vc71\InternetKit\InternetKitDLL_vc71.vcproj", "{298c4e5d-293b-43fc-a61f-bf33596b5637}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Labels", ".\Labels\Labels_vc71.vcproj", "{ddd77842-b01b-4154-9209-8f8432332466}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ListBox", ".\ListBox\ListBox_vc71.vcproj", "{5629470c-bb30-4d55-bba7-62ea2eb1191d}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LocaleUI", ".\LocaleUI\LocaleUI_vc71.vcproj", "{f7805a0e-d8f4-4b76-8569-70383cc6f85c}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Localization", ".\Localization\Localization_vc71.vcproj", "{98c21396-fbc9-40ba-a847-e26bcbe79994}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCIntegration1", ".\MFCIntegration1\MFCIntegration1_vc71.vcproj", "{2db85331-c153-41d1-a653-275b0e2a0b4c}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCIntegration2", ".\MFCIntegration2\MFCIntegration2_vc71.vcproj", "{ffeac7ab-e3c6-479b-b679-bdabad3f3aa2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MVCBasics", ".\MVCBasics\MVCBasics_vc71.vcproj", "{be9000b0-02e5-4768-8add-4b2177cc7988}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Menus", ".\Menus\Menus_vc71.vcproj", "{24c5456b-f4f0-4b58-b8c2-f6dacbdcb489}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinMax", ".\MinMax\MinMax_vc71.vcproj", "{8f6cf3db-fc3a-4936-8e6b-a7c6ab78423d}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkKit", "..\build\vc71\NetworkKit\NetworkKit_vc71.vcproj", "{bd53c24c-c67b-4b24-a05f-4a1bbe5a8094}"
+	ProjectSection(ProjectDependencies) = postProject
+		{18f07694-fc61-4c07-9650-189e329972b2} = {18f07694-fc61-4c07-9650-189e329972b2}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetworkKitDLL", "..\build\vc71\NetworkKit\NetworkKitDLL_vc71.vcproj", "{b4119c21-7e30-4967-91cc-8e0b3482ea4e}"
+	ProjectSection(ProjectDependencies) = postProject
+		{49eccc34-695d-472f-be5f-1e2fc4fdcecd} = {49eccc34-695d-472f-be5f-1e2fc4fdcecd}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLKit", "..\build\vc71\OpenGLKit\OpenGLKit_vc71.vcproj", "{3d84ea17-78ff-4a20-9ab4-0a0c01702dba}"
+	ProjectSection(ProjectDependencies) = postProject
+		{fb6ee931-23d6-4a12-8a22-3bc354267563} = {fb6ee931-23d6-4a12-8a22-3bc354267563}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLKitDLL", "..\build\vc71\OpenGLKit\OpenGLKitDLL_vc71.vcproj", "{f57a4951-0fb4-44a8-b085-0ee25c6451bf}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ae86332f-2e64-460b-8363-c502de1bbfb3} = {ae86332f-2e64-460b-8363-c502de1bbfb3}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLShapes", ".\OpenGLShapes\OpenGLShapes_vc71.vcproj", "{9884820a-2e0a-4266-a6cc-a13f83bb0256}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParticleEditor", ".\ParticleEditor\ParticleEditor_vc71.vcproj", "{0162e66e-b8a0-4024-a6a2-f7557de4f3ef}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pixels", ".\Pixels\Pixels_vc71.vcproj", "{b804d67a-a0aa-4d4b-b2ad-ca17272f42a3}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Printing", ".\Printing\Printing_vc71.vcproj", "{1b4e9cd1-3f83-48be-834c-f198b268cc0e}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Processes", ".\Processes\Processes_vc71.vcproj", "{7e757b5c-4ec5-4a33-8278-29eb0fa5035c}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProgressBars", ".\ProgressBars\ProgressBars_vc71.vcproj", "{189e3581-6c65-4f92-a529-acb38c354fb1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QTPlayer", ".\QTPlayer\QTPlayer_vc71.vcproj", "{10e89c30-9ca8-4af2-a8ea-a49c40b989e2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reflection", ".\Reflection\Reflection_vc71.vcproj", "{332fc043-62d6-42d0-8ab9-bfc087dd9e39}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKit", "..\build\vc71\RemoteObjectKit\RemoteObjectKit_vc71.vcproj", "{86b5ee3a-638c-481a-9869-4230fc112429}"
+	ProjectSection(ProjectDependencies) = postProject
+		{b4119c21-7e30-4967-91cc-8e0b3482ea4e} = {b4119c21-7e30-4967-91cc-8e0b3482ea4e}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RemoteObjectKitStatic", "..\build\vc71\RemoteObjectKit\RemoteObjectKitStatic_vc71.vcproj", "{1012d59e-6477-4541-9ecc-d6c295da8d9e}"
+	ProjectSection(ProjectDependencies) = postProject
+		{bd53c24c-c67b-4b24-a05f-4a1bbe5a8094} = {bd53c24c-c67b-4b24-a05f-4a1bbe5a8094}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Resources", ".\Resources\Resources_vc71.vcproj", "{77578375-d531-4488-ab2a-6a56e0de965d}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RunLoops", ".\RunLoops\RunLoops_vc71.vcproj", "{355e743b-e4b1-4530-99d3-e93ab85060d9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scrolling", ".\Scrolling\Scrolling_vc71.vcproj", "{70f48013-0d78-4752-b312-070ef2bb95bb}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scrolling2", ".\Scrolling2\Scrolling2_vc71.vcproj", "{2a82503b-20fa-47e4-8567-7bf68158a077}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SharedLibraries", ".\SharedLibraries\SharedLibraries_vc71.vcproj", "{11afb61e-3780-4cbf-92d0-1054f42405f5}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SketchIt", ".\SketchIt\SketchIt_vc71.vcproj", "{9de96ab4-297f-4aa9-8ca6-a10cfddfc440}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sliders", ".\Sliders\Sliders_vc71.vcproj", "{4348087d-8c97-460d-b8d4-db563ae00877}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Splitters", ".\Splitters\Splitters_vc71.vcproj", "{8460c7f0-c8c2-4ba2-b0bb-1b8aa29de6dc}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Strings", ".\Strings\Strings_vc71.vcproj", "{5982ee7a-8ecb-47bc-8fec-6389b9313fef}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StrokesAndFills", ".\StrokesAndFills\StrokesAndFills_vc71.vcproj", "{9ea10687-408d-4fc3-ac77-0e20ef806ae6}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SysTray", ".\SysTray\SysTray_vc71.vcproj", "{0581bafe-499e-4e70-84dd-1573faa756eb}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tables", ".\Tables\Tables_vc71.vcproj", "{8b27425f-6d24-47b4-8ca5-d0e24536c413}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TeXLabel", ".\TeXLabel\TeXLabel_vc71.vcproj", "{e3fe41e9-50ec-48bc-a0b2-be87d923889c}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextEdit", ".\TextEdit\TextEdit_vc71.vcproj", "{45eeec3e-9566-4ef7-a043-fad88b9b5567}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextLayout", ".\TextLayout\TextLayout_vc71.vcproj", "{007d9b8e-1887-4f39-bd61-2a50893161e1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Themes", ".\Themes\Themes_vc71.vcproj", "{0ef644a1-d579-4185-8e04-b3f95af29dc7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ThreadBasics", ".\ThreadBasics\ThreadBasics_vc71.vcproj", "{be4cce5b-e864-400c-996c-cc8d3cf3a33e}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ThreadsInGUI", ".\ThreadsInGUI\ThreadsInGUI_vc71.vcproj", "{87cb044d-9c4d-48a1-a754-63c31eb8bef8}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbars", ".\Toolbars\Toolbars_vc71.vcproj", "{d59f5b99-8160-4344-8dfa-9c4a1de1d4f0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tooltips", ".\Tooltips\Tooltips_vc71.vcproj", "{7b69d174-3429-4f18-99a8-35e238c68feb}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Transformations", ".\Transformations\Transformations_vc71.vcproj", "{def80c5b-5492-4cda-8265-d649172880f3}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreeListControls", ".\TreeListControls\TreeListControls_vc71.vcproj", "{471607b1-ecd2-4048-8dbc-678bf124a603}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Variants", ".\Variants\Variants_vc71.vcproj", "{74eea0fc-e720-4aee-8627-92cd81a35ff1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VisualFormFiles", ".\VisualFormFiles\VisualFormFiles_vc71.vcproj", "{e8722e55-93d2-4ed1-a5c4-c045e59a2609}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WorkingWithEnumerators", ".\WorkingWithEnumerators\WorkingWithEnumerators_vc71.vcproj", "{182151c8-6a51-499b-b604-56918a9e18ad}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", "..\build\vc71\GraphicsKit\libAGG_vc71.vcproj", "{9c900d7c-dde4-4e0f-b5de-a326c39607dc}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libAGG", "..\build\vc71\GraphicsKit\libAGG_vc71.vcproj", "{9c900d7c-dde4-4e0f-b5de-a326c39607dc}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Generate YY and LL files = Generate YY and LL files
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{b562b243-de36-4af0-98a1-c834f2460c30}.Debug.ActiveCfg = Debug|Win32
+		{b562b243-de36-4af0-98a1-c834f2460c30}.Release.ActiveCfg = Release|Win32
+		{5fde7645-18ab-4b91-a5a6-709e73b3d293}.Debug.ActiveCfg = Debug|Win32
+		{5fde7645-18ab-4b91-a5a6-709e73b3d293}.Release.ActiveCfg = Release|Win32
+		{b37ff77e-b3cc-43d4-ae50-febd3865d8f2}.Debug.ActiveCfg = Debug|Win32
+		{b37ff77e-b3cc-43d4-ae50-febd3865d8f2}.Release.ActiveCfg = Release|Win32
+		{e88b35e8-8f56-4b04-821e-551e06f796f8}.Debug.ActiveCfg = Debug|Win32
+		{e88b35e8-8f56-4b04-821e-551e06f796f8}.Release.ActiveCfg = Release|Win32
+		{394527ad-1107-4e30-938f-4eda937a208a}.Debug.ActiveCfg = Debug|Win32
+		{394527ad-1107-4e30-938f-4eda937a208a}.Release.ActiveCfg = Release|Win32
+		{bc21e3c9-58be-41d9-8dfb-165d95232b05}.Debug.ActiveCfg = Debug|Win32
+		{bc21e3c9-58be-41d9-8dfb-165d95232b05}.Release.ActiveCfg = Release|Win32
+		{caa78287-6015-4ed0-9dc3-a3bbdbba1cd0}.Debug.ActiveCfg = Debug|Win32
+		{caa78287-6015-4ed0-9dc3-a3bbdbba1cd0}.Release.ActiveCfg = Release|Win32
+		{2cba1118-6d5e-4405-9ea5-4d49129ac169}.Debug.ActiveCfg = Debug|Win32
+		{2cba1118-6d5e-4405-9ea5-4d49129ac169}.Release.ActiveCfg = Release|Win32
+		{fb6ee931-23d6-4a12-8a22-3bc354267563}.Debug.ActiveCfg = Debug|Win32
+		{fb6ee931-23d6-4a12-8a22-3bc354267563}.Release.ActiveCfg = Release|Win32
+		{ae86332f-2e64-460b-8363-c502de1bbfb3}.Debug.ActiveCfg = Debug|Win32
+		{ae86332f-2e64-460b-8363-c502de1bbfb3}.Release.ActiveCfg = Release|Win32
+		{d5dd97a8-79ca-4521-a493-f77a1552891d}.Debug.ActiveCfg = Debug|Win32
+		{d5dd97a8-79ca-4521-a493-f77a1552891d}.Release.ActiveCfg = Release|Win32
+		{a0fff5f4-47e4-46fd-8cad-c4f22e0ce545}.Debug.ActiveCfg = Debug|Win32
+		{a0fff5f4-47e4-46fd-8cad-c4f22e0ce545}.Release.ActiveCfg = Release|Win32
+		{649358fa-164a-42ca-8e2f-9054b28b5a9e}.Debug.ActiveCfg = Debug|Win32
+		{649358fa-164a-42ca-8e2f-9054b28b5a9e}.Release.ActiveCfg = Release|Win32
+		{ad289448-96c5-481e-ae5e-1dac66593fcc}.Debug.ActiveCfg = Debug|Win32
+		{ad289448-96c5-481e-ae5e-1dac66593fcc}.Release.ActiveCfg = Release|Win32
+		{11f87a5e-1c98-4279-adef-5f4e4eafa657}.Debug.ActiveCfg = Debug|Win32
+		{11f87a5e-1c98-4279-adef-5f4e4eafa657}.Release.ActiveCfg = Release|Win32
+		{108bbe68-391c-4026-931d-e964b2a6d5f0}.Debug.ActiveCfg = Debug|Win32
+		{108bbe68-391c-4026-931d-e964b2a6d5f0}.Release.ActiveCfg = Release|Win32
+		{6b9fa509-dfae-4fe1-897a-14a8c21c100d}.Debug.ActiveCfg = Debug|Win32
+		{6b9fa509-dfae-4fe1-897a-14a8c21c100d}.Release.ActiveCfg = Release|Win32
+		{d6a7a039-a854-468e-a3a1-4d9349e02c8d}.Debug.ActiveCfg = Debug|Win32
+		{d6a7a039-a854-468e-a3a1-4d9349e02c8d}.Release.ActiveCfg = Release|Win32
+		{9c994545-14fb-4a54-b5bd-9f3ec6b74ddc}.Debug.ActiveCfg = Debug|Win32
+		{9c994545-14fb-4a54-b5bd-9f3ec6b74ddc}.Release.ActiveCfg = Release|Win32
+		{042d2725-eb72-45b0-96c0-901e97b46e2a}.Debug.ActiveCfg = Debug|Win32
+		{042d2725-eb72-45b0-96c0-901e97b46e2a}.Release.ActiveCfg = Release|Win32
+		{74b5d7f3-5ca6-4dba-86be-74e2ab6d16b5}.Debug.ActiveCfg = Debug|Win32
+		{74b5d7f3-5ca6-4dba-86be-74e2ab6d16b5}.Release.ActiveCfg = Release|Win32
+		{8125dc70-d816-44bd-866a-3a8a32487b8c}.Debug.ActiveCfg = Debug|Win32
+		{8125dc70-d816-44bd-866a-3a8a32487b8c}.Release.ActiveCfg = Release|Win32
+		{1aa0114c-624b-4b68-b468-21450e3bc575}.Debug.ActiveCfg = Debug|Win32
+		{1aa0114c-624b-4b68-b468-21450e3bc575}.Release.ActiveCfg = Release|Win32
+		{5a5d1418-7276-4b48-a075-d745546899b9}.Debug.ActiveCfg = Debug|Win32
+		{5a5d1418-7276-4b48-a075-d745546899b9}.Release.ActiveCfg = Release|Win32
+		{1222a5b4-4fcb-4829-b371-3a79f7c1f60b}.Debug.ActiveCfg = Debug|Win32
+		{1222a5b4-4fcb-4829-b371-3a79f7c1f60b}.Release.ActiveCfg = Release|Win32
+		{c4327fce-220f-44ce-913f-94976f67d54c}.Debug.ActiveCfg = Debug|Win32
+		{c4327fce-220f-44ce-913f-94976f67d54c}.Release.ActiveCfg = Release|Win32
+		{6526562b-25c4-4fbc-be95-78b698db3df2}.Debug.ActiveCfg = Debug|Win32
+		{6526562b-25c4-4fbc-be95-78b698db3df2}.Release.ActiveCfg = Release|Win32
+		{d4175fea-2eab-410f-9b1f-d59f400930ce}.Debug.ActiveCfg = Debug|Win32
+		{d4175fea-2eab-410f-9b1f-d59f400930ce}.Release.ActiveCfg = Release|Win32
+		{952c1ec3-a1a8-4f5c-a191-07db4011fa2d}.Debug.ActiveCfg = Debug|Win32
+		{952c1ec3-a1a8-4f5c-a191-07db4011fa2d}.Release.ActiveCfg = Release|Win32
+		{18f07694-fc61-4c07-9650-189e329972b2}.Debug.ActiveCfg = Debug|Win32
+		{18f07694-fc61-4c07-9650-189e329972b2}.Release.ActiveCfg = Release|Win32
+		{49eccc34-695d-472f-be5f-1e2fc4fdcecd}.Debug.ActiveCfg = Debug|Win32
+		{49eccc34-695d-472f-be5f-1e2fc4fdcecd}.Release.ActiveCfg = Release|Win32
+		{adc0fb26-2c44-4d96-ab5b-80709e603666}.Debug.ActiveCfg = Debug|Win32
+		{adc0fb26-2c44-4d96-ab5b-80709e603666}.Release.ActiveCfg = Release|Win32
+		{56983bcd-aebe-4144-add5-461eb3222b1c}.Debug.ActiveCfg = Debug|Win32
+		{56983bcd-aebe-4144-add5-461eb3222b1c}.Release.ActiveCfg = Release|Win32
+		{fc6f4770-9489-42e5-a96c-e04cd475a850}.Debug.ActiveCfg = Debug|Win32
+		{fc6f4770-9489-42e5-a96c-e04cd475a850}.Release.ActiveCfg = Release|Win32
+		{505e7ae6-3414-4d22-9be7-87ec093fed53}.Debug.ActiveCfg = Debug|Win32
+		{505e7ae6-3414-4d22-9be7-87ec093fed53}.Release.ActiveCfg = Release|Win32
+		{b68a433e-59b4-41a2-9243-af448a3f7bad}.Debug.ActiveCfg = Debug|Win32
+		{b68a433e-59b4-41a2-9243-af448a3f7bad}.Release.ActiveCfg = Release|Win32
+		{37828cfc-766c-4eb6-aa88-438f963055f1}.Debug.ActiveCfg = Debug|Win32
+		{37828cfc-766c-4eb6-aa88-438f963055f1}.Release.ActiveCfg = Release|Win32
+		{a0cb95d9-cdf6-4d02-bba0-eec6631fe44f}.Debug.ActiveCfg = Debug|Win32
+		{a0cb95d9-cdf6-4d02-bba0-eec6631fe44f}.Release.ActiveCfg = Release|Win32
+		{7bd28d37-9a7b-49bc-ad35-745f9eafd02d}.Debug.ActiveCfg = Debug|Win32
+		{7bd28d37-9a7b-49bc-ad35-745f9eafd02d}.Release.ActiveCfg = Release|Win32
+		{ef7e0952-7cf1-4e45-8f58-0327560dc634}.Debug.ActiveCfg = Debug|Win32
+		{ef7e0952-7cf1-4e45-8f58-0327560dc634}.Release.ActiveCfg = Release|Win32
+		{d51a53fe-81c0-4615-aca2-afba2687e651}.Debug.ActiveCfg = Debug|Win32
+		{d51a53fe-81c0-4615-aca2-afba2687e651}.Release.ActiveCfg = Release|Win32
+		{90bc32f8-321b-4e39-aa9b-5e6eb2600242}.Debug.ActiveCfg = Debug|Win32
+		{90bc32f8-321b-4e39-aa9b-5e6eb2600242}.Release.ActiveCfg = Release|Win32
+		{69adc0fe-ef6f-4064-b64a-a90e661585cb}.Debug.ActiveCfg = Debug|Win32
+		{69adc0fe-ef6f-4064-b64a-a90e661585cb}.Release.ActiveCfg = Release|Win32
+		{1209f0d2-b233-4e65-8af7-2c181c9b843b}.Debug.ActiveCfg = Debug|Win32
+		{1209f0d2-b233-4e65-8af7-2c181c9b843b}.Release.ActiveCfg = Release|Win32
+		{e749c8d5-1783-48dd-97a5-16fffc694855}.Debug.ActiveCfg = Debug|Win32
+		{e749c8d5-1783-48dd-97a5-16fffc694855}.Release.ActiveCfg = Release|Win32
+		{2e3fb6d7-f10e-4b17-a11c-6fc6378d1c97}.Debug.ActiveCfg = Debug|Win32
+		{2e3fb6d7-f10e-4b17-a11c-6fc6378d1c97}.Release.ActiveCfg = Release|Win32
+		{177137b4-88bc-4398-acc0-91dc097aa54d}.Debug.ActiveCfg = Debug|Win32
+		{177137b4-88bc-4398-acc0-91dc097aa54d}.Release.ActiveCfg = Release|Win32
+		{298c4e5d-293b-43fc-a61f-bf33596b5637}.Debug.ActiveCfg = Debug|Win32
+		{298c4e5d-293b-43fc-a61f-bf33596b5637}.Release.ActiveCfg = Release|Win32
+		{ddd77842-b01b-4154-9209-8f8432332466}.Debug.ActiveCfg = Debug|Win32
+		{ddd77842-b01b-4154-9209-8f8432332466}.Release.ActiveCfg = Release|Win32
+		{5629470c-bb30-4d55-bba7-62ea2eb1191d}.Debug.ActiveCfg = Debug|Win32
+		{5629470c-bb30-4d55-bba7-62ea2eb1191d}.Release.ActiveCfg = Release|Win32
+		{f7805a0e-d8f4-4b76-8569-70383cc6f85c}.Debug.ActiveCfg = Debug|Win32
+		{f7805a0e-d8f4-4b76-8569-70383cc6f85c}.Release.ActiveCfg = Release|Win32
+		{98c21396-fbc9-40ba-a847-e26bcbe79994}.Debug.ActiveCfg = Debug|Win32
+		{98c21396-fbc9-40ba-a847-e26bcbe79994}.Release.ActiveCfg = Release|Win32
+		{2db85331-c153-41d1-a653-275b0e2a0b4c}.Debug.ActiveCfg = Debug|Win32
+		{2db85331-c153-41d1-a653-275b0e2a0b4c}.Release.ActiveCfg = Release|Win32
+		{ffeac7ab-e3c6-479b-b679-bdabad3f3aa2}.Debug.ActiveCfg = Debug|Win32
+		{ffeac7ab-e3c6-479b-b679-bdabad3f3aa2}.Release.ActiveCfg = Release|Win32
+		{be9000b0-02e5-4768-8add-4b2177cc7988}.Debug.ActiveCfg = Debug|Win32
+		{be9000b0-02e5-4768-8add-4b2177cc7988}.Release.ActiveCfg = Release|Win32
+		{24c5456b-f4f0-4b58-b8c2-f6dacbdcb489}.Debug.ActiveCfg = Debug|Win32
+		{24c5456b-f4f0-4b58-b8c2-f6dacbdcb489}.Release.ActiveCfg = Release|Win32
+		{8f6cf3db-fc3a-4936-8e6b-a7c6ab78423d}.Debug.ActiveCfg = Debug|Win32
+		{8f6cf3db-fc3a-4936-8e6b-a7c6ab78423d}.Release.ActiveCfg = Release|Win32
+		{bd53c24c-c67b-4b24-a05f-4a1bbe5a8094}.Debug.ActiveCfg = Debug|Win32
+		{bd53c24c-c67b-4b24-a05f-4a1bbe5a8094}.Release.ActiveCfg = Release|Win32
+		{b4119c21-7e30-4967-91cc-8e0b3482ea4e}.Debug.ActiveCfg = Debug|Win32
+		{b4119c21-7e30-4967-91cc-8e0b3482ea4e}.Release.ActiveCfg = Release|Win32
+		{3d84ea17-78ff-4a20-9ab4-0a0c01702dba}.Debug.ActiveCfg = Debug|Win32
+		{3d84ea17-78ff-4a20-9ab4-0a0c01702dba}.Release.ActiveCfg = Release|Win32
+		{f57a4951-0fb4-44a8-b085-0ee25c6451bf}.Debug.ActiveCfg = Debug|Win32
+		{f57a4951-0fb4-44a8-b085-0ee25c6451bf}.Release.ActiveCfg = Release|Win32
+		{9884820a-2e0a-4266-a6cc-a13f83bb0256}.Debug.ActiveCfg = Debug|Win32
+		{9884820a-2e0a-4266-a6cc-a13f83bb0256}.Release.ActiveCfg = Release|Win32
+		{0162e66e-b8a0-4024-a6a2-f7557de4f3ef}.Debug.ActiveCfg = Debug|Win32
+		{0162e66e-b8a0-4024-a6a2-f7557de4f3ef}.Release.ActiveCfg = Release|Win32
+		{b804d67a-a0aa-4d4b-b2ad-ca17272f42a3}.Debug.ActiveCfg = Debug|Win32
+		{b804d67a-a0aa-4d4b-b2ad-ca17272f42a3}.Release.ActiveCfg = Release|Win32
+		{1b4e9cd1-3f83-48be-834c-f198b268cc0e}.Debug.ActiveCfg = Debug|Win32
+		{1b4e9cd1-3f83-48be-834c-f198b268cc0e}.Release.ActiveCfg = Release|Win32
+		{7e757b5c-4ec5-4a33-8278-29eb0fa5035c}.Debug.ActiveCfg = Debug|Win32
+		{7e757b5c-4ec5-4a33-8278-29eb0fa5035c}.Release.ActiveCfg = Release|Win32
+		{189e3581-6c65-4f92-a529-acb38c354fb1}.Debug.ActiveCfg = Debug|Win32
+		{189e3581-6c65-4f92-a529-acb38c354fb1}.Release.ActiveCfg = Release|Win32
+		{10e89c30-9ca8-4af2-a8ea-a49c40b989e2}.Debug.ActiveCfg = Debug|Win32
+		{10e89c30-9ca8-4af2-a8ea-a49c40b989e2}.Release.ActiveCfg = Release|Win32
+		{332fc043-62d6-42d0-8ab9-bfc087dd9e39}.Debug.ActiveCfg = Debug|Win32
+		{332fc043-62d6-42d0-8ab9-bfc087dd9e39}.Release.ActiveCfg = Release|Win32
+		{86b5ee3a-638c-481a-9869-4230fc112429}.Debug.ActiveCfg = Debug|Win32
+		{86b5ee3a-638c-481a-9869-4230fc112429}.Release.ActiveCfg = Release|Win32
+		{1012d59e-6477-4541-9ecc-d6c295da8d9e}.Debug.ActiveCfg = Debug|Win32
+		{1012d59e-6477-4541-9ecc-d6c295da8d9e}.Release.ActiveCfg = Release|Win32
+		{77578375-d531-4488-ab2a-6a56e0de965d}.Debug.ActiveCfg = Debug|Win32
+		{77578375-d531-4488-ab2a-6a56e0de965d}.Release.ActiveCfg = Release|Win32
+		{355e743b-e4b1-4530-99d3-e93ab85060d9}.Debug.ActiveCfg = Debug|Win32
+		{355e743b-e4b1-4530-99d3-e93ab85060d9}.Release.ActiveCfg = Release|Win32
+		{70f48013-0d78-4752-b312-070ef2bb95bb}.Debug.ActiveCfg = Debug|Win32
+		{70f48013-0d78-4752-b312-070ef2bb95bb}.Release.ActiveCfg = Release|Win32
+		{2a82503b-20fa-47e4-8567-7bf68158a077}.Debug.ActiveCfg = Debug|Win32
+		{2a82503b-20fa-47e4-8567-7bf68158a077}.Release.ActiveCfg = Release|Win32
+		{11afb61e-3780-4cbf-92d0-1054f42405f5}.Debug.ActiveCfg = Debug|Win32
+		{11afb61e-3780-4cbf-92d0-1054f42405f5}.Release.ActiveCfg = Release|Win32
+		{9de96ab4-297f-4aa9-8ca6-a10cfddfc440}.Debug.ActiveCfg = Debug|Win32
+		{9de96ab4-297f-4aa9-8ca6-a10cfddfc440}.Release.ActiveCfg = Release|Win32
+		{4348087d-8c97-460d-b8d4-db563ae00877}.Debug.ActiveCfg = Debug|Win32
+		{4348087d-8c97-460d-b8d4-db563ae00877}.Release.ActiveCfg = Release|Win32
+		{8460c7f0-c8c2-4ba2-b0bb-1b8aa29de6dc}.Debug.ActiveCfg = Debug|Win32
+		{8460c7f0-c8c2-4ba2-b0bb-1b8aa29de6dc}.Release.ActiveCfg = Release|Win32
+		{5982ee7a-8ecb-47bc-8fec-6389b9313fef}.Debug.ActiveCfg = Debug|Win32
+		{5982ee7a-8ecb-47bc-8fec-6389b9313fef}.Release.ActiveCfg = Release|Win32
+		{9ea10687-408d-4fc3-ac77-0e20ef806ae6}.Debug.ActiveCfg = Debug|Win32
+		{9ea10687-408d-4fc3-ac77-0e20ef806ae6}.Release.ActiveCfg = Release|Win32
+		{0581bafe-499e-4e70-84dd-1573faa756eb}.Debug.ActiveCfg = Debug|Win32
+		{0581bafe-499e-4e70-84dd-1573faa756eb}.Release.ActiveCfg = Release|Win32
+		{8b27425f-6d24-47b4-8ca5-d0e24536c413}.Debug.ActiveCfg = Debug|Win32
+		{8b27425f-6d24-47b4-8ca5-d0e24536c413}.Release.ActiveCfg = Release|Win32
+		{e3fe41e9-50ec-48bc-a0b2-be87d923889c}.Debug.ActiveCfg = Debug|Win32
+		{e3fe41e9-50ec-48bc-a0b2-be87d923889c}.Generate YY and LL files.ActiveCfg = Generate YY and LL files|Win32
+		{e3fe41e9-50ec-48bc-a0b2-be87d923889c}.Release.ActiveCfg = Release|Win32
+		{45eeec3e-9566-4ef7-a043-fad88b9b5567}.Debug.ActiveCfg = Debug|Win32
+		{45eeec3e-9566-4ef7-a043-fad88b9b5567}.Release.ActiveCfg = Release|Win32
+		{007d9b8e-1887-4f39-bd61-2a50893161e1}.Debug.ActiveCfg = Debug|Win32
+		{007d9b8e-1887-4f39-bd61-2a50893161e1}.Release.ActiveCfg = Release|Win32
+		{0ef644a1-d579-4185-8e04-b3f95af29dc7}.Debug.ActiveCfg = Debug|Win32
+		{0ef644a1-d579-4185-8e04-b3f95af29dc7}.Release.ActiveCfg = Release|Win32
+		{be4cce5b-e864-400c-996c-cc8d3cf3a33e}.Debug.ActiveCfg = Debug|Win32
+		{be4cce5b-e864-400c-996c-cc8d3cf3a33e}.Release.ActiveCfg = Release|Win32
+		{87cb044d-9c4d-48a1-a754-63c31eb8bef8}.Debug.ActiveCfg = Debug|Win32
+		{87cb044d-9c4d-48a1-a754-63c31eb8bef8}.Release.ActiveCfg = Release|Win32
+		{d59f5b99-8160-4344-8dfa-9c4a1de1d4f0}.Debug.ActiveCfg = Debug|Win32
+		{d59f5b99-8160-4344-8dfa-9c4a1de1d4f0}.Release.ActiveCfg = Release|Win32
+		{7b69d174-3429-4f18-99a8-35e238c68feb}.Debug.ActiveCfg = Debug|Win32
+		{7b69d174-3429-4f18-99a8-35e238c68feb}.Release.ActiveCfg = Release|Win32
+		{def80c5b-5492-4cda-8265-d649172880f3}.Debug.ActiveCfg = Debug|Win32
+		{def80c5b-5492-4cda-8265-d649172880f3}.Release.ActiveCfg = Release|Win32
+		{471607b1-ecd2-4048-8dbc-678bf124a603}.Debug.ActiveCfg = Debug|Win32
+		{471607b1-ecd2-4048-8dbc-678bf124a603}.Release.ActiveCfg = Release|Win32
+		{74eea0fc-e720-4aee-8627-92cd81a35ff1}.Debug.ActiveCfg = Debug|Win32
+		{74eea0fc-e720-4aee-8627-92cd81a35ff1}.Release.ActiveCfg = Release|Win32
+		{e8722e55-93d2-4ed1-a5c4-c045e59a2609}.Debug.ActiveCfg = Debug|Win32
+		{e8722e55-93d2-4ed1-a5c4-c045e59a2609}.Release.ActiveCfg = Release|Win32
+		{182151c8-6a51-499b-b604-56918a9e18ad}.Debug.ActiveCfg = Debug|Win32
+		{182151c8-6a51-499b-b604-56918a9e18ad}.Release.ActiveCfg = Release|Win32
+		{9c900d7c-dde4-4e0f-b5de-a326c39607dc}.Debug.ActiveCfg = Debug|Win32
+		{9c900d7c-dde4-4e0f-b5de-a326c39607dc}.Release.ActiveCfg = Release|Win32
+		{9c900d7c-dde4-4e0f-b5de-a326c39607dc}.Debug.ActiveCfg = Debug|Win32
+		{9c900d7c-dde4-4e0f-b5de-a326c39607dc}.Release.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

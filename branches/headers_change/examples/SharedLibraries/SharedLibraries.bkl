@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <include file="../../build/bakefiles/VCFCommon.bkl"/>
+
+    <dll id="SimpleDLL" cond="FORMAT!='borland' and OPTION_FOUNDATIONKIT=='1'">
+        <set var="DLLEXT">.so</set>
+        <dirname>.</dirname>
+        <sources>SimpleDLL.cpp</sources>
+    </dll>
+
+    <exe id="SharedLibraries" template="vcf_exe_console"
+            cond="FORMAT!='borland' and OPTION_FOUNDATIONKIT=='1'">
+        <dirname>.</dirname>
+        <sources>SharedLibraries.cpp</sources>
+        <vcf-use-FoundationKit/>
+        <depends>SimpleDLL</depends>
+        <clean-files cond="FORMAT=='msvc'">
+            SimpleDLL.exp
+        </clean-files>
+    </exe>
+</makefile>
+
+<!--
+$Id$
+-->
