@@ -1,7 +1,0 @@
-USEUNIT("Toolbars.cpp");
-USERC("tb.rc");
-//---------------------------------------------------------------------------
-This file is used by the project manager only and should be treated like the project file
-
-
-WinMain
