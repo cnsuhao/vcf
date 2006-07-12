@@ -78,12 +78,17 @@ namespace VCF
 This macro takes 2 arguments - the condition that causes the
 assert, and a string describing the reason for the assert.
 */
+//	#define VCF_ASSERT2(condition,msg) \
+//		{ \
+//			bool condValue = condition; \
+//			if ( ! (condValue) ) { \
+//				VCF::FoundationKit::assertCondition( condValue, VCF::String( msg ) + VCF::String( L"\nAssertion in file: " ) + VCF::String( __WFILE__ ) + VCF::String( L" at line: " ) + VCF::StringUtils::toString( __LINE__ ) ); \
+//			} \
+//		} \
+//
+
 	#define VCF_ASSERT2(condition,msg) \
 		{ \
-			bool condValue = condition; \
-			if ( ! (condValue) ) { \
-				VCF::FoundationKit::assertCondition( condValue, VCF::String( msg ) + VCF::String( L"\nAssertion in file: " ) + VCF::String( __WFILE__ ) + VCF::String( L" at line: " ) + VCF::StringUtils::toString( __LINE__ ) ); \
-			} \
 		} \
 		\
 
@@ -92,16 +97,16 @@ Instead of calling FoundationKit::assertCondition() use this macro or VCF_ASSERT
 Use this macro to assert if a certain condtion is false, which will cause an exception to
 be thrown. For example:
 \code
-int doCalc( int p1, int p2 ) 
+int doCalc( int p1, int p2 )
 {
 	VCF_ASSERT( p1 > 0 );
-	
+
 	return p2 / p1;
 }
 \endcode
 
 
-If the assert fails (i.e. in this if p1 equals 0) the message will look something like 
+If the assert fails (i.e. in this if p1 equals 0) the message will look something like
 \code
 	p1 > 0
 	Assertion in file: foo.cpp at line: 200

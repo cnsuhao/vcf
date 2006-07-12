@@ -13,6 +13,8 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include <string>
+#include "vcf/FoundationKit/VCFChar.h"
 
 namespace VCF{
 
@@ -67,7 +69,7 @@ class compatible with the std::basic_string class.
 */
 class FOUNDATIONKIT_API UnicodeString {
 public:
-		
+
 
 	typedef char AnsiChar;
 
@@ -148,7 +150,7 @@ public:
 	number of bytes written to the ansi string buffer.
 	@param TextCodec the code to use for decoding this string's data
 	@param AnsiChar* str the ansi buffer to use to write the decoded data to
-	@param size_type& strSize teh number of bytes in the str buffer. UIpon returning from this 
+	@param size_type& strSize teh number of bytes in the str buffer. UIpon returning from this
 	function this will hold the number of bytes actually written to the str buffer. The
 	null terminator will be written out
 	@see ansi_c_str()
@@ -187,7 +189,7 @@ public:
 	/**
 	Returns a const char* pointer. Equivalent to the c_str() method,
 	only this translates the internal unicode data to an ansi string.
-	
+
 	Please note that the pointer returned from this function is only
 	valid for the lifetime of the string that it was returned from.
 	Calling this function requires that a new char buffer be allocated. As
@@ -229,7 +231,7 @@ public:
 	Returns a const char* pointer s a result of translating the
 	unicode data to an ansi string. In Win32, the default
 	behaviour is to convert this using the UTF8 code page.
-	
+
 	This pointer is "garbage collected" and is only valid for the lifetime of
 	the string instance that it was retreived from. Once that
 	instance is destroyed, the pointer is invalid. For example:
@@ -368,7 +370,7 @@ public:
 	bool operator <( const StringData& rhs ) const {
 		return data_ < rhs;
 	}
-	
+
 	bool operator <( const UniChar* rhs ) const {
 		return data_ < rhs;
 	}
@@ -961,7 +963,7 @@ protected:
 			ansiDataBuffer_ = NULL;
 		}
 	}
-	
+
 };
 
 

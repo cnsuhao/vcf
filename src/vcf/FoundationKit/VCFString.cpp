@@ -6,12 +6,16 @@ Please see License.txt in the top level directory
 where you installed the VCF.
 */
 
-
-#include "vcf/FoundationKit/FoundationKit.h"
-#include "vcf/FoundationKit/FoundationKitPrivate.h"
-#include "vcf/FoundationKit/TextCodec.h"
-
 #include <errno.h>
+#include <windows.h>
+
+//#include "vcf/FoundationKit/FoundationKit.h"
+//#include "vcf/FoundationKit/FoundationKitPrivate.h"
+#include "vcf/FoundationKit/ErrorStrings.h"
+#include "vcf/FoundationKit/RuntimeException.h"
+#include "vcf/FoundationKit/StringUtils.h"
+#include "vcf/FoundationKit/TextCodec.h"
+#include "vcf/FoundationKit/VCFString.h"
 
 using namespace VCF;
 
@@ -49,7 +53,7 @@ int UnicodeString::adjustForBOMMarker( UnicodeString::AnsiChar*& stringPtr, uint
 							bom = 0;
 							bom  = (stringPtr[0] << 24) | (stringPtr[1] << 16) | (stringPtr[2] << 8) | stringPtr[3];
 
-							if ( (UnicodeString::UTF32LittleEndianBOM == bom) || 
+							if ( (UnicodeString::UTF32LittleEndianBOM == bom) ||
 									(UnicodeString::UTF32BigEndianBOM == bom) ) {
 								StringUtils::trace( "Unable to translate UTF32 BOM string\n" );
 
@@ -270,7 +274,7 @@ UnicodeString::AnsiChar UnicodeString::transformUnicodeCharToAnsiChar( UnicodeSt
 	AnsiChar result;
 
 #ifdef VCF_WIN
-	
+
 	if (  0 == ::WideCharToMultiByte( CP_ACP, 0, (LPCWSTR)&c, 1,
 									&result, 1, NULL, NULL ) ) {
 		result = 0;
@@ -288,21 +292,21 @@ UnicodeString::AnsiChar UnicodeString::transformUnicodeCharToAnsiChar( UnicodeSt
 	CFRange r = {0,tmp.length()};
 	CFIndex size2 = 0;
 	CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false, NULL, 0, &size2 );
-	
+
 	if ( !(size2 > 0) ) {
 		throw RuntimeException( L"size <= 0 CFStringGetBytes() failed" );
 	}
-	
+
 	size2 = minVal<CFIndex>( 1, size2 );
-	
-	
+
+
 	if (  0 == ::CFStringGetBytes( tmp, r, CFStringGetSystemEncoding(), '?', false,
 									(UInt8*)&result, size2, &size2 ) ) {
 		//CFStringGetBytes failed
 		throw RuntimeException( L"CFStringGetBytes failed" );
 		result = 0;
 	}
-	
+
 #elif defined(VCF_POSIX)
 	int size = wctomb(NULL, c);
 
@@ -431,16 +435,16 @@ UnicodeString::AnsiChar* UnicodeString::transformUnicodeToAnsi( const UnicodeStr
 	return result;
 }
 
-void UnicodeString::decode_ansi( TextCodec* codec, UnicodeString::AnsiChar* str, UnicodeString::size_type& strSize ) const 
+void UnicodeString::decode_ansi( TextCodec* codec, UnicodeString::AnsiChar* str, UnicodeString::size_type& strSize ) const
 {
 	VCF_ASSERT ( str != NULL );
 
-	uint32 size = codec->convertToAnsiString( *this, str, strSize );	
-	
+	uint32 size = codec->convertToAnsiString( *this, str, strSize );
+
 	if ( size < strSize ) {
 		str[size] = 0;
 	}
-	
+
 	strSize = size;
 }
 
@@ -490,7 +494,7 @@ bool UnicodeString::operator >( const UnicodeString::AnsiChar* rhs ) const
 bool UnicodeString::operator >=( const UnicodeString::AnsiChar* rhs ) const
 {
 	VCF_ASSERT ( rhs != NULL );
-	
+
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	return data_ >= tmp.data_;
@@ -518,7 +522,7 @@ UnicodeString& UnicodeString::operator=(const UnicodeString::AnsiChar *s)
 	VCF_ASSERT ( s != NULL );
 	UnicodeString::transformAnsiToUnicode( s, strlen(s), data_ );
 	modified();
-	
+
 
 	return *this;
 }
@@ -531,7 +535,7 @@ UnicodeString& UnicodeString::operator=(UnicodeString::AnsiChar c)
 }
 
 const UnicodeString::AnsiChar* UnicodeString::ansi_c_str() const
-{	
+{
 	if ( NULL == ansiDataBuffer_  ) {
 		ansiDataBuffer_ = UnicodeString::transformUnicodeToAnsi( *this );
 	}
@@ -549,7 +553,7 @@ UnicodeString& UnicodeString::operator+=(UnicodeString::AnsiChar c)
 UnicodeString& UnicodeString::operator+=(const AnsiChar* rhs )
 {
 	VCF_ASSERT ( rhs != NULL );
-	
+
 	UnicodeString tmp;
 	UnicodeString::transformAnsiToUnicode( rhs, strlen(rhs), tmp.data_ );
 	data_ += tmp.data_;
@@ -766,7 +770,7 @@ and return the result
 
 
 	return copyStr.copy( s, n, pos );
-	
+
 }
 
 UnicodeString::size_type UnicodeString::find(const UnicodeString::AnsiChar *s, UnicodeString::size_type pos, UnicodeString::size_type n) const

@@ -13,6 +13,9 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/RuntimeException.h"
+#include "vcf/FoundationKit/ErrorStrings.h"
 
 namespace VCF {
 /**

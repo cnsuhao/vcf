@@ -13,6 +13,7 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include "vcf/FoundationKit/VCFString.h"
 
 namespace VCF
 {
@@ -137,9 +138,9 @@ protected:
 
 #define REGISTER_INTERFACEINFO(InterfaceType)
 
-#define REGISTER_CLASSINFO_EXTERNAL( ClassType ) 
+#define REGISTER_CLASSINFO_EXTERNAL( ClassType )
 
-#define REGISTER_INTERFACEINFO_EXTERNAL( InterfaceType ) 
+#define REGISTER_INTERFACEINFO_EXTERNAL( InterfaceType )
 
 
 #endif //VCF_RTTI
