@@ -13,6 +13,7 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include "vcf/FoundationKit/BasicException.h"
 
 namespace VCF
 {

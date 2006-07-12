@@ -13,6 +13,8 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/CommonDefines.h"
 
 #define MAX_TRACE_STRING		5000
 
@@ -46,9 +48,9 @@ public:
 	same formatting rules as printf().
 	@param String the text to trace out after formatting. See printf()
 	for formatting rules.
-	\deprecated 
+	\deprecated
 	This is now a deprecated function and should not be used at all. Existing
-	code should be changed to make use of the traceWithArgs( const Format& ) function 
+	code should be changed to make use of the traceWithArgs( const Format& ) function
 	instead. It will be removed entirely in an upcoming release.
 	*/
 	//static void traceWithArgs( const VCF::String& text );
@@ -60,9 +62,9 @@ public:
 	sprintf().
 	@param String the format text to use
 	@return String the formatted string
-	\deprecated 
+	\deprecated
 	This is now a deprecated function and should not be used at all. Existing
-	code should be changed to make use of the traceWithArgs( const Format& ) function 
+	code should be changed to make use of the traceWithArgs( const Format& ) function
 	instead. It will be removed entirely in an upcoming release.
 	*/
 	//static VCF::String format( VCF::String formatText, ... );
@@ -131,7 +133,7 @@ public:
 	static void trimWhiteSpaces( VCF::String& text );
 
 	/**
-	gets a copy of the string that is having erased all its characters on the left 
+	gets a copy of the string that is having erased all its characters on the left
 	of the count-th occurrence of the character ch.
 	If the character is not found, the result string is equal to the original one.
 	@param String the source string
@@ -146,7 +148,7 @@ public:
 	static String eraseLeftOfChar( const String& s, const VCFChar& ch, const bool& included=false, const int& count=1 );
 
 	/**
-	gets a copy of the string that is having erased all its characters on the right 
+	gets a copy of the string that is having erased all its characters on the right
 	of the count-th occurrence of the character ch.
 	If the character is not found, the result string is equal to the original one.
 	@param String the source string
@@ -178,7 +180,7 @@ public:
 	Performs a case insensitive string compare between str1 and
 	str2. This may not be locale safe, but it will try and use
 	the lower level OS facilities for case insensitive string
-	comparison if they exist. Otherwise it will simply convert 
+	comparison if they exist. Otherwise it will simply convert
 	both strings to uppercase and compare the results.
 	@return int returns 0 if the strings are equivalent, returns
 	greater than 0 if str1 is greater than str2, and returns less
@@ -308,14 +310,14 @@ public:
 	static unsigned long fromStringAsULong( const VCF::String& value );
 
 	/**
-	converts the value to a 64 bit signed integer 
+	converts the value to a 64 bit signed integer
 	@param String the value to convert
 	@return int64 the 64 bit signed integer representation of the String value
 	*/
 	static VCF::int64 fromStringAsLong64( const VCF::String& value );
 
 	/**
-	converts the value to a 64 bit unsigned integer 
+	converts the value to a 64 bit unsigned integer
 	@param String the value to convert
 	@return uint64 the 64 bit unsigned integer representation of the String value
 	*/
@@ -383,7 +385,7 @@ public:
 	the GCC implemented type_info::name() is useless.
 	*/
 	static VCF::String toString( const std::type_info& typeInfo );
-	
+
 	/**
 	Formats a string from date time object using the various argument/formatting
 	tags in the formatting string. For example, a date that equals "Jan 2, 2005",
@@ -538,7 +540,7 @@ protected:
 
 
 /**
-The following functions provide support for appending and translating various 
+The following functions provide support for appending and translating various
 primitive types to string values. This makes it more convenient to write strings
 that also have integers, objects, or other types as part of the string message.
 The goal is to slowly get away from using the variable argument sprintf() style
@@ -554,7 +556,7 @@ System::println( "Name " + str + " number " + 1223 );
 
 */
 
-	
+
 String operator+ ( const String& lhs, const int& val );
 
 String& operator+= ( String& lhs, const int& val );
@@ -603,33 +605,33 @@ String operator+ ( const String& lhs, void* val );
 
 String& operator+= ( String& lhs, void* val );
 
-/**
-Objects!
-*/
-String operator+ ( const String& lhs, Object& val );
-
-String& operator+= ( String& lhs, Object& val );
-
-String operator+ ( const String& lhs, Object* val );
-
-String& operator+= ( String& lhs, Object* val );
-
-
-/**
-type info!
-*/
-String operator+ ( const String& lhs, const std::type_info& typeInfo );
-
-String& operator+= ( String& lhs, const std::type_info& typeInfo );
-
-
-
-/**
-Variant data
-*/
-String operator+ ( const String& lhs, const VariantData& rhs );
-
-String& operator+= ( String& lhs, const VariantData& rhs );
+///**
+//Objects!
+//*/
+//String operator+ ( const String& lhs, Object& val );
+//
+//String& operator+= ( String& lhs, Object& val );
+//
+//String operator+ ( const String& lhs, Object* val );
+//
+//String& operator+= ( String& lhs, Object* val );
+//
+//
+///**
+//type info!
+//*/
+//String operator+ ( const String& lhs, const std::type_info& typeInfo );
+//
+//String& operator+= ( String& lhs, const std::type_info& typeInfo );
+//
+//
+//
+///**
+//Variant data
+//*/
+//String operator+ ( const String& lhs, const VariantData& rhs );
+//
+//String& operator+= ( String& lhs, const VariantData& rhs );
 
 
 
@@ -740,7 +742,7 @@ inline String& operator+= ( String& lhs, const uint64& val )
 
 inline String operator+ ( const String& lhs, const int64& val )
 {
-	return lhs + StringUtils::toString(val); 
+	return lhs + StringUtils::toString(val);
 }
 
 inline String& operator+= ( String& lhs, const int64& val )
@@ -755,7 +757,7 @@ inline String operator+ ( const String& lhs, void* val )
 {
 	char tmp[256];
 	sprintf( tmp, "%p", val );
-	
+
 	return lhs + tmp;
 }
 
@@ -767,58 +769,58 @@ inline String& operator+= ( String& lhs, void* val )
 	return lhs += tmp;
 }
 
-/**
-Objects!
-*/
-
-inline String operator+ ( const String& lhs, Object& val )
-{
-	return lhs + val.toString();
-}
-
-inline String& operator+= ( String& lhs, Object& val )
-{
-	return lhs += val.toString();
-}
-
-inline String operator+ ( const String& lhs, Object* val )
-{
-	return lhs + ((val != NULL) ? val->toString() : String("null"));
-}
-
-inline String& operator+= ( String& lhs, Object* val )
-{
-	return lhs += ((val != NULL) ? val->toString() : String("null"));
-}
-
-
-/**
-type info!
-*/
-inline String operator+ ( const String& lhs, const std::type_info& typeInfo )
-{
-	return lhs + StringUtils::getClassNameFromTypeInfo( typeInfo );
-}
-
-inline String& operator+= ( String& lhs, const std::type_info& typeInfo )
-{
-	return lhs += StringUtils::getClassNameFromTypeInfo( typeInfo );
-}
-
-/**
-Variant data
-*/
-
-inline String operator+ ( const String& lhs, const VariantData& rhs )
-{
-	return lhs + StringUtils::toString(rhs);
-}
-
-inline String& operator+= ( String& lhs, const VariantData& rhs )
-{
-	return lhs += StringUtils::toString(rhs);
-}
-
+///**
+//Objects!
+//*/
+//
+//inline String operator+ ( const String& lhs, Object& val )
+//{
+//	return lhs + val.toString();
+//}
+//
+//inline String& operator+= ( String& lhs, Object& val )
+//{
+//	return lhs += val.toString();
+//}
+//
+//inline String operator+ ( const String& lhs, Object* val )
+//{
+//	return lhs + ((val != NULL) ? val->toString() : String("null"));
+//}
+//
+//inline String& operator+= ( String& lhs, Object* val )
+//{
+//	return lhs += ((val != NULL) ? val->toString() : String("null"));
+//}
+//
+//
+///**
+//type info!
+//*/
+//inline String operator+ ( const String& lhs, const std::type_info& typeInfo )
+//{
+//	return lhs + StringUtils::getClassNameFromTypeInfo( typeInfo );
+//}
+//
+//inline String& operator+= ( String& lhs, const std::type_info& typeInfo )
+//{
+//	return lhs += StringUtils::getClassNameFromTypeInfo( typeInfo );
+//}
+//
+///**
+//Variant data
+//*/
+//
+//inline String operator+ ( const String& lhs, const VariantData& rhs )
+//{
+//	return lhs + StringUtils::toString(rhs);
+//}
+//
+//inline String& operator+= ( String& lhs, const VariantData& rhs )
+//{
+//	return lhs += StringUtils::toString(rhs);
+//}
+//
 
 };
 
