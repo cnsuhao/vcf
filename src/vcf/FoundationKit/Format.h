@@ -12,6 +12,9 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include "vcf/FoundationKit/ErrorStrings.h"
+#include "vcf/FoundationKit/StringUtils.h"
+
 
 #if !defined(VCF_CW) && !defined(VCF_DMC)
 // In-class member template specializations are non-standard (Section 14.7.3.2)
@@ -40,7 +43,7 @@ namespace VCF {
 	sprintf/printf family of functions, only made typesafe for
 	C++, and less likely to encounter buffer overflow errors
 	that are so easy to do with sprintf and friends.
-	
+
 	The inspiration for this class comes unashamedly from the
 	Boost Format library (http://www.boost.org/libs/format/doc/format.html).
 	Any mistakes in the "translation" are mine, not Boost's.
@@ -156,18 +159,18 @@ namespace VCF {
 		unicode support of OSX (yes, this *again*). It would appear that the
 		onlu "widechar" support that printf has is for wchar_t types,
 		not hte UTF16 16bit type that all the rest of the ^&%$$ OS uses
-		(see CFStringRef - it's a 16bit unicode type, like all the other 
+		(see CFStringRef - it's a 16bit unicode type, like all the other
 		sane Unicode API's use). So using %ls, or %S both fail to print
 		anything at all here when a WideChar* (a 16bit unsigned short*)
-		and we get errors from snprintf() about this. 
-		To workaround this silliness (which of course isn't required on 
-		Win32 - yeah Microsoft), I've added this specialization for WideChar* 
+		and we get errors from snprintf() about this.
+		To workaround this silliness (which of course isn't required on
+		Win32 - yeah Microsoft), I've added this specialization for WideChar*
 		and then converted down to ansi before passing it into sprintf.
-		This is incredibly lame, and if someone ever figures out a better 
-		solution, PLEASE let me know!!!!!!! 
+		This is incredibly lame, and if someone ever figures out a better
+		solution, PLEASE let me know!!!!!!!
 		*/
-		#ifdef VCF_OSX  
-		Format& operator% (const WideChar* val) {			
+		#ifdef VCF_OSX
+		Format& operator% (const WideChar* val) {
 			currentFormatArgCount_  ++;
 
 			VCF_ASSERT ( currentFormatArgCount_ <= expectedFormatArgCount_ );
@@ -177,7 +180,7 @@ namespace VCF {
 
 			if ( p_ < end_ ) {
 				String tmpVal(val);
-			
+
 				output_ += fmtStr_.substr( prev_ - start_, p_ - prev_ );
 
 				const VCFChar* p = getNextFormatTokenEndPos( (p_-start_) );
@@ -211,7 +214,7 @@ namespace VCF {
 			return *this;
 		}
 		#endif
-		
+
 	#ifdef VCF_NO_OUT_OF_CLASS_TEMPLATE_DEFINITIONS
 		// specialization for a String value.
 		#ifndef VCF_NO_TEMPLATE_SPECIFICATION_FOR_MEMBER_TEMPLATE_SPECIALIZATION
@@ -244,7 +247,7 @@ namespace VCF {
 				size_t size = fmt.size()+val.size()+20;
 				char* tmp = new char[size+1];
 				memset( tmp, 0, (size+1)*sizeof(char) );
-				//int cb = 
+				//int cb =
 				snprintf( tmp, size, fmt.ansi_c_str(), val.ansi_c_str() );
 				output_ += tmp;
 				delete [] tmp;
