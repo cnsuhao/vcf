@@ -13,6 +13,9 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include <map>
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/VCFString.h"
 
 namespace VCF{
 
@@ -79,14 +82,14 @@ public:
 
 	/**
 	Call this method to free up the memory of the class
-	for heap based objects. Use this instead of calling the 
+	for heap based objects. Use this instead of calling the
 	operator delete. For example:
 	\code
 	Mutex*  m = new Mutex();
 	m->free();
 	\endcode
-	This will ensure that the destroy() method is called 
-	\em before calling operator delete which allows a 
+	This will ensure that the destroy() method is called
+	\em before calling operator delete which allows a
 	deriving class to override the destroy methods and safely
 	call virtual methods from within it.
 	*/

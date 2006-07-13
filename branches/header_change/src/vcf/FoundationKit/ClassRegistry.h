@@ -13,6 +13,12 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include <map>
+
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/Enumerator.h"
+#include "vcf/FoundationKit/VCFString.h"
+
 /**
 
 This macro is used in a way similar to the C++ typeid operator.
@@ -33,6 +39,11 @@ the Window class.
 
 namespace VCF
 {
+class Class;
+class ImplementedInterfaceClass;
+class InterfaceClass;
+class Method;
+class Object;
 
 
 /**

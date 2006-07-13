@@ -13,6 +13,8 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/Interface.h"
 
 // SynchObject.h: interface for the SynchObject class.
 
@@ -31,13 +33,13 @@ class FOUNDATIONKIT_API SynchObject : public VCF::Interface
 {
 public:
 	virtual ~SynchObject(){};
-	
+
 	/**
 	Attempts tp lock the SynchObject and will block
 	indefinitely till a lock is achieved.
 	*/
 	virtual bool lock() = 0;
-	
+
 	/**
 	Attempts tp lock the SynchObject and will block
 	for timeoutInMilliseconds till a lock is achieved.

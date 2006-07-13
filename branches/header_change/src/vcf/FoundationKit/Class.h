@@ -13,6 +13,11 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include <map>
+
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/Enumerator.h"
+#include "vcf/FoundationKit/VCFString.h"
 
 namespace VCF
 {
@@ -22,6 +27,7 @@ class Method;
 class EventProperty;
 class InterfaceClass;
 class Field;
+class Object;
 
 /**
 *common class names for native types, like int, long, char, bool, etc.
@@ -44,22 +50,22 @@ class Field;
 \class Class Class.h "vcf/FoundationKit/Class.h"
 Class is the base class for all RTTI in the Framework. Class was written
 because C++ RTTI is shockingly primitive, and many of these features are
-found in other OO languages (i.e. ObjectPascal, ObjectiveC, SmallTalk, 
+found in other OO languages (i.e. ObjectPascal, ObjectiveC, SmallTalk,
 Java, et. al) and are immensely useful and powerful.
 
-Class is an abstract base class that template class's derive from. Classes 
+Class is an abstract base class that template class's derive from. Classes
 provide the following information:
 	\li
 	the name of the Class - this is stored in a member variable rather
 	than relying on typeid().name() to retreive the class name. Not all
 	compiler's support the typeid().name() function (i.e. MSVC 6.0 does, Borland
 	probably does, but GCC does not)
-	
+
 
 	\li
 	the Class ID - this represents a UUID for the class. This will prove useful
 	when distributed features creep in.
-	
+
 
 	\li
 	the ability to discover all the properties of a Class at runtime. A property
@@ -67,20 +73,20 @@ provide the following information:
 	setter methods. Properties can be primitive types (int, long double, etc) or
 	Object derived types, or enums. Properties can also be collections of other
 	properties.
-	
+
 
 	\li
 	retreiving the super class of the class.
-	
+
 
 	\li
 	the ability to create a new instance of the class the Class object represents.
 	This of course assumes a default constructor is available.
-	
 
-In order for the RTTI to work in the Framework developers of derived classes 
-must do three things for their classes to participate in the Framework. Failure 
-to implement these steps will mean their classes will not have correct RTTI. A 
+
+In order for the RTTI to work in the Framework developers of derived classes
+must do three things for their classes to participate in the Framework. Failure
+to implement these steps will mean their classes will not have correct RTTI. A
 series of macros (defined in ClassInfo.h) have been written to make this easier.
 
 The first step is (obviously) making sure that your class is derived from a Framework object.
@@ -115,17 +121,17 @@ The macros create a public nested class used to register your class that you're 
 The above macros generate the following inline code for the developer of the Foo class.
 \code
 	class Foo : public VCF::Object {
-		class Foo_rtti_ClassInfo : public VCF::ClassInfo<Foo> { 
-		public: 
+		class Foo_rtti_ClassInfo : public VCF::ClassInfo<Foo> {
+		public:
 			typedef Foo RttiClassType;
-			Foo_rtti_ClassInfo (): 
-			VCF::ClassInfo<RttiClassType>( VCF::StringUtils::getClassNameFromTypeInfo(typeid(Foo)), 
-											"VCF::Object", 
-											"1E8CBE21-2915-11d4-8E88-00207811CFAB" ){ 
+			Foo_rtti_ClassInfo ():
+			VCF::ClassInfo<RttiClassType>( VCF::StringUtils::getClassNameFromTypeInfo(typeid(Foo)),
+											"VCF::Object",
+											"1E8CBE21-2915-11d4-8E88-00207811CFAB" ){
 
-				VCF::String tmpClassName = VCF::StringUtils::getClassNameFromTypeInfo(typeid(Foo)); 
-				if ( isClassRegistered()  ){ 
-				
+				VCF::String tmpClassName = VCF::StringUtils::getClassNameFromTypeInfo(typeid(Foo));
+				if ( isClassRegistered()  ){
+
 				}
 			}
 		};//end of FooInfo
@@ -171,7 +177,7 @@ public:
 	that represents unique ID as returned by a UUID function/algorithm
 	the format is this:
 	96B6A350-2873-11d4-8E88-00207811CFAB
-	
+
 	@param String the name of the class's super class
 	*/
 	Class( const String& className, const String& classID, const String& superClass );

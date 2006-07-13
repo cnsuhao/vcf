@@ -51,6 +51,12 @@
 			<Option link="0" />
 			<Option target="debug" />
 		</Unit>
+		<Unit filename="FoundationKit\Class.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="debug" />
+		</Unit>
 		<Unit filename="FoundationKit\ClassInfo.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -58,6 +64,12 @@
 			<Option target="debug" />
 		</Unit>
 		<Unit filename="FoundationKit\ClassNotFound.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="debug" />
+		</Unit>
+		<Unit filename="FoundationKit\ClassRegistry.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -88,6 +100,12 @@
 			<Option target="debug" />
 		</Unit>
 		<Unit filename="FoundationKit\FileNotFound.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="debug" />
+		</Unit>
+		<Unit filename="FoundationKit\Format.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
@@ -129,6 +147,12 @@
 			<Option link="0" />
 			<Option target="debug" />
 		</Unit>
+		<Unit filename="FoundationKit\Mutex.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="debug" />
+		</Unit>
 		<Unit filename="FoundationKit\NoFreeMemException.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -165,6 +189,16 @@
 			<Option link="0" />
 			<Option target="debug" />
 		</Unit>
+		<Unit filename="FoundationKit\Object.cpp">
+			<Option compilerVar="CPP" />
+			<Option target="debug" />
+		</Unit>
+		<Unit filename="FoundationKit\Object.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="debug" />
+		</Unit>
 		<Unit filename="FoundationKit\ProcessException.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
@@ -190,6 +224,12 @@
 			<Option target="debug" />
 		</Unit>
 		<Unit filename="FoundationKit\StringUtils.h">
+			<Option compilerVar="CPP" />
+			<Option compile="0" />
+			<Option link="0" />
+			<Option target="debug" />
+		</Unit>
+		<Unit filename="FoundationKit\SynchObject.h">
 			<Option compilerVar="CPP" />
 			<Option compile="0" />
 			<Option link="0" />
