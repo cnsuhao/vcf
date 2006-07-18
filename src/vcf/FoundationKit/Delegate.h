@@ -13,6 +13,9 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include "vcf/FoundationKit/ErrorStrings.h"
+#include "vcf/FoundationKit/Event.h"
+#include "vcf/FoundationKit/EventHandler.h"
 
 /**
 Use this macro to make sure you define a delegate named "name", and an accessor function
@@ -150,7 +153,7 @@ public:
 				}
 
 				EventHandler* handler = *it;
-				
+
 				VCF_ASSERT( NULL != handler );
 
 				handler->invoke( event );
@@ -162,7 +165,7 @@ public:
 
 	inline void removeAllHandlers() {
 		if ( NULL != handlers_ ) {
-			
+
 			handlers_->clear();
 		}
 	}
@@ -186,18 +189,18 @@ public:
 		if ( found != handlers_->end() ) {
 			handlers_->erase( found );
 		}
-		
+
 		handlers_->insert( handlers_->begin(), handler );
 	}
 
 	/**
-	This allows you to retreive a copy of the handlers registered with this 
+	This allows you to retreive a copy of the handlers registered with this
 	delegate.
 	@param EventHandler::Vector a reference to a std::vector<EventHandler*>
 	that will be filled with the event handlers registered with this
 	delegate.
 	@return bool returns true if the handlers were successfully copied over.
-	Otherwise returns false. A delegate with no handlers will also return 
+	Otherwise returns false. A delegate with no handlers will also return
 	false.
 	*/
 	inline bool getEventHandlers( EventHandler::Vector& handlers ) {

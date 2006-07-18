@@ -7,7 +7,14 @@ where you installed the VCF.
 */
 
 
-#include "vcf/FoundationKit/FoundationKit.h"
+//#include "vcf/FoundationKit/FoundationKit.h"
+#include "vcf/FoundationKit/Class.h"
+#include "vcf/FoundationKit/ClassRegistry.h"
+#include "vcf/FoundationKit/Field.h"
+#include "vcf/FoundationKit/InterfaceClass.h"
+#include "vcf/FoundationKit/Method.h"
+#include "vcf/FoundationKit/Property.h"
+
 using namespace VCF;
 
 

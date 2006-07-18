@@ -19,7 +19,18 @@ This header contains all the concrete template classes used for support the
 VCF's RTTI API's
 */
 
+#include <typeinfo>
 
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/CantCreateObjectException.h"
+#include "vcf/FoundationKit/Class.h"
+#include "vcf/FoundationKit/ClassNotFound.h"
+#include "vcf/FoundationKit/Field.h"
+#include "vcf/FoundationKit/InterfaceClass.h"
+#include "vcf/FoundationKit/Method.h"
+#include "vcf/FoundationKit/Property.h"
+#include "vcf/FoundationKit/PropertyChangeEvent.h"
+#include "vcf/FoundationKit/PropertyChangeException.h"
 
 namespace VCF   {
 
