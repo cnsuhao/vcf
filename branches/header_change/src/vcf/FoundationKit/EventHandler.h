@@ -13,10 +13,13 @@ where you installed the VCF.
 #   pragma once
 #endif
 
+#include "vcf/FoundationKit/Object.h"
+#include <vector>
 
 namespace VCF  {
 
 class Delegate;
+class Event;
 
 
 /**
@@ -29,11 +32,11 @@ derived EventHandlerInstance template class.
 
 The EventHandler is an abstract class an cannot be created.
 Instead you need to derive your own custom class from it
-and implement the invoke() method. Typically you can 
-just use one of the already provided class, either the 
+and implement the invoke() method. Typically you can
+just use one of the already provided class, either the
 StaticEventHandlerInstance for wrapping static (or "C" style functions),
-or the various template derived classes that wrap a classes 
-member function. 
+or the various template derived classes that wrap a classes
+member function.
 
 */
 class FOUNDATIONKIT_API EventHandler : public VCF::Object {
@@ -45,7 +48,7 @@ public:
 	virtual ~EventHandler();
 
 	/**
-	
+
 	Called during the events dispatch cycle.
 	The implementation will end up calling the
 	appropriate call back method.
@@ -54,9 +57,9 @@ public:
 
 
 	/**
-	Returns the source that the event handler is attached to. Some 
+	Returns the source that the event handler is attached to. Some
 	event handler implementations may not return a source for public
-	use, or may not use one at all, so this method may return NULL. 
+	use, or may not use one at all, so this method may return NULL.
 	An example of not using a source would be the StaticEventHandlerInstance
 	which is used to wrap static functions.
 	The default implementation returns a NULL object source.
@@ -67,13 +70,13 @@ public:
 
 
 	/**
-	
+
 	Adds the EventHandler to it's source object.
 	For this to work the source must be derived
 	from ObjectWithEvents. By adding the event handler
 	to the source, the handler's memory will be cleaned
 	up by the source when the source is destroyed.
-	
+
 	The EventHandler may be retreived at any time
 	by calling the getEventHandler() method on the
 	source (once again, assuming the source is derived
@@ -88,7 +91,7 @@ public:
 	String getHandlerName();
 protected:
 
-	String getHandlerNameFromSource( Object* source );	
+	String getHandlerNameFromSource( Object* source );
 };
 
 
@@ -101,8 +104,8 @@ derived from VCF::ObjectWithEvents, then the handler will be
 maintained in a list by the source, and destroyed when the source
 is destroyed, freeing the creator of the handler from worrying about
 memory leaks.
- 
-The SOURCE template parameter specified the source class that 
+
+The SOURCE template parameter specified the source class that
 the event handler method is a member of. The EVENT template
 parameter is the event class type. The event class type
 \em must derive (directly or indirectly) from VCF::Event,
@@ -128,7 +131,7 @@ int main()
 \endcode
 
 In the case above we simply created a new event handler
-instance that wrap's the Foo::onSomeEvent() method. If we 
+instance that wrap's the Foo::onSomeEvent() method. If we
 wanted to specify a different type:
 \code
 class Foo : public Object {
@@ -161,14 +164,14 @@ int main()
   return 0;
 }
 \endcode
-Now when the EventHandlerInstance instance is create it will be added to the 
-Foo "source" instance and assigned a name of "Foo::onSomeEvent" (the name 
+Now when the EventHandlerInstance instance is create it will be added to the
+Foo "source" instance and assigned a name of "Foo::onSomeEvent" (the name
 can be whatever you want, but be aware that if you come up with duplicate names
 you'll see memory leaks). This event can then be retrieved at a later time via:
 \code
 EventHandler* ev = f.getEventHandler( "Foo::onSomeEvent" );
 \endcode
-When the Foo instance is destroyed it will automatically destroy all of it's 
+When the Foo instance is destroyed it will automatically destroy all of it's
 event handlers in it's list.
 @see Event
 @see ObjectWithEvents
@@ -179,19 +182,19 @@ public:
 	typedef void (SOURCE::*OnEventHandlerMethod)( EVENT* e );
 
 	/**
-	@param SOURCE the source instance. This is the instance that the 
+	@param SOURCE the source instance. This is the instance that the
 	event handler method will be invoked on.
 	@param OnEventHandlerMethod the mehthod pointer that this event handler
 	will call when the invoke() method is triggered.
 	@param String the name of the event handler. This is optional. If no
 	name is specified (the default), then the event handler will \em not
-	be added to the source instance. If the a name is specified and the 
+	be added to the source instance. If the a name is specified and the
 	source instance derives from ObjectWithEvents, then the event handler
-	instance will be added to the source with the name passed in destroyed 
-	when the source is destroyed. Note that any text may be used for the name, 
+	instance will be added to the source with the name passed in destroyed
+	when the source is destroyed. Note that any text may be used for the name,
 	but if an event handler already exists on the source with that same name,
-	then a memory leak will occur. If instead the same handler will be added 
-	twice with two different names we may have a memory access exception, 
+	then a memory leak will occur. If instead the same handler will be added
+	twice with two different names we may have a memory access exception,
 	as the framework will try to delete twice the same object.
 	*/
 	EventHandlerInstance( SOURCE* source, OnEventHandlerMethod handlerMethod, const String& handlerName="" ) {
@@ -226,8 +229,8 @@ typesafe wrapper around a specific class's <b>static</a> function pointers,
 as opposed to method pointers (which take the implicit this pointer).
 In addition, when they are created, if the source passed in is
 derived from VCF::ObjectWithEvents /em and the handler name is specified,
-then the handler will be maintained in a list by the source, and destroyed 
-when the source is destroyed, freeing the creator of the handler from 
+then the handler will be maintained in a list by the source, and destroyed
+when the source is destroyed, freeing the creator of the handler from
 worrying about memory leaks.
 */
 template <class EVENT>

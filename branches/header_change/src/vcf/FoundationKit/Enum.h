@@ -16,6 +16,9 @@ where you installed the VCF.
 
 // Enum.h:
 
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/Object.h"
+#include "vcf/FoundationKit/StringUtils.h"
 
 
 namespace VCF

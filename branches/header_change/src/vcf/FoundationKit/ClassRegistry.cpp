@@ -7,7 +7,9 @@ where you installed the VCF.
 */
 
 
-#include "vcf/FoundationKit/FoundationKit.h"
+//#include "vcf/FoundationKit/FoundationKit.h"
+
+#include "vcf/FoundationKit/ClassRegistry.h"
 #include "vcf/FoundationKit/VCFRTTIImpl.h"
 
 using namespace VCF;

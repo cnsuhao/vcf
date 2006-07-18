@@ -13,7 +13,9 @@ where you installed the VCF.
 #   pragma once
 #endif
 
-
+#include "vcf/FoundationKit/FrameworkConfig.h"
+#include "vcf/FoundationKit/Enum.h"
+#include "vcf/FoundationKit/Interface.h"
 
 namespace VCF {
 
@@ -714,7 +716,7 @@ public:
 
 	/**
 	defines the data type of the VariantData, where type can represent
-	an int, unsigned int, long, unsigned long, short, char, 
+	an int, unsigned int, long, unsigned long, short, char,
 	double, float, bool, string, Enum pointer, or Object pointer.
 	*/
 	PropertyDescriptorType type;
