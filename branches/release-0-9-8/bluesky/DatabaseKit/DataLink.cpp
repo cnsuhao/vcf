@@ -1,0 +1,385 @@
+//DataLink.cpp
+
+#include "DatabaseKit.h"
+#include "DataLink.h"
+
+
+using namespace VCF;
+
+
+DataLink::DataLink():	
+	dataSource_(NULL),
+	dataSrcFixed_(false),
+	active_(false),
+	editing_(false),
+	readOnly_(false),
+	updating_(false),
+	recordCount_(1),
+	firstRecord_(0)
+{
+
+}
+
+void DataLink::destroy()
+{
+	active_ = false;
+	editing_ = false;
+	dataSrcFixed_ = false;
+	
+	setDataSource( NULL );
+
+	Object::destroy();
+}
+
+size_t DataLink::getActiveRecord()
+{
+	size_t result = DataSet::NoRecPos;
+
+	DataSource* src = this->getDataSource();
+	if ( NULL != src ) {
+		if ( src->getState() == dssSetKey ) {
+			result = 0;
+		}
+		else {
+			if ( firstRecord_ < src->getDataSet()->activeRecordIndex_ ) {
+				result = src->getDataSet()->activeRecordIndex_ - firstRecord_;
+			}			
+		}
+	}
+
+	return result;
+}
+
+void DataLink::setActiveRecord( size_t val )
+{
+	DataSource* src = this->getDataSource();
+	if ( NULL != src ) {
+		if ( src->getState() != dssSetKey ) {
+			src->getDataSet()->activeRecordIndex_ = val + firstRecord_;
+		}
+	}
+}
+
+size_t DataLink::getRecordCount()
+{
+	size_t result = 0;
+
+	if ( NULL != dataSource_ ) {
+		if ( dssSetKey == dataSource_->getState() ) {
+			result = 1;
+		}
+		else {
+			result = dataSource_->getDataSet()->getRecordCount();
+			if ( result > recordCount_ ) {
+				result = recordCount_;
+			}
+		}
+	}
+
+	return result;
+}
+
+void DataLink::setRecordCount( size_t val )
+{
+	if ( val != recordCount_ ) {
+		recordCount_ = val;
+		if ( isActive() ) {
+			this->getDataSet()->updateRecordSize();
+		}
+	}
+}
+
+void DataLink::setDataSource( DataSource* val )
+{
+	if ( dataSource_ != val ) {
+		if ( dataSrcFixed_ ) {
+			throw DatabaseError( "Unable to change a data source on a fixed link!" );
+		}
+
+		if ( NULL != dataSource_ ) {
+			dataSource_->removeDataLink( this );
+		}
+
+		if ( NULL != val ) {
+			val->addDataLink( this );
+		}
+	}
+}
+
+void DataLink::setDataSourceFixed( bool val )
+{
+	dataSrcFixed_ = val;
+}
+
+void DataLink::setReadOnly( bool val )
+{
+	if ( val != readOnly_ ) {
+		readOnly_ = val;
+		updateState();
+	}
+}
+
+void DataLink::setEditing( bool val )
+{
+	if ( val != editing_ ) {
+		editing_ = val;		
+		
+		editingStateChanged();
+	}
+}
+
+void DataLink::updateRecord()
+{
+	updating_ = true;
+	try {
+		updateData();
+	}
+	catch (...){
+
+	}
+
+	updating_ = false;
+}
+
+DataSet* DataLink::getDataSet()
+{
+	DataSet* result = NULL;
+
+	if ( NULL != dataSource_ ) {
+		result = dataSource_->getDataSet();
+	}
+
+	return result;
+}
+
+void DataLink::handleDataEvent( Event* e )
+{
+	switch ( e->getType() ) {
+		case deUpdateState : {
+			updateState();
+		}
+		break;
+
+		default : {
+			if ( active_ ) {
+				switch ( e->getType() ) {
+					case deFieldChange: case deRecordChange : {
+						if ( !updating_ ) {
+							recordChanged( (DataField*)e->getSource() );
+						}
+					}
+					break;
+
+					case deDataSetChange: case deDataSetScroll: case deLayoutChange: {
+						int count = 0;						
+						if ( NULL != this->dataSource_ ) {
+							if ( dataSource_->getState() != dssSetKey ) { 
+								
+								
+								int active = dataSource_->getDataSet()->activeRecordIndex_;
+								int first = firstRecord_ + 1; //this is hard coded to 1 for now
+								int last = first + this->recordCount_ - 1;
+								if ( active > last ) {
+									count = active - last;
+								}
+								else if ( active < first ) {
+									count = active - first;
+								}
+
+								firstRecord_ = first + count;
+
+								//figure out what the first record is - ignored for now...
+							}
+						}
+						switch ( e->getType() ) {
+							case deDataSetChange: {
+								dataSetChanged();
+							}
+							break;
+
+							case deDataSetScroll: {
+								dataSetScrolled(count);
+							}
+							break;
+
+							case deLayoutChange: {
+								layoutChanged();
+							}
+							break;
+						}
+					}
+					break;
+
+					case deUpdateRecord: {
+						updateRecord();
+					}
+					break;
+
+
+					case deCheckBrowseMode: {
+						checkBrowseMode();
+					}
+					break;
+					
+				}
+			}
+		}
+		break;
+	}
+}
+
+void DataLink::updateState()
+{
+	bool active = false;
+	bool editing = false;
+
+
+	if ( NULL != dataSource_ ) {
+		if ( dataSource_->getState() != dssInactive ) {
+			active = true;
+		}
+	}
+	
+	setActive( active );
+
+	if ( NULL != dataSource_ ) {
+		if ( (dataSource_->getState() & dssEdit) ||
+				(dataSource_->getState() & dssInsert) ||
+				(dataSource_->getState() & dssSetKey) ) {
+			if ( !readOnly_ ) {
+				editing = true;
+			}
+		}
+	}
+
+	setActive( editing );
+}
+
+void DataLink::setActive( bool val )
+{
+	if ( active_ != val ) {
+		active_ = val;
+
+		if ( val ) {
+
+		}
+		else {
+			firstRecord_ = 0;
+		}
+
+		activeStateChanged();
+	}
+}
+
+void DataLink::dataSetChanged()
+{
+	recordChanged(NULL);
+}
+
+void DataLink::dataSetScrolled( int distance )
+{
+	dataSetChanged();
+}
+
+void DataLink::layoutChanged()
+{
+	dataSetChanged();
+}
+
+bool DataLink::edit()
+{
+	if ( !readOnly_ && (NULL != dataSource_ ) ) {
+		dataSource_->edit();
+	}
+
+	return editing_;
+}
+
+
+
+
+FieldDataLink::FieldDataLink():
+	DataLink(),
+	modified_(false),
+	field_(NULL)
+{
+
+}
+
+void FieldDataLink::recordChanged( DataField* field )
+{
+	if ( NULL == field || (field == field_) ) {
+		Event e(this,0);
+		DataChange( &e );
+		
+		modified_ = false;
+	}
+}
+
+void FieldDataLink::updateData()
+{
+	if ( modified_ ) {
+		if ( NULL != field_ ) {
+			Event e(this,0);
+			UpdatedData( &e );
+		}
+
+		modified_ = false;
+	}
+}
+
+void FieldDataLink::activeStateChanged()
+{
+	updateField();
+
+	Event e(this,0);
+	ActiveChange( &e );
+}
+
+void FieldDataLink::updateField()
+{
+	setField( NULL );
+
+	if ( isActive() && !fieldName_.empty() ) {
+
+		VCF_ASSERT( NULL != getDataSource() );
+		VCF_ASSERT( NULL != getDataSource()->getDataSet() );
+
+		DataField* field = getDataSource()->getDataSet()->fieldByName( fieldName_ );
+
+		setField( field );
+	}
+}
+
+DataField* FieldDataLink::getField()
+{
+	return field_;
+}
+
+void FieldDataLink::setField( DataField* val )
+{
+	if ( field_ != val ) {
+		field_ = val;
+
+		editingStateChanged();
+		recordChanged( NULL );
+	}
+}
+
+void FieldDataLink::editingStateChanged()
+{
+	setEditing( DataLink::isEditing() && isModifiable() );
+}
+
+bool FieldDataLink::isModifiable()
+{
+	return false;
+}
+
+void FieldDataLink::setFieldName( const String& val )
+{
+	if ( val != fieldName_ ) {
+		fieldName_ = val;
+		updateField();
+	}
+}
