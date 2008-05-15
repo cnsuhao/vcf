@@ -1,6 +1,0 @@
-//ClassRegistryBrowser.rc
-class.bmp		BITMAP	"Resources/class.bmp"
-property.bmp		BITMAP	"Resources/property.bmp"
-delegate.bmp		BITMAP	"Resources/delegate.bmp"
-
-ClassRegistryBrowserWindow		VFF	"Resources/ClassRegistryBrowserWindow.vff"
