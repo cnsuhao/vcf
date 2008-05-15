@@ -1,0 +1,425 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <using module="vcf"/>
+
+    <set var="OPTION_SELECTLIB_DEFAULT"/>
+    <set var="OPTION_SELECTLIB_DEFAULT">
+        <if cond="FORMAT=='msvc6prj'">,_vc6</if>
+        <if cond="FORMAT=='msvs2003prj'">,_vc70,_vc71</if>
+        <if cond="FORMAT=='msvs2005prj'">,_vc80,_vc90</if>
+    </set>
+    <set var="OPTION_SELECTLIB_DESC"/>
+    <set var="OPTION_SELECTLIB_DESC">
+        <if cond="FORMAT=='msvc6prj'">,vc6</if>
+        <if cond="FORMAT=='msvs2003prj'">,vc70,vc71</if>
+        <if cond="FORMAT=='msvs2005prj'">,vc80,vc90</if>
+    </set>
+    <option name="OPTION_SELECTLIB">
+        <values>$(OPTION_SELECTLIB_DEFAULT)</values>
+        <values-description>$(OPTION_SELECTLIB_DESC)</values-description>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_SELECTLIB', '' ))
+        </default-value>
+        <description>
+Some meaningful string that will be added to the names
+of the target files. Any string is possible.
+For example, if the value is _vc6,
+then the name of, say, the foundation kit debug dll
+will be like this: FoundationKit_vc6_d.dll.
+The default value is an empty string.
+Backward compatibility:
+        </description>
+    </option>
+
+    <option name="OPTION_SHARED">
+        <values>0,1</values>
+        <values-description>LIB,DLL</values-description>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_SHARED', '1' ))
+        </default-value>
+        <description>
+            The type of libraries:
+        </description>
+    </option>
+
+    <option name="OPTION_RUNTIME">
+        <values>static,dynamic</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_RUNTIME', 'dynamic' ))
+        </default-value>
+        <description>
+            The type of the runtime libraries:
+        </description>
+    </option>
+
+    <option name="OPTION_DEBUG">
+        <values>0,1</values>
+        <values-description>Release,Debug</values-description>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_DEBUG', '1' ))
+        </default-value>
+        <description>
+            The build configuration:
+        </description>
+    </option>
+
+    <if cond="COMPILER not in ['vc','evc']">
+        <set var="OPTION_DEBUG_RUNTIME">default</set>
+    </if>
+    <if cond="COMPILER in ['vc','evc']">
+        <option name="OPTION_DEBUG_RUNTIME">
+            <values>default,0,1</values>
+            <default-value>
+                $(vcf.getOptionValue( 'OPTION_DEBUG_RUNTIME', 'default' ))
+            </default-value>
+            <description>
+The runtime libraries configuration.
+'default' means the same as OPTION_DEBUG:
+            </description>
+        </option>
+    </if>
+
+    <option name="OPTION_THREADING">
+        <values>single,multi</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_THREADING', 'multi' ))
+        </default-value>
+        <description>
+            Threading:
+        </description>
+    </option>
+
+    <option name="OPTION_CPP_RTTI">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_CPP_RTTI', '1' ))
+        </default-value>
+        <description>
+            Enable or disable RTTI:
+        </description>
+    </option>
+
+    <option name="OPTION_CPP_EXCEPTIONS">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_CPP_EXCEPTIONS', '1' ))
+        </default-value>
+        <description>
+            Enable or disable C++ exceptions:
+        </description>
+    </option>
+
+    <option name="OPTION_WARNINGS">
+        <values>no,default,max</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_WARNINGS', 'default' ))
+        </default-value>
+        <description>
+            Warnings level:
+        </description>
+    </option>
+
+    <option name="OPTION_ALLIN1">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_ALLIN1', '0' ))
+        </default-value>
+        <description>
+            Make the all-in-1 library:
+        </description>
+    </option>
+
+
+    <!--
+    Libraries.
+    -->
+
+    <option name="OPTION_ZLIB">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_ZLIB', 1 ))
+        </default-value>
+        <description>
+            Compile the Zip library:
+        </description>
+    </option>
+
+    <option name="OPTION_AGG">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_AGG', 1 ))
+        </default-value>
+        <description>
+            Compile the AGG library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBJPEG">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBJPEG', 1 ))
+        </default-value>
+        <description>
+            Compile the JPEG library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBPNG">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBPNG', 1 ))
+        </default-value>
+        <description>
+            Compile the PNG library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBTIFF">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBTIFF', '1' ))
+        </default-value>
+        <description>
+            Compile the TIFF library:
+        </description>
+    </option>
+
+    <option name="OPTION_PAINTLIB">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_PAINTLIB', '1' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_LIBPNG
+    OPTION_LIBJPEG
+    OPTION_LIBTIFF
+Compile the paintlib library:
+        </description>
+    </option>
+
+    <option name="OPTION_ONIGURUMA">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_ONIGURUMA', '1' ))
+        </default-value>
+        <description>
+            Compile the oniguruma library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBXML">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBXML', '1' ))
+        </default-value>
+        <description>
+            Compile the libxml library:
+        </description>
+    </option>
+
+    <option name="OPTION_LIBXSLT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_LIBXSLT', '1' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_LIBXML
+Compile the libxslt library:
+        </description>
+    </option>
+
+    <option name="OPTION_FDLIBM">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_FDLIBM', '1' ))
+        </default-value>
+        <description>
+            Compile the fdlibm library:
+        </description>
+    </option>
+
+    <option name="OPTION_JS">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_JS', '1' ))
+        </default-value>
+        <description>
+            Compile the javascript library:
+        </description>
+    </option>
+
+
+    <!--
+    Kits.
+    -->
+
+    <option name="OPTION_FOUNDATIONKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_FOUNDATIONKIT', '1' ))
+        </default-value>
+        <description>
+            Compile FoundationKit:
+        </description>
+    </option>
+
+    <option name="OPTION_GRAPHICSKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_GRAPHICSKIT', 1 ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+    OPTION_AGG
+    OPTION_ZLIB
+Compile GraphicsKit:
+        </description>
+    </option>
+
+    <option name="OPTION_APPLICATIONKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_APPLICATIONKIT', 1 ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_GRAPHICSKIT
+Compile ApplicationKit:
+        </description>
+    </option>
+
+    <set var="OPTION_HTMLKIT_DEFAULT">
+        <if cond="COMPILER not in ['vc','evc']">0</if>
+        <if cond="COMPILER in ['vc','evc']">1</if>
+    </set>
+    <option name="OPTION_HTMLKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_HTMLKIT', OPTION_HTMLKIT_DEFAULT ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_APPLICATIONKIT
+Compile HTMLKit:
+        </description>
+    </option>
+
+    <option name="OPTION_OPENGLKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_OPENGLKIT', '0' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_APPLICATIONKIT
+Compile OpenGLKit:
+        </description>
+    </option>
+
+    <option name="OPTION_NETWORKKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_NETWORKKIT', '1' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+Compile NetworkKit:
+        </description>
+    </option>
+
+    <option name="OPTION_REMOTEOBJECTKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_REMOTEOBJECTKIT', '0' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_NETWORKKIT
+Compile RemoteObjectKit:
+        </description>
+    </option>
+
+    <set var="OPTION_INTERNETKIT_DEFAULT">
+        <if cond="COMPILER not in ['vc','evc','bcc']">0</if>
+        <if cond="COMPILER in ['vc','evc','bcc']">1</if>
+    </set>
+    <option name="OPTION_INTERNETKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_INTERNETKIT', OPTION_INTERNETKIT_DEFAULT ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+Compile InternetKit:
+        </description>
+    </option>
+
+    <option name="OPTION_REGEXKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_REGEXKIT', 1 ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+    OPTION_ONIGURUMA
+Compile RegExKit:
+        </description>
+    </option>
+
+    <option name="OPTION_XMLKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_XMLKIT', 1 ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+    OPTION_LIBXML
+    OPTION_LIBXSLT
+Compile XMLKit:
+        </description>
+    </option>
+
+    <option name="OPTION_JAVASCRIPTKIT">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_JAVASCRIPTKIT', 1 ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_FOUNDATIONKIT
+    OPTION_FDLIBM
+Compile JavaScriptKit:
+        </description>
+    </option>
+
+
+    <!--
+    Miscellaneous.
+    -->
+
+    <option name="OPTION_IMAGEFORMATS">
+        <values>0,1</values>
+        <default-value>
+            $(vcf.getOptionValue( 'OPTION_IMAGEFORMATS', '0' ))
+        </default-value>
+        <description>
+Depends on:
+    OPTION_PAINTLIB
+    OPTION_APPLICATIONKIT
+Compile ImageFormats:
+        </description>
+    </option>
+
+</makefile>
+
+<!--
+$Id$
+-->

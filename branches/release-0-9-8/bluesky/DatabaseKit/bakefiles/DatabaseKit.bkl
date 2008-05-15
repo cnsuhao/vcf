@@ -1,0 +1,56 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <include file="SQLite.bkl"/>
+
+    <include file="DatabaseKitFiles.bkl"/>
+
+    <template id="DatabaseKit_base">
+        <include>../DBProviders/sqlite</include>
+        <include>../DBProviders/ms-ado</include>
+
+        <vcf-include-thirdparty/>
+        <vcf-use-FoundationKit/>
+
+        <dirname>.</dirname>
+    </template>
+
+    <dll id="DatabaseKit_dll" template="DatabaseKit_base,base,vcf_base,dll_clean"
+            cond="OPTION_SHARED=='1'">
+        <dllname>$(vcf.getDllFilename( 'DatabaseKit' ))</dllname>
+
+        <headers>$(DATABASEKIT_HDR)</headers>
+        <sources>$(DATABASEKIT_SRC)</sources>
+
+        <define>DATABASEKIT_DLL</define>
+        <define>DATABASEKIT_EXPORTS</define>
+
+        <library>SQLite_lib</library>
+    </dll>
+
+    <exe id="dbTest" template="DatabaseKit_base,vcf_exe_console"
+            cond="OPTION_SHARED=='1'">
+        <include>..</include>
+
+        <sources>../dbTest.cpp</sources>
+
+        <if cond="FORMAT not in ['msvc6prj','msvs2005prj']">
+            <clean-files>test.db3</clean-files>
+            <clean-files>test.mdb</clean-files>
+        </if>
+
+        <library>SQLite_lib</library>
+        <library>DatabaseKit_dll</library>
+    </exe>
+    
+    <copy-files id="db">
+        <dependency-of>dbTest</dependency-of>
+        <srcdir>..</srcdir>
+        <dstdir>.</dstdir>
+        <files>
+            test.db3
+            test.mdb
+        </files>
+    </copy-files>
+
+</makefile>

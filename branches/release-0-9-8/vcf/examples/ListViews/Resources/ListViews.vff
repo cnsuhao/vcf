@@ -1,0 +1,113 @@
+object ListViewsWindow : Window
+	top = 100
+	left = 100
+	width = 500
+	height = 500
+	caption = 'ListViews example'
+
+	settings['mainwindow.top'].name = 'top'
+
+	object listView : VCF::ListViewControl 
+		alignment = AlignClient
+		visible = true
+		border = null
+		
+		columnModel.items[0] = 'Column 1'
+		columnModel.items[1] = 'Column 2'
+		columnModel.items[2] = 'Column 3'
+
+		//add items through the list models
+		//properties
+		listModel.items[0] = 100
+		listModel.items[1] = 'Item 2'
+		listModel.items[2] = 'Item 3'
+
+		listModel.subItems['0,0'] = 10
+		listModel.subItems['0,1'] = 'Bar'
+		listModel.subItems['0,2'] = 'Baz'
+
+		//add items by using the list item
+		//objects
+		object li1 : VCF::ListItem 
+			caption = 'blah blah blah'
+			font.name = 'Verdana'
+			font.pointSize = 12
+			font.bold = true
+
+			object si : VCF::ListSubItem
+				caption = 'stuffy nose'
+			end
+		end
+
+		object col1 : VCF::ColumnItem 
+			caption = 'Gargle'
+			font.name = 'Times New Roman'
+			font.pointSize = 12
+			font.bold = true
+			font.italic = true
+			font.color = 'blue'
+		end
+		
+	end
+
+	object menuBar : VCF::MenuBar
+		object listViewMenu : VCF::DefaultMenuItem
+			caption = 'ListView'
+
+			object viewStyle : VCF::DefaultMenuItem
+				caption = 'View Style'
+				object viewStyleIcon : VCF::DefaultMenuItem
+					caption = 'Icon'
+					tag = 0
+				end
+				object viewStyleSmall : VCF::DefaultMenuItem
+					caption = 'Small Icon'
+					tag = 1
+				end
+				object viewStyleList : VCF::DefaultMenuItem
+					caption = 'List'
+					tag = 2
+				end
+				object viewStyleReport : VCF::DefaultMenuItem
+					caption = 'Report'
+					tag = 3
+				end
+			end
+			object addItem : VCF::DefaultMenuItem
+				caption = 'Add Item'
+			end
+			object listModelAddItem : VCF::DefaultMenuItem
+				caption = 'ListModel Add Item'
+			end
+			object sep1 : VCF::DefaultMenuItem
+				separator = true
+			end
+			object deleteItem : VCF::DefaultMenuItem
+				caption = 'Delete item from Model'
+			end
+			object sep2 : VCF::DefaultMenuItem
+				separator = true
+			end
+			object changeItem : VCF::DefaultMenuItem
+				caption = 'Modify item'
+			end
+
+			object addSubItem : VCF::DefaultMenuItem
+				caption = 'Add Sub Item'
+			end
+			
+		end
+		object columnsMenu : VCF::DefaultMenuItem
+			caption = 'Columns'
+			object columnAdd : VCF::DefaultMenuItem
+				caption = 'Add Column'
+			end
+			object columnDelete : VCF::DefaultMenuItem
+				caption = 'Delete Column'
+			end
+			object columnChange : VCF::DefaultMenuItem
+				caption = 'Change Column'
+			end
+		end		
+	end
+end
