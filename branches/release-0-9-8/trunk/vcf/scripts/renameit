@@ -1,0 +1,29 @@
+#!/bin/sh
+#script for changing the files variable naming from m_<variable name> to <variable name>_
+#Many thanks to the guys on irc.freenode.net #c++ for helping me figure how to
+#do this with sed!
+#
+
+DIR_PATH=$1
+FILE_EXT=$2
+
+if  test -z $DIR_PATH
+then
+	echo "usage: pass in a directory path and an extension (like hh, or h, or cpp)"
+else 
+	if  test -z $FILE_EXT
+	then
+		echo "usage: pass in a directory path and an extension (like hh, or h, or cpp)"
+	else
+		for i in $DIR_PATH/*.$FILE_EXT;
+		do
+		 echo sedding $i
+		 sed 's/m_\([A-Za-z0-9]\+\)/\1_/g' $i > temp.out
+		 mv temp.out $i
+
+		done
+	fi
+fi
+
+
+#$Id$

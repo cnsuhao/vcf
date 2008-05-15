@@ -1,0 +1,131 @@
+object ClassRegistryBrowserWindow  : VCF::Window
+	top = 200
+	left = 200
+	height = 300
+	width = 320
+	caption = 'VCF ClassRegistry Browser'
+
+	settings['mainwindow.top'].name = 'top'
+	settings['mainwindow.left'].name = 'left'
+	settings['mainwindow.width'].name = 'width'
+	settings['mainwindow.height'].name = 'height'
+
+	
+
+	object imgList : VCF::ImageList 
+		transparentColor = 'lime'
+		imageWidth = 16
+		imageHeight = 16
+
+		object img1 : VCF::ImageComponent 
+			filename = 'res:class.bmp'
+		end
+
+		object img2 : VCF::ImageComponent 
+			filename = 'res:property.bmp'
+		end
+
+		object img3 : VCF::ImageComponent 
+			filename = 'res:delegate.bmp'
+		end
+	end
+
+	object hlContainer : VCF::HorizontalLayoutContainer
+		numberOfColumns = 2
+		maxRowHeight = 35
+		rowSpacerHeight = 10
+		widths[0] = 80
+		widths[1] = 35
+
+		tweenWidths[0] = 10
+	end
+
+	object p1 : VCF::Panel
+		border = null
+		alignment = AlignLeft
+		width = 300
+		settings['classListSize'].name = 'width'
+
+		object bdr : VCF::TitledBorder
+			caption = 'Class Registry Info'
+		end
+
+		object info : VCF::Panel
+			alignment = AlignTop
+			height = 100
+			border = @bdr
+			container = @hlContainer
+
+			object lbl1 : VCF::Label 
+				caption = 'Total bytes:'
+			end
+
+			object totalBytes : VCF::Label 
+				caption = '???'
+			end
+		end
+
+		object classList : VCF::ListViewControl
+			alignment = AlignClient			
+			iconStyle = isDetails
+
+			smallImageList = @imgList
+			
+
+			object col1 : VCF::ColumnItem 
+				caption = 'Classes'
+				settings['classesColWidth'].name = 'width'
+			end
+
+			delegates
+				ItemSelectionChanged = [ClassRegistryBrowser@ClassRegistryBrowser::onClassSelected]
+			end
+		end
+	end
+
+	
+
+	object splitter1 : VCF::Splitter
+		alignment = AlignLeft
+	end
+
+	object p2 : VCF::Panel
+		border = null
+		alignment  = AlignClient
+
+
+		object classDocBrowser : VCF::HTMLBrowserControl
+			alignment = AlignTop
+			height = 300
+
+			allowPopups = false
+			allowTextSelection = false
+			allowContextMenu = false
+
+			currentURL = 'http://vcf-online.org/docs/next-rev/src_manual/index.html'
+
+			settings['classDocSize'].name = 'height'
+		end
+
+		object splitter2 : VCF::Splitter
+			alignment = AlignTop
+			cursor = 3
+		end
+
+		object classData : VCF::TreeListControl 
+			alignment = AlignClient
+
+			imageList = @imgList
+
+			object col1 : VCF::ColumnItem 
+				caption = 'Class Elements'
+				settings['classDataColWidth'].name = 'width'
+			end
+
+			object col2 : VCF::ColumnItem 
+				caption = 'Type'
+				settings['classDataTypeColWidth'].name = 'width'
+			end
+		end
+	end
+end
