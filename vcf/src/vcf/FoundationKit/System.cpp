@@ -39,6 +39,7 @@ System* System::create()
 void System::terminate()
 {
 	delete System::systemInstance;
+	System::systemInstance = NULL;
 }
 
 
@@ -217,7 +218,7 @@ void System::println( const String& text )
 		return;
 	}
 
-	output += "\n";
+	output += L"\n";
 
 #ifdef VCF_OSX
 	//JC - I got rid of CFShow as it doesn't 
