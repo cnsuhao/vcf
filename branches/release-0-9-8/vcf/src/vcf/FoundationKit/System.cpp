@@ -590,8 +590,8 @@ ProgramInfo* System::getProgramInfoFromInfoFile( const String& infoFileName, con
 						StringUtils::trimWhiteSpaces( author );
 					}
 					else if ( cdata == "Company" ) {
-						author = val->getCDATA();
-						StringUtils::trimWhiteSpaces( author );
+						company = val->getCDATA();
+						StringUtils::trimWhiteSpaces( company );
 					}
 					else if ( cdata == "Description" ) {
 						description = val->getCDATA();
