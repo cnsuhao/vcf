@@ -265,6 +265,21 @@ ListItem* ListControl::getItem( const uint32& index )
 		result = items_[index];
 	}
 
+	if ( result == NULL ) {
+		if ( index >= items_.size() ) {
+			items_.resize( index + 1, NULL );
+		}
+
+		inCallbackChange_ = true;
+		ListItem* item = new ListItem();
+		addComponent( item );
+		items_[index] = item;
+		item->setModel( getViewModel() );
+		item->setControl( this );
+		item->setIndex( index );
+		inCallbackChange_ = false;
+	}
+
 	return result;
 }
 
