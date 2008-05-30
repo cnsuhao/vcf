@@ -4279,7 +4279,7 @@ bool Win32ToolKit::internal_displayContextHelpForControl( Control* control, cons
 	}
 
 	bool result = false;
-	String whatsThis = control->getWhatThisHelpString();
+	String whatsThis = control->getWhatsThisHelpString();
 
 	WhatsThisHelpEvent event(control);
 
