@@ -743,6 +743,7 @@ void DocumentManager::onDocWndEntered( DropTargetEvent* e )
 	}
 
 	DataObject* dataObj = e->getDataObject();
+	/*
 	StringTokenizer tok( info->clipboardTypes, ";" );
 
 	bool matchFound = false;
@@ -753,10 +754,10 @@ void DocumentManager::onDocWndEntered( DropTargetEvent* e )
 			break;
 		}
 	}
+	*/
 
-	if ( !matchFound ) {
-		if ( dataObj->isTypeSupported( FILE_DATA_TYPE ) ) {
-			matchFound = true;//let it go through we'll figure this out on a drop
+		//if (  ) {
+		//	matchFound = true;//let it go through we'll figure this out on a drop
 			/*
 			BasicOutputStream stream; //dump the file names here
 			//write the data in the data object to the stream
@@ -774,15 +775,15 @@ void DocumentManager::onDocWndEntered( DropTargetEvent* e )
 				}
 			}
 			*/
-		}
-	}
+		//}
+	//}
 
-	if ( matchFound ) {
+	if ( dataObj->isTypeSupported( FILE_DATA_TYPE ) ) {
 		currentDragDocument_ = doc;
 	}
 
 
-	e->setActionType( matchFound ? daCopy : daNone );
+	e->setActionType( dataObj->isTypeSupported( FILE_DATA_TYPE ) ? daCopy : daNone );
 }
 
 void DocumentManager::onDocWndDragging( DropTargetEvent* e )
@@ -820,6 +821,10 @@ void DocumentManager::onDocWndDropped( DropTargetEvent* e )
 				}
 			}
 		}
+
+		//turn this off for now - we don't want to deal with 
+		//NON file dragging
+		/*
 		else {
 			if ( !currentDragDocument_->paste( dataObj ) ) {
 				
@@ -852,6 +857,7 @@ void DocumentManager::onDocWndDropped( DropTargetEvent* e )
 				}
 			}
 		}
+		*/
 
 	}
 	currentDragDocument_ = NULL;

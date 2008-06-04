@@ -77,6 +77,10 @@ HRESULT Win32DragDropPeer::GiveFeedback( DWORD dwEffect )
 	DragSourceEvent event(dragSrc_, clipDataObj_);
 	event.setType( DragSource::DRAG_GIVEFEEDBACK );
 
+	::POINT pt = {0};
+	::GetCursorPos(&pt);
+	event.setPoint( Point(pt.x,pt.y) );
+
 	dragSrc_->SourceGiveFeedback( &event );
 
 	/**
