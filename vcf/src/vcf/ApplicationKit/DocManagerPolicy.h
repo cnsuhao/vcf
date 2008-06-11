@@ -109,28 +109,24 @@ public:
 	/**
 	* closes the window associated to the current document
 	*/
-	void closeDocument() {
-		getCurrentDocument()->getWindow()->close();
+	bool closeDocument( VCF::Document* doc ) {
+		if ( (doc == currentDocument_) && (NULL != currentDocument_) ) {
+			Window* window = currentDocument_->getWindow();
+			currentDocument_ = NULL;
+			window->setView( NULL );
+			window->setViewModel( NULL );
+		}
+
+		return true;
 	}
 
 	/**
 	* closes the specified window
 	*/
 	bool closeDocumentWindow( Window* window ) {
-		
-		if ( currentDocument_->isModified() ) {
-			if ( !VCF::DocumentManager::getDocumentManager()->saveDocument( currentDocument_ ) ) {
-				return false;
-			}
-		}					
-		
-		VCF::DocManagerEvent event( currentDocument_->getModel(), VCF::DocumentManager::dmCloseDocument );
-		
-		VCF::DocumentManager::getDocumentManager()->DocumentClosed( &event );
+		window->close();
+		//getCurrentDocument()->getWindow()->close();
 
-		currentDocument_ = NULL;
-		window->setView( NULL );
-		window->setViewModel( NULL );
 		return true;
 	}
 
@@ -278,8 +274,9 @@ public:
 	/**
 	* closes the window associated to the current document
 	*/
-	void closeDocument() {
+	bool closeDocument( VCF::Document* doc ) {
 		getCurrentDocument()->getWindow()->close();
+		return true;
 	}
 
 	/**

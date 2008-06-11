@@ -355,6 +355,8 @@ public:
 	
 	};
 
+	virtual bool closeDocument(Document* document){}
+
 	/**
 	* reloads from the hard drive the file for an existing document.
 	* The basic functionality is empty. The real implementation is dependent on the policy.
@@ -841,6 +843,8 @@ public:
 	*/
 	virtual void closeCurrentDocument();
 
+	virtual bool closeDocument(Document* document);
+
 	/**
 	* reloads a file for an existing document.
 	* If the file is modified, the user is prompted to save it or not.
@@ -1032,6 +1036,8 @@ protected:
 	* closes the document's window
 	*/
 	void onDocWindowClosing( FrameEvent* e ) {
+
+		closeCurrentDocument();
 
 		if ( !DocInterfacePolicy::closeDocumentWindow( (Window*)e->getSource() ) ) {
 			e->setOkToClose( false );
@@ -1514,6 +1520,32 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile()
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
+bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeDocument(Document* document)
+{
+	
+	if ( NULL != document ) {
+
+		if ( document->isModified() ) {
+			if ( !VCF::DocumentManager::getDocumentManager()->saveDocument( document ) ) {
+				return false;
+			}
+		}
+		Window* window = document->getWindow();
+		VCF::DocManagerEvent event( document->getModel(), VCF::DocumentManager::dmCloseDocument );
+		
+		VCF::DocumentManager::getDocumentManager()->DocumentClosed( &event );
+
+		cleanupDropTarget( document );	
+		removeDocument( document );
+		removeUndoRedoStackForDocument( document );
+	}
+
+	DocInterfacePolicy::closeDocument( document );
+
+	return true;
+}
+
+template < typename AppClass, typename DocInterfacePolicy >
 void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 {
 	//JC - I got rid of this because I beleive it is no longer 
@@ -1546,12 +1578,16 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 	*/
 
 	Document* currentDoc = DocInterfacePolicy::getCurrentDocument();	
+
+	closeDocument( currentDoc );
+	/*
 	if ( NULL != currentDoc ) {
 		cleanupDropTarget( currentDoc );	
 		removeDocument( currentDoc );
 	}
 
 	DocInterfacePolicy::closeDocument();
+	*/
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
