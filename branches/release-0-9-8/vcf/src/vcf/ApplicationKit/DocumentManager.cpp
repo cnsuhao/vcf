@@ -206,22 +206,24 @@ void DocumentManager::init()
 	}
 }
 
-void DocumentManager::terminate() {
+void DocumentManager::terminate() {	
+
+	std::vector<Document*>::iterator it2 = openDocuments_.begin();
+	while ( it2 != openDocuments_.end() ) {
+		Document* document = *it2;
+		if ( NULL == document->getOwner() ) {
+			delete document;
+		}
+		it2 ++;
+	}
+
+
 	DocumentUndoRedoMap::iterator it = undoRedoStack_.begin();
 	while ( it != undoRedoStack_.end() ) {
 		delete it->second;
 		it ++;
 	}
 	undoRedoStack_.clear();
-
-	std::vector<Document*>::iterator it2 = openDocuments_.begin();
-	while ( it2 != openDocuments_.end() ) {
-		Document* document = *it2;
-		if ( NULL == document->getOwner() ) {
-			document->release();
-		}
-		it2 ++;
-	}
 }
 
 
