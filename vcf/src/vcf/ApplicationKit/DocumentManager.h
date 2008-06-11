@@ -37,6 +37,11 @@ Contains the string infos characterizing a document class or a kind of document.
 	\li mimetype    is the mime type for this kind of document.
 	\li description is just a generic description for this class of documents.
 */
+class APPLICATIONKIT_API FileTypeInfo {
+public:	
+	String extension;
+	MIMEType mimeInfo;
+};
 class APPLICATIONKIT_API DocumentInfo {
 public:	
 	String docClass;
@@ -47,6 +52,12 @@ public:
 	MIMEType mimetype;
 	String clipboardTypes;
 	String description;
+
+	FileTypeInfo fileTypeAt( const size_t& index ) const ;
+	String clipboardTypeAt( const size_t& index ) const ;
+
+	std::vector<FileTypeInfo> getFileTypes() const;
+	std::vector<String> getClipboardTypes() const;
 };
 
 
@@ -443,7 +454,8 @@ public:
 	*@param const String&, the filename.
 	*@return String, the mime type.
 	*/
-	MIMEType getMimeTypeFromFileExtension( const String& fileName );
+	MIMEType getDocTypeFromFileExtension( const String& fileName );
+	MIMEType getFileTypeFromFileExtension( const String& fileName );
 
 	/**
 	* sets a specified view for a specified new document.
@@ -1445,6 +1457,9 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::saveFileAs( Document* doc
 	//set the name to the new file
 	doc->setFileName( fp );
 	try {
+
+		fileType = getFileTypeFromFileExtension( fp );
+
 		result = doc->saveAsType( fp, fileType );
 
 		//reset it back to the old name, we'll change it later
@@ -2035,6 +2050,7 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::createMenus() {
 	}
 
 }
+
 
 
 
