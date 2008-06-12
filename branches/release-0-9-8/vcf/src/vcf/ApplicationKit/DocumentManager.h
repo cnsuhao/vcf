@@ -351,11 +351,13 @@ public:
 	* close the current ( active ) document.
 	* The basic functionality is empty. The real implementation is dependent on the policy.
 	*/
-	virtual void closeCurrentDocument(){
-	
+	virtual bool closeCurrentDocument(){
+		return false;
 	};
 
-	virtual bool closeDocument(Document* document){}
+	virtual bool closeDocument(Document* document, bool promptForSave ){
+		return false;
+	}
 
 	/**
 	* reloads from the hard drive the file for an existing document.
@@ -841,9 +843,9 @@ public:
 	* closes the current document, and all its children if they exist
 	* according to the policy.
 	*/
-	virtual void closeCurrentDocument();
+	virtual bool closeCurrentDocument();
 
-	virtual bool closeDocument(Document* document);
+	virtual bool closeDocument(Document* document, bool promptForSave);
 
 	/**
 	* reloads a file for an existing document.
@@ -1000,7 +1002,14 @@ protected:
 	* closes a document.
 	*/
 	virtual void onClose( Event* e ) {
-		closeCurrentDocument();
+		//closeCurrentDocument();
+
+		Document* doc = DocInterfacePolicy::getCurrentDocument();
+		Window* window = NULL;
+		if ( NULL != doc ) {
+			window = doc->getWindow();			
+		}
+		DocInterfacePolicy::closeDocumentWindow( window );
 	}
 
 	/**
@@ -1036,10 +1045,9 @@ protected:
 	* closes the document's window
 	*/
 	void onDocWindowClosing( FrameEvent* e ) {
-
-		closeCurrentDocument();
-
-		if ( !DocInterfacePolicy::closeDocumentWindow( (Window*)e->getSource() ) ) {
+		Window* window = (Window*)e->getSource();
+		
+		if ( !closeDocument( DocInterfacePolicy::getDocumentForWindow(window), true ) ) {
 			e->setOkToClose( false );
 		}
 	}
@@ -1520,12 +1528,12 @@ void DocumentManagerImpl<AppClass,DocInterfacePolicy>::openFile()
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
-bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeDocument(Document* document)
+bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeDocument(Document* document, bool promptForSave)
 {
 	
 	if ( NULL != document ) {
 
-		if ( document->isModified() ) {
+		if ( document->isModified() && promptForSave ) {
 			if ( !VCF::DocumentManager::getDocumentManager()->saveDocument( document ) ) {
 				return false;
 			}
@@ -1546,48 +1554,11 @@ bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeDocument(Document* d
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
-void DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
+bool DocumentManagerImpl<AppClass,DocInterfacePolicy>::closeCurrentDocument()
 {
-	//JC - I got rid of this because I beleive it is no longer 
-	//neccessary
-	/*closingDocument_ = true;
-
-	Document* currentDoc = DocInterfacePolicy::getCurrentDocument();
-
-	Component* owner = currentDoc->getOwner();
-	if ( NULL != owner ) {
-		owner->removeComponent( currentDoc );
-	}
-	documentClosedOK_ = false;
-	// closes the current document window ( and so the window 
-	// associated  to the just deleted document ).
-	DocInterfacePolicy::closeDocument();
-
-
-	// remove the current document form the list of opened documents
-	// and frees it.
-	removeDocument( currentDoc );	
-
-	closingDocument_ = false;
-
-	removeUndoRedoStackForDocument( currentDoc );
-
-	currentDoc->free();
-
-	documentClosedOK_ = false;
-	*/
-
 	Document* currentDoc = DocInterfacePolicy::getCurrentDocument();	
 
-	closeDocument( currentDoc );
-	/*
-	if ( NULL != currentDoc ) {
-		cleanupDropTarget( currentDoc );	
-		removeDocument( currentDoc );
-	}
-
-	DocInterfacePolicy::closeDocument();
-	*/
+	return closeDocument( currentDoc, true );
 }
 
 template < typename AppClass, typename DocInterfacePolicy >
@@ -1865,7 +1836,7 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 	// this handler notifies the UI to display any changes on the document
 	CallBack* docEv = app_->getCallback("onDocModified");
 
-	if ( DocumentManager::getShouldCreateUI() ) {
+	if ( DocumentManager::getShouldCreateUI() ) {		
 		if ( DocInterfacePolicy::saveBeforeNewDocument() ) {
 			// only in a SDI policy
 
@@ -1878,9 +1849,9 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 					// of the current document previously modified
 					switch ( saveChanges( doc ) ) {
 					case UIToolkit::mrCancel : {
-							/* the user wanted to abort saving the previous document
-							   no new document is created, and
-								 we put the handler back to the unsaved document */
+							// the user wanted to abort saving the previous document
+							//   no new document is created, and
+							//	 we put the handler back to the unsaved document 
 							doc->DocumentChanged += docEv;
 							return NULL;
 						}
@@ -1888,7 +1859,7 @@ Document* DocumentManagerImpl<AppClass,DocInterfacePolicy>::newDefaultDocument( 
 					}
 				}
 			}
-		}
+		}		
 	}
 
 	// just creates the object from its type using the VCF RTTI
