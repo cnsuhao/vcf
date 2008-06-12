@@ -212,7 +212,7 @@ void DocumentManager::terminate() {
 	while ( it2 != openDocuments_.end() ) {
 		Document* document = *it2;
 		if ( NULL == document->getOwner() ) {
-			delete document;
+			document->free();
 		}
 		it2 ++;
 	}

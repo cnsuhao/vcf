@@ -28,13 +28,15 @@ Win32DragDropPeer::~Win32DragDropPeer()
 DragActionType Win32DragDropPeer::startDragDrop( DataObject* cdo )
 {
 
+	DragActionType result = daNone;
+
 	clipDataObj_ = cdo;
 
 	dataObj_->setDataObject( clipDataObj_ );
 
 	dragDropEffect_ = 0;
 
-	dragDropResult_ = ::DoDragDrop( dataObj_, comDragSrc_,
+	HRESULT hr = ::DoDragDrop( dataObj_, comDragSrc_,
 									DROPEFFECT_COPY | DROPEFFECT_MOVE | DROPEFFECT_LINK,//COMUtils::translateActionType( dragSrc_->getActionType() ),
 									&dragDropEffect_ );
 
@@ -44,13 +46,28 @@ DragActionType Win32DragDropPeer::startDragDrop( DataObject* cdo )
 
 	dragSrc_->SourceEnd( &eventEnd );
 
-	if (dragDropResult_ == DRAGDROP_S_DROP) {
+	if (hr == DRAGDROP_S_DROP) {
 	    DragSourceEvent eventDropped(dragSrc_,  clipDataObj_);
 		eventDropped.setType( DragSource::DRAG_DROPPED );
 		dragSrc_->SourceDropped( &eventDropped );
+
+
+		if ( dragDropEffect_ & DROPEFFECT_COPY ) {
+			result = daCopy;
+		}
+
+		if ( dragDropEffect_ & DROPEFFECT_MOVE ) {
+			result = daMove;
+		}
+
+		if ( dragDropEffect_ & DROPEFFECT_LINK ) {
+			result = daLink;
+		}
+
+		
 	}
 
-	return (DragActionType) dragDropResult_;
+	return result;
 
 }
 
@@ -99,12 +116,12 @@ HRESULT Win32DragDropPeer::QueryContinueDrag( BOOL fEscapePressed, DWORD grfKeyS
 
     dragSrc_->SourceCanContinueDragOp( &event );
 
-	HRESULT result = NO_ERROR;
-	if ( true == ( 0 != fEscapePressed ) ){
+	HRESULT result = S_OK;
+	if ( fEscapePressed ){
 		result =  DRAGDROP_S_CANCEL ;
 	}
 
-	if ( true != (grfKeyState & MK_LBUTTON) ) {
+	if ( !(grfKeyState & MK_LBUTTON) ) {
 		result = DRAGDROP_S_DROP;
 	}
 
