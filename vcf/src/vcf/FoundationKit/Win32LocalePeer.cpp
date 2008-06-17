@@ -296,7 +296,7 @@ Win32LocalePeer::Win32LocalePeer():lcid_(0)
 void Win32LocalePeer::setToCurrentThread()
 {
 	lcid_ = GetThreadLocale();
-	crtLocaleStr_ = setlocale( LC_ALL, NULL );
+	//crtLocaleStr_ = setlocale( LC_ALL, NULL );	
 }
 
 void Win32LocalePeer::setLocale( const UnicodeString& language, const UnicodeString& country, const UnicodeString& variant )
@@ -1305,6 +1305,11 @@ bool Win32LocalePeer::isCharA( const int32& charTypeMask, const VCFChar& c )
 		
 		setlocale( LC_CTYPE, crtLocaleStr_.ansi_c_str() );
 	#else
+
+		if ( crtLocaleStr_.empty() ) {
+			crtLocaleStr_ = setlocale( LC_ALL, NULL );
+		}
+
 		oldLocaleStr = _wsetlocale( LC_CTYPE, NULL );
 		
 		UnicodeString tmp(crtLocaleStr_);
