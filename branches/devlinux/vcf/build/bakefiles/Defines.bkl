@@ -1,0 +1,340 @@
+<?xml version="1.0" ?>
+
+<makefile>
+
+    <!--
+    It is the same as <sys-lib> except this one prepends the given value.
+    Prepending allows us to pass libraries to mingw in the correct order.
+    This trick makes mingw happy when it links the static libraries,
+    -->
+    <define-tag name="vcf-lib" rules="dll,lib,exe,module">
+        <if cond="COMPILER=='gcc'">
+            <set var="__ldlibs" prepend="1">
+                $(formatIfNotEmpty( '-l%s', value ))
+            </set>
+        </if>
+        <if cond="COMPILER!='gcc'">
+            <sys-lib>$(value)</sys-lib>
+        </if>
+    </define-tag>
+
+
+    <!--
+    Inclusions.
+    -->
+    <define-tag name="vcf-include-thirdparty" rules="dll,lib,exe,module">
+        <include cond="PLATFORM_WIN32=='1'">
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/win32' ))
+        </include>
+        <include cond="PLATFORM_MAC=='1'">
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/macOSX/HIView' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-boost" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/boost' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-AGG" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/agg/include' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-ZLib" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/ZLib' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-LibJPEG" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/LibJPEG' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-LibPNG" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/LibPNG' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-LibTIFF" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/LibTIFF' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-paintlib" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/paintlib/common/Filter' ))
+        </include>
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/paintlib/common' ))
+        </include>
+        <include cond="PLATFORM_WIN32=='1'">
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/paintlib/win/paintlib' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-oniguruma" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/oniguruma' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-libxml" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/libxml/include' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-libxslt" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'thirdparty/common/libxslt' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-fdlibm" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'vcf/JavaScriptKit/js-impl/fdlibm' ))
+        </include>
+    </define-tag>
+
+    <define-tag name="vcf-include-js" rules="dll,lib,exe,module">
+        <include>
+            $(vcf.joinPaths( VCF_INCLUDE, 'vcf/JavaScriptKit/js-impl' ))
+        </include>
+    </define-tag>
+
+
+    <!--
+    Using libraries.
+    -->
+    <define-tag name="vcf-use-AGG" rules="dll,lib,exe,module">
+        <vcf-include-AGG/>
+        <vcf-lib>$(AGG_FILENAME)</vcf-lib>
+    </define-tag>
+
+    <define-tag name="vcf-use-ZLib" rules="dll,lib,exe,module">
+        <vcf-include-ZLib/>
+        <vcf-lib>$(ZLIB_FILENAME)</vcf-lib>
+    </define-tag>
+
+    <define-tag name="vcf-use-LibJPEG" rules="dll,lib,exe,module">
+        <vcf-include-LibJPEG/>
+        <vcf-lib>$(LIBJPEG_FILENAME)</vcf-lib>
+    </define-tag>
+
+    <define-tag name="vcf-use-LibPNG" rules="dll,lib,exe,module">
+        <vcf-include-LibPNG/>
+        <vcf-lib>$(LIBPNG_FILENAME)</vcf-lib>
+    </define-tag>
+
+    <define-tag name="vcf-use-LibTIFF" rules="dll,lib,exe,module">
+        <vcf-include-LibTIFF/>
+        <vcf-lib>$(LIBTIFF_FILENAME)</vcf-lib>
+    </define-tag>
+
+    <define-tag name="vcf-use-paintlib" rules="dll,lib,exe,module">
+        <vcf-include-paintlib/>
+        <vcf-use-LibJPEG/>
+        <vcf-use-LibTIFF/>
+        <vcf-use-LibPNG/>
+        <vcf-lib>$(PAINTLIB_FILENAME)</vcf-lib>
+    </define-tag>
+
+    <define-tag name="vcf-use-oniguruma" rules="dll,lib,exe,module">
+        <vcf-include-oniguruma/>
+        <vcf-lib>$(ONIGURUMA_FILENAME)</vcf-lib>
+        <define>ONIG_EXTERN=extern</define>
+    </define-tag>
+
+    <define-tag name="vcf-use-libxml" rules="dll,lib,exe,module">
+        <vcf-include-libxml/>
+        <vcf-lib>$(LIBXML_FILENAME)</vcf-lib>
+        <define>LIBXML_STATIC</define>
+    </define-tag>
+
+    <define-tag name="vcf-use-libxslt" rules="dll,lib,exe,module">
+        <vcf-include-libxslt/>
+        <vcf-lib>$(LIBXSLT_FILENAME)</vcf-lib>
+        <define>LIBXML_STATIC</define>
+        <define>LIBXSLT_STATIC</define>
+    </define-tag>
+
+    <define-tag name="vcf-use-fdlibm" rules="dll,lib,exe,module">
+        <vcf-include-fdlibm/>
+        <vcf-lib>$(FDLIBM_FILENAME)</vcf-lib>
+    </define-tag>
+
+    <define-tag name="vcf-use-js" rules="dll,lib,exe,module">
+        <vcf-include-js/>
+        <vcf-use-fdlibm/>
+        <vcf-lib>$(JS_FILENAME)</vcf-lib>
+        <define>EXPORT_JS_API</define>
+    </define-tag>
+
+
+    <!--
+    Using kits.
+    -->
+    <set var="FOUNDATIONKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">FOUNDATIONKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-FoundationKit" rules="dll,lib,exe,module">
+        <set var="FOUNDATIONKIT">
+            <if cond="OPTION_ALLIN1=='1'">$(ALLIN1_FILENAME)</if>
+            <if cond="OPTION_ALLIN1=='0'">$(FOUNDATIONKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(FOUNDATIONKIT)</vcf-lib>
+        <define>$(FOUNDATIONKIT_DLL)</define>
+    </define-tag>
+
+    <set var="GRAPHICSKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">GRAPHICSKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-GraphicsKit" rules="dll,lib,exe,module">
+        <vcf-use-ZLib/>
+        <vcf-use-LibPNG/>
+        <vcf-use-LibJPEG/>
+        <vcf-use-AGG/>
+        <vcf-use-FoundationKit/>
+        <set var="GRAPHICSKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(GRAPHICSKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(GRAPHICSKIT)</vcf-lib>
+        <define>$(GRAPHICSKIT_DLL)</define>
+    </define-tag>
+
+    <set var="APPLICATIONKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">APPLICATIONKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-ApplicationKit" rules="dll,lib,exe,module">
+        <vcf-use-GraphicsKit/>
+        <set var="APPLICATIONKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(APPLICATIONKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(APPLICATIONKIT)</vcf-lib>
+        <define>$(APPLICATIONKIT_DLL)</define>
+    </define-tag>
+
+    <set var="HTMLKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">HTMLKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-HTMLKit" rules="dll,lib,exe,module">
+        <vcf-use-ApplicationKit/>
+        <set var="HTMLKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(HTMLKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(HTMLKIT)</vcf-lib>
+        <define>$(HTMLKIT_DLL)</define>
+    </define-tag>
+
+    <set var="OPENGLKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">OPENGLKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-OpenGLKit" rules="dll,lib,exe,module">
+        <vcf-use-ApplicationKit/>
+        <set var="OPENGLKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(OPENGLKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(OPENGLKIT)</vcf-lib>
+        <define>$(OPENGLKIT_DLL)</define>
+    </define-tag>
+
+    <set var="NETWORKKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">NETWORKKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-NetworkKit" rules="dll,lib,exe,module">
+        <vcf-use-FoundationKit/>
+        <set var="NETWORKKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(NETWORKKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(NETWORKKIT)</vcf-lib>
+        <define>$(NETWORKKIT_DLL)</define>
+    </define-tag>
+
+    <set var="REMOTEOBJECTKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">REMOTEOBJECTKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-RemoteObjectKit" rules="dll,lib,exe,module">
+        <vcf-use-NetworkKit/>
+        <set var="REMOTEOBJECTKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(REMOTEOBJECTKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(REMOTEOBJECTKIT)</vcf-lib>
+        <define>$(REMOTEOBJECTKIT_DLL)</define>
+    </define-tag>
+
+    <set var="INTERNETKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">INTERNETKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-InternetKit" rules="dll,lib,exe,module">
+        <vcf-use-FoundationKit/>
+        <set var="INTERNETKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(INTERNETKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(INTERNETKIT)</vcf-lib>
+        <define>$(INTERNETKIT_DLL)</define>
+    </define-tag>
+
+    <set var="REGEXKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">REGEXKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-RegExKit" rules="dll,lib,exe,module">
+        <vcf-use-oniguruma/>
+        <vcf-use-FoundationKit/>
+        <set var="REGEXKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(REGEXKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(REGEXKIT)</vcf-lib>
+        <define>$(REGEXKIT_DLL)</define>
+    </define-tag>
+
+    <set var="XMLKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">XMLKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-XMLKit" rules="dll,lib,exe,module">
+        <vcf-use-libxml/>
+        <vcf-use-libxslt/>
+        <vcf-use-FoundationKit/>
+        <set var="XMLKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(XMLKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(XMLKIT)</vcf-lib>
+        <define>$(XMLKIT_DLL)</define>
+    </define-tag>
+
+    <set var="JAVASCRIPTKIT_DLL">
+        <if cond="OPTION_SHARED=='1'">JAVASCRIPTKIT_DLL</if>
+    </set>
+    <define-tag name="vcf-use-JavaScriptKit" rules="dll,lib,exe,module">
+        <vcf-use-js/>
+        <vcf-use-FoundationKit/>
+        <set var="JAVASCRIPTKIT">
+            <if cond="OPTION_ALLIN1=='0'">$(JAVASCRIPTKIT_FILENAME)</if>
+        </set>
+        <vcf-lib>$(JAVASCRIPTKIT)</vcf-lib>
+        <define>$(JAVASCRIPTKIT_DLL)</define>
+    </define-tag>
+
+    <set var="IMAGEFORMATS_DLL">
+        <if cond="OPTION_SHARED=='1'">IMAGEFORMATS_DLL</if>
+    </set>
+    <define-tag name="vcf-use-ImageFormats" rules="dll,lib,exe,module">
+        <vcf-use-ApplicationKit/>
+        <set var="IMAGEFORMATS">
+            <if cond="OPTION_ALLIN1=='0'">$(IMAGEFORMATS_FILENAME)</if>
+        </set>
+        <vcf-lib>$(IMAGEFORMATS)</vcf-lib>
+        <define>$(IMAGEFORMATS_DLL)</define>
+    </define-tag>
+
+</makefile>
+
+<!--
+$Id$
+-->

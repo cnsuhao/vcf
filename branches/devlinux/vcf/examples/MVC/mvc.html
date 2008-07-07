@@ -1,0 +1,861 @@
+<!--------------------------------------------------------------------------->  
+<!--                           INTRODUCTION                                
+
+ The Code Project article submission template (HTML version)
+
+Using this template will help us post your article sooner. To use, just 
+follow the 3 easy steps below:
+ 
+     1. Fill in the article description details
+     2. Add links to your images and downloads
+     3. Include the main article text
+
+That's all there is to it! All formatting will be done by our submission
+scripts and style sheets. 
+
+-->  
+<!--------------------------------------------------------------------------->  
+<!--                        IGNORE THIS SECTION                            -->
+<html>
+<head>
+<title>The Code Project</title>
+<Style>
+BODY, P, TD { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt }
+H2,H3,H4,H5 { color: #ff9900; font-weight: bold; }
+H2 { font-size: 13pt; }
+H3 { font-size: 12pt; }
+H4 { font-size: 10pt; color: black; }
+PRE { BACKGROUND-COLOR: #FBEDBB; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; }
+CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
+</style>
+<link rel="stylesheet" type=text/css href="http://www.codeproject.com/styles/global.css">
+</head>
+<body bgcolor="#FFFFFF" color=#000000>
+<!--------------------------------------------------------------------------->  
+
+
+<!-------------------------------     STEP 1      --------------------------->
+<!--  Fill in the details (CodeProject will reformat this section for you) -->
+
+<pre>
+Title:       MVC in the Visual Component Framework
+Author:      Jim Crafton
+Email:       jim.crafton@gmail.com	
+Member ID:   12433
+Language:    C++
+Platform:    Windows
+Technology:  
+Level:       Intermediate
+Description: An introduction to the Model-View-Controller Pattern in the Visual Component Framework
+Section      Libraries
+SubSection   General
+License:     BSD
+</pre>
+
+<!-------------------------------     STEP 2      --------------------------->
+<!--  Include download and sample image information.                       --> 
+
+<ul class=download>
+<li><a href="Article_demo.zip">Download demo project - XXX Kb </a></li>
+<li><a href="Article_src.zip">Download source - XXX Kb</a></li>
+</ul>
+
+<p><img src="vcfmvc/scribble10.png" ></p>
+<p>
+<h2>Introduction</h2>
+This will the first in a four part series of articles
+that will explain how to use the built Model-View-Controller
+features of the Visual Component Framework, and it's
+DocumentManager classes that provide a high level set of 
+funcionality similar to MFC's Doc/View classes. During the
+course of the articles, we'll discuss the basic design
+of MVC in the framework, how to make a simple MVC app with 
+a Model and a very simple controller. I'll discuss how to 
+build your UI using the VCF's Visual Form File format 
+and how to hook up event handlers (or callbacks) in 
+C++ code to the UI components defined in the layout file.
+Then we'll walk through making a complete MVC based app
+that starts with drawing simple shapes and ends with an
+simple drawing app that can draw shapes, allows you to
+open or save with different file formats, supports 
+cut/copy/paste, undo and redo, drag and drop for both
+files and shape objects that you select, and that can
+be dropped on external applications, shell integration
+and finally has support in the UI for updating the state
+of various UI elements like menu items and toolbar buttons.
+</p>
+<h2>Intro to Model-View-Controller</h2>
+<p>
+Model-View-Controller (MVC) is a pattern that's been discussed
+all over the place. It originated with the Smalltalk group
+at Xerox PARC, run by Alan Kay, in the early 1970's. It's 
+basically a design pattern whose goal is to cleanly separate 
+the code that deals with application's data (or model) from 
+it's user interface(or view) and the code that responds to 
+the user's actions. There are are a variety of implementations
+out there, some better than others, some easier to use,
+some more difficult. Java's Swing framework is one example
+of MVC (though some might argue that it's a bit overdone).
+MFC also has a primitive sort of MVC though it's possible to
+argue that it's not very well done. 
+</p>
+<p>
+Typically the Model is designed to hold only data. You interact
+with the model to chage it's data. The Model usually has
+one or more Views, with each view being responsible for
+display some or all of the Model's data. If the Model
+is changed, then there should be some mechanism by which
+Views are notified so they can update themselves. The 
+Controller acts as a kind of "referee" between the model
+and the View(s). For example, if the user were to click
+on the view, then the Controller would decide how to 
+interpret the action (the mouse click), and make any changes.
+Perhaps if the program were a drawing program, the click
+might result in adding a new shape. If this were the case,
+then the Controller would need to tell the Model to 
+add a new shape. This would result in a modification to the 
+Model, which would in turn notify it's View(s) and 
+the UI would be updated and redrawn.
+</p>
+<p>
+Given a general overview let's take a look at how the VCF implements
+the specifics of this. The VCF has two primary classes that 
+define the Model and View. In addition there is the Control class 
+that implements the View interface as well as allowing you to set 
+a custom view. All of the various UI control classes, such as the 
+TextControl, ListControl, TreeControl, and so on, use Models to 
+store their data, so MVC is not just a throwaway in the framework, 
+it's built in and heavily used.
+</p>
+<p>
+<i>MVC classes in the VCF</i> <br>
+<img src="vcfmvc/mvc-diagram1.png">
+</p>
+
+<h2>Model Basics</h2>
+<p>
+The Model class is an abstract class that other more specific model 
+classes derive from. It provides the basic implementation for 
+managing and connecting views to the model. It also provides a 
+general purpose notification system for anyone interested in changes 
+to the model by using a specific delegate variable named ModelChanged. 
+The Model's views are updated by the updateAllViews() function that
+iterates through all the registered views of a model and calls the
+updateView() function for each view. 
+</p>
+<p>
+<i>ModelChanged delegate</i> <br>
+<img src="vcfmvc/mvc-diagram2.png">
+</p>
+
+<h2>Data Access</h2>
+<p>
+The Model class itself does not store or define how data is stored. 
+It does provide some basic methods to setting and/or retrieving data,
+as well as determing if the model has any data at all, and a method 
+to clear it, or empty it, of all data. 
+</p>
+<p>
+You can access data generically using the Model's getValue() or 
+getValueAsString() methods. These take an optional key that's a 
+variant that can be used to help retrieve the specific value.
+For example if you had a model that represented a bunch of text,
+then your implementation of getValue might just ignore the 
+key parameter and simply return all the text. If your model
+was a list of some sort, then the key might be interpreted as an
+index and you'd return the value at the specified index in the list.
+These are not meant to be the only way to provide access to the model's
+data, but rather an optional way that you provide in the case where
+it's not possible to call a more specific method of a model derived
+class.
+</p>
+<p>
+Likewise it's possible to set data generically through the Model's
+setValue() method. Like the getValue() method, this takes a variant
+to store the data and an optional variant to specify the key. Again,
+this is not considered as the only way to set data on a model, but 
+rather an optional method.
+</p>
+<h2>Data Storage and Variants</h2>
+<p>
+If you look at the Model class methods getValue() and setValue(), and
+if you look at some of the other model implementations like ListModel
+or TreeModel, you'll see that the VariantData class is used to represent
+a piece of data. This makes it easy to pass around a variety of different
+data types transparently, but it does not mean that you have to implement
+the model storage using a VariantData. For example, if you had a collection
+of floating point values, you might decide to implement the ListModel
+and store the data in an array of doubles using std::vector<double>.
+</p>
+
+<h2>Views</h2>
+<p>
+While the Model has a number of methods associated with it, the 
+View class is relatively simple. It's main function is to render, or 
+draw the model. This is done in the View's 	paintView() method
+which gets called by the framework. A GraphicsContext is passed 
+in and you can draw whatever you need to. 
+</p>
+<p>
+The View also has a pointer to the Model it's associated with and 
+a pointer to a Control intance that it's associated with. Beyond
+that it's up to the application specific design of a particular view
+to store anything else. 
+</p>
+<p>
+<h2>Controls and Views</h2>
+<p>
+A Control derives from the View class as well as containing a pointer
+to a view. This means that by default any control can be added to a 
+Model. By default the Control's paintView() method is just going to 
+call the code in the Control's paint() method. By allowing the control
+the possibility of an external View, you can customize the display
+of a Control without using inheritance. The default painting behavior
+for a Control is to check to see if it's view instance is non NULL,
+if it is then it calls the view instance's paintView() method, 
+otherwise it does it's own internal painting. 
+</p>
+
+<h2>Where's the Controller?</h2>
+<p>
+So far I haven't mentioned a specific class for the Controller. That's
+because there isn't one! The Controller tends to be extremely application
+specific and there's not enough common elements to justify a class.
+Some possible options are to use the existing Application class 
+and put your Controller logic there, or create a brand new class
+that becomes your Controller. The important thing is what the class
+does and how it interacts with the Model and View that qualify it as 
+a controller.
+</p>
+<h2>Before you get started</h2>
+<p>
+Before we get too far into this, please make sure that you've installed 
+the latest version of the VCF (version 0-9-8 or better). And you may want 
+to have a glance at some of the articles here on CP to get a feel for 
+how things work. Some useful articles:
+<ul>
+<li><a href="http://www.codeproject.com/KB/library/vcf_hello_world1.aspx">Hello World</a>
+<li><a href="http://www.codeproject.com/KB/library/Resources.aspx">Resources</a>
+<li><a href="http://www.codeproject.com/KB/library/HelpVCF.aspx">Help Integration</a>
+<li><a href="http://www.codeproject.com/KB/library/Locales.aspx">Localization</a>
+<li><a href="???">Events and Delegates</a>
+</ul>
+
+<h2>A Simple Example</h2>
+<p>
+For our first step, let's create a simple application that displays
+the information in the ubiquitous Person class.
+<br>
+<img src="vcfmvc/sc1.png">
+</p>
+<p>
+First lets create our model. We'll call it a Person and define like so:
+<pre>
+class Person : public Model {
+public:
+	virtual bool isEmpty() {
+		return attributes.empty();
+	}
+protected:
+	Dictionary attributes;
+};
+</pre>
+</p>
+<p>
+This is obviously pretty bare. Instead of having separate fields for
+each member variable, like a name, address, etc, we are going to be 
+lazy and use the framework's Dictionary class, which is not much more 
+than a wrapper around std::map<String,VariantData>, with a few utility 
+methods thrown in for good measure. This let's us write something like:
+<pre>
+attributes["Age"] = 38;
+attributes["Name"] = "Bob";
+</pre>
+When you implement your model class you need to implement the 
+isEmpty() method, this allows the framework to tell if you model has
+any data in it. In our case we just return whether or not the attributes 
+member variable is empty().
+</p>
+<p>
+Now lets add support for getting or setting data implementing the generic 
+getValue() and setValue() methods:
+<pre>
+class Person : public Model {
+public:
+	virtual bool isEmpty() {
+		return attributes.empty();
+	}
+	
+	virtual VariantData getValue( const VariantData& key=VariantData::null() ) 	{
+		String strKey = key;
+		return attributes[ strKey ];
+	}
+
+	virtual void setValue( const VariantData& value, const VariantData& key=VariantData::null() )  {
+		String strKey = key;
+		attributes[ strKey ] = value;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+protected:
+	Dictionary attributes;
+};
+</pre>
+Note our setValue() implementation. We declare a ModelEvent, pass in the 
+event's source (the model), set it's event type to Model::MODEL_CHANGED, 
+and then call the Model's changed() method. This does two things for us: 
+it makes sure to invoke the ModelChanged delegate with the event instance, 
+and it calls the Model's updateAllViews() method. It's a convenience 
+method so you don't forget to do this yourself.
+</p>
+<p>
+If we wanted to get really fancy we could add a specific delegate to our 
+class for greater granularity, for example we could have a NameChanged 
+delegate, but for now we're just going to keep things simple.
+</p>
+<p>
+Obviously we don't want to have to remember what the various attribute keys
+are, so lets add some methods to make it easy to get and set the various
+attributes of the Person class.
+<pre>
+class Person : public Model {
+public:
+	virtual bool isEmpty() {
+		return attributes.empty();
+	}
+
+	virtual VariantData getValue( const VariantData& key=VariantData::null() ) 	{
+		String strKey = key;
+		return attributes[ strKey ];
+	}
+
+	virtual void setValue( const VariantData& value, const VariantData& key=VariantData::null() )  {
+		String strKey = key;
+		attributes[ strKey ] = value;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+	uint32 getAge() const {
+		return attributes["Age"];
+	}
+
+	String getFirstName() const {
+		return attributes["FirstName"];
+	}
+
+	String getLastName() const {
+		return attributes["LastName"];
+	}
+
+	String getZIPCode() const {
+		return attributes["ZIPCode"];
+	}
+
+	String getAddress() const {
+		return attributes["Address"];
+	}
+
+	String getState() const {
+		return attributes["State"];
+	}
+
+	String getCountry() const {
+		return attributes["Country"];
+	}
+
+	String getPhoneNumber() const {
+		return attributes["PhoneNumber"];
+	}
+
+	void setAge( const uint32& val ) {
+		attributes["Age"] = val;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+	void setFirstName( const String& val ) {
+		attributes["FirstName"] = val;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+	void setLastName( const String& val ) {
+		attributes["LastName"] = val;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+	void setZIPCode( const String& val ) {
+		attributes["ZIPCode"] = val;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+	void setAddress( const String& val ) {
+		attributes["Address"] = val;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+	void setState( const String& val ) {
+		attributes["State"] = val;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+	void setCountry( const String& val ) {
+		attributes["Country"] = val;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+	void setPhoneNumber( const String& val ) {
+		attributes["PhoneNumber"] = val;
+		ModelEvent e( this, Model::MODEL_CHANGED );
+		changed( &e );
+	}
+
+protected:
+	Dictionary attributes;
+};
+</pre>
+
+So we can now easily get and set values on the Person class. Note that
+there's no real reason to use the Dictionary object to store the value
+other laziness. It makes for smaller code when implementing the generic
+getValue() and setValue() methods and isEmpty(), but it's not as efficient 
+as using more traditional individual member variables for each attribute.
+</p>
+<p>
+At this point we have a complete, if simplistic, Model implementation. 
+</p>
+<p>
+Now that we've defined a model let's set up a user interface. We're going to 
+build the UI's for all these examples using the VCF's Visual File Format (VFF), 
+which is basically an extension of the format that Borland's Delphi has used 
+for years. It's easy to parse, it's not XML, and, possibly more importantly, it's 
+extremely easy to read and edit by hand. For a more complete definition
+of it, see these links:
+<ul>
+<li><a href="http://software-windmills.blogspot.com/2007/05/visual-form-file-format.html">Visual Form File format</a>
+<li><a href="http://software-windmills.blogspot.com/2008/05/working-with-delegates-in-visual-form.html">Working with Delegates</a>
+</ul>
+ 
+Basically the VCF loads up a VFF file for each UI class that it attempts to 
+create using it's resource loading logic to load the data in memory. Resources
+can be stored in a more traditional resource script (.RC) and compiled into the 
+final executable, or they can exist as external files. For the purposes of these
+articles, to make things easy, we'll use resources as external files. The actual 
+file name must be the same as the class with the ".vff" extension on the end. 
+Our window class is named "ModelDataWindow" so our file will be stored as 
+"ModelDataWindow.vff" and it will be in the Resources/ directory, at the same
+level where the executable is.
+</p>
+<p>
+We'll start with the following to define our main window:
+<pre>
+object ModelDataWindow  : VCF::Window
+	top = 200
+	left = 200
+	height = 110pt
+	width = 240pt
+	caption = 'ModelData Window'	
+
+	minHeight = 110pt
+	maxHeight = 110pt	
+end
+</pre>
+
+A few points really quickly: 
+<ul>
+ <li> as you can see you define an object with a name (this becomes the name
+ of the component), specify it's C++ class, and then write out the properties
+that you want to define. 
+ <li> the VFF allows you to specify coordinate values in 
+pixels (the default), points, inches, or centimeters. Points, inches, and 
+centimeters all use the screens current DPI to determine the actual pixel value. 
+ <li> note the use of minHeight/maxHeight - by setting these values we can 
+ constrain the size of the main window. Since we've set them to the same value
+ we will not be able to change the height of the window. We will be able to 
+ change the resize width.
+</ul>
+</p>
+<p>
+We're going to have a simple UI that displays some values, in a tabular interface.
+To make this easy, we're going to use a special container class that will 
+do all the work of positioning the controls
+<pre>
+object ModelDataWindow  : VCF::Window
+	//rest commented out
+	object hlContainer : VCF::HorizontalLayoutContainer
+		numberOfColumns = 2
+		maxRowHeight = 35
+		rowSpacerHeight = 10
+		widths[0] = 80
+		widths[1] = 80
+
+		tweenWidths[0] = 10
+	end
+
+	object hlContainer2 : VCF::HorizontalLayoutContainer
+		numberOfColumns = 2
+		maxRowHeight = 35
+		rowSpacerHeight = 10
+		widths[0] = 80
+		widths[1] = 80
+
+		tweenWidths[0] = 10
+	end
+end
+</pre>
+
+This defines 2 containers that we can use and reference later on. Most of the
+values just specify various dimensions of the container.
+</p>
+<p>
+We'll split the UI in two : the left side will be editable, and the right side
+will just show the current values, and will be updated whenever changes
+are made to the model.
+<pre>
+object ModelDataWindow  : VCF::Window
+	//rest commented out
+	object hlContainer : VCF::HorizontalLayoutContainer
+		//rest commented out
+	end
+
+	object hlContainer2 : VCF::HorizontalLayoutContainer
+		//rest commented out
+	end
+	
+	object pnl1 : VCF::Panel 
+		border = null
+		alignment = AlignLeft
+		width = 120pt
+		container = @hlContainer		
+	end
+	
+
+	object pnl1 : VCF::Splitter 
+		alignment = AlignLeft
+	end
+
+	object pnl2 : VCF::Panel 
+		container = @hlContainer2
+		border = null
+		alignment = AlignClient
+	end	
+end
+</pre>
+</p>
+<p>
+Now we have the basics of our UI laid out. Lets add the rest of the controls,
+specifically the labels, text control, and button that we'll use. The labels 
+will be for names of the Person attributes that we will display, some of the 
+read only attribute values. The text control will hold the LastName attribute
+which can be edited. The button will be used to increment the Person's age
+by 1 year each time it's clicked.
+<pre>
+object ModelDataWindow  : VCF::Window
+	//commented out
+	object pnl1 : VCF::Panel 
+		border = null
+		alignment = AlignLeft
+		width = 120pt
+		container = @hlContainer
+
+		object lbl1 : VCF::Label
+			caption = 'First Name'		
+		end
+
+		object edt1 : VCF::Label
+			
+		end
+
+
+		object lbl2 : VCF::Label
+			caption = 'Last Name'		
+		end
+
+		object edt2 : VCF::TextControl
+			
+		end
+
+		object lbl3 : VCF::Label
+			caption = 'Age'		
+		end
+
+		object edt3 : VCF::TextControl
+			readonly = true
+			enabled = false			
+		end
+
+
+
+		object lbl4 : VCF::Label
+			caption = 'Modify Age'		
+		end
+
+		object btn1 : VCF::CommandButton
+			caption = 'Click Me'
+
+			delegates
+				ButtonClicked = [ModelDataApp@ModelDataApp::clickMe]
+			end
+		end
+	end
+	
+
+	object pnl1 : VCF::Splitter 
+		alignment = AlignLeft
+	end
+
+	object pnl2 : VCF::Panel 
+		container = @hlContainer2
+		border = null
+		alignment = AlignClient
+
+		object lbl1a : VCF::Label
+			caption = 'First Name'		
+		end
+
+		object valLbl1 : VCF::Label
+			
+		end
+
+
+		object lbl2a : VCF::Label
+			caption = 'Last Name'		
+		end
+
+		object valLbl2 : VCF::Label
+			
+		end
+
+		object lbl3a : VCF::Label
+			caption = 'Age'		
+		end
+
+		object valLbl3 : VCF::Label
+			
+		end
+	end	
+end
+</pre>
+</p>
+<p>
+Now that we have the basic UI defined, let's put some code in place to load
+it up:
+<pre>
+class ModelDataWindow : public Window {
+public:
+	ModelDataWindow() {}
+	virtual ~ModelDataWindow(){};
+};
+
+_class_rtti_(ModelDataWindow, "VCF::Window", "ModelDataWindow")
+_class_rtti_end_
+
+
+class ModelDataApp : public Application {
+public:
+
+	ModelDataApp( int argc, char** argv ) : Application(argc, argv) {
+		addCallback( new ClassProcedure1&lt;Event*,ModelDataApp&gt;(this, &ModelDataApp::clickMe), "ModelDataApp::clickMe" );
+	}
+
+	virtual bool initRunningApplication(){
+		bool result = Application::initRunningApplication();
+		REGISTER_CLASSINFO_EXTERNAL(ModelDataWindow);
+		Window* mainWindow = Frame::createWindow( classid(ModelDataWindow) );
+		setMainWindow(mainWindow);
+		mainWindow->show();
+		
+		return result;
+	}
+
+	void clickMe( Event* ) {
+		//omitted
+	}	
+
+};
+</pre>
+The first thing to note is that we need to add support for the VCF's advanced 
+reflection/RTTI features, and that's where the <code>_class_rtti_</code>, and 
+<code>REGISTER_CLASSINFO_EXTERNAL</code> macros come into play. You need to 
+define this so that the framework can load up your window class dynamically. 
+This happens when the Frame::createWindow static function is called - it loads 
+up a window, based on it's RTTI Class instance, and automatically loads up the 
+corresponding VFF resource for you.
+</p>
+<p>
+The next thing is that we add a callback to our application, in it's constructor. That way
+it's ready to be used and when we load our window's VFF we can reference it 
+as a callback to use to add to the buttons ButtonClicked delegate.
+</p>
+<p>
+When we run it, we get something like this:<br>
+<img src="vcfmvc/sc1a.png">
+</p>
+<p>
+Obviously not very useful yet, as there's no data! Our plan here is to create 
+the model, and set it's initial properties, in the ModelDataWindow VFF file. 
+You don't have to do things, but for the purpose of this first step, it's an 
+easy way to work with it. In order to be able to this, we need to add RTTI
+support, just like we did with the main window, only we will also be adding 
+support for the various properties that we want to expose. To do that we 
+define something like this:
+<pre>
+_class_rtti_(Person, "VCF::Model", "Person")
+_property_( uint32, "age", getAge, setAge, "" );
+_property_( String, "firstName", getFirstName, setFirstName, "" );
+_property_( String, "lastName", getLastName, setLastName, "" );
+_property_( String, "zipCode", getZIPCode, setZIPCode, "" );
+_property_( String, "address", getAddress, setAddress, "" );
+_property_( String, "state", getState, setState, "" );
+_property_( String, "country", getCountry, setCountry, "" );
+_property_( String, "phoneNumber", getPhoneNumber, setPhoneNumber, "" );
+_class_rtti_end_
+</pre>
+This means that we can reference the age (or any of the other properties that 
+we have declared here) of the person in the VFF by using the property name 
+"age". We register this in the application by adding the code:
+<pre>
+virtual bool initRunningApplication(){
+	bool result = Application::initRunningApplication();
+	REGISTER_CLASSINFO_EXTERNAL(ModelDataWindow);
+	REGISTER_CLASSINFO_EXTERNAL(Person);
+	//rest omitted
+	
+}
+</pre>
+</p>
+<p>
+Now we can make some changes to our UI and do the following:
+<ul>
+ <li> we'll create a new Person object. This will be our Model.
+ <li> we'll set the first name, last name, and age of our Person instance.  
+ <li> we'll set the model property of some of our controls, and we'll 
+ set the control's model key so that it knows how to retrieve data
+ from the model using the Model::getValue() function. 
+</ul> 
+</p>
+<p>
+First let's create the Person object:
+<pre>
+object ModelDataWindow  : VCF::Window
+	//rest omitted
+	object joeBobSnake :  Person
+		firstName = 'Joe Bob'
+		lastName = 'Snake'
+		age = 24
+	end
+	//rest omitted
+end
+</pre>
+
+We've set it's attributes, using the firstName, lastName, and 
+age properties.
+</p>
+<p>
+Next let's modify our controls:
+<pre>
+object ModelDataWindow  : VCF::Window
+	//rest omitted
+	object joeBobSnake :  Person
+		firstName = 'Joe Bob'
+		lastName = 'Snake'
+		age = 24
+	end
+
+	
+	object pnl1 : VCF::Panel 
+		//rest omitted
+
+		object edt1 : VCF::Label
+			model = @joeBobSnake
+			modelKey = 'FirstName'
+		end
+
+
+		//rest omitted
+		
+		object edt2 : VCF::TextControl
+			model = @joeBobSnake
+			modelKey = 'LastName'
+		end
+
+		//rest omitted
+		
+		object edt3 : VCF::TextControl
+			readonly = true
+			enabled = false
+			model = @joeBobSnake
+			modelKey = 'Age'
+		end
+	end	
+	//rest omitted
+end
+</pre>
+
+Note the two properties that we set "model" and "modelKey". The model
+property is pretty self explanatory, we're setting the model of 
+the specific control. Remember that a Control instance is a View,
+so this calls the setViewModel which in turn causes the view to 
+be added to the Model. The use of the "@joeBobSnake" means that 
+we're referring to the component instance named "joeBobSnake".
+The "modelKey" property sets the key used when the call to 
+Model::getValue() is made by the control. This is used by some
+controls when they needs to display some data, for example by the
+Label control when it needs to display it's caption. Note that
+the key's being assigned are the same name that we used for accessing
+our attributes in our Person class.
+</p>
+<p>
+The first text control (edt2) will allow us to modify the last
+name of the Person instance. When the control determines that
+it's text is being changed, it tries to modify the model, using 
+the model key that's been assigned to it. In our case, whatever 
+text we type in will be be asigned to the Person model using
+the Model::setValue with a key of "LastName".
+</p>
+<p>
+Now, lets add some code to modify the person's age, and we'll be done!
+<pre>
+class ModelDataApp : public Application {
+public:
+	//rest omitted
+
+	void clickMe( Event* ) {
+		Person* person = (Person*)findComponent( "joeBobSnake", true );
+
+		person->setAge( person->getAge() + 1 );
+	}	
+
+};
+</pre>
+
+Note that we already had defined a method for this earlier. This just 
+retreives the component, and increments it's age attribute. What
+we end up with is something like this:
+<br>
+<img src="vcfmvc/sc1.png">
+</p>
+
+<h2>Conclusion</h2>
+<p>
+At this point we've gone through the basics of creating a model class, 
+creating a user interface, and linking the two together. Our "controller",
+if you will, is both the text control, and the application class. The 
+text control, which is also a view, takes care of converting key input 
+and updating the model. This in turn updates any other views attached
+to the model. The other controller is the application which gets notified
+when a ui element is clicked on, and then modifies the model by incrementing
+the age. Obviously this is a somewhat simplistic implementation so 
+our next step will be to enhance this functionality.
+</p>
+
+
+</body>
+
+</html>

@@ -1,0 +1,472 @@
+object Scribble10Window  : VCF::Window
+	top = 200
+	left = 200
+	height = 300
+	width = 320
+
+
+	settings['mainwindow.top'].name = 'top'
+	settings['mainwindow.left'].name = 'left'
+	settings['mainwindow.width'].name = 'width'
+	settings['mainwindow.height'].name = 'height'	
+
+	object contentPanel : VCF::Panel
+		alignment = AlignClient
+		border = null;
+
+		delegates 
+			MouseMove = [Scribble10App@Scribble10App::onContentMouseMove, controller@ScribbleController::onMouseMove]
+			MouseDown = [Scribble10App@Scribble10App::onContentMouseDown, controller@ScribbleController::onMouseDown]
+			MouseUp = [Scribble10App@Scribble10App::onContentMouseUp, controller@ScribbleController::onMouseUp]
+			MouseDoubleClicked = [controller@ScribbleController::onMouseDblClick]
+			KeyDown = [controller@ScribbleController::onKeyDown]
+		end
+	end
+
+
+	object scrollbarMgr : VCF::ScrollbarManager
+		target = @contentPanel
+		hasVerticalScrollbar = true
+		hasHorizontalScrollbar = true
+	end
+	
+
+	object mainMenu : VCF::MenuBar
+		object edit : VCF::DefaultMenuItem
+			caption = '&Edit'
+			object editShape : VCF::DefaultMenuItem
+				caption = 'Current &Shape...'				
+			end
+
+			object deleteShape : VCF::DefaultMenuItem
+				caption = 'Delete'
+			end
+		end		
+
+		object help : VCF::DefaultMenuItem
+			caption = '&View'
+			object viewListing : VCF::DefaultMenuItem
+				caption = 'Shape &Listing'
+			end
+
+			object viewStatusbar : VCF::DefaultMenuItem
+				caption = '&Status Bar'
+			end
+		end
+
+		object draw : VCF::DefaultMenuItem
+			caption = 'Draw'
+
+			object drawSelect : VCF::DefaultMenuItem
+				tag = 0
+				caption = 'Select Shape'
+			end
+
+			object sep : VCF::DefaultMenuItem
+				separator = true
+			end			
+
+			object drawLine : VCF::DefaultMenuItem
+				tag = 2
+				caption = 'Line'
+			end
+
+			object drawRect : VCF::DefaultMenuItem
+				tag = 1
+				caption = 'Rectangle'
+			end
+
+			object drawEllipse : VCF::DefaultMenuItem
+				tag = 3
+				caption = 'Ellipse'
+			end
+
+			object drawPolygon : VCF::DefaultMenuItem
+				tag = 4
+				caption = 'Polygon'
+			end
+
+			object drawFreehand : VCF::DefaultMenuItem
+				tag = 5
+				caption = 'Freehand'
+			end
+		end
+
+		object help : VCF::DefaultMenuItem
+			caption = '&Help'
+			object helpAbout : VCF::DefaultMenuItem
+				caption = '&About...'
+			end
+		end
+	end	
+
+	object scribbleListing : VCF::ListViewControl
+		alignment = AlignLeft
+		width = 100pt
+		border = null
+		iconStyle = isDetails
+		
+		object col1 : VCF::ColumnItem 
+			caption = 'Items'
+			settings['scribbleListing.colWidth'].name = 'width'
+		end
+
+		delegates 
+			ItemSelectionChanged = [Scribble10App@Scribble10App::onListSelectionChanged]
+			MouseDoubleClicked = [Scribble10App@Scribble10App::onEditCurrentShape]
+			KeyDown = [Scribble10App@Scribble10App::onListKeyDown]
+		end 
+
+		settings['scribbleListing.visible'].name = 'visible'
+		settings['scribbleListing.splitter'].name = 'width'
+	end
+
+	object splitter : VCF::Splitter 
+		
+	end
+	
+	object status : VCF::StatusBar
+		height = 15pt
+		status[0] = 'Status: '
+		status[1] = 'Dimensions: NNN x NNN'
+		status[2] = 'Coords: NNNN, NNNN'
+
+		settings['status.visible'].name = 'visible'
+	end
+
+
+	
+
+
+	object images : VCF::ImageList
+		transparentColor.red = 0
+		transparentColor.green = 1.0
+		transparentColor.blue = 0
+		
+		imageWidth = 16
+		imageHeight = 16
+
+		object img1 : VCF::ImageComponent 
+			filename = 'res:info.png'
+		end
+
+		object img2 : VCF::ImageComponent 
+			filename = 'res:delete.png'
+		end
+
+		object img3 : VCF::ImageComponent 
+			filename = 'res:help.png'
+		end
+
+		object img4 : VCF::ImageComponent 
+			filename = 'res:shapelisting.png'
+		end
+
+		object img5 : VCF::ImageComponent 
+			filename = 'res:status.png'
+		end
+
+		object img6 : VCF::ImageComponent 
+			filename = 'res:ptr.png'
+		end
+
+		object img7 : VCF::ImageComponent 
+			filename = 'res:line.png'
+		end
+
+		object img8 : VCF::ImageComponent 
+			filename = 'res:rect.png'
+		end
+
+		object img9 : VCF::ImageComponent 
+			filename = 'res:ellipse.png'
+		end
+
+		object img10 : VCF::ImageComponent 
+			filename = 'res:polygon.png'
+		end
+
+		object img11 : VCF::ImageComponent 
+			filename = 'res:freehand.png'
+		end
+
+		object img12 : VCF::ImageComponent 
+			filename = 'res:open.png'
+		end
+
+		object img13 : VCF::ImageComponent 
+			filename = 'res:save.png'
+		end
+
+		object img14 : VCF::ImageComponent 
+			filename = 'res:cut.png'
+		end
+
+		object img15 : VCF::ImageComponent 
+			filename = 'res:copy.png'
+		end
+
+		object img16 : VCF::ImageComponent 
+			filename = 'res:paste.png'
+		end
+
+		object img17 : VCF::ImageComponent 
+			filename = 'res:undo.png'
+		end
+
+		object img18 : VCF::ImageComponent 
+			filename = 'res:redo.png'
+		end
+	end
+
+	object toolbar : VCF::Toolbar 
+		alignment = AlignTop
+		height = 25
+		showButtonCaptions = false
+		imageList = @images;
+		horizontalCaptions = false
+
+		object openBtn : VCF::ToolbarItem
+			imageIndex = 11
+			caption = 'Open Scribble File'
+		end
+
+		object saveBtn : VCF::ToolbarItem
+			imageIndex = 12
+			caption = 'Save Scribble File'
+		end
+
+		object sep1 : VCF::ToolbarItem
+			separator = true
+		end
+
+		object cutBtn : VCF::ToolbarItem
+			imageIndex = 13
+			caption = 'Cut Selection to Clipboard'
+		end
+
+		object copyBtn : VCF::ToolbarItem
+			imageIndex = 14
+			caption = 'Copy Selection to Clipboard'
+		end
+
+		object pasteBtn : VCF::ToolbarItem
+			imageIndex = 15
+			caption = 'Paste Selection from Clipboard'
+		end
+
+		object sep1 : VCF::ToolbarItem
+			separator = true
+		end
+
+		object undoBtn : VCF::ToolbarItem
+			imageIndex = 16
+			caption = 'Undo last action'
+		end
+
+		object redoBtn : VCF::ToolbarItem
+			imageIndex = 17
+			caption = 'Redo last action'
+		end
+
+		object sep1 : VCF::ToolbarItem
+			separator = true
+		end
+
+		object infoBtn : VCF::ToolbarItem
+			imageIndex = 0
+			caption = 'Edit Shape Info'
+		end
+
+		object deleteBtn : VCF::ToolbarItem
+			imageIndex = 1
+			caption = 'Delete Shape'
+		end
+
+		object sep1 : VCF::ToolbarItem
+			separator = true
+		end
+
+		object viewShapeListBtn : VCF::ToolbarItem
+			imageIndex = 3
+			caption = 'View Shape Listing'
+			checked = true
+		end
+
+		object viewStatusBtn : VCF::ToolbarItem
+			imageIndex = 4
+			caption = 'View Status Bar'
+			checked = true
+		end
+
+		object sep2 : VCF::ToolbarItem
+			separator = true
+		end
+
+		object aboutBtn : VCF::ToolbarItem
+			imageIndex = 2
+			caption = 'About Scribble'
+		end
+
+		object sep3 : VCF::ToolbarItem
+			separator = true
+		end
+
+		object ptrBtn : VCF::ToolbarItem
+			imageIndex = 5
+			caption = 'Select shape'
+			tag = 0
+			checked = true
+		end
+
+		object lineBtn : VCF::ToolbarItem
+			imageIndex = 6
+			caption = 'Draw Line'
+			tag = 2
+			checked = true
+		end
+
+		object rectBtn : VCF::ToolbarItem
+			imageIndex = 7
+			caption = 'Draw Rectangle'
+			tag = 1
+			checked = true
+		end
+
+		object ellipseBtn : VCF::ToolbarItem
+			imageIndex = 8
+			caption = 'Draw Ellipse'
+			tag = 3
+			checked = true
+		end
+
+		object polygonBtn : VCF::ToolbarItem
+			imageIndex = 9
+			caption = 'Draw Polygon'
+			tag = 4
+			checked = true
+		end
+
+		object freehandBtn : VCF::ToolbarItem
+			imageIndex = 10
+			caption = 'Draw Freehand'
+			tag = 5
+			checked = true
+		end
+	end
+
+
+
+	object infoAction : VCF::Action
+		targets[0] = @infoBtn
+		targets[1] = @editShape
+		delegates 
+			Performed  = [Scribble10App@Scribble10App::onEditCurrentShape]
+			Update  = [Scribble10App@Scribble10App::onUpdateEditCurrentShape]
+		end
+	end
+
+	object deleteAction : VCF::Action
+		targets[0] = @deleteBtn
+		targets[1] = @deleteShape
+		delegates 
+			Performed  = [Scribble10App@Scribble10App::onDeleteCurrentShape]
+			Update  = [Scribble10App@Scribble10App::onUpdateEditCurrentShape]
+		end
+	end
+
+	object viewShapesListAction : VCF::Action
+		targets[0] = @viewShapeListBtn
+		targets[1] = @viewListing
+		delegates 
+			Performed  = [Scribble10App@Scribble10App::onViewListing]
+			Update  = [Scribble10App@Scribble10App::onUpdateViewListing]
+		end
+	end
+
+	object viewStatusbarAction : VCF::Action
+		targets[0] = @viewStatusBtn
+		targets[1] = @viewStatusbar
+		delegates 
+			Performed  = [Scribble10App@Scribble10App::onViewStatusbar]
+			Update  = [Scribble10App@Scribble10App::onUpdateViewStatusbar]
+		end
+	end
+
+	object helpAboutAction : VCF::Action
+		targets[0] = @aboutBtn
+		targets[1] = @helpAbout
+		delegates 
+			Performed  = [Scribble10App@Scribble10App::onAbout]
+		end
+	end	
+
+	object drawSelectAction : VCF::Action
+		targets[0] = @drawSelect
+		targets[1] = @ptrBtn
+		tag = 0
+		delegates 
+			Performed  = [controller@ScribbleController::onChangeTool]
+			Update  = [controller@ScribbleController::onUpdateChangeTool]
+		end
+	end	
+
+	object drawRectAction : VCF::Action
+		targets[0] = @drawRect
+		targets[1] = @rectBtn
+		tag = 1
+		delegates 
+			Performed  = [controller@ScribbleController::onChangeTool]
+			Update  = [controller@ScribbleController::onUpdateChangeTool]
+		end
+	end	
+
+	object drawLineAction : VCF::Action
+		targets[0] = @drawLine
+		targets[1] = @lineBtn
+		tag = 2
+		delegates 
+			Performed  = [controller@ScribbleController::onChangeTool]
+			Update  = [controller@ScribbleController::onUpdateChangeTool]
+		end
+	end	
+
+	object drawEllipseAction : VCF::Action
+		targets[0] = @drawEllipse
+		targets[1] = @ellipseBtn
+		tag = 3
+		delegates 
+			Performed  = [controller@ScribbleController::onChangeTool]
+			Update  = [controller@ScribbleController::onUpdateChangeTool]
+		end
+	end	
+
+	object drawPolygonAction : VCF::Action
+		targets[0] = @drawPolygon
+		targets[1] = @polygonBtn
+		tag = 4
+		delegates 
+			Performed  = [controller@ScribbleController::onChangeTool]
+			Update  = [controller@ScribbleController::onUpdateChangeTool]
+		end
+	end	
+
+	object drawFreehandAction : VCF::Action
+		targets[0] = @drawFreehand
+		targets[1] = @freehandBtn
+		tag = 5
+		delegates 
+			Performed  = [controller@ScribbleController::onChangeTool]
+			Update  = [controller@ScribbleController::onUpdateChangeTool]
+		end
+	end
+
+	object contentDropTarget : VCF::DropTarget
+		targets[0] = @contentPanel
+		delegates 
+			DropTargetEntered  = [controller@ScribbleController::onContentPanelEntered]
+			DropTargetDraggingOver  = [controller@ScribbleController::onContentPanelDragging]
+			DropTargetDropped  = [controller@ScribbleController::onContentPanelDropped]
+		end
+	end
+end

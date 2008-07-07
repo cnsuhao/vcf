@@ -1,0 +1,104 @@
+object DiggWindow  : VCF::Window
+	top = 200
+	left = 200
+	height = 500
+	width = 500
+	caption = 'Digg App'
+
+	color.red = 0.36
+	color.green = 0.46
+	color.blue = 0.56
+	useColorForBackground = true
+	
+	object images : VCF::ImageList
+		transparentColor.red = 0
+		transparentColor.green = 0
+		transparentColor.blue = 0
+		
+		imageWidth = 32
+		imageHeight = 32
+	end
+
+	object label1 : VCF::Label 
+		left = 10
+		top = 10
+		width = 200
+		height = TextHeight
+		caption = 'DIGG Search'
+		color.red = 0.87
+		color.green = 0.87
+		color.blue = 0.87
+		transparent = false
+		anchor = [AnchorTop,AnchorLeft,AnchorRight]
+		verticalAlignment = tvaTextCenter
+	end
+
+	object searchEdit : VCF::TextControl 
+		left = 220
+		top = 10
+		width = 210
+		height = TextHeight
+		anchor = [AnchorTop,AnchorRight]
+	end
+
+	object searchBtn : VCF::CommandButton 
+		left = 430
+		top = 10
+		width = 50
+		height = TextHeight
+		anchor = [AnchorTop,AnchorRight]
+		caption = 'Search'
+		delegates
+			ButtonClicked = [DiggApp@DiggApp::onSearch]
+		end
+		
+	end
+
+	object listView : VCF::ListViewControl
+		left = 10
+		top = 40
+		width = 470
+		height = 400
+		anchor = [AnchorTop,AnchorLeft,AnchorRight,AnchorBottom]
+		iconStyle = isDetails
+		smallImageList = @images;
+
+		object col1 : VCF::ColumnItem 
+			caption = 'Id'			
+		end
+		object col2 : VCF::ColumnItem 
+			caption = 'Title'			
+		end
+		object col3 : VCF::ColumnItem 
+			caption = 'Description'			
+		end
+		object col4 : VCF::ColumnItem 
+			caption = 'Num Diggs'			
+		end
+		object col5 : VCF::ColumnItem 
+			caption = 'Href link'			
+		end
+
+		popupMenu = @viewMenu
+	end
+
+	object statusBar : VCF::StatusBar
+		status[0] = 'Status: '
+	end	
+
+	object viewMenu : VCF::PopupMenu
+		object vmList : VCF::DefaultMenuItem
+			caption = 'List'
+			delegates
+				MenuItemClicked = [DiggApp@DiggApp::viewAsList]
+			end
+		end
+
+		object vmDetails : VCF::DefaultMenuItem
+			caption = 'Details'
+			delegates
+				MenuItemClicked = [DiggApp@DiggApp::viewAsDetails]
+			end
+		end
+	end
+end
