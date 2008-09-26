@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="XMLKitDLL"
 	ProjectGUID="{2BADC608-7B7F-4195-A8FF-CE602C8D85B8}"
+	RootNamespace="XMLKitDLL"
 	>
 	<Platforms>
 		<Platform
@@ -74,12 +75,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\..\bin\XMLKit_vc6.dll"
+				OutputFile="..\..\..\bin\XMLKit_vc8.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\..\lib"
-				ProgramDatabaseFile=".\..\..\..\lib/XMLKit_vc6.pdb"
-				ImportLibrary=".\..\..\..\lib/XMLKit_vc6.lib"
+				ProgramDatabaseFile=".\..\..\..\lib/XMLKit_vc8.pdb"
+				ImportLibrary=".\..\..\..\lib/XMLKit_vc8.lib"
 				TargetMachine="1"
 			/>
 			<Tool

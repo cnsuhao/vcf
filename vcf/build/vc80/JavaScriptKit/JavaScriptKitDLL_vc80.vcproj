@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="JavaScriptKitDLL"
 	ProjectGUID="{0B47E87D-E3BB-4F3F-8D8E-40ABB2C06CD9}"
+	RootNamespace="JavaScriptKitDLL"
 	>
 	<Platforms>
 		<Platform
@@ -175,7 +176,7 @@
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				ProgramDatabaseFile=".\..\..\..\bin/JavaScriptKit_vc80.pdb"
-				ImportLibrary=".\..\..\..\bin/JavaScriptKit_vc80.lib"
+				ImportLibrary="../../../lib/JavaScriptKit_vc80.lib"
 				TargetMachine="1"
 			/>
 			<Tool

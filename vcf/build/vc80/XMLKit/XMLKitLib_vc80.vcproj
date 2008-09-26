@@ -4,6 +4,7 @@
 	Version="8.00"
 	Name="XMLKitLib"
 	ProjectGUID="{8F0C98AE-A988-446E-B0FF-720A8DBCC6E0}"
+	RootNamespace="XMLKitLib"
 	>
 	<Platforms>
 		<Platform
@@ -68,7 +69,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\lib\XMLKit_vc6_sd.lib"
+				OutputFile="..\..\..\lib\XMLKit_vc8_sd.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -144,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\..\lib\XMLKit_vc6_s.lib"
+				OutputFile="..\..\..\lib\XMLKit_vc8_s.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
