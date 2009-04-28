@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="paintlib" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="mingw_Debug">
+				<Option output="..\..\..\..\..\..\lib\libpaintlib_mgcc_sd.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="mgcc\Debug\" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option projectResourceIncludeDirsRelation="0" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-frtti" />
+					<Add option="-pipe" />
+					<Add option="-fexceptions" />
+					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-Wno-multichar" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_LIB" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-DVCF_MINGW" />
+					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
+					<Add option="-DUSE_LIBTIFF_LIB" />
+					<Add option="-DUSE_LIBJPEG_LIB" />
+					<Add option="-DUSE_LIBPNG_LIB" />
+					<Add option="-DUSE_ZLIB_LIB" />
+					<Add directory="$(VCF_ROOT)\src" />
+					<Add directory="." />
+					<Add directory="..\..\common" />
+					<Add directory="..\..\common\filter" />
+					<Add directory="..\..\..\LibTIFF" />
+					<Add directory="..\..\..\LibJPEG" />
+					<Add directory="..\..\..\LibPNG" />
+					<Add directory="..\..\..\ZLib" />
+					<Add directory="..\..\..\Libungif\lib" />
+					<Add directory="..\..\..\Libcurl\include\" />
+				</Compiler>
+				<Linker>
+					<Add library="winmm" />
+					<Add directory="$(VCF_ROOT)\lib\" />
+				</Linker>
+			</Target>
+			<Target title="mingw_Release">
+				<Option output="..\..\..\..\..\..\lib\libpaintlib_mgcc_s.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="mgcc\Release\" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option projectResourceIncludeDirsRelation="0" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-W" />
+					<Add option="-frtti" />
+					<Add option="-pipe" />
+					<Add option="-fexceptions" />
+					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-Wno-multichar" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_LIB" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-DVCF_MINGW" />
+					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
+					<Add option="-DUSE_LIBTIFF_LIB" />
+					<Add option="-DUSE_LIBJPEG_LIB" />
+					<Add option="-DUSE_LIBPNG_LIB" />
+					<Add option="-DUSE_ZLIB_LIB" />
+					<Add directory="$(VCF_ROOT)\src" />
+					<Add directory="." />
+					<Add directory="..\..\common" />
+					<Add directory="..\..\common\filter" />
+					<Add directory="..\..\..\LibTIFF" />
+					<Add directory="..\..\..\LibJPEG" />
+					<Add directory="..\..\..\LibPNG" />
+					<Add directory="..\..\..\ZLib" />
+					<Add directory="..\..\..\Libungif\lib" />
+					<Add directory="..\..\..\Libcurl\include\" />
+				</Compiler>
+				<Linker>
+					<Add library="winmm" />
+					<Add directory="$(VCF_ROOT)\lib\" />
+				</Linker>
+			</Target>
+			<Environment>
+				<Variable name="COMPILER_VER" value="" />
+				<Variable name="COMPILER" value="mgcc" />
+			</Environment>
+		</Build>
+		<Unit filename="..\..\Common\config.h" />
+		<Unit filename="..\..\Common\jmemsrc.h" />
+		<Unit filename="..\..\Common\tif_msrc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\Common\tif_msrc.h" />
+		<Unit filename="..\..\common\Filter\PLFilter.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilter.h" />
+		<Unit filename="..\..\common\Filter\PLFilterContrast.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterContrast.h" />
+		<Unit filename="..\..\common\Filter\PLFilterCrop.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterCrop.h" />
+		<Unit filename="..\..\common\Filter\PLFilterFill.h" />
+		<Unit filename="..\..\common\Filter\PLFilterFillRect.h" />
+		<Unit filename="..\..\common\Filter\PLFilterFlip.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterFlip.h" />
+		<Unit filename="..\..\common\Filter\PLFilterGetAlpha.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterGetAlpha.h" />
+		<Unit filename="..\..\common\Filter\PLFilterGrayscale.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterGrayscale.h" />
+		<Unit filename="..\..\common\Filter\PLFilterIntensity.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterIntensity.h" />
+		<Unit filename="..\..\common\Filter\PLFilterLightness.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterLightness.h" />
+		<Unit filename="..\..\common\Filter\PLFilterMirror.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterMirror.h" />
+		<Unit filename="..\..\common\Filter\PLFilterQuantize.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterQuantize.h" />
+		<Unit filename="..\..\common\Filter\PLFilterResize.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterResize.h" />
+		<Unit filename="..\..\common\Filter\PLFilterResizeBilinear.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterResizeBilinear.h" />
+		<Unit filename="..\..\common\Filter\PLFilterResizeBox.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterResizeBox.h" />
+		<Unit filename="..\..\common\Filter\PLFilterResizeGaussian.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterResizeGaussian.h" />
+		<Unit filename="..\..\common\Filter\PLFilterResizeHamming.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterResizeHamming.h" />
+		<Unit filename="..\..\common\Filter\PLFilterThreshold.cpp" />
+		<Unit filename="..\..\common\Filter\PLFilterThreshold.h" />
+		<Unit filename="..\..\common\Filter\PLFilterVideoInvert.h" />
+		<Unit filename="..\..\common\Filter\pl2PassScale.h" />
+		<Unit filename="..\..\common\Filter\plcontribdefs.h" />
+		<Unit filename="..\..\common\Filter\plfiltercolorize.cpp" />
+		<Unit filename="..\..\common\Filter\plfiltercolorize.h" />
+		<Unit filename="..\..\common\Filter\plfilterfliprgb.cpp" />
+		<Unit filename="..\..\common\Filter\plfilterfliprgb.h" />
+		<Unit filename="..\..\common\Filter\plfilterpixel.h" />
+		<Unit filename="..\..\common\Filter\plfilterrotate.cpp" />
+		<Unit filename="..\..\common\Filter\plfilterrotate.h" />
+		<Unit filename="..\..\common\Filter\plfiltervideoinvert.cpp" />
+		<Unit filename="..\..\common\Filter\plhsvconvert.cpp" />
+		<Unit filename="..\..\common\Filter\plhsvconvert.h" />
+		<Unit filename="..\..\common\Filter\plinplacefilter.cpp" />
+		<Unit filename="..\..\common\Filter\plinplacefilter.h" />
+		<Unit filename="..\..\common\PLObject.cpp" />
+		<Unit filename="..\..\common\PLObject.h" />
+		<Unit filename="..\..\common\config.vc" />
+		<Unit filename="..\..\common\jmemdest.cpp" />
+		<Unit filename="..\..\common\jmemdest.h" />
+		<Unit filename="..\..\common\jmemsrc.cpp" />
+		<Unit filename="..\..\common\planybmp.cpp" />
+		<Unit filename="..\..\common\planybmp.h" />
+		<Unit filename="..\..\common\planydec.cpp" />
+		<Unit filename="..\..\common\planydec.h" />
+		<Unit filename="..\..\common\plbitmap.cpp" />
+		<Unit filename="..\..\common\plbitmap.h" />
+		<Unit filename="..\..\common\plbmpbase.cpp" />
+		<Unit filename="..\..\common\plbmpbase.h" />
+		<Unit filename="..\..\common\plbmpdec.cpp" />
+		<Unit filename="..\..\common\plbmpdec.h" />
+		<Unit filename="..\..\common\plbmpenc.cpp" />
+		<Unit filename="..\..\common\plbmpenc.h" />
+		<Unit filename="..\..\common\plbmpinfo.cpp" />
+		<Unit filename="..\..\common\plbmpinfo.h" />
+		<Unit filename="..\..\common\plcountedpointer.h" />
+		<Unit filename="..\..\common\pldatasink.cpp" />
+		<Unit filename="..\..\common\pldatasink.h" />
+		<Unit filename="..\..\common\pldatasrc.cpp" />
+		<Unit filename="..\..\common\pldatasrc.h" />
+		<Unit filename="..\..\common\pldebug.h" />
+		<Unit filename="..\..\common\pldecoderfactory.h" />
+		<Unit filename="..\..\common\plexcept.cpp" />
+		<Unit filename="..\..\common\plexcept.h" />
+		<Unit filename="..\..\common\plexif.cpp" />
+		<Unit filename="..\..\common\plfilesink.cpp" />
+		<Unit filename="..\..\common\plfilesink.h" />
+		<Unit filename="..\..\common\plfilesrc.cpp" />
+		<Unit filename="..\..\common\plfilesrc.h" />
+		<Unit filename="..\..\common\plgifdec.h" />
+		<Unit filename="..\..\common\pliff85.h" />
+		<Unit filename="..\..\common\pliff85dec.cpp" />
+		<Unit filename="..\..\common\pliff85dec.h" />
+		<Unit filename="..\..\common\pljpegdec.cpp" />
+		<Unit filename="..\..\common\pljpegdec.h" />
+		<Unit filename="..\..\common\pljpegenc.cpp" />
+		<Unit filename="..\..\common\pljpegenc.h" />
+		<Unit filename="..\..\common\plmemsink.cpp" />
+		<Unit filename="..\..\common\plmemsink.h" />
+		<Unit filename="..\..\common\plmemsrc.cpp" />
+		<Unit filename="..\..\common\plmemsrc.h" />
+		<Unit filename="..\..\common\plpaintlibdefs.h" />
+		<Unit filename="..\..\common\plpcx.h" />
+		<Unit filename="..\..\common\plpcxdec.cpp" />
+		<Unit filename="..\..\common\plpcxdec.h" />
+		<Unit filename="..\..\common\plpgm.h" />
+		<Unit filename="..\..\common\plpgmdec.cpp" />
+		<Unit filename="..\..\common\plpgmdec.h" />
+		<Unit filename="..\..\common\plpicdec.cpp" />
+		<Unit filename="..\..\common\plpicdec.h" />
+		<Unit filename="..\..\common\plpicenc.cpp" />
+		<Unit filename="..\..\common\plpicenc.h" />
+		<Unit filename="..\..\common\plpictdec.cpp" />
+		<Unit filename="..\..\common\plpictdec.h" />
+		<Unit filename="..\..\common\plpixel24.h" />
+		<Unit filename="..\..\common\plpixel32.h" />
+		<Unit filename="..\..\common\plpixel8.h" />
+		<Unit filename="..\..\common\plpixeldefs.h" />
+		<Unit filename="..\..\common\plpixelformat.cpp" />
+		<Unit filename="..\..\common\plpixelformat.h" />
+		<Unit filename="..\..\common\plpngdec.cpp" />
+		<Unit filename="..\..\common\plpngdec.h" />
+		<Unit filename="..\..\common\plpngenc.cpp" />
+		<Unit filename="..\..\common\plpngenc.h" />
+		<Unit filename="..\..\common\plpoint.h" />
+		<Unit filename="..\..\common\plppm.h" />
+		<Unit filename="..\..\common\plppmdec.cpp" />
+		<Unit filename="..\..\common\plppmdec.h" />
+		<Unit filename="..\..\common\plprognot.h" />
+		<Unit filename="..\..\common\plpsddec.cpp" />
+		<Unit filename="..\..\common\plpsddec.h" />
+		<Unit filename="..\..\common\plrect.h" />
+		<Unit filename="..\..\common\plsgidec.cpp" />
+		<Unit filename="..\..\common\plsgidec.h" />
+		<Unit filename="..\..\common\plstdpch.h" />
+		<Unit filename="..\..\common\plsubbmp.cpp" />
+		<Unit filename="..\..\common\plsubbmp.h" />
+		<Unit filename="..\..\common\pltga.h" />
+		<Unit filename="..\..\common\pltgadec.cpp" />
+		<Unit filename="..\..\common\pltgadec.h" />
+		<Unit filename="..\..\common\pltiffdec.cpp" />
+		<Unit filename="..\..\common\pltiffdec.h" />
+		<Unit filename="..\..\common\pltiffenc.cpp" />
+		<Unit filename="..\..\common\pltiffenc.h" />
+		<Unit filename="..\..\common\pltiffencex.cpp" />
+		<Unit filename="..\..\common\pltiffencex.h" />
+		<Unit filename="..\..\common\plwindefs.h" />
+		<Unit filename="plStreamSink.cpp" />
+		<Unit filename="plStreamSink.h" />
+		<Unit filename="pldibsect.cpp" />
+		<Unit filename="pldibsect.h" />
+		<Unit filename="plressrc.cpp" />
+		<Unit filename="plressrc.h" />
+		<Unit filename="plwemfdec.cpp" />
+		<Unit filename="plwemfdec.h" />
+		<Unit filename="plwinbmp.cpp" />
+		<Unit filename="plwinbmp.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

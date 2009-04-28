@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="NetworkKit" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="mingw_Release">
+				<Option output="..\..\..\lib\libNetworkKit_$(COMPILER)$(COMPILER_VER)_s.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="$(COMPILER)$(COMPILER_VER)\ReleaseS\" />
+				<Option external_deps="$(VCF_ROOT)\lib\libFoundationKit_mgcc_s.a;" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-w" />
+					<Add option="-pipe" />
+					<Add option="-frtti" />
+					<Add option="-fexceptions" />
+					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-Wno-multichar" />
+					<Add option="-DNDEBUG" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D_LIB" />
+					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
+					<Add option="-DUSE_FOUNDATIONKIT_LIB" />
+				</Compiler>
+				<Linker>
+					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)_s" />
+				</Linker>
+				<Environment>
+					<Variable name="COMPILER_VER" value="" />
+					<Variable name="COMPILER" value="mgcc" />
+				</Environment>
+			</Target>
+			<Target title="mingw_Debug">
+				<Option output="..\..\..\lib\libNetworkKit_$(COMPILER)$(COMPILER_VER)_sd.a" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="" />
+				<Option object_output="$(COMPILER)$(COMPILER_VER)\DebugS\" />
+				<Option external_deps="$(VCF_ROOT)\lib\libFoundationKit_mgcc_sd.a;" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option projectIncludeDirsRelation="2" />
+				<Option projectResourceIncludeDirsRelation="2" />
+				<Option projectLibDirsRelation="2" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-pipe" />
+					<Add option="-frtti" />
+					<Add option="-fexceptions" />
+					<Add option="-mthreads" />
+					<Add option="-fmessage-length=0" />
+					<Add option="-Winvalid-pch" />
+					<Add option="-Wno-multichar" />
+					<Add option="-D_DEBUG" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WIN32" />
+					<Add option="-D_WINDOWS" />
+					<Add option="-D_LIB" />
+					<Add option="-DVCF_DISABLE_PRAGMA_LINKING" />
+					<Add option="-DUSE_FOUNDATIONKIT_LIB" />
+				</Compiler>
+				<Linker>
+					<Add library="FoundationKit_$(COMPILER)$(COMPILER_VER)_sd" />
+				</Linker>
+				<Environment>
+					<Variable name="COMPILER_VER" value="" />
+					<Variable name="COMPILER" value="mgcc" />
+				</Environment>
+			</Target>
+		</Build>
+		<VirtualTargets>
+			<Add alias="All" targets="mingw_Release;mingw_Debug;" />
+		</VirtualTargets>
+		<Compiler>
+			<Add directory='&quot;$(VCF_ROOT)\src&quot;' />
+		</Compiler>
+		<Linker>
+			<Add directory='&quot;$(VCF_ROOT)\lib&quot;' />
+		</Linker>
+		<Unit filename="..\..\..\src\vcf\NetworkKit\IPAddress.cpp" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\IPAddress.h" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\IPAddressPeer.h" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\NetworkExceptions.h" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\NetworkKit.cpp" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\NetworkKit.h" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\NetworkToolkit.cpp" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\NetworkToolkit.h" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\Socket.cpp" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\Socket.h" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\Win32IPAddressPeer.cpp" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\Win32IPAddressPeer.h" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\Win32NetworkToolkit.cpp" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\Win32NetworkToolkit.h" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\Win32SocketPeer.cpp" />
+		<Unit filename="..\..\..\src\vcf\NetworkKit\Win32SocketPeer.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

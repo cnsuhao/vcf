@@ -1,0 +1,792 @@
+<!--------------------------------------------------------------------------->  
+<!--                           INTRODUCTION                                
+
+ The Code Project article submission template (HTML version)
+
+Using this template will help us post your article sooner. To use, just 
+follow the 3 easy steps below:
+ 
+     1. Fill in the article description details
+     2. Add links to your images and downloads
+     3. Include the main article text
+
+That's all there is to it! All formatting will be done by our submission
+scripts and style sheets. 
+
+-->  
+<!--------------------------------------------------------------------------->  
+<!--                        IGNORE THIS SECTION                            -->
+<html>
+<head>
+<title>The Code Project</title>
+<Style>
+BODY, P, TD { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt }
+H2,H3,H4,H5 { color: #ff9900; font-weight: bold; }
+H2 { font-size: 13pt; }
+H3 { font-size: 12pt; }
+H4 { font-size: 10pt; color: black; }
+PRE { BACKGROUND-COLOR: #FBEDBB; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; }
+CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
+</style>
+<link rel="stylesheet" type=text/css href="http://www.codeproject.com/styles/global.css">
+</head>
+<body bgcolor="#FFFFFF" color=#000000>
+<!--------------------------------------------------------------------------->  
+
+
+<!-------------------------------     STEP 1      --------------------------->
+<!--  Fill in the details (CodeProject will reformat this section for you) -->
+
+<pre>
+Title:       MVC in the Visual Component Framework, Part II
+Author:      Jim Crafton
+Email:       jim.crafton@gmail.com	
+Member ID:   12433
+Language:    C++
+Platform:    Windows
+Technology:  
+Level:       Intermediate
+Description: Part 2 of 4 that explores the Model-View-Controller Pattern in the Visual Component Framework
+Section      Libraries
+SubSection   General
+License:     BSD
+</pre>
+
+<!-------------------------------     STEP 2      --------------------------->
+<!--  Include download and sample image information.                       --> 
+
+<ul class=download>
+<li><a href="http://downloads.sourceforge.net/vcf/vcf-0.9.8.tar.gz?big_mirror=1">Download VCF source (tar.gz) from SourceForge - 10.5 MB</a></li>
+<li><a href="http://downloads.sourceforge.net/vcf/VCFSrcOnlyInstaller-0.9.8.exe?big_mirror=1">Download VCF Windows Installer from SourceForge - 37.2 MB</a></li>
+
+</ul>
+
+
+
+<!-------------------------------     STEP 3      --------------------------->
+
+<p><img src="vcfmvc2/scribble10.png" ></p>
+
+<h2>Introduction</h2>
+<p>
+The previous article introduced the idea of the Model-View-Controller (MVC)
+pattern and how it's implemented in the Visual Component Framework. This
+article will take those ideas and start to build upon them with a new 
+application that we'll add full blown MVC support and all sorts of other
+cool features. It will be similar in nature to the MFC Scribble example
+that Microsoft distributes.
+</p>
+<h2>Scribble 1</h2>
+<p>
+First we'll create a new project for our scribble app, call it Scribble1
+and we'll start by dealing with our model class. Our model will consist
+of a list of shapes, with each shape consisting of a array of points, 
+a fill and stroke color, a 2D matrix, a stroke width, a boolean to 
+indicate whether or not the shape is filled, and type to indicate the 
+type of shape we're dealing with. A more "correct" OO design would probably
+replace the type with derived classes for the specific drawing shapes,
+but we'll ignore that for the sake of brevity. Here's the shape class:
+<pre>
+class ScribbleShape : public VCF::Object {
+public:
+  ScribbleShape():type(stLine),strokeWidth(1.0),filled(true) {}
+  enum Type {
+    stLine,
+    stRect,
+    stEllipse,
+    stPolygon,
+    stFreehand
+  };
+  
+  Matrix2D mat;
+  std::vector&lt;Point&gt; points;
+  Type type;
+  double strokeWidth;
+  bool filled;
+  Color fill;
+  Color stroke;	
+};
+</pre>
+To make it easier to implement, our model class will derive from
+SimpleListModel. This is a basic implementation of the ListModel
+class, and stores data as an array of VarianData objects. In 
+addition our model will add a default shape, from which shapes
+will get their initial settings, and a background color. 
+<pre>
+class ScribbleModel : public VCF::SimpleListModel {
+public:
+  ScribbleModel(){
+    //set this to true to 
+    //delete all our objects
+    deleteVariantObjects_ = true;
+  
+    backColor = *Color::getColor("white");
+  }
+  
+  ScribbleShape* getShape( const unsigned int& index ) {
+    return (ScribbleShape*) (VCF::Object*) get(index);
+  }
+  
+  void addLine( const Point& p1, const Point& p2 ) {
+    ScribbleShape* s = new ScribbleShape();
+    *s = defaultShape;
+    s->points.push_back( p1 );
+    s->points.push_back( p2 );
+    s->type = ScribbleShape::stLine;
+    add( s );
+  }
+  
+  void addRect( const Point& p1, const Point& p2 ) {
+    ScribbleShape* s = new ScribbleShape();
+    *s = defaultShape;
+    s->points.push_back( p1 );
+    s->points.push_back( p2 );
+    s->type = ScribbleShape::stRect;
+    add( s );
+  }
+  
+  void addEllipse( const Point& p1, const Point& p2 ) {
+    ScribbleShape* s = new ScribbleShape();
+    *s = defaultShape;
+    s->points.push_back( p1 );
+    s->points.push_back( p2 );
+    s->type = ScribbleShape::stEllipse;
+    add( s );
+  }
+  
+  //rest omitted
+  
+  void setDefaultWidth( const double& val ) {
+    defaultShape.strokeWidth = val;
+  }
+  
+  void setDefaultFilled( const bool& val ) {
+    defaultShape.filled = val;
+  }
+  
+  //rest omitted
+  
+  
+  void setBackColor( Color* val ) {
+    backColor = *val;
+    VCF::ModelEvent e( this, VCF::Model::MODEL_CHANGED );
+    changed( &e );
+  }
+  
+  Color* getBackColor() {
+    return &backColor;
+  }
+  
+  Rect getMaxBounds();
+  
+  protected:
+  ScribbleShape defaultShape;
+  Color backColor;
+};
+
+</pre>
+</p>
+
+<p>
+This gives us a basic model for storing shapes. Since each ScribbleShape
+derives from Object, we can store it in the array of VariantData items
+that the model maintains for us. When we add shapes to the model, the
+ModelChanged delegate is triggered, and the normal update mechanism
+for any associated views takes place. With that in mind let's move on 
+to the UI.
+</p>
+<h2>The Scribble UI: a first cut</h2>
+<p>
+Our first UI for the scribble app will be very simple. We will use
+the main window itself as our view, and handle the painting there
+as well. Our painting logic simply iterates through all the 
+shape objects in the model, and then draws each shape. 
+<pre>
+virtual void paint( GraphicsContext* ctx ) {
+  Window::paint( ctx );
+  
+  ScribbleModel* scribble = (ScribbleModel*) getViewModel();
+  
+  Rect r = getClientBounds();
+  
+  ctx->rectangle( r );
+  ctx->setColor( scribble->getBackColor() );
+  ctx->fillPath();
+  
+  size_t count = scribble->getCount();
+  for (size_t i=0;i&lt;count;i++ ) {
+    const ScribbleShape* shape = scribble->getShape(i);			
+  
+    int gcs = ctx->saveState();
+  
+    ctx->setCurrentTransform( shape->mat );
+    switch ( shape->type ) {
+      case ScribbleShape::stLine : {
+        ctx->setColor( &shape->stroke );
+        ctx->moveTo( shape->points[0] );
+        ctx->lineTo( shape->points[1] );
+        ctx->strokePath();
+      }
+      break;
+  
+      case ScribbleShape::stRect : {
+        
+        r.setRect( shape->points[0].x_, shape->points[0].y_,
+              shape->points[1].x_, shape->points[1].y_ );
+        ctx->rectangle( r );
+      }
+      break;
+  
+      case ScribbleShape::stEllipse : {
+        r.setRect( shape->points[0].x_, shape->points[0].y_,
+              shape->points[1].x_, shape->points[1].y_ );
+  
+        ctx->ellipse( r.getTopLeft(), r.getBottomRight() );					
+      }
+      break;
+  
+      case ScribbleShape::stPolygon : {
+        ctx->polyline( shape->points );
+        ctx->closePath( shape->points.back() );
+      }
+      break;
+  
+      case ScribbleShape::stFreehand : {
+        ctx->polyline( shape->points );
+      }
+      break;
+    }
+  
+    if ( shape->type != ScribbleShape::stLine ) {
+      if ( shape->filled ) {
+        ctx->setColor( &shape->fill );
+        ctx->fillPath();
+      }
+  
+      ctx->setStrokeWidth( shape->strokeWidth );
+      ctx->setColor( &shape->stroke );
+      ctx->strokePath();
+    }
+  
+    ctx->restoreState( gcs );
+  }
+}
+</pre>
+</p>
+<p>
+The code is reasonably simple, note that the Window, which
+derives from Control and is therefore also a View, gets it's
+model using the getViewModel() method. This makes the code 
+pretty easy to migrate to anything else that has a model later on.
+</p>
+<p>
+Like the previous article, we'll use the VFF format here to 
+define the basic window UI, but it will be very simple:
+<pre>
+object Scribble1Window  : VCF::Window
+	top = 200
+	left = 200
+	height = 300
+	width = 320
+	caption = 'Scribble1 Window'
+
+end
+</pre>
+Just enough to position the window set it's title. The rest of
+work will be done in the window's constructor:
+<pre>
+Scribble1Window() {
+  ScribbleModel* scribble = new ScribbleModel();
+
+  addComponent( scribble );
+  scribble->addView( this );
+
+  scribble->addLine( Point(10, 100), Point(100, 300) );
+
+  scribble->addRect( Point(100, 20), Point(200, 110) );
+
+  ScribbleShape* shape = new ScribbleShape();
+  shape->type = ScribbleShape::stPolygon;
+  shape->points.push_back( Point(40, 30) );
+  shape->points.push_back( Point(34, 120) );
+  shape->points.push_back( Point(200, 180) );
+  shape->points.push_back( Point(300, 100) );
+  shape->points.push_back( Point(260, 80) );
+  shape->points.push_back( Point(100, 40) );
+  shape->strokeWidth = 5;
+  shape->filled = true;
+  shape->fill = *Color::getColor("red");
+  shape->stroke = *Color::getColor("purple");
+  shape->mat = Matrix2D::translation( -40, -30 ) * 
+                Matrix2D::rotation(-25) * 
+                Matrix2D::translation( 70, 200 );
+                
+  scribble->add( shape );
+}
+</pre>
+</p>
+<p>
+The code creates a new ScribbleModel instance and adds the window
+(as a view) to the model. We create three shapes, the first two calls
+are done using the specific ScribbleModel methods to make a shape,
+and the third call creates a ScribbleShape from scratch and adds
+it using the ListModel::add() method. Since the ListModel::add() 
+method takes a VariantData object, we can pass in our ScribbleShape
+instance pointer. Once we build all this and run it, we end up
+with something like this:
+</p>
+<p>
+<img src="vcfmvc2/sc2.png">
+</p>
+<p>
+At this point we now have a functioning, if simple, model that can 
+maintain shapes, and a view that can draw them. Next we'll look at 
+making the model a little more sophisticated so that we can manipulate
+it in the VFF resource.
+</p>
+<h2>Scribble 2: VFF support</h2>
+<p>
+Our next step will allow us to have something like this in the 
+program's VFF resource:
+<pre>
+object scribble : ScribbleModel 
+  backColor.red = 1.0
+  backColor.green = 0.20
+
+  shapes[0].fill.red = 0.12
+  shapes[0].fill.blue = 0.52
+  shapes[0].fill.green = 0.92
+  shapes[0].data = 'line M 10 10 L 50 300'
+end
+</pre>
+As you can see, we can create a scribble model, and add shapes as 
+we see fit, and modify their properties. This makes it easy to 
+test out different shapes, colors, and so on. 
+</p>
+<p>
+To do this, the first thing we need to do is add the VCF's RTTI support 
+for our two classes, the ScribbleModel and ScribbleShape. We do this with 
+the _class_rtti_ macro, like so:
+<pre>
+
+_class_rtti_(ScribbleShape, "VCF::Object", "ScribbleShape")
+_class_rtti_end_
+
+_class_rtti_(ScribbleModel, "VCF::SimpleListModel", "ScribbleModel")
+_class_rtti_end_
+</pre>
+This allows us to create class instances of dynamically. Next
+we need to add property support to the ScribbleShape class
+so that we can access the various attributes of the class. 
+To do so we use the VCF's _property_ macros, like this:
+<pre>
+_class_rtti_(ScribbleShape, "VCF::Object", "ScribbleShape")
+_property_object_( Color, "fill", getFill, setFill, "" );
+_property_object_( Color, "stroke", getStroke, setStroke, "" );
+_property_( double, "strokeWidth", getStrokeWidth, setStrokeWidth, "" );
+_property_( bool, "filled", getFilled, setFilled, "" );
+_property_( String, "data", getData, setData, "" );
+_property_( double, "rotation", getRotation, setRotation, "" );
+_property_( double, "transX", getTranslateX, setTranslateX, "" );
+_property_( double, "transY", getTranslateY, setTranslateY, "" );
+_property_( double, "scaleX", getScaleX, setScaleX, "" );
+_property_( double, "scaleY", getScaleY, setScaleY, "" );
+_property_( double, "shearX", getShearX, setShearX, "" );
+_property_( double, "shearY", getShearY, setShearY, "" );
+_class_rtti_end_
+</pre>
+The macro takes the property type, property name, getter and setter 
+methods, and a description string (which we'll leave blank). The 
+_property_object_ is similar to the _property_ macro, only it's 
+specifically used for attributes that derived from VCF's Object
+class.
+</p>
+<p>
+The main thing we've added here is the ability to define the
+points of a shape in a string, similar to how points are defined
+in SVG, for example
+<pre>
+line M 10 10 L 50 300
+</pre>
+This defines a line shape with 2 point, the first a move-to, and the 
+second a line-to point. You could define a polygon:
+<pre>
+poly M 50 100 L 150 250 L 170 220 L 175 210 L 180 165
+</pre>
+Obviously not very sophisticated, but it gives us an easy, if crude,
+way to define shapes.
+</p>
+<p>
+We can do the same thing for the ScribbleModel:
+<pre>
+_class_rtti_(ScribbleModel, "VCF::SimpleListModel", "ScribbleModel")
+_property_object_( Color, "backColor", getBackColor, setBackColor, "" );
+_property_object_( Color, "defaultFill", getDefaultFillColor, setDefaultFillColor, "" );
+_property_object_( Color, "defaultStroke", getDefaultStrokeColor, setDefaultStrokeColor, "" );
+_property_( double, "defaultStrokeWidth", getDefaultWidth, setDefaultWidth, "" );
+_property_( bool, "defaultFilled", getDefaultFilled, setDefaultFilled, "" );
+_class_rtti_end_
+</pre>
+Now the only thing missing is adding specific support for accessing
+the individual ScribbleShape elements. That's what we use the _property_array_
+macro for. This macro takes an element type, and methods to get, set, insert,
+remove, and get the count of elements in the collection/array. We 
+already have all the get, set, insert, remove, and count methods as a part
+of the ListModel class. So we can add it as follows:
+<pre>
+_class_rtti_(ScribbleModel, "VCF::SimpleListModel", "ScribbleModel")
+//rest omitted
+_property_array_( VariantData, "shapes", get,set,insert,remove,getCount, "" )
+_class_rtti_end_
+</pre>
+This now allows us to access elements in the list model by index, using the "[]"
+notation. So we can write code in the VFF like:
+<pre>
+shapes[1].fill.red = 0.12
+</pre>
+This will get a shape a index 1, and assign it's fill property (which is 
+a Color object) a red component with a value of 0.12. The only problem
+here is that we need to make sure that our shape exists when the get() 
+method is called. So lets modify our ScribbleModel get method:
+<pre>
+virtual VariantData get( const uint32& index ) {
+
+  size_t missing = 0;
+  if ( (index+1) > data_.size() ) {
+    missing = (index+1) - data_.size();
+  }
+  //add empty shapes if we need to
+  if ( missing > 0 ) {
+    size_t i=data_.size();
+    data_.resize( missing + data_.size() );
+    while ( i < data_.size() ) {
+      data_[i] = new ScribbleShape();
+      i++;
+    }
+  }
+
+  return data_[index];
+}
+</pre>
+This checks to make sure that we always have enough shapes to satisfy the 
+request for an element at some index. Logic like this already exists in
+the SimpleListModel's set() method, but since we are not "setting" an
+element, this doesn't get called. Instead, because we are accessing the 
+element's properties, we first "get" the element and then modify it.
+Because of this we need to make the above modifications.
+</p>
+<p>
+At this point we can modify the model in the VFF resource. This simplifies
+our window constructor, and we can clear out the previous code that was 
+there. Instead we now define the model and associate a view with it
+in the VFF resource, like so:
+<pre>
+object Scribble2Window  : VCF::Window
+  //rest omitted
+  caption = 'Scribble2 Window'
+  
+  model = @scribble
+  
+  object scribble : ScribbleModel 
+    backColor.red = 1.0
+    backColor.green = 0.20
+  
+    shapes[0].fill.red = 0.12
+    shapes[0].fill.blue = 0.52
+    shapes[0].fill.green = 0.92
+    shapes[0].data = 'line M 10 10 L 50 300'
+    
+    //rest omitted
+  end
+end
+</pre>
+Note the "model = @scribble". Even though this comes before the scribble
+instance is defined we can still reference it here, because the VFF 
+loading mechanism will actually link the two later on. Like the previous
+article, by specifying a model here, the view is automatically added
+to the model. The scribble model is defined and we can add shapes to
+it and set their properties. What we end up with is something like this:
+</p>
+<p>
+<img src="vcfmvc2/sc3.png">
+</p>
+<p>
+OK, OK, not the most artistic drawing, but bear with me, we'll do something 
+a bit more interesting later on...
+</p>
+
+<h2>Scribble 3: Views and Controllers</h2>
+<p>
+We're going to add a couple more features here before we finish this 
+part of the series. We'll create a specific Controller and View 
+class for the rendering of the ScribbleModel. We'll look at adding
+a little bit of interactivity as well as responding to model changes.
+</p>
+<p>
+First we'll create a View class. As previously discussed, a View
+tends to be pretty simple, at least in terms of it's interface. 
+Our class will re-implement one method, paintView(). The code that
+we previously put in the window's paint() method, will be moved
+here. 
+<pre>
+class ScribbleView : public AbstractView {
+public:
+  ScribbleView(){}
+  
+  virtual void paintView( GraphicsContext* ctx ) {
+    ScribbleModel* scribble = (ScribbleModel*) getViewModel();
+  
+    Control* control = getViewControl();
+    Rect r = control->getClientBounds();
+  
+    ctx->rectangle( r );
+    ctx->setColor( scribble->getBackColor() );
+    ctx->fillPath();
+  
+    
+    Scrollable* scrollable = control->getScrollable();
+    if ( scrollable ) {
+      Rect viewBounds = ctx->getViewableBounds();
+      
+      Point origin = ctx->getOrigin();
+      
+      control->adjustViewableBoundsAndOriginForScrollable( ctx, viewBounds, origin );
+      
+      ctx->setOrigin( origin );
+      
+      ctx->setViewableBounds( viewBounds );
+    }
+    //rest omitted
+  }
+};
+</pre>
+As we mentioned in the previous article, each view has a control associated with
+it. We use this control to determine our initial bounding rect. Next we
+add support for scroll bars. A Scrollable represents something that can 
+be scrolled vertically and/or horizontally. A control supports scrolling if
+it's assigned a scrollable instance (by default it has none), and therefore
+returns a non-null value when the Control::getScrollable() method is called.
+If the control has a scrolling support, we adjust the graphics context's origin
+and viewable bounds for the scrollable object. This takes into consideration
+where the scrollbars may be and the "virtual" height and/or width of the view.
+After that's taken care of, the rest of the painting code is largely the same
+as the previous code. One other feature we added was the concept of an "active"
+shape. If the model has an active shape, then we'll draw that slightly differently
+so it stands out a bit.
+</p>
+<p>
+With our new view class, our window code has shrunken considerably!
+<pre>
+class Scribble3Window : public Window {
+public:
+  Scribble3Window() {
+    
+  }
+  virtual ~Scribble3Window(){};
+};
+</pre>
+</p>
+<p>
+Next up: let's formally add an honest-to-goodness controller class. We'll
+call it, oddly enough, ScribbleController, and it will have a couple of 
+responsibilities. First it will listen for mouse move events from it's 
+target control that the controller is associated with. If the controller
+determines that the mouse is over a shape, then it will set the model's
+active shape. Next it will get notified when the model changes. When this
+happens the controller will get the maximum bounds from the model and then
+set the control's virtual height and width of it's scrollable instance.
+This addjusts the presence (or absence) of scrollbars for the control.
+</p>
+<p>
+The basics of this look like:
+<pre>
+
+class ScribbleController : public Component {
+public:
+  ScribbleController(): model(NULL), modelControl(NULL),activeShape(NULL) {
+    addCallback( new ClassProcedure1&lt;Event*,ScribbleController&gt;(this, 
+                                  &ScribbleController::onModelChanged), 
+                "ScribbleController::onModelChanged" );
+    addCallback( new ClassProcedure1&lt;MouseEvent*,ScribbleController&gt;(this, 
+                                  &ScribbleController::onMouseMove), 
+                "ScribbleController::onMouseMove" );
+    addCallback( new ClassProcedure1&lt;MouseEvent*,ScribbleController&gt;(this, 
+                                  &ScribbleController::onMouseDown), 
+                "ScribbleController::onMouseDown" );
+    addCallback( new ClassProcedure1&lt;MouseEvent*,ScribbleController&gt;(this, 
+                                  &ScribbleController::onMouseUp), 
+                "ScribbleController::onMouseUp" );
+  }
+  
+  void setControl( Control* val );
+  
+  void setModel( ScribbleModel* scribbleModel );
+  
+  void onModelChanged( Event* e );
+  
+  void onMouseMove( MouseEvent* e );
+  
+  void onMouseDown( MouseEvent* e );
+  
+  void onMouseUp( MouseEvent* e );
+  
+  const ScribbleShape* hitTest( const Point& point );
+  
+  Control* modelControl;
+  ScribbleModel* model;
+  const ScribbleShape* activeShape;
+};
+</pre>
+Our control will be initialized in two steps. First it will have it's 
+control set, the setControl() method, which will be used to hook up
+the various callbacks of the controller to the control's delegates.
+Then it will have it's model set and will add a callback to the model
+so that the controller is  notified when the model changes.
+</p>
+<p>
+The onMouseMove() callback will be used to track the users mouse position.
+It will call hitTest() to determine if the mouse is over a shape. If it
+is it will highlight it. One thing to note here: there no drawing 
+being done outside the windowing systems paint cycle. Instead state 
+variables are set and then if somethings state has changed (like the model)
+the control(s) are repainted. This is a little different than some Win32/MFC/WTL
+examples have worked in the past in that they will draw on the HDC whenever
+they feel like. 
+</p>
+<p>
+As we mentioned are going to support scrolling in this step. If a control
+has a scrollable instance, then the framework will do most of the grunt 
+work for you. The main thing you have to worry about is setting the 
+virtual width and height. This lets the framework understand how to set
+up the scrollbars correctly. You only need to set the virtual dimensions
+once, or at least whenever they need to change (for example when the
+model changes). If the control's bounds change (for example they are resized),
+the framework will adjust the scroll bars accordingly.<br><br>
+<i>Virtual width and height</i><br>
+<img src="vcfmvc2/scroll-diagram.png">
+</p>
+<p>
+The code to accomplish this is pretty simple:
+<pre>
+void onModelChanged( Event* e ) {
+  Scrollable* scrollable = modelControl->getScrollable();
+  
+  
+  if ( NULL != scrollable ) {
+    Rect bounds = model->getMaxBounds();
+    bounds.inflate( 0,0,20,20);
+    scrollable->setVirtualViewHeight( bounds.getHeight() );
+    scrollable->setVirtualViewWidth( bounds.getWidth() );
+  }
+}
+</pre>
+To make this work we do need to make a small change to the windows 
+VFF resource. We need to create a scrollbar manager component and
+set it's "target" (the control that it monitors) to the window. 
+This looks like:
+<pre>
+object Scribble3Window  : VCF::Window
+  top = 200
+  left = 200
+  height = 300
+  width = 320
+  
+  caption = 'Scribble3 Window'
+  
+  //rest omitted
+  
+  object scrollbarMgr : VCF::ScrollbarManager
+    target = @Scribble3Window
+    hasVerticalScrollbar = true
+    hasHorizontalScrollbar = true
+  end
+end
+</pre>
+We specify the target as our main window - the component named 
+Scribble3Window. That's it, the framework will take care of the 
+rest.
+</p>
+<p>
+Finally the last bit is wiring this all up. The VFF resource stays
+largely the same, we'll define our model instance there and define
+it's shapes. The application initialization is where we'll create 
+our new controller and view classes and hook them up to the rest of
+the app.
+<pre>
+class Scribble1Application : public Application {
+public:
+
+  Scribble1Application( int argc, char** argv );
+  
+  virtual bool initRunningApplication(){
+    bool result = Application::initRunningApplication();
+    
+  
+    Window* mainWindow = Frame::createWindow( classid(Scribble3Window) );
+    setMainWindow(mainWindow);
+  
+    ScribbleModel* m = (ScribbleModel*)findComponent( "scribble", true );
+    ScribbleView* view = new ScribbleView();
+    mainWindow->setView( view );
+    m->addView( view );
+    
+    ScribbleController* controller = new ScribbleController();
+    addComponent(controller);
+    controller->setControl( mainWindow );
+    controller->setModel( m );
+  
+    mainWindow->show();
+    
+    return result;
+  }
+};
+</pre>
+First we create the main window, then we create the view. Note how we 
+set the main window's view to our new instance. This now delegates the 
+drawing to our custom view instance. We then add our view to the model.
+Finally we create our controller, and set it's control and model. And 
+<i>Voila!</i>
+</p>
+<p>
+<img src="vcfmvc2/sc4.png">
+</p>
+<p>
+If we move the mouse we get highlighting:<br><br>
+<img src="vcfmvc2/sc4a.png"><br><br>
+If we hover the mouse over a shape we get a tooltip:<br><br>
+<img src="vcfmvc2/sc4b.png"><br><br>
+Resize the window and the scrollbars react accordingly:<br><br>
+<img src="vcfmvc2/sc4c.png"><br><br>
+<img src="vcfmvc2/sc4d.png"><br><br>
+</p>
+
+<h2>Notes on Building the Examples</h2>
+<p>You'll need to have the most recent version of the VCF installed 
+(at least 0-9-8 or better). The current example has an exe that 
+was built with Visual C++ 6. If you'd like to build with a different 
+version of Visual C++, then you'll need to build them manually, 
+and make sure to build the static framework libraries, as opposed 
+to dynamic.
+</p>
+<p>
+If you're unsure how to build the framework proper, please see this: 
+<a href="http://vcf-online.org/docs/ref_manual/ch01s05.html">Building the VCF</a>, 
+it explains the basics of build the framework using 
+various IDEs and tool-chains.
+</p>
+<h2>Conclusion</h2>
+<p>
+We've gone through the basics of creating a custom model, view 
+and controller, as well as adding support for manipulating the model
+in VFF resources. In addition we've added limited support for 
+interactivity and scrollbar for viewing the model. Stay tuned 
+for part III...
+</p>
+<p>
+Questions about the framework are welcome, and you can post them 
+either here, or in the forums. If you have suggestions on how to 
+make any of this better, I'd love to hear them!
+</p>
+</body>
+
+</html>

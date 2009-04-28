@@ -1,0 +1,55 @@
+<plist>
+	<dict>
+		<key>DocumentTypes</key>
+		<array>
+			<dict>
+
+				<!--
+				1 or more file extensions. 
+				-->
+				<key>TypeExtensions</key>
+				<array>
+					<string>scribble</string>
+					<string>scribblex</string>
+				</array>
+
+				<!-- 1 or more file types - maps 1 to 1 to the TypeExtensions -->
+				<key>TypeContent</key>
+				<array>
+					<string>application/x-scribbledoc</string>
+					<string>text/xml</string>
+				</array>
+
+				<!--A description of the document-->
+				<key>TypeDescription</key>
+				<string>Scribble Document</string>
+
+				<!--The content type for the document class-->
+				<key>DocTypeContent</key>
+				<string>application/x-scribbledoc</string>
+
+
+				<!--1 or more content types used clipboard copy/paste 
+						or drag-drop-->
+				<key>ClipboardTypeContent</key>
+				<array>					
+					<string>application/x-scribbleshape</string>
+					<string>text/plain</string>
+				</array>
+
+				<key>TypeIcon</key>
+				<string>scribble-type.bmp</string>
+
+				<key>DocumentClass</key>
+				<string>ScribbleDocument</string>
+
+				<key>ModelClass</key>
+				<string>ScribbleModel</string>
+
+				<key>DocumentWindow</key>
+				<string>Scribble10Window</string>
+
+			</dict>				
+		</array>
+	</dict>
+</plist>

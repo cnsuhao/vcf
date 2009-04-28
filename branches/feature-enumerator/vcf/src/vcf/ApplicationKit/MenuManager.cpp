@@ -1,0 +1,134 @@
+//MenuManager.cpp
+
+/*
+Copyright 2000-2004 The VCF Project.
+Please see License.txt in the top level directory
+where you installed the VCF.
+*/
+
+
+#include "vcf/ApplicationKit/ApplicationKit.h"
+#include "vcf/ApplicationKit/MenuManager.h"
+#include "vcf/ApplicationKit/MenuManagerPeer.h"
+
+
+using namespace VCF;
+
+MenuManager* MenuManager::menuManager = NULL;
+
+
+MenuManager::MenuManager():
+	mainMenu_(NULL),
+	peer_(NULL)
+{
+	peer_ = UIToolkit::createMenuManagerPeer();
+
+	if ( NULL == peer_ ) {
+		throw InvalidPeer( MAKE_ERROR_MSG_2("Unable to create MenuManager peer") );
+	}
+
+	mainMenu_ = new MenuBar(); 
+}
+
+MenuManager::~MenuManager()
+{
+	if ( NULL != mainMenu_ ) {
+		mainMenu_->free();
+	}
+	delete peer_;
+}
+
+void MenuManager::create()
+{
+	MenuManager::menuManager = new MenuManager();
+}
+
+void MenuManager::terminate()
+{
+	delete MenuManager::menuManager;
+}
+
+MenuItemPeer* MenuManager::getMenuItemPeer( MenuItem* item )
+{
+	return MenuManager::menuManager->peer_->getMenuItemPeer( item );
+}
+
+void MenuManager::destroyMenuItemPeer( MenuItem* item )
+{
+	MenuManager::menuManager->peer_->destroyMenuItemPeer( item );
+}
+
+void MenuManager::registerWindow( Window* window )
+{
+	VCF_ASSERT( NULL != window );
+
+	CallBack* ev = MenuManager::menuManager->getCallback( "MenuManager::onWindowActivated" );
+	if ( NULL == ev ) {
+		ev = new ClassProcedure1<Event*,MenuManager>( MenuManager::menuManager, &MenuManager::onWindowActivated, "MenuManager::onWindowActivated" );
+	}
+
+	window->FrameActivation += ev;
+
+	ev = MenuManager::menuManager->getCallback( "MenuManager::onWindowClosed" );
+	if ( NULL == ev ) {
+		ev = new ClassProcedure1<Event*,MenuManager>( MenuManager::menuManager, &MenuManager::onWindowClosed, "MenuManager::onWindowClosed" );
+	}
+	
+	window->FrameClose += ev;
+
+}
+
+void MenuManager::registerMenuBar( MenuBar* menuBar )
+{
+	VCF_ASSERT( NULL != menuBar );
+
+	CallBack* ev = MenuManager::menuManager->getCallback( "MenuManager::onMenuItemChange" );
+	if ( NULL == ev ) {
+		ev = new ClassProcedure1<Event*,MenuManager>( MenuManager::menuManager, &MenuManager::onMenuItemChange, "MenuManager::onMenuItemChange" );
+	}
+
+	menuBar->MenuItemChanged += ev;
+}
+
+void MenuManager::registerPopupMenu( PopupMenu* popupMenu )
+{
+	VCF_ASSERT( NULL != popupMenu );
+
+	CallBack* ev = MenuManager::menuManager->getCallback( "MenuManager::onMenuItemChange" );
+	if ( NULL == ev ) {
+		ev = new ClassProcedure1<Event*,MenuManager>( MenuManager::menuManager, &MenuManager::onMenuItemChange, "MenuManager::onMenuItemChange" );
+	}
+
+	popupMenu->MenuItemChanged += ev;
+}
+
+void MenuManager::onWindowActivated( Event* event )
+{
+	Window* window = (Window*)event->getSource();
+
+	peer_->windowActivated( window );
+}
+
+
+void MenuManager::onWindowClosed( Event* event )
+{
+	Window* window = (Window*)event->getSource();
+
+	peer_->windowClosed( window );
+}
+
+void MenuManager::onMenuItemChange( Event* event )
+{
+	MenuItem* item = (MenuItem*)event->getSource();
+	peer_->menuItemChanged( event->getType(), item );
+}
+
+Menu* MenuManager::getMainMenu()
+{
+	return menuManager->mainMenu_;
+}
+
+
+/**
+$Id$
+*/

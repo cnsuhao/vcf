@@ -1,0 +1,128 @@
+object TreesWindow  : VCF::Window
+	top = 200
+	left = 200
+	height = 500
+	width = 500
+	caption = 'Tree example'
+
+	object imgList : VCF::ImageList
+		transparentColor = 'lime'
+		imageWidth = 16
+		imageHeight = 16
+
+		object img1 : VCF::ImageComponent 
+			filename = 'res:icon1.png'
+		end
+
+		object img2 : VCF::ImageComponent 
+			filename = 'res:icon2.png'
+		end
+
+		object img3 : VCF::ImageComponent 
+			filename = 'res:icon3.png'
+		end
+
+		object img4 : VCF::ImageComponent 
+			filename = 'res:icon4.png'
+		end
+
+		object img5 : VCF::ImageComponent 
+			filename = 'res:icon5.png'
+		end
+	end
+
+	object stateImgList : VCF::ImageList
+		transparentColor = 'lime'
+		imageWidth = 16
+		imageHeight = 16
+
+		object img1a : VCF::ImageComponent 
+			filename = 'res:state1.bmp'
+		end
+
+		object img2a : VCF::ImageComponent 
+			filename = 'res:state1.bmp'
+		end
+
+		object img3a : VCF::ImageComponent 
+			filename = 'res:state2.bmp'
+		end
+	end
+
+	object treeCtrl : VCF::TreeControl
+		alignment = AlignClient
+		imageList = @imgList	
+		stateImageList = @stateImgList	
+
+		object ti1 : VCF::TreeItem 
+			caption = 'ti1'
+
+			object ti2 : VCF::TreeItem 
+				caption = 'ti2'
+				imageIndex = 4
+				font.name = 'Times New Roman'
+				font.color = 'red'
+				font.pointSize = 12 
+				font.bold = true
+			end
+		end
+	end
+
+	object treeCtrl2 : VCF::TreeListControl
+		height = 200
+		alignment = AlignBottom
+		headerImageList = @imgList
+
+		
+
+		object tia1 : VCF::TreeItem 
+			caption = 'tia1'
+
+			object tia2 : VCF::TreeItem 
+				caption = 'tia2'				
+				font.name = 'Times New Roman'
+				font.color = 'red'
+				font.pointSize = 12 
+				font.bold = true
+
+				object si : VCF::TreeSubItem
+					caption = 'stuffy nose'
+				end
+			end
+		end
+
+
+		object tia3 : VCF::TreeItem 
+			caption = 'tia3'
+		end
+		object tia4 : VCF::TreeItem 
+			caption = 'tia4'
+			object tia7 : VCF::TreeItem 
+				caption = 'tia7'
+			end
+			object tia8 : VCF::TreeItem 
+				caption = 'tia8'
+			end
+			object tia9 : VCF::TreeItem 
+				caption = 'tia9'
+			end
+		end
+		object tia5 : VCF::TreeItem 
+			caption = 'tia5'
+		end
+		object tia6 : VCF::TreeItem 
+			caption = 'tia6'
+		end
+
+		object col1 : VCF::ColumnItem 
+			caption = 'Gargle'
+			width = 150
+			imageIndex = 0
+		end
+
+		object col2 : VCF::ColumnItem 
+			caption = 'State'
+			imageIndex = 4
+		end
+	end
+end

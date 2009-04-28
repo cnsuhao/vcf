@@ -1,0 +1,295 @@
+object InputValidationWindow  : VCF::Window
+	top = 200
+	left = 200
+	height = 343pt
+	width = 298pt
+	caption = 'InputValidation Window'	
+
+	object fl : VCF::FlowLayoutContainter
+		bottomBorderHeight = 5
+		topBorderHeight = 5
+		rightBorderWidth = 5
+		leftBorderWidth = 5
+		direction = fdVertical
+	end
+
+
+	object alphaNumValidator : VCF::AlphaNumericValidator
+		maxCharacters = 10
+	end
+
+	object numericValidator : VCF::NumericValidator
+		
+	end
+
+	object maskedValidator : VCF::MaskedValidator
+		mask = '(###) ###-#### x####'
+	end
+
+	object currencyValidator : VCF::CurrencyValidator
+		
+	end
+
+
+	container = @fl
+
+	object bdr1 : VCF::TitledBorder
+		caption = 'Numeric'
+	end
+
+	object bdr2 : VCF::TitledBorder
+		caption = 'Currency'
+	end
+
+	object bdr3 : VCF::TitledBorder
+		caption = 'Masked Numeric'
+	end
+
+	object bdr4 : VCF::TitledBorder
+		caption = 'Alphanumeric'
+	end
+
+	object bdr5 : VCF::TitledBorder
+		caption = 'Date'
+	end
+
+	object bdr6 : VCF::TitledBorder
+		caption = 'Time'
+	end
+
+	object numericPanel : VCF::Panel		
+		border = @bdr1
+		width = 140pt
+		height = 162pt
+
+		object fl1 : VCF::FlowLayoutContainter
+			bottomBorderHeight = 5
+			topBorderHeight = 5
+			rightBorderWidth = 5
+			leftBorderWidth = 5
+			direction = fdVertical
+		end
+
+		object fl1a : VCF::HorizontalLayoutContainer
+			numberOfColumns = 2
+			maxRowHeight = 19pt
+			rowSpacerHeight = 7pt
+			widths[0] = 35pt
+			tweenWidths[0] = 10
+		end
+
+		container = @fl1
+
+		object numInput : VCF::TextControl
+			height = TextHeight
+			inputValidator = @numericValidator
+			delegates
+				model.ModelChanged = [InputValidationApp@InputValidationApp::updateNumericValAsDouble]
+			end
+		end
+
+		object bdr7 : VCF::TitledBorder
+			caption = 'Digits from Decimal Point'
+		end
+
+		object digitsPanel : VCF::Panel					
+			border = @bdr7
+			container = @fl1a
+			height = 65pt
+			width = 140pt
+
+			object lbl1 : VCF::Label
+				caption = 'Left:'
+				height = LabelHeight
+			end
+
+			object edt1 : VCF::TextControl
+				height = TextHeight
+				text = @numericValidator.maxWholeDigits
+			end
+
+			object lbl2 : VCF::Label
+				caption = 'Right:'
+				height = LabelHeight
+			end
+
+			object edt2 : VCF::TextControl
+				height = TextHeight
+				text = @numericValidator.maxDecimalPlaces
+
+				delegates
+					model.ModelChanged = [numericValidator@NumericValidator::changeMaxDecimalPlaces]
+				end
+			end
+		end
+
+		object canBeNeg : VCF::CheckBoxControl
+			height = 25
+			caption = 'Cannot be negative'
+			checked = @numericValidator.negativeAllowed
+		end
+
+		object lbl2 : VCF::Label
+			caption = 'Value as Double:'
+			height = LabelHeight
+		end
+
+		object edt3 : VCF::TextControl
+			height = TextHeight
+			enabled = false
+		end
+	end
+
+	object currencyPanel : VCF::Panel		
+		border = @bdr2
+		width = 140pt
+		height = 70pt
+
+		object fl2 : VCF::FlowLayoutContainter
+			bottomBorderHeight = 5
+			topBorderHeight = 5
+			rightBorderWidth = 5
+			leftBorderWidth = 5
+			direction = fdVertical
+		end
+
+		container = @fl2
+
+		object currencyInput : VCF::TextControl
+			height = TextHeight
+			width = 130pt
+			inputValidator = @currencyValidator
+			delegates
+				model.ModelChanged = [InputValidationApp@InputValidationApp::updateCurrencyValAsDouble]
+			end
+		end
+
+		object lbl3 : VCF::Label
+			caption = 'Value as Double:'
+			height = LabelHeight
+		end
+
+		object edt4 : VCF::TextControl
+			height = TextHeight
+			enabled = false
+		end
+	end
+
+	object maskedNumericPanel : VCF::Panel		
+		border = @bdr3
+		width = 140pt
+		height = 70pt
+
+		object fl3 : VCF::FlowLayoutContainter
+			bottomBorderHeight = 5
+			topBorderHeight = 5
+			rightBorderWidth = 5
+			leftBorderWidth = 5
+			direction = fdVertical
+		end
+
+		container = @fl3
+
+		object maskNumInput : VCF::TextControl
+			height = TextHeight
+			width = 130pt
+
+			inputValidator = @maskedValidator
+		end
+
+		object lbl4 : VCF::Label
+			caption = 'Mask (''#'' = digit):'
+			height = LabelHeight
+		end
+
+		object edt5 : VCF::TextControl
+			height = TextHeight
+			text = @maskedValidator.mask
+			delegates
+				model.ModelChanged = [maskedValidator@MaskedValidator::changeMask]
+			end
+		end
+	end
+
+	object alphaNumericPanel : VCF::Panel		
+		border = @bdr4
+		width = 140pt
+		height = 110pt
+
+		object fl4 : VCF::FlowLayoutContainter
+			bottomBorderHeight = 5
+			topBorderHeight = 5
+			rightBorderWidth = 5
+			leftBorderWidth = 5
+			direction = fdVertical
+		end
+
+		object fl4a : VCF::HorizontalLayoutContainer
+			numberOfColumns = 2
+			maxRowHeight = 35
+			rowSpacerHeight = 10
+			widths[0] = 30pt
+
+			tweenWidths[0] = 10
+		end
+
+		container = @fl4
+
+		object alphaNumInput : VCF::TextControl
+			height = TextHeight
+
+			inputValidator = @alphaNumValidator
+		end
+
+		object bdr8 : VCF::TitledBorder
+			caption = 'Characters'
+		end
+
+		object charPanel : VCF::Panel					
+			border = @bdr8
+			container = @fl4a
+			height = 65pt
+			width = 130pt
+
+			object lbl5 : VCF::Label
+				caption = 'Invalid:'
+				height = LabelHeight
+			end
+
+			object edt6 : VCF::TextControl
+				height = TextHeight
+				text = @alphaNumValidator.invalidCharacters
+				delegates
+					model.ModelChanged = [alphaNumValidator@AlphaNumericValidator::changeInvalidCharacters]
+				end
+			end
+
+			object lbl6 : VCF::Label
+				caption = 'Max:'
+				height = LabelHeight
+			end
+
+			object edt7 : VCF::TextControl
+				height = TextHeight
+				text = @alphaNumValidator.maxCharacters								
+				delegates
+					model.ModelChanged = [alphaNumValidator@AlphaNumericValidator::changeMaxCharacters]
+				end
+			end
+		end		
+	end
+
+	object datePanel : VCF::Panel		
+		border = @bdr5
+		width = 150
+		height = 100
+	end
+
+	object timePanel : VCF::Panel		
+		border = @bdr6
+		width = 150
+		height =100
+	end
+
+
+end

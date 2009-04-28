@@ -1,0 +1,399 @@
+<!--------------------------------------------------------------------------->  
+<!--                           INTRODUCTION                                
+
+ The Code Project article submission template (HTML version)
+
+Using this template will help us post your article sooner. To use, just 
+follow the 3 easy steps below:
+ 
+     1. Fill in the article description details
+     2. Add links to your images and downloads
+     3. Include the main article text
+
+That's all there is to it! All formatting will be done by our submission
+scripts and style sheets. 
+
+-->  
+<!--------------------------------------------------------------------------->  
+<!--                        IGNORE THIS SECTION                            -->
+<html>
+<head>
+<title>The Code Project</title>
+<Style>
+BODY, P, TD { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt }
+H2,H3,H4,H5 { color: #ff9900; font-weight: bold; }
+H2 { font-size: 13pt; }
+H3 { font-size: 12pt; }
+H4 { font-size: 10pt; color: black; }
+PRE { BACKGROUND-COLOR: #FBEDBB; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; }
+CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
+</style>
+<link rel="stylesheet" type=text/css href="http://www.codeproject.com/styles/global.css">
+</head>
+<body bgcolor="#FFFFFF" color=#000000>
+<!--------------------------------------------------------------------------->  
+
+
+<!-------------------------------     STEP 1      --------------------------->
+<!--  Fill in the details (CodeProject will reformat this section for you) -->
+
+<pre>
+Title:       MVC in the Visual Component Framework, Part III
+Author:      Jim Crafton
+Email:       jim.crafton@gmail.com	
+Member ID:   12433
+Language:    C++
+Platform:    Windows
+Technology:  
+Level:       Intermediate
+Description: Part 3 of 4 that explores the Model-View-Controller Pattern in the Visual Component Framework
+Section      Libraries
+SubSection   General
+License:     BSD
+</pre>
+
+<!-------------------------------     STEP 2      --------------------------->
+<!--  Include download and sample image information.                       --> 
+
+<ul class=download>
+<li><a href="http://downloads.sourceforge.net/vcf/vcf-0.9.8.tar.gz?big_mirror=1">Download VCF source (tar.gz) from SourceForge - 10.5 MB</a></li>
+<li><a href="http://downloads.sourceforge.net/vcf/VCFSrcOnlyInstaller-0.9.8.exe?big_mirror=1">Download VCF Windows Installer from SourceForge - 37.2 MB</a></li>
+
+</ul>
+
+<p><img src="scribble10.png" ></p>
+
+<!-------------------------------     STEP 3      --------------------------->
+
+<h2>Introduction</h2>
+<p>
+The <a href="http://www.codeproject.com/KB/library/vcfmvc2.aspx">previous 
+article</a> began developing a application based on useing the MVC
+pattern. This article will continue along those lines, demonstrating
+how to share a single model with more than one view/control, using
+menu items, status bars, mouse selection, modification of various
+shape attributes, and interactive scaling, translation, and rotation
+of a selected shape using the mouse. Some of the things discussed 
+here don't <i>exactly</i> fall under the topic of MVC, but instead 
+demonstrate how to make a full fldged application using the 
+framework.
+</p>
+<h2>Code refactoring</h2>
+<p>
+The first things we'll do is move the controller class into it's 
+own header. This makes the application class code a bit cleaner to read.
+</p>
+<h2>Updating the UI</h2>
+<p>
+Next we're going to change the UI. We're going to divide the main
+window into two halves, the left side will contain a list view of all
+the shapes in the current model, and the right side will hold our 
+graphical view of the model. We'll use a splitter to allow us to manipulate
+the sizing of both halves:
+<pre>
+object Scribble4Window  : VCF::Window
+  object contentPanel : VCF::Panel
+    alignment = AlignClient
+    border = null
+  end
+  
+  object scribbleListing : VCF::ListViewControl
+    alignment = AlignLeft
+    width = 100pt
+    border = null
+    iconStyle = isDetails		
+  end
+  
+  object splitter : VCF::Splitter 		
+  end
+end
+</pre>
+This will create our UI with it's 3 basic components. The contentPanel will
+now become linked to our SplitterView instance. Before we do that let's introduce
+an new element in our RTTI declarations: fields. 
+</p>
+<p>
+We can use VCF's RTTI fields to link a component declared in the VFF resource to
+a member variable in the C++ class. So we can associate the contentPanel object
+declared above with :
+<pre>
+class Scribble4Window : public Window {
+public:
+  Scribble4Window() {
+    
+  }
+  virtual ~Scribble4Window(){};
+  
+  Panel* contentPanel;
+};
+</pre>
+We do this by using the _field_obj_ macro like so:
+<pre>
+_class_rtti_(Scribble4Window, "VCF::Window", "Scribble4Window")
+_field_obj_( Panel*, contentPanel )
+_class_rtti_end_
+</pre>
+Presto! After the Scribble4Window is created and loaded with the contents
+of the VFF resource, the contentPanel will point to the correct instance.
+This means we don't have to use the Component::findComponent() method.
+</p>
+<p>
+Now hooking up the view to the it's new control looks like:
+<pre>
+class Scribble4App : public Application {
+public:
+  virtual bool initRunningApplication(){
+    
+    //rest omitted
+    
+    ScribbleController* controller = new ScribbleController();
+    controller->setName( "controller" );
+    addComponent(controller);
+  
+  
+    Scribble4Window* mainWindow = (Scribble4Window*) Frame::createWindow( classid(Scribble4Window) );
+    setMainWindow(mainWindow);
+    
+    ScribbleView* view = new ScribbleView();
+    mainWindow->contentPanel->setView( view );
+    mainWindow->scribble->addView( view );
+    
+    
+    controller->setControl( mainWindow->contentPanel );
+    controller->setModel( mainWindow->scribble );
+    //rest omitted
+    return result;
+  }
+};
+</pre>
+When Frame::createWindow() returns, the mainWindow->contentPanel is valid and we
+can use it, in this case to set the view of the content panel, and add the
+view to the scribble model.
+</p>
+<p>
+In our app we have a the scribble view which renders the content of the 
+scribble model. However, what if we wanted an alternate display of the 
+data? For example, perhaps we want a list of all the shapes that make up 
+the scribble model? No problem, that's why we added a list control,
+and set it's model to our instance of a scribble model. This works because
+models may have more than one view/control hooked up to it.
+</p>
+<p>
+To do this, lets adjust our UI accordingly, altering the vff resource like so:
+<pre>  
+object scribbleListing : VCF::ListViewControl
+  //rest omitted
+  model = @scribble  
+end
+</pre>
+This assigns the list control's model to our scribble model instance. Because
+the scribble model is based on a ListModel, the list control can display all
+the shapes in the list. When the model is changed, the list's UI is updated 
+automatically.
+</p>
+
+
+<h2>Status</h2>
+<p>
+A status bar is simple to  - we just use the StatusBar class. We don't 
+need to specify any alignment, it's default is bottom alignment, which
+for our purposes is just fine. 
+<pre>  
+object status : VCF::StatusBar
+  height = 15pt
+  status[0] = 'Status: '
+  status[1] = 'Dimensions: NNN x NNN'
+  status[2] = 'Coords: NNNN, NNNN'
+end
+</pre>
+Assigning "segments" is pretty simple - we just access the status property
+and pass in some string labels. 
+</p>
+
+<h2>Menus</h2>
+<p>
+Let's add some menus to make the application a bit more interesting. We'll 
+add a simple Help > About... menu and a View menu that will allow us to 
+toggle the visibility of our list on the left side and our status bar on
+the bottom.
+<pre>
+object mainMenu : VCF::MenuBar
+  object help : VCF::DefaultMenuItem
+    caption = '&View'
+    object viewListing : VCF::DefaultMenuItem
+      caption = 'Shape &Listing'
+      checked = true
+      delegates
+        MenuItemClicked = [Scribble4App@Scribble4App::onViewListing]
+      end
+    end
+
+    object viewStatusbar : VCF::DefaultMenuItem
+      caption = '&Status Bar'
+      checked = true
+      delegates
+        MenuItemClicked = [Scribble4App@Scribble4App::onViewStatusbar]
+      end
+    end
+  end
+
+  object help : VCF::DefaultMenuItem
+    caption = '&Help'
+    object helpAbout : VCF::DefaultMenuItem
+      caption = '&About...'
+      delegates
+        MenuItemClicked = [Scribble4App@Scribble4App::onAbout]
+      end
+    end
+  end
+end	
+</pre>
+This is fairly self explanatory, the MenuItemClicked is the delegate
+that's fired when a user clicks on a menu item. The display will use the
+ampersand("&") as a mnemonic, adding the "_" underbar to menu item captions.
+The MenuBar is top level menu - you need only one of these. The rest of your
+menu hierarchy, made of MenuItems, is constructed underneath. 
+</p>
+<p>
+The code for modifying the visibility of the status bar or the list control
+is pretty standard: 
+<pre>
+void onViewListing( Event* e ) {
+  Scribble4Window* mainWindow = (Scribble4Window*)getMainWindow();
+  mainWindow->scribbleListing->setVisible( !mainWindow->scribbleListing->getVisible() );
+  MenuItem* item = (MenuItem*)e->getSource();
+  item->setChecked( mainWindow->scribbleListing->getVisible() );
+}
+</pre>
+We toggle the visibility of the mainWindow->scribbleListing control, then
+we alter the menu item that fired this event. Call MenuItem::setChecked()
+will toggle whether or not the menu item displays a check box to the
+left of the item caption.
+</p>
+<p>
+At this point we end up with something like so:
+</p>
+<p>
+<img src="sc5.png">
+</p>
+<h2>Displaying a Dialog</h2>
+<p>
+To display our program's about dialog, we're going to load up a dialog based resource 
+from another vff file. We'll start by creating our dialog class:
+<pre>
+class AboutDialog : public Dialog {
+public:
+  Label* program;
+  Label* author;
+  Label* company;
+  Label* copyright;
+  AboutDialog(){}
+
+  virtual ~AboutDialog()
+  {
+
+  }
+};
+</pre>
+
+Next we'll add support for RTTI and expose our class's public fields:
+<pre>
+_class_rtti_(AboutDialog, "VCF::Dialog", "AboutDialog")
+_field_obj_( Label*, program )
+_field_obj_( Label*, copyright )
+_field_obj_( Label*, author )
+_field_obj_( Label*, company )
+_class_rtti_end_
+</pre>
+
+Finally, we'll create our AboutDialog.vff resource:
+<pre>
+object AboutDialog : VCF::Dialog 
+  height = 150pt
+  width = 220pt
+  caption = 'About Scribble 4'
+
+  object hlContainer : VCF::HorizontalLayoutContainer
+    numberOfColumns = 2
+    maxRowHeight = 35
+    rowSpacerHeight = 10
+    widths[0] = 80
+    widths[1] = 80
+
+    tweenWidths[0] = 10
+  end
+
+  object program : VCF::Label 
+    alignment = AlignTop
+    height = 50
+    font.pointSize = 18
+    textAlignment = taTextCenter
+  end
+    
+  object panel : VCF::Panel 
+    border = null
+    alignment = AlignClient
+    container = @hlContainer
+
+    object lbl1 : VCF::Label 
+      caption = 'Copyright:' 
+    end
+//rest omitted...
+  end	
+end
+</pre>
+All pretty standard at this point with the exception of the HorizontalLayoutContainer object. 
+A HorizontalLayoutContainer is a specialized form of a Container class, which are used to 
+perform layout tasks for a control. If a control has a valid container instance assigned to 
+it, then the control can have child controls added to it. The actual layout is performed by 
+the Container instance. In this case the HorizontalLayoutContainer is used to layout
+controls in a kind of tabular format.
+</p>
+<p>
+To display the dialog we'll look at our event handler code that handles the Help > About... 
+menu item's click event. 
+<pre>
+void onAbout(Event*) {		
+		AboutDialog* aboutDlg = (AboutDialog*)Frame::createDialog( classid(AboutDialog) );
+		ProgramInfo* info = this->getResourceBundle()->getProgramInfo();
+		if ( NULL != info ) {
+			aboutDlg->program->setCaption( info->getProgramName() );
+			aboutDlg->author->setCaption( info->getAuthor() );
+			aboutDlg->company->setCaption( info->getCompany() );
+			aboutDlg->copyright->setCaption( info->getCopyright() );
+			delete info;
+		}
+		aboutDlg->showModal();
+		delete aboutDlg;		
+	}  
+</pre>
+Fairly simple. We create the dialog via the call to Frame::createDialog(). The getProgramInfo() 
+call returns information about the program, either Win32 resource specific info (from the 
+VS_VERSIONINFO structure) or from a property list file in the Resources directory. Calling 
+showModal() displays the dialog in modal loop, and blocks till you dismiss the dialog.
+</p>
+<p>
+OK, at this point we've redesigned our interface, and have two different views of the same
+data. Let's wire everything together now:
+<pre>
+Scribble4Window* mainWindow = (Scribble4Window*) Frame::createWindow( classid(Scribble4Window) );
+setMainWindow(mainWindow);
+
+ScribbleView* view = new ScribbleView();
+mainWindow->contentPanel->setView( view );
+mainWindow->scribble->addView( view );
+
+
+controller->setControl( mainWindow->contentPanel );
+controller->setModel( mainWindow->scribble );
+
+Rect r = mainWindow->scribble->getMaxBounds();
+mainWindow->status->setStatusPaneText( 1, Format("Dimensions: %0.1f x %0.1f") % r.getWidth() % r.getHeight() );
+
+mainWindow->show();
+</pre>
+This hooks up the scribble view to the content panel 
+</p>
+</body>
+
+</html>
